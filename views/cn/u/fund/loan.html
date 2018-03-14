@@ -1,0 +1,341 @@
+<div id="loan" class="content" :class="{'loaded': loaded}">
+
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li class="dashboard">Dashboard</li>
+      <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+      <li><a href="/u"><%= LANG('账户面板') %></a></li>
+      <li class="is-active"><a href="/u/fund/loan"><%= LANG('借贷管理') %></a></li>
+    </ul>
+  </nav>
+
+  <div class="bk-market-loan vue-init">
+    <div class="vue-init">
+      <h2 class="mt0"><%= LANG('融资融币') %></h2>
+      <div class="shuju-list pd-fff">
+        <div class="bk-tabList-hd clearfix">
+          <div role="group" class="btn-group bk-btn-group">
+            <a v-for="account in sharedState.subAccounts" @click="changeUser(account)" class="btn" :class="{active: account.id === currentAccount.id}">{{account.userName}}</a>
+          </div>
+        </div>
+        <json-table :settings="fundsTableSettings" :columns="fundsCol" :rows="userFunds" ></json-table>
+      </div>
+      <modal v-cloak class="modal-form" :is-open="showLoan">
+        <h3 slot="header">{{loanCoin}}<%= LANG('借币信息') %></h3>
+        <div slot="body">
+          <div class="form-group">
+            <span class="name"><%= LANG('借币金额') %>：</span>
+            <div class="control">
+              <input @input="priceInput" value=""  :placeholder="'<%= LANG('最多可借') %>' + maxCanLoan + loanCoin" type="text" />
+            </div>
+          </div>
+          <div class="form-group select-coupon">
+            <span class="name"><%= LANG('抵扣券') %>：</span>
+            <div class="control">
+              <select v-model="couponId">
+                <option v-for="coupon in couponOpts" :value="coupon.value">{{coupon.label}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div slot="footer">
+          <button @click="handleLoanSubmit" class="btn btn-primary"><%= LANG('确定') %></button>
+          <button @click="setShowLoan(false)" class="btn"><%= LANG('取消') %></button>
+        </div>
+      </modal>
+    </div>
+  </div>
+
+  <div class="bk-tabList mt30 vue-init">
+    <h2 class="mt0"><%= LANG('融资融币记录') %></h2>
+    <div class="pd-fff">
+      <div class="bk-tabList-hd clearfix">
+        <div class="btn-group bk-btn-group vue-init">
+          <a v-for="coin in fundCoins" @click="changeCoin(coin)" class="btn" :class="{active: coin === currentCoin.toLowerCase()}">{{coin.toUpperCase()}}</a>
+        </div>
+      </div>
+      <div class="bk-tabList-bd table-responsive" v-cloak>
+        <json-table :columns="recordsCol" :rows="loanRecords" :on-click-row="recordClickRow" ></json-table>
+      </div>
+
+    </div>
+  </div>
+
+  <modal v-cloak class="modal-form" :is-open="showRepayment">
+    <h3 slot="header"><%= LANG('归还借款') %></h3>
+    <div slot="body">
+      <div class="form-group">
+        <span class="name"><%= LANG('借入总额') %>：</span>
+        <div class="control">
+          <input :value="selectedRecord.amount" readonly type="text" />
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="name"><%= LANG('未还利息') %>：</span>
+        <div class="control">
+          <input :value="notRepayLX" readonly type="text" />
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="name"><%= LANG('应还总额') %>：</span>
+        <div class="control">
+          <input :value="selectedRecord.shouldRepayBX" readonly type="text" />
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="name"><%= LANG('我的余额') %>：</span>
+        <div class="control">
+          <input value="" readonly type="text" />
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="name"><%= LANG('还款方式') %>：</span>
+        <div class="control">
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="name"><%= LANG('还款金额') %>：</span>
+        <div class="control">
+          <input v-model="repaymentAmount" type="text" />
+        </div>
+      </div>
+    </div>
+    <div slot="footer">
+      <button @click="handleRepayment" class="btn btn-primary"><%= LANG('确定') %></button>
+      <button @click="openRepayment(false)" class="btn"><%= LANG('取消') %></button>
+    </div>
+  </modal>
+
+  <div class="vip-tip">
+    <dl>
+      <dt><%= LANG('杠杆交易风险提示:') %> </dt>
+      <dd><%= LANG('杠杆交易存在很大风险') %></dd>
+      <dd><%= LANG('系统将按照网站实时委托对您的资产进行强制平仓') %></dd>
+      <dd><%= LANG('目前申请最大额度不能超过个人净资产的2倍') %></dd>
+    </dl>
+  </div>
+
+</div>
+
+<%-include("../../component/json_table.html")%>
+
+<script>
+  require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox) {
+    EXX.loan = new Vue({
+      el: "#loan",
+      data: function() {
+        return {
+          loaded: true,
+          sharedState: store.state,
+          showLoan: false,
+          showRepayment: false,
+          repaymentAmount: '',
+          loanCoin: '',
+          loanAmount: '',
+          couponId: '',
+          coupons: [],
+          currentAccount: {},
+          currentCoin: 'BTC',
+          userFunds: [],
+          fundCoins: [],
+          fundsCol: [
+            { label: "", key: "cointTag", cell: function(item){
+              return "<img src='<%= STATIC %>/images/icon/market-icon/market-" + item.cointTag.toLowerCase() + ".png' class='market-icon'><b>" + item.cointTag + "</b>"
+            }},
+            { label: "", key: "balance", cell: function(item) {
+              return "<%= LANG('净资产') %>:" + item.balance + ' ' + item.cointTag;
+            }},
+            { label: "", key: "inSuccess", cell: function(item){
+              return "<%= LANG('已借入') %>:" + item.inSuccess + ' ' + item.cointTag;
+            }},
+            { label: "", key: "canLoan", cell: function(item){
+              return "<%= LANG('可借入') %>:" + item.canLoan + ' ' + item.cointTag;
+            }},
+            { label: "", key: "actions", cell: function(item){
+              return "<a href=\"javascript:;\" onClick=\"EXX.loan.setShowLoan(true,\'" + item.cointTag + "\')\" class=\"btn btn-primary\"><%= LANG('我要借币') %></a>"
+            }}
+          ],
+          fundsTableSettings: {
+            header: false
+          },
+          recordsCol: [
+            { label: "借款时间", key: "datetime", cell: function(item){
+              var cDate = item.createTime;
+              return Methods.getDateTime(cDate.time);
+            }},
+            //{ label: "类别", key: "type"},
+            { label: "已借/已还", key: "amount", cell: function(item){
+              return [item.amount, item.hasRepay].join('/');
+            }},
+            { label: "类型利率", key: "rate"},
+            { label: "已还利息/抵扣利息", key: "lx", cell: function(item){
+              return [item.hasLx, item.dikouLx].join('/');
+            }},
+            { label: "应还总额/应还利息", key: "bx", cell: function(item){
+              return [item.shouldRepayBX, item.lx].join('/');
+            }},
+            { label: "状态", key: "status"},
+            { label: " ", key: "actions", cell: function(item){
+              var html = '';
+              if (item.status === '还款中') {
+                html = "<a href=\"javascript:;\" onClick=\"EXX.loan.openRepayment(true)\" class=\"btn btn-primary btn-sm\"><%= LANG('还款') %></a>"
+              }
+              return  html;
+            }}
+          ],
+          loanRecords: [],
+          selectedRecord: {}
+        }
+      },
+      computed: {
+        maxCanLoan: function() {
+          var userFunds = this.userFunds;
+          var loanCoin = this.loanCoin;
+          var coinInfo = userFunds.getObject('cointTag', loanCoin);
+          return coinInfo.canLoan;
+        },
+        couponOpts: function() {
+          var coupons = this.coupons;
+          var opts = [];
+          if (coupons.length) {
+            opts.push({label: '<%= LANG("请选择") %>', value: ''});
+            coupons.forEach(function(coupon){
+              var obj = {};
+              obj.label = coupon.title;
+              obj.value = coupon.id;
+              opts.push(obj);
+            })
+          } else {
+            opts.push({label: '<%= LANG("暂无可用抵扣券") %>', value: ''});
+          }
+          return opts;
+        },
+        notRepayLX: function() {
+          var record = this.selectedRecord;
+          return Number(record.lx) - Number(record.hasLx);
+        }
+      },
+      methods: {
+        changeUser: function(user) {
+          this.currentAccount = user;
+          this.getCoupons();
+          this.getUserFunds(user.id);
+          this.getLoanRecordList(user.id);
+        },
+        changeCoin: function(coin) {
+          this.currentCoin = coin;
+          this.getLoanRecordList(this.currentAccount.id);
+        },
+        setShowLoan: function(boolean, coin) {
+          this.showLoan = boolean;
+          this.loanCoin = coin;
+        },
+        recordClickRow: function(el, item) {
+          this.selectedRecord = item;
+        },
+        openRepayment: function(boolean, asset) {
+          this.showRepayment = boolean;
+          this.currentAsset = asset ? asset : {};
+        },
+        priceInput: function(el) {
+          var val = el.target.value;
+          if (!val.match(/^\d+(\.\d{0,2})?$/)) {
+            el.target.value = val.replace(/.$/, '');
+          } else {
+            this.loanAmount = val;
+          }
+        },
+        getCoupons: function() {
+          var data = {
+            userId: this.currentAccount.id
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getCouponList',
+            data: data,
+            success: function (res) {
+              var datas = res.datas;
+              var coupons = Object.keys(datas).map(function (key) {
+                return datas[key]
+              });
+              this.coupons = coupons;
+            }.bind(this)
+          });
+        },
+        getUserFunds: function(userId) {
+          var data = {
+            userId: userId
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getUserFundsMap',
+            data: data,
+            success: function(res) {
+              var coins = Object.keys(res.datas);
+              var funds = coins.map(function(coin){
+                return res.datas[coin];
+              });
+              this.fundCoins = Object.keys(res.datas);
+              this.userFunds = funds;
+            }.bind(this)
+          });
+        },
+        getLoanRecordList: function(userId) {
+          var data = {
+            coint: this.currentCoin,
+            userId: userId,
+            pageIndex: 1,
+            pageSize: 10
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getLoanRecordList',
+            data: data,
+            success: function(res) {
+              this.loanRecords= res.datas.list;
+            }.bind(this)
+          });
+        },
+        handleLoanSubmit: function() {
+          var data = {
+            userId: this.currentAccount.id,
+            deductcouponId: this.couponId,
+            amount: this.loanAmount,
+            coint: this.loanCoin,
+            onekeyentrust: 1
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'doLoan',
+            data: data,
+            success: function(res) {
+              this.showLoan = false;
+              this.loanAmount = '';
+              this.loanCoin = '';
+              this.getLoanRecordList(this.currentAccount.id);
+              JuaBox.info("<%= LANG('借币成功') %>");
+            }.bind(this)
+          });
+        },
+        handleRepayment: function() {
+
+        }
+
+      },
+      created: function() {
+      },
+      mounted: function() {
+      },
+      watch: {
+        sharedState: {
+          deep: true,
+          handler: function(sharedState) {
+            if (sharedState.subAccounts.length && !this.currentAccount.id) {
+              this.changeUser(sharedState.subAccounts[0]);
+            }
+          }
+        }
+      }
+    });
+  })
+</script>

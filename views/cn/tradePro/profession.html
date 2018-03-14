@@ -1,0 +1,582 @@
+<link rel="stylesheet" href="/src/styles/pro.css?<%= VERSION %>">
+<div class="trading-slider" id="app-sider">
+    <div class="trading-filter">
+        <div class="search">
+            <i class="trading-icon trading-icon-search"></i>
+            <input placeholder="搜索市场" type="text">
+        </div>
+        <div class="switch"><p role="button">价格显示<em>CNY</em></p></div>
+    </div>
+    <div class="trading-market">
+        <div class="trading-tab">
+            <ul>
+                <li role="button">
+                    <img src="/src/images/icon/market-icon/market-usdt.png">
+                    <p>USDT</p>
+                </li>
+                <li class="active" role="button">
+                    <img src="/src/images/icon/market-icon/market-btc.png">
+                    <p>BTC</p>
+                </li>
+                <li role="button">
+                    <img src="/src/images/icon/market-icon/market-eth.png">
+                    <p>ETH</p>
+                </li>
+                <li role="button">
+                    <img src="/src/images/icon/market-icon/market-qc.png">
+                    <p>QC</p>
+                </li>
+                <li role="button">
+                    <img src="/src/images/icon/market-icon/market-hsr.png">
+                    <p>HSR</p>
+                </li>
+                <li role="button">
+                    <img src="/src/images/icon/market-icon/market-qtum.png">
+                    <p>QTUM</p>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="market-list">
+            <ul>
+                <li class="head">
+                    <p role="button" class="coin-name"><span class="up">币种</span></p>
+                    <p role="button"><span class="down">最新价</span></p>
+                    <p role="button" class="rose"><span>涨跌幅</span></p>
+                </li>
+                <li class="active" role="button">
+                    <p class="coin-name"><img src="/src/images/icon/market-icon/market-hsr.png">BTC</p>
+                    <p>10230494.88</p>
+                    <p class="rose trading-greencolor">-1.98%</p>
+                </li>
+                <li role="button">
+                    <p class="coin-name"><img src="/src/images/icon/market-icon/market-hsr.png">BTC</p>
+                    <p>10230494.88</p>
+                    <p class="rose trading-redcolor">+1.98%</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="trading-content" id="app-trade-pro">
+    <div class="trading-count">
+        <div class="current-price">
+            <div class="coin-icon">
+                <img src="/src/images/icon/market-icon/market-bcc.png">
+            </div>
+            <h2>BTC/USDT <span class="trading-redcolor">1355.65</span></h2>
+            <p>≈ 8969.81 CNY</p>
+        </div>
+        <div class="num">涨跌幅 <span class="trading-redcolor">+3.58%</span></div>
+        <div class="num">最高价 <span class="trading-redcolor">1399.99</span></div>
+        <div class="num">最低价 <span class="trading-greencolor">1247.00</span></div>
+        <div class="num">交易量 <span class="trading-darkcolor">17613 BTC</span></div>
+    </div>
+    <div class="trading-chart">
+    </div>
+    <div class="trading-hotspot">
+        <div class="trading-form">
+            <div class="form-tab">
+                <ul>
+                    <li class="active" role="button">限价委托</li>
+                    <li role="button">批量委托</li>
+                    <li role="button">现货杠杆</li>
+                </ul>
+                <div class="operation">
+                    <a role="button" class="switch">价格输入转换<i></i></a>
+                    <a role="button" class="switch on">杠杆已开启<i></i></a>
+                </div>
+            </div>
+            <div class="form-lever-panel">
+                <div class="lever-info">
+                <p>平仓风险<span>80%</span></p>
+                <p>提醒比例<span>80%</span></p>
+                <p>平仓比例<span>90%</span></p>
+                <p>平仓价格<span>0</span></p>
+                <p>风险等级<span style="color: #f00">极高</span></p>
+                </div>
+                <div class="lever-progress">
+                    <p><span style="width: 84%"></span></p>
+                </div>
+            </div>
+            <div class="form-content">
+                <div class="box trading-buy">
+                    <h2>买入QTUM</h2>
+                    <p class="form-assets">可用 <span class="trading-redcolor">0.00000000</span> USDT <a href="#">充值</a></p>
+                    <p class="form-assets hide">可借 <span class="trading-redcolor">0.00000000</span> USDT</p>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input value="8.08" type="text">
+                            <label>买入价 USDT</label>
+                            <span>≈ 0.00000000 CNY</span>
+                        </div>
+                        <div class="trading-auxiliary">≈ 0.00000000 CNY</div>
+                    </div>
+                    <div class="form-group hide">
+                        <div class="form-control">
+                            <input type="text">
+                            <label>买入量 QTUM</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input type="text">
+                            <label>买入量 QTUM</label>
+                        </div>
+                        <div class="form-proportion">
+                            <p role="button"><span>1/5</span></p>
+                            <p role="button"><span>1/4</span></p>
+                            <p role="button"><span>1/3</span></p>
+                            <p role="button"><span>1/2</span></p>
+                            <p role="button"><span>1/1</span></p>
+                        </div>
+                    </div>
+                    <p class="form-assets">预计交易额度 <span class="trading-redcolor">00000000</span> USDT</p>
+                    <p class="form-assets hide">使用杠杆额度 <span class="trading-redcolor">00000000</span> USDT</p>
+                    <div class="form-button">
+                        <button class="trading-redbg" role="button">买入QTUM</button>
+                    </div>
+                </div>
+                <!--<div class="form-line"></div>-->
+                <div class="box trading-sell">
+                    <h2>卖出QTUM</h2>
+                    <p class="form-assets">可用 <span class="trading-greencolor">0.00000000</span> QTUM <a href="#">充值</a></p>
+                    <p class="form-assets hide">可借 <span class="trading-greencolor">0.00000000</span> QTUM</p>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input value="8.08" type="text">
+                            <label>买出价 USDT</label>
+                        </div>
+                        <div class="trading-auxiliary">≈ 0.00000000 CNY</div>
+                    </div>
+                    <div class="form-group hide">
+                        <div class="form-control">
+                            <input value="8.08" type="text">
+                            <label>买出价 USDT</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input type="text">
+                            <label>买出量 QTUM</label>
+                        </div>
+                        <div class="form-proportion">
+                            <p role="button"><span>1/5</span></p>
+                            <p role="button"><span>1/4</span></p>
+                            <p role="button"><span>1/3</span></p>
+                            <p role="button"><span>1/2</span></p>
+                            <p role="button"><span>1/1</span></p>
+                        </div>
+                    </div>
+                    <p class="form-assets">预计交易额度 <span class="trading-greencolor">00000000</span> USDT</p>
+                    <p class="form-assets hide">使用杠杆额度 <span class="trading-greencolor">00000000</span> USDT</p>
+                    <div class="form-button">
+                        <button class="trading-greenbg" role="button">卖出BCC</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="trading-disc">
+            <div class="disc-price">
+                <div class="price"><h3>最新价<span class="trading-redcolor">0.179853 BTC</span></h3>≈ 18946.189 CNY</div>
+            </div>
+            <div class="disc-head">
+                <p class="stall"><span>档位</span></p>
+                <p><span>价格(USDT)</span></p>
+                <p><span>数量(USDT)</span></p>
+                <p class="last"><span>累计(USDT)</span></p>
+            </div>
+            <div class="disc-list">
+                <ul class="sell-disc">
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖9</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 10%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖8</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 10%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖7</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 10%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖6</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 10%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖5</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 10%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖4</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 60%"></p>
+                    </li>
+                    <li role="button"><p class="stall trading-greencolor">卖3</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 20%"></p></li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖2</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 5%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-greencolor">卖1</p>
+                        <p class="trading-greencolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 80%"></p>
+                    </li>
+                </ul>
+            </div>
+            <div class="disc-line"></div>
+            <div class="disc-list">
+                <ul class="buy-disc">
+                    <li role="button">
+                        <p class="stall trading-redcolor">买1</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 20%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买2</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 5%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买3</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 80%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买4</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 2%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买5</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 6%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买6</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 6%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买7</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 6%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买8</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 6%"></p>
+                    </li>
+                    <li role="button">
+                        <p class="stall trading-redcolor">买9</p>
+                        <p class="trading-redcolor">1355.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                        <p class="progress" style="width: 6%"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="trading-record">
+        <div class="entrust-record">
+        <div class="current-entrust">
+            <div class="entrust-head">
+                <h3>当前委托</h3>
+            </div>
+            <div class="record-list">
+                <ul>
+                    <li class="head">
+                        <div class="item time"><p>时间</p></div>
+                        <div class="item"><p><span>委托价</span>成交均价(BTC)</p></div>
+                        <div class="item"><p><span>委托量</span>成交量(BCC)</p></div>
+                        <div class="item"><p>成交额(BTC)</p></div>
+                        <div class="item last"><p>操作</p></div>
+                    </li>
+                    <li>
+                        <div class="type trading-redcolor">买</div>
+                        <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                        <div class="item"><p><span class="trading-redcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p>111.111</p></div>
+                        <div class="item last"><p><a role="button"><i class="trading-icon trading-icon-cancel"></i></a></p></div>
+                    </li>
+                    <li>
+                        <div class="type trading-redcolor">买</div>
+                        <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                        <div class="item"><p><span class="trading-redcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p>111.111</p></div>
+                        <div class="item last"><p><a role="button"><i class="trading-icon trading-icon-cancel"></i></a></p></div>
+                    </li>
+                    <li>
+                        <div class="type trading-greencolor">卖</div>
+                        <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                        <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p>111.111</p></div>
+                        <div class="item last"><p><a role="button"><i class="trading-icon trading-icon-cancel"></i></a></p></div>
+                    </li>
+                    <li>
+                        <div class="type trading-greencolor">卖</div>
+                        <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                        <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                        <div class="item"> <p>111.111</p></div>
+                        <div class="item last"><p><a role="button"><i class="trading-icon trading-icon-cancel"></i></a></p></div>
+                    </li>
+                    <li>
+                        <div class="type trading-greencolor">卖</div>
+                        <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                        <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                        <div class="item"><p>111.111</p></div>
+                        <div class="item last"><p><a role="button"><i class="trading-icon trading-icon-cancel"></i></a></p></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            <div class="history-entrust">
+                <div class="entrust-head">
+                    <h3>历史委托</h3>
+                </div>
+                <div class="record-list">
+                    <ul>
+                        <li class="head">
+                            <div class="item time"><p>时间</p></div>
+                            <div class="item"><p><span>委托价</span>成交均价(BTC)</p></div>
+                            <div class="item"><p><span>委托量</span>成交量(BCC)</p></div>
+                            <div class="item"><p>成交额(BTC)</p></div>
+                            <div class="item last"><p>状态</p></div>
+                        </li>
+                        <li>
+                            <div class="type trading-redcolor">买</div>
+                            <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                            <div class="item"><p><span class="trading-redcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p>111.111</p></div>
+                            <div class="item last"><p>已取消</p></div>
+                        </li>
+                        <li>
+                            <div class="type trading-redcolor">买</div>
+                            <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                            <div class="item"><p><span class="trading-redcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p>111.111</p></div>
+                            <div class="item last"><p class="trading-greencolor">已成交</p></div>
+                        </li>
+                        <li>
+                            <div class="type trading-greencolor">卖</div>
+                            <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                            <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p>111.111</p></div>
+                            <div class="item last"><p class="trading-greencolor">已成交</p></div>
+                        </li>
+                        <li>
+                            <div class="type trading-greencolor">卖</div>
+                            <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                            <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                            <div class="item"> <p>111.111</p></div>
+                            <div class="item last"><p class="trading-greencolor">已成交</p></div>
+                        </li>
+                        <li>
+                            <div class="type trading-greencolor">卖</div>
+                            <div class="item time"><p><span class="trading-darkcolor">16:53:38</span>12-27</p></div>
+                            <div class="item"><p><span class="trading-greencolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p><span class="trading-darkcolor">13552.65</span>111.111</p></div>
+                            <div class="item"><p>111.111</p></div>
+                            <div class="item last"><p class="trading-greencolor">已成交</p></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+    </div>
+        <div class="newest-record">
+            <div class="newest-top">
+                <h3>最新成交</h3>
+            </div>
+            <div class="newest-head">
+                <p class="time"><span>时间</span></p>
+                <p><span>价格(USDT)</span></p>
+                <p><span>成交量(USDT)</span></p>
+                <p class="last"><span>累计(USDT)</span></p>
+            </div>
+            <div class="newest-list">
+                <ul>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                    <li role="button">
+                        <p class="time">18:48:51</p>
+                        <p class="trading-redcolor">13552.65</p>
+                        <p>1.1053</p>
+                        <p class="last">4.9472</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引入交易app-->
+<%-include("app.html")%>
+<!--侧边栏-->
+<%-include("app.sider.html")%>

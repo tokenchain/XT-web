@@ -1,0 +1,320 @@
+<script type="text/x-template" id="modal-refund">
+    <div class="modal-refund">
+        <div class="exx-modal-container exx-light" v-if="showTab != 'doRefund'">
+            <div class="exx-modal-header"><h3><%= LANG('借贷管理') %></h3></div>
+            <div class="exx-modal-body">
+
+                <div class="exx-tab">
+                    <ul>
+                        <li @click="swiftTab('action')" :class="{active: showTab == 'action'}"><span><%= LANG('借贷统计') %></span></li>
+                        <li @click="swiftTab('loanRecord')" :class="{active: showTab == 'loanRecord'}"><span><%= LANG('借贷记录') %></span></li>
+                    </ul>
+                </div>
+                <template v-if="showTab == 'action'">
+
+                    <div class="exx-table" style="width: 1000px;">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="amount"><%= LANG('剩余未还本金') %></th>
+                                <th class="hasLx"><%= LANG('剩余未还利息') %></th>
+                                <th class="lx"><%= LANG('剩余未还本息') %></th>
+                                <th class="status"><%= LANG('操作') %></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-if="loanInfo.length > 0" v-for="(loan, index) in loanInfo">
+                                <td class="amount "><img :src="'<%= STATIC %>/images/icon/market-icon/market-'+loan.coint+'.png'" style="height: 20px;vertical-align: middle;"/> {{ loan.amount }} {{loan.coint.toUpperCase()}}
+                                </td>
+                                <td class="lx ">{{loan.lx}}</td>
+                                <td class="shouldRepayBX ">{{loan.shouldRepayBX}}</td>
+                                <td class="status">
+                                    <a class="btn btn-primary btn-sm" @click="swiftTab('doRefund', loan)"><%= LANG('还款') %></a>
+                                </td>
+                            </tr>
+                            <tr v-if="loanInfo.length == 0" class="no-items">
+                                <td colspan="10"><span>No items</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="exx-prompt">
+                        <h4><%= LANG('还款说明') %></h4>
+                        <p>
+                            <%= LANG('还款金额优先归还利息和前面的借款。') %>
+                        </p>
+                    </div>
+                </template>
+
+                <div v-if="showTab == 'loanRecord'" class="exx-table" style="width: 1000px;">
+                    <json-table :columns="loanRecordCols" :rows="loanRecords"></json-table>
+                    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getLoanRecord"></page-lite>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="exx-modal-container" style="width: 500px;" v-if="showTab == 'doRefund'">
+            <div class="exx-modal-header">
+                <h3><%= LANG("还款")%><span>{{selectedLoanInfo.coint.toUpperCase() }}</span></h3></div>
+            <div class="exx-modal-body">
+                <div class="exx-form-box">
+                    <div class="exx-form-group">
+                        <label><%= LANG('应还本息')%>{{selectedLoanInfo.coint.toUpperCase()}}</label>
+                        <div class="exx-form-content">
+                        <div class="exx-form-input">
+                            <input v-model="selectedLoanInfo.shouldRepayBX" type="text" readonly/>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="exx-form-group">
+                        <label><%= LANG('应还本金') %>{{selectedLoanInfo.coint.toUpperCase()}}</label>
+                        <div class="exx-form-content">
+                            <div class="exx-form-input">
+                            <input v-model="selectedLoanInfo.amount" type="text" readonly/>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="exx-form-group">
+                        <label><%= LANG('应还利息') %>{{selectedLoanInfo.coint.toUpperCase()}}</label>
+                        <div class="exx-form-content">
+                            <div class="exx-form-input">
+                            <input v-model="selectedLoanInfo.lx" type="text" readonly/>
+                        </div>
+                        </div>
+                    </div>
+                    <div :class="'exx-form-group code' + (refundAmount != '' ? ' active' : '')">
+                        <label><%= LANG('还款金额') %></label>
+                        <div class="exx-form-content">
+                            <div class="exx-form-input">
+                            <input id="refundAmount" v-model="refundAmount" type="text"
+                                   v-on:keyup="handleCheckAmount($event)"
+                                   v-on:blur="handleCheckAmount($event)"
+                                   v-on:focus="handleCheckAmount($event)"/>
+                            </div>
+                            <p class="exx-form-text"><%= LANG('当前可用') %><em>{{ userAsset.coinFundMap[selectedLoanInfo.coint].available }}{{selectedLoanInfo.coint.toUpperCase() }}</em>
+                                <a role="button" @click="setFullRefund"><%= LANG('全部还款') %></a></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="exx-modal-button">
+                <button @click="swiftTab('action')" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+                <button v-if="!locked" @click="doRepay" class="exxbtn btn-ok"><span><%= LANG('确认') %></span></button>
+                <button v-if="locked" class="exxbtn btn-ok" disabled><span><%= LANG('正在处理') %></span></button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('modal-refund', {
+            template: "#modal-refund",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                params: {
+                    type: Object,
+                    default: {}
+                },
+                userAsset: {
+                    type: Object,
+                    default: {}
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    locked : false,
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageCount: 0,
+                    selectedLoanInfo: '',
+                    refundAmount: '',
+                    loanInfo: [],
+                    showTab: 'action',
+                    loanRecordCols: [
+                        {
+                            label: "<%= LANG('借入时间') %>", key: "createTime", cell: function (item) {
+                            return Methods.getDateTime(parseInt(item.createTime));
+                        }
+                        },
+                        {
+                            label: "<%= LANG('借入本金') %>", key: "amount", cell: function (item) {
+                            return "<img src='<%= STATIC %>/images/icon/market-icon/market-" + item.coint.toLowerCase() + ".png' style='height: 20px;vertical-align: middle;' /> " + Methods.fixFloat((Number(item.totalAmount)), 8) + " " + item.coint.toUpperCase();
+                        }
+                        },
+                        {label: "<%= LANG('借入利率') %>", key: "rate"},
+                        {
+                            label: "<%= LANG('产生利息') %>", key: "lx", cell: function (item) {
+                            return Methods.fixFloat(Number(item.lx), 8);
+                        }
+                        },
+                        {label: "<%= LANG('已还本金') %>", key: "hasRepay"},
+                        {label: "<%= LANG('已还利息') %>", key: "hasLx"},
+                        {label: "<%= LANG('状态') %>", key: "status", cell: function (item) {
+                            return item.status == 1 ? "<%= LANG('已还款')%>" : "<%= LANG('计息中')%>";
+                        }}
+                    ],
+                    loanRecords: [],
+                    currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid'))
+                }
+            },
+            computed: {
+                lastRefund: function () {
+                    var fullRefund = parseFloat(this.selectedLoanInfo.shouldRepayBX);
+                    return Methods.fixFloat(fullRefund, 8);
+                }
+            },
+            methods: {
+                swiftTab: function (tab, loanInfo) {
+                    this.showTab = tab;
+                    this.pageIndex = 1;
+                    this.pageCount = 0;
+                    var loanInterval;
+                    var time = 0;
+                    if (tab == 'action') {
+                        //在loanInfo下开启定时器刷新15秒
+                        this.getLoanInfo(function () {
+                            loanInterval = setInterval(function () {
+                                time += 1;
+                                if(time > 10){
+                                    window.clearInterval(loanInterval);
+                                }else{
+                                    this.getLoanInfo();
+                                }
+                            }.bind(this),1500);
+                        }.bind(this));
+                    }
+                    if (tab == 'loanRecord') {
+                        window.clearInterval(loanInterval);
+                        this.getLoanRecord();
+                    }
+                    if (tab == 'doRefund') {
+                        window.clearInterval(loanInterval);
+                        this.selectedLoanInfo = loanInfo;
+                    }
+                },
+                fixFloat: function (value, unit) {
+                    return Methods.fixFloat(value, unit);
+                },
+                fixNumber: function (value, unit) {
+                    return Methods.fixNumber(value, unit);
+                },
+                handleCheckAmount: function (e) {
+                    if (parseFloat(this.refundAmount) > parseFloat(this.userAsset.coinFundMap[this.selectedLoanInfo.coint].available)) {
+                        Methods.showLineError(e.currentTarget, "<%= LANG('还款金额超出可用余额，请检查。') %>")
+                    } else if (parseFloat(this.refundAmount) > this.lastRefund) {
+                        Methods.showLineError(e.currentTarget, "<%= LANG('还款金额超出应还总额，请检查。') %>")
+                    } else {
+                        Methods.showLineError(e.currentTarget, "")
+                    }
+                },
+                doRepay: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    if (parseFloat(this.refundAmount) > parseFloat(this.userAsset.coinFundMap[this.selectedLoanInfo.coint].available)) {
+                        return JuaBox.showWrong("<%= LANG('还款金额超出可用余额，请检查。') %>")
+                    }
+                    if (parseFloat(this.refundAmount) > this.lastRefund) {
+                        return JuaBox.showWrong("<%= LANG('还款金额超出应还总额，请检查。') %>")
+                    }
+                    var data = this.params;
+                    data.repay = this.refundAmount;
+                    data.coint = this.selectedLoanInfo.coint;
+                    this.locked = true;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doRepayAll',
+                        data: data,
+                        success: function (res) {
+                            this.locked = false
+                            this.swiftTab('action');
+                            //EXX.userIndex.closeModal();
+                            JuaBox.info("<%= LANG('还款成功') %>");
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                getLoanInfo: function (callback) {
+                    var data = this.params;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getLoanInfo',
+                        data: data,
+                        success: function (res) {
+                            //格式化数据，最多保留8位小数
+                            var result = res.datas;
+                            if (result && result.length > 0) {
+                                for (var i = 0, ilength = result.length; i < ilength; i++) {
+                                    for (var key in result[i]) {
+                                        if (Methods.isNumber(result[i][key])) {
+                                            result[i][key] = Methods.fixDecimal(result[i][key], 8)
+                                        }
+                                    }
+                                }
+                            }
+                            this.loanInfo = result;
+                            callback && callback(result);
+                        }.bind(this)
+                    });
+                },
+                getLoanRecord: function () {
+                    var data = this.params;
+                    data.pageIndex = this.pageIndex;
+                    data.pageSize = this.pageSize;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getLoanRecordList',
+                        data: data,
+                        success: function (res) {
+                            //格式化数据，最多保留8位小数
+                            var result = res.datas.list;
+                            if (result && result.length > 0) {
+                                for (var i = 0, ilength = result.length; i < ilength; i++) {
+                                    for (var key in result[i]) {
+                                        if (Methods.isNumber(result[i][key])) {
+                                            result[i][key] = Methods.fixDecimal(result[i][key], 8)
+                                        }
+                                    }
+                                }
+                            }
+                            this.loanRecords = result;
+                            this.pageCount = result.length;
+                        }.bind(this)
+                    });
+                },
+                setFullRefund: function () {
+                    this.refundAmount = this.selectedLoanInfo.shouldRepayBX;
+                }
+            },
+            created: function () {
+                this.getLoanInfo();
+            },
+            mounted: function () {
+
+            }
+        })
+    });
+
+
+</script>

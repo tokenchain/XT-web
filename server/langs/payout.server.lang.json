@@ -1,0 +1,822 @@
+﻿{
+  "请正确输入购买金额。": {
+    "cn": "请正确输入购买金额。",
+    "en": "Please enter correct amount",
+    "jp": "購入金額を正確に入力してください",
+    "kr": "구매금액을 정확이 입력하여 주세요."
+  },
+  "购买金额必须是1的整数倍": {
+    "cn": "购买金额必须是1的整数倍",
+    "en": "The amount must be integers",
+    "jp": "購入金額は1の整数倍でなければなりません",
+    "kr": "구매금액은 반드시 1의 정수배수여야 함"
+  },
+  "请正确输入二级密码。": {
+    "cn": "请正确输入二级密码。",
+    "en": "Please enter the correct transaction password",
+    "jp": "2次パスワードを正確に入力してください",
+    "kr": "2급 비밀번호를 입력하여 주세요."
+  },
+  "请正确输入购买金额，最少": {
+    "cn": "请正确输入购买金额，最少",
+    "en": "The amount should be greater than",
+    "jp": "購入金額を正確に入力してください。最小購入可能な金額は",
+    "kr": "구매금액을 정확히 입력하여 주시고, 최소"
+  },
+  "请正确输入购买金额，最高可购买": {
+    "cn": "请正确输入购买金额，最高可购买",
+    "en": "The amount should be lower than",
+    "jp": " 購入金額を正確に入力してください。最多購入可能な金額は",
+    "kr": "구매금액을 입력하여 주시고, 최고 구매 가능"
+  },
+  "确定要还款吗？": {
+    "cn": "确定要还款吗？",
+    "en": "Sure to repay?",
+    "jp": "確実に返済しますか？",
+    "kr": "환급하실것입니까?"
+  },
+  "请选择需要还款的记录!": {
+    "cn": "请选择需要还款的记录!",
+    "en": "Please select the records that need to repay!",
+    "jp": "返済する記録を選択してください",
+    "kr": "환금할 기록을 선택하여 주세요!"
+  },
+  "您要确定为所选的记录还款吗？": {
+    "cn": "您要确定为所选的记录还款吗？",
+    "en": "Sure to repay for the records you selected?",
+    "jp": "確実に選択された記録に対して返済しますか？",
+    "kr": "고객님께서 선택한 기록이 환금이십니까?"
+  },
+  "选择提币地址": {
+    "cn": "选择提币地址",
+    "en": " Select the receiving address ",
+    "jp": "コイン引出しのアドレスを選択してください",
+    "kr": "화폐인출 주소 선택"
+  },
+  "添加新地址": {
+    "cn": "添加新地址",
+    "en": "Add new address",
+    "jp": "新規アドアレスを追加します",
+    "kr": "신 주소 새로 추가"
+  },
+  "选择": {
+    "cn": "选择",
+    "en": "Select",
+    "jp": "選択",
+    "kr": "선택"
+  },
+  "备注": {
+    "cn": "备注",
+    "en": " Remark ",
+    "jp": "備考",
+    "kr": "비고"
+  },
+  "地址": {
+    "cn": "地址",
+    "en": "Address",
+    "jp": "アドレス",
+    "kr": "주소"
+  },
+  "稍微长备注": {
+    "cn": "稍微长备注",
+    "en": "Long remark ",
+    "jp": "やや長めの備考",
+    "kr": "비고가 좀 긴편 임"
+  },
+  "这是一个非常长的备注": {
+    "cn": "这是一个非常长的备注",
+    "en": " This is a very long remark",
+    "jp": "これはとても長い備考です",
+    "kr": "이는 매우 긴 비고 임"
+  },
+  "填写提币信息": {
+    "cn": "填写提币信息",
+    "en": "Enter withdrawal information",
+    "jp": "コイン引出しに関する情報を記入してください",
+    "kr": "화폐인출 정보 기록"
+  },
+  "提币数量": {
+    "cn": "提币数量",
+    "en": " Withdrawal amount",
+    "jp": "コインの引き出し数量",
+    "kr": "화폐인출 수량"
+  },
+  "安全密码": {
+    "cn": "安全密码",
+    "en": " Transaction password ",
+    "jp": "セキュリティパスワード",
+    "kr": "안전비밀번호"
+  },
+  "提现费率规则": {
+    "cn": "提现费率规则",
+    "en": " Withdrawal fees",
+    "jp": "現金引出しレートのルール",
+    "kr": "현금인출 비용율 규칙"
+  },
+  "X网络收取矿工费XX/笔，由平台代扣；": {
+    "cn": "[$1]网络收取矿工费[$2][$3]/笔，由平台代扣；",
+    "en": "[$1] blockchain charge miner fee of [$2][$3] per withdrawal which is withhold by EXX ",
+    "jp": " Xネットワークがマイナー手数料としてXX/パーを受け取りますが、プラットフォームが代わりにそれを差し控えます",
+    "kr": "[$1]네트워크에서 무단결근비[$2][$3]/회 수취，플랫폼에서 대리공제；"
+  },
+  "网络收取矿工费": {
+    "cn": "网络收取矿工费",
+    "en": "The blockchain charge miner fee of",
+    "jp": "ネットワークがマイナー手数料を受け取ります",
+    "kr": "네트워크에서 무단결근비 수취"
+  },
+  "/笔，由平台代扣": {
+    "cn": "/笔，由平台代扣",
+    "en": "per withdrawal which is withhold by EXX ",
+    "jp": " XX/パーとして、プラットフォームが代わりに差し控えます",
+    "kr": "/회, 플랫폼에서 대리 공제"
+  },
+  "X充值经过网络的X个确认后，才允许提现；": {
+    "cn": "[$1]充值经过网络的[2]个确认后，才允许提现；",
+    "en": "It can withdrawal after the [$1] deposit through X confirmation by the blockchain.",
+    "jp": "XデポジットはネットワークによってX回確認されないと、現金引出しが許可されません",
+    "kr": "[$1]충전값은 네트워크를 통한 [2]개 확인 후 현금인출을 허락;"
+  },
+  "充值经过网络的": {
+    "cn": "充值经过网络的",
+    "en": "It can withdrawal after the",
+    "jp": " Xデポジットはネットワークによって",
+    "kr": "네트워크를 통한 충전 값"
+  },
+  "个确认后，才允许提现": {
+    "cn": "个确认后，才允许提现；",
+    "en": "deposit through X confirmation by the blockchain.",
+    "jp": "X回確認されないと、現金引出しが許可されません",
+    "kr": "개 확인후 현금인출 허락"
+  },
+  "可以为同时设置多个提币地址，这样提款到不同的钱包或其它平台时就会更方便。": {
+    "cn": "可以为同时设置多个提币地址，这样提款到不同的钱包或其它平台时就会更方便。",
+    "en": " You can set several withdrawal addresses at the same time to conveniently withdrawal your funds to different wallet or other platform. ",
+    "jp": "同時に複数のコイン引出しアドレスを設置できます。こうすることで異なるウォレットまはたその他のプラットフォームに転送する場合により便利になります",
+    "kr": "동시에 다개 화폐인출 주소를 설치할 수 있으며, 부동한 지갑 또는 기타 플롯폼에서 인출시 더욱 편이 함"
+  },
+  "提币地址": {
+    "cn": "提币地址",
+    "en": "Withdrawal address ",
+    "jp": "コイン引出しアドレス",
+    "kr": "화폐인출 주소"
+  },
+  "地址备注": {
+    "cn": "地址备注",
+    "en": "Address remark ",
+    "jp": "アドレス備考",
+    "kr": "비고주소"
+  },
+  "备注/地址": {
+    "cn": "备注/地址",
+    "en": "Remark/Address",
+    "jp": "備考/アドレス",
+    "kr": "비고/주소"
+  },
+  "接收地址": {
+    "cn": "接收地址",
+    "en": "Receiving Address ",
+    "jp": "受け取りアドレス",
+    "kr": "접수주소"
+  },
+  "实到金额": {
+    "cn": "实到金额",
+    "en": " Receiving Amount",
+    "jp": "受取金額",
+    "kr": "실제도착 금액"
+  },
+  "最大可提": {
+    "cn": "最大可提",
+    "en": " Maximum withdrawal ",
+    "jp": " 引出し可能な最大金額",
+    "kr": "최대인출 가능"
+  },
+  "编辑提币地址": {
+    "cn": "编辑提币地址",
+    "en": "Edit withdrawal address ",
+    "jp": "コイン引出しアドレスを編集します",
+    "kr": "화폐인출 편집 주소"
+  },
+  "删除提币地址": {
+    "cn": "删除提币地址",
+    "en": "Delete withdrawal address ",
+    "jp": "コイン引出しアドレスを削除します",
+    "kr": "화폐인출 삭제 주소"
+  },
+  "添加提币地址": {
+    "cn": "添加提币地址",
+    "en": "Add withdrawal address ",
+    "jp": "コイン引出しアドレスを追加します",
+    "kr": "화폐인출 주소 추가"
+  },
+  "借币信息": {
+    "cn": "借币信息",
+    "en": "Borrow information ",
+    "jp": "コイン借入情報",
+    "kr": "화폐차입 정보"
+  },
+  "借币金额": {
+    "cn": "借币金额",
+    "en": " Borrow Amount ",
+    "jp": "コイン借入金額",
+    "kr": "화폐차입 금액"
+  },
+  "最多可借": {
+    "cn": "最多可借",
+    "en": "Maximum Borrow ",
+    "jp": "借入可能な最大金額",
+    "kr": "최대 차입가능"
+  },
+  "融资融币记录": {
+    "cn": "融资融币记录",
+    "en": "Margin Records ",
+    "jp": "マージン記録",
+    "kr": "융자융폐기록"
+  },
+  "归还借款": {
+    "cn": "归还借款",
+    "en": "Repay ",
+    "jp": "借金返済",
+    "kr": "차입금 상환"
+  },
+  "借入总额": {
+    "cn": "借入总额",
+    "en": " Total borrowing amount ",
+    "jp": "借入総額",
+    "kr": "차입총액"
+  },
+  "未还利息": {
+    "cn": "未还利息",
+    "en": " Outstanding interest",
+    "jp": "未返済の利息",
+    "kr": "미상환 이자"
+  },
+  "应还总额": {
+    "cn": "应还总额",
+    "en": "Total owed amount",
+    "jp": "返済すべき総額",
+    "kr": "환금총액"
+  },
+  "我的余额": {
+    "cn": "我的余额",
+    "en": "My balance",
+    "jp": "私の残高",
+    "kr": "나의 여액"
+  },
+  "还款方式": {
+    "cn": "还款方式",
+    "en": "Repayment method",
+    "jp": "返済方式",
+    "kr": "환금방식"
+  },
+  "还款金额": {
+    "cn": "还款金额",
+    "en": "Repayment amount",
+    "jp": "返済金額",
+    "kr": " 환금금액"
+  },
+  "杠杆交易风险提示:": {
+    "cn": "杠杆交易风险提示:",
+    "en": "Margin trading risk prompt",
+    "jp": "マージン取引のリスク提示",
+    "kr": "레버 거래 벤처 제시:"
+  },
+  "杠杆交易存在很大风险": {
+    "cn": "1、杠杆交易存在很大风险,对服务器网关瓶颈,网站访问不稳定等各种因素造成杠杆交易被平仓的风险,本公司不负任何责任。",
+    "en": "Margin trading has great risk, EXX will not be responsible for the server gateway bottlenecks, unstable site access and other risks cause the liquidation of your margin trading.",
+    "jp": " マージン取引には大きなリスクがあります。サーバーゲートウェイのボトルネック、サイト訪問不安定などさまざまな要因によってマージン取引がクローズポジションになった場合は、弊社が一切責任を負いません。",
+    "kr": "1. 레버거래는 커다란 위험 존재하여, 서버 네트워크 난관에 대하여, 네트워크 방문 불온정 등 각종 인소로 레버거래가 스퀘어되는 벤처를 초래하면, 당사는 아무런 책임을 지지 않는다."
+  },
+  "系统将按照网站实时委托对您的资产进行强制平仓": {
+    "cn": "2、当您的总资产不足申请额度的110%时,系统将按照网站实时委托对您的资产进行强制平仓买入或卖出以归还申请额度。如果价格波动剧烈,系统无法平仓,导致平台亏损,我们有权向用户追回损失",
+    "en": "When your total assets are less than 110% of the borrowed amount, the system will liquidate your account in a real time entrustment of EXX to buy or sell your funds to repay your borrowed funds. If the price fluctuate fiercely, the system cannot liquidate your account and cause losses of EXX, we have the right to claim for our losses.",
+    "jp": "お客様の総資産額が申込額の110％に足りない場合は、システムがウェッブサイトのリアルタイム委託により、お客様の資産に対して強制清算を行い、購入または売出で申込額を返済します。価格変動が激しく、システムが強制清算を行えず、プラットフォームの赤字を招いた場合、当社はユーザーから損失を取り返すする権利があります",
+    "kr": "2. 고객님의 총 자산이 신청한도의 110%에 달하지 못할 경우, 시스템은 네트워크 실시 위탁에 따라 고객님의 자산에 대하여 강제적인 스퀘어 매입 또는 매출로 신청한도를 환불할것이다. 만약 가격 파동이 클 경우, 시스템은 스퀘어될 수가 없어 플랫폼 손실을 초래하게 되어, 우리는 사용자들로 부터 손실을 회수할 권한이 있다."
+  },
+  "目前申请最大额度不能超过个人净资产的2倍": {
+    "cn": "3、目前申请最大额度不能超过个人净资产的2倍,也不能超过系统设置的最大金额。",
+    "en": "The maximum borrowed amount cannot exceed 2 times of your account net asset at present and it also cannot exceed the setting maximum amount of the system.",
+    "jp": "今のところ、申し込みできる最大限度額は個人純資産の2倍を超えてはならないうえに、システム内に設定している最大金額を超えてはいけません",
+    "kr": "3. 현지 신고한 최대 한도는 개인 순자산의 2배 초과하여서는 안되고, 시스템에서 설치한 최대금액을 초과하여서도 안된다."
+  },
+  "已借入": {
+    "cn": "已借入",
+    "en": "Borrowed",
+    "jp": "借入済み",
+    "kr": "이미 차입"
+  },
+  "可借入": {
+    "cn": "可借入",
+    "en": "Can borrow",
+    "jp": "借入可能",
+    "kr": "차입가능"
+  },
+  "我要借币": {
+    "cn": "我要借币",
+    "en": "I want to borrow",
+    "jp": "コインを借りたい",
+    "kr": "저는 화폐차입 할것입니다."
+  },
+  "借款时间": {
+    "cn": "借款时间",
+    "en": "Borrow time",
+    "jp": "借入時間",
+    "kr": "차입시간"
+  },
+  "已借/已还": {
+    "cn": "已借/已还",
+    "en": "Borrowed/Repaid",
+    "jp": "借入済み/返済済み",
+    "kr": "이마 차입 / 이미 환금"
+  },
+  "类型利率": {
+    "cn": "类型利率",
+    "en": "Type Rate",
+    "jp": "タイプ利息",
+    "kr": "이자율 유형"
+  },
+  "已还利息/抵扣利息": {
+    "cn": "已还利息/抵扣利息",
+    "en": " Repaid/Deducted Interest",
+    "jp": "返済済みの利息/控除された利息",
+    "kr": "이자 환금 / 이자 공제"
+  },
+  "应还总额/应还利息": {
+    "cn": "应还总额/应还利息",
+    "en": "Total Owed Amount/Interest",
+    "jp": "返済すべき総額/返済すべき利息",
+    "kr": "환금 할 총액 / 환금할 이자"
+  },
+  "还款中": {
+    "cn": "还款中",
+    "en": " In the payment ",
+    "jp": "返済中",
+    "kr": "환금중"
+  },
+  "还款": {
+    "cn": "还款",
+    "en": "Repayment",
+    "jp": "返済",
+    "kr": "환금"
+  },
+  "暂无可用抵扣券": {
+    "cn": "暂无可用抵扣券",
+    "en": " No available voucher",
+    "jp": "利用可能な控除券なし",
+    "kr": "사용가능한 공제권 잠시 없음"
+  },
+  "借币成功": {
+    "cn": "借币成功",
+    "en": " Borrow successfully ",
+    "jp": "コイン借入完了",
+    "kr": "화폐차입 성공"
+  },
+  "投资人": {
+    "cn": "投资人",
+    "en": "Investor",
+    "jp": "投資人",
+    "kr": "투자인"
+  },
+  "可投资资产总额": {
+    "cn": "可投资资产总额",
+    "en": " Total available investment assets ",
+    "jp": "投資可能な資産総額",
+    "kr": "투자가능 자산총액"
+  },
+  "投资总额": {
+    "cn": "投资总额",
+    "en": "Total investment assets",
+    "jp": "投資総額",
+    "kr": "투자총액"
+  },
+  "每日费率": {
+    "cn": "每日费率",
+    "en": " Daily Rate ",
+    "jp": "1日毎のレート",
+    "kr": "매일 비용율"
+  },
+  "费率类型": {
+    "cn": "费率类型",
+    "en": " Rate Type ",
+    "jp": "レートタイプ",
+    "kr": "비용율 유형"
+  },
+  "固定": {
+    "cn": "固定",
+    "en": "Fixed",
+    "jp": "固定",
+    "kr": "고정"
+  },
+  "平仓风险控制": {
+    "cn": "平仓风险控制",
+    "en": " Liquidate positions risk control",
+    "jp": "クローズポジションのリスク制御",
+    "kr": "스퀘어 벤처 통제"
+  },
+  "自担风险(40%服务费)": {
+    "cn": "自担风险(40%服务费)",
+    "en": " At Your Own Risk (40% service charge)",
+    "jp": "自己負担リスク（40％サービス料）",
+    "kr": "자체로 벤처 부담 (40% 서비스비)"
+  },
+  "只要本金币种(50%服务费)": {
+    "cn": "只要本金币种(50%服务费)",
+    "en": " Principal Guaranteed (50% service charge)",
+    "jp": "元本通貨に限ります（50％サービス料）",
+    "kr": "본 화폐종류 만 (50% 서비스비)"
+  },
+  "我已阅读并同意融资融币交易风险申明": {
+    "cn": "我已阅读并同意<a href='#'>《融资融币交易风险申明》",
+    "en": " I have read and agree to the Margin Risk Statement ",
+    "jp": "私は既に『マージンリスク声明』<a href='#'>を読んで同意しています",
+    "kr": "저는 이미 <a href='#'><<융자융폐거래 벤처 신고>>를 열독하고 동의 함"
+  },
+  "投资记录": {
+    "cn": "投资记录",
+    "en": "Investment Records",
+    "jp": "投資記録",
+    "kr": "투자기록"
+  },
+  "我发起的投资": {
+    "cn": "我发起的投资",
+    "en": "My Investment",
+    "jp": "私の投資",
+    "kr": "내가 발기한 투자"
+  },
+  "已成功的投资": {
+    "cn": "已成功的投资",
+    "en": " Successful Investment",
+    "jp": "成功された投資",
+    "kr": "이미 성공적으로 투자"
+  },
+  "日收益": {
+    "cn": "日收益",
+    "en": " Daily Earnings ",
+    "jp": "1日毎の利益",
+    "kr": "일 수익"
+  },
+  "30天平均值：": {
+    "cn": "30天平均值：",
+    "en": "Average value for 30 days ",
+    "jp": "30日平均値",
+    "kr": "30일 평균값"
+  },
+  "本月汇总：": {
+    "cn": "本月汇总：",
+    "en": "This Month Summary ",
+    "jp": "当月まとめ",
+    "kr": "당월총계"
+  },
+  "上月汇总：": {
+    "cn": "上月汇总：",
+    "en": "Last Month Summary ",
+    "jp": "先月まとめ",
+    "kr": "지난달 총계"
+  },
+  "投资状态": {
+    "cn": "投资状态",
+    "en": "Investment Status ",
+    "jp": "投資状態",
+    "kr": "투자상태"
+  },
+  "投资中": {
+    "cn": "投资中",
+    "en": "In Investment",
+    "jp": "投資中",
+    "kr": "투자중"
+  },
+  "未投资": {
+    "cn": "未投资",
+    "en": "Unspent Investment ",
+    "jp": "未投資",
+    "kr": "미투자"
+  },
+  "借出用户": {
+    "cn": "借出用户",
+    "en": "Lender ",
+    "jp": "貸出ユーザー",
+    "kr": "대출 사용자"
+  },
+  "人": {
+    "cn": "人",
+    "en": "Person",
+    "jp": "人",
+    "kr": "인"
+  },
+  "次": {
+    "cn": "次",
+    "en": "Times",
+    "jp": "回",
+    "kr": "회수"
+  },
+  "投资金额": {
+    "cn": "投资金额",
+    "en": "Investment Amount",
+    "jp": "投資金額",
+    "kr": "투자금액"
+  },
+  "借出次数": {
+    "cn": "借出次数",
+    "en": "Borrowing Times ",
+    "jp": "貸出回数",
+    "kr": ""
+  },
+  "累计收益": {
+    "cn": "累计收益",
+    "en": "Accumulated Earnings ",
+    "jp": "累計収益",
+    "kr": "누계수익"
+  },
+  "我要投资": {
+    "cn": "我要投资",
+    "en": "I want to invest ",
+    "jp": "投資したい",
+    "kr": "제가 투자할것입니다"
+  },
+  "类型": {
+    "cn": "类型",
+    "en": "Type",
+    "jp": "タイプ",
+    "kr": "유형"
+  },
+  "利率": {
+    "cn": "利率",
+    "en": "Interest Rates ",
+    "jp": "利息",
+    "kr": "이율"
+  },
+  "利率形式": {
+    "cn": "利率形式",
+    "en": "Interest Rates Form ",
+    "jp": "利息タイプ",
+    "kr": "이율형식"
+  },
+  "风险控制": {
+    "cn": "风险控制",
+    "en": "Risk Control",
+    "jp": "リスク制御",
+    "kr": "벤처통제"
+  },
+  "投资/已还": {
+    "cn": "投资/已还",
+    "en": "Investment/Repaid",
+    "jp": "投資/返済済み",
+    "kr": "투자 / 이미 환급"
+  },
+  "收益": {
+    "cn": "收益",
+    "en": "Earnings",
+    "jp": "収益",
+    "kr": "수익"
+  },
+  "日收入": {
+    "cn": "日收入",
+    "en": "Daily Earing",
+    "jp": "毎日収益",
+    "kr": "일 수입"
+  },
+  "请输入投资总额": {
+    "cn": "请输入投资总额",
+    "en": "Please enter total investment amount ",
+    "jp": "投資総額を入力してください",
+    "kr": "투자총액을 입력하여 주세요"
+  },
+  "请输入二级密码": {
+    "cn": "请输入二级密码",
+    "en": " Please enter secondary password ",
+    "jp": "2次パスワードを入力してください",
+    "kr": "2급 비밀번호 입력하여 주세요"
+  },
+  "请输入登录密码": {
+    "cn": "请输入登录密码",
+    "en": " Please enter login password ",
+    "jp": "2次パスワードを入力してください",
+    "kr": "2급 비밀번호 입력하여 주세요"
+  },
+  "需要同意《融资融币交易风险申明》": {
+    "cn": "需要同意《融资融币交易风险申明》",
+    "en": " Need to agree on the Margin Risk Statement ",
+    "jp": "『マージンリスク声明』に同意する必要があります",
+    "kr": "<<융자융폐거래 벤처 신청>>에 동의하여야 함"
+  },
+  "24小时提现额度限制：": {
+    "cn": "24小时提现额度限制：",
+    "en": "24 hours withdrawal amount limit ",
+    "jp": "24時間現金引出しの限度額",
+    "kr": "24시간 현금인출 한도 제한"
+  },
+  "无": {
+    "cn": "无",
+    "en": "None",
+    "jp": "無し",
+    "kr": "무"
+  },
+  "新地址提现冻结时间：": {
+    "cn": "新地址提现冻结时间：",
+    "en": "The freeze time of new withdrawal address",
+    "jp": "新規アドレスの現金凍結時間",
+    "kr": "새로운 주소 현금인출 동결시간:"
+  },
+  "小时": {
+    "cn": "小时",
+    "en": "Hour",
+    "jp": "アワー",
+    "kr": "시간"
+  },
+  "子账户可以支持一个交易对的杠杆交易": {
+    "cn": "子账户可以支持一个交易对的杠杆交易，或者多个不同普通交易对的交易，子账户可以独立登录，或者被主账户快速切换用于交易",
+    "en": " A sub-account can support transaction of one margin trading pair or many different spot trading pairs. Sub-account can login alone or be quickly switched to trading by the primary account.",
+    "jp": "サブアカウントは一つの取引ペアのマージン取引または複数の異なる一般取引ペアの取引をサポートできます。サブアカウントは単独でログインできるほか、メインアカウントにより速やかに切り替えて取引に使われることができます",
+    "kr": "서브계좌는 한개 거래에 대응되는 레버거래를 지원 함"
+  },
+  "左移": {
+    "cn": "左移",
+    "en": "Left Shift",
+    "jp": "左へ移動",
+    "kr": "왼쪽으로 이동"
+  },
+  "右移": {
+    "cn": "右移",
+    "en": "Right Shift",
+    "jp": "右へ移動",
+    "kr": "오른쪽으로 이동"
+  },
+  "提现手机验证设置": {
+    "cn": "提现手机验证设置",
+    "en": "Mobile phone verification setting for withdrawal",
+    "jp": "現金引出しの携帯番号検証の設置",
+    "kr": "현금인출 휴대폰 검증설치"
+  },
+  "提现手机验证状态": {
+    "cn": "提现手机验证状态",
+    "en": "Status of mobile phone verification for withdrawal",
+    "jp": "現金引出しの携帯番号検証の状態",
+    "kr": "현금인출 휴대폰 검증상태"
+  },
+  "重复二级密码": {
+    "cn": "重复二级密码",
+    "en": "Re-enter secondary password",
+    "jp": "2次パスワードをもう一度入力します",
+    "kr": "2급비밀번호 중복"
+  },
+  "提币操作": {
+    "cn": "提币操作",
+    "en": "Withdraw ",
+    "jp": "コイン引出し操作",
+    "kr": "화폐인출 조작"
+  },
+  "是否虚拟账户": {
+    "cn": "是否虚拟账户",
+    "en": "Is it a virtual account?",
+    "jp": "それはバーチャル口座ですか？",
+    "kr": "가상계좌여부"
+  },
+  "提币Google验证": {
+    "cn": "提币Google验证",
+    "en": "Google authentication for withdrawal",
+    "jp": "コイン引出しのGoogle検証",
+    "kr": "화폐인출 Google검증"
+  },
+  "重要提示": {
+    "cn": "重要提示",
+    "en": "Important note",
+    "jp": "重要ノート",
+    "kr": "중요한 제시"
+  },
+  "您还没开启Google认证，请先开启Google认证": {
+    "cn": "您还没开启Google认证，请先开启<a target='_blank' style='color:#3366CC' href='/manage/auth/google'>Google认证",
+    "en": "Please enable Google authentication, <a target='_blank' style='color:#3366CC 'href ='/manage/auth/Google '> Google authentication",
+    "jp": "Google認証をオンにしていません。まず<a target='_blank' style='color:#3366CC' href='/manage/auth/google'>Google認証をオンにしてください",
+    "kr": "고객님께서 Google인정을 가동하지 않아, 우선 <a target='_blank' style='color:#3366CC' href='/manage/auth/google'>Google인정을 가동하여 주세요"
+  },
+  "提币手机验证": {
+    "cn": "提币手机验证",
+    "en": "Mobile phone verification for withdrawal",
+    "jp": "コイン引出しの携帯番号検証",
+    "kr": "화폐인출 휴대폰 검증"
+  },
+  "更改安全设置需要身份验证后才能继续，请输入以下验证码": {
+    "cn": "更改安全设置需要身份验证后才能继续，请输入以下验证码",
+    "en": "Modify security settings required authentication, please enter the following verification code",
+    "jp": "セキュリティ設置を変更する場合は身分検証が必要なので、下記の検証コードを入力してください",
+    "kr": "안전설치 수정은 신분검증후 계속진행이 가능하기에, 아랴 검증번호 입력하여 주세요"
+  },
+  "关闭提现短信验证": {
+    "cn": "关闭提现短信验证",
+    "en": "Close verification SMS for withdrawal",
+    "jp": "現金引出しのSMS 検証をクローズします",
+    "kr": "현금인출 메시시 검증 닫기"
+  },
+  "找回二级密码": {
+    "cn": "找回二级密码",
+    "en": "Retrieve secondary password",
+    "jp": "2次パスワードを取り戻します",
+    "kr": "2급 비밀번호 되찾기"
+  },
+  "修改备注": {
+    "cn": "修改备注",
+    "en": "Modify remarks",
+    "jp": "備考を修正する",
+    "kr": "수정 설명"
+  },
+  "发放比例": {
+    "cn": "发放比例",
+    "en": "Distribution Ratio",
+    "jp": "分配率",
+    "kr": "할당 비율의"
+  },
+  "区块高度": {
+    "cn": "区块高度",
+    "en": "Block Height",
+    "jp": "ブロック高度",
+    "kr": "블록 높이"
+  },
+  "截止时间": {
+    "cn": "截止时间",
+    "en": "Deadline",
+    "jp": "締切時間",
+    "kr": "마감 시간"
+  },
+  "已结束": {
+    "cn": "已结束",
+    "en": "Ended",
+    "jp": "終わりました",
+    "kr": "이미 끝났다"
+  },
+  "未开始": {
+    "cn": "未开始",
+    "en": "Not beginning",
+    "jp": "未開始",
+    "kr": "시작하지 않음"
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": ""
+  }
+}

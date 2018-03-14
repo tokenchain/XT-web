@@ -1,0 +1,485 @@
+/* 动画 */
+.bounce-enter-active {
+  animation: bounce-in .2s;
+}
+.bounce-leave-active {
+  animation: bounce-out .2s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.fadeInUp-enter-active {
+  animation: fadeInUp .3s;
+}
+.fadeInUp-leave-active {
+  animation: fadeOutDown .3s;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .8s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* 下拉组件样式 */
+.vue-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.vue-dropdown .sel-item {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 15px;
+  position: relative;
+  cursor: pointer;
+}
+.vue-dropdown .sel-item:hover,
+.vue-dropdown.open .sel-item:hover {
+}
+.vue-dropdown .sel-item i {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.vue-dropdown .dropdown-list {
+  padding: 5px 0 0 0;
+  margin: 0;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 2;
+}
+.vue-dropdown .dropdown-list:before {
+  display: block;
+  content: ' ';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 3;
+}
+.vue-dropdown .dropdown-list li {
+  cursor: pointer;
+  width: 100%;
+  background: #2B2E38;
+}
+.vue-dropdown .dropdown-list li .item{
+  color: rgba(255, 255, 255, 0.6);
+  padding: 15px 10px;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+/* 弹窗组件样式 */
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 500px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+}
+
+.lg .modal-container {
+  width:680px;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #FBC366;
+}
+
+.modal-body {
+  margin: 20px 0;
+  padding: 0 20px !important;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .exx-modal-container,
+.modal-leave-active .exx-modal-container {
+  /*
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  */
+}
+
+/* 表格组件样式 */
+.vue-table thead tr th {
+  background: transparent;
+}
+.vue-table .no-items {
+  display: block;
+  text-align: center;
+  padding: 15px;
+}
+
+
+.vue-table .loading {
+  position: relative;
+  min-height: 160px;
+  width: 100%;
+}
+
+
+.vue-table .loading:after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 2000;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -20px;
+  width: 42px;
+  height: 42px;
+  border: solid 2px transparent;
+  border-top-color: #eb7a55;
+  border-left-color: #eb7a55;
+  border-radius: 30px;
+  animation: pace-spinner 600ms linear infinite;
+}
+
+.vue-grid {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+}
+.vue-grid .theader,
+.vue-grid .tr {
+  display: table-row;
+}
+
+.vue-grid .tr:hover {
+  background:rgba(251,168,28,0.05);
+}
+
+.vue-grid .theader {
+  color:#797986;
+}
+.user-assets .vue-grid .theader {
+  background:#e9eaef;
+}
+.vue-grid .tbody {
+  display: table-row-group;
+}
+.vue-grid.no-items .tbody {
+  padding: 3em 1em;
+  caption-side: bottom;
+  display: table-caption;
+  text-align: center;
+}
+.vue-grid .th,
+.vue-grid .td {
+  display: table-cell;
+  vertical-align: middle;
+}
+.grid-list-move {
+  transition: transform .5s;
+}
+.grid-list-enter-active{
+  animation: slideInDown .5s;
+}
+.grid-list-leave-active {
+  animation: fadeOutUp .5s;
+}
+.grid-list-enter, .grid-list-leave-to
+  /* .list-leave-active for below version 2.1.8 */ {
+}
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes slideOutUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+@keyframes slideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+/* 滚动条 */
+.vue-scrollbar-transition, .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__scrollbar-horizontal {
+  transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+}
+.vue-scrollbar-transition--scrollbar {
+  transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -webkit-transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s linear;
+}
+
+.vue-scrollbar__wrapper {
+  margin: 0 auto;
+  /*overflow: hidden;
+  position: relative;*/
+}
+.vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-horizontal {
+  opacity: 1;
+}
+.vue-scrollbar__scrollbar-vertical, .vue-scrollbar__scrollbar-horizontal {
+  opacity: 0.5;
+  position: absolute;
+  background: transparent;
+}
+.vue-scrollbar__scrollbar-vertical:hover, .vue-scrollbar__scrollbar-horizontal:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.vue-scrollbar__scrollbar-vertical .scrollbar, .vue-scrollbar__scrollbar-horizontal .scrollbar {
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+.vue-scrollbar__scrollbar-vertical {
+  width: 10px;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+.vue-scrollbar__scrollbar-vertical .scrollbar {
+  width: 10px;
+}
+.vue-scrollbar__scrollbar-horizontal {
+  height: 10px;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+}
+.vue-scrollbar__scrollbar-horizontal .scrollbar {
+  height: 10px;
+}
+
+/* 加载进度条 */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #eb7a55;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 2px;
+}
+
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #eb7a55, 0 0 5px #eb7a55;
+  opacity: 1.0;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 15px;
+  right: 15px;
+  width: 14px;
+  height: 14px;
+  border: solid 2px transparent;
+  border-top-color: #eb7a55;
+  border-left-color: #eb7a55;
+  border-radius: 10px;
+  animation: pace-spinner 400ms linear infinite;
+}
+
+@keyframes pace-spinner {
+  0% { transform: rotate(0deg); transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+/**
+body > :not(.pace),body:before,body:after {
+  transition:opacity .4s ease-in-out
+}
+body:not(.pace-done) > :not(.pace), body:not(.pace-done):before,body:not(.pace-done):after {
+  opacity:0
+}
+**/
+
+.circular-progress-container {
+    position: relative;
+}
+.circular-progress-inner {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    position: absolute;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

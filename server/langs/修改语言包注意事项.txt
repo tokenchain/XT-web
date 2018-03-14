@@ -1,0 +1,62 @@
+
+前端语言包为JSON格式文件，按照业务模块划分为多个文件，方便查找和修改
+
+1、语言包文件说明
+chinese.traditional.json——繁体语言包，不用更改
+code.server.lang.json——错误码语言包
+global.server.lang.json——全局配置信息语言包
+loan.server.lang.json——融资融币业务相关
+path.server.lang.json——网站路径对应的页面标题
+payin.server.lang.json——充值业务
+payout.server.lang.json——提现业务
+trade.server.lang.json——交易模块
+user.server.lang.json——用户模块
+web.server.lang.json——网站公共部分
+
+
+2、语言包格式说明
+
+结构：
+
+  " " : {
+    " " : " ",
+    " " : " ",
+    " " : " ",
+    " " : " ",
+    " " : " "
+  }
+
+说明：
+
+  "语言键值" : {
+    "cn" : "中文翻译内容",
+    "en" : "英文翻译内容",
+    "kr" : "韩文翻译内容",
+    "jp" : "日文翻译内容",
+    "更多语言代码……" : "更多语言翻译……"
+  }
+
+例子：
+
+  "提交委托成功" : {
+    "cn" : "提交委托成功",
+    "en" : "Place order successfully "
+  }
+
+注意：语言键值不要修改，引号、冒号和逗号必须使用英文状态下的格式，最后一行不能带逗号。
+
+
+3、带变量的语言包
+
+例子
+
+  "用指定比例或数量的可用资金以卖一价X买入X" : {
+    "cn" : "用指定比例或数量的可用资金以卖一价[$1]买入[$2]",
+    "en" : "Use a specified proportion or amount of available funds to sell at a price [$1] for buy [$2]"
+  }
+
+翻译内容中的[$1]，[$2]，[$N]为变量，直接在对应语义的位置使用即可。
+
+
+
+

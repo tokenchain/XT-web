@@ -1,0 +1,113 @@
+<script type="text/x-template" id="trade-form">
+    <!--卖出表单开始-->
+    <div class="box" :class="{'flash' : flashForm}" v-if="tradeType == 0">
+        <div class="box-head">
+            <h3><%= LANG('卖出') %>{{coinName}}</h3>
+            <p><%= LANG('可用') %>{{coinName}}：<b class="sellColor" :class="{'hint--top-left' : $parent.currentMarketLever}" aria-label="<%= LANG('包含杠杆额度')%>">{{canUseCoin}}</b></p>
+        </div>
+        <div class="box-body">
+            <div class="input">
+                <!--原始价格输入-->
+                <template v-if="inputPriceMode == 0">
+                    <label class="t" v-if="tradeMode != 1"><span><%= LANG('卖出价') %>{{moneyName}}</span></label>
+                    <label class="t" v-if="tradeMode == 1"><span><%= LANG('最低卖出价格')%>{{moneyName}}</span></label>
+                    <label class="p" v-show="inputPrice == ''"><span><%= LANG('买一价')%>{{$parent.buyOne}}{{moneyName}}</span></label>
+                    <div class="coverPrice"><%= LANG('价格折合') %>：<b class="sellColor">{{inputPriceConvert}}</b> {{showAssistCoin}}</div>
+                    <input class="sellColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)" v-on:change="convertPrice($event,0)" />
+                </template>
+                <!--转换价格输入-->
+                <template v-if="inputPriceMode != 0">
+                    <label class="t" v-if="tradeMode != 1"><span><%= LANG('卖出价')%>{{showAssistCoin}}</span></label>
+                    <label class="t" v-if="tradeMode == 1"><span><%= LANG('最低卖出价格')%>{{showAssistCoin}}</span></label>
+                    <label class="p" v-show="inputPrice == ''"><span><%= LANG('买一价')%>{{$parent.getPriceByAssist($parent.buyOne)}}{{showAssistCoin}}</span></label>
+                    <div class="coverPrice"><%= LANG('实际委托价格') %>：<b class="sellColor">{{inputPrice}}</b> {{moneyName}}</div>
+                    <input class="sellColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)" v-on:change="convertPrice($event,3)"/>
+                </template>
+                <i class="up" @click="UpDownNumber(0,1)"></i>
+                <i class="down" @click="UpDownNumber(0,0)"></i>
+            </div>
+            <div class="input" v-if="tradeMode == 1">
+                <template v-if="inputPriceMode == 0">
+                    <label class="t"><span><%= LANG('最高卖出价格')%>{{moneyName}}</span></label>
+                    <div class="coverPrice"><%= LANG('价格折合') %>：<b class="sellColor">{{inputMaxPriceConvert}}</b> {{showAssistCoin}}</div>
+                    <input class="sellColor" type="text" v-model="inputMaxPrice" @input="convertPrice($event,1)" v-on:change="convertPrice($event,1)"/>
+                </template>
+                <template v-if="inputPriceMode != 0">
+                    <label class="t"><span><%= LANG('最高卖出价格')%>{{showAssistCoin}}</span></label>
+                    <div class="coverPrice"><%= LANG('实际委托价格') %>：<b class="sellColor">{{inputMaxPrice}}</b> {{moneyName}}</div>
+                    <input class="sellColor" type="text" v-model="inputMaxPriceConvert" @input="convertPrice($event,4)" v-on:change="convertPrice($event,4)"/>
+                </template>
+                <i class="up" @click="UpDownNumber(2,1)"></i>
+                <i class="down" @click="UpDownNumber(2,0)"></i>
+            </div>
+            <div class="input">
+                <label class="t"><span><%= LANG('卖出量')%>{{coinName}}</span></label>
+                <label class="p" id="sellVolumLable" v="323.19" v-show="inputNumber == ''"><span><%= LANG('可卖')%>{{realCanSellMoney}}</span></label>
+                <input class="sellColor" type="text" v-model="inputNumber">
+                <i class="up" @click="UpDownNumber(1,1)"></i>
+                <i class="down" @click="UpDownNumber(1,0)"></i>
+            </div>
+            <div :id="'rangeSlider_' + tradeType" class="range range_sell"><!-- 滑动杆 --><span class="sliderPercent">{{showPercent}}%</span></div>
+            <div class="settle"><p><%= LANG('预计交易额')%>：</p><p><b class="sellColor hint--top-left" :aria-label="showAssistTotalAmount">{{totalAmount}}</b> {{moneyName}}</p></div>
+            <div class="box-btn">
+                <a @click="doCheckEntrust" class="sellBgColor" role="button" v-html="showButton" :class="{'disabled' : requestLocked || !isLogin}"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="box" :class="{'flash' : flashForm}" v-else="">
+        <div class="box-head">
+            <h3><%= LANG('买入') %>{{coinName}}</h3>
+            <p><%= LANG('可用') %>{{moneyName}}：<b class="buyColor" :class="{'hint--top-left' : $parent.currentMarketLever}" aria-label="<%= LANG('包含杠杆额度')%>">{{canUseMoney}}</b></p>
+        </div>
+        <div class="box-body">
+            <div class="input" v-if="tradeMode == 1">
+                <template v-if="inputPriceMode == 0">
+                    <label class="t"><span><%= LANG('最低买入价格')%>{{moneyName}}</span></label>
+                    <div class="coverPrice"><%= LANG('价格折合') %>：<b class="buyColor">{{inputMinPriceConvert}}</b> {{showAssistCoin}}</div>
+                    <input class="buyColor" type="text" v-model="inputMinPrice" @input="convertPrice($event,2)" v-on:change="convertPrice($event,2)"/>
+                </template>
+                <template v-if="inputPriceMode != 0">
+                    <label class="t"><span><%= LANG('最低买入价格')%>{{showAssistCoin}}</span></label>
+                    <div class="coverPrice"><%= LANG('实际委托价格') %>：<b class="buyColor">{{inputMinPrice}}</b> {{moneyName}}</div>
+                    <input class="buyColor" type="text" v-model="inputMinPriceConvert" @input="convertPrice($event,5)" v-on:change="convertPrice($event,5)"/>
+                </template>
+                <i class="up" @click="UpDownNumber(3,1)"></i>
+                <i class="down" @click="UpDownNumber(3,0)"></i>
+            </div>
+            <div class="input">
+                <template v-if="inputPriceMode == 0">
+                    <label class="t" v-if="tradeMode != 1"><span><%= LANG('买入价') %>{{moneyName}}</span></label>
+                    <label class="t" v-if="tradeMode == 1"><span><%= LANG('最高买入价格')%>{{moneyName}}</span></label>
+                    <label class="p" v-show="inputPrice == ''"><span><%= LANG('卖一价') %>{{$parent.sellOne}}{{moneyName}}</span></label>
+                    <div class="coverPrice"><%= LANG('价格折合') %>：<b class="buyColor">{{inputPriceConvert}}</b> {{showAssistCoin}}</div>
+                    <input class="buyColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)" v-on:change="convertPrice($event,0)" />
+                </template>
+                <template v-if="inputPriceMode != 0">
+                    <label class="t" v-if="tradeMode != 1"><span><%= LANG('买入价')%>{{showAssistCoin}}</span></label>
+                    <label class="t" v-if="tradeMode == 1"><span><%= LANG('最高买入价格')%>{{showAssistCoin}}</span></label>
+                    <label class="p" v-show="inputPrice == ''"><span><%= LANG('卖一价') %>{{$parent.getPriceByAssist($parent.sellOne)}}{{showAssistCoin}}</span></label>
+                    <div class="coverPrice"><%= LANG('实际委托价格') %>：<b class="buyColor">{{inputPrice}}</b> {{moneyName}}</div>
+                    <input class="buyColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)" v-on:change="convertPrice($event,3)" />
+                </template>
+                <i class="up" @click="UpDownNumber(0,1)"></i>
+                <i class="down" @click="UpDownNumber(0,0)"></i>
+            </div>
+            <div class="input">
+                <label class="t"><span><%= LANG('买入量')%>{{coinName}}</span></label>
+                <label class="p" v-show="inputNumber == ''"><span><%= LANG('最多')%>{{realCanBuyCoin}}{{coinName}}</span></label>
+                <input class="buyColor" type="text" v-model="inputNumber">
+                <i class="up" @click="UpDownNumber(1,1)"></i>
+                <i class="down" @click="UpDownNumber(1,0)"></i>
+            </div>
+            <div :id="'rangeSlider_' + tradeType" class="range range_buy"><!-- 滑动杆 --><span class="sliderPercent">{{showPercent}}%</span></div>
+            <div class="settle"><p><%= LANG('预计交易额')%>：</p><p><b class="buyColor hint--top-left" :aria-label="showAssistTotalAmount">{{totalAmount}}</b> {{moneyName}}</p></div>
+            <div class="box-btn">
+                <a @click="doCheckEntrust" class="buyBgColor" role="button" v-html="showButton" :class="{'disabled' : requestLocked || !isLogin}"></a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--引入交易表单app-->
+<%-include("../app.tradeForm.html")%>

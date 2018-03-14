@@ -1,0 +1,402 @@
+<div class="content" :class="{'loaded': loaded}" id="buy">
+  <h2 class="mt0"><%= LANG('认购比特币挖矿全球化项目-“XBTC”') %></h2>
+  <div class="bk-tabList pd-fff  bk-tabList-buyprocess" style="padding:20px 20px 30px;">
+    <div class="bk-tabList-shd mb30">
+      <div class="btn-group bk-btn-group" role="group">
+
+        <div class="listbtn xbtcsbtn">
+          <a class="btn" :class="{active: buyRate === 'btc'}" v-on:click="setBuyRate('btc')">BTC</a>
+          <a class="btn" :class="{active: buyRate === 'eth'}" v-on:click="setBuyRate('eth')">ETH</a>
+          <a class="btn" :class="{active: buyRate === 'etc'}" v-on:click="setBuyRate('etc')">ETC</a>
+          <a class="btn" :class="{active: buyRate === 'rmb'}" v-on:click="setBuyRate('rmb')">RMB</a>
+          <a class="btn" :class="{active: buyRate === 'usd'}" v-on:click="setBuyRate('usd')">USD</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bk-tabList-bd">
+      <div v-if="isVirtual" class="listbd list-btc">
+        <form role="form" id="buyForm" class="form-horizontal" method="post" autocomplete="off">
+          <div class="form-group">
+            <label for="amount" class="control-label col-sm-3" style="padding-top:10px;"><%= LANG('我的可用资产：') %></label>
+            <div class="col-sm-6 vue-init">
+              <p><span class="ft18 text-primary">{{useableAsset}}</span>{{buyRate.toUpperCase()}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="amount" class="control-label col-sm-3"><%= LANG('当前发行价格：') %></label>
+            <div class="col-sm-6">
+              <p class="form-control-static vue-init">1{{outCoinName}} = {{convertRatio.toString() + inCoinName}} (ICO {{period}}期)</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount" class="control-label col-sm-3"><%= LANG('我要认购：') %></label>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input class="form-control" value="" ref="inAmount" v-on:keyup="handleAmountChange" type="text" />
+                <span class="input-group-addon vue-init" style="min-width:80px;">{{buyRate.toUpperCase()}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount" class="control-label col-sm-3" style="padding-top:10px;"><%= LANG('可获得：') %></label>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input class="form-control" v-model="outAmount" placeholder="<%= LANG('请先输入认购数量') %>" readonly="readonly" type="text">
+                <span class="input-group-addon" style="min-width:80px;">XBTC</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-sm-3"></label>
+            <div class="col-sm-6">
+              <a class="btn btn-primary btn-block" v-on:click="handleSubmit"><%= LANG('立即认购') %></a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-sm-3"></label>
+            <div class="col-sm-6">
+              <label>
+                <input v-model="hasAgreed" style="top:5px;" type="checkbox">
+                <a><%= LANG('我已阅读并同意') %></a>
+                <a href="/manage/agreement" target="_blank">&lt;&lt;<%= LANG('项目认购协议') %>&gt;&gt;</a>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="listbd list-rmb animated" v-show="buyRate === 'rmb'" style="display:none;">
+        <div class="row">
+          <div class="col-md-12">
+
+            <!-- START TIMELINE -->
+            <div class="timeline timeline-right">
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-main">
+                <div class="timeline-date titlecont"><%= LANG('RMB购买步骤') %></div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>1</div>
+                <div class="timeline-item-icon"><span class="icon icon_i1"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('用RMB到以下任一平台购买比特币、ETC或ETH') %> <a href="/u/other/rmbbuy#buy">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-piclinks">
+                      <li>
+                        <a href="https://www.chbtc.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-chbtc.jpg"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.huobi.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-huobi.jpg"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.btcchina.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-btcc.jpg"></a>
+                      </li>
+
+                      <li>
+                        <a href="https://www.btctrade.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-btctrade.jpg"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.yuanbao.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-yuanbao.jpg"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.okcoin.cn/" target="_blank"><img src="<%= STATIC %>/images/u/logo-okcoin.png"></a>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>2</div>
+                <div class="timeline-item-icon"><span class="icon icon_i2"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('把购买到的比特币、ETC或ETH转账到EXX.com的对应收币地址') %> <a href="/u/other/rmbbuy#exx">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-btn">
+                      <li><a href="/manage/account/charge/btc" class="btn btn-primary btn-sm"><%= LANG('充值BTC到EXX') %></a></li>
+                      <li><a href="/manage/account/charge/etc" class="btn btn-primary btn-sm"><%= LANG('充值ETC到EXX') %></a></li>
+                      <li><a href="/manage/account/charge/eth" class="btn btn-primary btn-sm"><%= LANG('充值ETH到EXX') %></a></li>
+                    </ul>
+                  </div>
+
+
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>3</div>
+                <div class="timeline-item-icon"><span class="icon icon_i3"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('进入认购页面，选择BTC/ETC/ETH其中一种，按提示认购XBTC') %> <a href="/u/other/buy">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-btn">
+                      <li><a href="javascript:;" v-on:click="setBuyRate('btc')" class="btn btn-second btn-sm"><%= LANG('用BTC认购 BTC') %></a></li>
+                      <li><a href="javascript:;" v-on:click="setBuyRate('etc')" class="btn btn-second btn-sm"><%= LANG('用ETC认购 BTC') %></a></li>
+                      <li><a href="javascript:;" v-on:click="setBuyRate('eth')" class="btn btn-second btn-sm"><%= LANG('用ETH认购 BTC') %></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+            </div>
+            <!-- END TIMELINE -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="listbd list-usd animated" v-show="buyRate === 'usd'" style="display:none;">
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <!-- START TIMELINE -->
+            <div class="timeline timeline-right">
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-main">
+                <div class="timeline-date titlecont"><%= LANG('USD购买步骤') %></div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>1</div>
+                <div class="timeline-item-icon"><span class="icon icon_i1"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('用USD到以下任一平台购买比特币、ETC或ETH') %> <a href="/u/other/usdbuy#buy">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-piclinks">
+                      <li>
+                        <a href="https://www.bitfinex.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-bf.png"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.bitstamp.net/" target="_blank"><img src="<%= STATIC %>/images/u/logo-bt.png"></a>
+                      </li>
+                      <li>
+                        <a href="https://btc-e.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-btc-e.png"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.coinbase.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-coinbase.png"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.kraken.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-k.png"></a>
+                      </li>
+                      <li>
+                        <a href="https://www.okcoin.com/" target="_blank"><img src="<%= STATIC %>/images/u/logo-okcoin.png"></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>2</div>
+                <div class="timeline-item-icon"><span class="icon icon_i2"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('把购买到的比特币、ETC或ETH转账到EXX.com的对应收币地址')%> <a href="/u/other/usdbuy#exx">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-btn">
+                      <li><a href="/manage/account/charge/btc" class="btn btn-primary btn-sm"><%= LANG('充值BTC到EXX') %></a></li>
+                      <li><a href="/manage/account/charge/etc" class="btn btn-primary btn-sm"><%= LANG('充值ETC到EXX') %></a></li>
+                      <li><a href="/manage/account/charge/eth" class="btn btn-primary btn-sm"><%= LANG('充值ETH到EXX') %></a></li>
+                    </ul>
+                  </div>
+
+
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+              <!-- START TIMELINE ITEM -->
+              <div class="timeline-item timeline-item-right">
+                <div class="timeline-item-info"><%= LANG('步骤') %>3</div>
+                <div class="timeline-item-icon"><span class="icon icon_i3"></span></div>
+                <div class="timeline-item-content">
+                  <div class="timeline-body">
+                    <p class="p-note"><%= LANG('进入认购页面，选择BTC/ETC/ETH其中一种，按提示认购XBTC') %> <a href="/u/other/buyxbtc">(<%= LANG('示例') %>)</a></p>
+                    <ul class="list-btn">
+                      <li><a href="javascript:;" v-on:click="setBuyRate('btc')" class="btn btn-second btn-sm"><%= LANG('用BTC认购 BTC') %></a></li>
+                      <li><a href="javascript:;" v-on:click="setBuyRate('btc')" class="btn btn-second btn-sm"><%= LANG('用ETC认购 BTC') %></a></li>
+                      <li><a href="javascript:;" v-on:click="setBuyRate('btc')" class="btn btn-second btn-sm"><%= LANG('用ETH认购 BTC') %></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- END TIMELINE ITEM -->
+
+            </div>
+            <!-- END TIMELINE -->
+
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="vip-tip">
+    <dl>
+      <dt><%= LANG('认购说明') %></dt>
+      <dd><%= LANG('1、使用非ETC资产认购时，会先兑换成ETC，再打到合约地址进行认购。') %></dd>
+      <dd><%= LANG('2、因币价波动会有1%左右浮动，兑换结果以实际成交为准。') %></dd>
+      <dd><%= LANG('3、使用BTC、ETH认购，兑换时需要等待网络确认（BTC为1个、ETH为36个），因此到账会有所延迟。') %></dd>
+      <dd><%= LANG('4、EXX平台认购是真实的打币过程，每次认购会固定支付0.01ETC手续费。') %></dd>
+    </dl>
+  </div>
+
+</div>
+<script>
+  require(['vue', 'common/methods','common/juabox'], function(Vue, Methods, JuaBox) {
+    var buy = new Vue({
+      el: "#buy",
+      data: function () {
+        return {
+          loaded: true,
+          hasAgreed: false,
+          buyRate: 'btc',
+          assets: {},
+          convertRatio: 0,
+          inPrice: 0,
+          outPrice: {},
+          outCoinName: '',
+          inCoinName: '',
+          period: '',
+          buyInfo: {},
+          totalAmount: '',
+          sellAmount: '',
+          inAmount: '',
+          outAmount: ''
+        }
+      },
+      computed: {
+        isVirtual: function () {
+          return this.buyRate === 'btc' || this.buyRate === 'eth' || this.buyRate === 'etc'
+        },
+        useableAsset: function () {
+          var assets = JSON.parse(JSON.stringify(this.assets));
+          if (assets.balance) {
+            var useable = assets.balance.getObject('propTag', this.buyRate.toUpperCase()).usable;
+          }
+          return useable ? useable : 0;
+        }
+      },
+      methods: {
+        getBuyInfo: function () {
+          var data = {
+            coin: this.buyRate,
+            buyNumber: ''
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getbuy',
+            //data: data,
+            success: function(res) {
+              this.inPrice = res.datas.inPrice;
+              this.convertRatio = res.datas.defaultP.convertRatio;
+              this.period = res.datas.defaultP.periodStr;
+              this.outCoinName = res.datas.defaultP.convertOutCoint;
+              this.inCoinName = res.datas.defaultP.convertInCoint;
+              this.totalAmount = res.datas.defaultP.totalAmount;
+              this.sellAmount = res.datas.defaultP.sellAmount;
+              var payList = res.datas.payList;
+              var outPrice = {};
+              payList.forEach(function(coin){
+                outPrice[coin.coint.stag] = coin.price;
+              });
+              this.outPrice = outPrice;
+              //return res.datas.balance;
+            }.bind(this)
+          });
+        },
+        getAssets: function() {
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getAsset',
+            success: function(res) {
+              this.assets = res.datas;
+            }.bind(this)
+          });
+        },
+        setBuyRate: function(type) {
+          this.buyRate = type;
+          this.inAmount = '';
+          this.$refs.inAmount.value = '';
+          this.outAmount = '';
+        },
+        handleAmountChange: function () {
+          var inPrice = this.inPrice;
+          var el = this.$refs.inAmount;
+          var value = el.value;
+          value = value.replace(/[^\d.]/g,'');
+          //如果输入超过一个小数点，则只显示一个小数点
+          if (value.lastIndexOf(".") > value.indexOf(".")) {
+            value = value.substr(0, value.length-1);
+          }
+          el.value = value;
+          this.inAmount = value;
+          //value = value.decimalFormat(2);
+          console.log(value);
+          if(value.isDecimal()) {
+            value = parseFloat(value);
+          }
+          var outPrice = this.outPrice[this.buyRate];
+          var etc = Methods.numDivider(Methods.numMultiply(value, outPrice), inPrice);
+          if (this.buyRate != 'etc') {
+            etc = Methods.numMultiply(etc, 0.98);
+          }
+          var xbtc = Methods.numMultiply(etc, this.convertRatio);
+          xbtc = Methods.numSqxsw(xbtc, 3);
+          if (parseFloat(xbtc) > parseFloat(this.totalAmount)){
+            xbtc = this.totalAmount;
+          }
+          this.outAmount = xbtc;
+        },
+        handleSubmit: function() {
+          if(this.inAmount == ""){
+            JuaBox.sure("<%= LANG('请输入购买金额！') %>");
+            return;
+          } else if (!this.hasAgreed) {
+            JuaBox.sure("<%= LANG('请阅读并同意<<项目认购协议>>') %>");
+            return;
+          }
+          var data = {
+            amount: this.inAmount,
+            coint: this.buyRate
+          };
+          Methods.ajax({
+            url: DOMAIN_MAIN + API_PREFIX + 'doBuy',
+            data: data,
+            success: function (res) {
+              this.amount = '';
+              JuaBox.sure(res.resMsg.message);
+            }
+          });
+        }
+      },
+      mounted: function () {
+        this.getAssets();
+        this.getBuyInfo();
+      }
+    });
+  })
+</script>

@@ -1,0 +1,158 @@
+<section class="exx-blog" id="blog">
+  <div class="container" v-cloak="" v-if="view == 'display'">
+              <h2 v-cloak="">
+                  {{newsContent.title}}
+                  <p class="time">
+                      <%= LANG('发布时间：') %>{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}  {{getDateTime(newsContent.createTime)[3]}}:{{getDateTime(newsContent.createTime)[4]}}
+                  </p>
+              </h2>
+          <div v-cloak="" class="blog-info" v-html="newsContent.content"> </div>
+  </div>
+
+
+
+
+  <div class="container" style="display: none;">
+
+    <div class="help-ld" v-cloak>
+      <div class="news-ldlist">
+        <div class="list" v-for="category in categories" @click="changeNewsType(category)" :class="{active: newsType == category.code}">
+          <h3>{{category.name}}</h3>
+            <i v-if="newsType == category.code" class="iconfont icon-folder1"></i>
+            <i v-else class="iconfont icon-folder"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-rd">
+      <transition name="fade" mode="out-in" v-cloak>
+        <div v-if="view == 'list'" class="help-cont news-list">
+          <h3>
+            <template>{{typeName}}<%= LANG('列表') %></template>
+          </h3>
+          <ul class="list">
+            <li v-for="item in news">
+              <a @click="viewNews(item.id)">{{item.title}}</a>
+            </li>
+          </ul>
+        </div>
+        <div v-if="view == 'display'" class="help-cont">
+          <h3>{{newsContent.title}}</h3>
+          <div class="scont" v-html="newsContent.content">
+          </div>
+        </div>
+      </transition>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    EXX.helpDisplay = new Vue({
+      el: "#blog",
+      data: function () {
+        return {
+          id: '',
+            categories: [],
+            view: 'list',
+            newsType: '101',
+            typeName: '<%= LANG("新闻")%>',
+          news: [],
+          newsContent: {}
+        }
+      },
+      computed: {
+      },
+      methods: {
+          getDateTime: function(datetime) {
+            var date = Methods.getDateTime(datetime, 'array');
+            return date;
+          },
+          getCategory: function() {
+              var data = {
+                  tab: 1
+              };
+              Methods.ajax({
+                  type: 'GET',
+                  url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+                  data: data,
+                  success: function(res) {
+                      if (res.datas.problemType && res.datas.problemType.length ) {
+                          this.categories = res.datas.problemType[0].problCategor;
+                      }
+
+                  }.bind(this)
+              });
+          },
+          getNewsList: function(type) {
+              var data = {
+                  problemType: 1,
+                  problCategor: type
+              };
+              Methods.ajax({
+                      type: 'GET',
+                      url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+                      data: data,
+                      success: function(res) {
+                          this.news = res.datas.titelList;
+                      }.bind(this)
+              });
+          },
+          changeNewsType: function(type) {
+              this.newsType = type;
+              this.view = 'list';
+              this.getNewsList(type);
+              window.history.replaceState("", "exx.com", DOMAIN_WEB + "/blog?type=" + type);
+          },
+          viewNews: function(id) {
+              this.getNewsContent(id);
+              this.view = 'display';
+              window.history.replaceState("", "exx.com", DOMAIN_WEB + "/blog?type=" + this.newsType + "&id=" + id);
+          },
+        getNewsContent: function(id) {
+          var data = {
+            ids: id
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getProblemContent',
+            data: data,
+            success: function(res) {
+                if (res.datas.problemList.length) {
+                    this.newsContent = res.datas.problemList[0];
+                }
+            }.bind(this)
+          });
+        }
+      },
+      created: function() {
+        this.getCategory();
+        var params = Methods.parseQueryString();
+          if (params.type && !params.id) {
+              this.newsType = params.type;
+              this.getNewsList(params.type);
+              return
+          } else if (params.type && params.id) {
+              this.newsType = params.type;
+              this.id = params.id;
+              this.view = 'display';
+              this.getNewsContent(params.id);
+              return
+        } else {
+              this.newsType = '102';
+              this.getNewsList('102');
+              window.history.replaceState("", "exx.com", DOMAIN_WEB + "/blog?type=102");
+        }
+      },
+      mounted: function() {
+      },
+        updated: function() {
+
+        },
+      watch: {
+      }
+    })
+  })
+</script>
+

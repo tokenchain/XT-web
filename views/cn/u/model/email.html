@@ -1,0 +1,156 @@
+<script type="text/x-template" id="set-email">
+  <div class="exx-modal-container">
+    <div class="exx-modal-header"><h3><%= LANG('邮箱设置') %></h3></div>
+    <div class="exx-modal-body">
+      <div class="exx-form-box">
+        <div class="form-box">
+      <div class="form-group">
+        <div class="form-control" id="nikeForm">
+          <input autocomplete="off" placeholder="<%= LANG('邮箱地址') %>" v-model="email" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!--<label>-->
+          <!--<template v-if="userInfo.safePwdAuth == 0">-->
+            <!--<%= LANG('登录密码') %>-->
+          <!--</template>-->
+          <!--<template v-else>-->
+            <!--<%= LANG('二级密码') %>-->
+          <!--</template>-->
+        <!--</label>-->
+        <div class="form-control">
+          <input autocomplete="new-password" :placeholder="userInfo.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' " v-model="safePwd" type="password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control">
+          <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
+        <send-code :code-type="5" :user-name="email" />
+      </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control">
+          <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
+        <send-code :code-type="6" :user-name="userInfo.mobile.split(' ')[1]" />
+      </div>
+      </div>
+
+        <div v-if="userInfo.googleAuth == 1"  class="form-group">
+          <div class="form-control">
+            <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
+          </div>
+        </div>
+        <div class="form-button">
+          <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button"><span><%= LANG('提交') %></span></button>
+          <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+  </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('set-email', {
+            template: "#set-email",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    locked: false,
+                    pubKey: '',
+                    email: '',
+                    emailCode: '',
+                    mobileCode: '',
+                    safePwd: '',
+                    googleCode: ''
+                }
+            },
+            computed: {
+                authEmail: function () {
+                    return Methods.isEmail(this.email);
+                },
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                }
+            },
+            methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    var data = {
+                        email: this.email,
+                        emailCode: this.emailCode,
+                        mobileCode: this.mobileCode,
+                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        googleCode: this.googleCode
+                    };
+                    if (!this.authEmail) {
+                        JuaBox.sure("<%= LANG('请输入有效的邮箱地址') %>");
+                    } else if (this.safePwd.length < 6) {
+                        JuaBox.sure("<%= LANG('请确认二级密码是否正确') %>");
+                    } else if (this.emailCode.length < 6) {
+                        JuaBox.sure("<%= LANG('请输入正确的邮箱验证码') %>");
+                    } else if (this.mobileCode.length < 6) {
+                        JuaBox.sure("<%= LANG('请输入正确的手机验证码') %>");
+                    } else {
+                        this.locked = true;
+                        Methods.ajax({
+                            url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
+                            data: data,
+                            success: function (res) {
+                                this.locked = false;
+                                Methods.setLocalUserInfo(res.datas.getUserInfo);
+                                try{
+                                    for(var key in res.datas.getUserInfo){
+                                        Vue.set(EXX.userIndex.loginUser, key, res.datas.getUserInfo[key])
+                                    }
+                                }catch(err){}
+                                JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                    top.location.reload();
+                                });
+                                this.done();
+                            }.bind(this),
+                            error: function (res) {
+                                this.locked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message))
+                            }.bind(this)
+                        });
+                    }
+                }
+            },
+            created: function () {
+                this.getPubKey();
+            }
+        })
+    })
+</script>

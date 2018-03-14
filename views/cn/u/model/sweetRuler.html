@@ -1,0 +1,80 @@
+<script type="text/x-template" id="sweetRuler">
+    <div class="exx-modal-container" style="width: 550px;">
+        <div class="exx-modal-header">
+            <h3><%= LANG('领取规则') %></h3>
+        </div>
+        <div class="exx-modal-body">
+
+            <div class="exx-form-box">
+                <% if(LAN == 'cn' || LAN == 'hk'){ %>
+                <p style="font-size: 12px; color:#888; line-height: 1.8; margin-bottom: 15px;">EXX.COM已开放领取分叉币糖果的功能，并将陆续上线分叉币的交易。以SBTC为例，具体领取方式如下：<br>
+                    1.您可以在分叉前，选择提前领取SBTC等资产，并进入市场进行交易获利。<br>
+                    2.提前领取SBTC后，原BTC将被临时冻结，并被命名为EXXBTC，在成功分叉前不可使用。即在分叉成功前您的1BTC=1EXXBTC+1SBTC。<br>
+                    3.分叉成功后，EXXBTC将变为BTC，市场上将出现BTC和SBTC，如分叉失败，SBTC清零，您的EXXBTC依然为BTC。<br>
+                    4.如您未提前领取SBTC，我们将按照分叉点时的快照，在分叉成功后发放SBTC到您的账户。<br>
+                    5.如您不知道如何领取比特币分叉资产，您可以提前充值BTC到EXX.COM。
+                </p>
+                <% }else{ %>
+                <p style="font-size: 12px; color:#888; line-height: 1.8; margin-bottom: 15px;">
+                    EXX.COM has enabled the function of getting forked currencies which will then be launched in a series of trading with BTC.<br>
+                    Taking SBTC as an example, the details are as follows:<br>
+                    1. Users can select the assets such as SBTC and enter the market for which the user expects to make a profit.<br>
+                    2. After receiving SBTC in advance, BTC will be temporarily frozen and named as EXXBTC, which is not available before the successful bifurcation. 1BTC=1EXXBTC+1SBTC before the fork ends.<br>
+                    3.If the fork is successful, the EXXBTC will return as BTC, so BTC and SBTC will appear on the market. If the fork fails, SBTC will be reset and removed.<br>
+                    4. If you do not receive SBTC in advance, EXX will distribute SBTC to your account after the fork success according to the snapshot of the fork point.<br>
+                    5.If you are not familiar with the forking process, it is best to deposit your BTC in advance.
+                </p>
+                <% } %>
+                <div class="form-box">
+                    <div class="form-button">
+                        <button @click="closeModal" class="button"><span><%= LANG('确定') %></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('sweetRuler', {
+            template: "#sweetRuler",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+
+                }
+            },
+            computed: {
+
+            },
+            watch : {
+
+            },
+            methods: {
+                closeModal : function () {
+                    Methods.setCookie(ENV + 'hasRead', 1, 7);
+                    this.$parent.close();
+                }
+
+            },
+            created: function () {
+            },
+            mounted: function () {
+            }
+        })
+    })
+</script>

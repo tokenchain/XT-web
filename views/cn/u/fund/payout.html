@@ -1,0 +1,358 @@
+<div class="content" style="background: #fff;border-radius: 3px;">
+
+
+      <div style="width: 700px;margin: 0 auto; padding: 30px 0;">
+
+        <div class="exx-modal-header" style="box-shadow: none;"><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3><%= LANG('提币') %>{{coin.toUpperCase()}}</h3></div>
+        <div class="exx-modal-body" style="padding: 30px 0;">
+
+          <div class="exx-record exx-addadr">
+            <div class="exx-record-hd">
+              <h4><%= LANG('选择提币地址') %></h4>
+              <a href="#" v-on:click="setAddress('add')" class="more xiahuaxian"><i class="iconfont icon-add"></i><%= LANG('添加新地址') %></a>
+            </div>
+            <!--<json-table :on-click-row="addressClickRow" :columns="addressCols" :rows="address" ></json-table>-->
+
+            <table>
+              <thead>
+              <tr>
+                <th class="select"><%= LANG('选择') %></th>
+                <th class="remarks"><%= LANG('备注') %></th>
+                <th class="address"><%= LANG('地址') %></th>
+                <th class="action"><%= LANG('操作') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="select"><label class="exx-radio" for="radio1"><input type="radio" checked="checked" id="radio1" value="radio1"><i></i></label></td>
+                <td class="remarks"><%= LANG('备注') %></td>
+                <td class="address txt-yellow">1Dojum3CpUb3Rfke39aBJNq2uBN8wQF7UG</td>
+                <td class="action"><a href="#" class="xiahuaxian"><%= LANG('删除') %></a></td>
+              </tr>
+              <tr>
+                <td class="select"><label class="exx-radio" for="radio2"><input type="radio" id="radio2" value="radio1"><i></i></label></td>
+                <td class="remarks"><%= LANG('稍微长备注') %></td>
+                <td class="address">0x41b5a2ccb30002f6545622ede30a4cc9a9500e12</td>
+                <td class="action"><a href="#" class="xiahuaxian"><%= LANG('删除') %></a></td>
+              </tr>
+              <tr>
+                <td class="select"><label class="exx-radio" for="radio3"><input type="radio" id="radio3" value="radio1"><i></i></label></td>
+                <td class="remarks"><%= LANG('这是一个非常长的备注') %></td>
+                <td class="address">0x55c4abdae618777bba5d3a251d72bc4fdedee879</td>
+                <td class="action"><a href="#" class="xiahuaxian"><%= LANG('删除') %></a></td>
+              </tr>
+              </tbody>
+            </table>
+
+
+
+          </div>
+
+          <div class="exx-form-box exx-mt30">
+            <h4><%= LANG('填写提币信息') %></h4>
+
+            <div class="exx-form-group">
+              <div class="exx-input-element">
+                <label for="payoutAmount"><%= LANG('提币数量') %></label>
+                <input v-model="payoutAmount" id="payoutAmount" type="text" />
+              </div>
+            </div>
+
+            <div class="exx-form-group">
+              <div class="exx-input-element">
+                <label for="password"><%= LANG('二级密码') %></label>
+                <input v-model="safePwd" id="password" type="password" />
+              </div>
+            </div>
+
+            <div class="exx-form-group code">
+              <div class="exx-input-element">
+                <label for="payoutDynamicCode"><%= LANG('短信验证码') %></label>
+                <input v-model="payoutDynamicCode" id="payoutDynamicCode" type="text">
+              </div>
+              <send-code :code-type="21" :user-name="userName" :safe-pwd="safePwd" />
+            </div>
+          </div>
+
+          <div class="exx-modal-note exx-mt30 exx-mb30">
+            <h4><%= LANG('X提现费率规则'，{{coin.toUpperCase()}}) %>：</h4>
+            <p><%= LANG('X网络收取矿工费XX/笔，由平台代扣；',{{coin.toUpperCase()}},{{coinInfo.minFees}},{{coin.toUpperCase()}}) %></p>
+            <p><%= LANG('X充值经过网络的X个确认后，才允许提现；',{{coin.toUpperCase()}},{{coinInfo.outConfirmTimes}}) %></p>
+            <p><%= LANG('可以为同时设置多个提币地址，这样提款到不同的钱包或其它平台时就会更方便') %>。</p>
+          </div>
+
+          <div class="exx-record">
+            <div class="exx-record-hd"><h4><%= LANG('提币记录') %></h4></div>
+            <json-table :columns="recordCols" :rows="payoutRecords" ></json-table>
+          </div>
+        </div>
+
+        <div class="exx-modal-button">
+          <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+
+          <button class="exxbtn btn-ok" @click="handlePayout"><span><%= LANG('提币') %></span></button>
+        </div>
+
+      </div>
+
+      <div class="exx-modal-container" style="width: 700px;" v-cloak v-if="showAddressForm">
+        <div class="exx-modal-header"><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3>{{modalTitle}}</h3></div>
+        <div class="exx-modal-body">
+          <div class="exx-form-box">
+          <div class="exx-form-group">
+            <div class="exx-input-element">
+              <label for="address"><%= LANG('提币地址') %></label>
+              <input id="address" v-model="selectedAddress.account" type="text" :readonly="this.addressFormType == 'dele'" />
+            </div>
+          </div>
+          <div class="exx-form-group">
+            <div class="exx-input-element">
+              <label for="memo"><%= LANG('地址备注') %></label>
+              <input id="memo" v-model="selectedAddress.memo" type="text" :readonly="this.addressFormType == 'dele'" />
+            </div>
+          </div>
+          <div class="exx-form-group">
+            <div class="exx-input-element">
+              <label for="password2"><%= LANG('二级密码') %></label>
+              <input v-model="safePwd" id="password2" type="password" />
+            </div>
+          </div>
+          <div class="exx-form-group code">
+            <div class="exx-input-element">
+              <label for="payoutDynamicCode"><%= LANG('短信验证码') %></label>
+              <input v-model="payoutDynamicCode" id="payoutDynamicCode" type="text">
+            </div>
+            <send-code :code-type="19" :user-name="userName" :safe-pwd="safePwd" />
+          </div>
+        </div>
+        </div>
+        <div class="exx-modal-button">
+          <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+
+          <button class="exxbtn btn-ok" @click="handlePayout"><span><%= LANG('确认') %></span></button>
+        </div>
+      </div>
+
+    </div>
+
+
+</div>
+
+
+<%-include("../../component/send_code.html")%>
+<%-include("../../component/json_table.html")%>
+<script>
+  require(['vue', 'common/methods','common/juabox'], function(Vue, Methods, JuaBox) {
+    window.payout = new Vue({
+      el: "#payout",
+      data: function () {
+        return {
+          loaded: true,
+          sharedState: store.state,
+          pubKey: '',
+          coint: 'BTC',
+          showAddressForm: false,
+          safePwd: '',
+          addressFormType: 'add',
+          dynamicCode: '',
+          payoutInfo: {},
+          payoutDynamicCode: '',
+          payoutAmount: '',
+          userName: Methods.getCookie(ENV + 'uname'),
+          selectedAddress: {},
+          tempAddress: {},
+          address: [],
+          addressCols: [
+            { label: "<%= LANG('选择') %>", key: 'select', cell: function(item) {
+              return "<input type='radio' " + (window.payout.selectedAddress == item ? 'checked' : '') + " />";
+            }},
+            { label: "<%= LANG('备注/地址') %>", key:'account', cell: function(item) {
+              return '' + item.nickName + "<br />" + item.account + "[" + (item.isAuth == 1 ? "<%= LANG('已认证') %>" : "<%= LANG('未认证') %>") + "]";
+            }},
+            { label: "<%= LANG('操作') %>", key: 'action', cell: function(item) {
+              return `<a onclick="window.payout.setAddress('edit')"><%= LANG('编辑') %></a> | <a onclick="window.payout.setAddress('dele')"><%= LANG('删除') %></a>`;
+            }}
+          ],
+          recordCols: [
+            { label: "<%= LANG('接收地址') %>", key: "toAddress" },
+            { label: "<%= LANG('提交时间') %>", key: "submitTime", cell: function(item) {
+              return Methods.getDateTime(item.submitTime.time);
+            }},
+            { label: "<%= LANG('处理时间') %>", key: "manageTime", cell: function(item) {
+              return Methods.getDateTime(item.manageTime.time);
+            }},
+            { label: "<%= LANG('状态') %>", key: "statusT" },
+            { label: "<%= LANG('金额') %>", key: "amount", cell: function(item){
+              return '' + item.amount + ' ' + this.coint;
+            }.bind(this) },
+            { label: "<%= LANG('实到金额') %>", key: "afterAmount", cell: function(item){
+              return '' + item.afterAmount + ' ' + this.coint;
+            }.bind(this) }
+          ],
+          payoutRecords: []
+        }
+      },
+      computed: {
+        cointAsset: function () {
+          var conitAmount = this.sharedState.accetsBalance.getObject('propTag', this.coint.toUpperCase());
+          return conitAmount ? conitAmount : {usable: 0};
+        },
+        coinTypes: function() {
+          return Object.keys(this.sharedState.coinAccets);
+        },
+        amountPlaceholder: function () {
+          return "<%= LANG('最大可提') %>" + this.cointAsset.usable + this.coint.toUpperCase();
+        },
+        modalTitle: function() {
+          switch (this.addressFormType) {
+            case 'edit':
+              return "<%= LANG('编辑提币地址') %>";
+              break;
+            case 'dele':
+              return "<%= LANG('删除提币地址') %>";
+              break;
+            default:
+              return "<%= LANG('添加提币地址') %>";
+              break;
+          }
+
+        }
+
+      },
+      methods: {
+        getPubKey: function () {
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+            success: function(res) {
+              this.pubKey = res.datas.pubTag;
+            }.bind(this)
+          });
+        },
+        getCoint: function () {
+          var params = Methods.parseQueryString();
+          if (params.coint) {
+            this.coint = params.coint;
+          }
+        },
+        changeCoint: function (coint) {
+          this.coint = coint;
+          this.getAccountInfo();
+          this.getPayoutInfo();
+          this.getPayoutCoinRecords();
+        },
+        getAccountInfo: function () {
+          var data = {
+            coint: this.coint
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
+            data: data,
+            success: function(res) {
+              this.address = res.datas.account;
+            }.bind(this)
+          });
+        },
+        getPayoutInfo: function () {
+          var data = {
+            coint: this.coint
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getPayoutInfo',
+            data: data,
+            success: function(res) {
+              this.payoutInfo = res.datas;
+            }.bind(this)
+          });
+        },
+        setAddress: function (type) {
+          this.showAddressForm = true;
+          this.addressFormType = type;
+          if (type === 'add') {
+            this.selectedAddress = {};
+          }
+        },
+        handleAddressSubmit: function () {
+          var data ={
+            coint: this.coint,
+            type: this.addressFormType,
+            id: this.selectedAddress.id,
+            account: this.selectedAddress.account,
+            memo: this.selectedAddress.memo,
+            safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+            dynamicCode: this.dynamicCode
+          };
+          Methods.ajax({
+            type: 'POST',
+            url: DOMAIN_MAIN + API_PREFIX + 'doSetAddress',
+            data: data,
+            success: function (res) {
+              this.showAddressForm = false;
+              this.selectedAddress = {};
+              this.safePwd = '';
+              this.dynamicCode = '';
+              this.getAccountInfo();
+            }.bind(this)
+          });
+        },
+        handlePayout: function () {
+          var data ={
+            coint: this.coint,
+            addressId: this.selectedAddress.id,
+            feesId: this.payoutInfo.defaultFees,
+            amount: this.payoutAmount,
+            safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+            dynamicCode: this.payoutDynamicCode,
+            googleCode: '',
+            noBlock: ''
+          };
+          Methods.ajax({
+            type: 'POST',
+            url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
+            data: data,
+            success: function (res) {
+              this.amount = '';
+              this.safePwd = '';
+              this.dynamicCode = '';
+            }.bind(this)
+          });
+        },
+        cancelAddressForm: function () {
+          this.showAddressForm = false;
+          this.safePwd = '';
+          this.getAccountInfo();
+        },
+        addressClickRow: function (el, item) {
+          this.selectedAddress = item;
+        },
+        getPayoutCoinRecords: function() {
+          var data = {
+            coint: this.coint,
+            pageIndex: 1,
+            pageSize: 10
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getPayoutCoinRecord',
+            data: data,
+            success: function(res) {
+              this.payoutRecords = res.datas.payout;
+            }.bind(this)
+          });
+
+        }
+      },
+      created: function() {
+        this.getPubKey();
+        this.getCoint();
+        this.getAccountInfo();
+        this.getPayoutInfo();
+        this.getPayoutCoinRecords();
+      },
+      mounted: function () {
+      }
+    });
+  })
+</script>

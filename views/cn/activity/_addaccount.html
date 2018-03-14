@@ -1,0 +1,136 @@
+<script type="text/x-template" id="addAccount">
+
+<div class="exx-modal-container">
+  <div class="exx-modal-header"><i class="iconfont icon-zhuceyaoqing"></i><h3>{{title}}123</h3></div>
+  <div class="exx-modal-body">
+    <p v-if="subAccount.userType != '1'" class="exx-prompt exx-prompt-top exx-mb30"><%= LANG('子账户可以支持一个交易对的杠杆交易') %></p>
+    <div class="exx-account-avatar">
+      <div class="scrolllist" id="s1">
+        <a class="abtn aleft" href="#left" title="<%= LANG('左移') %>"><i></i></a>
+        <div class="imglist_w">
+          <ul class="imglist">
+            <li @click="subAccount.photo = avatar" :class="{active: subAccount.photo == avatar}" v-for="(avatar, index) in avatarList"><div class="avatar"><img :src="avatarBaseUrl + avatar" /></div></li>
+          </ul>
+        </div>
+        <a class="abtn aright" href="#right" title="<%= LANG('右移') %>"><i></i></a>
+      </div>
+    </div>
+
+    <div class="exx-form-group">
+      <div class="exx-input-element">
+        <label for="zhanghu">
+          <%= LANG('子账户昵称') %>
+        </label>
+        <input v-model="subAccount.nickName" id="zhanghu" type="text">
+      </div>
+    </div>
+
+    <div class="exx-form-group">
+      <div class="exx-input-element">
+        <label for="zhumima"><%= LANG('主账户登录密码') %></label>
+        <input id="zhumima" v-model="safePwd" type="password">
+      </div>
+    </div>
+
+  </div>
+  <div class="exx-modal-button">
+    <button onclick="EXX.million.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+    <button @click="addAccount" class="exxbtn btn-ok"><span><%= LANG('确定') %></span></button>
+  </div>
+</div>
+
+
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('add-account', {
+            template: "#addAccount",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                params: {
+                    type: Object,
+                    default: {}
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    pubKey: '',
+                    title: '<%= LANG("创建子账户") %>',
+                    avatarList: '<%= USER.avatarList %>'.split(','),
+                    avatarBaseUrl: '<%= STATIC %>/images/userhead/',
+                    loginUser: Methods.getLocalUserInfo(),
+                    safePwd: '',
+                    dynamicCode: '',
+                    subAccount: {}
+                }
+            },
+            methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                addAccount: function () {
+                    var url = DOMAIN_MAIN + API_PREFIX + 'saveUserInfo';
+                    var data = {
+                        optType: 2,
+                        nickName: this.subAccount.nickName,
+                        photo: this.subAccount.photo,
+                        isVirtual: true,
+                        mainUserPwd: Methods.encryptPwd(this.safePwd, this.pubKey)
+                    };
+                    if (data.nickName === '') {
+                        JuaBox.info("<%= LANG('子账户昵称不能为空') %>");
+                    } else if (data.safePwd === '') {
+                        JuaBox.info("<%= LANG('请输入主账户登录密码') %>");
+                    } else {
+                        Methods.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: data,
+                            success: function (res) {
+                                JuaBox.info(EXX.L(res.resMsg.message));
+                                Methods.getUserList(function (data) {
+                                    try{
+                                        EXX.userNav.mainUserAsset = data;
+                                    }catch(err){}
+                                });
+                                EXX.million.closeModal();
+                                EXX.million.getAccounts();
+                            }.bind(this)
+                        });
+                    }
+                }
+            },
+            created: function () {
+                this.getPubKey();
+                var randomIndex = Math.floor(Math.random() * 5);
+                this.subAccount.photo = this.avatarList[randomIndex];
+            },
+            mounted: function () {
+                $("#s1").xslider({
+                    unitdisplayed: 5,
+                    movelength: 5
+                });
+
+            }
+        })
+    })
+</script>
+

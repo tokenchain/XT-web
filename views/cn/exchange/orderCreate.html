@@ -1,0 +1,74 @@
+<!--点开商家广告后的下单页面，创建订单-->
+<div id="app-orderCreate">
+    <div class="exx-title">
+        <h2><%= LANG('创建订单') %></h2>
+    </div>
+    <div :class="{'loading loading-light-bg' : !ad}"></div>
+    <business-infos :user="ad.user" v-if="ad"></business-infos>
+    <div class="exx-trade-info exx-clear" v-if="ad" v-cloak="">
+        <div class="trade-info">
+            <p><label><%= LANG('价格') %></label><span>{{ad.fixedPrice}} {{getMoneyName(ad.market)}} / {{getCoinName(ad.market)}}</span></p>
+            <p><label><%= LANG('剩余数量') %></label><span >{{ad.amount}}&nbsp;{{getCoinName(ad.market)}}</span></p>
+            <p><label><%= LANG('交易限额') %></label><span >{{ad.minAmount}}~{{ad.maxAmount}} {{getCoinName(ad.market)}}</span></p>
+        </div>
+        <div class="trade-info">
+            <p><label><%= LANG('付款方式') %></label><span >{{getPayment(ad.payType)}}</span></p>
+            <p><label><%= LANG('付款期限') %></label><span >{{ad.repayLimitTime}} <%= LANG('分钟') %></span></p>
+            <p><label><%= LANG('商家备注') %></label><span >{{ad.memo}}</span></p>
+        </div>
+    </div>
+
+    <div class="exx-form-box" v-if="ad && currentMarketConfig" v-cloak="">
+        <div class="exx-form-group">
+            <label v-if="ad.type == 2"><%= LANG('买入价格') %></label>
+            <label v-if="ad.type == 1"><%= LANG('卖出价格') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model="ad.fixedPrice" readonly/>
+                    <a role="button" class="code-num"><span>{{getMoneyName(ad.market)}}</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label v-if="ad.type == 2"><%= LANG('买入数量') %></label>
+            <label v-if="ad.type == 1" @click="amount = canUseCoin"><%= LANG('卖出数量') %>(<%= LANG('可用') %>：{{canUseCoin}} {{coinName}})</label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.number="amount" :placeholder="amountPlaceholder"/>
+                    <a role="button" class="code-num"><span>{{getCoinName(ad.market)}}</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="exx-form-group">
+            <label><%= LANG('成交金额') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model="total" readonly />
+                    <a role="button" class="code-num"><span>{{getMoneyName(ad.market)}}</span></a>
+                </div>
+            </div>
+            <p>{{totalNote}}</p>
+        </div>
+        <div class="exx-form-group">
+            <button type="button" v-if="!locked" @click="doSubmit" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+            <button type="button" v-if="locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+        </div>
+    </div>
+
+    <div class="trade-remark">
+        <h5 class="titles">
+            <span><%= LANG('交易须知') %></span><i class="iconfont icon-hongjiantou"></i>
+        </h5>
+        <div class="content">
+            <p><%= LANG('请注意，四舍五入和价格的波动可能会影响最终成交的数字货币数额。您输入的固定数额决定最后数额，数字货币金额将在请求发布的同一时间由即时的汇率算出。') %></p>
+            <p><%= LANG('付款方确认付款后24小时内，收款方需确认收款放币动作，24小时内未收到平台的已付款通知，可点击申请申述，系统将会冻结订单，平台客服会介入处理。') %></p>
+            <p><%= LANG('对于交易纠纷，平台拥有最终裁判权。对于一些恶意冻结订单、恶意付款、利用交易涉嫌诈骗等行为，平台有权冻结其账号和交易权限。') %></p>
+            <p><%- LANG('如您在平台的入金通道即法币交易区购买数字货币，则代表您已经同意《C2C交易守则》的各项规定。') %></p>
+        </div>
+    </div>
+</div>
+<%-include("business_infos.html")%>
+<%-include("app.orderCreate.html")%>
+
+

@@ -1,0 +1,241 @@
+<section class="exx-entrance">
+    <%-include("canvas.html")%>
+    <div class="exx-entrance-main">
+        <div class="exx-entrance-head">
+            <h3><%= LANG('注册') %></h3>
+        </div>
+        <div class="exx-entrance-body" id="regForm">
+            <div class="form-box">
+                <div class="form-group">
+          <div class="form-control" id="nikeForm">
+              <input autocomplete="off" placeholder="<%= LANG('手机号码/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)" v-on:focus="clearInputError($event)" type="text">
+              <country-code v-if="showCountry" :selected="selectCountry" />
+          </div>
+          </div>
+          <div class="form-group">
+          <div class="form-control" id="passwordForm">
+            <input autocomplete="new-password" placeholder="<%= LANG('设置登录密码') %>" v-on:keyup="handleCheckPwdStrength" v-on:focus="clearInputError($event)" v-model="password" type="password">
+              <ul v-show="password.length" class="exx-grade" v-cloak="">
+                  <li :class="[{active: pwdStrength == 0 }]"><%= LANG('不合格') %></li>
+                  <li :class="[{active: pwdStrength == 1 }]"><%= LANG('弱') %></li>
+                  <li :class="[{active: pwdStrength == 2 }]"><%= LANG('中') %></li>
+                  <li :class="[{active: pwdStrength > 2 }]"><%= LANG('强') %></li>
+              </ul>
+
+          </div>
+              <div class="input-alert2 hide"><span><%- LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %></span></div>
+
+
+          </div>
+          <div class="form-group">
+          <div class="form-control" id="confirmPwdForm">
+              <input autocomplete="new-password" placeholder="<%= LANG('重复输入密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)" v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
+          </div>
+          </div>
+          <div class="form-group">
+              <div class="form-control hint--top" aria-label="<%- LANG('请输入图中算式的答案')%>" style="display: block !important;">
+              <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
+              <div class="code-img" v-cloak=""><img :src="imageCodeUrl + timestramp" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+          </div>
+          </div>
+          <div class="form-group">
+          <div class="form-control" id="msgCodeForm">
+            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" type="text">
+             <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :error-fun="handleRefreshImgcode" />
+          </div>
+
+          </div>
+
+                <div class="form-group" style="color: #a5acbb;"><div class="exx-checkbox"><label><input v-model="agreement" type="checkbox"><i></i><span><%= LANG('阅读并同意') %></span></label><p><a href="#" target="_blank"><%= LANG('《用户服务协议》') %></a></p></div></div>
+
+
+
+                <div class="form-button">
+                  <button id="submitBtn" type="button" v-on:click="handleRegister" class="button" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('注册') %></span></button>
+
+
+              </div>
+
+
+
+      </div>
+      </div>
+    </div>
+  </section>
+<%-include("../component/send_code/index.html")%>
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+        var app = new Vue({
+            el: '#regForm',
+            data: function () {
+                return {
+                    timestramp: '',
+                    pubKey: '',
+                    pwdStrength: 0,
+                    userType: 1,
+                    showCountry: false,
+                    preUserName: '',
+                    userName: '',
+                    password: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    imgCode: '',
+                    smsCode: '',
+                    countryCode: '+86',
+                    agreement: false,
+                    requestLocked : false,
+                    imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
+                }
+            },
+            methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                handleCheckUserType: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    this.userType = Methods.checkUserType(this.userName);
+                    this.showCountry = Methods.isAllNumber(this.userName);
+                    if (this.userType != 1 && this.userType != 2) {
+                        Methods.showLineError(target, "<%= LANG('手机或邮箱格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                clearInputError : function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                handleCheckUserName: function (e) {
+                    this.handleCheckUserType(e);
+                    //不合格或没有改变就不请求
+                    if((this.userType != 1 && this.userType != 2) || this.userName.length < 6 || this.userName == this.preUserName){
+                        return false;
+                    }
+                    this.preUserName = this.userName;
+                    var data = {
+                        countryCode: this.countryCode,
+                        userName: this.userName
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
+                        data: data,
+                        success: function (res) {
+
+                        }.bind(this),
+                        error: function (res) {
+                            var msg = res.resMsg;
+                            var _this = this;
+                            if (msg.code == '3005') {
+                                JuaBox.info(EXX.L(msg.message));
+                            } else if (msg.code == '8888') {
+                                swal({
+                                    title: "<%= LANG('商业合作方用户') %>",
+                                    text: EXX.L(msg.message),
+                                    icon: "info",
+                                    buttons: ["<%= LANG('去登录') %>!", false],
+                                    dangerMode: false
+                                }).then(function () {
+                                    window.location.href = DOMAIN_WEB + '/login?userName=' + _this.userName;
+                                });
+                            }
+                        }.bind(this)
+                    });
+                },
+                selectCountry: function (country) {
+                    this.countryCode = country.code;
+                },
+                handleComparedPwd: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    this.passwordIdentical = this.password === this.passwordConfirmation;
+                    if (this.passwordIdentical) {
+                        Methods.showLineError(target, "")
+                    } else {
+                        Methods.showLineError(target, "<%= LANG('两次输入的密码不一致') %>")
+                    }
+                },
+                handleCheckPwdStrength: function () {
+                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                },
+                handleRefreshImgcode: function () {
+                    this.timestramp = '-' + new Date().getTime();
+                },
+                handleCheckLength: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if ($(target).val() == '') {
+                        Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                bindEnter : function () {
+                    var _this = this;
+                    document.onkeydown = function(e){
+                        var ev = document.all ? window.event : e;
+                        if(ev.keyCode==13) {
+                            _this.handleRegister()
+                            return false;
+                        }
+                    }
+                },
+                handleRegister: function () {
+                    var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
+                    var data = {
+                        userType: this.userType,
+                        userName: this.userName,
+                        password: encryptionPwd,
+                        imgCode: this.imgCode,
+                        smsCode: this.smsCode,
+                        recommId: Methods.getCookie(ENV + 'recommendCode'),
+                        countryCode: this.countryCode
+                    };
+                    if (this.requestLocked) {
+                        return false;
+                    } else if (this.userName.length < 6 || this.userType != 1 && this.userType != 2) {
+                        return JuaBox.info("<%= LANG('手机或邮箱格式不正确') %>");
+                    } else if (!this.passwordIdentical) {
+                        return JuaBox.info('<%= LANG("两次输入的密码不一致") %>');
+                    } else if (this.imgCode == '' || this.smsCode.length < 4) {
+                        return JuaBox.info('<%= LANG("验证码格式不正确") %>');
+                    } else if (!this.agreement) {
+                        JuaBox.info('<%= LANG("需同意《用户服务协议》才能继续") %>');
+                    } else {
+                        this.requestLocked = true;
+                        Methods.ajax({
+                            url: DOMAIN_MAIN + API_PREFIX + 'register',
+                            data: data,
+                            success: function (res) {
+                                this.requestLocked = false;
+                                //确保清除子账号Cookie
+                                Methods.deleCookie(ENV + 'currentAccountId');
+                                Methods.setLocalUserInfo(res.datas.userInfo);
+                                window.location.replace('/u');
+                            },
+                            error: function (res) {
+                                this.requestLocked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message));
+                                this.timestramp = '-' + new Date().getTime();
+                            }.bind(this)
+                        });
+                    }
+                }
+            },
+            created: function () {
+                var params = Methods.parseQueryString();
+                this.userName = params.userName ? params.userName : '';
+            },
+            mounted: function () {
+                Methods.checkMobileStyle();
+                this.bindEnter();
+                this.getPubKey();
+            }
+        });
+    })
+</script>

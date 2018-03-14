@@ -1,0 +1,186 @@
+<div class="bill-panel" id="app-bill">
+    <div class="bill-panel-head">
+        <h3><%= LANG('综合账单')%></h3>
+
+
+        <div class="dropdown coin-type" v-cloak="">
+            <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" : currentCoin.toUpperCase()}}</em></p>
+            <div class="dropdown-menu">
+            <ul class="coin-type-list">
+                <li :class="{'active': currentCoin == 'all'}">
+                    <a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a>
+                </li>
+                <li v-for="(item,coin) in currentUserAsset.coinFundMap" :class="{'active': coin == currentCoin}"  v-if="item.showCoin">
+                    <a @click="changeCoin(coin)">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'">{{coin.toUpperCase()}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+
+        <div class="dropdown" v-cloak="">
+            <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{billTypeObj[currentType]}}</em></p>
+            <div class="dropdown-menu">
+            <ul class="dropdown-list">
+                <li :class="{'active': currentType == key}" v-for="item, key in billTypeObj"><a role="button" @click="changeType(key)">{{item}}</a></li>
+            </ul>
+            </div>
+        </div>
+
+        <div class="dropdown" v-cloak="">
+            <p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>
+            <div class="dropdown-menu">
+                <ul class="dropdown-list">
+                    <li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="bill-panel-body" :class="{'loading loading-light-bg' : requestLocked}">
+        <div class="table head">
+            <div class="cell coin"><%= LANG('币种')%></div>
+            <div class="cell time"><%= LANG('时间')%></div>
+            <div class="cell type"><%= LANG('操作')%></div>
+            <div class="cell amount"><%= LANG('发生金额')%></div>
+        </div>
+        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'" class="market-icon">{{bill.mainCurrency}}</div>
+            <div class="cell time">{{showDate(bill.billDate)}}</div>
+            <div class="cell type">{{bill.typeName}}</div>
+            <div class="cell amount">
+                <div class="amount1"><p><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span></p>= {{bill.mainBalance}} {{bill.mainCurrency}}</div>
+                <template v-if="parseFloat(bill.subChange) != 0">
+                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>
+                </template>
+            </div>
+        </div>
+        <div class="table no-data" v-if="billRecords.length == 0">
+            <%= LANG('暂无记录')%>
+        </div>
+    </div>
+    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0"></page-lite>
+</div>
+
+<%-include("../../component/page_lite.html")%>
+
+<script>
+    require(['vue','common/methods'], function (Vue, Methods) {
+        EXX.appBill = new Vue({
+            el: "#app-bill",
+            data: function () {
+                return {
+                    isLogin : ISLOGIN,
+                    pageIndex : 1,
+                    pageSize : 10,
+                    pageCount: 0,
+                    requestLocked : false,
+                    currentUserAsset: '',
+                    coinConfig : '',
+                    billRecords : '',
+                    currentCoin : "<%= coin%>",
+                    currentType : 'all',
+                    billTypeObj : {
+                        "all" : "<%= LANG('全部') %>",
+                        "trade" : "<%= LANG('交易') %>",
+                        "payin" : "<%= LANG('充值') %>",
+                        "payout" : "<%= LANG('提现') %>",
+                        "other" : "<%= LANG('其他') %>"
+                    },
+                    timeType : '0',
+                    timeTypeObj : {
+                        '0' : "<%= LANG('最近记录') %>",
+                        '1' : "<%= LANG('历史记录') %>"
+                    }
+                }
+            },
+            computed : {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                }
+            },
+            methods: {
+                showDate: function(date) {
+                    return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                },
+                getCoinConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : 0
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                        data: data,
+                        success: function (res) {
+                            if(res.datas.userFund){
+                                this.currentUserAsset = res.datas.userFund;
+                                callback && callback();
+                            }
+                        }.bind(this)
+                    });
+                },
+                getBill: function() {
+                    var data = {
+                        billType: this.currentType,
+                        childId: this.currentAccountId,
+                        cointType: this.currentCoin,
+                        pageIndex: this.pageIndex,
+                        pageSize: this.pageSize,
+                        isBackup: this.timeType
+                    };
+                    this.requestLocked = true;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getBill',
+                        data: data,
+                        success: function(res) {
+                            this.requestLocked = false;
+                            this.billRecords = res.datas.results;
+                            //很重要，判断当前是否是最后一页的依据
+                            this.pageCount = res.datas.results.length;
+                        }.bind(this)
+                    });
+                },
+                changeCoin: function (type) {
+                    this.pageIndex = 1;
+                    this.pageCount = 0;
+                    this.currentCoin = type;
+                    this.getBill();
+                },
+                changeType: function (type) {
+                    this.pageIndex = 1;
+                    this.pageCount = 0;
+                    this.currentType = type;
+                    this.getBill();
+                },
+                changeTimeType: function (type) {
+                    this.pageIndex = 1;
+                    this.pageCount = 0;
+                    this.timeType = type;
+                    this.getBill();
+                }
+            },
+            created: function() {
+                this.getTargetUserAsset();
+                this.getCoinConfig();
+                this.getBill();
+            }
+        })
+    })
+</script>

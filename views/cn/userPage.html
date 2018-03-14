@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+<head>
+    <%-include("include/headInit.html")%>
+    <%-include("include/headMeta.html")%>
+    <link href="<%= STATIC %>/styles/components.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <link href="<%= STATIC %>/styles/exchange.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="site-wrapper">
+<%-include("include/menuMain.html")%>
+<section class="management-center">
+    <div class="ex-container">
+        <div class="ex-layout-left">
+            <%-include("exchange/menu.html")%>
+        </div>
+        <div class="ex-layout-main">
+            <% try{ %>
+            <%-include(templateMain)%>
+            <% }catch(err){ %>
+            <%-include("include/error.html")%>
+            <% } %>
+        </div>
+    </div>
+</section>
+    <%-include("include/footMain.html")%>
+</div>
+<%-include("chat/chat_new.html")%>
+<%-include("include/footInit.html")%>
+</body>
+</html>
+<!--财务中心模板-->

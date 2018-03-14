@@ -1,0 +1,222 @@
+<script type="text/x-template" id="asset-drop-menu">
+    <div class="asset-drop" style="min-width: 400px;" v-cloak="">
+        <div class="asset-drop-head" style="padding-bottom: 0;">
+            <div class="onffflist"><a role="button" @click="hideZero = !hideZero" :class="{'on' : hideZero}"><span><%= LANG('隐藏小额资产币种') %></span><i></i></a></div>
+            <div class="info">
+                <div class="num-info">
+                <%= LANG('账户资产价值')%>
+                <div class="drop">
+                    <p>{{MONEY == 'none' ? '<%= LANG('默认')%>' : MONEY.toUpperCase()}}</p>
+                    <ul class="drop-box">
+                        <li @click="setCurrency('usd')" :class="MONEY == 'usd' ? 'active' : ''">USD</li>
+                        <li @click="setCurrency('cny')" :class="MONEY == 'cny' ? 'active' : ''">CNY</li>
+                    </ul>
+                </div>
+                </div>
+                    <p class="num">{{allTotalAsset}}</p>
+            </div>
+
+        </div>
+        <div style="margin: 10px;display: flex;justify-content: flex-end;">
+            <search-box v-model="keyWord"></search-box>
+        </div>
+        <div class="asset-scrollbar" style="max-height: 288px; overflow: hidden; position: relative;">
+            <div class="asset-drop-table" v-if="coinConfig && userAsset && userAsset.coinFundMap">
+                <div class="tr head">
+                    <div class="td"><%= LANG('币种')%></div>
+                    <div class="td"><%= LANG('可用')%></div>
+                    <div class="td"><%= LANG('冻结')%></div>
+                    <div class="td"><%= LANG('操作')%></div>
+                </div>
+                <div class="tr" v-for="(item,key) in filterUserCoinFunds(userAsset.coinFundMap)" v-if="(hideZero && parseFloat(getPriceByAssist(item.total,key)) > 1) || !hideZero">
+                    <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + key.toLowerCase() + '.png?<%= VERSION%>'" class="market-icon">{{getRealCoinName(key).toUpperCase()}}</div>
+                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.available,key)">{{fixDecimal(item.available,8)}}</span></div>
+                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.freez,key)">{{fixDecimal(item.freez,8)}}</span></div>
+                    <div class="td" v-if="loginUser.userType == 1 && userAsset.userType == 1">
+                        <a v-if="coinConfig[key].isPayIn" role="button" :href="'/u/payin/' + key" target="_self"><%= LANG('充值')%></a>
+                        <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('充值')%></a>
+
+                        <a v-if="coinConfig[key].isPayOut" role="button" :href="'/u/payout/' + key" target="_self"><%= LANG('提币')%></a>
+                        <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('提币')%></a>
+                    </div>
+                    <div class="td" v-if="loginUser.userType == 1 && userAsset.userType != 1">
+                        <template v-if="coinConfig[key].isDoInOut">
+                            <a role="button" @click="$parent.openTransfer('in',userAsset.userId,key)"><%= LANG('划入')%></a>
+                            <a role="button" @click="$parent.openTransfer('out',userAsset.userId,key)"><%= LANG('划出')%></a>
+                        </template>
+                        <template v-else="">
+                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划入')%></a>
+                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划出')%></a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div class="loading loading-light-bg" v-else=""></div>
+        </div>
+
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('asset-drop-menu', {
+            template: "#asset-drop-menu",
+            props: {
+                userAsset: {
+                    type: Object,
+                    default: function(){
+                        return {};
+                    }
+                },
+                showDrop: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            data: function () {
+                return {
+                    MONEY : MONEY == 'none' ? 'cny' : MONEY,
+                    coinConfig : '',
+                    hideZero : false,
+                    loginUser: Methods.getLocalUserInfo(),
+                    assetScroll : '',
+                    keyWord:''
+                }
+            },
+            computed: {
+                allTotalAsset : function () {
+                    var alltotal = 0;
+                    var money = this.MONEY == 'none' ? 'btc' : this.MONEY;
+                    for(var key in this.userAsset.coinFundMap){
+                        alltotal += parseFloat(((parseFloat(this.userAsset.coinFundMap[key].available) + parseFloat(this.userAsset.coinFundMap[key].freez)) * this.moneyPrice(money, key)));
+                    }
+                    return Methods.fixNumber(alltotal, 3);
+                }
+            },
+            methods: {
+                filterUserCoinFunds:function(objs){
+                    var _this = this;
+                    if(!_this.keyWord){
+                        return objs;
+                    }
+                    var nObj = {};
+                    for(var k in objs){
+                        if(k.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1){
+                            nObj[k] = objs[k];
+                        }
+                    }
+                    return nObj;
+                },
+                getCoinConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                            this.initScroll();
+                        }.bind(this)
+                    });
+                },
+                moneyPrice: function(money, coin){
+                    var money = money || 'usd';
+                    return Number(this.$parent.assistPrice[money] && this.$parent.assistPrice[money][coin] ? this.$parent.assistPrice[money][coin] : 0)
+                },
+                //获取指定辅助货币的价格
+                getPriceByAssist: function (price, money) {
+                    if(!price || price == '' || !this.$parent.assistPrice){
+                        return ''
+                    }
+                    var assistCoin = this.MONEY;
+                    if (assistCoin == 'none' || assistCoin == '') {
+                        return Methods.fixNumber(price, 4);
+                    } else {
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.$parent.assistPrice[assistCoin][money]), 4) || '--';
+                    }
+                },
+                showAssistCoin : function () {
+                    //显示辅助货币名字，不显示默认
+                    if(this.MONEY == 'none'){
+                        return '';
+                    }else{
+                        return this.MONEY.toUpperCase();
+                    }
+                },
+                //价格折合的提示内容
+                showAssistHint : function (price, money) {
+                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price,money) + " " + this.showAssistCoin();
+                },
+                fixFloat : function (value,unit) {
+                    return Methods.fixFloat(value, unit);
+                },
+                fixNumber : function (value,unit) {
+                    return Methods.fixNumber(value, unit);
+                },
+                fixDecimal : function (value,unit) {
+                    return Methods.fixDecimal(value, unit);
+                },
+                //去掉虚拟市场货币的D字符
+                getRealCoinName : function (coin) {
+                    if(coin.length > 3 && coin.substring(0,1) == 'd'){
+                        return coin.substring(1);
+                    }else{
+                        return coin;
+                    }
+                },
+                // 设置辅助币种
+                setCurrency: function(coin) {
+                    if (!this.isLogin) {
+                        Methods.setCookie(ENV+'mname', coin);
+                        this.MONEY = coin;
+                        //top.location.reload();
+                        return
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
+                        data: {
+                            assistCoin : coin
+                        },
+                        success: function (res) {
+                            Methods.setCookie(ENV+'mname', coin);
+                            this.MONEY = coin;
+                            //top.location.reload();
+                        }.bind(this)
+                    });
+                },
+                initScroll : function(){
+                    if(!this.assetScroll){
+                        this.assetScroll = new IScroll('.asset-scrollbar',{
+                            mouseWheel: true,
+                            scrollbars: "custom",
+                            fadeScrollbars : false,
+                            bounceEasing : 'quadratic'
+                        });
+                    }else{
+                        this.assetScroll.refresh();
+                    }
+                }
+            },
+            created : function () {
+                this.getCoinConfig();
+            },
+            watch: {
+
+            },
+            update : function () {
+
+            },
+            mounted: function() {
+                setInterval(function () {
+                    this.initScroll();
+                }.bind(this), 1000)
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

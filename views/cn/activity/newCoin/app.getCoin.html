@@ -1,0 +1,118 @@
+<%-include("../../component/send_code.html")%>
+<%-include("../../component/modal.html")%>
+<%-include("../../u/model/setMobile.html")%>
+<%-include("../../u/model/email.html")%>
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        EXX.giftCoin = new Vue({
+            el: '#giftCoin',
+            data: function() {
+                return {
+                    showModal: false,
+                    isLogin: ISLOGIN,
+                    amount : '',
+                    requestLocked : false,
+                    coin : "<%= giftCoin %>",
+                    hasJoin : false,
+                    //0未参加 1已参加 2无资格 3提前结束
+                    applyStatus : 0,
+                    startTime : '',
+                    endTime : '',
+                    serverTime : '',
+                    loginUser: Methods.getLocalUserInfo()
+                }
+            },
+            computed: {
+                currentUserAsset : function () {
+                    if(this.isLogin){
+                        return EXX.userNav.currentUserAsset;
+                    }
+                },
+                timeStatus : function () {
+                    //已结束
+                    if(this.applyStatus == 3){
+                        return 2;
+                    }
+                    //未开始
+                    if(!this.startTime || !this.endTime || !this.serverTime){
+                        return 0;
+                    }
+                    if(this.serverTime < this.startTime){
+                        return 0;
+                    }
+                    //进行中
+                    if(this.serverTime > this.startTime && this.serverTime < this.endTime){
+                        return 1;
+                    }
+                    //已结束
+                    if(this.serverTime > this.endTime){
+                        return 2;
+                    }
+                }
+            },
+            watch: {
+            },
+            methods: {
+                applyGift: function() {
+                    if(this.currentUserAsset.userType != 1){
+                        return JuaBox.info("<%= LANG('请切换至主账号领取')%>");
+                    }
+                    if(this.requestLocked){
+                        return JuaBox.info("<%= LANG('您有未完成请求，请稍后再试')%>");
+                    }
+                    this.requestLocked = true;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'rewardCoins',
+                        data : {
+                            coinName : this.coin
+                        },
+                        success: function(res) {
+                            this.amount = res.datas.amount;
+                            this.applyStatus = 1;
+                            this.showModal = 'applyGift';
+                            this.requestLocked = false;
+                        }.bind(this),
+                        error : function (res) {
+                            this.requestLocked = false;
+                            this.checkGift();
+                            if(res.resMsg.code != 1000){
+                                JuaBox.info(EXX.L(res.resMsg.message));
+                            }
+                        }.bind(this)
+                    });
+                },
+                checkGift: function(callback) {
+                    if(!this.isLogin){
+                        return false;
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'rewardCoinsRecord',
+                        data : {
+                            coinName : this.coin
+                        },
+                        success: function(res) {
+                            this.amount = res.datas.amount;
+                            this.startTime = res.datas.startTime;
+                            this.endTime = res.datas.endTime;
+                            this.serverTime = res.datas.now;
+                            this.applyStatus = res.datas.status;
+                            callback && callback();
+                        }.bind(this),
+                    });
+                }
+            },
+            created: function() {
+                this.checkGift();
+            },
+            updated: function() {
+            },
+            mounted : function () {
+
+            },
+            beforeDestroy: function() {
+            }
+        });
+    });
+</script>

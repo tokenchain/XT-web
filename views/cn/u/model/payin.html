@@ -1,0 +1,197 @@
+<script type="text/x-template" id="modal-payin">
+  <div class="exx-modal-container exx-light">
+    <div class="exx-modal-header"><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3><%= LANG('充值') %><span>{{coin.toUpperCase()}}</span></h3></div>
+    <div id="payin" class="exx-modal-body">
+      <div class="exx-tab">
+        <ul>
+        <li @click="showTab = 'action'" :class="{active: showTab == 'action'}"><span><%= LANG('充值操作') %></span></li>
+        <li @click="showTab = 'record'" :class="{active: showTab == 'record'}"><span><%= LANG('充值记录') %></span></li>
+      </ul>
+      </div>
+      <template v-if="showTab == 'action'">
+
+        <div class="exx-payin-box"  style="width: 700px;">
+            <template v-if="coin === 'bts'">
+                <div class="exx-form-group valueyes code">
+                    <div class="exx-input-element">
+                        <label for="account"><%= LANG('账户') %></label>
+                        <input autocomplete="off" id="account" :value="payin.address.split('_')[0]" type="text" readonly />
+                    </div>
+                    <a class="pc-btn-copy" :data-clipboard-text="payin.address.split('_')[0]"><span><%= LANG('复制') %></span></a>
+                </div>
+                <div class="exx-form-group valueyes code">
+                    <div class="exx-input-element">
+                        <label for="memo"><%= LANG('备注') %></label>
+                        <input autocomplete="off" id="memo" :value="payin.address.split('_')[1]" type="text" readonly />
+                    </div>
+                    <a class="pc-btn-copy" :data-clipboard-text="payin.address.split('_')[1]"><span><%= LANG('复制') %></span></a>
+                </div>
+                <p class="exx-tips bts-tips"><%= LANG('重要提示：收币账户为exxbts，填错账户或备注(MEMO)都会导致资产丢失，请谨慎操作。') %></p>
+            </template>
+            <template v-else>
+                <div class="keypreimg"><img v-cloak id="keyPreImg" :src="qrUrl"></div>
+                <div class="addr">
+                    <p><%= LANG('钱包地址') %>：</p>
+                    <p v-cloak id="payinaddress">{{payin.address}}</p>
+                    <button class="pc-btn-copy" :data-clipboard-text="payin.address" id="copy"><%= LANG('复制钱包地址') %></button>
+                    <!--<span class="mobbtntext"><%= LANG('请长按上面地址进行复制') %></span>-->
+                </div>
+                <p class="exx-tips"><%= LANG('手动复制充值地址或扫码充值') %></p>
+            </template>
+        </div>
+
+
+        <div class="exx-prompt">
+          <h4><%= LANG('充值说明') %></h4>
+          <p>
+            <%= LANG('往该地址充值，汇款完成，等待网络自动确认') %>
+            {{coinInfo.inConfirmTimes}}
+            <%= LANG('个确认)' )%> <%= LANG('后系统自动到账；') %>
+          </p>
+          <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。') %></p>
+        </div>
+      </template>
+
+      <div v-if="showTab == 'record'" class="exx-table" style="width: 1000px;">
+        <json-table :columns="recordCols" :rows="payinRecords" ></json-table>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getPayinCoinRecord"></page-lite>
+      </div>
+
+    </div>
+
+  </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'clipboadrd'], function (Vue, Methods, Clipboard) {
+        return Vue.component('modal-payin', {
+            template: "#modal-payin",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                coin: {
+                    type: String,
+                    required: true
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageCount: 0,
+                    payin: {},
+                    coinInfo: {},
+                    showTab: 'action',
+                    recordCols: [
+                        {
+                            label: "<%= LANG('提交时间') %>", key: "subTime", cell: function (item) {
+                            return Methods.getDateTime(parseInt(item.subTime));
+                        }
+                        },
+                        {
+                            label: "<%= LANG('类型') %>", key: "type", cell: function (item) {
+                            var text = "";
+                            switch (item.type) {
+                                case '1':
+                                    text = "<%= LANG('区块链转入') %>";
+                                    break;
+                                case '93':
+                                    text = "<%= LANG('内部转入') %>";
+                                    break;
+                            }
+                            return text;
+                        }
+                        },
+                        {
+                            label: "<%= LANG('金额') %>", key: "amount", cell: function (item) {
+                            return '' + item.amount + ' ' + this.coin;
+                        }.bind(this)
+                        },
+                        {
+                            label: "<%= LANG('处理时间') %>", key: "endTime", cell: function (item) {
+                            return Methods.getDateTime(parseInt(item.endTime));
+                        }
+                        },
+                        {label: "<%= LANG('确认次数') %>", key: "confirmTimes"},
+                        {label: "<%= LANG('状态') %>", key: "status"}
+                    ],
+                    payinRecords: []
+                }
+            },
+            computed: {
+                qrUrl: function () {
+                    return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code=' + this.payin.address + "&width=160&height=160";
+                }
+            },
+            methods: {
+                getCoinInfo: function () {
+                    var data = {
+                        coint: this.coin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinInfo',
+                        data: data,
+                        success: function (res) {
+                            this.coinInfo = res.datas.coin;
+                        }.bind(this)
+                    });
+                },
+                getPayinAddress: function () {
+                    var data = {
+                        coint: this.coin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
+                        data: data,
+                        success: function (res) {
+                            this.payin = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getPayinCoinRecord: function () {
+                    var data = {
+                        coint: this.coin,
+                        pageIndex: this.pageIndex,
+                        pageSize: this.pageSize
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
+                        data: data,
+                        success: function (res) {
+                            this.payinRecords = res.datas.payin;
+                            this.pageCount = res.datas.payin.length;
+                        }.bind(this)
+                    });
+
+                }
+            },
+            created: function () {
+                this.getCoinInfo();
+                this.getPayinCoinRecord();
+                this.getPayinAddress();
+            },
+            mounted: function () {
+                var clipboard = new Clipboard('.pc-btn-copy');
+                clipboard.on('success', function (e) {
+                    JuaBox.info("<%= LANG('复制钱包地址成功！') %>");
+                });
+
+            }
+        })
+    });
+
+
+</script>

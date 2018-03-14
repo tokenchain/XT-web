@@ -1,0 +1,20 @@
+<script type="text/javascript">
+var GLOBAL             = {},
+    EXX = {},
+    ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+    LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+    MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+    ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+    VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+    DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+    DOMAIN_WEB        = GLOBAL['DOMAIN_WEB']       = '<%= DOMAIN_WEB %>',
+    DOMAIN_EXC2C        = GLOBAL['DOMAIN_EXC2C']       = '<%= DOMAIN_EXC2C %>',
+    DOMAIN_MAIN        = GLOBAL['DOMAIN_MAIN']       = '<%= DOMAIN_MAIN %>',
+    DOMAIN_SOCKET        = GLOBAL['DOMAIN_SOCKET']       = '<%= DOMAIN_SOCKET %>',
+    DOMAIN_TRADE        = GLOBAL['DOMAIN_TRADE']       = '<%= DOMAIN_TRADE %>',
+    DOMAIN_FILE        = GLOBAL['DOMAIN_FILE']       = 'https://img1.exx.com',
+    API_MODULE        = GLOBAL['API_MODULE']         = '<%= API_MODULE %>',
+    API_PREFIX        = GLOBAL['API_PREFIX']       = '<%= API_PREFIX %>';
+
+document.domain = DOMAIN_BASE;
+</script>

@@ -1,0 +1,73 @@
+<div class="menu">
+        <div class="list rest-list">
+            <h3><a href="/help/restApi">Rest API</a></h3>
+            <ul class="hide">
+                <li><a href="/help/restApi#market"><%= LANG('行情API')%></a></li>
+                <li><a href="/help/restApi#trade"><%= LANG('交易API')%></a></li>
+                <li><a href="/help/restApi#example"><%= LANG('示例代码')%></a></li>
+                <li><a href="/help/restApi#faq"><%= LANG('常见问题')%></a></li>
+            </ul>
+        </div>
+        <div class="list websocket-list">
+            <h3><a  href="/help/websocketApi">WebSocket API</a></h3>
+            <ul class="hide">
+                <li><a href="/help/websocketApi#wsmarket"><%= LANG('行情API')%></a></li>
+                <li><a href="/help/websocketApi#wstrade"><%= LANG('交易API')%></a></li>
+                <li><a href="/help/websocketApi#wserrocode"><%= LANG('错误代码')%></a></li>
+                <li><a href="/help/websocketApi#wsexample"><%= LANG('示例代码')%></a></li>
+                <li><a href="/help/websocketApi#wsdownload"><%= LANG('文档下载')%></a></li>
+                <li><a href="/help/websocketApi#wsfaq"><%= LANG('常见问题')%></a></li>
+            </ul>
+        </div>
+        <div class="list trade-list">
+            <h3><%= LANG('API交易设置')%></h3>
+            <ul>
+                <li><a href="/u/api" target="_blank"><%= LANG('API交易状态')%></a></li>
+                <li><a href="/u/api" target="_blank"><%= LANG('API密钥管理')%></a></li>
+                <!--<li><a href="/u/api" target="_blank"><%= LANG('API交易IP绑定')%></a></li>-->
+            </ul>
+        </div>
+</div>
+
+<script>
+    $(function () {
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop > 180 && scrollTop < 3050) {
+                $('body').addClass('fixed-sidebar')
+            } else {
+                $('body').removeClass('fixed-sidebar')
+            }
+        });
+        $(".menu h3").click(function () {
+            if ($(this).hasClass("add")) {
+                $(this).removeClass("add");
+                $(this).next("ul").show();
+            }else{
+                $(this).addClass("add");
+                $(this).next("ul").hide();
+            }
+           /* $(".menu h3").removeClass("add");
+            $(this).addClass("add");
+            $(".menu ul").show();
+            $(this).next("ul").hide();*/
+        })
+
+        $(".menu a").on('click', function () {
+            var pathname = location.pathname;
+            var target = '#' + $(this).attr('href').split('#')[1];
+            $('.menu .list li').removeClass('active');
+            $(this).parent().addClass('active');
+            if ($(target).length) {
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 60
+                }, 800);
+            }
+            //return false
+        });
+        $(".api-link").click(function () {
+            $(this).parent().find(".api-detail").slideToggle();
+            $(this).toggleClass("on");
+        })
+    })
+</script>

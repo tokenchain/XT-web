@@ -1,0 +1,398 @@
+<header class="header" id="user-nav">
+    <div class="exx-notice" v-if="news.readed === false" v-cloak="" v-for="(news,index) in topNews">
+        <a class="text" @click="gotoReadNews(news.id)" v-text="news.title"></a>
+        <a class="close" @click="setHasReadNews(news.id)" title="<%= LANG('关闭')%>"></a>
+    </div>
+    <div class="h-content">
+    <div class="h-box">
+        <div class="logo">
+            <a href="/" target="_self" title="<%= WEB.NAME %>"><img alt="<%= WEB.NAME %>" src="<%= WEB.LOGO %>"/></a>
+        </div>
+        <div class="site-menu cart" style="margin-left: 20px; display: none">
+            <p role="button" class="<%= PATH.indexOf('/exchange') != -1 ? 'active' : ''%>">
+                <a href="/exchange">QC<%= LANG('交易') %></a>
+            </p>
+            <div class="site-menu-dropdown">
+                <ul>
+                    <li><a href="/exchange?market=qc_cny&type=2" target="_self"><%= LANG('买入') %>QC</a></li>
+                    <li><a href="/exchange?market=qc_cny&type=1" target="_self"><%= LANG('卖出') %>QC</a></li>
+                    <li><a href="/exchange/apply" target="_self"><%= LANG('商家申请') %></a></li>
+                </ul>
+            </div>
+        </div>
+        <%-include("menu/menu_market.html")%>
+        <%-include("menu/menu_market2.html")%>
+        <div class="site-menu cart">
+            <p role="button"><%= LANG('网站导航') %></p>
+                <div class="site-menu-dropdown">
+                <ul>
+                    <% if(LAN == 'cn' || LAN == 'hk'){ %>
+                    <li><a href="/help/display?cid=4012&fid=4" target="_self"><%= LANG('上币申请') %></a></li>
+                    <% }else{ %>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScYjcie3xXU7jMmgTfYZnDR-qWh5RiMOvGNgMx_c8pkI6djwA/viewform?usp=sf_link" target="_self"><%= LANG('上币申请') %></a></li>
+                    <% } %>
+                    <li><a href="/help" target="_self"><%= LANG('帮助') %></a></li>
+                    <li><a href="/blog" target="_self"><%= LANG('公告') %></a></li>
+                    <li><a href="/help/rate" target="_self"><%= LANG('费率') %></a></li>
+                    <li><a href="/help/restApi" target="_self">API</a></li>
+                    <li><a href="/app" target="_self"><%= LANG('APP') %></a></li>
+                    <li><a href="/about" target="_self"><%= LANG('关于') %></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="h-box">
+        <% if(isLogin){ %>
+            <%-include("menu/menu_user.html")%>
+        <% }else{ %>
+            <div class="user-menu">
+                <a href="/login" class="flex flex-tb-center menu-head <%= PATH.indexOf('/login') != -1 ? 'active' : ''%>"><%= LANG('登录') %></a>
+                <a href="/register" class="flex flex-tb-center menu-head <%= PATH.indexOf('/register') != -1 ? 'active' : ''%>"><%= LANG('注册') %></a>
+            </div>
+        <% } %>
+        <div class="language">
+            <p role="button"><img src="/src/images/guoqi/<%= LAN %>.svg" /><%= WEB.LAN[LAN] %></p>
+                <ul>
+                    <% for(var key in WEB.LAN){ %>
+                    <% if(key != LAN){ %>
+                    <li role="button" class="<%= key %>" v-on:click="setLan('<%= key %>')"><img src="/src/images/guoqi/<%= key %>.svg" /> <%= WEB.LAN[key] %></li>
+                    <% } %>
+                    <% } %>
+                </ul>
+        </div>
+        <div class="webchat-r">
+            <div role="button"><p><i class="trading-icon trading-icon-kefu"></i><span class="newnum"></span></p></div>
+        </div>
+        <modal  :open= "showModal == 'transfer'" @close="showModal = false">
+            <transfer :info="transferInfo" />
+        </modal>
+
+        <modal  :open= "showModal == 'payin'" @close="showModal = false">
+            <modal-payin :coin="payinCoin" />
+        </modal>
+    </div>
+</div>
+</header>
+<%-include("../component/modal.html")%>
+<%-include("../component/search_box.html")%>
+<%-include("../u/model/insideDebit.html")%>
+<%-include("../u/model/payin.html")%>
+<%-include("assetDropDown.html")%>
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        EXX.userNav = new Vue({
+            el: '#user-nav',
+            data: function () {
+                return {
+                    loaded: true,
+                    isLogin: ISLOGIN,
+                    currentUserAsset: {},
+                    assistPrice: '',
+                    topNews: [],
+                    hasReadNews: [],
+                    showTopNews: false,
+                    showAssetDrop : false,
+                    assetInterVal : null,
+                    lastAssetTime : 0,
+                    isMobile: Methods.isMobile(),
+                    loginUser: Methods.getLocalUserInfo(),
+                    mainUserAsset:  '',
+                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo') || {},
+                    ExchangeMode: [
+                        "<%= LANG('模拟交易')%>",
+                        "<%= LANG('实盘交易')%>"
+                    ],
+                    currentExchangeMode: Methods.getCookie(ENV + 'ExchangeMode') || 1,
+                    //tradeTheme: Methods.getCookie(ENV + 'TradeTheme') || 'dark',
+                    tradeTheme: 'dark',
+                    showModal : false,
+                    transferInfo : {},
+                    payinCoin : '',
+                    marketConfig:''
+                }
+            },
+            watch : {
+                showAssetDrop : function (newVal,oldVal) {
+                    //下拉展开资产的时候立即获取资产并且开启定时器
+                    if(this.showAssetDrop && this.isLogin){
+                        this.getAssistPrice();
+                        this.getTargetUserAsset();
+                        this.assetInterVal = setInterval(function () {
+                            this.getAssistPrice();
+                            this.getTargetUserAsset();
+                        }.bind(this),3000)
+                    }else{
+                        window.clearInterval(this.assetInterVal);
+                    }
+                },
+                showTopNews : function () {
+                    if(!this.showTopNews){
+                        $('body').removeClass('notice-open');
+                    }else{
+                        $('body').addClass('notice-open');
+                    }
+                }
+            },
+            computed: {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                //过滤模拟账号
+                demoAccounts: function () {
+                    var filterUser = [];
+                    if (this.isLogin && this.mainUserAsset && this.mainUserAsset.length > 0) {
+                        this.mainUserAsset.forEach(function (user) {
+                            if (user.userType == 3) {
+                                filterUser.push(user);
+                            }
+                        })
+                    }
+                    return filterUser;
+                },
+                //过滤真实账号
+                realAccounts: function () {
+                    var filterUser = [];
+                    if (this.isLogin && this.mainUserAsset && this.mainUserAsset.length > 0) {
+                        this.mainUserAsset.forEach(function (user) {
+                            if (user.userType != 3) {
+                                filterUser.push(user);
+                            }
+                        })
+                    }
+                    return filterUser;
+                }
+            },
+            methods: {
+                logout: function () {
+                    Methods.logout();
+                },
+                getCoinName : function (market) {
+                    return !market ? '' :  market.split('_')[0].toUpperCase();
+                },
+                getCoinMinName : function (market) {
+                    return !market ? '' :  market.split('_')[0].toLowerCase();
+                },
+                getMoneyName : function (market) {
+                    return !market ? '' :  market.split('_')[1].toUpperCase();
+                },
+                goToExchange: function (type, market) {
+                    Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
+
+                    if(type == 2){
+                        window.location.href = '/trade/' + market;
+                    }else{
+                        window.location.href = '/tradePro/' + market;
+                        //window.location.href = DOMAIN_MAIN + '/trade?market=' + market;
+                    }
+                },
+                setLan: function (lan) {
+                    var name = ENV + 'lan';
+                    Methods.setCookie(name, lan);
+                    top.location.reload();
+                },
+                openPayin: function(coin) {
+                    this.payinCoin = coin;
+                    this.showModal = 'payin';
+                },
+                openTransfer: function(type, userId, coin) {
+                    this.transferInfo = {
+                        type: type,
+                        userId: userId,
+                        coin: coin
+                    };
+                    this.showModal = 'transfer';
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : this.lastAssetTime
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew' + '-' + this.currentAccountId + '-' + this.lastAssetTime,
+                        data: data,
+                        success: function (res) {
+                            if(res.datas.userFund){
+                                this.currentUserAsset = res.datas.userFund;
+                                this.lastAssetTime = res.datas.userFund.lastTime;
+                                this.currentUserInfo = res.datas.userFund;
+                                Methods.setLocalStorage(ENV + 'currentUserInfo', res.datas.userFund);
+                                callback && callback();
+                            }else{
+                                this.lastAssetTime = res.datas.lastTime;
+                            }
+                        }.bind(this)
+                    });
+                },
+                // 获取所有用户/资金
+                getMainUserAsset: function (callback) {
+                    Methods.getJSONP({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
+                        success: function (res) {
+                            callback && callback(res);
+                        }.bind(this)
+                    });
+                },
+                // 获取币价汇率
+                getAssistPrice: function (callback) {
+                    Methods.getJSONP({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        success: function (res) {
+                            this.assistPrice = res.datas;
+                            callback && callback();
+                        }.bind(this)
+                    });
+                },
+                //作废方法
+                initMainUserAsset : function () {
+                    var userList = Methods.getLocalStorage(ENV + "userList");
+                    //var currentUserInfo = Methods.getLocalStorage(ENV + 'currentUserInfo');
+                    if(!userList){
+                        this.getMainUserAsset(function (res) {
+                            this.mainUserAsset = res.datas.userFunds;
+                            Methods.setLocalStorage(ENV + "userList", res.datas.userFunds);
+                            top.location.reload();
+                        }.bind(this))
+                    }else{
+                        this.mainUserAsset = userList;
+                    }
+                },
+                // 切换子账号
+                handleSelectSub: function (user) {
+                    Methods.setLocalStorage(ENV + "currentUserInfo", user);
+                    Methods.setCookie(ENV + 'currentAccountId', user.userId);
+                    if (user.userType == 3) {
+                        Methods.setCookie(ENV + 'ExchangeMode', 0, 7);
+                    } else {
+                        Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
+                    }
+                    //不切换市场了
+                    top.location.reload();
+                },
+                getTopNewsList: function (type) {
+                    var data = {
+                        problemType: 1,
+                        problCategor: 102
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getProblemListTop',
+                        data: data,
+                        success: function (res) {
+                            this.topNews = res.datas.titelList;
+                            this.initNewsList();
+                        }.bind(this)
+                    });
+                },
+                gotoReadNews: function (id) {
+                    this.setHasReadNews(id);
+                    window.location.href = '/blog/display?type=102&id=' + id;
+                },
+                getHasReadNews: function () {
+                    var hasReadNews = Methods.getCookie(ENV + 'hasReadNews');
+                    if (hasReadNews) {
+                        this.hasReadNews = hasReadNews.split(',');
+                    } else {
+                        this.hasReadNews = [];
+                    }
+                    this.initNewsList();
+                },
+                setHasReadNews: function (id) {
+                    if (!this.hasReadNews) {
+                        this.hasReadNews = [];
+                    }
+                    this.hasReadNews.push(id);
+                    Methods.setCookie(ENV + 'hasReadNews', this.hasReadNews.join(','), 7);
+                    this.initNewsList();
+                },
+                checkReadNews: function (id) {
+                    var result = false;
+                    if (this.hasReadNews.length > 0) {
+                        this.hasReadNews.forEach(function (t) {
+                            if (t == id) {
+                                result = true;
+                            }
+                        })
+                    }
+                    return result;
+                },
+                initNewsList : function () {
+                    if(this.topNews && this.topNews.length > 0){
+                        for(var index = 0, ilength = this.topNews.length; index < ilength; index++){
+                            var item = this.topNews[index];
+                            var isRead = this.checkReadNews(item.id);
+                            item.readed = isRead;
+                            Vue.set(this.topNews, index, item)
+                            if(!isRead){
+                                this.showTopNews = true;
+                                //有就跳出确保每次只显示一条
+                                return false;
+                            }
+                        }
+                    }
+                    this.showTopNews = false;
+                },
+                setTradeTheme : function (theme) {
+                    var curUrl = top.location.pathname;
+                    if(this.tradeTheme != theme){
+                        this.tradeTheme = theme;
+                        Methods.setCookie(ENV + 'TradeTheme', theme,7);
+                        if(curUrl.indexOf('/trade/') != -1 && this.tradeTheme != 'dark'){
+                            top.location.href = curUrl.replace('/trade/','/trading/');
+                        }
+                        if(curUrl.indexOf('/trading/') != -1 && this.tradeTheme != 'light'){
+                            top.location.href = curUrl.replace('/trading/','/trade/');
+                        }
+                    }
+                },
+                initSwiftTrade : function () {
+                    $(".group-list.l1").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l1 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l1 .group-box ul").removeClass('block');
+                        $(".group-list.l1 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                    $(".group-list.l2").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l2 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l2 .group-box ul").removeClass('block');
+                        $(".group-list.l2 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                },
+                // 获取市场配置(从web项目获取防止main失联)
+                getMarketConfig: function () {
+                    var _this = this;
+                    Methods.ajax({
+                        type:'GET',
+                        url: DOMAIN_WEB + '/getMarketConfig',
+                        success: function (res) {
+                            _this.marketConfig = res.datas;
+                        }
+                    });
+                }
+            },
+            mounted: function () {
+                if (this.isLogin) {
+                    //this.getAssistPrice();
+                    this.getTargetUserAsset();
+                    //this.initMainUserAsset();
+                    this.mainUserAsset = Methods.getLocalUserList();
+                }
+                this.getMarketConfig();
+                this.initSwiftTrade();
+                this.getTopNewsList();
+                this.getHasReadNews();
+                Methods.getUserInfo();
+            },
+            created : function () {
+
+            }
+        })
+    })
+</script>

@@ -1,0 +1,83 @@
+<div class="banner">
+  <div class="banner-bg">
+    <div class="banner-top"></div>
+    <%-include("banner_kline.html")%>
+  </div>
+  <div id="index-banner" >
+    <div class="banner-box">
+      <h2 class="wow fadeInUp"><%- LANG('专业的全球区块链数字货币交易平台') %></h2>
+      <p class="wow fadeInUp" data-wow-delay=".1s"><%- LANG('注册即送 1500 RMB赠金、可借贷、免交易手续') %></p>
+      <div class="other wow zoomIn" data-wow-delay=".2s">
+        <input type="text" v-model="userName" placeholder="Email / Telephone" autocomplete="off">
+        <p><a href="https://www.exx.com/activity?giftId=2000008" class="bcolor"><%= LANG('立即领取') %></a> <a href="#"><%= LANG('交易演示') %></a></p>
+      </div>
+    </div>
+    <div class="banner-data wow fadeInUp" data-wow-delay=".3s">
+      <div class="box">
+        <ul>
+          <li class="wow fadeInUp" data-wow-delay=".4s">
+            <h3>ETC / BTC<em class="green">1.76%</em></h3>
+            <p class="p1"><em>0.04</em>BTC</p>
+            <p class="p2">Volume:<em>33.292</em>ETH</p>
+            <div class="quxian">
+              <inline-chart type="line" :settings="lineChartSettings" data="5,3,9,6,5,9,7,3,5,2"></inline-chart>
+            </div>
+          </li>
+          <li class="wow fadeInUp" data-wow-delay=".5s">
+            <h3>ETC / BTC<em class="red">-2.12%</em></h3>
+            <p class="p1"><em>0.04</em>BTC</p>
+            <p class="p2">Volume:<em>33.292</em>ETH</p>
+            <div class="quxian">
+              <inline-chart type="line" :settings="lineChartSettings" data="5,3,2,-1,-3,-2,2,3,5,2"></inline-chart>
+            </div>
+          </li>
+          <li class="wow fadeInUp" data-wow-delay=".6s">
+            <h3>ETC / BTC<em class="red">-1.44%</em></h3>
+            <p class="p1"><em>0.04</em>BTC</p>
+            <p class="p2">Volume:<em>33.292</em>ETH</p>
+            <div class="quxian">
+              <inline-chart type="line" :settings="lineChartSettings" data="5,3,9,6,5,9,7,3,5,2"></inline-chart>
+            </div>
+          </li>
+          <li class="wow fadeInUp" data-wow-delay=".7s">
+            <h3>ETC / BTC<em class="green">4.76%</em></h3>
+            <p class="p1"><em>0.04</em>BTC</p>
+            <p class="p2">Volume:<em>33.292</em>ETH</p>
+            <div class="quxian">
+              <inline-chart type="line" :settings="lineChartSettings" data="5,3,2,-1,-3,-2,2,3,5,2"></inline-chart>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%-include("../component/inline_chart.html")%>
+<script>
+  require(['vue', 'components/inline_chart/index'], function(Vue) {
+    var indexBanner = new Vue({
+      el: '#index-banner',
+      data: function() {
+        return {
+          userName: '',
+          lineChartSettings: {
+            fill: "",
+            height: 18,
+            stroke: "#cccccc",
+            strokeWidth: 1.5,
+            width: 61
+          }
+        }
+      },
+      methods: {
+        handleStart: function() {
+          if (this.userName != '') {
+            window.location.replace("/register?userName=" + this.userName);
+          }
+        }
+      }
+    });
+  });
+</script>

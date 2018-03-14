@@ -1,0 +1,66 @@
+<script type="text/x-template" id="search-box">
+    <div class="search-box">
+        <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord">
+        <i class="trading-icon trading-icon-search" @click="submit"></i>
+    </div>
+</script>
+
+<script>
+    require(['vue'], function (Vue) {
+        return Vue.component("search-box",{
+            template: "#search-box",
+            props : {
+                submit : {
+                    type : Function,
+                    default : function () {
+
+                    }
+                }
+            },
+            data:function() {
+                return {
+                    keyWord:''
+                }
+            },
+            watch:{
+                keyWord:function(){
+                    this.$emit('input',this.keyWord)
+                }
+            }
+        })
+    })
+</script>
+
+<style>
+    .search-box{
+        display: inline-block;
+        position: relative;
+    }
+    .search-box input{
+        height: 32px;
+        border: 1px solid #f2f2f2;
+        padding: 10px;
+        border-radius: 2px;
+        width: 200px;
+        display: block;
+        background: 0 0;
+        outline: 0;
+        color: #555;
+    }
+    .search-box i{
+        font-size: 12px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        color: #ccc;
+        text-align: center;
+        cursor: pointer;
+    }
+    .search-box i:hover {
+        color:#ff9d11;
+    }
+
+</style>

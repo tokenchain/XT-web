@@ -1,0 +1,347 @@
+<div id="ex-account">
+    <div class="exx-title">
+        <h2><%= LANG('我的资料')%></h2>
+    </div>
+    <div class="ex-account" :class="{'loading loading-light-bg' : !loaded}">
+        <template v-if="loaded" v-cloak>
+            <account-infos :user-info="loginUser" :business-info="businessInfo"></account-infos>
+            <div class="account-bind">
+                <div class="bind-item">
+                    <div class="bind-in">
+                        <span class="bind-title"><%= LANG('实名认证')%></span>
+                        <p class="bind-desc">{{putRealAuth.des}}</p>
+                        <a v-if="putRealAuth.edt" class="btn nobind" @click="selectCollapsible('name')">{{putRealAuth.val}}</a>
+                        <span v-else="" class="btn bind">{{putRealAuth.val}}</span>
+                    </div>
+                    <div class="exx-form-box" v-if="putRealAuth.edt" v-show="currCollapsible == 'name'">
+                        <div class="exx-form-group">
+                            <label><%= LANG('真实姓名')%></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formName.realName"/>
+                                    <a role="button" class="code-num"><span><%= LANG('真实姓名')%></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('身份证号')%></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formName.cardId"/>
+                                    <a role="button" class="code-num"><span><%= LANG('身份证号')%></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('身份证所在区域')%></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input" @click="displayAreaSelect = !displayAreaSelect">
+                                    <input type="text" readonly v-model="putAreaName"/>
+                                    <div class="ex-select-dropdown" v-show="displayAreaSelect">
+                                        <ul class="ex-select-dropdown-list">
+                                            <li v-for="area,key in areaList" class="ex-select-item" @click="selectAreaInfo(key)" >{{area}}</li>
+                                        </ul>
+                                    </div>
+                                    <a role="button" class="code-num"><span><%= LANG('所在区域')%></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('手机验证码')%></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formName.code"/>
+                                    <send-code :code-type="63" :user-name="loginUser.userName"></send-code>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <div class="ex-upload-group">
+                                <div class="upload-item">
+                                    <p><%= LANG('证件正面图')%></p>
+                                    <p style="color: #797979;line-height: 1.5em;"><%= LANG('身份证信息及图片需清晰可见')%></p>
+                                    <div class="pm-itemcont" id="frontalImg" errorName="证件正面图" style="background:url(/src/images/exchange/zhangsan_auth_03.jpg) center center no-repeat;background-size: contain;"></div>
+                                </div>
+                                <div class="upload-item">
+                                    <p><%= LANG('证件背面图')%></p>
+                                    <p style="color: #797979;line-height: 1.5em;"><%= LANG('身份证有效期需清晰可见')%></p>
+                                    <div class="pm-itemcont" id="backImg" errorName="证件背面图" style="background:url(/src/images/exchange/zhangsan_auth_02.jpg) center center no-repeat;background-size: contain;"></div>
+                                </div>
+                                <div class="upload-item">
+                                    <p><%= LANG('手持身份证')%></p>
+                                    <p style="color: #797979;line-height: 1.5em;"><%= LANG('用纸张写明exx.com、用户名、日期、本人签名其中三项即可')%></p>
+                                    <div class="pm-itemcont" id="loadImg" errorName="手持证件照" style="background:url(/src/images/exchange/zhangsan_auth_01.jpg) center center no-repeat;background-size: contain;"></div>
+                                </div>
+                                <div class="upload-item" v-show="formName.areaInfo != 1">
+                                    <p><%= LANG('地址证明')%></p>
+                                    <p style="color: #797979;line-height: 1.5em;"><%= LANG('3个月有效的水，电，燃气费及信用卡账单或政府机关，司法机关开具的证明等')%></p>
+                                    <div class="pm-itemcont" id="addressImg" errorName="地址证明"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <button v-if="!formName.locked" @click="doNameAuth" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                            <button v-if="formName.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bind-item">
+                    <div class="bind-in">
+                        <span class="bind-title">{{loginUser.isBusinesUser?"<%= LANG('商户名设置')%>":"<%= LANG('昵称')%>"}}</span>
+                        <p class="bind-desc">{{businessInfo.name || (loginUser.isBusinesUser?"<%= LANG('商户名称未设置')%>":"<%= LANG('昵称未设置')%>")}}</p>
+                        <a class="btn" :class="putAccBind.nick.clazz" @click="selectCollapsible('nick')">{{putAccBind.nick.val}}</a>
+                    </div>
+                    <div class="exx-form-box" v-if="loginUser.realAuth == 2" v-show="currCollapsible == 'nick'">
+                        <div class="exx-form-group">
+                            <label>{{loginUser.isBusinesUser ? "<%= LANG('商户名称')%>" : "<%= LANG('昵称')%>"}}</label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formBusiness.nick"/>
+                                    <a role="button" class="code-num"><span>{{loginUser.isBusinesUser? "<%= LANG('商户名称')%>" :"<%= LANG('昵称')%>"}}</span></a>
+                                </div>
+                            </div>
+                            <p><%= LANG('温馨提示：24小时内只有一次修改机会')%></p>
+                        </div>
+                        <div class="exx-form-group">
+                            <button v-if="!formBusiness.locked" @click="doBusinessInfo(1)" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                            <button v-if="formBusiness.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                        </div>
+                    </div>
+                </div>
+                <template v-if="loginUser.isBusinesUser">
+                    <div class="bind-item">
+                        <div class="bind-in">
+                            <span class="bind-title"><%= LANG('商户简介') %></span>
+                            <p class="bind-desc">{{businessInfo.remark || "<%= LANG('商户简介未填写') %>"}}</p>
+                            <a class="btn" :class="putAccBind.desc.clazz" @click="selectCollapsible('desc')">{{putAccBind.desc.val}}</a>
+                        </div>
+                        <div class="exx-form-box" v-if="loginUser.realAuth == 2" v-show="currCollapsible == 'desc'">
+                            <div class="exx-form-group">
+                                <label><%= LANG('您的商户简介') %></label>
+                                <div class="exx-form-content">
+                                    <textarea v-model="formBusiness.desc"></textarea>
+                                </div>
+                            </div>
+                            <div class="exx-form-group">
+                                <button v-if="!formBusiness.locked" @click="doBusinessInfo(2)" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                                <button v-if="formBusiness.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bind-item">
+                        <div class="bind-in">
+                            <span class="bind-title"><%= LANG('保证金') %></span>
+                            <p class="bind-desc">{{parseFloat(businessInfo.bail)}} BTC</p>
+                            <a class="btn nobind" @click="selectCollapsible('bond-input')"><%= LANG('划入') %></a>
+                            <a class="btn nobind" @click="selectCollapsible('bond-output')"><%= LANG('划出') %></a>
+                        </div>
+                        <template v-if="loginUser.realAuth == 2">
+                            <div class="exx-form-box" v-show="currCollapsible == 'bond-input'">
+                                <div class="exx-form-group">
+                                    <label><%= LANG('划入保证金') %>(<%= LANG('可用') %>：{{formBond.avaiAsset}} BTC)</label>
+                                    <div class="exx-form-content">
+                                        <div class="exx-form-input">
+                                            <input type="number" v-model.number="formBond.inputAsset"/>
+                                            <a role="button" class="code-num"><span>BTC</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exx-form-group">
+                                    <label><%= LANG('手机验证码') %></label>
+                                    <div class="exx-form-content">
+                                        <div class="exx-form-input">
+                                            <input type="text" v-model="formBond.inputCode"/>
+                                            <send-code :code-type="68" :user-name="loginUser.userName"></send-code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exx-form-group">
+                                    <button v-if="!formBond.inputLocked" @click="doInputBail" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                                    <button v-if="formBond.inputLocked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                                </div>
+                            </div>
+                            <div class="exx-form-box" v-show="currCollapsible == 'bond-output'">
+                                <div class="ex-tips-box">
+                                    <span>{{putBailStatus}}</span>
+                                </div>
+                                <template v-if="!outputBailStatus || outputBailStatus.status != 0">
+                                    <div class="exx-form-group">
+                                        <label><%= LANG('划出保证金') %>(<%= LANG('可用') %>：{{parseFloat(businessInfo.bail)}} BTC)</label>
+                                        <div class="exx-form-content">
+                                            <div class="exx-form-input">
+                                                <input type="number" v-model.number="formBond.outputAsset"/>
+                                                <a role="button" class="code-num"><span>BTC</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="exx-form-group">
+                                        <label><%= LANG('手机验证码') %></label>
+                                        <div class="exx-form-content">
+                                            <div class="exx-form-input">
+                                                <input type="text" v-model="formBond.outputCode"/>
+                                                <send-code :code-type="69" :user-name="loginUser.userName"></send-code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="exx-form-group">
+                                        <button v-if="!formBond.outputLocked" @click="doOutputBail" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('申请') %></span></button>
+                                        <button v-if="formBond.outputLocked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <div class="bind-item">
+                    <div class="bind-in">
+                        <span class="bind-title"><%= LANG('银行卡账号') %></span>
+                        <p class="bind-desc"><%= LANG('个人银行卡信息') %>{{putAccBind.bank.val}}</p>
+                        <a class="btn" :class="putAccBind.bank.clazz" @click="selectCollapsible('bank')">{{putAccBind.bank.val}}</a>
+                    </div>
+                    <div class="exx-form-box" v-if="loginUser.realAuth == 2" v-show="currCollapsible == 'bank'">
+                        <div class="exx-form-group">
+                            <label><%= LANG('银行卡开户名') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" readonly v-model="formBank.realName"/>
+                                    <a role="button" class="code-num"><span><%= LANG('开户名') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('开户银行') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input" @click="displayBankSelect = !displayBankSelect">
+                                    <input type="text" readonly v-model="formBank.bank"/>
+                                    <div class="ex-select-dropdown" v-show="displayBankSelect">
+                                        <ul class="ex-select-dropdown-list">
+                                            <li v-for="bank in bankList" class="ex-select-item" @click="selectBankInfo(bank)" >{{bank.name}}</li>
+                                        </ul>
+                                    </div>
+                                    <a role="button" class="code-num"><span><%= LANG('开户银行') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('开户支行') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formBank.branch"/>
+                                    <a role="button" class="code-num"><span><%= LANG('开户支行') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('银行卡号') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formBank.acount"/>
+                                    <a role="button" class="code-num"><span><%= LANG('银行卡号') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('银行预留手机号码') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formBank.mobiles"/>
+                                    <country-code :selected="selectCountry"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('手机验证码') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formBank.code"/>
+                                    <send-code :code-type="65" :country-code="formBank.country" :user-name="formBank.mobiles"></send-code>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <button v-if="!formBank.locked" @click="doAddBankCard" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                            <button v-if="formBank.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bind-item">
+                    <div class="bind-in">
+                        <span class="bind-title"><%= LANG('支付宝账号') %></span>
+                        <p class="bind-desc"><%= LANG('支付宝账号') %>{{putAccBind.alipay.val}}</p>
+                        <a class="btn" :class="putAccBind.alipay.clazz"  @click="selectCollapsible('alipay')">{{putAccBind.alipay.val}}</a>
+                    </div>
+                    <div class="exx-form-box" v-if="loginUser.realAuth == 2" v-show="currCollapsible == 'alipay'">
+                        <div class="exx-form-group">
+                            <label><%= LANG('支付宝账号') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formAlipay.alipay"/>
+                                    <a role="button" class="code-num"><span><%= LANG('支付宝账号') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('手机验证码') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formAlipay.code"/>
+                                    <send-code :code-type="67" :user-name="loginUser.userName"></send-code>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ex-upload-group">
+                            <div class="upload-item">
+                                <p><%= LANG('支付宝收款二维码') %></p>
+                                <div class="pm-itemcont" id="alipayImg" errorName="支付宝二维码"></div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <button v-if="!formAlipay.locked" @click="doAlipayBind" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                            <button v-if="formAlipay.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bind-item">
+                    <div class="bind-in">
+                        <span class="bind-title"><%= LANG('微信账号') %></span>
+                        <p class="bind-desc"><%= LANG('微信账号') %>{{putAccBind.wechat.val}}</p>
+                        <a class="btn" :class="putAccBind.wechat.clazz"  @click="selectCollapsible('wechat')">{{putAccBind.wechat.val}}</a>
+                    </div>
+                    <div class="exx-form-box" v-if="loginUser.realAuth == 2" v-show="currCollapsible == 'wechat'">
+                        <div class="exx-form-group">
+                            <label><%= LANG('微信账号') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formWechat.wechat"/>
+                                    <a role="button" class="code-num"><span><%= LANG('微信账号') %></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <label><%= LANG('手机验证码') %></label>
+                            <div class="exx-form-content">
+                                <div class="exx-form-input">
+                                    <input type="text" v-model="formWechat.code"/>
+                                    <send-code :code-type="66" :user-name="loginUser.userName"></send-code>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ex-upload-group">
+                            <div class="upload-item">
+                                <p><%= LANG('微信收款二维码') %></p>
+                                <div class="pm-itemcont" id="wechatImg" errorName="<%= LANG('微信二维码') %>"></div>
+                            </div>
+                        </div>
+                        <div class="exx-form-group">
+                            <button v-if="!formWechat.locked" @click="doWechatBind" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+                            <button v-if="formWechat.locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<%-include("account_infos.html")%>
+<%-include("../component/send_code/index.html")%>
+<%-include("app.account.html")%>

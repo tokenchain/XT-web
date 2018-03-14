@@ -1,0 +1,63 @@
+<div class="menu animated" id="leftNav">
+  <div class="menu-left">
+    <ul>
+      <li><a role="button" href="/manage"  class="active" menutext="工作台"><i class="icon-wb"></i><br>工作台</a></li>
+      <li><a role="button" href="/msg" menutext="信息"><i class="icon-info"></i><br>信息</a></li>
+      <li><a role="button" href="/resource" menutext="资源"><i class="icon-resources"></i><br>资源</a></li>
+    </ul>
+  </div>
+
+  <div class="menu-right" style="left: 70px;".高额、多层级推荐奖励机制，您的专属推广地址高额、多层级推荐奖励机制，您的专属推广地址
+  <div class="sub-nav on">
+      <div class="user-info">
+        <div class="img"><img src="/src/images/u/headerimg.jpg"><p><%= UNAME %></p></div>
+        <div class="sign-out"><a href="javascript:;" v-on:click="logout">退出登录</a></div>
+      </div>
+      <ul class="nav-a">
+        <li><a  href="/manage" navText="个人"><i class="iconfont">&#xe696;</i>个人<em>12</em></a></li>
+        <li><a class="safe" href="/manage/base" navText="安全"><i class="iconfont">&#xe6a1;</i>安全</a></li>
+        <li><a class="asset" href="/manage/account"  navText="资金"><i class="iconfont">&#xe6d5;</i>资金<em>530</em></a></li>
+        <li><a class="payin" href="/manage/account/charge"  navText="充值"><i class="iconfont">&#xe65f;</i>充值</a></li>
+        <li><a class="buy" href="/manage/buy"  navText="认购"><i class="iconfont">&#xe65f;</i>认购</a></li>
+        <li><a class="payout" href="/manage/account/download"  navText="提现"><i class="iconfont">&#xe661;</i>提现<em>572</em></a></li>
+        <li><a class="record" href="/manage/prorecord"  navText="记录"><i class="iconfont">&#xe661;</i>记录</a></li>
+        <li><a class="recommend" href="/recommend"  navText="推荐人"><i class="iconfont">&#xe661;</i>推荐人</a></li>
+      </ul>
+    </div>
+
+    <div class="sub-nav hide">
+      <ul class="nav-b">
+        <div style="height:30px;"></div>
+        <li><a href="/msg" navtext="官方公告"><i class="fa fa-bullhorn"></i>官方公告<em>31</em></a></li>
+        <li style="display:none;"><a href="/msg/2" navtext="新闻动态"><i class="fa fa-newspaper-o"></i>新闻动态<em>69</em></a></li>
+      </ul>
+    </div>
+    <div class="sub-nav hide">
+      <ul class="nav-c">
+        <div style="height:30px;"></div>
+        <li><a href="/resource" navtext="白皮书"><i class="fa fa-book"></i>白皮书<em></em></a></li>
+        <li><a href="/resource/faq" navtext="FAQ"><i class="fa fa-comments-o"></i>FAQ<em>14</em></a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  require(['vue','jquery', 'common/methods'], function(Vue, $, Methods) {
+    var leftNav = new Vue({
+      el: '#leftNav',
+      data: function() {
+        return {
+          userInfo: Methods.getLocalUserInfo()
+        }
+      },
+      methods: {
+        logout: function() {
+          Methods.logout();
+        }
+      }
+    });
+  })
+</script>

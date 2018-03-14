@@ -1,0 +1,171 @@
+<div id="klinecont" style="height: 796px; z-index:1; position:absolute; top:0px; width:100%; "></div>
+
+<script type="text/javascript">
+  require(['others/exporting', 'others/highstock'], function() {
+    $(function () {
+      $.getJSON('/src/scripts/data/data.json', function (data) {
+
+        // split the data set into ohlc and volume
+        var ohlc = [],
+            volume = [],
+            colors = [],
+            dataLength = data.length,
+            // set the allowed units for data grouping
+            groupingUnits = [[
+              'week',                         // unit name
+              [1]                             // allowed multiples
+            ], [
+              'month',
+              [1, 2, 3, 4, 6]
+            ]],
+
+            i = 0;
+
+        for (i; i < dataLength; i += 1) {
+          ohlc.push([
+            data[i][0], // the date
+            data[i][1], // open
+            data[i][2], // high
+            data[i][3], // low
+            data[i][4] // close
+          ]);
+          if(data[i][1] > data[i][4]){
+            colors.push("#33383b")
+          }else{
+            colors.push("#3f4249")
+          }
+          volume.push([
+            data[i][0], // the date
+            data[i][5] // the volume
+          ]);
+        }
+
+        // create the chart
+        $('#klinecont').highcharts('StockChart', {
+
+          colors: ['#3f424a', '#FFFFFF', '#272c32'],
+
+          plotOptions: {
+            column: {
+              groupPadding: 0,
+              pointPadding: 0,
+              colorByPoint: false,
+              borderWidth: 0
+            }
+          },
+
+          chart: {
+            backgroundColor: '#2c313c',
+            borderColor:'#2c313c'
+          },
+          rangeSelector: {
+            enabled: false
+          },
+          credits: {
+            enabled: false
+          },
+          title: {
+            text: ''
+          },
+          navigator:{
+            enabled: false
+          },
+          scrollbar:{
+            enabled: false
+          },
+          exporting: {
+            enabled: false
+          },
+          tooltip:{
+            enabled: false,
+          },
+          xAxis:{
+
+            gridLineColor:'#282f39',
+            allowDecimals: false,
+            visible: false,
+            labels: {
+              align: 'right',
+              y: 10,
+              enabled: false
+            },
+            crosshair: {
+              width:0,
+              color:"#282f39"
+            },
+            lineColor: "#282f39",
+            tickColor: "#282f39",
+            plotOptions: {
+              column: {
+                pointPadding: 0.05,
+                borderWidth: 0
+              }
+            },
+
+          },
+          yAxis: [{
+            labels: {
+              align: 'right',
+              x: 100,
+            },
+            gridLineColor:'#282f39',
+            top: '5%',
+            height: '65%',
+            lineColor: "#282f39",
+            lineWidth: 0,
+            crosshair: {
+              width:0,
+              color:"#282f39"
+            },
+            visible: false
+          }, {
+            labels: {
+              align: 'right',
+              x: 100
+            },
+
+            gridLineColor:'#282f39',
+            top: '82%',
+            height: '20.5%',
+            offset: 0,
+            lineWidth: 0,
+            crosshair: {
+              width:0,
+              color:"#282f39"
+            },
+            visible: false
+          }],
+
+          series: [{
+            type: 'candlestick',
+            name: 'AAPL',
+            data: ohlc,
+            lineColor: "#3f424a",
+            upColor: "#282f39",
+            upLineColor:"#414b3e",
+            dataGrouping: {
+              units: groupingUnits
+            }
+          }, {
+            type: 'column',
+            name: 'Volume',
+            data: volume,
+            colorByPoint : true,
+            colors: colors,
+            yAxis: 1,
+            dataGrouping: {
+              units: groupingUnits
+            }
+          }]
+        });
+      }).done(function() {
+        //console.log( "second success" );
+      }).fail(function( jqxhr, textStatus, error ) {
+        var err = textStatus + ", " + error;
+        console.log( "Request Failed: " + err );
+      }).always(function() {
+        //console.log( "complete" );
+      });
+    });
+  });
+</script>

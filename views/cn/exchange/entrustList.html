@@ -1,0 +1,81 @@
+<!--用户发布的广告列表-->
+<div id="app-adList">
+    <div class="exx-title">
+        <h2><%= LANG('我的广告') %></h2>
+    </div>
+
+    <div class="exx-table" v-cloak="" :class="{'loading loading-light-bg' : locked}">
+        <div class="exx-table-body">
+            <table class="trade-list">
+                <thead>
+                <tr>
+                    <th class="price">
+                        <%= LANG('类型') %>/<%= LANG('价格') %>
+                    </th>
+                    <th class="payment">
+                        <%= LANG('付款方式') %>
+                    </th>
+                    <th class="price">
+                        <%= LANG('数量') %>
+                    </th>
+                    <th class="price">
+                        <%= LANG('异常单') %>
+                    </th>
+                    <th><%= LANG('状态') %></th>
+                    <th><%= LANG('操作') %></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="ad,index in ads" v-if="ads && marketConfig">
+                    <td class="price">
+                        <span class="sub">{{ad.type == 1 ? "<%- LANG('买入')%>" : "<%- LANG('卖出')%>"}}{{getCoinName(ad.market)}}</span><br/>
+                        <span class="bold">{{ad.fixedPrice}}</span> {{getMoneyName(ad.market)}}
+                    </td>
+                    <td>{{getPayment(ad.payType)}}</td>
+                    <td class="price">
+                        <span>{{ad.amount}} {{getCoinName(ad.market)}}</span><br />
+                        <span class="sub">{{ad.minAmount}}~{{ad.maxAmount}}</span>
+                    </td>
+                    <td class="price">
+                        <template v-if="ad.overdueConfirms && ad.overdueConfirms.count > 0">
+                            <span class="sub"><%- LANG('确认超时')%></span><br/>
+                            <a href="/exchange/orderList?status=-1" target="_self">
+                                {{ad.overdueConfirms.count}} <%- LANG('笔')%>({{getAmount(ad.overdueConfirms.amount,ad.market)}} {{getCoinName(ad.market)}})
+                            </a>
+                            <br/>
+                        </template>
+                        <template v-if="ad.appeals && ad.appeals.count > 0">
+                            <span class="sub"><%- LANG('申诉中')%></span><br/>
+                            <a href="/exchange/orderList?status=4" target="_self">
+                                {{ad.appeals.count}} <%- LANG('笔')%>({{getAmount(ad.appeals.amount,ad.market)}} {{getCoinName(ad.market)}})
+                            </a>
+                        </template>
+                    </td>
+                    <td>
+                        <!--0下架，1接单中，2停止接单-->
+                        <span v-if="ad.status == 0"><%- LANG('已下架')%></span>
+                        <span v-if="ad.status == 1"><%- LANG('接单中')%></span>
+                        <span v-if="ad.status == 2"><%- LANG('停止接单')%></span>
+                    </td>
+                    <td>
+                        <!--0下架，1接单中，2停止接单-->
+                        <a v-if="ad.status != 1" role="button" @click="changeStatus(ad.adId, 1)" class="btn btn-primary"><%- LANG('开始接单')%></a><br/>
+                        <a v-if="ad.status == 1" role="button" @click="changeStatus(ad.adId, 2)" class="btn btn-primary"><%- LANG('停止接单')%></a><br/>
+                        <a v-if="ad.status == 2" role="button" @click="changeStatus(ad.adId, 0)" class="btn btn-primary"><%- LANG('下架')%></a><br/>
+                        <a v-if="ad.status == 0" :href="'/exchange/entrust?id=' + ad.adId" class="btn btn-primary" target="_self"><%- LANG('编辑')%></a>
+                    </td>
+                </tr>
+                <tr v-if="ads && ads.length == 0">
+                    <td colspan="9">
+                        <p class="norecord"><%- LANG('暂无记录') %></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getAdList" v-if="ads.length > 0"></page-lite>
+    </div>
+</div>
+<%-include("../component/page_lite.html")%>
+<%-include("app.entrustList.html")%>

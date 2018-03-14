@@ -1,0 +1,190 @@
+<div id="entrust" class="content">
+  <div class="vue-main">
+    <h2 class="mt0" v-cloak>{{marketDisplay}}<%= LANG('委托记录') %></h2>
+    <div class="entrust">
+      <div class="hd">
+        <h2><%= LANG('正在进行的委托') %></h2>
+      </div>
+      <div class="bd">
+        <json-table :settings="entrustTableSettings" class="sell" :columns="entrustCols" :rows="entrustProcessingRows" ></json-table>
+      </div>
+    </div>
+
+    <!--
+    <div class="entrust  mt20">
+      <div class="hd">
+        <h2>计划委托</h2>
+      </div>
+      <div class="bd">
+        <json-table :settings="entrustTableSettings" class="sell" :columns="entrustCols" :rows="entrustRows" ></json-table>
+      </div>
+    </div>
+    -->
+
+    <div class="entrust mt20">
+      <div class="hd">
+        <h2><%= LANG('历史委托') %></h2>
+      </div>
+      <div class="bd">
+        <json-table :settings="entrustTableSettings" class="sell" :columns="entrustCols" :rows="entrustRows" ></json-table>
+      </div>
+    </div>
+
+
+    <div class="vip-tip">
+      <dl>
+        <dt><%= LANG('服务标准说明') %></dt>
+        <dd><%= LANG('比特全球交易平台的交易手续费为0.1%') %></dd>
+        <dd><%= LANG('由于计算精度问题，我们最多为您保留8位小数') %></dd>
+      </dl>
+    </div>
+  </div>
+
+</div>
+<%-include("../component/json_table.html")%>
+<%-include("../component/json_grid.html")%>
+
+<script>
+  require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox) {
+    EXX.entrust = new Vue({
+      el: "#entrust",
+      data: function () {
+        return {
+          sharedState: store.state,
+          market: '<%= market %>',
+          entrustTableSettings: {
+            rowClass: function(item) {
+              if (item.type === 1) {
+                return 'buy';
+              } else if (item.type === 0) {
+                return 'sell';
+              }
+              return current;
+            }
+          },
+          entrustCols: [
+            {
+              label: ' ',
+              key: 'type',
+              cell: function(item) {
+                var text = '';
+                if (item.type === 1) {
+                  text = "<em><%= LANG('买') %></em>";
+                } else if (item.type === 0) {
+                  text = "<em><%= LANG('卖') %></em>";
+                }
+                return text;
+              }
+            },
+            {label: "<%= LANG('时间/序列号') %>", key: 'date', cell: function(item){
+              return Methods.getDateTime(item.date);
+            }},
+            {label: "<%= LANG('委托量/价格') %>", key: 'num_price'},
+            {label: "<%= LANG('成交量/均价') %>", key: 'deal_price'},
+            {label: "<%= LANG('成交额/费用') %>", key: 'totalMoney'},
+            {label: "<%= LANG('状态/操作') %>", key: 'actions', cell: function(item){
+              if (item.status === 0) {
+                return '<a onclick="EXX.tradeIndex.handleEntrustCancel(' + item.id + ',' + item.isReal + ')">' + "<%= LANG('取消') %>" + '</a>';
+              } else if (item.status === 1) {
+                return "<span class='canceled'><%= LANG('已取消') %></span>";
+              } else if (item.status === 2) {
+                return "<span class='success'><%= LANG('已成交') %></span>";
+              } else if (item.status === 3) {
+                return "<a onclick='EXX.entrust.handleEntrustCancel(" + item.id + ',' + item.isReal + ")'" + "><%= LANG('取消') %></a>";
+              }
+            }.bind(this)}
+          ],
+          entrustRecord: [],
+          entrustProcessingRecord: [],
+          dealRecordCols: [
+            {label: "<%= LANG('成交时间') %>", key: 'date', cell: function(item){
+              return Methods.getDateTime(parseInt(item.date * 1000), 'HH:MM');
+            }},
+            {label: "<%= LANG('价格') %>", key: 'price'},
+            {label: "<%= LANG('数量') %>", key: 'amount'}
+          ]
+        }
+      },
+      computed: {
+        entrustRows: function() {
+          return this.formatRecord(this.entrustRecord);
+        },
+        entrustProcessingRows: function() {
+          return this.formatRecord(this.entrustProcessingRecord);
+        },
+        marketDisplay: function() {
+          return this.market.split('_').join('/').toUpperCase();
+        }
+      },
+      methods: {
+        formatRecord: function(record) {
+          var rows = [];
+          var entrust = record || [];
+          entrust.forEach(function(b) {
+            var item = {};
+            item.isReal = b.length >= 16 ? true : false;
+            item.id = b[0];
+            item.num_price = [b[2], b[1]].join(' / ');
+            item.deal_price = [b[3], b[4]].join(' / ');
+            item.totalMoney = [b[4], b[8]].join(' / ');
+            item.type = b[5];
+            item.date = b[6];
+            item.status = b[7];
+            rows.push(item);
+          });
+          return rows;
+        },
+        //获取用户委托记录
+        getEntrustRecord: function(status) {
+          // status 0不限制 1 已取消成功 2 交易成功 3 交易中
+          var status = status || 0;
+          var data = {
+            status: status,
+            market: this.market,
+            userId: this.sharedState.currentAccountId,
+            pageSize: 10
+          };
+          Methods.getJSONP({
+            url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+            data: data,
+            success: function (res) {
+              if (status == 3) {
+                this.entrustProcessingRecord = res.datas.record;
+              } else {
+                this.entrustRecord = res.datas.record;
+              }
+            }.bind(this)
+          });
+        },
+        handleEntrustCancel: function(id, isReal) {
+          var data = {
+            // isReal: isReal,
+            // market: this.market,
+            // entrustId: id
+            marketId: this.market,
+            entrustId: 1
+          };
+          Methods.ajax({
+            //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+            url: DOMAIN_TRADE + API_MODULE + 'cancelEntrust',
+            data: JSON.stringify(data),
+            success: function (res) {
+              $.toast({
+                  heading: 'Success',
+                  text: '<%= LANG("取消委托成功") %>',
+                  showHideTransition: 'plain',
+                  icon: 'success'
+              });
+              this.getEntrustRecord(0);
+              this.getEntrustRecord(3);
+            }.bind(this)
+          });
+        }
+      },
+      created: function() {
+        this.getEntrustRecord(0);
+        this.getEntrustRecord(3);
+      }
+    });
+  })
+</script>

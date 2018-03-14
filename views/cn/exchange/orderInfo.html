@@ -1,0 +1,176 @@
+<!--登录用户才可以进入的订单详情页-->
+<div id="app-orderInfo">
+    <div class="exx-title" v-cloak="">
+        <h2><%= LANG('订单详情') %>#{{order.id}}</h2>
+    </div>
+    <div :class="{'loading loading-light-bg' : !order}"></div>
+    <business-infos :user="order.ad.user" v-if="isOwn == 1 && order"></business-infos>
+    <business-infos :user="order.user" v-if="isOwn == 2 && order"></business-infos>
+    <div class="exx-trade-info exx-clear" v-cloak="" v-if="order">
+        <div class="trade-info">
+            <p><label><%= LANG('价格') %></label><span>{{order.price}} {{getMoneyName(order.ad.market)}} / {{getCoinName(order.ad.market)}}</span></p>
+            <p><label><%= LANG('数量') %></label><span >{{order.amount}}{{getCoinName(order.ad.market)}}</span></p>
+            <p><label><%= LANG('付款方式') %></label><span >{{getPayment(order.ad.payType)}}</span></p>
+            <p><label><%= LANG('交易金额') %></label><span >{{order.money}} {{getMoneyName(order.ad.market)}}</span></p>
+        </div>
+        <div class="trade-info">
+            <p><label><%= LANG('创建时间') %></label><span >{{getTime(order.createTime)}}</span></p>
+            <p><label><%= LANG('接单时间') %></label><span >{{getTime(order.receiptTime)}}</span></p>
+            <p><label><%= LANG('付款时间') %></label><span >{{getTime(order.repayTime)}}</span></p>
+            <p><label><%= LANG('结束时间') %></label><span >{{getTime(order.endTime)}}</span></p>
+        </div>
+    </div>
+
+    <div class="exx-state-title" v-if="order && currentMarketConfig" v-cloak="">
+        <h2>{{statusObj[order.status]}}</h2>
+        <template v-if="isOwn == 1">
+            <!--自己发起买入-->
+            <p v-if="order.status == 0"><%= LANG('若商家未在限定时间内接单则自动取消交易') %><count-down :time-start="order.createTime" :time-range="currentMarketConfig.receiptLimitTime" :time-type="1"></count-down></p>
+            <template v-if="tradeType == 1">
+                <template v-if="order.status == 1">
+                    <p><%= LANG('请在限定时间内使用以下任一方式给对方转账') %> <span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('超时支付系统将关闭交易') %><count-down :time-start="order.receiptTime" :time-range="currentMarketConfig.repayLimitTime" :time-type="1"></count-down></p>
+                    <p style="margin-top: 20px"><%= LANG('为方便收款方快速确认，请在转账备注中填写订单号：') %> <span style="font-size:18px;font-weight: bold;color: red;">{{order.id}}</span></p>
+                </template>
+                <p v-if="order.status == 3"><%= LANG('正在等待商家确认收款，确认成功后即可完成交易，确认时限') %><count-down :time-start="order.repayTime" :time-range="currentMarketConfig.confirmLimitTime" :time-type="1"></count-down></p>
+            </template>
+            <!--自己发起卖出-->
+            <template v-if="tradeType == 2">
+                <p v-if="order.status == 1"><%= LANG('对方将在限定时间内给你转账') %> <span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('超时未支付系统将关闭交易') %><count-down :time-start="order.receiptTime" :time-range="currentMarketConfig.repayLimitTime" :time-type="1"></count-down></p>
+                <p v-if="order.status == 3"><%= LANG('对方已给你转账') %><span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('备注信息') %><span style="font-size:18px;font-weight: bold;color: red;">{{order.id}}</span>，<%= LANG('请核实后确认收款，系统将自动转账给对方完成交易，确认时限') %><count-down :time-start="order.repayTime" :time-range="currentMarketConfig.confirmLimitTime" :time-type="1"></count-down></p>
+            </template>
+        </template>
+
+        <template v-if="isOwn == 2">
+            <p v-if="order.status == 0"><%= LANG('若在限定时间未接单则自动取消交易') %><count-down :time-start="order.createTime" :time-range="currentMarketConfig.receiptLimitTime" :time-type="1"></count-down></p>
+            <!--对方发起买入-->
+            <template v-if="tradeType == 1">
+                <p v-if="order.status == 1"><%= LANG('对方将在限定时间内给你转账') %> <span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('超时未支付系统将关闭交易') %><count-down :time-start="order.receiptTime" :time-range="currentMarketConfig.repayLimitTime" :time-type="1"></count-down></p>
+                <p v-if="order.status == 3"><%= LANG('对方已给你转账') %><span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('备注信息') %><span style="font-size:18px;font-weight: bold;color: red;">{{order.id}}</span>，<%= LANG('请核实后确认收款，系统将自动转账给对方完成交易，确认时限') %><count-down :time-start="order.repayTime" :time-range="currentMarketConfig.confirmLimitTime" :time-type="1"></count-down></p>
+            </template>
+            <!--对方发起卖出-->
+            <template v-if="tradeType == 2">
+                <template v-if="order.status == 1">
+                    <p><%= LANG('请在限定时间内使用以下任一方式给对方转账') %> <span class="ex-amount">{{showPayAmount}}</span>，<%= LANG('超时未支付系统将关闭交易') %><count-down :time-start="order.receiptTime" :time-range="currentMarketConfig.repayLimitTime" :time-type="1"></count-down></p>
+                    <p style="margin-top: 20px"><%= LANG('为方便收款方快速确认，请在转账备注中填写订单号：') %> <span style="font-size:18px;font-weight: bold;color: red;">{{order.id}}</span></p>
+                </template>
+                <p v-if="order.status == 3"><%= LANG('正在等待对方确认收款，确认成功后即可完成交易，确认时限') %><count-down :time-start="order.repayTime" :time-range="currentMarketConfig.confirmLimitTime" :time-type="1"></count-down></p>
+            </template>
+        </template>
+
+        <p v-if="order.status == 2"><%= LANG('交易已完成，如有问题请进行申诉，申诉时限') %><count-down :time-start="order.endTime" :time-range="currentMarketConfig.appealLimitTime" :time-type="1" :done="overAppearFun"></count-down></p>
+        <p v-if="order.status == 4"><%= LANG('该订单存在纠纷，官方正在介入处理') %></p>
+        <p v-if="order.status == 5"><%= LANG('商家接单超时，订单自动取消') %></p>
+        <p v-if="order.status == 6"><%= LANG('未在限定时间内完成支付，订单自动取消，如有问题请进行申诉，申诉时限') %><count-down :time-start="order.endTime" :time-range="currentMarketConfig.appealLimitTime" :time-type="1" :done="overAppearFun"></count-down></p>
+        <p v-if="order.status == 7"><%= LANG('未在限定时间内完成确认收款，订单自动取消，如有问题请进行申诉，申诉时限') %><count-down :time-start="order.endTime" :time-range="currentMarketConfig.appealLimitTime" :time-type="1" :done="overAppearFun"></count-down></p>
+        <p v-if="order.status == 8"><%= LANG('由于商家或用户的原因，订单已被取消') %></p>
+    </div>
+
+    <div class="" v-cloak="" v-if="showPayment">
+        <p style="color: #f00; font-size: 14px; line-height: 1.5; text-align: center;"><b>特别提示：</b>不要在汇款备注、说明栏目中填写比特币、BTC等任何数字货币字符字眼，防止您的汇款行为被银行拦截。</p>
+    </div>
+    <div class="exx-trade-info exx-clear" v-cloak="" v-if="showPayment">
+        <div class="trade-info" v-if="order.payment.weixin && order.ad.payType.indexOf('1') != -1" style="max-width: 33%;">
+            <div class="ex-tips-box">
+                <h3><%= LANG('微信支付') %></h3>
+                <p><label><%= LANG('微信账号') %></label><span>{{order.payment.weixin.account}}</span></p>
+                <p><label><%= LANG('收款二维码') %></label><span><a role="button" :title="order.payment.qrcode" @click="currBigImg = 1"><%= LANG('点击查看') %></a></span></p>
+                <big-img v-if="currBigImg == 1" :img-src="getFullImgName(order.payment.weixin.qrcode)" @clickit="currBigImg = ''" @loaderror="alertImgError"></big-img>
+            </div>
+        </div>
+        <div class="trade-info" v-if="order.payment.alipay  && order.ad.payType.indexOf('2') != -1" style="max-width: 33%;">
+            <div class="ex-tips-box">
+                <h3><%= LANG('支付宝') %></h3>
+                <p><label><%= LANG('支付宝账号') %></label><span>{{order.payment.alipay.account}}</span></p>
+                <p><label><%= LANG('收款二维码') %></label><span><a role="button" :title="order.payment.qrcode" @click="currBigImg = 2"><%= LANG('点击查看') %></a></span></p>
+                <big-img v-if="currBigImg == 2" :img-src="getFullImgName(order.payment.alipay.qrcode)" @clickit="currBigImg = ''" @loaderror="alertImgError"></big-img>
+            </div>
+        </div>
+        <div class="trade-info" v-if="order.payment.bank  && order.ad.payType.indexOf('3') != -1" style="max-width: 33%;">
+            <div class="ex-tips-box">
+                <h3><%= LANG('网银转账') %></h3>
+                <p><label><%= LANG('收款人') %></label><span>{{order.payment.bank.name}}</span></p>
+                <p><label><%= LANG('开户银行') %></label><span >{{order.payment.bank.bank}}</span></p>
+                <p><label><%= LANG('开户支行') %></label><span >{{order.payment.bank.branch}}</span></p>
+                <p><label><%= LANG('银行卡号') %></label><span >{{order.payment.bank.account}}</span></p>
+            </div>
+        </div>
+    </div>
+
+    <template v-if="showCode">
+        <div class="exx-form-group" v-if="loginUser.googleAuth == 1" style="width: 400px; margin: 15px auto">
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.trim="code" placeholder="Google<%= LANG('验证码') %>" />
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group" v-else="" style="width: 400px; margin: 15px auto">
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.trim="code" placeholder="<%= LANG('动态验证码') %>" />
+                    <send-code :code-type="20" :user-name="loginUser.userName"></send-code>
+                </div>
+            </div>
+            <p><%- LANG('由于第三方短信的限制，建议绑定并使用Google验证。') %></p>
+        </div>
+    </template>
+
+    <div class="exx-form-group ex-btn" v-cloak="" v-if="order">
+
+        <template v-if="isOwn == 1">
+            <!--自己发起买入-->
+            <template v-if="tradeType == 1">
+                <button type="button" v-if="order.status == 1" @click="doOrder(order.id, 3)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('我已付款') %></span></button>
+                <button type="button" v-if="order.status == 0 || order.status == 1" @click="doOrder(order.id, 8)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('取消订单') %></span></button>
+            </template>
+            <!--自己发起卖出-->
+            <template v-if="tradeType == 2">
+                <button type="button" v-if="order.status == 1 || order.status == 3" @click="doOrder(order.id, 2)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('确认收款') %></span></button>
+                <button type="button" v-if="order.status == 0" @click="doOrder(order.id, 8)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('取消订单') %></span></button>
+            </template>
+        </template>
+
+        <template v-if="isOwn == 2">
+            <button type="button" v-if="order.status == 0" @click="doOrder(order.id, 1)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('我要接单') %></span></button>
+            <button type="button" v-if="order.status == 0" @click="doOrder(order.id, 8)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('拒绝接单') %></span></button>
+            <!--对方发起买入-->
+            <template v-if="tradeType == 1">
+                <button type="button" v-if="order.status == 1 || order.status == 3" @click="doOrder(order.id, 2)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('确认收款') %></span></button>
+            </template>
+            <!--对方发起卖出-->
+            <template v-if="tradeType == 2">
+                <button type="button" v-if="order.status == 1" @click="doOrder(order.id, 3)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('我已付款') %></span></button>
+                <button type="button" v-if="order.status == 1" @click="doOrder(order.id, 8)" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('取消订单') %></span></button>
+            </template>
+        </template>
+
+        <button type="button" v-if="order.status != 0 && order.status != 5 && order.status != 8" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;" @click="openChat(order.chatId)"><span><%= LANG('联系对方') %></span></button>
+        <button type="button" v-if="(order.status == 2 || order.status == 6 || order.status == 7) && !overAppealTime" @click="showModal = true" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('我要申诉') %></span></button>
+        <button type="button" v-if="overAppealTime" class="exxbtn btn-cancel" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('申诉期已过') %></span></button>
+        <button type="button" v-if="order.status == 4 || order.status > 8" @click="gotoDispute" class="exxbtn btn-ok" style="min-width: 150px; margin: 15px 30px;"><span><%= LANG('查看申诉') %></span></button>
+    </div>
+
+    <div class="trade-remark" v-if="showPayment">
+        <h5 class="titles">
+            <span><%= LANG('支付须知') %></span><i class="iconfont icon-hongjiantou"></i>
+        </h5>
+        <div class="content">
+            <p><%= LANG('请在商户规定时间内完成支付，并务必点击“我已付款”，商户确认收款后，会将数字资产划转到您的账户。') %></p>
+            <p><%= LANG('如果您多次订单超时和手动取消交易，将导致您的信用值降低，信用值过低时系统将会限制您参与法币交易。') %></p>
+            <p><%= LANG('注意：所有要求绕开平台私下交易的行为都属于诈骗，希望广大用户提高警惕！') %></p>
+            <p><%= LANG('不要在汇款备注、说明栏目中填写比特币、BTC等任何数字货币字符字眼，防止您的汇款行为被银行拦截。') %></p>
+        </div>
+    </div>
+
+    <modal :open="showModal"  @close="showModal = false">
+        <dispute-form :dispute-type="1" :order-code="order.id" @success="gotoDispute"></dispute-form>
+    </modal>
+
+</div>
+<%-include("../component/modal.html")%>
+<%-include("../component/big_img.html")%>
+<%-include("../component/count_down.html")%>
+<%-include("../component/dispute_form.html")%>
+<%-include("../component/send_code/index.html")%>
+<%-include("business_infos.html")%>
+<%-include("app.orderInfo.html")%>

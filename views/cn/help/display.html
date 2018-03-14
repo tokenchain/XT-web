@@ -1,0 +1,96 @@
+<section class="help helpshow">
+  <div class="banner">
+    <h2><%= LANG('帮助中心')%></h2>
+    <div class="search">
+      <div class="search-box"><input type="text" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off"><a href="#"></a></div>
+    </div>
+    <div class="sub-nav">
+      <a href="/help"><%= LANG('帮助中心')%></a>/<a href="/help/display?fid=4"><%= LANG('入门指南')%></a>/<a href="/help/display?fid=3"><%= LANG('操作指南')%></a>/<a href="/help/coin"><%= LANG('币种资料')%></a>
+    </div>
+  </div>
+
+  <div class="container">
+    <%-include("help_left.html")%>
+    <div id="help-display" class="help-rd" :class="{'loaded': loaded}">
+      <div class="help-cont vue-init">
+        <h3>{{article.title}}</h3>
+        <div class="scont" v-html="article.content">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    EXX.helpDisplay = new Vue({
+      el: "#help-display",
+      data: function () {
+        return {
+          loaded: false,
+          sharedState: store.state,
+          id: '',
+          articles: [],
+          article: {title: '<%= LANG("文章不存在")%>'}
+        }
+      },
+      computed: {
+        isList: function() {
+          return this.id == '' && this.articles.length > 1;
+        }
+      },
+      methods: {
+        getArticle: function(id) {
+          var data = {
+            ids: id
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getProblemContent',
+            data: data,
+            success: function(res) {
+              this.loaded = true;
+              if (res.datas.problemList.length) {
+                this.article = res.datas.problemList[0];
+              } else {
+                this.article = {title: '<%= LANG("文章不存在")%>'};
+              }
+            }.bind(this)
+          });
+        }
+      },
+      created: function() {
+        var params = Methods.parseQueryString();
+        if (params.id) {
+          this.id = params.id;
+            this.sharedState.articleId = params.id;
+          this.getArticle(params.id);
+          return
+        } else {
+
+        }
+      },
+      mounted: function() {
+      },
+        updated: function() {
+            var articles = this.sharedState.articles[this.sharedState.currentCategoryId] || [];
+            if (this.sharedState.articleId === '' && articles.length) {
+                this.sharedState.articleId = articles[0].id;
+                this.getArticle(articles[0].id);
+            }
+        },
+      watch: {
+        sharedState: {
+          deep: true,
+          handler: function(newVal, oldVal) {
+            var articles = this.sharedState.articles[this.sharedState.currentCategoryId] || [];
+            if (newVal.articleId != '') {
+                this.getArticle(this.sharedState.articleId)
+            }
+          }
+        }
+      }
+    })
+  })
+</script>
+

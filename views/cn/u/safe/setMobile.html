@@ -1,0 +1,154 @@
+<div class="content" id="mainForm">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li class="dashboard">Dashboard</li>
+      <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+      <li><a href="/u"><%= LANG('账户面板') %></a></li>
+      <li><a href="/u/safe"><%= LANG('基本信息') %></a></li>
+      <li class="is-active"><a href="/u/safe/setGoogle"><%= LANG('修改手机') %></a></li>
+    </ul>
+  </nav>
+  <h2><%= LANG('修改手机') %></h2>
+  <div class="vip-tip">
+    <dl>
+      <dt><%= LANG('温馨提示') %>：</dt>
+      <dd><%= LANG('发起修改手机申请后，我们的客服人员会尽快与您联系进行视频认证，如有疑问请联系在线客服。') %></dd>
+    </dl>
+  </div>
+  <div v-if="userInfo.emailAuth == 0" class="tip-box fill-form">
+    <p><%- LANG('需要先认证邮箱才能修改手机号码，现在就去认证邮箱。') %></p>
+  </div>
+  <div v-else class="form-wrap">
+    <div v-show="step == 1" class="fill-form" style="display: none;">
+      <div class="fill-form-bd">
+        <div class="fill-group">
+          <em class="name"><%= LANG('原手机号码') %>：</em>
+          <input class="fill-control" type="text" :value="coverPhone(userInfo.mobile)" readonly />
+        </div>
+        <div class="fill-group">
+          <em class="name"><%= LANG('原手机验证码') %>：</em>
+          <input class="fill-control" v-model="oldMobileCode" type="text">
+          <send-code class="hq btn-five btn-sm" :code-type="10" :user-name="userInfo.mobile.split(' ')[1]" />
+        </div>
+      </div>
+      <div class="fill-form-fd text-center">
+        <a href="javascript:;" v-on:click="nextStep" class="btn btn-primary btn-lg btn-block"><%= LANG('下一步') %></a>
+        <a href="javascript:;" v-on:click="skipOne"><%= LANG('原手机已遗失') %></a>
+      </div>
+    </div>
+    <div v-show="step == 2" class="fill-form" style="display:none;">
+      <div class="fill-form-bd">
+        <div class="fill-group">
+          <em class="name"><%= LANG('新手机号码') %>：</em>
+          <input class="fill-control" v-model="mobile" type="text">
+          <div class="hq">
+            <country-code v-if="showCountry" :selected="selectCountry" />
+          </div>
+        </div>
+        <div class="fill-group">
+          <em class="name"><%= LANG('新手机验证码') %>：</em>
+          <input class="fill-control" v-model="newMobileCode" type="text">
+          <send-code class="hq btn-five btn-sm" :code-type="11" :country-code="countryCode" :user-name="mobile" />
+        </div>
+        <div v-if="oldMobileCode.length < 6" class="fill-group">
+          <em class="name"><%= LANG('邮箱验证码') %>：</em>
+          <input class="fill-control" v-model="emailCode" type="text">
+          <send-code class="hq btn-five btn-sm" :code-type="9" :country-code="countryCode" :user-name="userInfo.email" />
+        </div>
+        <div class="fill-group">
+          <em class="name"><%= LANG('二级密码') %>：</em>
+          <input class="fill-control" v-model="safePwd" type="password">
+        </div>
+        <div v-if="userInfo.googleAuth == 1"  class="fill-group hide">
+          <em class="name"><%= LANG('Google验证码') %>：</em>
+          <input class="fill-control" id="googleCode" name="googleCode" type="text">
+        </div>
+      </div>
+      <div class="fill-form-fd text-center">
+        <a href="javascript:;" v-on:click="handleSubmit" class="btn btn-primary btn-lg btn-block">
+          <%= LANG('提交') %>
+        </a>
+        <a href="/u/safe/resetSafePwd" target="_blank" class="forgetpws mt10" style="display: block;"><%= LANG('忘记二级密码') %></a>
+      </div>
+    </div>
+  </div>
+</div>
+<%-include("../../component/send_code/index.html")%>
+<script>
+  require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function(Vue, Methods, JuaBox) {
+    var mainForm = new Vue({
+      el: '#mainForm',
+      data: function () {
+        return {
+          step: 1,
+          countryCode: '+86',
+          mobile: '',
+          newMobileCode: '',
+          oldMobileCode: '',
+          emailCode: '',
+          safePwd: '',
+          googleCode: ''
+        }
+      },
+      computed: {
+        userInfo: function () {
+          return Methods.getLocalUserInfo();
+        },
+        showCountry: function () {
+          return this.mobile.length && Methods.isAllNumber(this.mobile);
+        }
+      },
+      methods: {
+        coverPhone: function (phone) {
+          return Methods.coverPhone(phone);
+        },
+        selectCountry: function(country) {
+          this.countryCode = country.code
+        },
+        nextStep: function () {
+          if (this.oldMobileCode.length != 6) {
+            JuaBox.sure("<%= LANG('请输入原手机验证码(六位数字)') %>");
+            return
+          }
+          this.step = 2;
+        },
+        skipOne: function () {
+          this.step = 2;
+          this.oldMobileCode = '';
+        },
+        handleSubmit: function () {
+          var data = {
+            countryCode: this.countryCode,
+            mobile: this.mobile,
+            emailCode: this.emailCode,
+            oldMobileCode: this.oldMobileCode,
+            newMobileCode: this.newMobileCode,
+            safePwd: this.safePwd,
+            googleCode: this.googleCode
+          };
+          if (!this.mobile) {
+            JuaBox.sure("<%= LANG('请输入有效的手机号码') %>");
+          } else if (Methods.checkPwdStrength(this.safePwd) < 2) {
+            JuaBox.sure("<%= LANG('二级密码不正确') %>");
+          } else if (!this.oldMobileCode.length && this.emailCode.length < 6) {
+            JuaBox.sure("<%= LANG('请输入正确的邮箱验证码') %>");
+          } else if (this.newMobileCode.length < 6) {
+            JuaBox.sure("<%= LANG('请输入正确的手机验证码') %>");
+          } else {
+            Methods.ajax({
+              url: DOMAIN_MAIN + API_PREFIX + 'doModifyMobile',
+              data: data,
+              success: function (res) {
+                  Methods.setLocalUserInfo(JSON.stringify(res.datas.userInfo));
+                JuaBox.info("<%= LANG('手机修改成功') %>");
+                setTimeout(function () {
+                  window.location.replace('/u/safe');
+                }, 1000);
+              }
+            });
+          }
+        }
+      }
+    });
+  });
+</script>

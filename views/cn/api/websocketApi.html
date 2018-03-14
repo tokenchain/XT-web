@@ -1,0 +1,470 @@
+<article class="table-responsive page-content clearfix">
+    <h2>WebSocket API</h2>
+    <%- LANG('API说明及加群')%>
+    <h2>WebSocket<%= LANG('服务地址')%></h2>
+    <p>EXX WebSocket<%= LANG('服务连接地址')%>：wss://ws.exx.com/websocket </p>
+
+    <h3 id="wsmarket"><%= LANG('行情API')%></h3>
+    <p><%= LANG('获取EXX最新行情数据')%></p>
+    <table class="table api-table">
+        <thead>
+        <tr>
+            <th width="50%"><%= LANG('接口')%></th>
+            <th width="50%"><%= LANG('描述')%></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><%= LANG('K线')%></a>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        {
+                            "dataType":"1_KLINE_30M_ETH_HSR", 
+                            "dataSize":1,
+                            "action":"ADD"
+                        } 
+                        //# Response
+                        ["K", "1", "ETC_HSR", 1509881343, "1.232000", "1.232000", "1.228000", "1.228000", "1.60", "-0.32", "6.61", "1M", "false"]
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        date: <%= LANG('返回数据时服务器时间')%>
+                        <%= LANG('[数据类型(k线数据类型), 平台ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]')%>
+                    </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>dataType</p>
+                            </td>
+                            <td>
+                                <p>
+                                    <%= LANG('请求类型')%><br>
+                                    1_KLINE_[TM]_ETC_BTC : [TM]<%= LANG('时间周期的ETC_BTC的K线数据')%><br>
+                                    ...<br>
+                                    1_KLINE_30M_ETH_HSR : <%= LANG('30分钟周期ETH_HSR的K数据')%><br>
+                                   <%= LANG('(时间周期TM: 1M, 5M, 15M, 30M, 1H, 1D)')%>
+
+                                </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>dataSize</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('首次请求的数据数量,最大50条')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>action</p>
+                            </td>
+                            <td>
+                                <p>
+                                    <%= LANG('请求的动作类型')%><br>
+                                    ADD:<%= LANG('增加数据到当前WebSocket连接')%><br>
+                                    DEL:<%= LANG('从当前WebSocket连接移除数据')%><br>
+                                </p>
+                            </td>
+                            
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><%= LANG('市场深度')%></a>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        {
+                            "dataType":"1_ENTRUST_ADD_ETH_HSR",
+                            "dataSize":1, 
+                            "action":"ADD"
+                        }
+                        //# Response
+                        //<%= LANG('首次全量返回')%>
+                        [
+                            [
+                                "AE","1",
+                                "ETH_HSR",
+                                "1511259644",
+                                {
+                                    "asks":
+                                    [["32.180000","0.311000"],
+                                    ["32.177000","0.113000"]]
+                                },
+                                {
+                                    "bids":
+                                    [["19.325000","0.388000"],
+                                    ["19.324000","1.658000"]]
+                                }
+                            ]
+                        ]
+                        //<%= LANG('增量返回')%>
+                        [
+                            [  
+                                "E",
+                                "1",
+                                "1511259727",
+                                "ETH_HSR",
+                                "BID",
+                                "19.350000",
+                                "0.000000"
+                            ]
+                        ]
+					</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        //<%= LANG('首次全量返回')%>
+                        [ 
+                            <%= LANG('数据类型')%>, 
+                            <%= LANG('平台ID')%>,
+                            <%= LANG('时间戳')%>,
+                            <%= LANG('币种信息')%>,
+                            asks:<%= LANG('(卖价)[[价格, 量]]')%>, 
+                            bids:<%= LANG('(买价)[[价格, 量]]')%>
+                        ]
+                        //<%= LANG('增量返回')%>
+                        [
+                           <%= LANG('数据类型')%>, 
+                            <%= LANG('平台ID')%>, 
+                           <%= LANG('币种信息')%>, 
+                            <%= LANG('时间戳')%>, 
+                            <%= LANG('买卖类型')%>, 
+                            <%= LANG('价格')%>, 
+                            <%= LANG('量')%>
+                        ]
+					</pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>dataType</p>
+                            </td>
+                            <td>
+                                <p>
+                                    <%= LANG('请求类型')%><br>
+                                    1_ENTRUST_ETC_BTC : <%= LANG('获取ETC_BTC委托记录')%><br>
+                                    ...<br>
+                                    1_ENTRUST_ETH_HSR : <%= LANG('获取ETH_HSR委托记录')%><br>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>dataSize</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('首次请求的数据数量,最大50条')%></p>
+                            </td>
+                        <tr>
+                            <td>
+                                <p>
+                                    action
+                                </p>
+                            </td>
+                            <td>
+                                <%= LANG('请求的动作类型')%><br>
+                                 ADD:<%= LANG('增加数据到当前WebSocket连接')%><br>
+                                 DEL:<%= LANG('从当前WebSocket连接移除数据')%><br>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><%= LANG('历史成交记录')%></a>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        {
+                            "dataType":"1_TRADE_ETH_HSR", 
+                            "dataSize":1, 
+                            "action":"ADD"
+                        }
+                        //# Response
+                        [
+                            ["T","1","1511246611","ETH_HSR","bid","19.843000","0.018"],
+                            ["T","1","1511246611","ETH_HSR","ask","20.200000","0.017"]
+                        ]
+					</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        <%= LANG('[数据类型, 平台ID, 币种信息, 时间戳, 买卖类型, 价格, 量]')%>
+					</pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>dataType</p>
+                            </td>
+                            <td>
+                                <p>
+                                    1_TRADE_ETC_BTC : <%= LANG('获取ETC_BTC历史成交记录')%><br>
+                                    ...<br>
+                                    1_TRADE_MONA_QTUM : <%= LANG('获取MONA_QTUM历史成交记录')%><br>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>dataSize</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('首次请求的数据数量,最大50条')%></p>
+                            </td>
+                        <tr>
+                            <td>
+                                <p>
+                                    action
+                                </p>
+                            </td>
+                            <td>
+                                <%= LANG('请求的动作类型')%><br>
+                                 ADD:<%= LANG('增加数据到当前WebSocket连接')%><br>
+                                 DEL:<%= LANG('从当前WebSocket连接移除数据')%><br>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><%= LANG('所有市场行情')%></a>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        {
+                            "dataType":"EXX_MARKET_LIST_ALL",
+                            "dataSize":1,
+                            "action":"ADD"
+                        }
+                        //# Response
+                        {
+                            "market":[
+                                [
+                                    1001,
+                                    "btc",
+                                    "hsr",
+                                    "",
+                                    "0.001957",
+                                    "1812155.500000",
+                                    "-11.520000",
+                                    "0.001957",
+                                    "0.001958"
+                                ],
+                                ....
+                                [
+                                    1001,
+                                    "btc",
+                                    "etc",
+                                    "",
+                                    "0.002150",
+                                    "16020.370117",
+                                    "-6.480000",
+                                    "0.002149",
+                                    "0.002150"
+                                ]
+                            ]
+                        }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        {
+                            <%= LANG('市场')%>:[
+                                <%= LANG('市场id')%>,
+                                <%= LANG('卖方币种')%>,
+                                <%= LANG('买方币种')%>,
+                                <%= LANG('保留属性')%>,
+                                <%= LANG('最新价格')%>,
+                                <%= LANG('24H成交总量')%>,
+                                <%= LANG('24H涨跌幅')%>,
+                                <%= LANG('卖一价')%>,
+                                <%= LANG('买一价')%>
+                            ]
+                            ....
+                        }
+                    </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>dataType</p>
+                            </td>
+                            <td>
+                                <p>
+                                    EXX_MARKET_LIST_ALL : <%= LANG('获取所有市场行情')%><br>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>dataSize</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('首次请求的数据数量,最大50条')%></p>
+                            </td>
+                        <tr>
+                            <td>
+                                <p>
+                                    action
+                                </p>
+                            </td>
+                            <td>
+                                <%= LANG('请求的动作类型')%><br>
+                                ADD:<%= LANG('增加数据到当前WebSocket连接')%><br>
+                                DEL:<%= LANG('从当前WebSocket连接移除数据')%><br>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><%= LANG('单个市场行情')%></a>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        {
+                            "dataType":"EXX_MARKET_LIST_HSR_BTC",
+                            "dataSize":1, 
+                            "action":"ADD"
+                        }
+                        //# Response
+                        [
+                            1001,
+                            "btc",
+                            "hsr",
+                            "",
+                            "0.001957",
+                            "1808721.750000",
+                            "-11.560000",
+                            "0.001957",
+                            "0.001958"
+                        ]
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        [
+                            <%= LANG('市场id')%>,
+                            <%= LANG('卖方币种')%>,
+                            <%= LANG('买方币种')%>,
+                            <%= LANG('保留属性')%>,
+                            <%= LANG('成交价格')%>,
+                            <%= LANG('成交量')%>,
+                            <%= LANG('涨跌幅')%>,
+                            <%= LANG('卖一价')%>,
+                            <%= LANG('买一价')%>
+                        ]
+                    </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>dataType</p>
+                            </td>
+                            <td>
+                                <p>
+                                    EXX_MARKET_LIST_HSR_BTC : <%= LANG('获取HSR_BTC市场行情')%><br>
+                                    ...<br>
+                                    EXX_MARKET_LIST_ETH_HSR : <%= LANG('获取ETH_HSR市场行情')%><br>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>dataSize</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('首次请求的数据数量,最大50条')%></p>
+                            </td>
+                        <tr>
+                            <td>
+                                <p>
+                                    action
+                                </p>
+                            </td>
+                            <td>
+                                <%= LANG('请求的动作类型')%><br>
+                                 ADD:<%= LANG('增加数据到当前WebSocket连接')%><br>
+                                 DEL:<%= LANG('从当前WebSocket连接移除数据')%><br>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- <h3 id="wsdownload">文档下载')%></h3>
+    <p><%= LANG('下载JAVA例子以及开发文档')%></p>
+    <p style="line-height: 1"><a class="exxbtn btn-ok" target="_blank" href="https://img1.exx.com/file/0/exx_api_websocket_1.2.zip"><span><%= LANG('立即下载')%></span></a></p>
+    <p style="line-height: 1"><a class="exxbtn btn-ok" target="_blank" href="https://github.com/exx/API"><span><%= LANG('GITHUB链接')%></span></a></p> -->
+
+</article>

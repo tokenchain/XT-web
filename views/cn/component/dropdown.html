@@ -1,0 +1,88 @@
+<script type="text/x-template" id="vue-dropdown">
+  <div ref="dropdown" :class="['vue-dropdown', {open: isOpen}]" >
+    <div class="dropdown-toggle" v-on:click="dropdownToggle">
+      <p>{{value && value != '' ? currentItem.label : placeholder}}</p>
+    </div>
+    <transition name="fadeInUp">
+      <ul v-if="isOpen" class="dropdown-list">
+        <li v-for="item in list">
+          <p v-on:click="handleSelected(item)">{{item.label}}</p>
+        </li>
+      </ul>
+    </transition>
+  </div>
+</script>
+
+<script>
+  /***********
+   **Vue 下拉组件
+   ************/
+  require(['vue', 'common/methods'], function (Vue, Methods){
+    return Vue.component('dropdown', {
+      template: "#vue-dropdown",
+      props: {
+        selected: {
+          type: Function,
+          default: function (item) {
+            console.log(item);
+          }
+        },
+        placeholder: {
+          type: [String, Number],
+          default: "Select……"
+        },
+        initOpen : {
+            type: Boolean,
+            default : false
+        },
+        value: [String, Number],
+        list: {
+          type: Array,
+          default: function () {
+            var list = [];
+            return list
+          }
+        }
+      },
+      data: function () {
+        return {
+          currentItem: false,
+          isOpen: this.initOpen || false
+        }
+      },
+      computed: {
+      },
+      methods: {
+        handleSelected: function (item) {
+          this.currentItem = item;
+          this.selected(item);
+          this.isOpen = false;
+        },
+        handleClickOutside: function (e) {
+          var el = this.$refs.dropdown;
+          if (!el.contains(e.target)) {
+            this.isOpen = false;
+          }
+        },
+        dropdownToggle: function () {
+          this.isOpen = !this.isOpen;
+        }
+      },
+      created: function() {
+        this.currentItem = this.list.getObject('value', this.value);
+      },
+      mounted: function() {
+        document.addEventListener('click', this.handleClickOutside, true);
+      },
+      watch: {
+        value: function() {
+          this.currentItem = this.list.getObject('value', this.value);
+        }
+      },
+      beforeDestroy: function() {
+        document.removeEventListener('click', this.handleClickOutside, true)
+      }
+    });
+  })
+
+</script>

@@ -1,0 +1,84 @@
+<div id="help-plan" class="help-plan" :class="{'loaded': loaded}">
+  <div class="container">
+    <h2><%= LANG('常见问题')%></h2>
+    <ul class="box vue-init">
+      <li v-for="(item,index) in catalog">
+        <h3>{{item.name}}</h3>
+        <ul v-if="item.articles && item.articles.length">
+
+          <li v-for="article in item.articles.slice(0, 6)">
+            <a :href="'/help/display?id=' + article.id + '&cid=' + item.code + '&fid=3'">{{article.title}}</a>
+          </li>
+          <li v-if="item.articles.length > 5">
+            <a class="more" :href="'/help/display?cid=' + item.code + '&fid=3'"><%= LANG('更多') %>..</a>
+          </li>
+
+        </ul>
+
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    var helpPlan = new Vue({
+      el: "#help-plan",
+      data: function () {
+        return {
+          loaded: true,
+          categories: [],
+          catalog: []
+        }
+      },
+      methods: {
+        getCategories: function() {
+          var data = {
+            tab: 3
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+            data: data,
+            success: function(res) {
+              this.categories = res.datas.problemType[0].problCategor
+            }.bind(this)
+          });
+        },
+        getArticlesList: function(categoryId, index) {
+          var data = {
+            problemType: 3,
+            problCategor: categoryId
+          };
+          var catalog = this.categories;
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+            data: data,
+            success: function(res) {
+              catalog[index].articles = res.datas.titelList;
+              this.catalog = catalog;
+              this.$forceUpdate();
+            }.bind(this)
+          });
+        }
+      },
+      created: function() {
+        this.getCategories()
+      },
+      watch: {
+        categories: function(categories) {
+          if (categories.length) {
+            categories.forEach(function(category, index){
+              this.getArticlesList(category.code, index);
+            }.bind(this));
+          }
+        }
+      }
+    })
+  })
+
+
+</script>
+

@@ -1,0 +1,2648 @@
+{
+  "API说明及加群": {
+    "cn": "<p>EXX为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将EXX交易功能整合到自己应用当中。</p><p>如果在使用过程中有任何问题，请联系我们技术讨论QQ群：630260653[<a href='https://jq.qq.com/?_wv=1027&k=52xTBP3' target='_blank'>点击加群</a>] ，我们将为您做出最权威的解答。 </p>",
+    "en": "<p>EXX provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@exx.com.</p>",
+    "jp": "<p>EXX provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@exx.com.</p>",
+    "kr": "<p>EXX provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@exx.com.</p>"
+  },
+  "行情API": {
+    "cn": "行情API",
+    "en": "Price API",
+    "jp": "Price API",
+    "kr": "Price API"
+  },
+  "获取EXX最新市场行情数据": {
+    "cn": "获取EXX最新市场行情数据",
+    "en": "Receive the latest EXX market data",
+    "jp": "Receive the latest EXX market data",
+    "kr": "Receive the latest EXX market data"
+  },
+  "接口": {
+    "cn": "接口",
+    "en": "Interface",
+    "jp": "Interface",
+    "kr": "Interface"
+  },
+  "描述": {
+    "cn": "描述",
+    "en": "Description",
+    "jp": "Description",
+    "kr": "Description"
+  },
+  "所有市场": {
+    "cn": "所有市场",
+    "en": "All markets",
+    "jp": "All markets",
+    "kr": "All markets"
+  },
+  "示例": {
+    "cn": "示例",
+    "en": "Description",
+    "jp": "Description",
+    "kr": "Description"
+  },
+  "返回值说明": {
+    "cn": "返回值说明",
+    "en": "Returned Value Specification",
+    "jp": "Returned Value Specification",
+    "kr": "Returned Value Specification"
+  },
+  "买方币小数点": {
+    "cn": "买方币小数点",
+    "en": "The decimal point of buyer's coin",
+    "jp": "The decimal point of buyer's coin",
+    "kr": "The decimal point of buyer's coin"
+  },
+  "卖方币小数点": {
+    "cn": "卖方币小数点",
+    "en": "The decimal point of seller's coin",
+    "jp": "The decimal point of seller's coin",
+    "kr": "The decimal point of seller's coin"
+  },
+  "最大杠杆倍数，0表示不开放杠杆": {
+    "cn": "最大杠杆倍数，0表示不开放杠杆",
+    "en": "The maximum time of leverage, select 0 means not enable margin",
+    "jp": "The maximum time of leverage, select 0 means not enable margin",
+    "kr": "The maximum time of leverage, select 0 means not enable margin"
+  },
+  "是否开盘": {
+    "cn": "是否开盘",
+    "en": "Whether open market",
+    "jp": "Whether open market",
+    "kr": "Whether open market"
+  },
+  "所有行情": {
+    "cn": "所有行情",
+    "en": "All price",
+    "jp": "All price",
+    "kr": "All price"
+  },
+  "成交量(最近的24小时)": {
+    "cn": "成交量(最近的24小时)",
+    "en": "24 Hours Trading Volume",
+    "jp": "24 Hours Trading Volume",
+    "kr": "24 Hours Trading Volume"
+  },
+  "最新成交价": {
+    "cn": "最新成交价",
+    "en": "Last Price",
+    "jp": "Last Price",
+    "kr": "Last Price"
+  },
+  "卖一价": {
+    "cn": "卖一价",
+    "en": "Sell1 Price",
+    "jp": "Sell1 Price",
+    "kr": "Sell1 Price"
+  },
+  "买一价": {
+    "cn": "买一价",
+    "en": "Buy1 price",
+    "jp": "Buy1 price",
+    "kr": "Buy1 price"
+  },
+  "周涨跌幅": {
+    "cn": "周涨跌幅",
+    "en": "1 Week Change",
+    "jp": "1 Week Change",
+    "kr": "1 Week Change"
+  },
+  "24小时涨跌幅": {
+    "cn": "24小时涨跌幅",
+    "en": "24 Hours Change",
+    "jp": "24 Hours Change",
+    "kr": "24 Hours Change"
+  },
+  "最高价": {
+    "cn": "最高价",
+    "en": "Maximum price",
+    "jp": "Maximum price",
+    "kr": "Maximum price"
+  },
+  "最低价": {
+    "cn": "最低价",
+    "en": "Minimum price",
+    "jp": "Minimum price",
+    "kr": "Minimum price"
+  },
+  "30日涨跌幅": {
+    "cn": "30日涨跌幅",
+    "en": "30 Days Change",
+    "jp": "30 Days Change",
+    "kr": "30 Days Change"
+  },
+   "市场行情": {
+    "cn": "市场行情",
+    "en": "Market quotation",
+    "jp": "Market quotation",
+    "kr": "Market quotation"
+  },
+  "请求参数说明": {
+    "cn": "请求参数说明",
+    "en": "Request Parameter Specification",
+    "jp": "Request Parameter Specification",
+    "kr": "Request Parameter Specification"
+  },
+   "参数名": {
+    "cn": "参数名",
+    "en": "Parameters",
+    "jp": "Parameters",
+    "kr": "Parameters"
+  },
+   "市场深度": {
+    "cn": "市场深度",
+    "en": "The depth of market",
+    "jp": "The depth of market",
+    "kr": "The depth of market"
+  },
+  "时间戳": {
+    "cn": "时间戳",
+    "en": "Timestamp",
+    "jp": "Timestamp",
+    "kr": "Timestamp"
+  },
+   "卖方深度": {
+    "cn": "卖方深度",
+    "en": "The depth of seller",
+    "jp": "The depth of seller",
+    "kr": "The depth of seller"
+  },
+  "买方深度": {
+    "cn": "买方深度",
+    "en": "The depth of buyer",
+    "jp": "The depth of buyer",
+    "kr": "The depth of buyer"
+  },
+   "此次深度的产生时间戳": {
+    "cn": "此次深度的产生时间戳",
+    "en": "The timestamp of this depth",
+    "jp": "The timestamp of this depth",
+    "kr": "The timestamp of this depth"
+  },
+  "历史成交": {
+    "cn": "历史成交",
+    "en": "Trade History",
+    "jp": "Trade History",
+    "kr": "Trade History"
+  },
+   "交易数量": {
+    "cn": "交易数量",
+    "en": "Amount",
+    "jp": "Amount",
+    "kr": "Amount"
+  },
+  "交易价格": {
+    "cn": "交易价格",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "交易生成ID": {
+    "cn": "交易生成ID",
+    "en": "Trading ID",
+    "jp": "Trading ID",
+    "kr": "Trading ID"
+  },
+  "交易类型，buy(买)/sell(卖)": {
+    "cn": "交易类型，buy(买)/sell(卖)",
+    "en": "Trading Type, buy/sell",
+    "jp": "Trading Type, buy/sell",
+    "kr": "Trading Type, buy/sell"
+  },
+   "交易时间(时间戳)": {
+    "cn": "交易时间(时间戳)",
+    "en": "Time(Timestamp)",
+    "jp": "Time(Timestamp)",
+    "kr": "Time(Timestamp)"
+  },
+  "委托类型，ask(卖)/bid(买)": {
+    "cn": "委托类型，ask(卖)/bid(买)",
+    "en": "Order Type, ask/bid",
+    "jp": "Order Type, ask/bid",
+    "kr": "Order Type, ask/bid"
+  },
+   "交易API": {
+    "cn": "交易API",
+    "en": "Trade API",
+    "jp": "Trade API",
+    "kr": "Trade API"
+  },
+  "用于EXX快速进行交易": {
+    "cn": "用于EXX快速进行交易",
+    "en": "Fast Trade on EXX.com",
+    "jp": "Fast Trade on EXX.com",
+    "kr": "Fast Trade on EXX.com"
+  },
+   "委托下单": {
+    "cn": "委托下单",
+    "en": "Place commissioned order",
+    "jp": "Place commissioned order",
+    "kr": "Place commissioned order"
+  },
+  "当前时间毫秒数": {
+    "cn": "当前时间毫秒数",
+    "en": "Current time in milliseconds",
+    "jp": "Current time in milliseconds",
+    "kr": "Current time in milliseconds"
+  },
+   "请求加密签名串": {
+    "cn": "请求加密签名串",
+    "en": "Request Encrypted Signature String",
+    "jp": "Request Encrypted Signature String",
+    "kr": "Request Encrypted Signature String"
+  },
+  "返回代码": {
+    "cn": "返回代码",
+    "en": "Returned Code",
+    "jp": "Returned Code",
+    "kr": "Returned Code"
+  },
+   "提示信息": {
+    "cn": "提示信息",
+    "en": "Notice",
+    "jp": "Notice",
+    "kr": "Notice"
+  },
+  "委托挂单号": {
+    "cn": "委托挂单号",
+    "en": "Commissioned order number",
+    "jp": "Commissioned order number",
+    "kr": "Commissioned order number"
+  },
+   "请求参数说明(加密签名请根据参数名的首字母顺序顺序签名,signature不用加入待签名字符串)": {
+    "cn": "请求参数说明(加密签名请根据参数名的首字母顺序顺序签名,signature不用加入待签名字符串)",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+  "单价": {
+    "cn": "单价",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "取消委托": {
+    "cn": "取消委托",
+    "en": "Cancel order",
+    "jp": "Cancel order",
+    "kr": "Cancel order"
+  },
+  "获取委托买单或卖单": {
+    "cn": "获取委托买单或卖单",
+    "en": "Acquire buy order or sell order",
+    "jp": "Acquire buy order or sell order",
+    "kr": "Acquire buy order or sell order"
+  },
+   "交易手续费": {
+    "cn": "交易手续费",
+    "en": "Transaction Fee",
+    "jp": "Transaction Fee",
+    "kr": "Transaction Fee"
+  },
+  "挂单总数量": {
+    "cn": "挂单总数量",
+    "en": "Order Amount",
+    "jp": "Order Amount",
+    "kr": "Order Amount"
+  },
+   "已成交数量": {
+    "cn": "已成交数量",
+    "en": "Completed Order Amount",
+    "jp": "Completed Order Amount",
+    "kr": "Completed Order Amount"
+  },
+  "交易市场": {
+    "cn": "交易市场",
+    "en": "Trading Market",
+    "jp": "Trading Market",
+    "kr": "Trading Market"
+  },
+   "已成交总金额": {
+    "cn": "已成交总金额",
+    "en": "Total Trading Amount",
+    "jp": "Total Trading Amount",
+    "kr": "Total Trading Amount"
+  },
+  "挂单类型": {
+    "cn": "挂单类型",
+    "en": "Order Type",
+    "jp": "Order Type",
+    "kr": "Order Type"
+  },
+   "挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）": {
+    "cn": "挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）",
+    "en": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)",
+    "jp": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)",
+    "kr": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)"
+  },
+  "请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)": {
+    "cn": "请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+   "获取多个委托买单或卖单，每次请求返回10条记录": {
+    "cn": "获取多个委托买单或卖单，每次请求返回10条记录",
+    "en": "Acquire multiple buy order or sell order, request to return 10 records each time.",
+    "jp": "Acquire multiple buy order or sell order, request to return 10 records each time.",
+    "kr": "Acquire multiple buy order or sell order, request to return 10 records each time."
+  },
+  "记录页数": {
+    "cn": "记录页数",
+    "en": "Record Page",
+    "jp": "Record Page",
+    "kr": "Record Page"
+  },
+   "交易类型": {
+    "cn": "交易类型",
+    "en": "Trading Type",
+    "jp": "Trading Type",
+    "kr": "Trading Type"
+  },
+  "获取用户信息": {
+    "cn": "获取用户信息",
+    "en": "Acquire user information",
+    "jp": "Acquire user information",
+    "kr": "Acquire user information"
+  },
+   "借贷信息": {
+    "cn": "借贷信息",
+    "en": "Lending information",
+    "jp": "Lending information",
+    "kr": "Lending information"
+  },
+  "平仓风险比例, 当用户风险系数低于此值时，系统执行平仓操作": {
+    "cn": "平仓风险比例, 当用户风险系数低于此值时，系统执行平仓操作",
+    "en": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account.",
+    "jp": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account.",
+    "kr": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account."
+  },
+   "平仓比例, 用户风险系数": {
+    "cn": "平仓比例, 用户风险系数",
+    "en": "Liquidation Proportion, The risk of user’s account",
+    "jp": "Liquidation Proportion, The risk of user’s account",
+    "kr": "Liquidation Proportion, The risk of user’s account"
+  },
+  "提醒比例": {
+    "cn": "提醒比例",
+    "en": "Remind Proportion",
+    "jp": "Remind Proportion",
+    "kr": "Remind Proportion"
+  },
+   "杠杆倍数": {
+    "cn": "杠杆倍数",
+    "en": "Leverage Times",
+    "jp": "Leverage Times",
+    "kr": "Leverage Times"
+  },
+  "平仓价格": {
+    "cn": "平仓价格",
+    "en": "Liquidation Price",
+    "jp": "Liquidation Price",
+    "kr": "Liquidation Price"
+  },
+   "资产信息": {
+    "cn": "资产信息",
+    "en": "Assets information",
+    "jp": "Assets information",
+    "kr": "Assets information"
+  },
+  "资产详情": {
+    "cn": "资产详情",
+    "en": "Asset details",
+    "jp": "Asset details",
+    "kr": "Asset details"
+  },
+   "货币总量": {
+    "cn": "货币总量",
+    "en": "Total Amount",
+    "jp": "Total Amount",
+    "kr": "Total Amount"
+  },
+  "冻结数量": {
+    "cn": "冻结数量",
+    "en": "Frozen Amount",
+    "jp": "Frozen Amount",
+    "kr": "Frozen Amount"
+  },
+   "可用资产": {
+    "cn": "可用资产",
+    "en": "Available Assets",
+    "jp": "Available Assets",
+    "kr": "Available Assets"
+  },
+    "货币标识": {
+    "cn": "货币标识",
+    "en": "Coin Identifier",
+    "jp": "Coin Identifier",
+    "kr": "Coin Identifier"
+  },
+  "借款额度": {
+    "cn": "借款额度",
+    "en": "Borrowing Limit",
+    "jp": "Borrowing Limit",
+    "kr": "Borrowing Limit"
+  },
+   "已使用额度": {
+    "cn": "已使用额度",
+    "en": "Used Amount",
+    "jp": "Used Amount",
+    "kr": "Used Amount"
+  },
+  "未支付利息": {
+    "cn": "未支付利息",
+    "en": "Outstanding Interest",
+    "jp": "Outstanding Interest",
+    "kr": "Outstanding Interest"
+  },
+   "签名方式：根据secretkey把请求的参数签名，请求参数按照ascii值排序加密": {
+    "cn": "签名方式：根据secretkey把请求的参数签名，请求参数按照ascii值排序加密",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+  "通过HmacSHA512加密的结果为": {
+    "cn": "通过HmacSHA512加密的结果为",
+    "en": "The result of being encrypted with HmacSHA512",
+    "jp": "The result of being encrypted with HmacSHA512",
+    "kr": "The result of being encrypted with HmacSHA512"
+  },
+   "文档下载": {
+    "cn": "文档下载",
+    "en": "Download Document",
+    "jp": "Download Document",
+    "kr": "Download Document"
+  },
+  "下载DEMO以及开发文档": {
+    "cn": "下载DEMO以及开发文档",
+    "en": "Download DEMO and document",
+    "jp": "Download DEMO and document",
+    "kr": "Download DEMO and document"
+  },
+   "立即下载": {
+    "cn": "立即下载",
+    "en": "Download",
+    "jp": "Download",
+    "kr": "Download"
+  },
+  "常见问题": {
+    "cn": "常见问题",
+    "en": "FAQ",
+    "jp": "FAQ",
+    "kr": "FAQ"
+  },
+   "访问限制": {
+    "cn": "访问限制",
+    "en": "Access Restrictions",
+    "jp": "Access Restrictions",
+    "kr": "Access Restrictions"
+  },
+  "1.单个IP限制每分钟1000次访问，超过1000次将被锁定1小时，一小时后自动解锁。": {
+    "cn": "1.单个IP限制每分钟1000次访问，超过1000次将被锁定1小时，一小时后自动解锁。",
+    "en": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked.",
+    "jp": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked.",
+    "kr": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked."
+  },
+   "2.每个市场限制每秒钟10次访问，一秒钟内10次以上的请求，将会视作无效。": {
+    "cn": "2.每个市场限制每秒钟10次访问，一秒钟内10次以上的请求，将会视作无效",
+    "en": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests.",
+    "jp": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests.",
+    "kr": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests."
+  },
+  "示例代码": {
+    "cn": "示例代码",
+    "en": "Sample Code",
+    "jp": "Sample Code",
+    "kr": "Sample Code"
+  },
+   "错误代码": {
+    "cn": "错误代码",
+    "en": "Error Code",
+    "jp": "Error Code",
+    "kr": "Error Code"
+  },
+  "API交易设置": {
+    "cn": "API交易设置",
+    "en": "API Trading Setting",
+    "jp": "API Trading Setting",
+    "kr": "API Trading Setting"
+  },
+   "API交易状态": {
+    "cn": "API交易状态",
+    "en": "API Trading Status",
+    "jp": "API Trading Status",
+    "kr": "API Trading Status"
+  },
+  "API密钥管理": {
+    "cn": "API密钥管理",
+    "en": "API Secretkey Management",
+    "jp": "API Secretkey Management",
+    "kr": "API Secretkey Management"
+  },
+   "API交易IP绑定": {
+    "cn": "API交易IP绑定",
+    "en": "Bind API Trading IP",
+    "jp": "Bind API Trading IP",
+    "kr": "Bind API Trading IP"
+  },
+  "服务地址": {
+    "cn": "服务地址",
+    "en": " Service Address",
+    "jp": " Service Address",
+    "kr": " Service Address"
+  },
+   "服务连接地址": {
+    "cn": "服务连接地址",
+    "en": " attachment address",
+    "jp": " attachment address",
+    "kr": " attachment address"
+  },
+  "获取EXX最新行情数据": {
+    "cn": "获取EXX最新行情数据",
+    "en": "Receive the latest EXX market data",
+    "jp": "Receive the latest EXX market data",
+    "kr": "Receive the latest EXX market data"
+  },
+   "K线": {
+    "cn": "K线",
+    "en": "Kline WebSocket",
+    "jp": "Kline WebSocket",
+    "kr": "Kline WebSocket"
+  },
+  "返回数据时服务器时间": {
+    "cn": "返回数据时服务器时间",
+    "en": "The server time when return data",
+    "jp": "The server time when return data",
+    "kr": "The server time when return data"
+  },
+   "[数据类型(k线数据类型), 平台ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]": {
+    "cn": "[数据类型(k线数据类型), 平台ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]",
+    "en": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period",
+    "jp": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period",
+    "kr": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period"
+  },
+  "请求类型": {
+    "cn": "请求类型",
+    "en": "Request Type",
+    "jp": "Request Type",
+    "kr": "Request Type"
+  },
+   "时间周期的ETC_BTC的K线数据": {
+    "cn": "时间周期的ETC_BTC的K线数据",
+    "en": "Time period Kline data of ETC_BTC",
+    "jp": "Time period Kline data of ETC_BTC",
+    "kr": "Time period Kline data of ETC_BTC"
+  },
+  "30分钟周期ETH_HSR的K数据": {
+    "cn": "30分钟周期ETH_HSR的K数据",
+    "en": "30 Mins Kline data of ETH_HSR",
+    "jp": "30 Mins Kline data of ETH_HSR",
+    "kr": "30 Mins Kline data of ETH_HSR"
+  },
+   "(时间周期TM: 1M, 5M, 15M, 30M, 1H, 1D)": {
+    "cn": "(时间周期TM: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "en": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "jp": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "kr": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)"
+  },
+  "首次请求的数据数量,最大50条": {
+    "cn": "首次请求的数据数量,最大50条",
+    "en": "The data amount of first requests, maximum 50 datas",
+    "jp": "The data amount of first requests, maximum 50 datas",
+    "kr": "The data amount of first requests, maximum 50 datas"
+  },
+   "请求的动作类型": {
+    "cn": "请求的动作类型",
+    "en": "Requested Action Type",
+    "jp": "Requested Action Type",
+    "kr": "Requested Action Type"
+  },
+  "增加数据到当前WebSocket连接": {
+    "cn": "增加数据到当前WebSocket连接",
+    "en": "Add data to current WebSocket link",
+    "jp": "Add data to current WebSocket link",
+    "kr": "Add data to current WebSocket link"
+  },
+   "从当前WebSocket连接移除数据": {
+    "cn": "从当前WebSocket连接移除数据",
+    "en": "Delete date from current WebSocket link",
+    "jp": "Delete date from current WebSocket link",
+    "kr": "Delete date from current WebSocket link"
+  },
+  "首次全量返回": {
+    "cn": "首次全量返回",
+    "en": "The first total content return",
+    "jp": "The first total content return",
+    "kr": "The first total content return"
+  },
+   "增量返回": {
+    "cn": "增量返回",
+    "en": "Increments return",
+    "jp": "Increments return",
+    "kr": "Increments return"
+  },
+  "数据类型": {
+    "cn": "数据类型",
+    "en": "Date Type",
+    "jp": "Date Type",
+    "kr": "Date Type"
+  },
+   "平台ID": {
+    "cn": "平台ID",
+    "en": "ID",
+    "jp": "ID",
+    "kr": "ID"
+  },
+  "币种信息": {
+    "cn": "币种信息'",
+    "en": "Coins information",
+    "jp": "Coins information",
+    "kr": "Coins information"
+  },
+   "(卖价)[[价格, 量]]": {
+    "cn": "(卖价)[[价格, 量]]",
+    "en": "Sell Price [[Price, Amount]]",
+    "jp": "Sell Price [[Price, Amount]]",
+    "kr": "Sell Price [[Price, Amount]]"
+  },
+  "(买价)[[价格, 量]]": {
+    "cn": "(买价)[[价格, 量]]",
+    "en": "Buy Price [[Price, Amount]]",
+    "jp": "Buy Price [[Price, Amount]]",
+    "kr": "Buy Price [[Price, Amount]]"
+  },
+   "买卖类型": {
+    "cn": "买卖类型",
+    "en": "Trading Type",
+    "jp": "Trading Type",
+    "kr": "Trading Type"
+  },
+  "价格": {
+    "cn": "价格",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "量": {
+    "cn": "量",
+    "en": "Amount",
+    "jp": "Amount",
+    "kr": "Amount"
+  },
+  "获取ETC_BTC委托记录": {
+    "cn": "获取ETC_BTC委托记录",
+    "en": "Acquire ETC_BTC order records",
+    "jp": "Acquire ETC_BTC order records",
+    "kr": "Acquire ETC_BTC order records"
+  },
+   "获取ETH_HSR委托记录": {
+    "cn": "获取ETH_HSR委托记录",
+    "en": "Acquire ETH_HSR order records",
+    "jp": "Acquire ETH_HSR order records",
+    "kr": "Acquire ETH_HSR order records"
+  },
+  "历史成交记录": {
+    "cn": "历史成交记录",
+    "en": "History Order WebSocket",
+    "jp": "History Order WebSocket",
+    "kr": "History Order WebSocket"
+  },
+   "[数据类型, 平台ID, 币种信息, 时间戳, 买卖类型, 价格, 量]": {
+    "cn": "[数据类型, 平台ID, 币种信息, 时间戳, 买卖类型, 价格, 量]",
+    "en": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount",
+    "jp": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount",
+    "kr": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount"
+  },
+  "获取ETC_BTC历史成交记录": {
+    "cn": "获取ETC_BTC历史成交记录",
+    "en": "Acquire ETC_BTC history trading records",
+    "jp": "Acquire ETC_BTC history trading records",
+    "kr": "Acquire ETC_BTC history trading records"
+  },
+   "获取MONA_QTUM历史成交记录": {
+    "cn": "获取MONA_QTUM历史成交记录",
+    "en": "Acquire MONA_QTUM history trading records",
+    "jp": "Acquire MONA_QTUM history trading records",
+    "kr": "Acquire MONA_QTUM history trading records"
+  },
+  "所有市场行情": {
+    "cn": "所有市场行情",
+    "en": "All Markets Quotation",
+    "jp": "All Markets Quotation",
+    "kr": "All Markets Quotation"
+  },
+   "市场": {
+    "cn": "市场",
+    "en": " Markets",
+    "jp": " Markets",
+    "kr": " Markets"
+  },
+  "市场id": {
+    "cn": "市场id",
+    "en": "Market ID",
+    "jp": "Market ID",
+    "kr": "Market ID"
+  },
+   "卖方币种": {
+    "cn": "卖方币种",
+    "en": "Coin of seller",
+    "jp": "Coin of seller",
+    "kr": "Coin of seller"
+  },
+    "买方币种": {
+    "cn": "买方币种",
+    "en": "Coin of buyer",
+    "jp": "Coin of buyer",
+    "kr": "Coin of buyer"
+  },
+  "保留属性": {
+    "cn": "保留属性",
+    "en": "Reserved attribute",
+    "jp": "Reserved attribute",
+    "kr": "Reserved attribute"
+  },
+   "最新价格": {
+    "cn": "最新价格",
+    "en": "Last price",
+    "jp": "Last price",
+    "kr": "Last price"
+  },
+  "24H成交总量": {
+    "cn": "24H成交总量",
+    "en": "24H trading volume",
+    "jp": "24H trading volume",
+    "kr": "24H trading volume"
+  },
+   "24H涨跌幅": {
+    "cn": "24H涨跌幅",
+    "en": "24H change",
+    "jp": "24H change",
+    "kr": "24H change"
+  },
+  "获取所有市场行情": {
+    "cn": "获取所有市场行情",
+    "en": "Acquire all market quotation",
+    "jp": "Acquire all market quotation",
+    "kr": "Acquire all market quotation"
+  },
+   "单个市场行情": {
+    "cn": "单个市场行情",
+    "en": "Single Market Quotation",
+    "jp": "Single Market Quotation",
+    "kr": "Single Market Quotation"
+  },
+  "成交量": {
+    "cn": "成交量",
+    "en": "Trading volume",
+    "jp": "Trading volume",
+    "kr": "Trading volume"
+  },
+   "涨跌幅": {
+    "cn": "涨跌幅",
+    "en": "Change",
+    "jp": "Change",
+    "kr": "Change"
+  },
+  "获取HSR_BTC市场行情": {
+    "cn": "获取HSR_BTC市场行情",
+    "en": "Acquire HSR_BTC quotation",
+    "jp": "Acquire HSR_BTC quotation",
+    "kr": "Acquire HSR_BTC quotation"
+  },
+   "获取ETH_HSR市场行情": {
+    "cn": "获取ETH_HSR市场行情",
+    "en": "Acquire HSR_BTC quotation",
+    "jp": "Acquire HSR_BTC quotation",
+    "kr": "Acquire HSR_BTC quotation"
+  },
+  "下载JAVA例子以及开发文档": {
+    "cn": "下载JAVA例子以及开发文档",
+    "en": "Download JAVA example and API document",
+    "jp": "Download JAVA example and API document",
+    "kr": "Download JAVA example and API document"
+  },
+   "GITHUB链接": {
+    "cn": "GITHUB链接",
+    "en": "GITHUB Link",
+    "jp": "GITHUB Link",
+    "kr": "GITHUB Link"
+  },
+  "成交价格": {
+    "cn": "成交价格",
+    "en": "Transaction price",
+    "jp": "Transaction price",
+    "kr": "Transaction price"
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+    "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+    "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+    "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+    "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+    "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  }
+}

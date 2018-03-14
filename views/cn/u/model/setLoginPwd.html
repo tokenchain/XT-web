@@ -1,0 +1,134 @@
+<script type="text/x-template" id="setloginpwd">
+  <div class="exx-modal-container">
+    <div class="exx-modal-header"><h3><%= LANG('登录密码设置') %></h3></div>
+    <div class="exx-modal-body">
+      <div class="exx-form-box">
+        <div class="form-box">
+      <div class="form-group">
+        <div class="form-control" id="nikeForm">
+          <input autocomplete="new-password" placeholder="<%= LANG('当前登录密码') %>" v-model="oldPassword" type="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-control">
+          <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>" v-model="newPassword" type="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-control">
+          <input autocomplete="new-password" placeholder="<%= LANG('确认新登录密码') %>" v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-control">
+          <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+        <send-code :code-type="13" :user-name="userInfo.userName" />
+      </div>
+      </div>
+        <div v-if="userInfo.googleAuth == 1"  class="form-group">
+          <div class="form-control">
+            <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
+          </div>
+        </div>
+
+        <div class="form-button">
+          <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button"><span><%= LANG('提交') %></span></button>
+          <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+        </div>
+
+    </div>
+    </div>
+    </div>
+
+
+  </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('setloginpwd', {
+            template: "#setloginpwd",
+            data: function () {
+                return {
+                    locked: false,
+                    pubKey: '',
+                    oldPassword: '',
+                    newPassword: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    googleCode: '',
+                    userName: Methods.getCookie(ENV + 'uname')
+                }
+            },
+            computed: {
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                },
+                hasLoginPwd: function () {
+                    return Methods.getLocalUserInfo.loginPwd != 0;
+                }
+            },
+            methods: {
+                handleComparedPwd: function () {
+                    this.passwordIdentical = this.newPassword === this.passwordConfirmation
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    var data = {
+                        type: 1,
+                        oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
+                        newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
+                        dynamicCode: this.dynamicCode,
+                        googleCode: this.googleCode
+                    };
+                    if (this.newPassword == '') {
+                        JuaBox.sure("<%= LANG('请输入新密码') %>");
+                    } else if (!this.passwordIdentical) {
+                        JuaBox.sure("<%= LANG('两次输入的密码不一致') %>");
+                    } else if (this.dynamicCode == '') {
+                        JuaBox.sure("<%= LANG('请输入验证码') %>");
+                    } else {
+                        this.locked = true;
+                        Methods.ajax({
+                            url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
+                            data: data,
+                            success: function (res) {
+                                this.locked = false;
+                                EXX.userIndex.closeModal();
+                                JuaBox.sure("<%= LANG('登录密码修改成功') %>");
+                                this.oldPassword = '';
+                                this.newPassword = '';
+                                this.passwordConfirmation = '';
+                                this.dynamicCode = '';
+                                Methods.setLocalUserInfo(res.datas.userInfo);
+                                for(var key in res.datas.userInfo){
+                                    Vue.set(EXX.userIndex.loginUser, key, res.datas.userInfo[key])
+                                }
+                            }.bind(this),
+                            error: function (res) {
+                                this.locked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message))
+                            }.bind(this)
+                        });
+                    }
+                }
+            },
+            mounted: function () {
+                this.getPubKey();
+            }
+        })
+    })
+</script>

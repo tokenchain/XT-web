@@ -1,0 +1,167 @@
+<div class="content">
+  <div id="transfer" class="bk-assets" :class="{'loaded': loaded}">
+
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li class="dashboard">Dashboard</li>
+        <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+        <li><a href="/u"><%= LANG('账户面板') %></a></li>
+        <li class="is-active"><a href="/u/fund/transfer"><%= LANG('内部划账') %></a></li>
+      </ul>
+    </nav>
+
+    <div class="vue-init">
+      <h2 class="mt0"><%= LANG('内部划账') %></h2>
+      <div class="pd-fff">
+        <div class="form-wrap transfer-form">
+          <div class="select-group">
+            <div class="form-group row">
+              <div class="col-sm-5">
+                <select v-model="outAccount" class="form-control">
+                  <option disabled value=""><%= LANG('转出账号') %></option>
+                  <option :value="userInfo.userId"><%= LANG('主账号') %></option>
+                  <option v-for="account in sharedState.subAccounts" :value="account.id">{{account.userName}}</option>
+                </select>
+              </div>
+              <div class="col-icon col-sm-2">
+                <i class="iconfont icon-arrow-left1"></i>
+              </div>
+              <div class="col-sm-5">
+                <select v-model="inAccount" class="form-control">
+                  <option disabled value=""><%= LANG('转入账号') %></option>
+                  <option :value="userInfo.userId"><%= LANG('主账号') %></option>
+                  <option v-for="account in sharedState.subAccounts" :value="account.id">{{account.userName}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-2"><%= LANG('转账金额') %>：</label>
+            <div class="col-sm-4">
+              <select v-model="coinType" class="form-control">
+                <option disabled value=""><%= LANG('请选择') %></option>
+                <option v-for="coin in sharedState.accetsBalance" :value="coin.propTag">{{coin.propTag}}</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <input class="form-control" v-model="amount" type="text">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-2"><%= LANG('二级密码') %>：</label>
+            <div class="col-sm-10">
+              <input class="form-control" v-model="safePwd" type="password">
+            </div>
+          </div>
+          <div v-if="false" class="form-group row">
+            <label class="col-form-label col-sm-2"><%= LANG('动态验证码') %>：</label>
+            <div class="col-sm-10">
+              <input class="form-control" v-model="dynamicCode" type="text">
+            </div>
+          </div>
+          <div v-if="userInfo.googleAuth == 1" class="form-group row">
+            <label class="col-form-label col-sm-2"><%= LANG('谷歌验证码') %>：</label>
+            <div class="col-sm-10">
+              <input class="form-control" v-model="googleCode" type="text">
+            </div>
+          </div>
+          <div class="form-group button-group">
+            <button type="submit" @click="handleSubmit" class="btn btn-primary"><%= LANG('提交') %></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  require(['vue', 'common/methods','common/juabox'], function(Vue, Methods, JuaBox) {
+    var transfer = new Vue({
+      el: "#transfer",
+      props: {
+        success: {
+          type: Function,
+          default: function () {
+            console.log('success');
+          }
+        },
+        close: {
+          type: Function,
+          default: function () {
+            console.log('close');
+          }
+        },
+        info: {
+          type: Object,
+          default: {}
+        }
+      },
+      data: function () {
+        return {
+          userInfo: Methods.getLocalUserInfo(),
+          outAccount: '',
+          inAccount: '',
+          coinType: '',
+          amount: '',
+          safePwd: '',
+          dynamicCode: '',
+          googleCode: ''
+        }
+      },
+      computed: {
+      },
+      methods: {
+        getPubKey: function () {
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+            success: function(res) {
+              this.pubKey = res.datas.pubTag;
+            }.bind(this)
+          });
+        },
+        handleSubmit: function() {
+          var inAccount, outAccount;
+          if (this.info.type == 'in') {
+            inAccount = this.info.userId;
+            outAccount = userInfo.userId;
+          } else {
+            inAccount = userInfo.userId;
+            outAccount = this.info.userId;
+          }
+          var data = {
+            outAccount: outAccount,
+            inAccount: inAccount,
+            coinType: this.info.coin,
+            safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+            amount: this.amount
+          };
+          if (this.outAmount === "") {
+            JuaBox.info("<%= LANG('请选择转出账号') %>");
+          } else if (this.inAmount === "") {
+            JuaBox.info("<%= LANG('请选择转入账号') %>");
+          } else if (this.coinType === "") {
+            JuaBox.info("<%= LANG('请选择币种') %>");
+          } else if (this.amount === "") {
+            JuaBox.info("<%= LANG('请输入划账金额') %>");
+          } else {
+            Methods.ajax({
+              type: 'POST',
+              url: DOMAIN_MAIN + API_PREFIX + 'doInOutSubmit',
+              data: data,
+              success: function (res) {
+                this.safePwd = '';
+                JuaBox.info("<%= LANG('内部划账成功') %>");
+              }.bind(this)
+            })
+          }
+        }
+      },
+      created: function() {
+        this.getPubKey();
+      },
+      mounted: function() {
+      }
+    })
+  });
+</script>

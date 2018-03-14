@@ -1,0 +1,127 @@
+<section class="help helpshow" id="coin-display">
+  <div class="banner">
+    <h2><%= LANG('帮助中心')%></h2>
+    <div class="search">
+      <div class="search-box"><input type="text" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off"><a href="#"></a></div>
+    </div>
+    <div class="sub-nav">
+      <a href="/help"><%= LANG('帮助中心')%></a>/<a href="/help/display?fid=4"><%= LANG('入门指南')%></a>/<a href="/help/display?fid=3"><%= LANG('操作指南')%></a>/<a href="/help/coin"><%= LANG('币种资料')%></a>
+    </div>
+  </div>
+
+  <div class="coin-nav-w">
+    <nav aria-label="breadcrumbs" class="breadcrumb">
+      <ul>
+        <li class="dashboard"><a href="/help"><%= LANG('帮助中心') %></a></li>
+        <li><a href="/"><i class="icon iconfont icon-home"></i></a></li>
+        <li class="is-active"><a href="/help/coin"><%= LANG('币种资料') %></a></li>
+        <li v-if="!isList">{{article.coinName}}</li>
+      </ul>
+    </nav>
+  </div>
+  <div v-if="isList" class="container coin-data-list" v-cloak="">
+      <ul>
+        <li v-for="category in articles">
+          <a :href="'/help/coin?id=' + category.id"><i :class="'coin-icon-' + category.propTag.toLowerCase()"></i><span>{{category.propTag}}</span></a>
+        </li>
+      </ul>
+  </div>
+
+  <div v-if="!isList" class="container coin-data-show" v-cloak="">
+    <div class="s-hd">
+        <div class="ld">
+          <div class="ld-content">
+
+            <p style="font-size:28px;">{{article.coinName}} </p>
+            <p style="font-size:28px;"><%= LANG('简写') %>: {{article.keyEn}}</p>
+            <p>{{article.remark}}</p>
+          </div>
+        </div>
+        <div class="md">
+          <span :class="'coin-'+article.coinName"></span>
+        </div>
+        <div class="rd">
+            <div class="rd-content">
+              <%= LANG('总量') %>： <span>{{fixFloat(article.totalNumber,8)}}</span>    <%= LANG('已发行') %>：<span>{{fixFloat(article.publishNumber,8)}}</span><br/>
+              <%= LANG('总市值') %>：<span>${{article.values}}</span><br/>
+              <%= LANG('是否挖矿') %>：<span v-if="article.isMining==0"><%= LANG('否') %></span><span v-if="article.isMining==1"><%= LANG('是') %></span>     <%= LANG('共识算法') %>：<span>{{article.arithmetic}}</span><br/>
+              <%= LANG('创始人') %>：<span>{{article.founder}}</span>   <%= LANG('团队所在地') %>：<span>{{article.address}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="s-bd" v-html="article.des">
+    </div>
+  </div>
+
+
+
+
+</section>
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    EXX.coinDisplay = new Vue({
+      el: "#coin-display",
+      data: function () {
+        return {
+          loaded: false,
+          id: '',
+          articles: '',
+          article: ''
+        }
+      },
+      computed: {
+        isList: function() {
+          return this.id == '';
+        }
+      },
+      methods: {
+        fixFloat : function (value,unit) {
+          return Methods.fixFloat(value,unit);
+        },
+        getCoinList: function() {
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getCoinList',
+            success: function(res) {
+              if (res.datas) {
+                this.articles = res.datas;
+              }
+            }.bind(this)
+          });
+        },
+        getCoinContent: function(id) {
+            var data = {
+                id: id
+            };
+            Methods.ajax({
+                type: 'GET',
+                url: DOMAIN_MAIN + API_PREFIX + 'getCoinContent',
+                data: data,
+                success: function(res) {
+                    if (res.datas) {
+                        this.article = res.datas;
+                    }
+                }.bind(this)
+            });
+        }
+      },
+      created: function() {
+        var params = Methods.parseQueryString();
+        if (params.id) {
+          this.id = params.id;
+          this.getCoinContent(params.id);
+        }else{
+          this.getCoinList();
+        }
+
+      },
+      mounted: function() {
+      },
+      watch: {
+
+      }
+    })
+  })
+</script>
+

@@ -1,0 +1,152 @@
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        new Vue({
+            el: "#app-orderCreate",
+            data: function() {
+                return {
+                    locked : false,
+                    id : Methods.getUrlparm('id') || '',
+                    marketConfig : '',
+                    ad : '',
+                    amount : '',
+                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo') || {},
+                    payment : {
+                        '1' : "<%- LANG('微信')%>",
+                        '2' : "<%- LANG('支付宝')%>",
+                        '3' : "<%- LANG('银行转账')%>"
+                    }
+                }
+            },
+            computed : {
+                currentMarketConfig : function () {
+                    return this.marketConfig[this.ad.market] || '';
+                },
+                total : function () {
+                    if(!this.ad.fixedPrice || !this.amount){
+                        return '';
+                    }
+                    return Methods.fixDecimal(Methods.numMultiply(this.ad.fixedPrice,this.amount), this.currentMarketConfig.amountDecimal);
+                },
+                coin : function () {
+                    return this.ad.market.split('_')[0];
+                },
+                coinName : function () {
+                    return this.ad.market.split('_')[0].toUpperCase();
+                },
+                canUseCoin : function () {
+                    return Methods.fixDecimal(this.currentUserInfo.coinFundMap[this.coin].available, this.marketConfig[this.ad.market].coinDecimal) || 0;
+                },
+                amountPlaceholder : function () {
+                    if(!this.currentMarketConfig){
+                        return '';
+                    }
+                    var minAmount = parseFloat(this.ad.minAmount),
+                        maxAmount = parseFloat(this.ad.maxAmount);
+                    if(this.ad.type == 1){
+                        maxAmount = Math.min(this.canUseCoin, maxAmount);
+                        if(this.canUseCoin < minAmount){
+                            return EXX.L("可用a余额不足b", this.coinName, minAmount);
+                        }
+                        return EXX.L("卖出数量最少a，最多b", minAmount, maxAmount);
+                    }
+                    return EXX.L("买入数量最少a，最多b", minAmount, maxAmount);
+                },
+                totalNote : function () {
+                    return EXX.L('由于法币精度问题，成交金额只能保留x位小数', this.currentMarketConfig.amountDecimal);
+                }
+            },
+            watch:{
+                amount : function () {
+                    var newVal = parseFloat(this.amount);
+                    var maxAmount = parseFloat(this.ad.maxAmount);
+                    var coinRegEx = new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.currentMarketConfig.coinDecimal + "})?$");
+                    if(newVal != '' && this.ad.type == 1 && (newVal > this.canUseCoin || newVal > maxAmount)){
+                        this.amount = Math.min(this.canUseCoin, maxAmount);
+                    }
+                    //格式化小数位
+                    if (!coinRegEx.test(this.amount) && this.amount != '') {
+                        this.amount = Methods.checkDecimal(this.amount, this.currentMarketConfig.coinDecimal);
+                    }
+                }
+            },
+            methods: {
+                getMarketConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'c2cMarketConfig',
+                        success: function(res) {
+                            this.marketConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                doSubmit: function() {
+                    if (this.locked) {
+                        return JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                    }
+                    var amount = parseFloat(this.amount);
+                    var minAmount = parseFloat(this.ad.minAmount);
+                    var maxAmount = parseFloat(this.ad.maxAmount);
+                    if(isNaN(amount) || amount == '' || amount == 0 || amount < minAmount || amount > maxAmount){
+                        return JuaBox.showWrong(this.amountPlaceholder);
+                    }
+                    if(this.ad.type == 1 && amount > this.canUseCoin){
+                        return JuaBox.showWrong(this.amountPlaceholder)
+                    }
+                    this.locked = true;
+                    Methods.ajax({
+                        type: 'GET',
+                        data : {
+                            adId : this.id,
+                            amount : this.amount
+                        },
+                        url: DOMAIN_MAIN + API_PREFIX + 'order',
+                        success: function(res) {
+                            this.locked = false;
+                            JuaBox.info("<%- LANG('提交成功')%>", function () {
+                                top.location.href = '/exchange/orderInfo?id=' + res.datas.id
+                            });
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                getAdInfo: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        data : {
+                            adId : this.id
+                        },
+                        url: DOMAIN_MAIN + API_PREFIX + 'AdInfo',
+                        success: function(res) {
+                            this.ad = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getPayment : function (val) {
+                    if(!val){
+                        return ''
+                    }
+                    var arr = (val + '').split('|');
+                    var result = [];
+                    for(var i = 0, ilen = arr.length; i < ilen; i ++){
+                        result.push(this.payment[arr[i] + '']);
+                    }
+                    return result.join(',');
+                },
+                getCoinName : function (market) {
+                    return !market ? '' :  market.split('_')[0].toUpperCase();
+                },
+                getMoneyName : function (market) {
+                    return !market ? '' :  market.split('_')[1].toUpperCase();
+                }
+
+            },
+            created: function(){
+                this.getAdInfo();
+                this.getMarketConfig();
+            }
+        });
+    })
+</script>

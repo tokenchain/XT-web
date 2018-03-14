@@ -1,0 +1,73 @@
+<div id="ex-business">
+    <div class="ex-account" :class="{'loading loading-light-bg' : !loaded}">
+        <template v-if="loaded" v-cloak>
+            <div class="exx-title">
+                <h2><span style="color:#ff9d11">{{uInfo.name || uInfo.userName}}</span>的资料</h2>
+            </div>
+            <div class="business-box">
+                <business-infos :user="uInfo"></business-infos>
+                <div class="business-info">
+                    <!--<p>语言：{{uInfo.language}}</p>-->
+                    <p><b>保证金</b>：{{parseFloat(uInfo.bail)}} BTC</p>
+                    <p><b>违规次数</b>：0 次</p>
+                    <p><b>首次交易时间</b>：{{putFirstTime}}</p>
+                    <p v-if="uInfo.merchantApply == 2" style="padding-top: 15px;"><b>商户简介</b>：{{uInfo.remark || ''}}</p>
+                </div>
+            </div>
+            <div class="business-box">
+                <div class="exx-title">
+                    <h2><span style="color:#ff9d11">{{uInfo.name || uInfo.userName}}</span>的广告</h2>
+                </div>
+                <div class="exx-table">
+                    <div class="exx-table-body">
+                        <table class="trade-list">
+                            <thead>
+                            <tr>
+                                <th class="amount">
+                                    <%= LANG('类型') %>
+                                </th>
+                                <th class="amount">
+                                    <%= LANG('价格') %>
+                                </th>
+                                <th class="payment">
+                                    <%= LANG('付款方式') %>
+                                </th>
+                                <th class="price">
+                                    <%= LANG('数量') %>
+                                </th>
+                                <th><%= LANG('操作') %></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="ad,index in uInfo.ads" v-if="uInfo.ads">
+                                <td>{{ad.type == 1 ? "<%- LANG('买入')%>" : "<%- LANG('卖出')%>"}}{{getCoinName(ad.market)}}</td>
+                                <td class="price">
+                                    <span class="bold">{{ad.fixedPrice}}</span>{{getMoneyName(ad.market)}}
+                                </td>
+                                <td>{{getPayment(ad.payType)}}</td>
+                                <td class="price">
+                                    <span>{{ad.amount}} {{getCoinName(ad.market)}}</span><br />
+                                    <span class="sub">{{ad.minAmount}}~{{ad.maxAmount}}</span>
+                                </td>
+                                <td>
+                                    <!--2是买入，1是卖出-->
+                                    <a v-if="ad.status == 1" :href="'/exchange/orderCreate?id=' + ad.adId" class="btn btn-primary" target="_self">
+                                        {{ad.type == 2 ? "<%- LANG('买入')%>" : "<%- LANG('卖出')%>"}}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr v-if="uInfo.ads && uInfo.ads.length == 0">
+                                <td colspan="9">
+                                    <p class="norecord"><%- LANG('暂无记录') %></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<%-include("business_infos.html")%>
+<%-include("app.business.html")%>

@@ -1,0 +1,327 @@
+<section class="exx-entrance">
+    <%-include("canvas.html")%>
+    <div id="logAuth" :class="{'loading loading-light-bg' : locked}">
+        <div class="exx-entrance-main">
+            <div class="exx-entrance-head" v-cloak="">
+                <h3 v-if="step == 1"><%= LANG('登录授权') %></h3>
+                <h3 v-if="step == 2 && passType == 1"><%= LANG('注册并绑定') %></h3>
+                <h3 v-if="step == 2 && passType == 2"><%= LANG('登陆并绑定') %></h3>
+            </div>
+            <div class="exx-entrance-body" v-cloak="">
+                <div class="form-box" v-if="step == 1">
+                    <div class="form-login" v-cloak="">
+                        <h3><span><%= LANG('当前登录用户') %></span></h3>
+                        <ul>
+                            <li>
+                                <a role="button">
+                                    <img :src="avatarBaseUrl + loginUser.photo" alt=""/>
+                                    <span style="font-size: 14px; font-weight: bold">{{loginUser.userName}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-login">
+                        <h3><span><%= LANG('授权以下站点') %></span></h3>
+                        <ul>
+                            <li>
+                                <a :href="c2cDomain" target="_blank"><img src="/src/images/home/exc2c.png" alt=""/></a>
+                            </li>
+                            <li>
+                                <a role="button">
+                                    <p style="margin-bottom: 10px;" v-if="passType == 3">登陆EXC2C账号</p>
+                                    <p style="margin-bottom: 10px;" v-if="passType != 3">关联EXC2C账号</p>
+                                    <p style="font-size: 14px; color: #ff9d11; font-weight: bold"><b></b>{{passport.userName}}</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group" style="color: #a5acbb; text-align: center">
+                        <p v-if="passType == 1">您还未注册EXC2C，即将授权EXC2C进行注册并绑定账号操作</p>
+                        <p v-if="passType == 2">您已注册过EXC2C，但未绑定EXX账号，即将授权EXC2C进行登陆并绑定操作</p>
+                        <p v-if="passType == 3">您已注册过EXC2C，并已绑定EXX账号，即将授权EXC2C进行登陆操作</p>
+                    </div>
+                    <div class="form-button">
+                        <button v-if="passType != 3" type="button" v-on:click="step = 2" class="button"><span><%= LANG('下一步') %></span></button>
+                        <button v-if="passType == 3" type="button" v-on:click="doC2cLogin" class="button" :class="locked ? 'btn-loading' : ''"><span><%= LANG('一键登陆') %></span></button>
+                    </div>
+                </div>
+
+                <div class="form-box" v-if="step == 2">
+                    <div class="form-group" style="color: #a5acbb; text-align: center">
+                        <p v-if="passType == 1">您没有注册EXC2C，即将授权EXC2C进行注册并绑定账号操作</p>
+                        <p v-if="passType == 2">您已注册过EXC2C，但未绑定EXX账号，即将授权EXC2C进行登陆并绑定操作</p>
+                        <p v-if="passType == 3">您已注册过EXC2C，并已绑定EXX账号，即将授权EXC2C进行登陆操作</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input :value="passport.userName" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group" v-if="passType == 1">
+                        <div class="form-control" id="passwordForm">
+                            <label style="color: #a5acbb; line-height: 2;">为EXC2C设置独立的登陆密码</label>
+                            <input autocomplete="new-password" placeholder="<%= LANG('设置登录密码') %>" v-on:keyup="handleCheckPwdStrength" v-on:focus="clearInputError($event)" v-model="password" type="password">
+                            <ul v-show="password.length" class="exx-grade" v-cloak="">
+                                <li :class="[{active: pwdStrength == 0 }]"><%= LANG('不合格') %></li>
+                                <li :class="[{active: pwdStrength == 1 }]"><%= LANG('弱') %></li>
+                                <li :class="[{active: pwdStrength == 2 }]"><%= LANG('中') %></li>
+                                <li :class="[{active: pwdStrength > 2 }]"><%= LANG('强') %></li>
+                            </ul>
+                        </div>
+                        <div class="input-alert2 hide"><span><%- LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %></span></div>
+                    </div>
+                    <div class="form-group" v-if="passType == 1">
+                        <div class="form-control" id="confirmPwdForm">
+                            <input autocomplete="new-password" placeholder="<%= LANG('重复输入密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)" v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-control" id="msgCodeForm">
+                            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" maxlength="6" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" type="text">
+                            <send-code :code-type="27" :country-code="countryCode" :user-name="userName" />
+                        </div>
+                    </div>
+
+                    <div class="form-button">
+                        <button v-if="passType == 1" type="button" v-on:click="registerAndBinding" class="button" :class="locked ? 'btn-loading' : ''"><span><%= LANG('注册并绑定') %></span></button>
+                        <button v-if="passType == 2" type="button" v-on:click="doC2cBinding" class="button" :class="locked ? 'btn-loading' : ''"><span><%= LANG('登陆并绑定') %></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<%-include("../component/send_code/index.html")%>
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var logAuth = new Vue({
+            el: '#logAuth',
+            data: function () {
+                return {
+                    step : 1,
+                    locked : false,
+                    c2cDomain : DOMAIN_EXC2C,
+                    avatarBaseUrl: '<%= STATIC %>/images/userhead/',
+                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo'),
+                    loginUser: Methods.getLocalUserInfo() || {},
+                    pubKey : '',
+                    agreement : '',
+                    dynamicCode: '',
+                    emailCode: '',
+                    googleCode: '',
+                    password: '',
+                    pwdStrength: 0,
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    passport : ''
+                }
+            },
+            computed : {
+                passType : function () {
+                    if(!this.passport){
+                        return 0;
+                    }
+                    if(this.passport.isRegister){
+                        if(this.passport.isBind){
+                            //已注册已绑定
+                            return 3;
+                        }else{
+                            //已注册未绑定
+                            return 2;
+                        }
+                    }else{
+                        //未注册未绑定
+                        return 1;
+                    }
+                },
+                userType : function () {
+                    if(!this.passport){
+                        return '';
+                    }
+                    if(this.passport.userName.indexOf('@') == -1){
+                        return "关联手机号码"
+                    }else{
+                        return "关联邮箱账号";
+                    }
+                },
+                userName : function () {
+                    if(!this.passport){
+                        return '';
+                    }
+                    if(this.passport.userName.indexOf('@') == -1){
+                        return this.passport.userName.split(' ')[1]
+                    }else{
+                        return this.passport.userName;
+                    }
+                },
+                countryCode : function () {
+                    if(!this.passport){
+                        return '+86';
+                    }
+                    if(this.passport.userName.indexOf('@') == -1){
+                        return this.passport.userName.split(' ')[0]
+                    }else{
+                        return '+86';
+                    }
+                }
+            },
+            methods: {
+                handleComparedPwd: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    this.passwordIdentical = this.password === this.passwordConfirmation;
+                    if (this.passwordIdentical) {
+                        Methods.showLineError(target, "")
+                    } else {
+                        Methods.showLineError(target, "<%= LANG('两次输入的密码不一致') %>")
+                    }
+                },
+                handleCheckPwdStrength: function () {
+                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                },
+                handleCheckLength: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if ($(target).val().length < 4) {
+                        Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                clearInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                bindSuccess : function (res) {
+                    var _this = this;
+                    this.locked = false;
+                    JuaBox.success(EXX.L(res.resMsg.message), function () {
+                        top.location.href = (_this.c2cDomain + '/login?c2cId=' + res.datas.userId + '&c2cKey=' + res.datas.secret);
+                    })
+                },
+                bindError : function (res) {
+                    this.getPubKey();
+                    this.locked = false;
+                    JuaBox.wrong(EXX.L(res.resMsg.message));
+                },
+                getBindingUserInfo: function () {
+                    this.locked = true;
+                    Methods.ajax({
+                        type: "GET",
+                        url: DOMAIN_MAIN + API_PREFIX + 'getBindingUserInfo',
+                        success: function (res) {
+                            this.locked = false;
+                            this.passport = res.datas;
+                        }.bind(this),
+                        error : function(res){
+                            this.bindError(res)
+                        }.bind(this)
+                    });
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                doC2cLogin : function () {
+                    if (this.locked) {
+                        return JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                    }
+                    this.locked = true;
+                    Methods.ajax({
+                        type: "GET",
+                        url: DOMAIN_MAIN + API_PREFIX + 'doC2cLogin ',
+                        success: function(res){
+                            this.bindSuccess(res)
+                        }.bind(this),
+                        error : function(res){
+                            this.bindError(res)
+                        }.bind(this)
+                    });
+                },
+                doC2cBinding : function () {
+                    if (this.locked) {
+                        return JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                    }
+                    if (this.dynamicCode.length < 4) {
+                        return JuaBox.info('<%= LANG("验证码格式不正确") %>');
+                    }
+                    var data = {
+                        code: this.dynamicCode,
+                        userName : this.passport.userName
+                    }
+                    this.locked = true;
+                    Methods.ajax({
+                        type: "POST",
+                        url: DOMAIN_MAIN + API_PREFIX + 'doC2cBinding',
+                        data: data,
+                        success: function(res){
+                            this.bindSuccess(res)
+                        }.bind(this),
+                        error : function(res){
+                            this.bindError(res)
+                        }.bind(this)
+                    });
+                },
+                registerAndBinding: function () {
+                    if (this.locked) {
+                        return JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                    }
+                    if (!this.passwordIdentical) {
+                        return JuaBox.info('<%= LANG("两次输入的密码不一致") %>');
+                    }
+                    if (this.dynamicCode.length < 4) {
+                        return JuaBox.info('<%= LANG("验证码格式不正确") %>');
+                    }
+                    var data = {
+                        //password: this.password,
+                        password: Methods.encryptPwd(this.password, this.pubKey),
+                        code: this.dynamicCode
+                    }
+                    this.locked = true;
+                    Methods.ajax({
+                        type: "POST",
+                        url: DOMAIN_MAIN + API_PREFIX + 'registerAndBinding',
+                        data: data,
+                        success: function(res){
+                            this.bindSuccess(res)
+                        }.bind(this),
+                        error : function(res){
+                            this.bindError(res)
+                        }.bind(this)
+                    });
+                },
+                checkChildAccount : function () {
+                    if(ISLOGIN && this.currentUserInfo && this.currentUserInfo.userType != 1){
+                        swal({
+                            title: "<%= LANG('访问错误') %>",
+                            text: "<%= LANG('子账号不可进行法币交易') %>",
+                            icon: "warning",
+                            buttons: ["<%= LANG('确定') %>", false],
+                            dangerMode: false,
+                        }).then(function (willDelete) {
+                            window.location.href = '/';
+                        });
+                        window.setTimeout(function () {
+                            window.location.href = '/';
+                        }, 3000);
+                    }
+                }
+            },
+            mounted: function () {
+                if(!ISLOGIN){
+                    top.location.href = '/login?url=' + top.location.href;
+                }else{
+                    this.checkChildAccount();
+                    this.getBindingUserInfo();
+                    this.getPubKey();
+                }
+                Methods.checkMobileStyle();
+            }
+        })
+    });
+</script>

@@ -1,0 +1,189 @@
+<script type="text/x-template" id="set-google">
+  <div class="exx-modal-container setgoogle">
+    <div class="exx-modal-header"><h3><%= LANG('Google设置') %></h3></div>
+    <div class="exx-modal-body">
+
+      <div class="exx-google-box" v-if="isOpen">
+        <div class="code-img"><img :src="googleQrCodeUrl"></div>
+        <div class="help">
+          <h4><%= LANG('使用帮助') %></h4>
+          <p>1.<%= LANG('下载安装Google认证器') %></p>
+          <p>2.<%= LANG('然后选择“扫描条形码”。') %></p>
+          <p>3.<%= LANG('扫描左侧条形码，输入Google验证码，完成认证。') %></p>
+          <p>4.<%= LANG('如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密匙') %>：<span>{{googleSecret}}</span></p>
+            <p style="color:#f00" v-if="type == 2">5.<%= LANG('修改Google并不会立即生效') %></p>
+        </div>
+      </div>
+
+
+      <div class="exx-form-box">
+        <div class="form-box">
+
+      <div class="form-group" v-if="isOpen && (type == 1 || type == 2)">
+        <div class="form-control" id="nikeForm">
+          <input v-model="googleSecret" placeholder="<%= LANG('密钥') %>" readonly type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control">
+          <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+        <send-code :code-type="12" :user-name="userInfo.userName" />
+        </div>
+      </div>
+
+        <div class="form-group">
+          <div class="form-control">
+            <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" type="text">
+          </div>
+        </div>
+        <div class="form-button">
+          <button v-if="!locked" @click="handleSubmit" class="button"><span>{{btnText}}</span></button>
+          <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('set-google', {
+            template: "#set-google",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                },
+                closeGoogle : {
+                    type : Number,
+                    default : 0
+                }
+            },
+            data: function () {
+                return {
+                    type: '',
+                    locked: false,
+                    isOpen: true,
+                    googleSecret: '',
+                    dynamicCode: '',
+                    googleCode: ''
+                }
+            },
+            computed: {
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                },
+                googleQrCodeUrl: function () {
+                    if(this.googleSecret == ''){
+                        return ''
+                    }else{
+                        return DOMAIN_MAIN + '/manage/getGoogleAuthQr?secret=' + this.googleSecret;
+                    }
+                },
+                /*type: function () {
+                    var query = Methods.parseQueryString();
+                    var type = query["type"] ? query["type"] : '1';
+                    return type;
+                },*/
+                btnText: function () {
+                    var text = '';
+                    console.log(this.type);
+                    switch (this.type) {
+                        case 0:
+                            text = "<%= LANG('验证并关闭') %>";
+                            break;
+                        case 1:
+                            text = "<%= LANG('验证并开启') %>";
+                            break;
+                        case 2:
+                            text = "<%= LANG('验证并修改') %>";
+                            break;
+                        default:
+                            text = "<%= LANG('验证并关闭') %>";
+
+                    }
+                    return text;
+                }
+            },
+            methods: {
+                getGoogleSecret: function () {
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
+                        success: function (res) {
+                            this.googleSecret = res.datas.secret;
+                        }.bind(this)
+                    });
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    if(this.dynamicCode.length < 6){
+                        return JuaBox.info("<%= LANG('请输入动态验证码')%>")
+                    }
+                    if(this.googleCode.length < 6){
+                        return JuaBox.info("<%= LANG('请输入Google验证码')%>")
+                    }
+                    var type = this.isOpen ? this.type : 0;
+                    var data = {
+                        type: type,
+                        googleSecret: this.googleSecret,
+                        googleCode: this.googleCode,
+                        dynamicCode: this.dynamicCode
+                    };
+                    this.locked = true;
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
+                        data: data,
+                        success: function (res) {
+                            this.locked = false;
+                            if (res.datas.userInfo) {
+                                Methods.setLocalUserInfo(res.datas.userInfo);
+                                for(var key in res.datas.userInfo){
+                                    Vue.set(EXX.userIndex.loginUser, key, res.datas.userInfo[key])
+                                }
+                            }
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                            EXX.userIndex.closeModal();
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                }
+            },
+            created: function () {
+                //0 关闭 1 开启 2修改
+                var userInfo = Methods.getLocalUserInfo();
+                if (userInfo.googleAuth == 0) {
+                    this.type = 1;
+                } else {
+                    this.type = 2;
+                }
+                if(this.closeGoogle == 1){
+                    this.isOpen = false;
+                    this.type = 0;
+                }
+                this.getGoogleSecret();
+            },
+            mounted: function () {
+            }
+        })
+    })
+</script>

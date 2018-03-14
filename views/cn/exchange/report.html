@@ -1,0 +1,161 @@
+<div id="app-report">
+    <div class="exx-title">
+        <h2><%= LANG('财务报表') %></h2>
+    </div>
+    <div :class="{'loading loading-light-bg' : !loaded}" v-cloak="">
+        <div class="bill-panel-head" v-if="loaded">
+            <div class="dropdown" style="margin-left: -20px; ">
+                <p role="button" data-toggle="dropdown" aria-expanded="false"><%= LANG('市场') %>：<em>{{getCoinUpName(marketSelect)}}</em></p>
+                <div class="dropdown-menu">
+                    <ul class="dropdown-list">
+                        <li v-for="m in marketConfig" :class="{active:marketSelect == m.market}">
+                            <a role="button" @click="marketSelect = m.market">{{getCoinUpName(m.market)}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown">
+                <p role="button" data-toggle="dropdown" aria-expanded="false"><%= LANG('时间段') %>：<em>{{dataSelects[dateSelect]}}</em></p>
+                <div class="dropdown-menu">
+                    <ul class="dropdown-list">
+                        <li :class="{active:dateSelect == key}" v-for="data,key in dataSelects">
+                            <a role="button" @click="dateSelect = key">{{data}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display: flex;align-items: center;" v-show="dateSelect == 'cus'">
+                <div class="dropdown">
+                    <div class="datepicker">
+                        <input id="startTimeStr" type="text" readonly />
+                    </div>
+                </div>
+                <span style="margin-left: 20px;"><%= LANG('至') %></span>
+                <div class="dropdown">
+                    <div class="datepicker">
+                        <input id="endTimeStr" type="text" readonly />
+                    </div>
+                </div>
+            </div>
+            <a v-if="!locked" role="button" class="exxbtn btn-ok" style="margin-left: 15px; flex: none; width: 150px; " @click="doGetFunc"><span><%= LANG('统计') %></span></a>
+            <a v-if="locked" role="button" class="exxbtn btn-cancel" style="margin-left: 15px; flex: none; width: 150px; " ><span><%= LANG('正在处理') %></span></a>
+        </div>
+
+        <template v-if="reportInfo">
+            <div class="exx-report">
+                <div class="item">
+                    <h3><%= LANG('买入数量') %>({{getCoinName(marketSelected)}})</h3>
+                    <p>+{{parseFloat(reportInfo.buy.amount)}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('支出金额') %>({{getMoneyName(marketSelected)}})</h3>
+                    <p>-{{parseFloat(reportInfo.buy.money)}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('买入均价') %>({{getMoneyName(marketSelected)}})</h3>
+                    <p>{{reportInfo.buy.price}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('买单总量(笔)') %></h3>
+                    <p>{{reportInfo.buy.count}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('已完成(笔)') %></h3>
+                    <p>{{reportInfo.buy.completeCount}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('未完成(笔)') %></h3>
+                    <p>{{reportInfo.buy.unCompleteCount}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('申诉中(笔)') %></h3>
+                    <p>{{reportInfo.buy.appealCount}}</p>
+                </div>
+            </div>
+            <div class="exx-report">
+                <div class="item">
+                    <h3><%= LANG('卖出数量') %>({{getCoinName(marketSelected)}})</h3>
+                    <p>-{{parseFloat(reportInfo.sell.amount)}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('收入金额') %>({{getMoneyName(marketSelected)}})</h3>
+                    <p>+{{parseFloat(reportInfo.sell.money)}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('卖出均价') %>({{getMoneyName(marketSelected)}})</h3>
+                    <p>{{reportInfo.sell.price}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('卖单总量(笔)') %></h3>
+                    <p>{{reportInfo.sell.count}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('已完成(笔)') %></h3>
+                    <p>{{reportInfo.sell.completeCount}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('未完成(笔)') %></h3>
+                    <p>{{reportInfo.sell.unCompleteCount}}</p>
+                </div>
+                <div class="item">
+                    <h3><%= LANG('申诉中(笔)') %></h3>
+                    <p>{{reportInfo.sell.appealCount}}</p>
+                </div>
+            </div>
+        </template>
+
+        <div class="exx-title">
+            <a role="button" class="exxbtn btn-ok" style="width: 150px; float: right; margin-top: -10px;" @click="exportReport" v-if="logger != 99"><span><%= LANG('导出') %></span></a>
+            <h2><%= LANG('订单列表') %></h2>
+        </div>
+        <div id="app-mySendOrder" class="exx-table">
+            <div class="exx-table-head">
+                <ul>
+                    <li :class="{active:status == 1}" @click="status = 1"><%= LANG('已完成') %></li>
+                    <li :class="{active:status == 2}" @click="status = 2"><%= LANG('未完成') %></li>
+                    <li :class="{active:status == 3}" @click="status = 3"><%= LANG('申诉中') %></li>
+                </ul>
+            </div>
+            <div class="exx-table-body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><%= LANG('订单号') %></th>
+                        <th><%= LANG('完成时间') %></th>
+                        <th><%= LANG('类型') %></th>
+                        <th><%= LANG('买方') %></th>
+                        <th><%= LANG('卖方') %></th>
+                        <th><%= LANG('价格') %>({{getMoneyName(marketSelected)}})</th>
+                        <th><%= LANG('数量') %>({{getCoinName(marketSelected)}})</th>
+                        <th><%= LANG('金额') %>({{getMoneyName(marketSelected)}})</th>
+                        <th><%= LANG('状态') %></th>
+                        <th><%= LANG('操作') %></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="r in reportList">
+                        <td>{{r.id}}</td>
+                        <td>{{getDateTime(r.endTime)}}</td>
+                        <td>{{r.orderType}}</td>
+                        <td><a class="userinfo">{{r.buyUser}}</a></td>
+                        <td><a class="userinfo">{{r.sellUser}}</a></td>
+                        <td>{{r.price}}</td>
+                        <td>{{getPlusMinus(r.ad,1)}}{{parseFloat(r.amount)}}</td>
+                        <td>{{getPlusMinus(r.ad,2)}}{{parseFloat(r.money)}}</td>
+                        <td>{{orderStatus[r.status]}}</td>
+                        <td><a :href="'/exchange/orderInfo?id=' + r.id" role="button" target="_self"><%= LANG('详细') %></a></td>
+                    </tr>
+                    <tr v-if="reportList && reportList.length == 0">
+                        <td colspan="10">
+                            <p class="norecord"><%- LANG('暂无记录') %></p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <page-lite v-if="reportList.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="reportList.length" :turn-page="getReportList"></page-lite>
+        </div>
+    </div>
+</div>
+<%-include("../component/page_lite.html")%>
+<%-include("app.report.html")%>

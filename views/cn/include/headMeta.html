@@ -1,0 +1,59 @@
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta name="author" content="<%= WEB.EMAIL.val %>">
+    <meta name="copyright"  content="Copyright &copy;<%= WEB.NAME %> 版权所有">
+    <meta name="revisit-after"  content="1 days">
+    <meta name="keywords" content="<%= WEB.KEYWORD %>" >
+    <meta name="description" content="<%= WEB.DESCRIPTION %>" >
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+    <% if(typeof market != 'undefined' && PATH.indexOf('/trad') != -1){ %>
+        <title><%= market.toUpperCase().replace('_','/')%> <%= LANG("交易") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof coin != 'undefined' && PATH.indexOf('/u/payin') != -1){ %>
+        <title><%= coin.toUpperCase()%> <%= LANG("充值") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof coin != 'undefined' && PATH.indexOf('/u/payout') != -1){ %>
+        <title><%= coin.toUpperCase()%> <%= LANG("提币") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof coin != 'undefined' && PATH.indexOf('/u/bill') != -1){ %>
+        <title><%= LANG("账单") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof coin != 'undefined' && PATH.indexOf('/u/sweet') != -1){ %>
+        <title><%= LANG("领取糖果") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof market != 'undefined' && PATH.indexOf('/u/entrust') != -1){ %>
+        <title><%= market.toUpperCase().replace('_','/')%> <%= LANG("委托") %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% }else if(typeof content != 'undefined' && PATH.indexOf('/blog/display') != -1){ %>
+        <title>[<%= WEB.NAME %>]<%= content.title %> - <%= WEB.TITLE %></title>
+    <% }else{ %>
+        <title><%= LANG(PATH) %> - <%= WEB.NAME %> - <%= WEB.TITLE %></title>
+    <% } %>
+    <!--<script src="//cdn.bootcss.com/eruda/1.2.6/eruda.min.js"></script>
+    <script>eruda.init();</script>-->
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
+    <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="/lib/jquery/dist/jquery.min.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="/lib/jqueryToast/jquery.toast.min.js?<%= VERSION %>"></script>
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <script src="/lib/others/jquery.nicescroll.min.js" type="text/javascript"></script>
+    <script src="/lib/iscroll/iscroll.min.js" type="text/javascript"></script>
+    <link href="/lib/jqueryToast/jquery.toast.min.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js?<%= VERSION %>" charset="utf-8" ></script>
+    <!--<script src="/src/scripts/jquery-ui.min.js"></script>-->
+    <script src="/src/scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/src/scripts/login/jquery.drawsvg.min.js"></script>
+    <!--我的图标链接-->
+
+    <!--时间控件-->
+    <link href="/lib/jqueryPicker/jquery.datetimepicker.min.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <script src="/lib/jqueryPicker/jquery.datetimepicker.full.min.js?<%= VERSION %>" charset="utf-8" ></script>
+
+    <script src="/lib/requirejs/require.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+    <link href="<%= STATIC %>/styles/xulei-v1.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/src/styles/jquery.mCustomScrollbar.css?<%= VERSION %>">
+    <link rel="stylesheet" href="/lib/others/hint.min.css?<%= VERSION %>">
+    <script src="<%= STATIC %>/scripts/xulei-v1.js?<%= VERSION %>" type="text/javascript"></script>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_503607_cwc4o7ehuqt49529.css">
+    <!--全站用到的公共文件和头部信息-->

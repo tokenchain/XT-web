@@ -1,0 +1,241 @@
+<style>
+    .mvs{ font-family: Roboto, "Segoe UI", Arial, sans-serif,"Microsoft YaHei";}
+    .mvs .banner{height: 500px; background: #000;position: relative;overflow: hidden;}
+    .mvs .banner .mvs-video{position: absolute;min-width: 100vw; min-height:100vh;  -webkit-transform: translate3d(-50%,-50%,0);  transform: translate3d(-50%,-50%,0);  left: 50%;  top: 50%;  opacity: 0.3;  }
+    .mvs .banner .mvs-info{position: absolute; left: 0; right: 0; bottom: 0; top: 0;display: -webkit-flex; display: -webkit-flex;display: flex;align-items: center;justify-content: center;text-align: center;}
+    .mvs .banner .mvs-box{display: -webkit-flex; display: flex; flex-direction: column; align-items: center; }
+    .mvs .banner .mvs-box .mvs-logo{width: 280px;}
+    .mvs .banner .mvs-box .text{font-size: 14px; line-height: 24px; color: #fff;width: 500px; margin: 30px 0 40px 0;}
+    .mvs .banner .mvs-box .btn{margin-top: 50px;}
+    .mvs .banner .mvs-box .btn a{display: block; padding: 15px 80px; border-radius: 40px;color: #fff; font-size: 16px;
+        background-image: -moz-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: -webkit-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: -ms-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+    }
+    .mvs .banner .mvs-info .activity{font-size: 30px;color: #fff; font-weight: bold;}
+    .mvs .banner .mvs-info .activity p{font-size: 14px;margin-top: 15px;font-weight: normal;}
+    .container{width: 1200px; margin: 0 auto; position: relative;}
+    .mvs-content .tedian{text-align: center;padding: 80px 0;}
+    .mvs-content .tedian h2{font-size: 26px; font-weight: bold; color: #000; margin-bottom: 80px;}
+    .mvs-content .tedian ul{display: -webkit-flex; display: flex; justify-content: space-around;}
+    .mvs-content .tedian ul li{flex: none;width: calc((100% - 120px) / 4 );}
+    .mvs-content .tedian ul li .icon{height: 98px;display: -webkit-flex; display: flex; align-items: center; justify-content:center;width: 100%;}
+    .mvs-content .tedian ul li h3{font-weight: bold; font-size: 16px; color: #333;margin: 20px 0;}
+    .mvs-content .tedian ul li p{font-size: 13px; color: #888; line-height: 20px;}
+    .mvs-content .tedian .baipishu{display: -webkit-flex; display: flex;flex-direction: column; align-items: center; margin-top: 60px;}
+    .mvs-content .tedian .baipishu a{padding: 12px 0; border-radius: 40px; color:#0099FF; border: 1px solid #0099FF;font-size: 14px; flex: none; width: 300px; text-align: center; margin-top: 30px;}
+    .mvs-content .tedian .baipishu a:hover{background: #0099FF; color: #fff;}
+    .mvs-content .jieshao{
+        padding: 80px 0;
+        color: #fff;
+        background: linear-gradient(45deg,#009FE1,#00CBF9);
+        background: -moz-linear-gradient(left,#009FE1,#00CBF9);
+        background: -o-linear-gradient(45deg,#009FE1,#00CBF9);
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#009FE1,endColorstr=#00CBF9);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#009FE1, endColorstr=#00CBF9)";
+    }
+    .mvs-content .jieshao .logo-img{width: 100px; }
+    .mvs-content .jieshao h2{font-size: 30px;font-weight: bold; margin: 30px 0;}
+    .mvs-content .jieshao p{font-size: 15px; line-height: 24px; margin-top: 20px; width: 700px;}
+    .mvs-content .jieshao .img{position: absolute; right: 0; top: 0; width: 450px;}
+    .mvs-content .tuandui { padding: 80px 0; text-align: center;}
+    .mvs-content .tuandui h2{font-size: 26px; font-weight: bold; color: #000;}
+    .mvs-content .tuandui h3{font-size: 20px; color: #000;margin: 20px 0; margin: 80px 0;}
+
+
+    .mvs-content .tuandui ul{display: -webkit-flex; display: flex; justify-content: space-around;flex-wrap:wrap;}
+    .mvs-content .tuandui ul li{flex: none;width: calc(100% / 3);padding: 0 30px; margin-bottom: 50px;}
+    .mvs-content .tuandui ul li .img img{width: 180px;}
+    .mvs-content .tuandui ul.jishu li .img img{border-radius: 50%;}
+    .mvs-content .tuandui ul li h4{font-weight: bold; font-size: 20px; color: #333;margin: 20px 0 10px 0;}
+    .mvs-content .tuandui ul li p.zhiwei{font-size: 14px; color: #555;}
+    .mvs-content .tuandui ul li p.text{ color: #888; line-height: 20px; margin-top: 20px; text-align: left;font-size: 13px;}
+    .mvs-content .lingqu{background: #222;padding: 80px 0;display: -webkit-flex; display: flex; justify-content: center;}
+    .mvs-content .lingqu .box{display: -webkit-flex; display: flex;  align-items:center;flex-direction: column;}
+    .mvs-content .lingqu .mvs-logo{width: 200px;}
+    .mvs-content .lingqu a{display: block; padding: 15px 80px; border-radius: 40px;color: #fff; font-size: 16px;margin-top: 50px;
+        background-image: -moz-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: -webkit-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: -ms-linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+        background-image: linear-gradient( -25deg, rgb(254,153,0) 0%, rgb(254,0,0) 98%);
+    }
+
+    .winning{ display: none; font-family: Roboto, "Segoe UI", Arial, sans-serif,"Microsoft YaHei";position: fixed; left: 0; right: 0; bottom: 0; top: 0; background: rgba(19,19,28,0.95); z-index: 9999;display: -webkit-flex; display: flex; justify-content: space-around; align-items: center;}
+    .winning-box{width: 700px;position: relative;}
+    .winning-box .close{position: absolute;background: #ffb400; color: #fff; font-size: 14px; padding: 5px 10px; border-radius: 30px; right: 0; top: 0;font-weight: bold;}
+    .winning-box .info{position: absolute; left: 0; right: 0; top: 150px; text-align: center;}
+    .winning-box .info p{color: #ffb400; font-size: 130px;font-weight: bold;text-shadow: 0 0 20px rgba(255,255,255,.2);}
+    .winning-box .info a{display: inline-block; padding: 15px 80px; border-radius: 50px;font-size: 18px; color: #fff;margin-top: 80px;
+        background-image: -moz-linear-gradient( -25deg, rgb(133,39,234) 0%, rgb(159,46,235) 46%, rgb(72,31,206) 100%);
+        background-image: -webkit-linear-gradient( -25deg, rgb(133,39,234) 0%, rgb(159,46,235) 46%, rgb(72,31,206) 100%);
+        background-image: -ms-linear-gradient( -25deg, rgb(133,39,234) 0%, rgb(159,46,235) 46%, rgb(72,31,206) 100%);
+
+    }
+</style>
+<div class="mvs" id="giftCoin">
+    <div class="banner">
+        <video src="/src/images/home/mvs/mvs-video.mp4" autoplay="" loop="loop" class="mvs-video">
+            your browser does not support the video tag
+        </video>
+        <div class="mvs-info">
+            <div class="mvs-box">
+                <div class="mvs-logo"><img src="/src/images/home/mvs.png" /></div>
+                <div class="text">Metaverse is a decentralised platform based on blockchain technology. Metaverse is building a web of Smart Properties and establishing an open ecosystem in which digital value can be circulated freely.</div>
+                <div class="activity">The first 500000 users receive 0.1-1ETP at random<p>（Verification your phone and email）</p></div>
+                <div class="btn" v-cloak="">
+                    <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('注册')%>/<%= LANG('登录')%></a>
+                    <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%= LANG('认证邮箱')%></a>
+                    <a @click="showModal = 'setMobile'" role="button" v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                    <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin">Receive success</a>
+                    <a @click="applyGift" role="button" v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin">Receive</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mvs-content">
+
+        <div class="tedian">
+            <div class="container">
+            <h2>Metaverse features</h2>
+            <ul>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/icon1.png" /></div>
+                    <h3>Digital Asset Registration</h3>
+                    <p>Digital assets are a new type of asset with ever growing importance. With only a few clicks you can own your assets onchain today!</p>
+                </li>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/icon2.png" /></div>
+                    <h3>Digital Identity Design</h3>
+                    <p>Build your own digital identity on Metaverse where records last permanently.</p>
+                </li>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/icon3.png" /></div>
+                    <h3>Oracle Intermediary</h3>
+                    <p>Intermediary services(Oracles) are built upon a decentralised reputation system and act as a link between Metaverse and the real world.</p>
+                </li>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/icon4.png" /></div>
+                    <h3>Decentralized Exchange</h3>
+                    <p>Metaverse allows value to be exchanged freely and easily, paving the way for the Internet of Value.</p>
+                </li>
+            </ul>
+            <div class="baipishu">
+                <a href="http://newmetaverse.org/white-paper/Metaverse-white-paper-v2.1-CN.pdf" target="_blank">Metaverse White Paper</a>
+                <a href="http://newmetaverse.org/white-paper/Metaverse-digital-identity-white-paper-v1.0-CN.pdf" target="_blank">Digital Identity White Paper</a>
+            </div>
+            </div>
+        </div>
+        <div class="jieshao">
+            <div class="container">
+            <div class="logo-img"><img src="/src/images/home/mvs/mvs-logoico.png" /></div>
+            <h2>Metaverse ETP</h2>
+            <p>ETP is the token used on Metaverse and can be used to measure the value of smart properties in Metaverse or as collateral in financial transactions. ETP is also used to pay transaction and other fees applied on Metaverse.</p>
+            <p>The security of ETP is guaranteed by the ECDSA (Elliptic Curve Digital Signature Algorithm). ETP represents the utility of Metaverse. The price of ETP will not be anchored on any fiat currency or cryptocurrency such as Bitcoin, but will depend on the demand for ETP as well as the development of Metaverse’s ecosystem.</p>
+                <div class="img"><img src="/src/images/home/mvs/etp-adimg.png" /></div>
+            </div>
+        </div>
+
+        <div class="tuandui">
+            <div class="container">
+            <h2>Metaverse Team</h2>
+            <h3>Metaverse has assembled a dynamic and professional international team with a management layer that pursues excellence and experienced developers.</h3>
+            <ul>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/eric.jpg" /></div>
+                    <h4>Eric Gu</h4>
+                    <p class="zhiwei">Founder and CEO</p>
+                    <p class="text">Eric Gu is the founder and chief executive of the foundation, not only proficient in blockchain and digital identity, but also a well-known opinion leader in China's blockchain ecosystem. As a life member of the bitcoin foundation, Eric Gu became the first person to bring the knowledge of blockchain to China and translated works "blockchain: new economic blueprint and guide".</p>
+                </li>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/chenhao.jpg" /></div>
+                    <h4>Hao Chen</h4>
+                    <p class="zhiwei">CTO</p>
+                    <p class="text">Responsible for the development of the Metaverse, have led the development of digital asset trading platform, and have rich architectural experience. As a former software engineer of accenture, Hao Chen has not only rich experience in c++ and python, but also has many years of experience in payment and settlement system development. Hao Chen won the star lecturer at the 2017 architect summit.</p>
+                </li>
+                <li>
+                    <div class="img"><img src="/src/images/home/mvs/janice.jpg" /></div>
+                    <h4>Janice Shi</h4>
+                    <p class="zhiwei">The Head Of Global Development</p>
+                    <p class="text">The former project manager of Bitreserve and Uphold, founded and operated the Chinese community. More than five years of experience in the digital cryptocurrency, proficient in digital cryptocurrency.</p>
+                </li>
+            </ul>
+
+                <h3>Metaverse Technical Team</h3>
+                <ul class="jishu">
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp1.jpg" /></div>
+                        <h4>Dongyun Wang</h4>
+                        <p class="zhiwei">Database, C++，Developer</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp2.jpg" /></div>
+                        <h4>Sven</h4>
+                        <p class="zhiwei">Full-stack Engineer</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp3.jpg" /></div>
+                        <h4>Daoqun Wang</h4>
+                        <p class="zhiwei">Java Developer</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp4.jpg" /></div>
+                        <h4>Jian Lan</h4>
+                        <p class="zhiwei">C++，Developer</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp5.jpg" /></div>
+                        <h4>Qianwen Sun</h4>
+                        <p class="zhiwei">Mining, C++，Developer</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/mvs/pp6.jpg" /></div>
+                        <h4>Lianghe Jiang</h4>
+                        <p class="zhiwei">Network, C++，Developer</p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="lingqu">
+            <div class="box">
+                <div class="mvs-logo"><img src="/src/images/home/mvs.png" /></div>
+
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('注册')%>/<%= LANG('登录')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%= LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button" v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin">Receive success</a>
+                <a @click="applyGift" role="button" v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin">Receive</a>
+
+            </div>
+        </div>
+    </div>
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winningen.png" />
+                <div class="info">
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                    <a href="/u/asset" target="_self">View</a>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <modal v-cloak :open="showModal == 'setMobile'" @close="showModal = false">
+        <set-mobile />
+    </modal>
+
+    <modal v-cloak :open="showModal == 'setEmail'"  @close="showModal = false">
+        <set-email />
+    </modal>
+
+</div>
+<%-include("app.getCoin.html" ,{giftCoin: 'etp'})%>

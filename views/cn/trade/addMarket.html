@@ -1,0 +1,68 @@
+<script type="text/x-template" id="add-market">
+    <div class="vue-add-market" v-if="showDrop" v-cloak="">
+        <div class="asset-drop-table">
+            <ul class="head">
+                <li><%= LANG('币种')%></li>
+                <li><%= LANG('可用')%></li>
+                <li><%= LANG('冻结')%></li>
+            </ul>
+            <ul class="body" v-for="(item,key) in userAsset">
+                <li><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + key.toLowerCase() + '.png'" class="market-icon">{{key.toUpperCase()}}</li>
+                <li><b>{{fixFloat(item.available,4)}}</b></li>
+                <li>{{fixFloat(item.freez,4)}}</li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script>
+    /***********
+     **Vue Lite分页组件
+     ************/
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('asset-drop', {
+            template: "#asset-drop",
+            props: {
+                userAsset: {
+                    type: Object,
+                    default: function(){
+                        return {};
+                    }
+                },
+                showDrop: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            data: function () {
+                return {
+
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                fixFloat : function (value,unit) {
+                    return Methods.fixFloat(value, unit);
+                },
+                fixNumber : function (value,unit) {
+                    return Methods.fixNumber(value, unit);
+                }
+            },
+            watch: {
+
+            },
+            mounted: function() {
+
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

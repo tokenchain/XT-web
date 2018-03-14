@@ -1,0 +1,123 @@
+<div class="content" id="mainForm" :class="{'loaded': loaded}">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li class="dashboard">Dashboard</li>
+      <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+      <li><a href="/u"><%= LANG('账户面板') %></a></li>
+      <li><a href="/u/safe"><%= LANG('基本信息') %></a></li>
+      <li class="is-active"><a href="/u/safe/setSafePwd"><%= LANG('修改二级密码') %></a></li>
+    </ul>
+  </nav>
+
+  <h2 v-if="userInfo.safePwd == 1" class="vue-init"><%= LANG('修改二级密码') %></h2>
+  <h2 v-else class="vue-init"><%= LANG('设置二级密码') %></h2>
+  <p><%= LANG('为了用户资金安全，修改二级密码后24小时内不可用。') %></p>
+  <div class="fill-form" v-cloak>
+    <div class="fill-form-bd">
+
+      <div v-if="userInfo.safePwd != 0" class="fill-group">
+        <em class="name"><%= LANG('当前密码') %>：</em>
+        <input class="fill-control" v-model="oldPassword" type="password">
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('新密码') %>：</em>
+        <input class="fill-control" v-model="newPassword" type="password">
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('确认新密码') %>：</em>
+        <input class="fill-control" v-model="passwordConfirmation" type="password">
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('动态验证码') %>：</em>
+        <input class="fill-control" v-model="dynamicCode" type="text">
+        <send-code class="hq btn-five btn-sm" :code-type="14" :user-name="userName" />
+      </div>
+      <div v-if="showGoogleCode" class="fill-group">
+        <em class="name"><%= LANG('Google验证码') %>：</em>
+        <input class="fill-control" v-model="googleCode" type="text">
+      </div>
+    </div>
+    <div class="fill-form-fd text-center">
+      <a href="javascript:;" v-on:click="handleSubmit" class="btn btn-primary btn-lg btn-block clearfix">
+        <%= LANG('提交') %>
+      </a>
+      <a class="fg" href="/u/safe/resetSafePwd" target="_blank" style="display: block;"><%= LANG('忘记二级密码') %></a>
+    </div>
+  </div>
+</div>
+
+<%-include("../../component/send_code.html")%>
+<script>
+  require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox ) {
+    var app = new Vue({
+      el: '#mainForm',
+      data: function () {
+        return {
+          loaded: true,
+          pubKey: '',
+          showGoogleCode: false,
+          oldPassword: '',
+          newPassword: '',
+          passwordConfirmation: '',
+          passwordIdentical: false,
+          dynamicCode: '',
+          googleCode: '',
+          userName: Methods.getCookie(ENV + 'uname')
+        }
+      },
+      computed: {
+        userInfo: function () {
+          return Methods.getLocalUserInfo();
+        }
+      },
+      methods: {
+        getPubKey: function() {
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+            success: function(res) {
+              this.pubKey = res.datas.pubTag;
+            }.bind(this)
+          });
+        },
+        handleComparedPwd: function() {
+          this.passwordIdentical = this.newPassword === this.passwordConfirmation
+        },
+        handleSubmit: function () {
+          var data = {
+            type: 2,
+            oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
+            newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
+            dynamicCode: this.dynamicCode,
+            googleCode: this.googleCode
+          };
+          var _this = this;
+          Methods.ajax({
+            url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
+            data: data,
+            success: function (res) {
+              JuaBox.showTip("<%= LANG('二级密码修改成功') %>");
+                Methods.setLocalUserInfo(JSON.stringify(res.datas.userInfo));
+              setTimeout(function (){
+                window.location.replace('/u/safe');
+              }, 2000);
+            },
+            error: function (res) {
+              var resMsg = res.resMsg;
+              if (resMsg.code == 1015) {
+                _this.showGoogleCode = true;
+              }
+              JuaBox.sure(EXX.L(resMsg.message));
+            }
+          });
+        }
+      },
+      mounted: function () {
+        this.getPubKey();
+      }
+    });
+  })
+</script>

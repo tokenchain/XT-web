@@ -1,0 +1,111 @@
+<div class="lever-box" v-if="showLeverInfo && isLogin && currentMarketLever">
+    <div class="lever-box-head">
+        <b class="">{{coinName}}</b>/{{moneyName}}
+        <span class="">{{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}-{{currentMarketLever.leverLevel}}<%= LANG('倍杠杆')%></span>
+    </div>
+    <div class="lever-box-proportion">
+        <ul>
+            <li><%= LANG('平仓风险')%><p class="corY">{{currentMarketLever.userRatio == '0' ? '--' : (currentMarketLever.userRatio + '%')}}</p></li>
+            <li><%= LANG('提醒比例')%><p class="corY">{{currentMarketLever.noticeRatio}}%</p></li>
+            <li><%= LANG('平仓比例')%><p class="corY">{{currentMarketLever.flatRatio}}%</p></li>
+            <li><%= LANG('平仓价格')%><p class="corY">{{(currentMarketLever.flatPrice == 0 ? '--' : (showMoney(currentMarketLever.flatPrice)) + ' ' + moneyName)}}</p></li>
+            <li><%= LANG('风险等级')%><p class="corY">{{leverRiskWord}}</p></li>
+        </ul>
+        <div class="lever-safe"><p><span :style="{width: leverSliderPecent + '%' }"></span></p></div>
+    </div>
+    <div class="lever-box-data">
+        <div class="lever-date">
+            <div class="item head">
+                <p class="coinname"></p>
+                <p class="surplus"><%= LANG('剩余额度')%></p>
+                <p><%= LANG('已使用')%></p>
+                <p><%= LANG('未支付利息')%></p>
+                <p></p>
+            </div>
+            <div class="item">
+                <p class="coinname corY">{{coinName}}：</p>
+                <p class="surplus">{{canLoanCoin}}</p>
+                <p>{{hasLoanCoin}}</p>
+                <p>{{currentUserAsset.coinFundMap[coin].leverInterest}}</p>
+                <p><a role="button" @click="openRefund(coin)"><%= LANG('还款')%></a></p>
+            </div>
+            <div class="item">
+                <p class="coinname corY">{{moneyName}}：</p>
+                <p class="surplus">{{canLoanMoney}}</p>
+                <p>{{hasLoanMoney}}</p>
+                <p>{{currentUserAsset.coinFundMap[money].leverInterest}}</p>
+                <p><a role="button" @click="openRefund(money)"><%= LANG('还款')%></a></p>
+            </div>
+        </div>
+    </div>
+    <div class="lever-box-foot">
+        <a class="guider" href="/help/leverRule" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M479.6416 695.808l52.6336 0 0 57.344-52.6336 0 0-57.344ZM531.8656 271.1552c-96.1536-5.12-155.0336 38.1952-175.8208 127.7952l-1.1264 4.8128 47.616 14.848 1.2288-5.7344c15.0528-69.3248 54.6816-102.6048 120.4224-100.7616 58.2656 4.5056 89.4976 31.9488 95.4368 84.0704 4.4032 33.3824-19.1488 66.9696-70.144 99.9424-43.3152 30.5152-65.2288 68.096-65.2288 111.7184l0 28.672 43.3152 0 0-26.624c-1.536-33.9968 14.4384-60.6208 48.64-81.408 65.536-36.7616 96.256-80.896 91.3408-131.072C661.1968 318.464 615.5264 275.968 531.8656 271.1552zM512 42.7008C253.2352 42.7008 42.7008 253.2352 42.7008 512S253.2352 981.2992 512 981.2992c258.7648 0 469.2992-210.5344 469.2992-469.2992S770.7648 42.7008 512 42.7008zM512 940.544C275.7632 940.544 83.456 748.2368 83.456 512S275.7632 83.456 512 83.456c236.3392 0 428.544 192.2048 428.544 428.544S748.3392 940.544 512 940.544z"></path></svg>
+            <%= LANG('杠杆规则')%>
+        </a>
+        <a class="guider" href="/help/forwardRule" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M479.6416 695.808l52.6336 0 0 57.344-52.6336 0 0-57.344ZM531.8656 271.1552c-96.1536-5.12-155.0336 38.1952-175.8208 127.7952l-1.1264 4.8128 47.616 14.848 1.2288-5.7344c15.0528-69.3248 54.6816-102.6048 120.4224-100.7616 58.2656 4.5056 89.4976 31.9488 95.4368 84.0704 4.4032 33.3824-19.1488 66.9696-70.144 99.9424-43.3152 30.5152-65.2288 68.096-65.2288 111.7184l0 28.672 43.3152 0 0-26.624c-1.536-33.9968 14.4384-60.6208 48.64-81.408 65.536-36.7616 96.256-80.896 91.3408-131.072C661.1968 318.464 615.5264 275.968 531.8656 271.1552zM512 42.7008C253.2352 42.7008 42.7008 253.2352 42.7008 512S253.2352 981.2992 512 981.2992c258.7648 0 469.2992-210.5344 469.2992-469.2992S770.7648 42.7008 512 42.7008zM512 940.544C275.7632 940.544 83.456 748.2368 83.456 512S275.7632 83.456 512 83.456c236.3392 0 428.544 192.2048 428.544 428.544S748.3392 940.544 512 940.544z"></path></svg>
+            <%= LANG('期货规则')%>
+        </a>
+        <a class="guider" href="/help/leverTech" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M853.5 213.1v-2.2-1.5c0-0.7-0.7-1.5-0.7-2.2v-1.5c0-0.7-0.7-1.5-0.7-2.2 0 0 0-0.7-0.7-0.7l-2.2-2.2c-0.7-0.7-1.5-1.5-3-2.2 0 0-0.7 0-0.7-0.7-0.7-0.7-1.5-0.7-2.2-1.5-0.7 0-0.7 0-1.5-0.7-0.7 0-1.5-0.7-2.2-0.7h-8.8c-0.7 0-0.7 0-1.5 0.7-0.7 0-1.5 0.7-2.2 0.7L126 524c-7.4 3.7-11.2 11.2-10.4 18.6s6.7 14.1 14.9 16.4l267.1 58c1.5 0 3 0.7 3.7 0.7 4.5 0 8.9-1.5 12.6-4.5l401.7-357.8-9.7 447.1-308.7-87c-9.7-3-20.1 3-23.1 12.6-3 9.7 3 20.1 12.6 23.1l64.7 18.6-124.1 144.3v-148c0-10.4-8.2-18.6-18.6-18.6s-18.6 8.2-18.6 18.6V864c0 7.4 4.5 14.9 11.9 17.1 2.2 0.7 4.5 1.5 6.7 1.5 5.2 0 10.4-2.2 14.1-6.7l164.4-190.4c1.5-1.5 2.2-3.7 3-5.2L818.6 745c1.5 0.7 3.7 0.7 5.2 0.7 3.7 0 8.2-1.5 11.2-3.7 4.5-3.7 7.4-8.9 7.4-14.9l11.1-514zM396 579.1l-203.8-44.6 535.6-250.7L396 579.1z"></path></svg>
+            <%= LANG('杠杆引导')%>
+        </a>
+    </div>
+</div>
+
+<div class="lever-box" v-if="isLogin && showLeverInfo && !currentMarketLever">
+    <div class="lever-box-head">
+        <b class="">{{coinName}}</b>/{{moneyName}}
+        <span class="corY">{{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}-<%= LANG('未开启')%></span>
+    </div>
+    <div class="lever-box-proportion">
+        <ul>
+            <li><%= LANG('平仓风险')%><p class="corY">--</p></li>
+            <li><%= LANG('提醒比例')%><p class="corY">--</p></li>
+            <li><%= LANG('平仓比例')%><p class="corY">--</p></li>
+            <li><%= LANG('平仓价格')%><p class="corY">--</p></li>
+            <li><%= LANG('风险等级')%><p class="corY">--</p></li>
+        </ul>
+        <div class="lever-safe"><p><span :style="{width: '100%' }"></span></p></div>
+    </div>
+    <div class="lever-box-data">
+        <div class="lever-date">
+            <div class="item head">
+                <p class="coinname"></p>
+                <p class="surplus"><%= LANG('剩余额度')%></p>
+                <p><%= LANG('已使用')%></p>
+                <p><%= LANG('未支付利息')%></p>
+                <p></p>
+            </div>
+            <div class="item">
+                <p class="coinname corY">{{coinName}}：</p>
+                <p class="surplus">--</p>
+                <p>--</p>
+                <p>--</p>
+                <p><a role="button" @click="openRefund(coin)"><%= LANG('详情')%></a></p>
+            </div>
+            <div class="item">
+                <p class="coinname corY">{{moneyName}}：</p>
+                <p class="surplus">--</p>
+                <p>--</p>
+                <p>--</p>
+                <p><a role="button" @click="openRefund(money)"><%= LANG('详情')%></a></p>
+            </div>
+        </div>
+    </div>
+    <div class="lever-box-foot">
+        <a class="guider" href="/help/leverRule" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M479.6416 695.808l52.6336 0 0 57.344-52.6336 0 0-57.344ZM531.8656 271.1552c-96.1536-5.12-155.0336 38.1952-175.8208 127.7952l-1.1264 4.8128 47.616 14.848 1.2288-5.7344c15.0528-69.3248 54.6816-102.6048 120.4224-100.7616 58.2656 4.5056 89.4976 31.9488 95.4368 84.0704 4.4032 33.3824-19.1488 66.9696-70.144 99.9424-43.3152 30.5152-65.2288 68.096-65.2288 111.7184l0 28.672 43.3152 0 0-26.624c-1.536-33.9968 14.4384-60.6208 48.64-81.408 65.536-36.7616 96.256-80.896 91.3408-131.072C661.1968 318.464 615.5264 275.968 531.8656 271.1552zM512 42.7008C253.2352 42.7008 42.7008 253.2352 42.7008 512S253.2352 981.2992 512 981.2992c258.7648 0 469.2992-210.5344 469.2992-469.2992S770.7648 42.7008 512 42.7008zM512 940.544C275.7632 940.544 83.456 748.2368 83.456 512S275.7632 83.456 512 83.456c236.3392 0 428.544 192.2048 428.544 428.544S748.3392 940.544 512 940.544z"></path></svg>
+            <%= LANG('杠杆规则')%>
+        </a>
+        <a class="guider" href="/help/forwardRule" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M479.6416 695.808l52.6336 0 0 57.344-52.6336 0 0-57.344ZM531.8656 271.1552c-96.1536-5.12-155.0336 38.1952-175.8208 127.7952l-1.1264 4.8128 47.616 14.848 1.2288-5.7344c15.0528-69.3248 54.6816-102.6048 120.4224-100.7616 58.2656 4.5056 89.4976 31.9488 95.4368 84.0704 4.4032 33.3824-19.1488 66.9696-70.144 99.9424-43.3152 30.5152-65.2288 68.096-65.2288 111.7184l0 28.672 43.3152 0 0-26.624c-1.536-33.9968 14.4384-60.6208 48.64-81.408 65.536-36.7616 96.256-80.896 91.3408-131.072C661.1968 318.464 615.5264 275.968 531.8656 271.1552zM512 42.7008C253.2352 42.7008 42.7008 253.2352 42.7008 512S253.2352 981.2992 512 981.2992c258.7648 0 469.2992-210.5344 469.2992-469.2992S770.7648 42.7008 512 42.7008zM512 940.544C275.7632 940.544 83.456 748.2368 83.456 512S275.7632 83.456 512 83.456c236.3392 0 428.544 192.2048 428.544 428.544S748.3392 940.544 512 940.544z"></path></svg>
+            <%= LANG('期货规则')%>
+        </a>
+        <a class="guider" href="/help/leverTech" target="_blank">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon" style="width: 16px; height: 16px;vertical-align: text-bottom; overflow: hidden;"><path d="M853.5 213.1v-2.2-1.5c0-0.7-0.7-1.5-0.7-2.2v-1.5c0-0.7-0.7-1.5-0.7-2.2 0 0 0-0.7-0.7-0.7l-2.2-2.2c-0.7-0.7-1.5-1.5-3-2.2 0 0-0.7 0-0.7-0.7-0.7-0.7-1.5-0.7-2.2-1.5-0.7 0-0.7 0-1.5-0.7-0.7 0-1.5-0.7-2.2-0.7h-8.8c-0.7 0-0.7 0-1.5 0.7-0.7 0-1.5 0.7-2.2 0.7L126 524c-7.4 3.7-11.2 11.2-10.4 18.6s6.7 14.1 14.9 16.4l267.1 58c1.5 0 3 0.7 3.7 0.7 4.5 0 8.9-1.5 12.6-4.5l401.7-357.8-9.7 447.1-308.7-87c-9.7-3-20.1 3-23.1 12.6-3 9.7 3 20.1 12.6 23.1l64.7 18.6-124.1 144.3v-148c0-10.4-8.2-18.6-18.6-18.6s-18.6 8.2-18.6 18.6V864c0 7.4 4.5 14.9 11.9 17.1 2.2 0.7 4.5 1.5 6.7 1.5 5.2 0 10.4-2.2 14.1-6.7l164.4-190.4c1.5-1.5 2.2-3.7 3-5.2L818.6 745c1.5 0.7 3.7 0.7 5.2 0.7 3.7 0 8.2-1.5 11.2-3.7 4.5-3.7 7.4-8.9 7.4-14.9l11.1-514zM396 579.1l-203.8-44.6 535.6-250.7L396 579.1z"></path></svg>
+            <%= LANG('杠杆引导')%>
+        </a>
+    </div>
+</div>

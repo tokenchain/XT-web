@@ -1,0 +1,47 @@
+<section class="help helpshow">
+  <div class="banner">
+    <h2><%= LANG('帮助中心')%></h2>
+    <div class="search">
+      <div class="search-box"><input type="text" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off"><a href="#"></a></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <%-include("help_left.html")%>
+
+    <div id="help-list" class="help-rd" :class="{'loaded': loaded}">
+      <div class="help-cont vue-init">
+        <h3>{{sharedState.currentCategoryName}}</h3>
+        <div class="list">
+          <ul>
+            <li v-for="article in sharedState.articles[sharedState.currentCategoryId]">
+              <a :href="'/help/display?id=' + article.id + '&cid=' + sharedState.currentCategoryId + '&fid=' + sharedState.fid">{{article.title}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    EXX.helpList = new Vue({
+      el: "#help-list",
+      data: function () {
+        return {
+          loaded: true,
+          sharedState: store.state
+        }
+      },
+      created: function() {
+        //this.sharedState();
+      },
+      watch: {
+      }
+    })
+  })
+</script>
+

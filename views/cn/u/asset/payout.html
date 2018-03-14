@@ -1,0 +1,398 @@
+<div class="pay-panel payout-panel" id="app-payout">
+    <div class="pay-content">
+        <div style="display: flex;justify-content:space-between;margin-bottom: 20px;align-items: center;">
+            <h2 style="margin-bottom: 0"><%= coin.toUpperCase()%><%= LANG('提币') %></h2>
+            <search-box v-model="keyWord"></search-box>
+        </div>
+        <div class="pay-tab">
+            <ul class="coin-type" v-cloak="">
+                <li v-for="(item,coin) in filterCoin(currentUserAsset.coinFundMap)" :class="{'active': coin == currentCoin, 'disabled': !coinConfig[coin].isPayOut}" v-if="coinConfig && !coinConfig[coin].isVirtual">
+                    <a :href="'/u/payout/' + coin" v-if="coinConfig[coin].isPayOut">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'" class="market-icon">
+                        {{coin.toUpperCase()}}
+                    </a>
+                    <a onclick="JuaBox.sure('Not open yet...')" v-if="!coinConfig[coin].isPayOut">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'" class="market-icon">
+                        {{coin.toUpperCase()}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+            <div class="payout-address" v-if="step == 1" v-cloak="">
+                <div class="choice-address">
+                    <div class="table head">
+                        <div class="cell chc"><%= LANG('选择') %></div>
+                        <div class="cell rmks"><%= LANG('备注') %></div>
+                        <div class="cell adr"><%= LANG('地址') %></div>
+                        <div class="cell oper"><%= LANG('操作') %></div>
+                    </div>
+                    <div class="table body" @click="selectedAddress = record" :class="{'selected' : selectedAddress.id == record.id}" v-for="record in address" v-if="address.length > 0">
+                        <div class="cell chc"><i></i></div>
+                        <div class="cell rmks">{{record.memo}}</div>
+                        <div class="cell adr">{{record.account}}</div>
+                        <div class="cell oper">
+                            <a role="button" @click.stop="openEditAddress('edit',record)"><%= LANG('修改备注') %></a>
+                            <a role="button" @click.stop="openEditAddress('dele',record)"><%= LANG('删除') %></a>
+                        </div>
+                    </div>
+                    <div class="table no-data" v-if="address.length == 0">
+                        <%= LANG('没有记录')%>
+                    </div>
+                </div>
+                <div class="add-adr"><a role="button" @click="openEditAddress('add')">
+                    <svg class="icon" style="width: 1.6em; height: 1.6em;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M511.488347 64.46829c-246.973928 0-447.184809 200.210881-447.184809 447.184809 0 246.971881 200.210881 447.184809 447.184809 447.184809s447.184809-200.212928 447.184809-447.184809C958.673156 264.679172 758.462275 64.46829 511.488347 64.46829zM735.283366 536.49488 536.332175 536.49488l0 198.953238c0 13.607926-11.027148 24.639167-24.844851 24.639167-13.719466 0-24.844851-11.310603-24.844851-24.639167L486.642472 536.49488 287.691281 536.49488c-13.605879 0-24.639167-11.027148-24.639167-24.841781 0-13.722536 11.310603-24.844851 24.639167-24.844851l198.953238 0L486.644519 287.856034c0-13.607926 11.027148-24.639167 24.844851-24.639167 13.719466 0 24.844851 11.310603 24.844851 24.639167l0 198.953238 198.950168 0c13.610996 0 24.642237 11.027148 24.642237 24.844851C759.924579 525.372565 748.613976 536.49488 735.283366 536.49488z"></path></svg>
+                    <%= LANG('添加提币地址') %>
+                </a></div>
+                <div class="exx-form-btn" style="justify-content: center;margin-top: 50px;" v-if="address.length > 0">
+                    <button style="flex: none; width: 300px;" class="exxbtn btn-ok" @click="gotoStep(2)"><span><%= LANG('下一步，填写提币信息') %></span></button>
+                </div>
+            </div>
+
+            <div class="payout-fill" v-if="step == 2" v-cloak="">
+                <div class="payout-input">
+                    <div class="form-box">
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input placeholder="<%= LANG('已选择的提币地址') %>" readonly="readonly" v-model="selectedAddress.account" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('提币数量') %>" v-model.number="payoutAmount" type="text">
+                            <p class="form-text" style="height: 42px; cursor: pointer;" @click="payoutAmount = canUseAmount"><%= LANG('可用') %>：<em>{{canUseAmount}}</em></p>
+                            <div style="margin-top: 10px;color: #7786a5;">当前费率 {{currentMinFees}} {{currentCoin.toUpperCase()}}/笔，实际到账 {{actualPayout}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input :placeholder="loginUser.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' " autocomplete="new-password" v-model="safePwd" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode" type="text">
+                            <send-code :code-type="21" :user-name="userName" />
+                        </div>
+                    </div>
+                    <div v-if="loginUser.googleAuth == 1" class="form-group">
+                        <div class="form-control">
+                                <input autocomplete="off" placeholder="<%= LANG('谷歌验证码') %>" v-model="googleCode" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-button">
+                        <button v-if="!requestLocked" type="button" class="button" @click="doSubmit"><span><%= LANG('提币') %></span></button>
+                        <button v-if="requestLocked" type="button" class="button"><span><%= LANG('正在处理') %></span></button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+    </div>
+
+    <div class="pay-record" v-cloak="">
+        <h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2>
+        <div class="exx-record">
+            <div class="table">
+            <div class="tr head">
+                <div class="td" style="width: 300px;flex: none;"><%= LANG('接收地址') %></div>
+                <div class="td"><%= LANG('提交时间') %></div>
+                <div class="td"><%= LANG('处理时间') %></div>
+                <div class="td"><%= LANG('金额') %></div>
+                <div class="td"><%= LANG('实到金额') %></div>
+                <div class="td"><%= LANG('状态') %></div>
+                <div class="td oper"><%= LANG('操作') %></div>
+            </div>
+            <div class="tr" v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
+                <div class="td" style="width: 300px;flex: none; color: #333;">{{record.toAddress}}</div>
+                <div class="td"><span>{{showDate(record.submitTime)}}</span></div>
+                <div class="td"><span>{{record.status == 0 ? '--' : showDate(record.manageTime)}}</span></div>
+                <div class="td" style="color: #333;">{{record.amount}}</div>
+                <div class="td" style="color: #31C871">{{record.afterAmount}}</div>
+                <div class="td">{{LANG(record.statusT)}}</div>
+                <div class="td oper">
+                    <a role="button" v-if="record.status == 0 && record.commandId == 0" @click="cancelPayout(record.id)"><%= LANG('取消') %></a>
+                    <a role="button" v-else-if="record.status == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>
+                    <a role="button" v-else="">--</a>
+                </div>
+            </div>
+            <div class="tr" v-if="payoutRecords.length == 0">
+                <p class="norecord"><%= LANG('暂无记录')%></p>
+            </div>
+        </div>
+    </div>
+
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayoutCoinRecord" v-if="payoutRecords.length > 0"></page-lite>
+
+    </div>
+    <!--添加编辑地址-->
+    <modal v-cloak :open= "showModal == 'addAddress'" @close="showModal = false">
+        <modal-address :coin="currentCoin" :address="selectedAddress" :type="editType" :done="getPayoutAddress" />
+    </modal>
+
+</div>
+<%-include("../../component/search_box.html")%>
+<%-include("../../component/modal.html")%>
+<%-include("../../component/send_code.html")%>
+<%-include("../../component/page_lite.html")%>
+<%-include("../model/editAddress.html")%>
+
+<script>
+    require(['vue','common/methods'], function (Vue, Methods) {
+        EXX.appPayin = new Vue({
+            el: "#app-payout",
+            data: function () {
+                return {
+                    isLogin : ISLOGIN,
+                    pageIndex : 1,
+                    pageSize : 10,
+                    pageCount: 0,
+                    step : 1,
+                    pubKey : '',
+                    safePwd : '',
+                    googleCode : '',
+                    payoutAmount : '',
+                    payoutDynamicCode : '',
+                    requestLocked : false,
+                    coinConfig : '',
+                    address : '',
+                    selectedAddress : {},
+                    payoutRecords : [],
+                    currentUserAsset : '',
+                    currentCoin : "<%= coin%>",
+                    showModal : false,
+                    editType : 'add',
+                    loginUser: Methods.getLocalUserInfo(),
+                    userName: Methods.getCookie(ENV + 'uname'),
+                    keyWord:''
+                }
+            },
+            computed : {
+                currentMinFees:function(){
+                    if(!this.coinConfig){
+                        return 0;
+                    }
+                    return parseFloat(this.coinConfig[this.currentCoin].minFees) || 0;
+                },
+                actualPayout:function(){
+                    if(!this.coinConfig){
+                        return 0;
+                    }
+                    if(this.payoutAmount && !isNaN(this.currentMinFees)){
+                        var out = Methods.divide(this.payoutAmount,this.currentMinFees);
+                        return out>0 && out || 0
+                    }
+                    return 0;
+                },
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                canUseAmount : function () {
+                    return this.currentUserAsset.coinFundMap[this.currentCoin].available;
+                }
+            },
+            methods: {
+                filterCoin:function(objs){
+                    var _this = this;
+                    if(!_this.keyWord){
+                        return objs;
+                    }
+                    var nObj = {};
+                    for(var k in objs){
+                        if(k.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1){
+                            nObj[k] = objs[k];
+                        }
+                    }
+                    return nObj;
+                },
+                LANG : function (key) {
+                    return EXX.L(key);
+                },
+                showDate: function(date) {
+                    return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                },
+                isDemoCoin : function (coin) {
+                    if(coin && coin.length > 3 && coin.substring(0,1) == 'd'){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                },
+                getPubKey: function (callback) {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function(res) {
+                            this.pubKey = res.datas.pubTag;
+                            callback && callback();
+                        }.bind(this)
+                    });
+                },
+                getCoinConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : 0
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                        data: data,
+                        success: function (res) {
+                            if(res.datas.userFund){
+                                this.currentUserAsset = res.datas.userFund;
+                                callback && callback();
+                            }
+                        }.bind(this)
+                    });
+                },
+                getPayoutAddress: function () {
+                    var data = {
+                        coint: this.currentCoin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
+                        data: data,
+                        success: function(res) {
+                            this.address = res.datas.account;
+                        }.bind(this)
+                    });
+                },
+                getPayoutCoinRecord: function () {
+                    var data = {
+                        coint: this.currentCoin,
+                        pageIndex: this.pageIndex,
+                        pageSize: this.pageSize
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPayoutCoinRecord',
+                        data: data,
+                        success: function (res) {
+                            this.payoutRecords = res.datas.payout;
+                            this.pageCount = res.datas.payout.length;
+                        }.bind(this)
+                    });
+                },
+                handlePayout: function () {
+                    if (this.requestLocked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    if(this.payoutAmount == '' || this.payoutAmount == 0){
+                        return JuaBox.info("<%= LANG('请输入提币金额')%>")
+                    }
+                    if(parseFloat(this.payoutAmount) > parseFloat(this.canUseAmount)){
+                        return JuaBox.info("<%= LANG('超出最大可用金额，请检查。')%>")
+                    }
+                    var data ={
+                        coint: this.currentCoin,
+                        addressId: this.selectedAddress.id,
+                        amount: this.payoutAmount,
+                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        dynamicCode: this.payoutDynamicCode,
+                        googleCode: this.googleCode,
+                        noBlock: ''
+                    };
+                    this.requestLocked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
+                        data: data,
+                        success: function (res) {
+                            this.requestLocked = false;
+                            this.payoutAmount = '';
+                            this.safePwd = '';
+                            this.payoutDynamicCode = '';
+                            this.googleCode = '';
+                            this.getTargetUserAsset();
+                            this.getPayoutCoinRecord();
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                        }.bind(this),
+                        error: function(res) {
+                            this.requestLocked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                doSubmit : function () {
+                    this.getPubKey(this.handlePayout);
+                },
+                cancelPayout: function(id) {
+                    var data = {
+                        coint: this.currentCoin,
+                        did: id
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
+                        data: data,
+                        success: function(res) {
+                            this.getPayoutCoinRecord();
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                        }.bind(this)
+                    });
+                },
+                openEditAddress : function (type, address) {
+                    this.editType = type;
+                    if(address){
+                        this.selectedAddress = address;
+                    }
+                    this.showModal = 'addAddress';
+                },
+                deleAddress : function () {
+
+                },
+                gotoStep : function (step) {
+                    if(step == 2 && !this.selectedAddress.id){
+                        return JuaBox.sure("<%= LANG('请先选择或添加提币地址！')%>")
+                    }else{
+                        this.step = step;
+                    }
+                },
+                pageInit : function () {
+                    if(this.currentUserAsset.userType != 1){
+                        swal({
+                            title: "<%= LANG('访问错误') %>",
+                            text: "<%= LANG('子账号不可进行充值、提币操作') %>",
+                            icon: "warning",
+                            buttons: ["<%= LANG('确定') %>", false],
+                            dangerMode: false,
+                        }).then(function (willDelete) {
+                            window.location.href = '/u/asset';
+                        });
+                        window.setTimeout(function () {
+                            window.location.href = '/u/asset';
+                        }, 3000);
+                    }
+                }
+            },
+            created: function() {
+                this.getCoinConfig();
+                this.getTargetUserAsset(this.pageInit);
+                this.getPayoutAddress();
+                this.getPayoutCoinRecord();
+            },
+            watch:{
+                payoutAmount:function(val){
+                    var reg = /^\d+(\.\d{1,8})?$/;
+                    if(!reg.test(val)){
+                        val = Number(val).toString();
+                        this.payoutAmount = Number(val.substring(0,val.length - 1))
+                    }
+                }
+            }
+        })
+    })
+</script>

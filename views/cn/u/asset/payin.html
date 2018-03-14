@@ -1,0 +1,255 @@
+<div class="pay-panel payin-panel" id="app-payin">
+    <div class="pay-content">
+        <div style="display: flex;justify-content:space-between;margin-bottom: 20px;align-items: center;">
+            <h2 style="margin-bottom: 0"><%= coin.toUpperCase()%><%= LANG('充值')%></h2>
+            <search-box v-model="keyWord"></search-box>
+        </div>
+        <div class="pay-tab">
+            <ul class="coin-type" v-cloak="">
+                <li v-for="(item,coin) in filterCoin(currentUserAsset.coinFundMap)" :class="{'active': coin == currentCoin, 'disabled': !coinConfig[coin].isPayIn}"  v-if="coinConfig && !coinConfig[coin].isVirtual">
+                    <a role="button" :href="'/u/payin/' + coin" v-if="coinConfig[coin].isPayIn">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'">
+                        {{coin.toUpperCase()}}
+                    </a>
+                    <a role="button" onclick="JuaBox.sure('Not open yet...')" v-if="!coinConfig[coin].isPayIn">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'">
+                        {{coin.toUpperCase()}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="payin-address" v-if="currentCoin == 'bts' || currentCoin == 'tv' || currentCoin == 'bds'" v-cloak="">
+            <!--<div class="code"><img style="width: 200px;" :src="qrUrl"></div>-->
+            <div class="address">
+            <h4><%= LANG('账户') %></h4>
+            <p v-text="btsAccount"></p>
+            <a :data-clipboard-text="btsAccount" class="copyAddress"><%= LANG('复制')%></a>
+                <h4 style="margin-top: 20px;"><%= LANG('备注') %>（MEMO）</h4>
+                <p class="address" v-text="btsMemo"></p>
+                <a :data-clipboard-text="btsMemo" class="copyAddress"><%= LANG('复制')%></a>
+
+                <div class="tips" style="margin-top: 30px;">
+                    <h5><%= LANG('充值说明')%>：</h5>
+                    <p><%= LANG('填错账户或备注(MEMO)都会导致资产丢失，请谨慎操作。') %></p>
+                    <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认{{confirmTimes}}个确认后系统自动到账；')%></p>
+                    <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
+                </div>
+            </div>
+        </div>
+        <div class="payin-address" v-else="">
+            <div class="address">
+                <h4><%= coin.toUpperCase()%><%= LANG('钱包地址')%></h4>
+                <p class="address" v-text="payin.address"></p><a :data-clipboard-text="payin.address" class="copyAddress"><%= LANG('复制钱包地址')%></a>
+                <div class="code"><img style="width: 200px;" id="keyPreImg" :src="qrUrl"></div>
+                <div class="tips">
+                    <h5><%= LANG('充值说明')%>：</h5>
+                    <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
+                    <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
+                </div>
+            </div>
+
+
+
+
+        </div>
+</div>
+
+    <div class="pay-record" v-cloak="">
+        <h2><%= coin.toUpperCase()%><%= LANG('充值记录')%></h2>
+        <div class="exx-record">
+        <div class="table">
+            <div class="tr head">
+                <div class="td time"><%= LANG('提交时间')%></div>
+                <div class="td type"><%= LANG('类型')%></div>
+                <div class="td amount"><%= LANG('金额')%></div>
+                <div class="td time ok"><%= LANG('处理时间')%></div>
+                <div class="td num"><%= LANG('确认次数')%></div>
+                <div class="td state"><%= LANG('状态')%></div>
+            </div>
+            <div class="tr" v-for="record in payinRecords" v-if="payinRecords.length > 0">
+                <div class="td time"><span>{{showDate(record.subTime)}}</span></div>
+                <div class="td type" v-if="record.type == 1">"<%= LANG('区块链转入') %>"</div>
+                <div class="td type" v-else-if="record.type == 93">"<%= LANG('内部转入') %>"</div>
+                <div class="td type" v-else>"<%= LANG('充值') %>"</div>
+                <div class="td amount">+ {{record.amount}}</div>
+                <div class="td time ok"><span>{{showDate(record.endTime)}}</span></div>
+                <div class="td num">{{record.confirmTimes}}</div>
+                <div class="td state">{{LANG(record.status)}}</div>
+            </div>
+            <div class="tr" v-if="payinRecords.length == 0">
+                <p class="norecord"><%= LANG('暂无记录')%></p>
+            </div>
+        </div>
+    </div>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayinCoinRecord" v-if="payinRecords.length > 0"></page-lite>
+    </div>
+
+
+
+</div>
+
+<%-include("../../component/page_lite.html")%>
+
+<script>
+    require(['vue','common/methods', 'clipboadrd'], function (Vue, Methods, Clipboard) {
+        EXX.appPayin = new Vue({
+            el: "#app-payin",
+            data: function () {
+                return {
+                    isLogin : ISLOGIN,
+                    pageIndex : 1,
+                    pageSize : 10,
+                    pageCount: 0,
+                    requestLocked : false,
+                    coinConfig : '',
+                    payin : '',
+                    payinRecords : [],
+                    currentUserAsset : '',
+                    currentCoin : "<%= coin%>",
+                    keyWord:'',
+                }
+            },
+            computed : {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                qrUrl: function () {
+                    return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code=' + this.payin.address + "&width=160&height=160";
+                },
+                btsAccount : function () {
+                    return this.payin.address ? this.payin.address.split("_")[0] : "--";
+                },
+                btsMemo : function () {
+                    return this.payin.address ? this.payin.address.split("_")[1] : "--";
+                },
+                confirmTimes : function () {
+                    if(this.coinConfig && this.coinConfig[this.currentCoin]){
+                        return this.coinConfig[this.currentCoin].inConfigTimes;
+                    }else{
+                        return '--';
+                    }
+                }
+            },
+            methods: {
+                filterCoin:function(objs){
+                    var _this = this;
+                    if(!_this.keyWord){
+                        return objs;
+                    }
+                    var nObj = {};
+                    for(var k in objs){
+                        if(k.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1){
+                            nObj[k] = objs[k];
+                        }
+                    }
+                    return nObj;
+                },
+                LANG : function (key) {
+                    return EXX.L(key);
+                },
+                showDate: function(date) {
+                    if(isNaN(date) || Number(date) < 0){
+                        return '--'
+                    }else{
+                        return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                    }
+                },
+                isDemoCoin : function (coin) {
+                    if(coin && coin.length > 3 && coin.substring(0,1) == 'd'){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                },
+                getCoinConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : 0
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                        data: data,
+                        success: function (res) {
+                            if(res.datas.userFund){
+                                this.currentUserAsset = res.datas.userFund;
+                                callback && callback();
+                            }
+                        }.bind(this)
+                    });
+                },
+                getPayinAddress: function () {
+                    var data = {
+                        coint: this.currentCoin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
+                        data: data,
+                        success: function (res) {
+                            this.payin = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getPayinCoinRecord: function () {
+                    var data = {
+                        coint: this.currentCoin,
+                        pageIndex: this.pageIndex,
+                        pageSize: this.pageSize
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
+                        data: data,
+                        success: function (res) {
+                            this.payinRecords = res.datas.payin;
+                            this.pageCount = res.datas.payin.length;
+                        }.bind(this)
+                    });
+                },
+                pageInit : function () {
+                    console.log('usertype:',this.currentUserAsset.userType)
+                    if(this.currentUserAsset.userType != 1){
+                        swal({
+                            title: "<%= LANG('访问错误') %>",
+                            text: "<%= LANG('子账号不可进行充值、提币操作') %>",
+                            icon: "warning",
+                            buttons: ["<%= LANG('确定') %>", false],
+                            dangerMode: false,
+                        }).then(function (willDelete) {
+                            window.location.href = '/u/asset';
+                        });
+                        window.setTimeout(function () {
+                            window.location.href = '/u/asset';
+                        }, 3000);
+                    }
+                    var clipboard = new Clipboard('.copyAddress');
+                    clipboard.on('success', function (e) {
+                        JuaBox.info("<%= LANG('复制成功！') %>");
+                    });
+                }
+            },
+            created: function() {
+                this.getCoinConfig();
+                this.getPayinAddress();
+                this.getTargetUserAsset(this.pageInit);
+                this.getPayinCoinRecord();
+            },
+            mounted : function () {
+
+
+            }
+        })
+    })
+</script>

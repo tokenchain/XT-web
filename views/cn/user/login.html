@@ -1,0 +1,246 @@
+<section class="exx-entrance">
+    <%-include("canvas.html")%>
+  <div class="exx-entrance-main">
+      <div class="exx-entrance-head">
+          <h3><%= LANG('登录') %></h3>
+      </div>
+    <div class="exx-entrance-body" id="logBox">
+        <div class="form-box">
+            <div class="form-group">
+              <div class="form-control" id="nikeForm">
+            <input autocomplete="off" placeholder="<%= LANG('手机') %>/<%= LANG('邮箱') %>/<%= LANG('用户名') %>" v-model="userName" v-on:blur="handleCheckUserType($event)" v-on:focus="clearInputError($event)" type="text">
+          <country-code v-if="showCountry" :selected="selectCountry" />
+          </div>
+          </div>
+          <div class="form-group">
+              <div class="form-control" id="passwordForm">
+              <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearInputError($event)" >
+              <a class="label-a" href="/findLoginPwd"><%= LANG('忘记密码?') %></a>
+              </div>
+          </div>
+          <div class="form-group" v-show="showImgCode" style="display: none;">
+              <div class="form-control hint--top" aria-label="<%- LANG('请输入图中算式的答案')%>" style="display: block !important;">
+            <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" type="text">
+                  <div class="code-img"><img :src="imageCodeUrl + timestramp" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+
+              </div>
+          </div>
+            <div class="form-button">
+                <button type="button" @click="handleLogin" class="button" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('登录') %></span></button>
+            </div>
+            <div class="form-other"><%= LANG('还没账号？') %><a href="/register"><%= LANG('立即注册') %></a></div>
+
+    </div>
+  </div>
+  </div>
+</section>
+
+<script>
+    var $svg = $("svg").drawsvg();
+    $svg.drawsvg("animate");
+</script>
+<script>
+    function loginSuccessUi(redirect) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('登录成功') %>",
+            text: "<%= LANG('即将跳转到账户中心') %>",
+            icon: "success",
+            buttons: ["<%= LANG('立即跳转') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            window.location.href = redirect;
+        });
+        window.setTimeout(function () {
+            window.location.href = redirect;
+        }, 3000);
+    }
+
+    function loginErrorUi(message) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('提示') %>",
+            text: message,
+            icon: "warning",
+            buttons: ["<%= LANG('确定') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            //$("#logBox").fadeIn();
+        });
+        window.setTimeout(function () {
+            $(".swal-overlay").trigger('click');
+            //$("#logBox").fadeIn();
+        }, 4000);
+    }
+
+
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+        var app = new Vue({
+            el: '#logBox',
+            data: function () {
+                return {
+                    pubKey: '',
+                    timestramp: '',
+                    userType: 1,
+                    showCountry: false,
+                    showImgCode: false,
+                    userName: '',
+                    password: '',
+                    imgCode: '',
+                    countryCode: '+86',
+                    requestLocked : false,
+                    url : Methods.getUrlparm('url'),
+                    imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
+                }
+            },
+            methods: {
+                handleCheckUserType: function (e) {
+                    this.userType = Methods.checkUserType(this.userName);
+                    this.showCountry = Methods.isAllNumber(this.userName);
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if (this.userName.length < 6) {
+                        Methods.showLineError(target, "<%= LANG('手机、邮箱或用户名格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                handCheckPwd: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if (Methods.checkPwdStrength(this.password) < 2) {
+                        Methods.showLineError(target, "<%= LANG('登录密码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                clearInputError : function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                selectCountry: function (country) {
+                    this.countryCode = country.code
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubTag;
+                        }.bind(this)
+                    });
+                },
+                handleSendCode: function () {
+                    var data = {
+                        type: 3,
+                        countryCode: this.countryCode,
+                        userName: this.userName
+                    };
+                    Methods.sendCode(data);
+                },
+                handleRefreshImgcode: function () {
+                    this.timestramp = '-' + new Date().getTime();
+                },
+                handleLogin: function () {
+                    var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
+                    var data = {
+                        userType: Methods.checkUserType(this.userName),
+                        userName: this.userName,
+                        password: encryptionPwd,
+                        imgCode: this.imgCode,
+                        countryCode: this.countryCode
+                    };
+                    var _this = this;
+                    if (this.userName === '') {
+                        // swal("<%= LANG('提示') %>", "<%= LANG('请输入手机号/邮箱') %>", "warning");
+                        loginErrorUi("<%= LANG('请输入账号') %>");
+                        //loginSuccessUi("/");
+                        //JuaBox.info("<%= LANG('请输入手机号/邮箱') %>");
+                    } else if (this.password === '') {
+                        loginErrorUi("<%= LANG('请输入密码') %>");
+                    } else if (this.showImgCode && this.imgCode == '') {
+                        loginErrorUi("<%= LANG('验证码格式不正确') %>");
+                    } else {
+                        _this.requestLocked = true;
+                        Methods.ajax({
+                            url: DOMAIN_MAIN + API_PREFIX + 'login',
+                            data: data,
+                            success: function (res) {
+                                _this.requestLocked = false;
+                                //确保清除子账号Cookie
+                                Methods.deleCookie(ENV + 'currentAccountId');
+                                Methods.setLocalUserInfo(res.datas.userInfo);
+                                if (res.datas.userInfo.thirdAssetMove == '-1') {
+                                    window.location.href = DOMAIN_WEB + '/u/welcome'
+                                } else {
+                                    if(_this.url){
+                                        top.location.href = _this.url;
+                                    }else{
+                                        loginSuccessUi('/u');
+                                    }
+                                }
+                                /*if (res.datas.userInfo.safePwd === 0) {
+                                    loginSuccessUi('/u/safe/setSafePwd');
+                                } else {
+                                    loginSuccessUi('/u');
+                                }*/
+                            },
+                            error: function (res) {
+                                _this.requestLocked = false;
+                                var resMsg = res.resMsg;
+                                if (resMsg.code === 1017) {
+                                    Methods.setLocalUserInfo(res.datas.userInfo);
+                                    window.location.href = '/loginAuth';
+                                } else if (resMsg.code === 1029) {
+                                    _this.showImgCode = true;
+                                    _this.timestramp = '-' + new Date().getTime();
+                                    loginErrorUi(EXX.L(resMsg.message));
+                                } else {
+                                    loginErrorUi(EXX.L(resMsg.message));
+                                    _this.getPubKey();
+                                    _this.timestramp = '-' + new Date().getTime();
+                                    try {
+
+                                    } catch (error) {
+
+                                    }
+
+                                }
+                            }
+                        });
+
+                    }
+                },
+                bindEnter : function () {
+                    var _this = this;
+                    document.onkeydown = function(e){
+                        var ev = document.all ? window.event : e;
+                        if(ev.keyCode==13) {
+                            _this.handleLogin()
+                            return false;
+                        }
+                    }
+                }
+            },
+            created: function () {
+                var params = Methods.parseQueryString();
+                this.userName = params.userName ? params.userName : '';
+
+            },
+            mounted: function () {
+                Methods.checkMobileStyle();
+                this.bindEnter();
+                if (this.userName != '') {
+                    $('#username').parent().parent().addClass('activenocolor');
+                }
+                this.getPubKey();
+                this.userType = Methods.checkUserType(this.userName);
+
+
+            }
+        });
+    })
+
+
+
+
+</script>
+
