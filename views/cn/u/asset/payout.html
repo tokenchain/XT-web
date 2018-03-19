@@ -96,20 +96,24 @@
             <div class="table">
             <div class="tr head">
                 <div class="td" style="width: 300px;flex: none;"><%= LANG('接收地址') %></div>
-                <div class="td"><%= LANG('提交时间') %></div>
-                <div class="td"><%= LANG('处理时间') %></div>
-                <div class="td"><%= LANG('金额') %></div>
-                <div class="td"><%= LANG('实到金额') %></div>
+                <div class="td" style="width: 150px;flex: none;"><%= LANG('提交时间') %></div>
+                <!--<div class="td"><%= LANG('处理时间') %></div>-->
+                <div class="td" style="width: 200px;flex: none;"><%= LANG('金额') %></div>
+                <div class="td" style="width: 200px;flex: none;"><%= LANG('手续费') %></div>
+                <div class="td"><%= LANG('审核状态') %></div>
                 <div class="td"><%= LANG('状态') %></div>
+                <div class="td" style="width: 150px;flex: none;"><%= LANG('到账时间') %></div>
                 <div class="td oper"><%= LANG('操作') %></div>
             </div>
             <div class="tr" v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
-                <div class="td" style="width: 300px;flex: none; color: #333;">{{record.toAddress}}</div>
-                <div class="td"><span>{{showDate(record.submitTime)}}</span></div>
-                <div class="td"><span>{{record.status == 0 ? '--' : showDate(record.manageTime)}}</span></div>
+                <div class="td" style="width: 300px;flex: none; color: #333;">{{record.withdrawalAddress}}</div>
+                <div class="td"><span>{{showDate(record.withdrawalTime)}}</span></div>
+                <!--<div class="td"><span>{{record.status == 0 ? '&#45;&#45;' : showDate(record.modify_time)}}</span></div>-->
                 <div class="td" style="color: #333;">{{record.amount}}</div>
-                <div class="td" style="color: #31C871">{{record.afterAmount}}</div>
-                <div class="td">{{LANG(record.statusT)}}</div>
+                <div class="td" style="color: #31C871">{{record.fees}}</div>
+                <div class="td">{{LANG(record.auditStatus)}}</div>
+                <div class="td">{{LANG(record.status)}}</div>
+                <div class="td"><span>{{showDate(record.withdrawalTime)}}</span></div>
                 <div class="td oper">
                     <a role="button" v-if="record.status == 0 && record.commandId == 0" @click="cancelPayout(record.id)"><%= LANG('取消') %></a>
                     <a role="button" v-else-if="record.status == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>
@@ -271,17 +275,21 @@
                 },
                 getPayoutCoinRecord: function () {
                     var data = {
-                        coint: this.currentCoin,
+                        // coint: this.currentCoin,
+                        currencyTypeId:1,   //TODO
                         pageIndex: this.pageIndex,
-                        pageSize: this.pageSize
+                        pageSize: this.pageSize,
+                        webId:100,
+                        userId:1
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPayoutCoinRecord',
-                        data: data,
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
+                        data: JSON.stringify(data),
                         success: function (res) {
-                            this.payoutRecords = res.datas.payout;
-                            this.pageCount = res.datas.payout.length;
+                            // console.log(res)
+                            this.payoutRecords = res.datas.list;
+                            this.pageCount = res.datas.totalRow;
                         }.bind(this)
                     });
                 },
@@ -380,8 +388,8 @@
             },
             created: function() {
                 this.getCoinConfig();
-                this.getTargetUserAsset(this.pageInit);
-                this.getPayoutAddress();
+                // this.getTargetUserAsset(this.pageInit);
+                // this.getPayoutAddress();
                 this.getPayoutCoinRecord();
             },
             watch:{
