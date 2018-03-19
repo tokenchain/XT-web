@@ -242,17 +242,20 @@
                 getEntrustRecord: function(callback) {
                     var _this = this;
                     var data = {
-                        type: _this.tradeType,
-                        status: _this.tradeStatus,
-                        isBackup: _this.timeType,
-                        market: _this.currentMarket,
-                        userId: _this.currentAccountId,
-                        pageIndex: _this.pageIndex,
-                        pageSize: _this.pageSize
+                        // type: _this.tradeType,
+                        // status: _this.tradeStatus,
+                        // isBackup: _this.timeType,
+                        // market: _this.currentMarket,
+                        // userId: _this.currentAccountId,
+                        // pageIndex: _this.pageIndex,
+                        // pageSize: _this.pageSize
+                        userId: 1273 || _this.currentAccountId,
+                        marketId: 90 || _this.currentMarket
                     };
                     _this.requestLocked = true;
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                        url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
@@ -264,6 +267,7 @@
                             }
                             _this.pageCount = res.datas.record.length;
                             _this.requestLocked = false;
+
                             callback && callback(res.datas)
                         },
                         error : function (res) {

@@ -43,7 +43,39 @@
     </div>
     <div class="h-box">
         <% if(isLogin){ %>
-            <%-include("menu/menu_user.html")%>
+            <div class="finance-menu" v-on:mouseover="showAssetDrop = true" v-on:mouseleave="showAssetDrop = false">
+                <a role="button" class="<%= typeof column != 'undefined' && column == 0 ? 'active' : ''%>" href="/u/asset"><%= LANG('财务中心')%></a>
+                <div class="finance-menu-dropdown">
+                    <asset-drop-menu :user-asset="currentUserAsset" :show-drop="showAssetDrop"></asset-drop-menu>
+                </div>
+            </div>
+            <div class="account-menu">
+                <a role="button" class="<%= typeof column != 'undefined' && column == 1 ? 'active' : ''%>" href="/u">
+                    <div class="avatar">
+                        <img v-if="currentUserInfo.photo" :src="'/src/images/userhead/' + currentUserInfo.photo">
+                    </div>
+                    <div class="info">
+                        <h3 v-text="currentUserInfo.nickName"></h3>
+                        <!--<p v-text="currentUserInfo.userName"></p>-->
+                    </div>
+                </a>
+                <div class="account-menu-dropdown">
+                    <ul>
+                        <!--主账号才有用户列表-->
+                        <template v-if="loginUser.userType == 1">
+                            <li v-if="currentUserInfo.userType == user.userType || (currentUserInfo.userType < 3 && user.userType < 3)" v-for="user,index in mainUserAsset">
+                                <a role="button" @click="handleSelectSub(user)">
+                                    <img v-if="user.photo" :src="'/src/images/userhead/' + user.photo">{{user.nickName}}
+                                </a>
+                            </li>
+                        </template>
+                        <li v-if="currentUserInfo.userType == 3"><a style="padding-left: 20px;" role="button" @click="handleSelectSub(realAccounts[0])"><%= LANG('切换到主账户') %></a></li>
+                        <li v-if="loginUser.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>
+                        <li v-if="loginUser.userType != 3" v-cloak><a style="padding-left: 20px;" role="button" href="/u/api">API<%= LANG('设置') %></a></li>
+                        <li><a style="padding-left: 20px;" role="button" href="javascript:;" @click="logout"><%= LANG('退出登录') %></a></li>
+                    </ul>
+                </div>
+            </div>
         <% }else{ %>
             <div class="user-menu">
                 <a href="/login" class="flex flex-tb-center menu-head <%= PATH.indexOf('/login') != -1 ? 'active' : ''%>"><%= LANG('登录') %></a>

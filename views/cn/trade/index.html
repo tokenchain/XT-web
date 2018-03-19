@@ -1046,12 +1046,15 @@
             return
           }
           var data = {
-            market: this.market,
-            userId: this.sharedState.currentAccountId,
-            pageSize: 5
+            // market: this.market,
+            // userId: this.sharedState.currentAccountId,
+            // pageSize: 5
+              marketId: this.market,
+              userId: this.sharedState.currentAccountId
           };
-          Methods.getJSONP({
-            url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+          Methods.ajax({
+            // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+              url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
             data: data,
             success: function (res) {
               this.entrustRecord = res.datas.record;
@@ -1205,7 +1208,7 @@
           };
           Methods.getJSONP({
             //url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
-            url: DOMAIN_TRADE + API_MODULE + 'addEntrust',
+            url: DOMAIN_TRADE + '/entrust/entrustController/' + 'addEntrust',
             data: data,
             success: function (res) {
               this.showSafePwd = false;

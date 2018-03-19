@@ -343,14 +343,17 @@
                     // status 0不限制 1 已取消成功 2 交易成功 3 交易中
                     var status = status || '0';
                     var data = {
-                        status: status,
-                        market: this.params.market,
-                        userId: this.params.userId,
-                        pageIndex: this.pageIndex,
-                        pageSize: this.pageSize
+                        // status: status,
+                        // market: this.params.market,
+                        // userId: this.params.userId,
+                        // pageIndex: this.pageIndex,
+                        // pageSize: this.pageSize
+                        marketId: this.params.market,
+                        userId: this.params.userId
                     };
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                        url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             this.pageCount = res.datas.record.length;

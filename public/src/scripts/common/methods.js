@@ -226,43 +226,43 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
             options.success = options.success || function (res) {
                 console.log('Requirest Success');
             };
-            // 返回码非1000都当作错误处理
+            //TODO 返回码非1000都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
-                switch (resMsg.code) {
-                    case 1003:
-                        JuaBox.showWrong(EXX.L(resMsg.message));
-                        this.deleCookie(ENV + 'currentAccountId');
-                        this.setCookie(ENV + 'ExchangeMode', 1);
-                        this.setCookie(ENV + 'TradeTheme', 'dark');
-                        this.setCookie(ENV + 'inputPriceMode', 0);
-                        this.setCookie(ENV + 'mname', 'none');
-                        window.localStorage.clear();
-                        setTimeout(function () {
-                            window.location.replace('/login');
-                        }, 1500);
-                        break;
-                    // 错误市场处理
-                    //case 5002:
-                    //JuaBox.showWrong(resMsg.message);
-                    //console.log(resMsg.message)
-                    //break;
-                    // 错误市场处理
-                    case 999:
-                        console.log(resMsg.message);
-                        break;
-                    default:
-                        JuaBox.showWrong(EXX.L(resMsg.message));
-                    //console.log(resMsg.message)
-                    /*swal({
-                        text: resMsg.message,
-                        icon: "error"
-                    });*/
-                }
+                // switch (resMsg.code) {
+                //     case 1003:
+                //         JuaBox.showWrong(EXX.L(resMsg.message));
+                //         this.deleCookie(ENV + 'currentAccountId');
+                //         this.setCookie(ENV + 'ExchangeMode', 1);
+                //         this.setCookie(ENV + 'TradeTheme', 'dark');
+                //         this.setCookie(ENV + 'inputPriceMode', 0);
+                //         this.setCookie(ENV + 'mname', 'none');
+                //         window.localStorage.clear();
+                //         setTimeout(function () {
+                //             window.location.replace('/login');
+                //         }, 1500);
+                //         break;
+                //     // 错误市场处理
+                //     //case 5002:
+                //     //JuaBox.showWrong(resMsg.message);
+                //     //console.log(resMsg.message)
+                //     //break;
+                //     // 错误市场处理
+                //     case 999:
+                //         console.log(resMsg.message);
+                //         break;
+                //     default:
+                //         JuaBox.showWrong(EXX.L(resMsg.message));
+                //     //console.log(resMsg.message)
+                //     /*swal({
+                //         text: resMsg.message,
+                //         icon: "error"
+                //     });*/
+                // }
             }.bind(this);
 
             $.ajaxSetup({
-                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 xhrFields: {
                     withCredentials: true
                 },
@@ -270,30 +270,32 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
             });
             if (options.url != '') {
                 $.ajax({
-                    'url': options.url,
-                    'type': options.type,
-                    'data': options.data,
-                    'timeout': 10000,
-                    'success': function (res) {
+                    url: options.url,
+                    type: options.type,
+                    data: options.data,
+                    timeout: 10000,
+                    success: function (res) {
+                        console.log('success: ' + options.url)
                         var resMsg = res.resMsg;
                         // 如果返回信息模式不正确
                         if (!resMsg) {
                             //('暂时无法提供服务，请联系网络管理员');
                             console.log('返回参数不正确');
-                        } else if (resMsg.code === 1000) {
+                        } else if (resMsg.code == "1") {
                             return options.success(res);
                         } else {
                             return options.error(res);
                         }
                     },
-                    'error': function (XMLHttpRequest, textStatus, errorThrown) {
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('error: ' + options.url)
                         if(textStatus == 'timeout') {
                             console.log(EXX.L('请求超时，请稍后重试'));
                         } else {
                             console.log('网络错误');
                         }
                     },
-                    'complete': function (XMLHttpRequest, textStatus) {
+                    complete: function (XMLHttpRequest, textStatus) {
                         if(textStatus == 'timeout') {
                             console.log(EXX.L('请求超时，请稍后重试'));
                         }

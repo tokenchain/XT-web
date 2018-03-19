@@ -17,11 +17,12 @@ module.exports = {
     DOMAIN_BASE : "exx.com",
     DOMAIN_WEB : "//ww.exx.com",
     DOMAIN_EXC2C : "http://ww.exc2c.com",
-    DOMAIN_MAIN : "//main.exx.com",
+    DOMAIN_MAIN : "https://main.exx.com",
     DOMAIN_TRADE : "//trans.exx.com",
     DOMAIN_SOCKET : "wss://kline.exx.com",
     DOMAIN_FILE : "//img1.exx.com",
     API_PREFIX : "/api/web/V1_0/",
-    API_MODULE : "/entrust/entrustController/" //新开发接口调试
+    //调试用
+    DOMAIN_DEV : "http://ww.exx.com/test"
 }
 /* * 开发环境前端 + 生产环境后端* */

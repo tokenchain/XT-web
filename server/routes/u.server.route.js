@@ -58,17 +58,11 @@ router.get('/', function(req, res, next) {
     res.redirect('/u/account');
 });
 //财务中心
-router.get('/asset2', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/asset/index.html',
-        column : 0
-    });
-});
 router.get('/asset', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/asset/indexNew.html',
-        column : 0
-    });
+res.render(TEMP_MANAGE,{
+    templateMain:'u/asset/indexNew.html',
+    column : 0
+});
 });
 //综合账单
 router.get(['/bill','/bill/:coin'], function(req, res, next) {
@@ -166,143 +160,5 @@ router.get('/recommend', function(req, res, next) {
         column : 1
     });
 });
-/*router.get('/safe', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/index.html'
-    });
-});
-
-router.get('/safe/setLoginPwd', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/setLoginPwd.html'
-    });
-});
-
-router.get('/safe/setSafePwd', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/setSafePwd.html'
-    });
-});
-
-router.get('/safe/resetSafePwd', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/safe/resetSafePwd.html'
-  });
-});
-
-router.get('/safe/setEmail', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/setEmail.html'
-    });
-});
-
-router.get('/safe/setMobile', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/safe/setMobile.html'
-  });
-});
-
-router.get('/safe/setStrategy', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/safe/setStrategy.html'
-  });
-});
-
-router.get('/safe/setGoogle', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/setGoogle.html'
-    });
-});
-
-router.get('/safe/smsLoginCheck', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/smsLoginCheck.html'
-    });
-});
-
-
-router.get('/safe/loginGoogleAuth', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/loginGoogleAuth.html'
-    });
-});
-
-
-router.get('/safe/payGoogleAuth', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/payGoogleAuth.html'
-    });
-});
-
-router.get('/safe/payMobileAuth', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/safe/payMobileAuth.html'
-    });
-});
-
-router.get('/fund', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/fund/index.html'
-    });
-});
-
-router.get('/fund/payin', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/fund/payin.html'
-    });
-});
-
-router.get('/fund/payout', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/fund/payout.html'
-    });
-});
-
-router.get('/fund/loan', function(req, res, next) {
-    res.render(TEMP_MANAGE,{
-        templateMain:'u/fund/loan.html'
-    });
-});
-
-router.get('/fund/transfer', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/fund/transfer.html'
-  });
-});
-
-router.get('/fund/investor', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/fund/investor.html'
-  });
-});
-
-router.get('/fund/coupon', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/fund/coupon.html'
-  });
-});
-
-router.get('/other/buy', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/other/buy.html'
-  });
-});
-
-router.get('/other/usdbuy', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/other/usdbuy.html'
-  });
-});
-router.get('/other/rmbbuy', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/other/rmbbuy.html'
-  });
-});
-router.get('/other/buyxbtc', function(req, res, next) {
-  res.render(TEMP_MANAGE,{
-    templateMain:'u/other/buyxbtc.html'
-  });
-});
-*/
 
 module.exports = router;

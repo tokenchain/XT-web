@@ -31,7 +31,8 @@
                                     <li v-for="coin in currencyList" @click="setCurrency(coin, account.userId)">{{coin.name.toUpperCase()}}</li>
                                 </ul>
                             </div>
-                            <span hide>{{resetCurrency(account.assistCoin).toUpperCase()}}</span></div>
+                            <span hide>{{resetCurrency(account.assistCoin).toUpperCase()}}</span>
+                        </div>
                         <div class="onffflist"><a role="button" @click="hideZero = !hideZero" :class="{'on' : hideZero}"><span><%= LANG('隐藏小额资产币种') %></span><i></i></a></div>
                     </div>
                 </div>
@@ -49,86 +50,47 @@
                                 <div class="td loan" v-if="account.lever"><%= LANG('借入') %></div>
                                 <div class="td last"><%= LANG('操作') %></div>
                             </div>
-                            <div class="tr" v-for="(item, index) in filterUserCoinFunds(userCoinFunds(account))" v-if="(!hideZero || (hideZero && Number(item.computeTotal) > 1)) && coinConfig">
+                            <div class="tr" v-for="(item, index) in filterUserCoinFunds(userCoinFunds())" v-if="(!hideZero || (hideZero && Number(item.computeTotal) > 1)) && coinConfig">
                                 <div class="td cointTag">
                                     <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + item.coin + '.png?<%= VERSION%>'"/>
                                     <p>{{getRealCoinName(item.coin).toUpperCase()}}</p>
                                 </div>
                                 <div class="td total">
                                         <span class="hint--top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeTotal))">{{showNumber(item.total)}}</span>
-                                        <!--<template v-if="account.assistCoin != 'none'">({{currencySymbol(account.assistCoin) + item.computeTotal.toFixed(3)}})</template>-->
                                 </div>
                                 <div class="td nettotoal">
                                         <span class="hint--top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeNetTotal))">{{showNumber(item.netTotal)}}</span>
-                                        <!--<template v-if="account.assistCoin != 'none'">({{currencySymbol(account.assistCoin) + item.computeNetTotal.toFixed(3)}})</template>-->
                                 </div>
 
                                 <div class="td useable green">
                                         <span class="hint--top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeAvailable))">{{showNumber(item.available)}}</span>
-                                        <!--<template v-if="account.assistCoin != 'none'">({{currencySymbol(account.assistCoin) + item.computeAvailable.toFixed(3) }})</template>-->
                                 </div>
                                 <div class="td frozen red">
                                         <span class="hint--top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeFreez))">{{showNumber(item.freez)}}</span>
-                                        <!--<template v-if="account.assistCoin != 'none'">({{currencySymbol(account.assistCoin) + item.computeFreez.toFixed(3)}})</template>-->
                                 </div>
                                 <div class="td loan" v-if="account.lever">
                                         <span class="hint--top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeLoanIn))">{{showNumber(item.loanIn)}}</span>
-                                        <!--<template v-if="account.assistCoin != 'none'">({{currencySymbol(account.assistCoin) + item.computeLoanIn.toFixed(3)}})</template>-->
                                         <a v-if="Number(item.loanIn) > 0" @click="openRefund(account.userId, item.coin)"><%= LANG('还款') %></a>
                                 </div>
                                 <div class="td last">
                                 </div>
+
                                 <div class="oper">
-                                    <template v-if="loginUser.userType == 1">
-                                        <template v-if="coinConfig[item.coin].isDoInOut">
-                                            <a @click="transfer('in', account.userId, item.coin )" ><%= LANG('划入') %></a>
-                                            <a @click="transfer('out', account.userId, item.coin)" ><%= LANG('划出') %></a>
-                                        </template>
-                                        <template v-else="">
-                                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划入')%></a>
-                                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划出')%></a>
-                                        </template>
-                                    </template>
                                     <template v-if="account.userType == 1">
-                                        <a v-if="coinConfig[item.coin].isPayIn" :href="'/u/payin/' + item.coin" target="_self" class="f"><%= LANG('充值') %></a>
+                                        <!--TODO 判断能否充值-->
+                                        <a v-if="coinConfig[item.coin]" :href="'/u/payin/' + item.coin" target="_self" class="f"><%= LANG('充值') %></a>
                                         <a v-else onclick="JuaBox.info('Not open yet...')" class="f disabled"><%= LANG('充值') %></a>
 
-                                        <a v-if="coinConfig[item.coin].isPayOut" :href="'/u/payout/' + item.coin" target="_self"><%= LANG('提币') %></a>
+                                        <a v-if="coinConfig[item.coin].drawFlag == 1" :href="'/u/payout/' + item.coin" target="_self"><%= LANG('提币') %></a>
                                         <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled"><%= LANG('提币') %></a>
                                     </template>
                                     <a :href="'/u/bill/' + item.coin" target="_self"><%= LANG('账单') %></a>
                                 </div>
 
-                                <div class="act" >
+                                <div class="act">
                                     <a v-if="index != 0" @click="topUserCoin(item.coin, account.userId)"><%= LANG('置顶') %></a>
                                 </div>
                             </div>
-
-                            <div class="tr hide-coin" v-for="(item, index) in userHidedCoins(account)" v-if="showHidedCoins == account.userId">
-                                <div class="td cointTag">
-                                        <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + item.coin + '.png?<%= VERSION%>'" class="market-icon" />
-                                        <b>{{getRealCoinName(item.coin).toUpperCase()}}</b>
-                                </div>
-                                <div class="td total">0</div>
-                                <div class="td nettotoal">0 </div>coin
-                                <div class="td useable">0</div>
-                                <div class="td frozen">0</div>
-                                <div class="td loan"  v-if="account.lever">0</div>
-                                <div class="td oper"><a class="f" @click="editMainUserCoin('1', item.fundsType, account.userId)"><%= LANG('显示') %></a></div>
-                            </div>
-
-                    </div>
-
-                </div>
-                <!--<div v-if="userHidedCoins(account).length" :class="{'show-hide': showHidedCoins == account.userId}" class="more-coin">-->
-                    <!--<a role="button" @click="toggleHidedCoins(account.userId)" >添加更多币种</a>-->
-                <!--</div>-->
-            </div>
-            <div v-if="false" @click="addUser(isMock)" class="add-account-bar">
-                <div class="inner">
-                    <div class="text-col">
-                        <h4><%= LANG('新建独立账户') %></h4>
-                        <p class="desc"><%= LANG('新的独立账号可以用于代理投资、分仓管理等') %></p>
                     </div>
                 </div>
             </div>
@@ -279,13 +241,12 @@
                     showModal: false,
                     showAllAsset : false,
                     showCurrencyList: false,
-                    showHidedCoins: false,
                     mShowCoinDetail: false,
                     avatarBaseUrl: '<%= STATIC %>/images/userhead/',
                     repaymentAmount: '',
                     winWidth: window.innerWidth,
                     currentPriceType : MONEY,
-                    userAssets: [],
+                    userAssets: [], //旧的逻辑是 用户头部基本信息和各种货币金额信息，现在改为金额不为零的货币的信息
                     mainUserAssets: [],
                     coinConfig : '',
                     allPriceRate: {
@@ -382,14 +343,6 @@
                     }.bind(this));
                     return assets;
                 },
-                //所有用户资产总和
-                allTotal: function() {
-                    var total = 0;
-                    this.formatUserAssets.map(function(user){
-                        total += user.userBtcNetTotal;
-                    });
-                    return total;
-                },
                 mainUserInfo: function() {
                     var mainUser = this.userAssets.filter(function(user){
                         return user.userType == 1;
@@ -444,10 +397,14 @@
                 }
             },
             methods: {
+                /*
+                * 获取所有货币信息
+                * */
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/fund/admin/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -467,31 +424,31 @@
                 currencySymbol: function(currency) {
                     return this.currencyList.getObject('key', currency).symbol;
                 },
-                // 格式化用户资产数据
-                userCoinFunds: function(user, index) {
-                    var fundMaps = user.coinFundMap;
-                    var assistCoin = user.assistCoin;
-                    var arr = [];
-                    var allComputeNetTotal = 0;
-                    Object.keys(fundMaps).map(function(coin){
-                        var moneyPrice = this.moneyPrice(assistCoin, coin);
-                        var obj = fundMaps[coin];
-                        //if (obj.showCoin) {
-                            obj.computeTotal = obj.total * moneyPrice;
-                            obj.computeNetTotal = obj.total == 0 ? 0 : (obj.total - obj.loanIn) * moneyPrice;
-                            allComputeNetTotal += obj.computeNetTotal;
-                            obj.netTotal = obj.total == 0 ? 0 : Methods.fixFloat((obj.total - obj.loanIn), 8);
-                            obj.computeAvailable = obj.available * moneyPrice;
-                            obj.computeLoanIn = obj.loanIn * moneyPrice;
-                            obj.computeFreez = obj.freez * moneyPrice;
-                            obj.coin = coin;
-                            arr.push(obj);
-                        //}
+                /**
+                 * 格式化用户资产数据
+                 * 将金额不为0的货币与所有货币列表整合
+                 */
+                userCoinFunds: function() {
+                    var coins = this.coinConfig;
+                    var userAssets = this.userAssets;
+
+                    var coinAssets = [];
+                    coins.forEach(function (coin, index, array) {
+                        var coinItem = coin;
+                        userAssets.forEach(function (asset, idx, arr) {
+                            if (coin.currencyId == asset.currencyTypeId) {
+                                for (var k in asset) {
+                                    coin[k] = asset[k];
+                                }
+                            }
+                        });
+                        coinAssets.push(coinItem);
                     }.bind(this));
-                    //this.userAssets[index].allComputeNetTotal = allComputeNetTotal;
-                    //console.log(this.userAssets);
-                    return arr;
+
+                    return coinAssets;
+                    //TODO 根据格式化之后的数据渲染页面
                 },
+                //搜索过滤
                 filterUserCoinFunds:function(arr){
                     var _this = this;
                     if(!_this.keyWord){
@@ -608,13 +565,6 @@
                     }
                     this.showModal = 'setEmail';
                 },
-                addUser: function(isMock) {
-                    this.userParams = {
-                        optType: 2,
-                        isMock: isMock
-                    };
-                    this.showModal = 'userAction';
-                },
                 editUser: function(userId) {
                     this.userParams = {
                         optType: 3,
@@ -655,12 +605,6 @@
                         this.openAddMarket(account);
                     } else {
                         this.showModal = 'toggleUserAction';
-                    }
-                },
-                toggleHidedCoins: function(userId) {
-                    this.showHidedCoins = this.showHidedCoins == userId ? false : userId;
-                    if(this.showHidedCoins){
-                        $('html,body').animate({scrollTop:$('.table-morelist').offset().top}, 400);
                     }
                 },
                 editAccount: function(userId) {
@@ -715,50 +659,27 @@
                         }.bind(this)
                     });
                 },
-                // 获取用户资产信息(暂时作废)
-                getUserAssets_dele: function(noCache) {
+                // 获取用户总额不为零的货币信息(财务中心)
+                getAccountAssets: function () {
                     var data = {
-                        noCache: noCache
+                        webId: 100,
+                        userId: 1 || this.currentAccountId,
+                        pageSize: 9999,
+                        pageNum: 1
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
-                        data: data,
+                        url: DOMAIN_DEV + "/fund/admin/fundcontroller/" + 'findbypage',
+                        data: JSON.stringify(data),
                         success: function(res) {
                             this.loaded = true;
-                            //格式化数据，最多保留8位小数
-                            var result = res.datas.userFunds;
-                            if(result && result.length > 0){
-                                for(var i = 0, ilength = result.length; i < ilength; i++){
-                                    for(var key in result[i]){
-                                        if(Methods.isNumber(result[i][key])){
-                                            result[i][key] = Methods.fixFloat(result[i][key], 8)
-                                        }
-                                    }
-                                }
-                            }
-                            this.userAssets = result;
-                        }.bind(this)
-                    });
-                },
-                // 获取单个用户资金
-                getUserAssets: function () {
-                    var data = {
-                        targetUserId: this.currentAccountId,
-                        lastTime : 0
-                    };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            this.loaded = true;
-                            if(res.datas.userFund){
-                                this.userAssets = [];
-                                this.userAssets[0] = res.datas.userFund;
+
+                            if(res.datas.list){
+                                this.userAssets = res.datas.list;
                             }
                         }.bind(this)
                     });
                 },
+                // 获取主账户和子账户资金信息(暂弃用)
                 getMainUserAssets: function(nocache) {
                     var data = {
                         noCache: nocache
@@ -787,7 +708,7 @@
                         url: DOMAIN_MAIN + API_PREFIX + 'doEditUserFund',
                         data: data,
                         success: function (res) {
-                            this.getUserAssets(1);
+                            this.getAccountAssets(1);
                             $.toast({
                                 heading: "<%= LANG('修改用户币种信息成功') %>",
                                 text: EXX.L(res.resMsg.message),
@@ -807,7 +728,7 @@
                         url: DOMAIN_MAIN + API_PREFIX + 'topUserCoin',
                         data: data,
                         success: function (res) {
-                            this.getUserAssets(1);
+                            this.getAccountAssets(1);
                             $.toast({
                                 heading: "<%= LANG('修改用户币种信息成功') %>",
                                 text: EXX.L(res.resMsg.message),
@@ -850,7 +771,7 @@
                                 Methods.setLocalUserInfo(userInfo);
                                 this.loginUser = userInfo;
                             }
-                            this.getUserAssets(1);
+                            this.getAccountAssets(1);
 
                             this.showCurrencyList = false;
                             /*$.toast({
@@ -882,12 +803,12 @@
                     this.showModal = 'transfer';
                 },
                 transferSuccess: function() {
-                    this.getUserAssets();
+                    this.getAccountAssets();
                     this.showModal = false;
                 },
                 userActionSuccess: function() {
                     return function() {
-                        this.getUserAssets();
+                        this.getAccountAssets();
                         this.closeModal('addAccount');
                     }.bind(this)
                 },
@@ -916,12 +837,12 @@
                 //this.getAssets();
                 this.getCoinConfig();
                 this.getAllMarketsInfo();
-                this.getUserAssets();
+                this.getAccountAssets();
                 this.getPubKey();
                 this.getPriceRate();
             },
             mounted: function() {
-                //setInterval(this.getUserAssets, 5000);
+                //setInterval(this.getAccountAssets, 5000);
                 document.addEventListener('click', this.handleClickOutsideSelect, true);
                 window.addEventListener('resize', this.getWindowWidth, true);
                 $('[data-toggle="tooltip"]').tooltip();

@@ -64,13 +64,13 @@ router.get('/about', function(req, res, next) {
         templateMain:'about/index.html'
     });
 });
-
+//登录
 router.get('/login', function(req, res, next) {
     res.render(TEMP_FULL,{
         templateMain:'user/login.html'
     });
 });
-
+//登录验证
 router.get('/loginAuth', function(req, res, next) {
     res.render(TEMP_FULL,{
         templateMain:'user/logAuthen.html'

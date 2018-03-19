@@ -135,25 +135,38 @@
                         }.bind(this)
                     });
                 },
+                /**
+                 * 获取账单记录
+                 * 按照货币类型获取，当货币类型传 空 时查询全部
+                 */
                 getBill: function() {
                     var data = {
-                        billType: this.currentType,
-                        childId: this.currentAccountId,
-                        cointType: this.currentCoin,
-                        pageIndex: this.pageIndex,
+                        // billType: this.currentType,
+                        // childId: this.currentAccountId,
+                        // cointType: this.currentCoin,
+                        // pageIndex: this.pageIndex,
+                        // pageSize: this.pageSize,
+                        // isBackup: this.timeType
+                        webId: 100,
+                        currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
+                        userId: 1 || this.currentAccountId,
                         pageSize: this.pageSize,
-                        isBackup: this.timeType
+                        pageNum: this.pageIndex
                     };
                     this.requestLocked = true;
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getBill',
-                        data: data,
+                        // type: 'GET',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
+                        url: DOMAIN_DEV + "/fund/admin/fundchangecontroller/" + 'findbypage',
+                        data: JSON.stringify(data),
                         success: function(res) {
                             this.requestLocked = false;
-                            this.billRecords = res.datas.results;
-                            //很重要，判断当前是否是最后一页的依据
-                            this.pageCount = res.datas.results.length;
+
+                            // this.billRecords = res.datas.results;
+                            // //很重要，判断当前是否是最后一页的依据
+                            // this.pageCount = res.datas.results.length;
+                            this.billRecords = res.datas.list;
+                            this.pageCount = ret.datas.list.length;
                         }.bind(this)
                     });
                 },

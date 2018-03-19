@@ -635,11 +635,11 @@
                         // userId: _this.currentAccountId,
                         // entrustId: id
                         marketId: 90 || _this.currentMarket,
-                        entrustId: 1
+                        entrustId: 'E6375272109660176384'
                     };
                     Methods.ajax({
                         //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_TRADE + API_MODULE + 'cancelEntrust',
+                        url: DOMAIN_TRADE + '/entrust/entrustController/' + 'cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             $.toast({
