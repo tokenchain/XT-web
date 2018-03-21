@@ -227,9 +227,9 @@
                 getPubKey: function (callback) {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-                        success: function(res) {
-                            this.pubKey = res.datas.pubTag;
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
                             callback && callback();
                         }.bind(this)
                     });
@@ -249,16 +249,16 @@
                         targetUserId: this.currentAccountId,
                         lastTime : 0
                     };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            if(res.datas.userFund){
-                                this.currentUserAsset = res.datas.userFund;
-                                callback && callback();
-                            }
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         if(res.datas.userFund){
+                    //             this.currentUserAsset = res.datas.userFund;
+                    //             callback && callback();
+                    //         }
+                    //     }.bind(this)
+                    // });
                 },
                 getPayoutAddress: function () {
                     var data = {

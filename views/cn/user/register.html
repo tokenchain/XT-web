@@ -85,16 +85,17 @@
                     countryCode: '+86',
                     agreement: false,
                     requestLocked : false,
-                    imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
+                    // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
+                    imageCodeUrl: DOMAIN_DEV+ '/exchange/website/verifycode/userverifycontroller/getvalidatecode'
                 }
             },
             methods: {
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
                         success: function (res) {
-                            this.pubKey = res.datas.pubTag;
+                            this.pubKey = res.datas.pubKey;
                         }.bind(this)
                     });
                 },
@@ -125,14 +126,18 @@
                     };
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
+                        url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'checkUserName',
                         data: data,
                         success: function (res) {
 
                         }.bind(this),
                         error: function (res) {
                             var msg = res.resMsg;
-                            var _this = this;
+                            //弹出错误提示
+                            JuaBox.info(EXX.L(msg.message));
+
+                            /*var _this = this;
                             if (msg.code == '3005') {
                                 JuaBox.info(EXX.L(msg.message));
                             } else if (msg.code == '8888') {
@@ -145,7 +150,7 @@
                                 }).then(function () {
                                     window.location.href = DOMAIN_WEB + '/login?userName=' + _this.userName;
                                 });
-                            }
+                            }*/
                         }.bind(this)
                     });
                 },
@@ -193,7 +198,7 @@
                         password: encryptionPwd,
                         imgCode: this.imgCode,
                         smsCode: this.smsCode,
-                        recommId: Methods.getCookie(ENV + 'recommendCode'),
+                        //recommId: Methods.getCookie(ENV + 'recommendCode'),
                         countryCode: this.countryCode
                     };
                     if (this.requestLocked) {
@@ -209,13 +214,21 @@
                     } else {
                         this.requestLocked = true;
                         Methods.ajax({
-                            url: DOMAIN_MAIN + API_PREFIX + 'register',
-                            data: data,
+                            // url: DOMAIN_MAIN + API_PREFIX + 'register',
+                            url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'register',
+                            data: JSON.stringify(data),
                             success: function (res) {
                                 this.requestLocked = false;
                                 //确保清除子账号Cookie
-                                Methods.deleCookie(ENV + 'currentAccountId');
-                                Methods.setLocalUserInfo(res.datas.userInfo);
+                                //Methods.deleCookie(ENV + 'currentAccountId');
+
+                                //存储用户信息
+                                Methods.setLocalUserInfo(res.datas);
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV+'uon', 1);
+                                Methods.setCookie(ENV+'uid', res.datas.userId);
+                                Methods.setCookie(ENV+'uname', res.datas.userName);
+
                                 window.location.replace('/u');
                             },
                             error: function (res) {

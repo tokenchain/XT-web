@@ -8,27 +8,28 @@
       <div class="exx-entrance-body" id="logBox">
           <div class="form-box" id="vipLogin">
               <p style="font-size: 12px; color: #f00;margin-bottom: 30px; text-align: center;"><%= LANG('根据您的登录设置，本次登录需要验证。') %></p>
-          <div class="form-group" v-if="loginUser.loginEmailAuth == 1">
+          <div class="form-group" v-if="loginUser.code == '1059'">
             <div class="form-control">
               <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
-                  <send-code class="text-nowrap" :code-type="23" :user-name="loginUser.userKey" :user-key="loginUser.userKey" />
+                <send-code class="text-nowrap" :code-type="23" :user-name="loginUser.userName" :country-code="loginUser.countryCode" />
             </div>
           </div>
 
-          <div class="form-group" v-if="loginUser.loginMobileAuth == 1">
+          <div class="form-group" v-if="loginUser.code == '1058'">
             <div class="form-control">
               <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
-                  <send-code class="text-nowrap" :code-type="24" :user-name="loginUser.userKey" :user-key="loginUser.userKey" />
+                <send-code class="text-nowrap" :code-type="24" :user-name="loginUser.userName" :country-code="loginUser.countryCode" />
             </div>
           </div>
 
-          <div class="form-group" v-if="loginUser.loginGoogleAuth == 1">
+          <div class="form-group" v-if="loginUser.code == '1018'">
             <div class="form-control">
               <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
             </div>
           </div>
           <div class="form-button">
-              <button id="submitBtn" type="button" v-on:click="handleSubmit" class="button"><span><%= LANG('立即验证') %></span></button></div>
+              <button id="submitBtn" type="button" v-on:click="handleSubmit" class="button"><span><%= LANG('立即验证') %></span></button>
+          </div>
       </div>
   </div>
   </div>
@@ -52,14 +53,29 @@
         }, 3000);
     }
 
+    function authErrorUi(message) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('提示') %>",
+            text: message,
+            icon: "warning",
+            buttons: ["<%= LANG('确定') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            //$("#logBox").fadeIn();
+        });
+        window.setTimeout(function () {
+            $(".swal-overlay").trigger('click');
+            //$("#logBox").fadeIn();
+        }, 4000);
+    }
+
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var logAuth = new Vue({
             el: '#logAuth',
             data: function () {
                 return {
-                    userName: Methods.getCookie(ENV + 'uname'),
-                    uon: Methods.getCookie(ENV + 'uon'),
-                    loginUser: Methods.getNoLoginUserInfo(),
+                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
                     dynamicCode: '',
                     emailCode: '',
                     googleCode: ''
@@ -88,21 +104,37 @@
                         }
                     }
                 },
+                //登录验证
                 handleSubmit: function () {
                     var data = {
-                        userKey: this.loginUser.userKey,
+                        // userKey: this.loginUser.userKey,
+                        userName: this.loginUser.userName,
+                        userNameType: this.loginUser.userType,
+                        password: this.loginUser.password,
+                        countryCode: this.loginUser.countryCode, //暂无该参数
                         emailCode: this.emailCode,
-                        dynamicCode: this.dynamicCode,
+                        smsCode: this.dynamicCode,
                         googleCode: this.googleCode
                     }
                     Methods.ajax({
-                        type: "Get",
-                        url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
-                        data: data,
+                        // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
+                        url: DOMAIN_DEV+ "/exchange/website/user/usercontroller/" + 'loginauth',
+                        data: JSON.stringify(data),
                         success: function (res) {
-                            Methods.setLocalUserInfo(res.datas.userInfo);
+                            //存储个人信息
+                            Methods.setLocalUserInfo(res.datas);
+
+                            //设置登录状态 cookie
+                            Methods.setCookie(ENV+'uon', 1);
+                            Methods.setCookie(ENV+'uid', res.datas.userId);
+                            Methods.setCookie(ENV+'uname', res.datas.userName);
+
                             loginSuccessUi('/u')
                             //window.location.href = '/u';
+                        },
+                        error: function (res) {
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
                         }
                     });
                 }

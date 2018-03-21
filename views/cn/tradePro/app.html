@@ -582,20 +582,20 @@
                         lastTime : _this.lastAssetTime,
                         market : _this.currentMarket
                     };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            //时间戳不相等才更新
-                            if(res.datas.userFund){
-                                _this.currentUserAsset = res.datas.userFund;
-                                _this.lastAssetTime = res.datas.userFund.lastTime;
-                                callback && callback();
-                            }else{
-                                _this.lastAssetTime = res.datas.lastTime;
-                            }
-                        }
-                    });
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         //时间戳不相等才更新
+                    //         if(res.datas.userFund){
+                    //             _this.currentUserAsset = res.datas.userFund;
+                    //             _this.lastAssetTime = res.datas.userFund.lastTime;
+                    //             callback && callback();
+                    //         }else{
+                    //             _this.lastAssetTime = res.datas.lastTime;
+                    //         }
+                    //     }
+                    // });
                 },
                 //获取用户委托记录
                 getEntrustRecord: function(callback) {

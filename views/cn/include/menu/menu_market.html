@@ -14,56 +14,56 @@
             </ul>
             <div class="group-box" v-cloak="">
                 <ul class="qc block">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'QC' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'QC'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>
                 <ul class="usdt">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'USDT' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'USDT'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>
                 <ul class="btc">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'BTC' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'BTC'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>
                 <ul class="eth">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'ETH' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'ETH'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>
                 <ul class="qtum">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'QTUM' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'QTUM'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>
                 <ul class="hsr">
-                    <li v-for="market,key in marketConfig" v-if="getMoneyName(key) == 'HSR' && market.isShow">
-                        <a :href="'/tradePro/' + key" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(key) + ".png?<%= VERSION%>"'></span>
-                            <b>{{getCoinName(key)}}</b><em>/</em>{{getMoneyName(key)}}
-                            <span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'HSR'">
+                        <a :href="'/tradePro/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>
                     </li>
                 </ul>

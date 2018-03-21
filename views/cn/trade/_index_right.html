@@ -995,19 +995,19 @@
             targetUserId: userId,
             lastTime : this.lastAssetTime
           };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew' + '-' + userId + '-' + this.lastAssetTime,
-            data: data,
-            success: function (res) {
-                if(res.datas.userFund){
-                    this.assets = res.datas.userFund;
-                    this.lastAssetTime = res.datas.userFund.lastTime;
-                }else{
-                    this.lastAssetTime = res.datas.lastTime;
-                }
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew' + '-' + userId + '-' + this.lastAssetTime,
+          //   data: data,
+          //   success: function (res) {
+          //       if(res.datas.userFund){
+          //           this.assets = res.datas.userFund;
+          //           this.lastAssetTime = res.datas.userFund.lastTime;
+          //       }else{
+          //           this.lastAssetTime = res.datas.lastTime;
+          //       }
+          //   }.bind(this)
+          // });
         },
         // 获取所有用户信息
         getUsersInfo: function(callback) {

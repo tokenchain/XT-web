@@ -21,14 +21,14 @@
             <search-box v-model="keyWord"></search-box>
         </div>
         <div class="asset-scrollbar" style="max-height: 288px; overflow: hidden; position: relative;">
-            <div class="asset-drop-table" v-if="coinConfig && userAsset && userAsset.coinFundMap">
+            <div class="asset-drop-table" v-if="coinConfig && userAsset.length > 0">
                 <div class="tr head">
                     <div class="td"><%= LANG('币种')%></div>
                     <div class="td"><%= LANG('可用')%></div>
                     <div class="td"><%= LANG('冻结')%></div>
                     <div class="td"><%= LANG('操作')%></div>
                 </div>
-                <div class="tr" v-for="(item,key) in filterUserCoinFunds(userAsset.coinFundMap)" v-if="(hideZero && parseFloat(getPriceByAssist(item.total,key)) > 1) || !hideZero">
+                <div class="tr" v-for="(item,key) in userAsset" v-if="(hideZero && parseFloat(getPriceByAssist(item.total,key)) > 1) || !hideZero">
                     <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + key.toLowerCase() + '.png?<%= VERSION%>'" class="market-icon">{{getRealCoinName(key).toUpperCase()}}</div>
                     <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.available,key)">{{fixDecimal(item.available,8)}}</span></div>
                     <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.freez,key)">{{fixDecimal(item.freez,8)}}</span></div>
@@ -63,9 +63,9 @@
             template: "#asset-drop-menu",
             props: {
                 userAsset: {
-                    type: Object,
+                    type: Array,
                     default: function(){
-                        return {};
+                        return [];
                     }
                 },
                 showDrop: {
@@ -110,7 +110,8 @@
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                             this.initScroll();
@@ -209,12 +210,6 @@
                 setInterval(function () {
                     this.initScroll();
                 }.bind(this), 1000)
-            },
-            beforeUpdate: function() {
-
-            },
-            beforeDestroy: function() {
-
             }
         });
     })

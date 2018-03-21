@@ -587,13 +587,13 @@
           }
         },
         getPubKey: function () {
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-            success: function(res) {
-              this.pubKey = res.datas.pubTag;
-            }.bind(this)
-          });
+            Methods.ajax({
+                type: 'GET',
+                url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                success: function (res) {
+                    this.pubKey = res.datas.pubKey;
+                }.bind(this)
+            });
         },
         // 限制输入指定位小数
         priceInput: function(el) {

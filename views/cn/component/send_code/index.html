@@ -19,22 +19,13 @@
                 },
                 countryCode: {
                     type: String,
-                    default: '+86',
-                },
-                safePwd: {
-                    type: String,
-                    default: '',
-                },
-                cardId: {
-                    type: String,
-                    default: '',
+                    default: '+86'
                 },
                 userName: {
                     type: String,
                     default: ''
                 },
-                //用于登录验证都key
-                userKey: {
+                userId: {
                     type: String,
                     default: ''
                 },
@@ -50,6 +41,19 @@
 
                     }
                 }
+                /*safePwd: {
+                    type: String,
+                    default: '',
+                },
+                cardId: {
+                    type: String,
+                    default: '',
+                },*/
+                //用于登录验证都key
+                /*userKey: {
+                    type: String,
+                    default: ''
+                },*/
             },
             data: function () {
                 return {
@@ -78,13 +82,13 @@
                 sendCode: function () {
                     var _this = this;
                     var data = {
-                        codeType: this.codeType,
                         userName: this.userName,
                         countryCode: this.countryCode,
-                        safePwd: this.safePwd,
-                        cardId: this.cardId,
+                        codeType: this.codeType, //1-注册，23-邮箱，24-手机
                         imgCode: this.imgCode,
-                        userKey: this.userKey
+                        userId: this.userId //注册时传空
+                        // safePwd: this.safePwd,
+                        // cardId: this.cardId
                     }
                     if (this.timeout > 0 || this.requestLocked) {
                         return false;
@@ -95,19 +99,19 @@
                         this.countDown();
                         this.requestLocked = true;
                         Methods.ajax({
-                            url: DOMAIN_MAIN + API_PREFIX + (this.userKey == '' ? 'sendcode' : 'sendcode2'),
+                            // url: DOMAIN_MAIN + API_PREFIX + (this.userKey == '' ? 'sendcode' : 'sendcode2'),
+                            url: DOMAIN_DEV + "/exchange/admin/verifycode/userverifycontroller/" + 'sendcode',
                             data: data,
                             success: function (res) {
                                 var resMsg = res.resMsg;
-                                if (resMsg.code === 1000) {
+                                if (resMsg.code == '1') {
                                     //_this.countDown();
                                     _this.requestLocked = false;
                                     _this.successFun(res);
-                                    //window.localStorage.setItem(ENV + 'dynamicCode', res.datas.dynamicCode);
                                 }
                                 JuaBox.sure(EXX.L(resMsg.message));
                             },
-                            error : function (res) {
+                            error: function (res) {
                                 _this.requestLocked = false;
                                 _this.errorFun(res);
                                 _this.timeout = 0;

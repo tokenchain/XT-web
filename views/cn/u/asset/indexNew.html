@@ -404,7 +404,7 @@
                     Methods.ajax({
                         type: 'GET',
                         //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/fund/admin/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -618,9 +618,9 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-                        success: function(res) {
-                            this.pubKey = res.datas.pubTag;
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
                         }.bind(this)
                     });
                 },
@@ -785,7 +785,7 @@
                         }.bind(this)
                     });
                 },
-                getLoginUserInfo: function() {
+                getUserInfo: function() {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_MAIN + API_PREFIX + 'getuserinfo',

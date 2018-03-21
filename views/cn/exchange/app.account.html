@@ -206,13 +206,14 @@
                 }
             },
             methods: {
-                getUserInfo:function(){
-                    var _this = this;
-                    Methods.getUserInfo(function(user){
-                        _this.loginUser = user;
-                        top.location.reload();
-                    })
-                },
+                // 获取个人信息
+                // getUserInfo:function(){
+                //     var _this = this;
+                //     Methods.getUserInfo(function(user){
+                //         _this.loginUser = user;
+                //         top.location.reload();
+                //     })
+                // },
                 getAssetsInfo:function(){
                     var currentUserInfo = Methods.getLocalStorage(ENV + 'currentUserInfo');
                     if(currentUserInfo && currentUserInfo.coinFundMap){

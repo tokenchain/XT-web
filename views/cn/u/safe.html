@@ -481,9 +481,9 @@
                         return coin;
                     }
                 },
-                getUserInfo: function(id) {
-                    return this.userAssets.getObject('userId', id);
-                },
+                // getUserInfo: function(id) {
+                //     return this.userAssets.getObject('userId', id);
+                // },
                 currencySymbol: function(currency) {
                     return this.currencyList.getObject('key', currency).symbol;
                 },
@@ -737,9 +737,9 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-                        success: function(res) {
-                            this.pubKey = res.datas.pubTag;
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
                         }.bind(this)
                     });
                 },
@@ -751,7 +751,7 @@
                         }.bind(this)
                     });
                 },
-                // 获取币价汇率
+                // 获取币价汇率 TODO
                 getPriceRate: function(callback) {
                     Methods.getJSONP({
                         url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
@@ -802,18 +802,18 @@
                         targetUserId: this.currentAccountId,
                         lastTime : 0
                     };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            this.loaded = true;
-                            if(res.datas.userFund){
-                                this.userAssets = [];
-                                this.userAssets[0] = res.datas.userFund;
-                            }
-                            Methods.setLocalStorage(ENV + "userList", this.userAssets);
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         this.loaded = true;
+                    //         if(res.datas.userFund){
+                    //             this.userAssets = [];
+                    //             this.userAssets[0] = res.datas.userFund;
+                    //         }
+                    //         Methods.setLocalStorage(ENV + "userList", this.userAssets);
+                    //     }.bind(this)
+                    // });
                 },
                 // 获取用户资产信息
                 getUserAssets: function(noCache) {
@@ -892,15 +892,20 @@
                         }.bind(this)
                     });
                 },
-                getLoginUserInfo: function() {
+                getUserInfo: function() {
+                    var _this = this;
+                    var data = {
+                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId
+                    };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getUserInfo',
+                        type:'POST',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
                         success: function (res) {
-                            this.loginUser = res.datas.userInfo;
-                            Methods.setLocalUserInfo(res.datas.userInfo);
-                            //this.allSubAccounts = res.datas.accounts;
-                        }.bind(this)
+                            this.loginUser = res.datas;
+                            //更新用户信息
+                            Methods.setLocalUserInfo(res.datas);
+                        }
                     });
                 },
                 transfer: function(type, userId, coin) {
@@ -952,7 +957,7 @@
                 this.getPubKey();
                 this.getPriceRate();
                 //该页面重新获取一次用户信息
-                this.getLoginUserInfo();
+                this.getUserInfo();
             },
             mounted: function() {
                 //setInterval(this.getUserAssets, 5000);

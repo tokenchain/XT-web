@@ -221,9 +221,9 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
                         success: function (res) {
-                            this.pubKey = res.datas.pubTag;
+                            this.pubKey = res.datas.pubKey;
                         }.bind(this)
                     });
                 },

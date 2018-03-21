@@ -70,7 +70,8 @@ module.exports = function(app){
 
         //登录状态变量
         //console.log(app.locals.UON,app.locals.UID,app.locals.UNAME,req.cookies[ENV + "JSESSIONID"]);
-        app.locals.isLogin = app.locals.UON == 1 && app.locals.UID && app.locals.UNAME && req.cookies[ENV + "JSESSIONID"];
+        //app.locals.isLogin = app.locals.UON == 1 && app.locals.UID && app.locals.UNAME && req.cookies[ENV + "JSESSIONID"];
+        app.locals.isLogin = app.locals.UON == 1 && app.locals.UID && app.locals.UNAME;
         console.log('当前是否登录：',Boolean(app.locals.isLogin));
 
         //用户cookie转发变量

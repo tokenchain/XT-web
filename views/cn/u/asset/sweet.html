@@ -142,16 +142,16 @@
                         targetUserId: this.currentAccountId,
                         lastTime : 0
                     };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            if(res.datas.userFund){
-                                this.currentUserAsset = res.datas.userFund;
-                                callback && callback();
-                            }
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         if(res.datas.userFund){
+                    //             this.currentUserAsset = res.datas.userFund;
+                    //             callback && callback();
+                    //         }
+                    //     }.bind(this)
+                    // });
                 },
                 getSweetList: function () {
                     var data = {

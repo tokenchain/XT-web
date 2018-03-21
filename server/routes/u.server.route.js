@@ -5,35 +5,32 @@ var express = require('express');
 var router = express.Router();
 
 
-//录状态控制
+//登录状态控制
 router.use(function (req, res, next) {
    var uOn = parseInt(req.cookies[ENV + "uon"]);
    console.log("UON：" + uOn);
+   //判断登录状态code
    switch(uOn){
        case 1:
            //通过二次登陆验证
            next();
            break;
-       case 0:
-           //需要登录验证
+       case 1059:
+           //需要邮件验证
            res.redirect('/loginAuth');
            break;
-       case 2:
-           //需要Google登录验证
+       case 1018:
+           //需要Google验证
            res.redirect('/loginAuth');
            break;
-       case 3:
-           //需要异地登录验证
+       case 1058:
+           //需要短信验证
            res.redirect('/loginAuth');
            break;
-       case 4:
-           //需要2和3的验证
-           res.redirect('/loginAuth');
-           break;
-       case 5:
+       /*case 5:
            //需要设置二级密码
            res.redirect('/u/safe/safePwd');
-           break;
+           break;*/
        default:
            //否则都不通过验证
            res.redirect('/login');
@@ -42,11 +39,19 @@ router.use(function (req, res, next) {
 
 //用户权限检测
 router.use(function (req, res, next) {
-    var sessionId = req.cookies[ENV + "JSESSIONID"],
+    /*var sessionId = req.cookies[ENV + "JSESSIONID"],
         uId = req.cookies[ENV + "uid"],
         uOn = req.cookies[ENV + "uon"],
         uName = req.cookies[ENV + "uname"];
     if(!sessionId || !uId || uOn != 1 || !uName){
+        res.redirect('/login');
+    }else{
+        next();
+    }*/
+    var uId = req.cookies[ENV + "uid"],
+        uOn = req.cookies[ENV + "uon"],
+        uName = req.cookies[ENV + "uname"];
+    if(!uId || uOn != 1 || !uName){
         res.redirect('/login');
     }else{
         next();

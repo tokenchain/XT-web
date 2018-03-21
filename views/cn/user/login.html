@@ -90,7 +90,8 @@
                     countryCode: '+86',
                     requestLocked : false,
                     url : Methods.getUrlparm('url'),
-                    imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
+                    // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
+                    imageCodeUrl: DOMAIN_DEV+ '/exchange/website/verifycode/userverifycontroller/getvalidatecode'
                 }
             },
             methods: {
@@ -127,8 +128,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-                        url: DOMAIN_DEV + "/exchange/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                         }.bind(this)
@@ -163,7 +163,7 @@
                         _this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
-                            url: DOMAIN_DEV+ "/exchange/website/usercontroller/" + 'loginbypassword',
+                            url: DOMAIN_DEV+ "/exchange/website/user/usercontroller/" + 'loginbypassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 _this.requestLocked = false;
@@ -171,6 +171,10 @@
                                 //Methods.deleCookie(ENV + 'currentAccountId');
                                 //存储用户信息
                                 Methods.setLocalUserInfo(res.datas);
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV+'uon', res.resMsg.code);
+                                Methods.setCookie(ENV+'uid', res.datas.userId);
+                                Methods.setCookie(ENV+'uname', res.datas.userName);
 
                                 /*if (res.datas.userInfo.thirdAssetMove == '-1') {
                                     window.location.href = DOMAIN_WEB + '/u/welcome'
@@ -186,12 +190,16 @@
                             },
                             error: function (res) {
                                 _this.requestLocked = false;
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV+'uon', res.resMsg.code);
+
                                 var resMsg = res.resMsg;
                                 if (resMsg.code == 1018 || resMsg.code == 1058 || resMsg.code == 1059) {
-                                    Methods.setLocalUserInfo(res.datas);
+                                    data.code = resMsg.code; //将二次验证code传递
+                                    Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
                                     //需要进一步验证
                                     window.location.href = '/loginAuth';
-                                } else if (resMsg.code == 1060) {
+                                } else if (resMsg.code == 1028) {
                                     //需要输入图形验证码
                                     _this.showImgCode = true;
                                     _this.timestramp = '-' + new Date().getTime();

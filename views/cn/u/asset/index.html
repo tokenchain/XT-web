@@ -752,9 +752,9 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPubTag',
-                        success: function(res) {
-                            this.pubKey = res.datas.pubTag;
+                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
                         }.bind(this)
                     });
                 },
@@ -825,17 +825,17 @@
                         targetUserId: this.currentAccountId,
                         lastTime : 0
                     };
-                    Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                        data: data,
-                        success: function (res) {
-                            this.loaded = true;
-                            if(res.datas.userFund){
-                                this.userAssets = [];
-                                this.userAssets[0] = res.datas.userFund;
-                            }
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         this.loaded = true;
+                    //         if(res.datas.userFund){
+                    //             this.userAssets = [];
+                    //             this.userAssets[0] = res.datas.userFund;
+                    //         }
+                    //     }.bind(this)
+                    // });
                 },
                 getMainUserAssets: function(nocache) {
                     var data = {
@@ -941,7 +941,7 @@
                         }.bind(this)
                     });
                 },
-                getLoginUserInfo: function() {
+                getUserInfo: function() {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_MAIN + API_PREFIX + 'getuserinfo',
