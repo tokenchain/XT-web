@@ -397,19 +397,6 @@
                 }
             },
             methods: {
-                /*
-                * 获取所有货币信息
-                * */
-                getCoinConfig: function() {
-                    Methods.ajax({
-                        type: 'GET',
-                        //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
-                        success: function(res) {
-                            this.coinConfig = res.datas;
-                        }.bind(this)
-                    });
-                },
                 //去掉虚拟市场货币的D字符
                 getRealCoinName : function (coin) {
                     if(coin.length > 3 && coin.substring(0,1) == 'd'){
@@ -418,9 +405,9 @@
                         return coin;
                     }
                 },
-                getUserInfo: function(id) {
-                    return this.userAssets.getObject('userId', id);
-                },
+                // getUserInfo: function(id) {
+                //     return this.userAssets.getObject('userId', id);
+                // },
                 currencySymbol: function(currency) {
                     return this.currencyList.getObject('key', currency).symbol;
                 },
@@ -429,7 +416,7 @@
                  * 将金额不为0的货币与所有货币列表整合
                  */
                 userCoinFunds: function() {
-                    var coins = this.coinConfig;
+                    var coins = this.coinConfig || [];
                     var userAssets = this.userAssets;
 
                     var coinAssets = [];
@@ -650,12 +637,16 @@
                         }.bind(this)
                     });
                 },
-                getAssets: function(userId) {
+                /*
+                * 获取所有货币信息
+                * */
+                getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getAsset',
+                        //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
-                            this.assets = res.datas;
+                            this.coinConfig = res.datas;
                         }.bind(this)
                     });
                 },

@@ -21,17 +21,17 @@
             <search-box v-model="keyWord"></search-box>
         </div>
         <div class="asset-scrollbar" style="max-height: 288px; overflow: hidden; position: relative;">
-            <div class="asset-drop-table" v-if="coinConfig && userAsset.length > 0">
+            <div class="asset-drop-table" v-if="userAsset.length > 0">
                 <div class="tr head">
                     <div class="td"><%= LANG('币种')%></div>
                     <div class="td"><%= LANG('可用')%></div>
                     <div class="td"><%= LANG('冻结')%></div>
                     <div class="td"><%= LANG('操作')%></div>
                 </div>
-                <div class="tr" v-for="(item,index) in userAsset" v-if="(hideZero && parseFloat(getPriceByAssist(item)) > 1) || !hideZero">
+                <div class="tr" v-for="(item,index) in filterUserCoinFunds(userAsset)" v-if="(hideZero && parseFloat(getTotalPriceByAssist(item)) > 1) || !hideZero">
                     <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + item.name.toLowerCase() + '.png?<%= VERSION%>'" class="market-icon">{{getRealCoinName(item.name).toUpperCase()}}</div>
-                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
-                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
+                    <div class="td"><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
+                    <div class="td"><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
                     <div class="td" v-if="loginUser.userType == 1">
                         <!--TODO 判断能否充值-->
                         <a v-if="item" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
@@ -67,7 +67,7 @@
             data: function () {
                 return {
                     MONEY : MONEY == 'none' ? 'cny' : MONEY,
-                    coinConfig : '',
+                    // coinConfig : '',
                     hideZero : false,
                     loginUser: Methods.getLocalStorage(ENV + 'userInfo'),
                     assetScroll : '',
@@ -75,46 +75,55 @@
                 }
             },
             computed: {
+                //计算总资产金额
                 allTotalAsset : function () {
                     var alltotal = 0;
                     var money = this.MONEY == 'none' ? 'btc' : this.MONEY;
-                    for(var key in this.userAsset.coinFundMap){
-                        alltotal += parseFloat(((parseFloat(this.userAsset.coinFundMap[key].available) + parseFloat(this.userAsset.coinFundMap[key].freez)) * this.moneyPrice(money, key)));
-                    }
+                    var _this = this;
+
+                    this.userAsset.forEach(function (coin, index) {
+                        var amount = coin.amount || 0;
+                        alltotal += parseFloat( amount * _this.moneyPrice(money, coin.name) );
+                    });
                     return Methods.fixNumber(alltotal, 3);
                 }
             },
             methods: {
+                //搜索过滤
                 filterUserCoinFunds:function(objs){
                     var _this = this;
                     if(!_this.keyWord){
                         return objs;
                     }
-                    var nObj = {};
-                    for(var k in objs){
-                        if(k.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1){
-                            nObj[k] = objs[k];
+                    var nObj = [];
+                    objs.forEach(function (coin, index) {
+                        var coinName = coin.name;
+                        if(coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1){
+                            nObj.push(coin);
                         }
-                    }
+                    });
+
                     return nObj;
                 },
-                getCoinConfig: function() {
-                    Methods.ajax({
-                        type: 'GET',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
-                        success: function(res) {
-                            this.coinConfig = res.datas;
-                            this.initScroll();
-                        }.bind(this)
-                    });
-                },
+                //获取市场货币信息
+                // getCoinConfig: function() {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                //         url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
+                //         success: function(res) {
+                //             this.coinConfig = res.datas;
+                //             this.initScroll();
+                //         }.bind(this)
+                //     });
+                // },
+                //辅助价格(获取的汇率价格)
                 moneyPrice: function(money, coin){
                     var money = money || 'usd';
                     return Number(this.$parent.assistPrice[money] && this.$parent.assistPrice[money][coin] ? this.$parent.assistPrice[money][coin] : 0)
                 },
-                //获取指定辅助货币的价格-ok
-                getPriceByAssist: function (coin) {
+                //获取指定辅助货币的总价格-ok
+                getTotalPriceByAssist: function (coin) {
                     if(!coin || !this.$parent.assistPrice){
                         return ''
                     }
@@ -126,6 +135,19 @@
                         return Methods.fixNumber(parseFloat(amount) * parseFloat(this.$parent.assistPrice[assistCoin][coin.name]), 4) || '--';
                     }
                 },
+                //获取指定辅助货币折算的价格-ok price-要折算的价格
+                getConvertPriceByAssist: function (coin, price) {
+                    if(!coin || !this.$parent.assistPrice){
+                        return ''
+                    }
+                    var assistCoin = this.MONEY;
+                    if (assistCoin == 'none' || assistCoin == '') {
+                        return Methods.fixNumber(price, 4);
+                    } else {
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.$parent.assistPrice[assistCoin][coin.name]), 4) || '--';
+                    }
+                },
+                //获取当前货币单位
                 showAssistCoin : function () {
                     //显示辅助货币名字，不显示默认
                     if(this.MONEY == 'none'){
@@ -134,9 +156,15 @@
                         return this.MONEY.toUpperCase();
                     }
                 },
-                //价格折合的提示内容
-                showAssistHint : function (coin) {
-                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(coin) + " " + this.showAssistCoin();
+                //可用价格折合的提示内容
+                showAvailableAssistHint : function (coin) {
+                    var price = this.fixAvailableDecimal(coin, 8);
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
+                },
+                //冻结价格折合的提示内容
+                showFreezeAssistHint : function (coin) {
+                    var price = this.fixFreezeDecimal(coin, 8);
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
                 },
                 fixFloat : function (value,unit) {
                     return Methods.fixFloat(value, unit);
@@ -201,7 +229,7 @@
                 }
             },
             created : function () {
-                this.getCoinConfig();
+
             },
             watch: {
 
