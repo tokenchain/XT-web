@@ -380,13 +380,13 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
         },
         //只有用户信息没有资金
         getUserListAll: function (callback) {
-            Methods.getJSONP({
-                url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
-                success: function (res) {
-                    this.setLocalStorage(ENV + 'userList', res.datas.userFunds);
-                    callback && callback(res.datas.userFunds);
-                }.bind(this)
-            });
+            // Methods.getJSONP({
+            //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
+            //     success: function (res) {
+            //         this.setLocalStorage(ENV + 'userList', res.datas.userFunds);
+            //         callback && callback(res.datas.userFunds);
+            //     }.bind(this)
+            // });
         },
         getUserList : function (callback) {
             var loginUser = this.getLocalUserInfo();

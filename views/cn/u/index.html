@@ -1038,41 +1038,41 @@
           var data = {
               noCache: noCache
           };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
-            data: data,
-            success: function(res) {
-                this.loaded = true;
-                //格式化数据，最多保留8位小数
-                var result = res.datas.userFunds;
-                if(result && result.length > 0){
-                    for(var i = 0, ilength = result.length; i < ilength; i++){
-                        for(var key in result[i]){
-                            if(Methods.isNumber(result[i][key])){
-                                result[i][key] = Methods.fixFloat(result[i][key], 8)
-                            }
-                        }
-                    }
-                }
-                this.userAssets = result;
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
+          //   data: data,
+          //   success: function(res) {
+          //       this.loaded = true;
+          //       //格式化数据，最多保留8位小数
+          //       var result = res.datas.userFunds;
+          //       if(result && result.length > 0){
+          //           for(var i = 0, ilength = result.length; i < ilength; i++){
+          //               for(var key in result[i]){
+          //                   if(Methods.isNumber(result[i][key])){
+          //                       result[i][key] = Methods.fixFloat(result[i][key], 8)
+          //                   }
+          //               }
+          //           }
+          //       }
+          //       this.userAssets = result;
+          //   }.bind(this)
+          // });
         },
           getMainUserAssets: function(nocache) {
               var data = {
                   noCache: nocache
               };
-              Methods.ajax({
-                      type: 'GET',
-                      url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
-                      data: data,
-                      success: function(res) {
-
-                          var result = res.datas;
-                          this.mainUserAssets = result;
-                      }.bind(this)
-              });
+              // Methods.ajax({
+              //         type: 'GET',
+              //         url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
+              //         data: data,
+              //         success: function(res) {
+              //
+              //             var result = res.datas;
+              //             this.mainUserAssets = result;
+              //         }.bind(this)
+              // });
           },
           editMainUserCoin: function(act, coin, userId) {
             var data = {

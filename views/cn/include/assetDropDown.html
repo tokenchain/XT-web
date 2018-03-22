@@ -28,26 +28,17 @@
                     <div class="td"><%= LANG('冻结')%></div>
                     <div class="td"><%= LANG('操作')%></div>
                 </div>
-                <div class="tr" v-for="(item,key) in userAsset" v-if="(hideZero && parseFloat(getPriceByAssist(item.total,key)) > 1) || !hideZero">
-                    <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + key.toLowerCase() + '.png?<%= VERSION%>'" class="market-icon">{{getRealCoinName(key).toUpperCase()}}</div>
-                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.available,key)">{{fixDecimal(item.available,8)}}</span></div>
-                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.freez,key)">{{fixDecimal(item.freez,8)}}</span></div>
-                    <div class="td" v-if="loginUser.userType == 1 && userAsset.userType == 1">
-                        <a v-if="coinConfig[key].isPayIn" role="button" :href="'/u/payin/' + key" target="_self"><%= LANG('充值')%></a>
+                <div class="tr" v-for="(item,index) in userAsset" v-if="(hideZero && parseFloat(getPriceByAssist(item)) > 1) || !hideZero">
+                    <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + item.name.toLowerCase() + '.png?<%= VERSION%>'" class="market-icon">{{getRealCoinName(item.name).toUpperCase()}}</div>
+                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
+                    <div class="td"><span class="hint--top" :aria-label="showAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
+                    <div class="td" v-if="loginUser.userType == 1">
+                        <!--TODO 判断能否充值-->
+                        <a v-if="item" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('充值')%></a>
 
-                        <a v-if="coinConfig[key].isPayOut" role="button" :href="'/u/payout/' + key" target="_self"><%= LANG('提币')%></a>
+                        <a v-if="item.drawFlag" role="button" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币')%></a>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('提币')%></a>
-                    </div>
-                    <div class="td" v-if="loginUser.userType == 1 && userAsset.userType != 1">
-                        <template v-if="coinConfig[key].isDoInOut">
-                            <a role="button" @click="$parent.openTransfer('in',userAsset.userId,key)"><%= LANG('划入')%></a>
-                            <a role="button" @click="$parent.openTransfer('out',userAsset.userId,key)"><%= LANG('划出')%></a>
-                        </template>
-                        <template v-else="">
-                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划入')%></a>
-                            <a class="disabled" role="button" onclick="JuaBox.info('Unavailable function.')"><%= LANG('划出')%></a>
-                        </template>
                     </div>
                 </div>
             </div>
@@ -78,7 +69,7 @@
                     MONEY : MONEY == 'none' ? 'cny' : MONEY,
                     coinConfig : '',
                     hideZero : false,
-                    loginUser: Methods.getLocalUserInfo(),
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo'),
                     assetScroll : '',
                     keyWord:''
                 }
@@ -122,16 +113,17 @@
                     var money = money || 'usd';
                     return Number(this.$parent.assistPrice[money] && this.$parent.assistPrice[money][coin] ? this.$parent.assistPrice[money][coin] : 0)
                 },
-                //获取指定辅助货币的价格
-                getPriceByAssist: function (price, money) {
-                    if(!price || price == '' || !this.$parent.assistPrice){
+                //获取指定辅助货币的价格-ok
+                getPriceByAssist: function (coin) {
+                    if(!coin || !this.$parent.assistPrice){
                         return ''
                     }
                     var assistCoin = this.MONEY;
+                    var amount = coin.amount || 0;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, 4);
+                        return Methods.fixNumber(amount, 4);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.$parent.assistPrice[assistCoin][money]), 4) || '--';
+                        return Methods.fixNumber(parseFloat(amount) * parseFloat(this.$parent.assistPrice[assistCoin][coin.name]), 4) || '--';
                     }
                 },
                 showAssistCoin : function () {
@@ -143,8 +135,8 @@
                     }
                 },
                 //价格折合的提示内容
-                showAssistHint : function (price, money) {
-                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price,money) + " " + this.showAssistCoin();
+                showAssistHint : function (coin) {
+                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(coin) + " " + this.showAssistCoin();
                 },
                 fixFloat : function (value,unit) {
                     return Methods.fixFloat(value, unit);
@@ -152,8 +144,19 @@
                 fixNumber : function (value,unit) {
                     return Methods.fixNumber(value, unit);
                 },
-                fixDecimal : function (value,unit) {
+                //可用资金
+                fixAvailableDecimal : function (coin, unit) {
+                    var amount = coin.amount || 0;
+                    var freeze = coin.freeze || 0;
+                    var value = parseFloat(amount - freeze);
+
                     return Methods.fixDecimal(value, unit);
+                },
+                //冻结资金
+                fixFreezeDecimal : function (coin, unit) {
+                    var freeze = coin.freeze || 0;
+
+                    return Methods.fixDecimal(freeze, unit);
                 },
                 //去掉虚拟市场货币的D字符
                 getRealCoinName : function (coin) {

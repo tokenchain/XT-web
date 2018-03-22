@@ -1013,15 +1013,15 @@
         getUsersInfo: function(callback) {
           var data = {
           };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
-            data: data,
-            success: function(res) {
-              this.usersInfo= res.datas.userFunds;
-              callback && callback();
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
+          //   data: data,
+          //   success: function(res) {
+          //     this.usersInfo= res.datas.userFunds;
+          //     callback && callback();
+          //   }.bind(this)
+          // });
         },
         // 获取所有市场动态信息
         getAllMarketsData: function(callback) {

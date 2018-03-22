@@ -187,13 +187,13 @@
                 },
                 // 获取所有用户/资金
                 getMainUserAsset: function (callback) {
-                    Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
-                        success: function (res) {
-                            this.mainUserAsset = res.datas.userFunds;
-                            callback && callback();
-                        }.bind(this)
-                    });
+                    // Methods.getJSONP({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
+                    //     success: function (res) {
+                    //         this.mainUserAsset = res.datas.userFunds;
+                    //         callback && callback();
+                    //     }.bind(this)
+                    // });
                 },
                 getPubKey: function () {
                     Methods.ajax({
