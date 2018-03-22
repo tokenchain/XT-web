@@ -310,6 +310,7 @@
                             etc : 0
                         }
                     },
+                    // lgq-3本地获取数据
                     loginUser: Methods.getLocalUserInfo(),
                     allSubAccounts: [],
                     safePwd: '',
@@ -771,9 +772,23 @@
                 },
                 // 获取用户资产信息
                 getUserAssetAll: function(noCache) {
+                    var _this = this;
                     var data = {
-                        noCache: noCache
+                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId
                     };
+                    Methods.ajax({
+                        type:'POST',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
+                        success: function (res) {
+                            console.log('进入Ajax');
+                            _this.loaded = true;
+                            _this.userInfo = res.datas;
+                            _this.userAssets = res.datas;
+                            //更新用户信息
+                            Methods.setLocalUserInfo(res.datas);
+                        }
+                    });
                     // Methods.ajax({
                     //     type: 'GET',
                     //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
@@ -819,6 +834,7 @@
                 getUserAssets: function(noCache) {
                     //若是主账号获取列表
                     //若是子账号获取自己
+                    //lgq-2
                     if(this.loginUser.userType == 1){
                         this.getUserAssetAll(noCache);
                     }else{
@@ -897,6 +913,7 @@
                     var data = {
                         userId: Methods.getLocalStorage(ENV + 'userInfo').userId
                     };
+                    // lgq-4 usertype == 0 (无法渲染页面)
                     Methods.ajax({
                         type:'POST',
                         data: data,
