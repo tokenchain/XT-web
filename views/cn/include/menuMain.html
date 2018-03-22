@@ -178,7 +178,7 @@
                  * 将金额不为0的货币与所有货币列表整合
                  */
                 userCoinFunds: function() {
-                    var coins = this.coinConfig;
+                    var coins = this.coinConfig || [];
                     var userAssets = this.userAssets;
 
                     var coinAssets = [];
@@ -283,10 +283,11 @@
                         }.bind(this)
                     });
                 },
-                // 获取币价汇率 TODO
+                // 获取币价汇率
                 getAssistPrice: function (callback) {
-                    Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                    Methods.ajax({
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
