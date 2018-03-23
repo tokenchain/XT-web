@@ -3,7 +3,7 @@
     <div class="exx-modal-header"><h3>{{title}}</h3></div>
     <div class="exx-modal-body">
 <div class="exx-form-box">
-  <div v-if="subAccount.userType != '1'" class="exx-form-tips"><%= LANG('子账户可以支持一个交易对的杠杆交易') %><template v-if="params.isMock"><%= LANG('模拟子账户只可以进行模拟币种之间的交易') %></template></div>
+  <!--<div v-if="subAccount.userType != '1'" class="exx-form-tips"><%= LANG('子账户可以支持一个交易对的杠杆交易') %><template v-if="params.isMock"><%= LANG('模拟子账户只可以进行模拟币种之间的交易') %></template></div>-->
 
 
   <div class="exx-account-avatar">
@@ -109,19 +109,6 @@
                         }.bind(this)
                     });
                 },
-                getAccountInfo: function (userId) {
-                    var data = {
-                        childId: userId
-                    };
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getSubAccount',
-                        data: data,
-                        success: function (res) {
-                            this.subAccount = res.datas
-                        }.bind(this)
-                    });
-                },
                 handleClose: function () {
                     if (EXX.userIndex) {
                         EXX.userIndex.closeModal();
@@ -134,7 +121,6 @@
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
                     }
-                    var url = DOMAIN_MAIN + API_PREFIX + 'saveUserInfo';
                     var data = {};
                     if (this.params.optType == '2') {
                         data = {
@@ -170,8 +156,9 @@
                         this.locked = true;
                         Methods.ajax({
                             type: 'POST',
-                            url: url,
-                            data: data,
+                            // url: DOMAIN_MAIN + API_PREFIX + 'saveUserInfo',
+                            url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'saveuserinfo',
+                            data: JSON.stringify(data),
                             success: function (res) {
                                 this.locked = false;
                                 // 修改主账号
@@ -180,17 +167,12 @@
                                     userInfo.nickName = data.nickName;
                                     userInfo.photo = data.photo;
                                     Methods.setLocalUserInfo(userInfo);
-                                    EXX.userIndex.loginUser = userInfo;
+
+                                    // EXX.userIndex.loginUser = userInfo;
+                                    EXX.userNav.userInfo = userInfo;
                                 }
                                 JuaBox.info(EXX.L(res.resMsg.message));
-                                Methods.getUserList(function (data) {
-                                    try{
-                                        EXX.userNav.mainUserAsset = data;
-                                    }catch(err){}
-                                });
-                                try{
-                                    EXX.userNav.getTargetUserAsset();
-                                }catch(err){}
+
                                 this.done()
                             }.bind(this),
                             error: function (res) {
@@ -205,7 +187,6 @@
                 if (this.params.optType == '3') {
                     this.title = '<%= LANG("修改账户") %>';
                     this.subAccount = this.params.account;
-                    //this.getAccountInfo(this.info.userId);
                 } else if (this.params.optType == '2') {
                     this.subAccount.isVirtual = this.params.isMock;
                     if (this.params.isMock) {

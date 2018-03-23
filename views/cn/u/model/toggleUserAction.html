@@ -166,7 +166,6 @@
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
                     }
-                    var url = DOMAIN_MAIN + API_PREFIX + 'saveUserInfo';
                     var data = {
                         optType: this.params.optType,
                         targetUserId: this.params.userId,
@@ -198,7 +197,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             type: 'POST',
-                            url: url,
+                            url: DOMAIN_MAIN + API_PREFIX + 'saveUserInfo',
                             data: data,
                             success: function (res) {
                                 this.requestLocked = false;
