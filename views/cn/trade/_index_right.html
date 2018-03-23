@@ -1246,8 +1246,7 @@
             /*if(this.currentMarket != 'null'){
                 return false;
             }*/
-              Methods.getJSONP({
-                  // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+              Methods.ajax({
                   url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                   success: function (res) {
                       this.allPriceRate = res.datas;

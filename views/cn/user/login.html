@@ -174,7 +174,7 @@
                                 //设置登录状态 cookie
                                 Methods.setCookie(ENV+'uon', res.resMsg.code);
                                 Methods.setCookie(ENV+'uid', res.datas.userId);
-                                Methods.setCookie(ENV+'uname', res.datas.userName);
+                                Methods.setCookie(ENV+'uname', res.datas.loginName);
 
                                 /*if (res.datas.userInfo.thirdAssetMove == '-1') {
                                     window.location.href = DOMAIN_WEB + '/u/welcome'

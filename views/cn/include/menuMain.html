@@ -204,22 +204,22 @@
                 //获取大写货币名称
                 getCoinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toUpperCase();
-                    return !market ? '' : market.sellerCurrencyId.toUpperCase();
+                    return !market ? '' : market.sellerCurrencyName.toUpperCase();
                 },
                 //获取小写货币名称
                 getCoinMinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toLowerCase();
-                    return !market ? '' : market.sellerCurrencyId.toLowerCase();
+                    return !market ? '' : market.sellerCurrencyName.toLowerCase();
                 },
                 //获取交易所属类型
                 getMoneyName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyId.toUpperCase();
+                    return !market ? '' : market.buyerCurrencyName.toUpperCase();
                 },
                 //获取交易名称
                 getTradeName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyId.toLowerCase() + '_' + market.sellerCurrencyId.toLowerCase();
+                    return !market ? '' : market.buyerCurrencyName.toLowerCase() + '_' + market.sellerCurrencyName.toLowerCase();
 
                 },
                 goToExchange: function (type, market) {

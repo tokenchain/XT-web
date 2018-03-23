@@ -429,6 +429,25 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
                 return userInfo;
             }
         },
+        //获取用户信息
+        getUserInfo: function(callback) {
+            if(!ISLOGIN){
+                return false;
+            }
+            var data = {
+                userId: Methods.getLocalStorage(ENV + 'userInfo').userId
+            };
+            Methods.ajax({
+                type:'POST',
+                data: data,
+                url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
+                success: function (res) {
+                    //更新用户信息
+                    this.setLocalUserInfo(res.datas);
+                    callback && callback(res.datas);
+                }.bind(this)
+            });
+        },
         // 获取未登录用户信息
         getNoLoginUserInfo: function () {
             return this.getLocalStorage(ENV + 'userInfo');

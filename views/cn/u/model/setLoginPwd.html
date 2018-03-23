@@ -22,7 +22,7 @@
       <div class="form-group">
         <div class="form-control">
           <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-        <send-code :code-type="13" :user-name="userInfo.userName" />
+        <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
       </div>
       </div>
         <div v-if="userInfo.googleAuth == 1"  class="form-group">
@@ -88,10 +88,11 @@
                         return
                     }
                     var data = {
-                        type: 1,
+                        // type: 1,
+                        // userId: this.userInfo.userId,
                         oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
-                        dynamicCode: this.dynamicCode,
+                        smsCode: this.dynamicCode,
                         googleCode: this.googleCode
                     };
                     if (this.newPassword == '') {
@@ -102,9 +103,15 @@
                         JuaBox.sure("<%= LANG('请输入验证码') %>");
                     } else {
                         this.locked = true;
-                        Methods.ajax({
-                            url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
-                            data: data,
+                        //通过headers传参，使用ajax原生方法
+                        $.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
+                            type: "POST",
+                            headers: {
+                                UserId: this.userInfo.userId
+                            },
+                            url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'setLoginPassword',
+                            data: JSON.stringify(data),
                             success: function (res) {
                                 this.locked = false;
                                 EXX.userIndex.closeModal();
@@ -113,9 +120,11 @@
                                 this.newPassword = '';
                                 this.passwordConfirmation = '';
                                 this.dynamicCode = '';
-                                Methods.setLocalUserInfo(res.datas.userInfo);
-                                for(var key in res.datas.userInfo){
-                                    Vue.set(EXX.userIndex.loginUser, key, res.datas.userInfo[key])
+
+                                Methods.setLocalUserInfo(res.datas);
+
+                                for(var key in res.datas){
+                                    Vue.set(EXX.userIndex.loginUser, key, res.datas[key])
                                 }
                             }.bind(this),
                             error: function (res) {

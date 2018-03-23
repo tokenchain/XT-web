@@ -17,7 +17,7 @@ module.exports = {
     DOMAIN_BASE : "exx.com",
     DOMAIN_WEB : "//ww.exx.com",
     DOMAIN_EXC2C : "http://ww.exc2c.com",
-    DOMAIN_MAIN : "https://main.exx.com",
+    DOMAIN_MAIN : "//main.exx.com",
     DOMAIN_TRADE : "//trans.exx.com",
     DOMAIN_SOCKET : "wss://kline.exx.com",
     DOMAIN_FILE : "//img1.exx.com",

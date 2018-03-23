@@ -3,56 +3,53 @@
     <div class="pay-panel safe-panel" v-if="winWidth > 768 && loaded" v-cloak>
         <h2><%= LANG('账号管理') %></h2>
         <div class="account-admin">
-            <div class="item" v-for="(account, index) in formatUserAssets" :class="currentAccountId == account.userId ? 'active' : ''">
-                <div class="user-box" :class="'user-type-' + account.userType" v-cloak>
-                        <div class="selected">
-                            <span><svg style="width: 16px; height: 16px;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2189"><path d="M468.121 835.12c-93.001-117.869-202.414-207.667-278.997-235.741l180.499-112.287 87.5 174.014c0 0 142.249-353.61 366.579-471.479-5.418 84.132-27.336 157.103 10.917 246.985-98.419 22.41-300.832 275.057-366.497 398.51v0 0z" p-id="2190"></path></svg></span>
-                        </div>
-                                <div @click="linkToMarket(account)" class="avatar">
-                                    <div v-if="account.userType == '3'" class="gray-mask"><%= LANG('模拟') %></div>
-                                    <img v-if="account.photo" :src="avatarBaseUrl + account.photo" />
-                                    <img v-else :src="avatarBaseUrl + 'default.jpg'" />
-                                </div>
-                                <div class="info">
-                                    <div class="user-memo">
-                                        <h3>
-                                        <template v-if="account.userType === 1">
-                                            {{account.nickName || account.nickName== '' ? account.nickName : '<%= LANG('主账户') %>' }}
-                                        </template>
-                                        <template v-else>
-                                            {{account.nickName!= '' ? account.nickName : account.userName}}
-                                        </template>
-                                            <a @click="editUser(account.userId)" class="edit"><%= LANG('编辑') %></a>
-                                        </h3>
-                                        <p>{{getUserInfo(account.userId).userName}}</p>
-
-                                    </div>
-                                </div>
-                    <div class="onffflist">
-                        <a :class="{on: account.childLogin}" v-if="account.userType == 2 && loginUser.userType == 1" @click="toggleLogin(account.userId)" ><span><%= LANG('登录设置') %></span><i></i></a>
+            <div class="item active">
+                <div class="user-box" :class="'user-type-' + loginUser.userType" v-cloak>
+                    <div class="selected">
+                        <span>
+                            <svg style="width: 16px; height: 16px;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2189">
+                                <path d="M468.121 835.12c-93.001-117.869-202.414-207.667-278.997-235.741l180.499-112.287 87.5 174.014c0 0 142.249-353.61 366.579-471.479-5.418 84.132-27.336 157.103 10.917 246.985-98.419 22.41-300.832 275.057-366.497 398.51v0 0z" p-id="2190"></path>
+                            </svg>
+                        </span>
                     </div>
+                    <div @click="linkToMarket(loginUser)" class="avatar">
+                        <div v-if="loginUser.userType == '3'" class="gray-mask"><%= LANG('模拟') %></div>
+                        <img v-if="loginUser.photo" :src="avatarBaseUrl + loginUser.photo" />
+                        <img v-else :src="avatarBaseUrl + 'default.jpg'" />
+                    </div>
+                    <div class="info">
+                        <div class="user-memo">
+                            <h3>
+                            <template v-if="loginUser.userType === 1">
+                                {{loginUser.nickName != '' ? loginUser.nickName : '<%= LANG('主账户') %>' }}
+                            </template>
+                            <template v-else>
+                                {{loginUser.nickName != '' ? loginUser.nickName : loginUser.userName}}
+                            </template>
+                                <a @click="editUser(loginUser.userId)" class="edit"><%= LANG('编辑') %></a>
+                            </h3>
+                            <p>{{loginUser.loginName}}</p>
 
+                        </div>
+                    </div>
+                    <!--<div class="onffflist">
+                        <a :class="{on: account.childLogin}" v-if="account.userType == 2 && loginUser.userType == 1" @click="toggleLogin(account.userId)" ><span><%= LANG('登录设置') %></span><i></i></a>
+                    </div>-->
+
+                </div>
+            </div>
+            <!--<div class="item add-account" @click="addUser(isMock)"  v-if="loginUser.userType == 1">
+                <div class="user-box">
+                    <div class="text">
+                        <h4><%= LANG('新建独立账户') %></h4>
+                        <p class="desc"><%= LANG('新的独立账号可以用于代理投资、分仓管理等') %></p>
                     </div>
                 </div>
-            <div class="item add-account" @click="addUser(isMock)"  v-if="loginUser.userType == 1">
-<div class="user-box">
-                        <div class="text">
-                            <h4><%= LANG('新建独立账户') %></h4>
-                            <p class="desc"><%= LANG('新的独立账号可以用于代理投资、分仓管理等') %></p>
-                        </div>
-</div>
-
-            </div>
+            </div>-->
         </div>
 
-
-
-
-
         <h2  v-if="loginUser.userType == 1"><%= LANG('安全设置') %></h2>
-<div class="safe-info"  v-if="loginUser.userType == 1">
-
-
+        <div class="safe-info"  v-if="loginUser.userType == 1">
             <ul>																														                                                      <!--yyyy年MM月dd日  -->
                 <li>
                     <div class="l">
@@ -63,7 +60,7 @@
 
                         <span v-if="loginUser.loginPwdLevel <= 40" class="ruo"><%= LANG('弱') %></span>
                         <span v-if="loginUser.loginPwdLevel > 40 && loginUser.loginPwdLevel <= 60" class="zhong"><%= LANG('中') %></span>
-                        <span v-if="loginUser.loginPwdLefel > 60" class="gao"><%= LANG('高') %></span>
+                        <span v-if="loginUser.loginPwdLevel > 60" class="gao"><%= LANG('高') %></span>
                     </p>
                     </div>
                     <div class="r">
@@ -89,11 +86,11 @@
                 </li>
                 <li>
                     <div class="l">
-                    <h3><%= LANG('手机') %><span class="">{{loginUser.mobile}}</span></h3>
-                    <p>
-                        <span class="not-auth" v-if="loginUser.mobileAuth == 0"><%= LANG('未认证') %></span>
-                        <span class="auth" v-if="loginUser.mobileAuth == 1"><%= LANG('已认证') %></span>
-                    </p>
+                        <h3><%= LANG('手机') %><span class="">{{loginUser.mobile}}</span></h3>
+                        <p>
+                            <span class="not-auth" v-if="loginUser.mobileAuth == 0"><%= LANG('未认证') %></span>
+                            <span class="auth" v-if="loginUser.mobileAuth == 1"><%= LANG('已认证') %></span>
+                        </p>
                         <div class="onffflist" v-if="loginUser.mobileAuth == 1">
                             <a @click="setLoginAuth(1, loginUser.loginMobileAuth)" :class="loginUser.loginMobileAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
                         </div>
@@ -125,7 +122,6 @@
 
                 </li>
             </ul>
-
 
         </div>
     </div>
@@ -167,10 +163,6 @@
 
     <modal v-cloak :open="showModal == 'addCoin'"  @close="showModal = false">
         <add-coin :params="coinParams" />
-    </modal>
-
-    <modal v-cloak :open= "showModal == 'transfer'" @close="showModal = false">
-        <transfer :info="transferInfo" :accounts="accountsList" :done="transferSuccess()" />
     </modal>
 
     <modal v-cloak :open= "showModal == 'payin'" @close="showModal = false">
@@ -277,7 +269,7 @@
             data: function () {
                 return {
                     isLogin : ISLOGIN,
-                    loaded: false,
+                    loaded: true,
                     pubKey: '',
                     timer: false,
                     showModal: false,
@@ -310,7 +302,7 @@
                             etc : 0
                         }
                     },
-                    loginUser: Methods.getLocalUserInfo(),
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
                     allSubAccounts: [],
                     safePwd: '',
                     dynamicCode: '',
@@ -340,35 +332,6 @@
                 }
             },
             computed: {
-                accountsList: function() {
-                    var accounts = [];
-                    if (this.userAssets.length) {
-                        this.userAssets.map(function(user){
-                            var label = user.nickName ? user.nickName : user.userName;
-                            var obj = {};
-                            obj.label = label;
-                            obj.value = user.userId;
-                            obj.userName = user.userName;
-                            obj.userId = user.userId;
-                            obj.nickName= user.nickName;
-                            obj.photo = user.photo;
-                            obj.userType = user.userType;
-                            obj.isVirtual = user.isVirtual;
-                            obj.isLever = user.isLever;
-                            obj.isChildLogin = user.isChildLogin;
-                            obj.assistCoin = user.assistCoin;
-                            accounts.push(obj);
-                        });
-                    }
-                    return accounts;
-                },
-                allMarkets: function() {
-                    var markets = [];
-                    this.allMarketsInfo.map(function(item){
-                        markets.push(item.type);
-                    });
-                    return markets;
-                },
                 leverTypes: function() {
                     var types = [
                         {'label': '<%= LANG("不启用") %>', 'value': ''}
@@ -380,83 +343,6 @@
                         types.push(obj);
                     });
                     return types;
-                },
-                // 计算各币种的BTC折合
-                formatUserAssets: function() {
-                    var oriUserAssets = this.userAssets;
-                    var userAssets = [];
-                    //过滤真实用户或模拟用户
-                    if (this.isMock) {
-                        userAssets = oriUserAssets.filter(function(user){
-                            return user.userType == 3;
-                        })
-                    } else {
-                        userAssets = oriUserAssets.filter(function(user){
-                            return user.userType != 3;
-                        })
-                    }
-                    var assets = [];
-                    userAssets.map(function(user){
-                        var cUser = user;
-                        cUser.userBtcNetTotal = 0;
-                        var coinFundMap = cUser.coinFundMap;
-                        var coins = Object.keys(cUser.coinFundMap);
-                        coins.map(function(coin){
-                            var coinObj = coinFundMap[coin];
-                            var btcPrice = this.moneyPrice('btc', coin);
-                            cUser.coinFundMap[coin].btcNetTotal = coinObj.total == 0 ? 0 : (coinObj.total - coinObj.loanIn) * btcPrice;
-                            cUser.userBtcNetTotal += coinObj.total == 0 ? 0 : (coinObj.total - coinObj.loanIn) * btcPrice;
-                        }.bind(this));
-                        assets.push(cUser);
-                    }.bind(this));
-                    return assets;
-                },
-                //所有用户资产总和(btc)
-                allTotal: function() {
-                    var total = 0;
-                    this.formatUserAssets.map(function(user){
-                        total += user.userBtcNetTotal;
-                    });
-                    return total;
-                },
-                mainUserInfo: function() {
-                    var mainUser = this.accountsList.filter(function(user){
-                        return user.userType == 1;
-                    });
-                    return mainUser;
-                },
-                mainUserHideAssets: function() {
-                    return this.mainUserAssets.hidePays;
-                },
-                mainUserShowAssets: function() {
-                    var mainUserAssets = this.mainUserAssets.showPays;
-                    if (mainUserAssets) {
-                        var coinFundMap = mainUserAssets.coinFundMap;
-                        var coins = Object.keys(coinFundMap);
-                        mainUserAssets.userBtcNetTotal = 0;
-                        coins.map(function(coin){
-                            var coinObj = mainUserAssets.coinFundMap[coin];
-                            var btcPrice = this.moneyPrice('btc', coin);
-                            var moneyPrice = this.moneyPrice(mainUserAssets.assistCoin, coin);
-                            var obj = coinFundMap[coin];
-                            obj.computeTotal = obj.total * moneyPrice;
-                            obj.computeNetTotal = obj.total == 0 ? 0 : (obj.total - obj.loanIn) * moneyPrice;
-                            obj.netTotal = obj.total == 0 ? 0 : Methods.fixFloat((obj.total - obj.loanIn), 8);
-                            obj.computeAvailable = obj.available * moneyPrice;
-                            obj.computeLoanIn = obj.loanIn * moneyPrice;
-                            obj.computeFreez = obj.freez * moneyPrice;
-                            obj.coin = coin;
-
-                            mainUserAssets.userBtcNetTotal += coinObj.total == 0 ? 0 : (coinObj.total - coinObj.loanIn) * btcPrice;
-                        }.bind(this));
-                    }
-                    return mainUserAssets;
-                },
-                currentUserInfo: function () {
-                    var currentUser = this.accountsList.filter(function (user) {
-                        return user.userId == this.currentAccountId;
-                    }.bind(this));
-                    return currentUser[0];
                 },
                 isMock : function () {
                     return this.currentUserInfo.userType == 3;
@@ -481,6 +367,7 @@
                         return coin;
                     }
                 },
+                //获取本地用户信息
                 // getUserInfo: function(id) {
                 //     return this.userAssets.getObject('userId', id);
                 // },
@@ -524,61 +411,6 @@
                     });
                     return hidedCoins;
                 },
-                getProportion: function(account, item) {
-                    var userTotal = account.userBtcNetTotal;
-                    var percentage = userTotal == 0 ? 0 : (Number(item.btcNetTotal) / Number(userTotal) * 100).toFixed(2);
-                    return percentage;
-                },
-                getAssetsCol: function(userId, userType, assistCoin) {
-                    var _this = this;
-                    var assetCols = [
-                        { label: "<%= LANG('币种') %>", key: "cointTag", cell: function(item){
-                            return "<img src='<%= STATIC %>/images/icon/market-icon/market-" + item.coin + ".png' class='market-icon'><b>" + _this.getRealCoinName(item.coin).toUpperCase() + "</b>"
-                        }},
-                        { label: "<%= LANG('总额') %>", key: "total", cell: function(item){
-                            return Number(item.total) + '(' + this.currencySymbol(assistCoin) + item.computeTotal.toFixed(3) +')';
-                        }.bind(this)},
-                        { label: "<%= LANG('净总额') %>", key: "nettotal", cell: function(item){
-                            return Number(item.netTotal) + '(' + this.currencySymbol(assistCoin) + item.computeNetTotal.toFixed(3) +')';
-                        }.bind(this)},
-                        { label: "<%= LANG('占比') %>", key: "proportion", cell: function(item) {
-                            var userTotal = this.getUserInfo(userId).userBtcNetTotal;
-                            var percentage = userTotal == 0 ? 0 : (Number(item.btcNetTotal) / Number(userTotal) * 100).toFixed(2);
-                            //var  percentage = 0;
-                            return "<div class=\"exx-progress-bar\"><div class=\"progress-bar-wraper\"><div class=\"progress-bar-inner\" style=\"width: " + percentage + "%;\"></div></div><span class=\"progress-text\">" + percentage + "%</span></div>"
-                        }.bind(this)},
-                        { label: "<%= LANG('可用') %>", key: "usable", cell: function(item){
-                            return Number(item.available) + '(' + this.currencySymbol(assistCoin) + item.computeAvailable.toFixed(3) +')';
-                        }.bind(this)},
-                        { label: "<%= LANG('冻结') %>", key: "frozen", cell: function(item){
-                            return Number(item.freez) + '(' + this.currencySymbol(assistCoin) + item.computeFreez.toFixed(3) +')';
-                        }.bind(this)},
-                        { label: "<%= LANG('借入') %>", key: "loan", cell: function(item){
-                            return Number(item.loanIn) + '(' + this.currencySymbol(assistCoin) + item.computeLoanIn.toFixed(3) +') <a onclick="EXX.userIndex.openRefund(\'' + userId + '\',\'' + item.coin + '\')"><%= LANG('还款') %></a>';
-                        }.bind(this)},
-                        { label: "<%= LANG('操作') %>", key: "action", cell: function(item) {
-                            var html = "";
-                            if (userType == 1) {
-                                //html = "<a href='/u/fund/payin?coint=" + item.propTag + "' class='btn btn-primary btn-sm'>充值</a> <a href='/u/fund/payout?coint=" + item.propTag + "' >提币</a>  <a  >移除</a> <a @click=openModal('bill') >账单</a>"
-                                if(item.coin == 'usdx'){
-                                    html = "<a class=\"btn btn-primary btn-sm\" onclick=\"JuaBox.info('Coming Soon...')\"><%= LANG('兑入') %></a><a class='xiahuaxian' onclick=\"JuaBox.info('Coming Soon...')\"><%= LANG('兑出') %></a><a class='xiahuaxian' onclick=\"EXX.userIndex.openBill('" + userId + "','" + item.coin + "')\" ><%= LANG('账单') %></a>"
-                                }else{
-                                    html = "<a class=\"btn btn-primary btn-sm\" onclick=\"EXX.userIndex.openPayin('" + item.coin + "')\"><%= LANG('充值') %></a><a class='xiahuaxian' onclick=\"EXX.userIndex.openPayout('" + item.coin + "')\"><%= LANG('提币') %></a><a class='xiahuaxian' onclick=\"EXX.userIndex.openBill('" + userId + "','" + item.coin + "')\" ><%= LANG('账单') %></a>"
-                                }
-                            } else if (userType != 1 && this.loginUser.userType == 1) {
-                                html = "<a class='xiahuaxian' onclick=\"EXX.userIndex.transfer('in', '" + userId + "','" + item.coin + "')\" ><%= LANG('划入') %></a> <a class='xiahuaxian' onclick=\"EXX.userIndex.transfer('out', '" + userId + "','" + item.coin + "')\" ><%= LANG('划出') %></a><a class='xiahuaxian' onclick=\"EXX.userIndex.openBill('" + userId + "','" + item.coin + "')\" ><%= LANG('账单') %></a>";
-                            } else {
-                                html = "<a class='xiahuaxian' onclick=\"EXX.userIndex.openBill('" + userId + "','" + item.coin + "')\" ><%= LANG('账单') %></a>"
-                            }
-                            return html;
-                        }.bind(this)}
-                    ];
-                    var userInfo = this.getUserInfo(userId);
-                    if (userType == 1 || !userInfo.lever) {
-                        assetCols.splice(6,1);
-                    }
-                    return assetCols;
-                },
                 priceDisplay: function(num, money){
                     var moneyPrice = this.moneyPrice(money, 'btc');
                     return moneyPrice * Number(num);
@@ -619,8 +451,8 @@
                     this.showModal = false;
                 },
                 linkToMarket: function(account) {
-                    Methods.setLocalStorage(ENV + "currentUserInfo", account);
-                    Methods.setCookie(ENV+'currentAccountId', account.userId);
+                    // Methods.setLocalStorage(ENV + "currentUserInfo", account);
+                    // Methods.setCookie(ENV+'currentAccountId', account.userId);
                     window.location.replace('/trade');
                 },
                 openCurrencyList: function(id) {
@@ -658,7 +490,7 @@
                 openCoin: function(userId) {
                     this.coinParams = {
                         userId: userId,
-                        account: this.getUserInfo(userId),
+                        account: this.loginUser,
                         allPriceRate: this.allPriceRate
                     };
                     this.showModal = 'addCoin';
@@ -680,7 +512,7 @@
                     this.userParams = {
                         optType: 3,
                         userId: userId,
-                        account: this.getUserInfo(userId)
+                        account: this.loginUser
                     };
                     this.showModal = 'userAction';
                 },
@@ -696,12 +528,12 @@
                     this.userParams = {
                         optType: 4,
                         userId: userId,
-                        account: this.getUserInfo(userId)
+                        account: this.loginUser
                     };
                     this.showModal = 'toggleUserAction';
                 },
                 toggleLever: function(userId) {
-                    var account = this.getUserInfo(userId);
+                    var account = this.loginUser.userId;
                     var enabledCoins = this.userEnabledCoin(account);
                     this.userParams = {
                         optType: 5,
@@ -725,7 +557,7 @@
                     this.showModal = 'addAccount';
                     this.editAccountInfo = {
                         type: 'edit',
-                        account: this.getUserInfo(userId),
+                        account: this.loginUser,
                         userId: userId
                     }
                 },
@@ -743,18 +575,9 @@
                         }.bind(this)
                     });
                 },
-                getAllMarketsInfo: function() {
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'allMarket',
-                        success: function (res) {
-                            this.allMarketsInfo = res.datas
-                        }.bind(this)
-                    });
-                },
-                // 获取币价汇率 TODO
+                // 获取币价汇率
                 getPriceRate: function(callback) {
-                    Methods.getJSONP({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                    Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             this.allPriceRate = res.datas;
@@ -770,62 +593,6 @@
                         }.bind(this)
                     });
                 },
-                // 获取用户资产信息
-                getUserAssetAll: function(noCache) {
-                    var data = {
-                        noCache: noCache
-                    };
-                    // Methods.ajax({
-                    //     type: 'GET',
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
-                    //     data: data,
-                    //     success: function(res) {
-                    //         this.loaded = true;
-                    //         //格式化数据，最多保留8位小数
-                    //         var result = res.datas.userFunds;
-                    //         if(result && result.length > 0){
-                    //             for(var i = 0, ilength = result.length; i < ilength; i++){
-                    //                 for(var key in result[i]){
-                    //                     if(Methods.isNumber(result[i][key])){
-                    //                         result[i][key] = Methods.fixFloat(result[i][key], 8)
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                    //         this.userAssets = result;
-                    //         Methods.setLocalStorage(ENV + "userList", this.userAssets);
-                    //     }.bind(this)
-                    // });
-                },
-                // 获取用户资产信息
-                getUserAssetOne: function() {
-                    var data = {
-                        targetUserId: this.currentAccountId,
-                        lastTime : 0
-                    };
-                    // Methods.ajax({
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                    //     data: data,
-                    //     success: function (res) {
-                    //         this.loaded = true;
-                    //         if(res.datas.userFund){
-                    //             this.userAssets = [];
-                    //             this.userAssets[0] = res.datas.userFund;
-                    //         }
-                    //         Methods.setLocalStorage(ENV + "userList", this.userAssets);
-                    //     }.bind(this)
-                    // });
-                },
-                // 获取用户资产信息
-                getUserAssets: function(noCache) {
-                    //若是主账号获取列表
-                    //若是子账号获取自己
-                    if(this.loginUser.userType == 1){
-                        this.getUserAssetAll(noCache);
-                    }else{
-                        this.getUserAssetOne();
-                    }
-                },
                 editMainUserCoin: function(act, coin, userId) {
                     var data = {
                         fundtype: coin,
@@ -837,22 +604,12 @@
                         url: DOMAIN_MAIN + API_PREFIX + 'doEditUserFund',
                         data: data,
                         success: function (res) {
-                            this.getUserAssets(1);
                             $.toast({
                                 heading: "<%= LANG('修改用户币种信息成功') %>",
                                 text: EXX.L(res.resMsg.message),
                                 showHideTransition: 'plain',
                                 icon: 'success'
                             });
-                        }.bind(this)
-                    });
-                },
-                getSubAccounts: function() {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getSubAccounts',
-                        success: function (res) {
-                            this.allSubAccounts = res.datas.accounts;
                         }.bind(this)
                     });
                 },
@@ -873,13 +630,12 @@
                         data: data,
                         success: function (res) {
                             //如果是主账户直接更新本地存储
-                            if (this.getUserInfo(userId).userType == 1) {
+                            if (this.loginUser.userType == 1) {
                                 var userInfo = this.loginUser;
                                 userInfo.assistCoin = coin.key;
                                 Methods.setLocalUserInfo(userInfo);
                                 this.loginUser = userInfo;
                             }
-                            this.getUserAssets(1);
 
                             this.showCurrencyList = false;
                             $.toast({
@@ -893,40 +649,8 @@
                         }.bind(this)
                     });
                 },
-                getUserInfo: function() {
-                    var _this = this;
-                    var data = {
-                        noCache: noCache
-                    };
-                    Methods.ajax({
-                        type:'POST',
-                        data: data,
-                        url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
-                        success: function (res) {
-                            this.loginUser = res.datas;
-                            //更新用户信息
-                            Methods.setLocalUserInfo(res.datas);
-                        }
-                    });
-                },
-                transfer: function(type, userId, coin) {
-                    this.transferInfo = {
-                        type: type,
-                        userId: userId,
-                        coin: coin
-                    };
-                    this.showModal = 'transfer';
-                },
-                transferSuccess: function() {
-                    return function() {
-                        JuaBox.info("<%= LANG('内部划账成功') %>");
-                        this.getUserAssets();
-                        this.showModal = false;
-                    }.bind(this)
-                },
                 userActionSuccess: function() {
                     return function() {
-                        this.getUserAssets();
                         this.closeModal('addAccount');
                     }.bind(this)
                 },
@@ -953,15 +677,10 @@
             },
             created: function() {
                 //this.getAssets();
-                this.getAllMarketsInfo();
-                this.getUserAssets();
-                this.getPubKey();
-                this.getPriceRate();
-                //该页面重新获取一次用户信息
-                this.getUserInfo();
+                // this.getPubKey();
+                // this.getPriceRate();
             },
             mounted: function() {
-                //setInterval(this.getUserAssets, 5000);
                 document.addEventListener('click', this.handleClickOutsideSelect, true);
                 window.addEventListener('resize', this.getWindowWidth, true);
                 $('[data-toggle="tooltip"]').tooltip();

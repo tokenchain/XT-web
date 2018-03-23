@@ -98,9 +98,8 @@
                     if(!this.isNeedInterval){
                         return false;
                     }
-                    Methods.getJSONP({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice?note=side',
-                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice?note=side',
+                Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);

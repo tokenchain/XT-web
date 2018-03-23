@@ -23,13 +23,13 @@
                     }
                 },
                 getAppDownload: function() {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getAppDownload',
-                        success: function(res) {
-                            this.appInfo = res.datas;
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     type: 'GET',
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getAppDownload',
+                    //     success: function(res) {
+                    //         this.appInfo = res.datas;
+                    //     }.bind(this)
+                    // });
                 }
             },
             created: function() {
