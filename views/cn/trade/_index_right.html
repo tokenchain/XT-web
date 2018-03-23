@@ -1247,7 +1247,8 @@
                 return false;
             }*/
               Methods.getJSONP({
-                  url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                  // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                  url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                   success: function (res) {
                       this.allPriceRate = res.datas;
                       //store.state.allPriceRate = res.datas;

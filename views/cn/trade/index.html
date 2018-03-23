@@ -1005,8 +1005,9 @@
         // 获取币价汇率
         getPriceRate: function(callback) {
           Methods.getJSONP({
-            url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-            success: function (res) {
+            // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+              url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
+              success: function (res) {
               this.allPriceRate = res.datas;
               store.state.allPriceRate = res.datas;
               this.sharedState.allPriceRate = res.datas;
@@ -1031,7 +1032,8 @@
         // 获取市场配置
         getMarketConfig: function(callback) {
           Methods.getJSONP({
-              url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+              // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+              url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
               success: function (res) {
                   this.marketConfig = res.datas;
                   if(typeof callback == 'function'){

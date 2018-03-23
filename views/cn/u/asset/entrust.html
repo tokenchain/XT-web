@@ -220,7 +220,8 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);
@@ -231,7 +232,8 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -281,7 +283,8 @@
                     var _this = this;
                     _this.requestLocked = true;
                     Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
+                        url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];
@@ -317,7 +320,8 @@
                         entrustId: id
                     };
                     Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+                        // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+                        url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
                         data: data,
                         success: function (res) {
                             if(_this.isAll){

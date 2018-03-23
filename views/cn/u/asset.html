@@ -821,7 +821,8 @@
                 // 获取币价汇率
                 getPriceRate: function(callback) {
                     Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             this.allPriceRate = res.datas;
                             //var oriPrice = res.datas.prices[this.moneyType];

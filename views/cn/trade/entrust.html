@@ -146,6 +146,7 @@
               marketId: this.market,
               userId: this.sharedState.currentAccountId
           };
+          //  获取委托记录
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
               url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
@@ -167,9 +168,10 @@
             marketId: this.market,
             entrustId: 1
           };
+          //  取消委托
           Methods.ajax({
             //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-            url: DOMAIN_TRADE + '/entrust/entrustController/' + 'cancelEntrust',
+            url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
             data: JSON.stringify(data),
             success: function (res) {
               $.toast({
