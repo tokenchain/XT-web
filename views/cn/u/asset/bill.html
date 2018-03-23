@@ -49,9 +49,15 @@
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
         <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'" class="market-icon">{{bill.mainCurrency}}</div>
-            <div class="cell time">{{showDate(bill.billDate)}}</div>
-            <div class="cell type">{{bill.typeName}}</div>
+            <!--暂时性处理:返回数据不够完善-->
+            <!--<div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'" class="market-icon">{{bill.mainCurrency}}</div>-->
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-' + 'bcc.png'" class="market-icon">{{bill.mainCurrency}}</div>
+
+            <div class="cell time">{{showDate(bill.createTime)}}</div>
+            <!--暂时性处理:返回数据不够完善-->
+            <!--<div class="cell type">{{bill.typeName}}</div>-->
+            <div class="cell type">typeName</div>
+
             <div class="cell amount">
                 <div class="amount1"><p><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span></p>= {{bill.mainBalance}} {{bill.mainCurrency}}</div>
                 <template v-if="parseFloat(bill.subChange) != 0">
@@ -109,10 +115,14 @@
                 showDate: function(date) {
                     return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
                 },
+                /*
+                * 获取所有货币信息
+                * */
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
