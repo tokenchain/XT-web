@@ -130,7 +130,8 @@
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)

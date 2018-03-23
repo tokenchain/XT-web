@@ -438,7 +438,8 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -449,7 +450,8 @@
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)

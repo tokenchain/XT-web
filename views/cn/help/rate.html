@@ -67,7 +67,8 @@
                 getGuideCategories: function() {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinMap = res.datas;
                         }.bind(this)
