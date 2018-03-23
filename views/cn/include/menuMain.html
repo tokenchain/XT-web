@@ -204,22 +204,22 @@
                 //获取大写货币名称
                 getCoinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toUpperCase();
-                    return !market ? '' : market.sellerCurrencyName.toUpperCase();
+                    return !market ? '' : market.sellerCurrencyId.toUpperCase();
                 },
                 //获取小写货币名称
                 getCoinMinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toLowerCase();
-                    return !market ? '' : market.sellerCurrencyName.toLowerCase();
+                    return !market ? '' : market.sellerCurrencyId.toLowerCase();
                 },
                 //获取交易所属类型
                 getMoneyName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyName.toUpperCase();
+                    return !market ? '' : market.buyerCurrencyId.toUpperCase();
                 },
                 //获取交易名称
                 getTradeName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyName.toLowerCase() + '_' + market.sellerCurrencyName.toLowerCase();
+                    return !market ? '' : market.buyerCurrencyId.toLowerCase() + '_' + market.sellerCurrencyId.toLowerCase();
 
                 },
                 goToExchange: function (type, market) {
@@ -257,7 +257,7 @@
                     Methods.ajax({
                         type: 'GET',
                         //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -272,7 +272,7 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'findByPage',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function(res) {
                             this.loaded = true;
@@ -287,7 +287,7 @@
                 getAssistPrice: function (callback) {
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
@@ -303,7 +303,7 @@
                     Methods.ajax({
                         type:'POST',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
+                        url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'getuserinfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息
@@ -398,7 +398,7 @@
                     var _this = this;
 
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                         }

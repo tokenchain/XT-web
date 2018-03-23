@@ -155,7 +155,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                         }.bind(this)

@@ -220,13 +220,14 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
             var options = typeof ops == 'object' ? ops : {};
             options.url = options.url || '';
             options.type = options.type || 'POST';
+            options.headers = options.headers || {};
             options.data = options.data || {};
             options.contentType = options.contentType || 'application/json; charset=utf-8';
             options.dataType = options.dataType || 'json';
             options.success = options.success || function (res) {
                 console.log('Requirest Success');
             };
-            //TODO 返回码非1000都当作错误处理 (目前返回错误码待定)
+            //TODO 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
                 // switch (resMsg.code) {
@@ -272,6 +273,7 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
                 $.ajax({
                     url: options.url,
                     type: options.type,
+                    headers: options.headers,
                     data: options.data,
                     timeout: 10000,
                     success: function (res) {
@@ -440,7 +442,7 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
             Methods.ajax({
                 type:'POST',
                 data: data,
-                url: DOMAIN_DEV + "/exchange/website/user/usercontroller/" + 'getuserinfo',
+                url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'getuserinfo',
                 success: function (res) {
                     //更新用户信息
                     this.setLocalUserInfo(res.datas);

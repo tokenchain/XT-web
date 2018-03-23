@@ -91,7 +91,7 @@
                     requestLocked : false,
                     url : Methods.getUrlparm('url'),
                     // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
-                    imageCodeUrl: DOMAIN_DEV+ '/exchange/website/verifycode/userverifycontroller/getvalidatecode'
+                    imageCodeUrl: DOMAIN_DEV+ '/exchange/controller/website/verifycode/userverifycontroller/getvalidatecode'
                 }
             },
             methods: {
@@ -128,7 +128,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                         }.bind(this)
@@ -163,7 +163,7 @@
                         _this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
-                            url: DOMAIN_DEV+ "/exchange/website/user/usercontroller/" + 'loginbypassword',
+                            url: DOMAIN_DEV+ "/exchange/controller/website/user/usercontroller/" + 'loginbypassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 _this.requestLocked = false;

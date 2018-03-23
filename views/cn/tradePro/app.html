@@ -421,7 +421,7 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             try{

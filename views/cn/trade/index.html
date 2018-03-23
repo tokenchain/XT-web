@@ -788,7 +788,7 @@
         getPubKey: function () {
             Methods.ajax({
                 type: 'GET',
-                url: DOMAIN_DEV + "/exchange/website/common/baseapicontroller/" + 'getpubkey',
+                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
                 success: function (res) {
                     this.pubKey = res.datas.pubKey;
                 }.bind(this)
@@ -1005,7 +1005,7 @@
         // 获取币价汇率
         getPriceRate: function(callback) {
           Methods.ajax({
-            url: DOMAIN_DEV + "/exchange/website/user/pricecontroller/" + 'getassistprice',
+            url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
             success: function (res) {
               this.allPriceRate = res.datas;
               store.state.allPriceRate = res.datas;

@@ -100,7 +100,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + (this.userKey == '' ? 'sendcode' : 'sendcode2'),
-                            url: DOMAIN_DEV + "/exchange/website/verifycode/userverifycontroller/" + 'sendcode',
+                            url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'sendcode',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 var resMsg = res.resMsg;
