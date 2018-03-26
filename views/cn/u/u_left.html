@@ -55,7 +55,10 @@
       },
       methods: {
         logout: function() {
-          Methods.logout();
+            var data = {
+                userId: userInfo.userId
+            };
+          Methods.logout(data);
         }
       }
     });

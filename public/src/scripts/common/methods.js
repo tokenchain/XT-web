@@ -190,7 +190,7 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
         logout: function (data) {
             this.ajax({
                 type: "GET",
-                url: DOMAIN_MAIN + API_PREFIX + 'logOut',
+                url: DOMAIN_DEV + '/exchange/controller/website/user/usercontroller/' + 'logOut',
                 data: data,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
@@ -198,6 +198,10 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
                     this.setCookie(ENV + 'TradeTheme', 'dark');
                     this.setCookie(ENV + 'inputPriceMode', 0);
                     this.setCookie(ENV + 'mname', 'none');
+                    // 2018年03月26日16:00
+                    this.setCookie(ENV + 'uname', 'none');
+                    this.setCookie(ENV + 'uid', 'none');
+                    this.setCookie(ENV + 'uon', 'none');
                     window.localStorage.clear();
                     window.location.href = '/';
                 }.bind(this)

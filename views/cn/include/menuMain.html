@@ -199,7 +199,10 @@
             },
             methods: {
                 logout: function () {
-                    Methods.logout();
+                    var data = {
+                        userId: this.userInfo.userId
+                    };
+                    Methods.logout(data);
                 },
                 //获取大写货币名称
                 getCoinName : function (market) {
