@@ -222,7 +222,7 @@
                 //获取交易名称
                 getTradeName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyId.toLowerCase() + '_' + market.sellerCurrencyId.toLowerCase();
+                    return !market ? '' : market.sellerCurrencyId.toLowerCase() + '_' + market.buyerCurrencyId.toLowerCase();
 
                 },
                 goToExchange: function (type, market) {
@@ -270,12 +270,12 @@
                 getAccountAssets: function () {
                     var data = {
                         webId: 100,
-                        userId: 1 || this.currentAccountId,
+                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId,
                         pageSize: 9999,
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findByPage',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findbypage',
                         data: JSON.stringify(data),
                         success: function(res) {
                             this.loaded = true;
@@ -300,12 +300,12 @@
                 //获取用户信息-ok
                 getUserInfo: function () {
                     var _this = this;
-                    var data = {
+                    var headers = {
                         userId: Methods.getLocalStorage(ENV + 'userInfo').userId
                     };
                     Methods.ajax({
                         type:'POST',
-                        data: data,
+                        headers: headers,
                         url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'getuserinfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
@@ -424,6 +424,7 @@
 
                 // 消息相关
                 // this.getTopNewsList();
+                console.log("获取消息公告")
                 // this.getHasReadNews();
             },
             created : function () {

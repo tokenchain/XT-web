@@ -137,15 +137,15 @@
                       EXX.tradeSidebar.closeModal()
                     }*/
                 },
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 getUserMarkets: function () {
                     var data = {
                         childId: this.params.account.userId

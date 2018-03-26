@@ -33,11 +33,11 @@
                     <div class="td"><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
                     <div class="td"><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
                     <div class="td" v-if="loginUser.userType == 1">
-                        <!--TODO 判断能否充值-->
+                        <!--TODO 判断能否充值,默认能充值-->
                         <a v-if="item" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('充值')%></a>
 
-                        <a v-if="item.drawFlag" role="button" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币')%></a>
+                        <a v-if="item.drawFlag == 1" role="button" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币')%></a>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('提币')%></a>
                     </div>
                 </div>
@@ -199,15 +199,19 @@
                     if (!this.isLogin) {
                         Methods.setCookie(ENV+'mname', coin);
                         this.MONEY = coin;
-                        //top.location.reload();
                         return
                     }
+
+                    var data = {
+                        assistCoin : coin
+                    };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        data: {
-                            assistCoin : coin
+                        // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
+                        url: DOMAIN_DEV+ "/exchange/controller/website/user/usercontroller/" + 'editassistcoin',
+                        headers: {
+                            UserId: this.loginUser.userId
                         },
+                        data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV+'mname', coin);
                             this.MONEY = coin;

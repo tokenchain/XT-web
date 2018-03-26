@@ -27,18 +27,18 @@
       <div class="form-group">
         <div class="form-control">
           <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-        <send-code :code-type="5" :user-name="email" />
+          <send-code :code-type="23" :user-name="email" :user-id="userInfo.userId" />
       </div>
       </div>
 
       <div class="form-group">
         <div class="form-control">
           <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
-        <send-code :code-type="6" :user-name="userInfo.mobile.split(' ')[1]" />
+          <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
       </div>
       </div>
 
-        <div v-if="userInfo.googleAuth == 1"  class="form-group">
+        <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">
           <div class="form-control">
             <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
           </div>
@@ -93,21 +93,22 @@
                 }
             },
             methods: {
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 handleSubmit: function () {
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
                     }
                     var data = {
+                        userId: this.userInfo.userId,
                         email: this.email,
                         emailCode: this.emailCode,
                         mobileCode: this.mobileCode,
@@ -125,19 +126,18 @@
                     } else {
                         this.locked = true;
                         Methods.ajax({
-                            url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
-                            data: data,
+                            // url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
+                            url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'authemail',
+                            data: JSON.stringify(data),
                             success: function (res) {
                                 this.locked = false;
-                                Methods.setLocalUserInfo(res.datas.getUserInfo);
-                                try{
-                                    for(var key in res.datas.getUserInfo){
-                                        Vue.set(EXX.userIndex.loginUser, key, res.datas.getUserInfo[key])
-                                    }
-                                }catch(err){}
+                                // Methods.setLocalUserInfo(res.datas.getUserInfo);
+
                                 JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                    //reload page
                                     top.location.reload();
                                 });
+
                                 this.done();
                             }.bind(this),
                             error: function (res) {
@@ -149,7 +149,7 @@
                 }
             },
             created: function () {
-                this.getPubKey();
+                // this.getPubKey();
             }
         })
     })

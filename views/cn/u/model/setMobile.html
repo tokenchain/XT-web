@@ -4,7 +4,7 @@
     <div class="exx-modal-body">
 
         <div v-show="step == 1" class="exx-form-box" style="display: none;">
-          <div class="exx-form-tips" v-if="loginUser.mobileAuth == 1">
+          <div class="exx-form-tips" v-if="userInfo.mobileAuth == 1">
             <%= LANG('修改手机并不会立即生效') %>
           </div>
           <div class="form-box">
@@ -18,7 +18,7 @@
             <div class="form-group">
               <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('原手机验证码') %>" v-model="oldMobileCode" type="text">
-              <send-code :code-type="10" :country-code="userInfo.mobile.split(' ')[0]" :user-name="userInfo.mobile.split(' ')[1]" />
+              <send-code :code-type="24" :country-code="userInfo.countryCode" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
             </div>
             </div>
 
@@ -33,7 +33,7 @@
 
           <div class="form-group">
             <!--<label>-->
-              <!--<template v-if="loginUser.mobileAuth == 0">-->
+              <!--<template v-if="userInfo.mobileAuth == 0">-->
                 <!--<%= LANG('手机号码') %>-->
               <!--</template>-->
               <!--<template v-else>-->
@@ -41,14 +41,14 @@
               <!--</template>-->
             <!--</label>-->
             <div class="form-control">
-              <input autocomplete="off" :placeholder="loginUser.mobileAuth == '0' ? '<%= LANG('手机号码') %>' : '<%= LANG('新手机号码') %>'" v-model="mobile" type="text">
+              <input autocomplete="off" :placeholder="userInfo.mobileAuth == '0' ? '<%= LANG('手机号码') %>' : '<%= LANG('新手机号码') %>'" v-model="mobile" type="text">
               <country-code v-if="showCountry" :selected="selectCountry" />
             </div>
             </div>
 
           <div class="form-group">
             <!--<label>-->
-              <!--<template v-if="loginUser.mobileAuth == 0">-->
+              <!--<template v-if="userInfo.mobileAuth == 0">-->
                 <!--<%= LANG('手机验证码') %>-->
               <!--</template>-->
               <!--<template v-else>-->
@@ -56,23 +56,23 @@
               <!--</template>-->
             <!--</label>-->
             <div class="form-control">
-              <input autocomplete="off" :placeholder="loginUser.mobileAuth == '0' ? '<%= LANG('手机验证码') %>' : '<%= LANG('新手机验证码') %>' " v-model="newMobileCode" type="text">
-              <send-code v-if="userInfo.mobileAuth == 0" :code-type="7" :country-code="countryCode" :user-name="mobile" />
-              <send-code v-if="userInfo.mobileAuth == 1" :code-type="11" :country-code="countryCode" :user-name="mobile" />
+              <input autocomplete="off" :placeholder="userInfo.mobileAuth == '0' ? '<%= LANG('手机验证码') %>' : '<%= LANG('新手机验证码') %>' " v-model="newMobileCode" type="text">
+              <send-code v-if="userInfo.mobileAuth == 0" :code-type="1" :country-code="countryCode" :user-name="mobile" :user-id="userInfo.userId" />
+              <send-code v-if="userInfo.mobileAuth == 1" :code-type="1" :country-code="countryCode" :user-name="mobile" :user-id="userInfo.userId" />
             </div>
           </div>
 
             <div class="form-group">
               <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-              <send-code v-if="userInfo.mobileAuth == 0" :code-type="8" :country-code="countryCode" :user-name="userInfo.email" />
-              <send-code v-if="userInfo.mobileAuth == 1" :code-type="9" :country-code="countryCode" :user-name="userInfo.email" />
+              <send-code v-if="userInfo.mobileAuth == 0" :code-type="23" :country-code="countryCode" :user-name="userInfo.email" :user-id="userInfo.userId" />
+              <send-code v-if="userInfo.mobileAuth == 1" :code-type="23" :country-code="countryCode" :user-name="userInfo.email" :user-id="userInfo.userId" />
             </div>
             </div>
 
           <div class="form-group">
             <!--<label>-->
-              <!--<template v-if="loginUser.safePwdAuth == 0">-->
+              <!--<template v-if="userInfo.safePwdAuth == 0">-->
                 <!--<%= LANG('登录密码') %>-->
               <!--</template>-->
               <!--<template v-else>-->
@@ -80,13 +80,13 @@
               <!--</template>-->
             <!--</label>-->
             <div class="form-control">
-              <input autocomplete="new-password" :placeholder="loginUser.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' " v-model="safePwd" type="password">
-            <a  v-if="loginUser.safePwdAuth == 1" class="label-a" href="/u/safe/resetSafePwd" target="_blank"><%= LANG('忘记二级密码？') %></a>
+              <input autocomplete="new-password" :placeholder="userInfo.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' " v-model="safePwd" type="password">
+            <a  v-if="userInfo.safePwdAuth == 1" class="label-a" href="/u/safe/resetSafePwd" target="_blank"><%= LANG('忘记二级密码？') %></a>
           </div>
           </div>
 
 
-          <div v-if="loginUser.googleAuth == 1"  class="form-group">
+          <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1" class="form-group">
             <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
             </div>
@@ -133,7 +133,7 @@
                     pubKey: '',
                     locked: false,
                     step: 1,
-                    loginUser: Methods.getLocalUserInfo(),
+                    // loginUser: Methods.getLocalUserInfo(),
                     countryCode: '+86',
                     mobile: '',
                     newMobileCode: '',
@@ -152,15 +152,15 @@
                 }
             },
             methods: {
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 coverPhone: function (phone) {
                     return Methods.coverPhone(phone);
                 },
@@ -184,17 +184,21 @@
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
                     }
-                    var url = DOMAIN_MAIN + API_PREFIX + 'doAuthMobile';
+                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'doauthmobile';
                     if (this.userInfo.mobileAuth == 1) {
-                        url = DOMAIN_MAIN + API_PREFIX + 'doModifyMobile';
+                        url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'domodifymobile';
                     }
+                    var headers = {
+                        userId: this.userInfo.userId
+                    };
                     var data = {
+                        // userId: this.userInfo.userId,
                         countryCode: this.countryCode,
-                        mobile: this.mobile,
+                        phone: this.mobile,
                         emailCode: this.emailCode,
                         oldMobileCode: this.oldMobileCode,
                         newMobileCode: this.newMobileCode,
-                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
                     if (!this.mobile) {
@@ -209,20 +213,15 @@
                         _this.locked = true;
                         Methods.ajax({
                             url: url,
+                            headers: headers,
                             data: data,
                             success: function (res) {
                                 _this.locked = false;
-                                if (res.datas.userInfo) {
-                                    Methods.setLocalUserInfo(res.datas.userInfo);
-                                    try{
-                                        for(var key in res.datas.userInfo){
-                                            Vue.set(EXX.userIndex.loginUser, key, res.datas.userInfo[key])
-                                        }
-                                    }catch (err){}
-                                    JuaBox.info(EXX.L(res.resMsg.message), function () {
-                                        top.location.reload();
-                                    });
-                                }
+
+                                JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                    top.location.reload();
+                                });
+
                                 _this.done();
                             }.bind(this),
                             error: function (res) {
@@ -234,8 +233,8 @@
                 }
             },
             created: function () {
-                this.getPubKey();
-                if (this.loginUser.mobileAuth == 0) {
+                // this.getPubKey();
+                if (this.userInfo.mobileAuth == 0) {
                     this.step = 2;
                 }
             }

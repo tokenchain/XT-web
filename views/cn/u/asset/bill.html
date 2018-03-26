@@ -182,8 +182,8 @@
                         // pageSize: this.pageSize,
                         // isBackup: this.timeType
                         webId: 100,
-                        // currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
-                        userId: 1 || this.currentAccountId,
+                        currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
+                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId,
                         pageSize: this.pageSize,
                         pageNum: this.pageIndex
                     };
@@ -192,7 +192,7 @@
                     Methods.ajax({
                         // type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
-                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findByPage',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findbypage',
                         data: JSON.stringify(data),
                         success: function(res) {
                             console.log('进入回调')

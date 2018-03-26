@@ -200,7 +200,7 @@
                     })
                 },
                 bindError : function (res) {
-                    this.getPubKey();
+                    // this.getPubKey();
                     this.locked = false;
                     JuaBox.wrong(EXX.L(res.resMsg.message));
                 },
@@ -218,15 +218,15 @@
                         }.bind(this)
                     });
                 },
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 doC2cLogin : function () {
                     if (this.locked) {
                         return JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
@@ -318,7 +318,7 @@
                 }else{
                     this.checkChildAccount();
                     this.getBindingUserInfo();
-                    this.getPubKey();
+                    // this.getPubKey();
                 }
                 Methods.checkMobileStyle();
             }

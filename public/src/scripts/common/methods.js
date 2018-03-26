@@ -86,7 +86,7 @@ if (typeof localStorage === 'object') {
     }
 }
 
-define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncrypt, JuaBox) {
+define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], function (MD5, JSEncrypt, SHA1, JuaBox) {
     var Methods = {
         isEmail: function (str) {
             var emailReg = /^([a-zA-Z0-9]+[_|_|.|/-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
@@ -264,6 +264,7 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
                 //         icon: "error"
                 //     });*/
                 // }
+                JuaBox.showWrong(EXX.L(resMsg.message));
             }.bind(this);
 
             $.ajaxSetup({
@@ -279,7 +280,7 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
                     type: options.type,
                     headers: options.headers,
                     data: options.data,
-                    timeout: 10000,
+                    timeout: 30000,
                     success: function (res) {
                         console.log('success: ' + options.url)
                         var resMsg = res.resMsg;
@@ -480,7 +481,12 @@ define(['md5', 'others/jsencrypt.min', 'common/juabox'], function (MD5, JSEncryp
         deleLocalStorage : function (name) {
             window.localStorage.removeItem(name);
         },
+        //sha1加密 pubKey暂不起作用
         encryptPwd: function (password, pubKey) {
+            return SHA1(password);
+        },
+        //加密pwd(已弃用)
+        encryptPwd_old: function (password, pubKey) {
             var encrypt = new JSEncrypt.JSEncrypt;
             encrypt.setPublicKey(pubKey);
             return encrypt.encrypt(password);

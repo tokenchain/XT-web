@@ -224,21 +224,21 @@
                         return false;
                     }
                 },
-                getPubKey: function (callback) {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                            callback && callback();
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function (callback) {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //             callback && callback();
+                //         }.bind(this)
+                //     });
+                // },
                 getCoinConfig: function() {
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -336,7 +336,7 @@
                     });
                 },
                 doSubmit : function () {
-                    this.getPubKey(this.handlePayout);
+                    // this.getPubKey(this.handlePayout);
                 },
                 cancelPayout: function(id) {
                     var data = {

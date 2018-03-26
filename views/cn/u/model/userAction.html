@@ -100,15 +100,15 @@
                 }
             },
             methods: {
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 handleClose: function () {
                     if (EXX.userIndex) {
                         EXX.userIndex.closeModal();
@@ -198,7 +198,7 @@
 
 
                 }
-                this.getPubKey();
+                // this.getPubKey();
             },
             mounted: function () {
                 $("#s1").xslider({

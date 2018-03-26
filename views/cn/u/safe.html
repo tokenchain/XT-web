@@ -75,7 +75,7 @@
                         <span class="auth" v-if="loginUser.emailAuth == 1"><%= LANG('已认证') %></span>
                     </p>
                         <div class="onffflist" v-if="loginUser.emailAuth == 1">
-                            <a @click="setLoginAuth(0, loginUser.loginEmailAuth)" :class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
+                            <a @click="setLoginAuth(1, loginUser.loginEmailAuth)" :class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
                         </div>
                     </div>
                     <div class="r">
@@ -92,7 +92,7 @@
                             <span class="auth" v-if="loginUser.mobileAuth == 1"><%= LANG('已认证') %></span>
                         </p>
                         <div class="onffflist" v-if="loginUser.mobileAuth == 1">
-                            <a @click="setLoginAuth(1, loginUser.loginMobileAuth)" :class="loginUser.loginMobileAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
+                            <a @click="setLoginAuth(2, loginUser.loginMobileAuth)" :class="loginUser.loginMobileAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
                         </div>
                     </div>
                     <div class="r">
@@ -110,7 +110,7 @@
                         <span class="auth" v-if="loginUser.googleAuth == 1"><%= LANG('已认证') %></span>
                     </p>
                         <div class="onffflist" v-if="loginUser.googleAuth == 1">
-                            <a @click="setLoginAuth(2, loginUser.loginGoogleAuth)" :class="loginUser.loginGoogleAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
+                            <a @click="setLoginAuth(0, loginUser.loginGoogleAuth)" :class="loginUser.loginGoogleAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>
                         </div>
                     </div>
                     <div class="r">
@@ -566,15 +566,15 @@
                     this.loginAuthParams.type = type == 1 ? 0 : 1;
                     this.showModal = 'loginAuth';
                 },
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 // 获取币价汇率
                 getPriceRate: function(callback) {
                     Methods.ajax({

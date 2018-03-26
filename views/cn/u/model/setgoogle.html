@@ -28,7 +28,7 @@
       <div class="form-group">
         <div class="form-control">
           <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-        <send-code :code-type="12" :user-name="userInfo.userName" />
+        <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
         </div>
       </div>
 
@@ -91,7 +91,7 @@
                     if(this.googleSecret == ''){
                         return ''
                     }else{
-                        return DOMAIN_MAIN + '/manage/getGoogleAuthQr?secret=' + this.googleSecret;
+                        return DOMAIN_DEV + '/exchange/controller/website/verifycode/userverifycontroller/getgoogleauthqr?userId=' + this.userInfo.userId +'&secret=' + this.googleSecret;
                     }
                 },
                 /*type: function () {
@@ -121,8 +121,13 @@
             },
             methods: {
                 getGoogleSecret: function () {
+                    var data = {
+                        userId: this.userInfo.userId
+                    };
                     Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
+                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getgooglesecret',
+                        data: data,
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
                         }.bind(this)
@@ -141,6 +146,7 @@
                     }
                     var type = this.isOpen ? this.type : 0;
                     var data = {
+                        userId: this.userInfo.userId,
                         type: type,
                         googleSecret: this.googleSecret,
                         googleCode: this.googleCode,
@@ -148,17 +154,16 @@
                     };
                     this.locked = true;
                     Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
-                        data: data,
+                        // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
+                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'dosetgoogleauth',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.locked = false;
-                            if (res.datas.userInfo) {
-                                Methods.setLocalUserInfo(res.datas.userInfo);
-                                for(var key in res.datas.userInfo){
-                                    Vue.set(EXX.userIndex.loginUser, key, res.datas.userInfo[key])
-                                }
-                            }
-                            JuaBox.info(EXX.L(res.resMsg.message));
+
+                            JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                top.location.reload();
+                            });
+
                             EXX.userIndex.closeModal();
                         }.bind(this),
                         error: function (res) {

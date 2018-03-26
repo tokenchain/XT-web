@@ -220,15 +220,15 @@
 
       },
       methods: {
-        getPubKey: function () {
-            Methods.ajax({
-                type: 'GET',
-                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                success: function (res) {
-                    this.pubKey = res.datas.pubKey;
-                }.bind(this)
-            });
-        },
+        // getPubKey: function () {
+        //     Methods.ajax({
+        //         type: 'GET',
+        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         success: function (res) {
+        //             this.pubKey = res.datas.pubKey;
+        //         }.bind(this)
+        //     });
+        // },
         getCoint: function () {
           var params = Methods.parseQueryString();
           if (params.coint) {
@@ -345,7 +345,7 @@
         }
       },
       created: function() {
-        this.getPubKey();
+        // this.getPubKey();
         this.getCoint();
         this.getAccountInfo();
         this.getPayoutInfo();
