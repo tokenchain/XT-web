@@ -16,21 +16,34 @@ define(['vue', 'text!./template.html', 'css!./style.css'], function (Vue, templa
             }
         },
         methods: {
+            // 获取国家列表
             getCountries: function () {
                 var _this = this;
-                $.ajax({
+                Methods.ajax({
                     type: "GET",
-                    url: DOMAIN_MAIN + API_PREFIX + 'getCountry',
-                }).done(function (res) {
-                    var resMsg = res.resMsg;
-                    if (resMsg.code === 1000) {
-                        _this.countries = res.datas.country;
-                        //按照CODE排序
-                        _this.countries.sort(function (x,y) {
-                            return parseFloat(x.code) - parseFloat(y.code);
-                        });
-                    }
-                });
+                    // url: DOMAIN_MAIN + API_PREFIX + 'getCountry',
+                    url: DOMAIN_DEV + '/exchange/controller/admin/config/countrycontroller/' + 'getcountrylist',
+                    success: function (res) {
+                        var resMsg = res.resMsg;
+                        // if (resMsg.code === 1000) {
+                            _this.countries = res.datas;
+                            //按照CODE排序
+                            _this.countries.sort(function (x, y) {
+                                return parseFloat(x.code) - parseFloat(y.code);
+                            });
+                        }
+                    // }
+                })
+            // }).done(function (res) {
+            //             var resMsg = res.resMsg;
+            //             if (resMsg.code === 1000) {
+            //                 _this.countries = res.datas.country;
+            //                 //按照CODE排序
+            //                 _this.countries.sort(function (x,y) {
+            //                     return parseFloat(x.code) - parseFloat(y.code);
+            //                 });
+            //             }
+            //         });
             },
             handleSelected: function (country) {
                 this.currentCountry = country;

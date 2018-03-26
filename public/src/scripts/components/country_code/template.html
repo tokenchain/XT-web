@@ -2,7 +2,7 @@
   <p class="country-button" v-on:click="dropdownToggle">{{currentCountry.code}}</p>
   <ul class="country-list">
     <li v-for="country in countries">
-      <a v-on:click="handleSelected(country)">{{country.code}} [{{country.name}}] [{{country.des}}]</a>
+      <a v-on:click="handleSelected(country)">{{country.code}} [{{country.name}}] [{{country.shortName}}]</a>
     </li>
   </ul>
 </div>
