@@ -437,9 +437,9 @@
                 // 获取市场配置
                 getMarketConfig: function (callback) {
                     var _this = this;
-                    Methods.getJSONP({
+                    Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -608,8 +608,9 @@
                         userId: _this.currentAccountId
                         //pageSize: 30
                     };
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getCacheEntrustRecord',
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getCacheEntrustRecord',
+                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新

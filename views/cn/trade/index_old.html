@@ -724,7 +724,7 @@
           };
           Methods.getJSONP({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
-              url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
+              url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
               data: data,
             success: function (res) {
               this.entrustRecord = res.datas.record;
@@ -839,9 +839,10 @@
             market: this.market,
             entrustId: id
           };
-          Methods.getJSONP({
-            url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-            data: data,
+          Methods.ajax({
+            // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+              url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
+              data: data,
             success: function (res) {
               JuaBox.showRight("<%= LANG('取消委托成功') %>");
               this.getEntrustRecord();

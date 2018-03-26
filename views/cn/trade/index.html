@@ -1030,9 +1030,9 @@
           },
         // 获取市场配置
         getMarketConfig: function(callback) {
-          Methods.getJSONP({
+          Methods.ajax({
               // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-              url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+              url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
               success: function (res) {
                   this.marketConfig = res.datas;
                   if(typeof callback == 'function'){
@@ -1055,8 +1055,8 @@
           };
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
-              url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
-            data: data,
+              url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
+              data: data,
             success: function (res) {
               this.entrustRecord = res.datas.record;
             }.bind(this)
@@ -1236,9 +1236,10 @@
             userId: userId,
             entrustId: id
           };
-          Methods.getJSONP({
-            url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-            data: data,
+          Methods.ajax({
+            // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+              url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
+              data: data,
             success: function (res) {
               $.toast({
                 heading: '<%= LANG("取消委托成功") %>',

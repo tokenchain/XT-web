@@ -10,7 +10,14 @@
                 <div class="group-list">
                     <ul class="group-tab">
                         <li role="button" :class="{'active' : -1 == curIndex}" v-on:mouseover="curIndex = -1" @click="changeMarket('all_all')"><%= LANG('所有当前委托')%></li>
-                        <li role="button" :class="{'active' : index == curIndex}" v-on:mouseover="curIndex = index" v-for="tab,index in marketGroupTab">{{tab}} <%= LANG('区')%></li>
+                        <!--<li role="button" :class="{'active' : index == curIndex}" v-on:mouseover="curIndex = index" v-for="tab,index in marketGroupTab">{{tab}} <%= LANG('区')%></li>-->
+
+                        <li role="button" :class="{'active' : 1 == curIndex}" v-on:mouseover="curIndex = 1">QC<%= LANG('区')%></li>
+                        <li role="button" :class="{'active' : 2 == curIndex}" v-on:mouseover="curIndex = 2">USDT<%= LANG('区')%></li>
+                        <li role="button" :class="{'active' : 3 == curIndex}" v-on:mouseover="curIndex = 3">BTC<%= LANG('区')%></li>
+                        <li role="button" :class="{'active' : 4 == curIndex}" v-on:mouseover="curIndex = 4">ETH<%= LANG('区')%></li>
+                        <li role="button" :class="{'active' : 5 == curIndex}" v-on:mouseover="curIndex = 5">QTUM<%= LANG('区')%></li>
+                        <li role="button" :class="{'active' : 6 == curIndex}" v-on:mouseover="curIndex = 6">HSR<%= LANG('区')%></li>
                     </ul>
                     <div class="group-box">
                         <ul :class="{'block' : -1 == curIndex}">
@@ -20,13 +27,35 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul v-for="tab,index in marketGroupTab" :class="{'block' : index == curIndex}">
-                            <li v-for="market, key in getGroupMarket(tab)" :class="{'active': key == currentMarket}">
-                                <a @click="changeMarket(key)" role="button" target="_self">
-                                    <span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.coin +'.png?<%= VERSION%>'"></span>{{market.coinName}}/{{market.moneyName}}
+
+
+                        <!--<ul v-for="tab,index in marketGroupTab" :class="{'block' : index == curIndex}">-->
+                            <!--<li v-for="market, key in getGroupMarket(tab)" :class="{'active': key == currentMarket}">-->
+                                <!--<a @click="changeMarket(key)" role="button" target="_self">-->
+                                    <!--<span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.coin +'.png?<%= VERSION%>'"></span>{{market.coinName}}/{{market.moneyName}}-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+
+                        <ul :class="{'block' : 1 == curIndex}">
+                            <li v-for="(market,index) in marketConfig" :class="{'active': index == currentMarket}">
+                                <a @click="changeMarket(index)" role="button" target="_self">
+                                    <!--<span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.coin +'.png?<%= VERSION%>'"></span>{{market.coinName}}/{{market.moneyName}}-->
+                                    <span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.buyerCurrencyId +'.png?<%= VERSION%>'"></span>{{market.name}}
                                 </a>
                             </li>
                         </ul>
+
+                        <!--<ul :class="{'block' : 1 == curIndex}">-->
+                            <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'QC'">-->
+                                <!--<a :href="'/tradePro/' + getTradeName(market)" target="_self">-->
+                                    <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                                    <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                                    <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+
                     </div>
                 </div>
             </div>
@@ -230,9 +259,9 @@
                 // 获取市场配置
                 getMarketConfig: function (callback) {
                     var _this = this;
-                    Methods.getJSONP({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+                    Methods.ajax({
+                        // url: DOMAPIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -256,7 +285,7 @@
                     _this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
-                        url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
+                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
@@ -281,9 +310,9 @@
                 getOpenEntrustRecord: function(callback) {
                     var _this = this;
                     _this.requestLocked = true;
-                    Methods.getJSONP({
+                    Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
-                        url: DOMAIN_DEV + "/entrust/EntrustController/" + 'getEntrustRecord',
+                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];
@@ -318,7 +347,7 @@
                         userId: _this.currentAccountId,
                         entrustId: id
                     };
-                    Methods.getJSONP({
+                    Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
                         url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
                         data: data,

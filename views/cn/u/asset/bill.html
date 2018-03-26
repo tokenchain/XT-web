@@ -48,10 +48,10 @@
             <div class="cell type"><%= LANG('操作')%></div>
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
-        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
+        <div class="table body" v-for="(bill,index) in billRecords" v-if="billRecords.length > 0" v-cloak="">
             <!--暂时性处理:返回数据不够完善-->
             <!--<div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'" class="market-icon">{{bill.mainCurrency}}</div>-->
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-' + 'bcc.png'" class="market-icon">{{bill.mainCurrency}}</div>
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-' + 'bcc.png'" class="market-icon">{{userCoinFunds[index].alias}}</div>
 
             <div class="cell time">{{showDate(bill.createTime)}}</div>
             <!--暂时性处理:返回数据不够完善-->
@@ -61,7 +61,8 @@
             <div class="cell amount">
                 <div class="amount1"><p><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span></p>= {{bill.mainBalance}} {{bill.mainCurrency}}</div>
                 <template v-if="parseFloat(bill.subChange) != 0">
-                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>
+                    <!--<div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>-->
+                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.amount}} {{bill.subCurrency}}</div>
                 </template>
             </div>
         </div>
@@ -109,6 +110,29 @@
                     if (this.isLogin) {
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
+                },
+                /**
+                 * 格式化用户资产数据
+                 * 将金额不为0的货币与所有货币列表整合
+                 */
+                userCoinFunds: function() {
+                    var coins = this.coinConfig || [];
+                    var billRecords = this.billRecords;
+
+                    var coinAssets = [];
+                    coins.forEach(function (coin, index, array) {
+                        var coinItem = coin;
+                        billRecords.forEach(function (asset, idx, arr) {
+                            if (coin.currencyId == asset.currencyTypeId) {
+                                for (var k in asset) {
+                                    coin[k] = asset[k];
+                                }
+                            }
+                        });
+                        coinAssets.push(coinItem);
+                    }.bind(this));
+
+                    return coinAssets;
                 }
             },
             methods: {
@@ -122,7 +146,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/website/fund/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -158,18 +182,20 @@
                         // pageSize: this.pageSize,
                         // isBackup: this.timeType
                         webId: 100,
-                        currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
+                        // currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
                         userId: 1 || this.currentAccountId,
                         pageSize: this.pageSize,
                         pageNum: this.pageIndex
                     };
                     this.requestLocked = true;
+                    console.log('进入请求')
                     Methods.ajax({
                         // type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
                         url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function(res) {
+                            console.log('进入回调')
                             this.requestLocked = false;
 
                             // this.billRecords = res.datas.results;

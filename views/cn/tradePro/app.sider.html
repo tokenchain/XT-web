@@ -109,9 +109,9 @@
                 // 获取市场配置
                 getMarketConfig: function (callback) {
                     var _this = this;
-                    Methods.getJSONP({
+                    Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
