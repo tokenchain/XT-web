@@ -6,9 +6,9 @@
                 <h3>
                     <template v-if="params.type == 1"><%= LANG("开启")%></template>
                     <template v-if="params.type == 0"><%= LANG("关闭")%></template>
-                    <template v-if="params.autoType == 0"><%= LANG("邮件登录验证")%></template>
-                    <template v-if="params.autoType == 1"><%= LANG("手机登录验证")%></template>
-                    <template v-if="params.autoType == 2"><%= LANG("Google登录验证")%></template>
+                    <template v-if="params.autoType == 1"><%= LANG("邮件登录验证")%></template>
+                    <template v-if="params.autoType == 2"><%= LANG("手机登录验证")%></template>
+                    <template v-if="params.autoType == 0"><%= LANG("Google登录验证")%></template>
                 </h3>
             </div>
             <div class="exx-modal-body">
@@ -18,21 +18,21 @@
                     <p style="color: #f00;text-align: center;margin-bottom: 30px;" v-if="params.type == 0"><%= LANG("关闭后每次登录不会进行该项安全验证。")%></p>
 
                     <div class="form-box">
-                <div v-if="loginUser.emailAuth == 1 && params.autoType == 0" class="form-group">
+                <div v-if="loginUser.emailAuth == 1 && params.autoType == 1" class="form-group">
                     <div class="form-control">
                         <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-                    <send-code :code-type="23" :user-name="loginUser.email" />
+                    <send-code :code-type="23" :user-name="loginUser.email" :user-id="loginUser.userId" />
                     </div>
                 </div>
 
-                <div v-if="loginUser.mobileAuth == 1 && params.autoType == 1" class="form-group">
+                <div v-if="loginUser.mobileAuth == 1 && params.autoType == 2" class="form-group">
                     <div class="form-control">
                         <input v-model="dynamicCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
-                    <send-code :code-type="24" :user-name="loginUser.mobile.split(' ')[1]" />
+                    <send-code :code-type="24" :user-name="loginUser.loginName" :user-id="loginUser.userId" />
                     </div>
                 </div>
 
-                <div v-if="loginUser.googleAuth == 1 && params.autoType == 2"  class="form-group">
+                <div v-if="loginUser.googleAuth == 1 && params.autoType == 0"  class="form-group">
                     <div class="form-control">
                         <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
                     </div>
@@ -79,24 +79,28 @@
             methods: {
                 doSafeAuth : function () {
                     var data = {
+                        userId: this.loginUser.userId,
                         autoType : this.params.autoType,
-                        type : this.params.type,
+                        type : this.params.type, //0-google 1-email 2-phone
                         googleCode : this.googleCode,
                         emailCode : this.emailCode,
                         dynamicCode : this.dynamicCode
                     }
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'doSafeAuth',
-                        data: data,
+                        // url: DOMAIN_MAIN + API_PREFIX + 'doSafeAuth',
+                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'dosafeauth',
+                        data: JSON.stringify(data),
                         success: function(res) {
-                            Methods.setLocalUserInfo(res.datas.userInfo);
+                            // Methods.setLocalUserInfo(res.datas.userInfo);
                             //this.$parent.$parent.loginUser = res.datas.userInfo;
-                            Vue.set(this.$parent.$parent.loginUser, 'loginEmailAuth', res.datas.userInfo.loginEmailAuth);
-                            Vue.set(this.$parent.$parent.loginUser, 'loginMobileAuth', res.datas.userInfo.loginMobileAuth);
-                            Vue.set(this.$parent.$parent.loginUser, 'loginGoogleAuth', res.datas.userInfo.loginGoogleAuth);
+                            JuaBox.info("<%= LANG('设置成功') %>", function () {
+                                top.location.reload();
+                            });
+                            // Vue.set(this.$parent.$parent.loginUser, 'loginEmailAuth', res.datas.userInfo.loginEmailAuth);
+                            // Vue.set(this.$parent.$parent.loginUser, 'loginMobileAuth', res.datas.userInfo.loginMobileAuth);
+                            // Vue.set(this.$parent.$parent.loginUser, 'loginGoogleAuth', res.datas.userInfo.loginGoogleAuth);
+
                             this.closeModal();
-                            JuaBox.info("<%= LANG('设置成功') %>");
                         }.bind(this)
                     });
                 },

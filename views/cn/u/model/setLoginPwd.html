@@ -73,15 +73,15 @@
                 handleComparedPwd: function () {
                     this.passwordIdentical = this.newPassword === this.passwordConfirmation
                 },
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 handleSubmit: function () {
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
@@ -113,6 +113,7 @@
                             url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'setLoginPassword',
                             data: JSON.stringify(data),
                             success: function (res) {
+                                //密码修改成功，返回空
                                 this.locked = false;
                                 EXX.userIndex.closeModal();
                                 JuaBox.sure("<%= LANG('登录密码修改成功') %>");
@@ -135,7 +136,7 @@
                 }
             },
             mounted: function () {
-                this.getPubKey();
+                // this.getPubKey();
             }
         })
     })

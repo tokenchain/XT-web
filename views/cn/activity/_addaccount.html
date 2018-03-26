@@ -77,15 +77,15 @@
                 }
             },
             methods: {
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 addAccount: function () {
                     var data = {
                         optType: 2,
@@ -118,7 +118,7 @@
                 }
             },
             created: function () {
-                this.getPubKey();
+                // this.getPubKey();
                 var randomIndex = Math.floor(Math.random() * 5);
                 this.subAccount.photo = this.avatarList[randomIndex];
             },

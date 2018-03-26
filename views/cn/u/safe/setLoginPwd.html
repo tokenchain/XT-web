@@ -69,15 +69,15 @@
         handleComparedPwd: function() {
           this.passwordIdentical = this.newPassword === this.passwordConfirmation
         },
-        getPubKey: function() {
-            Methods.ajax({
-                type: 'GET',
-                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                success: function (res) {
-                    this.pubKey = res.datas.pubKey;
-                }.bind(this)
-            });
-        },
+        // getPubKey: function() {
+        //     Methods.ajax({
+        //         type: 'GET',
+        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         success: function (res) {
+        //             this.pubKey = res.datas.pubKey;
+        //         }.bind(this)
+        //     });
+        // },
         handleSubmit: function () {
           var data = {
             type: 1,
@@ -108,7 +108,7 @@
         }
       },
       mounted: function () {
-        this.getPubKey();
+        // this.getPubKey();
       }
     });
   })

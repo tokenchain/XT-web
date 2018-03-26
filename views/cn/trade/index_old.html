@@ -586,15 +586,15 @@
               return false;
           }
         },
-        getPubKey: function () {
-            Methods.ajax({
-                type: 'GET',
-                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                success: function (res) {
-                    this.pubKey = res.datas.pubKey;
-                }.bind(this)
-            });
-        },
+        // getPubKey: function () {
+        //     Methods.ajax({
+        //         type: 'GET',
+        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         success: function (res) {
+        //             this.pubKey = res.datas.pubKey;
+        //         }.bind(this)
+        //     });
+        // },
         // 限制输入指定位小数
         priceInput: function(el) {
           var vm = this;
@@ -1069,7 +1069,7 @@
       created: function() {
         this.getPriceRate(this.getDishData);
         this.getChartSettings();
-        this.getPubKey();
+        // this.getPubKey();
         this.getDealRecord();
         this.getEntrustRecord();
       },

@@ -30,7 +30,7 @@
       <div class="fill-group">
         <em class="name"><%= LANG('图形验证码') %>：</em>
         <input class="fill-control" v-model="imgCode" type="text">
-        <img class="hq btn-five" :src="imageCodeUrl + timestramp" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>">
+        <img class="hq btn-five" :src="imageCodeUrl" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>">
       </div>
 
       <div class="fill-group">
@@ -56,7 +56,8 @@
       el: '#mainForm',
       data: function () {
         return {
-          imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-80-40',
+          imgCodeId: '',
+          imageCodeUrl: '',
           timestramp: '',
           countryCode: '+86',
           dynamicCode: '',
@@ -68,8 +69,20 @@
         }
       },
       methods: {
+          //获取图形验证码
+          getImageCode: function () {
+              Methods.ajax({
+                  type: 'GET',
+                  url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getvalidatecode',
+                  success: function (res) {
+                      this.imageCodeUrl = res.datas.img;
+                      this.imgCodeId = res.datas.imgCodeId;
+                  }.bind(this)
+              });
+          },
         handleRefreshImgcode: function() {
-          this.timestramp = '-' + new Date().getTime();
+          // this.timestramp = '-' + new Date().getTime();
+          this.getImageCode();
         },
         handleSubmit: function () {
           var data = {
@@ -77,6 +90,7 @@
             userName: this.userName,
             dynamicCode: this.dynamicCode,
             imgCode: this.imgCode,
+            imgCodeId: this.imgCodeId,
             loginPwd: this.loginPwd,
             newSafePwd: this.newSafePwd
           }
@@ -93,6 +107,7 @@
         }
       },
       mounted: function () {
+          this.getImageCode();
       }
     });
   })

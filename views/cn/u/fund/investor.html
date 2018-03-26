@@ -239,15 +239,15 @@
             this.investAmount = val;
           }
         },
-        getPubKey: function () {
-            Methods.ajax({
-                type: 'GET',
-                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                success: function (res) {
-                    this.pubKey = res.datas.pubKey;
-                }.bind(this)
-            });
-        },
+        // getPubKey: function () {
+        //     Methods.ajax({
+        //         type: 'GET',
+        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         success: function (res) {
+        //             this.pubKey = res.datas.pubKey;
+        //         }.bind(this)
+        //     });
+        // },
         getRateData: function () {
           Methods.ajax({
             type: 'GET',
@@ -355,7 +355,7 @@
 
       },
       created: function() {
-        this.getPubKey();
+        // this.getPubKey();
         this.getRateData();
         this.getUserFundsLoan();
         this.changeRecordType(this.recordType);

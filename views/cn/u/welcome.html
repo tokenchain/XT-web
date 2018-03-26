@@ -157,15 +157,15 @@
                 handleSkip: function() {
                   window.location.href = DOMAIN_WEB + '/u';
                 },
-                getPubKey: function() {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function() {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 getPartnerAssets: function() {
                     var data = {
                     };
@@ -211,7 +211,7 @@
                 }
             },
             created: function() {
-                this.getPubKey();
+                // this.getPubKey();
                 this.getPartnerAssets()
             }
         })

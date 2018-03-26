@@ -35,7 +35,7 @@
           <div class="form-group">
               <div class="form-control hint--top" aria-label="<%- LANG('请输入图中算式的答案')%>" style="display: block !important;">
               <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
-              <div class="code-img" v-cloak=""><img :src="imageCodeUrl + timestramp" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+              <div class="code-img" v-cloak=""><img :src="imageCodeUrl" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
           </div>
           </div>
           <div class="form-group">
@@ -86,19 +86,31 @@
                     agreement: false,
                     requestLocked : false,
                     // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
-                    imageCodeUrl: DOMAIN_DEV+ '/exchange/controller/website/verifycode/userverifycontroller/getvalidatecode'
+                    imgCodeId: '',
+                    imageCodeUrl: ''
                 }
             },
             methods: {
-                getPubKey: function () {
+                //获取图形验证码
+                getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getvalidatecode',
                         success: function (res) {
-                            this.pubKey = res.datas.pubKey;
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
                         }.bind(this)
                     });
                 },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 handleCheckUserType: function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
                     this.userType = Methods.checkUserType(this.userName);
@@ -170,7 +182,8 @@
                     this.pwdStrength = Methods.checkPwdStrength(this.password);
                 },
                 handleRefreshImgcode: function () {
-                    this.timestramp = '-' + new Date().getTime();
+                    // this.timestramp = '-' + new Date().getTime();
+                    this.getImageCode();
                 },
                 handleCheckLength: function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
@@ -197,6 +210,7 @@
                         userName: this.userName,
                         password: encryptionPwd,
                         imgCode: this.imgCode,
+                        imgCodeId: this.imgCodeId,
                         smsCode: this.smsCode,
                         //recommId: Methods.getCookie(ENV + 'recommendCode'),
                         countryCode: this.countryCode
@@ -227,7 +241,7 @@
                                 //设置登录状态 cookie
                                 Methods.setCookie(ENV+'uon', 1);
                                 Methods.setCookie(ENV+'uid', res.datas.userId);
-                                Methods.setCookie(ENV+'uname', res.datas.userName);
+                                Methods.setCookie(ENV+'uname', res.datas.loginName);
 
                                 window.location.replace('/u');
                             },
@@ -235,6 +249,8 @@
                                 this.requestLocked = false;
                                 JuaBox.info(EXX.L(res.resMsg.message));
                                 this.timestramp = '-' + new Date().getTime();
+
+                                this.getImageCode();
                             }.bind(this)
                         });
                     }
@@ -247,7 +263,9 @@
             mounted: function () {
                 Methods.checkMobileStyle();
                 this.bindEnter();
-                this.getPubKey();
+                // this.getPubKey();
+
+                this.getImageCode();
             }
         });
     })

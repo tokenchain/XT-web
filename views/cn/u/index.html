@@ -989,22 +989,22 @@
             userId: userId
           }
         },
-        getPubKey: function () {
-            Methods.ajax({
-                type: 'GET',
-                url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                success: function (res) {
-                    this.pubKey = res.datas.pubKey;
-                }.bind(this)
-            });
-        },
+        // getPubKey: function () {
+        //     Methods.ajax({
+        //         type: 'GET',
+        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         success: function (res) {
+        //             this.pubKey = res.datas.pubKey;
+        //         }.bind(this)
+        //     });
+        // },
         getAllMarketsInfo: function() {
-          Methods.getJSONP({
-            url: DOMAIN_TRADE + API_PREFIX + 'allMarket',
-            success: function (res) {
-              this.allMarketsInfo = res.datas
-            }.bind(this)
-          });
+          // Methods.getJSONP({
+          //   url: DOMAIN_TRADE + API_PREFIX + 'allMarket',
+          //   success: function (res) {
+          //     this.allMarketsInfo = res.datas
+          //   }.bind(this)
+          // });
         },
         // 获取币价汇率
         getPriceRate: function(callback) {
@@ -1196,7 +1196,7 @@
         //this.getAssets();
         this.getAllMarketsInfo();
         this.getUserAssets();
-        this.getPubKey();
+        // this.getPubKey();
         this.getPriceRate();
       },
       mounted: function() {

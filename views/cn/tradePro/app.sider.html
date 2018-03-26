@@ -46,7 +46,7 @@
                     }
                 },
                 currentUserAsset : function () {
-                    return EXX.userNav.currentUserAsset;
+                    return EXX.userNav.userInfo;
                 },
                 userMarketGroup : function () {
                     return this.getGroupMarket('user');
@@ -85,7 +85,7 @@
                 }
             },
             methods: {
-                // 获取币价汇率
+                // 获取币价汇率-ok
                 getAssistPrice: function (callback) {
                     var _this = this;
                     //如果在交易页面就不请求，直接取隔壁数据
@@ -106,19 +106,19 @@
                         }
                     });
                 },
-                // 获取市场配置
+                // 获取市场配置-ok
                 getMarketConfig: function (callback) {
                     var _this = this;
-                    Methods.getJSONP({
+                    Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/admin/config/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
                         }
                     });
                 },
-                // 获取所有市场行情
+                // 获取所有市场行情- 改为用websocket
                 getAllMarket: function (callback) {
                     //不需要的时候不请求
                     if(!this.isNeedInterval){
@@ -144,7 +144,8 @@
                         childId: this.currentAccountId
                     };
                     Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
+                        url: DOMAIN_DEV + "/exchange/controller/website/usermarketcontroller/" + 'getusermarket',
                         data: data,
                         success: function (res) {
                             if(!res.datas.userMarket){
@@ -155,7 +156,7 @@
                         }.bind(this)
                     });
                 },
-                // 设置辅助币种
+                // 设置辅助币种-ok
                 setAssistCoin: function (coin) {
                     if (!this.isLogin) {
                         Methods.setCookie(ENV + 'mname', coin);
@@ -163,19 +164,23 @@
                         top.location.reload();
                         return false;
                     }
+
+                    var data = {
+                        assistCoin : coin
+                    };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        data: {
-                            assistCoin: coin
+                        // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
+                        url: DOMAIN_DEV+ "/exchange/controller/website/user/usercontroller/" + 'editassistcoin',
+                        headers: {
+                            UserId: this.loginUser.userId
                         },
+                        data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
                             this.assistCoin = coin;
                             top.location.reload();
                         }.bind(this)
                     });
-
                 },
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price, market, assist) {
@@ -610,11 +615,7 @@
             mounted: function () {
                 var _this = this;
                 if(_this.isLogin){
-                    _this.getUserMarket(function () {
-                        /*if(_this.userMarket.length == 0){
-                            _this.currentTab = '';
-                        }*/
-                    });
+                    _this.getUserMarket();
                 }
             },
             beforeDestroy: function () {

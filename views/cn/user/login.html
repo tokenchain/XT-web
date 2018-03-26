@@ -21,7 +21,7 @@
           <div class="form-group" v-show="showImgCode" style="display: none;">
               <div class="form-control hint--top" aria-label="<%- LANG('请输入图中算式的答案')%>" style="display: block !important;">
             <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" type="text">
-                  <div class="code-img"><img :src="imageCodeUrl + timestramp" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+                  <div class="code-img"><img :src="imageCodeUrl" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
 
               </div>
           </div>
@@ -91,10 +91,22 @@
                     requestLocked : false,
                     url : Methods.getUrlparm('url'),
                     // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
-                    imageCodeUrl: DOMAIN_DEV+ '/exchange/controller/website/verifycode/userverifycontroller/getvalidatecode'
+                    imgCodeId: '',
+                    imageCodeUrl: ''
                 }
             },
             methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
                 //判断用户名信息
                 handleCheckUserType: function (e) {
                     this.userType = Methods.checkUserType(this.userName);
@@ -125,18 +137,19 @@
                     this.countryCode = country.code
                 },
                 //获取公钥-ok
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                        }.bind(this)
-                    });
-                },
+                // getPubKey: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         success: function (res) {
+                //             this.pubKey = res.datas.pubKey;
+                //         }.bind(this)
+                //     });
+                // },
                 //刷新图形验证码-ok
                 handleRefreshImgcode: function () {
-                    this.timestramp = '-' + new Date().getTime();
+                    // this.timestramp = '-' + new Date().getTime();
+                    this.getImageCode();
                 },
                 //登录方法
                 handleLogin: function () {
@@ -146,6 +159,7 @@
                         userName: this.userName,
                         password: encryptionPwd,
                         imgCode: this.imgCode,
+                        imgCodeId: this.imgCodeId,
                         //暂无该参数
                         countryCode: this.countryCode
                     };
@@ -202,12 +216,16 @@
                                 } else if (resMsg.code == 1028) {
                                     //需要输入图形验证码
                                     _this.showImgCode = true;
+                                    _this.getImageCode();
+
                                     _this.timestramp = '-' + new Date().getTime();
                                     loginErrorUi(EXX.L(resMsg.message));
                                 } else {
                                     //有错误,需重新获取pubkey
                                     loginErrorUi(EXX.L(resMsg.message));
-                                    _this.getPubKey();
+                                    // _this.getPubKey();
+
+                                    _this.getImageCode();
                                     _this.timestramp = '-' + new Date().getTime();
 
                                 }
@@ -239,9 +257,10 @@
                 if (this.userName != '') {
                     $('#username').parent().parent().addClass('activenocolor');
                 }
-                this.getPubKey();
+                // this.getPubKey();
                 this.userType = Methods.checkUserType(this.userName);
 
+                this.getImageCode();
 
             }
         });
