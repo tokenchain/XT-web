@@ -102,7 +102,7 @@
                         reommendUrl: location.protocol + '' + DOMAIN_WEB + '/r/' + Methods.getLocalUserInfo().recommendCode,
                         myRecommend: [],
                         pageIndex: 1,
-                        pageSize: 10,
+                        pageSize: 20,
                         pageCount: 0,
                         isLogin: ISLOGIN
                     }
@@ -114,15 +114,17 @@
                         }
                         var data = {
                             pageIndex: this.pageIndex,
-                            pageSize: this.pageSize
+                            pageSize: this.pageSize,
+                            userId: "123"
                         };
+                        console.log('进入推荐人')
                         Methods.ajax({
-                            type: 'GET',
-                            url: DOMAIN_MAIN + API_PREFIX + 'myRecommendList',
-                            data: data,
+                            // url: DOMAIN_MAIN + API_PREFIX + 'myRecommendList',
+                            url: DOMAIN_DEV + '/exchange/controller/website/user/UserController/' + 'myRecommendList',
+                            data: JSON.stringify(data),
                             success: function (res) {
-                                this.myRecommend = res.datas.list;
-                                this.pageCount = res.datas.list.length;
+                                this.myRecommend = res.datas;
+                                this.pageCount = res.datas.length;
                             }.bind(this)
                         });
                     }
