@@ -355,7 +355,7 @@
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: data,
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.pageCount = res.datas.record.length;
                             if (status == 3) {
@@ -368,9 +368,9 @@
                 },
                 handleEntrustCancel: function (id, isReal) {
                     var data = {
-                        isReal: isReal,
-                        market: this.params.market,
-                        userId: this.params.userId,
+                        // isReal: isReal,
+                        marketId: this.params.market,
+                        // userId: this.params.userId,
                         entrustId: id
                     };
                     Methods.ajax({

@@ -606,14 +606,15 @@
                     var _this = this;
                     var data = {
                         //status: 0,
-                        market: _this.currentMarket,
+                        marketId: _this.currentMarket,
                         userId: _this.currentAccountId
                         //pageSize: 30
                     };
+                    console.log('循环app')
                     Methods.ajax({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getCacheEntrustRecord',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: data,
+                        data: JSON.stringify(data),
                         success: function (res) {
                             //VUE数组的更新
                             _this.entrustRecord = [];
@@ -644,7 +645,7 @@
                     };
                     Methods.ajax({
                         //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_TRADE + '/entrust/entrustController/' + 'cancelEntrust',
+                        url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             $.toast({

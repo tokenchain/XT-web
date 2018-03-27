@@ -47,7 +47,7 @@
               <%= LANG('总量') %>： <span>{{fixFloat(article.totalNumber,8)}}</span>    <%= LANG('已发行') %>：<span>{{fixFloat(article.totalNumber,8)}}</span><br/>
               <%= LANG('总市值') %>：<span>${{article.marketValue}}</span><br/>
               <%= LANG('是否挖矿') %>：<span v-if="article.isMining==0"><%= LANG('否') %></span><span v-if="article.isMining==1"><%= LANG('是') %></span>     <%= LANG('共识算法') %>：<span>{{article.arithmetic}}</span><br/>
-              <%= LANG('创始人') %>：<span>{{article.founder}}</span>   <%= LANG('团队所在地') %>：<span>{{article.address}}</span>
+              <%= LANG('创始人') %>：<span>{{article.founder}}</span>   <%= LANG('团队所在地') %>：<span>{{article.teamAddress}}</span>
             </div>
         </div>
     </div>

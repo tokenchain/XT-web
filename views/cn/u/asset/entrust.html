@@ -282,11 +282,13 @@
                         userId: 1273 || _this.currentAccountId,
                         marketId: 90 || _this.currentMarket
                     };
+                    console.log('进入循环')
+                    console.log(data)
                     _this.requestLocked = true;
                     Methods.ajax({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getCacheEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: data,
+                        data: JSON.stringify(data),
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];
@@ -310,9 +312,15 @@
                 getOpenEntrustRecord: function(callback) {
                     var _this = this;
                     _this.requestLocked = true;
+                    console.log('循环-entrust')
+                    var data = {
+                        marketId: _this.currentMarket,
+                        userId: _this.currentAccountId
+                    };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];
@@ -335,6 +343,7 @@
                     if(this.isAll){
                         this.getOpenEntrustRecord();
                     }else{
+                        console.log('进入循环')
                         this.getEntrustRecord()
                     }
                 },
@@ -342,10 +351,12 @@
                 doCancelEntrust: function(id, market, isReal) {
                     var _this = this;
                     var data = {
-                        isReal: 0,
-                        market: market || _this.currentMarket,
-                        userId: _this.currentAccountId,
-                        entrustId: id
+                        // isReal: 0,
+                        // market: market || _this.currentMarket,
+                        // userId: _this.currentAccountId,
+                        // entrustId: id
+                        marketId: 90 || _this.currentMarket,
+                        entrustId: 'E6375272109660176384'
                     };
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',

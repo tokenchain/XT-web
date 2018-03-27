@@ -225,6 +225,7 @@
           isReal: false,
           ask: [],  //卖单盘口数据
           bid: [],  //买单盘口数据
+            currentMarket : "<%= market || 'all_all' %>",
           rate : 6.4997,
           coinType: '<%= market.split("_")[0] %>',
           moneyType: '<%= market.split("_")[1] %>',
@@ -718,14 +719,13 @@
         //获取用户委托记录
         getEntrustRecord: function() {
           var data = {
-            market: this.market,
-            userId: this.sharedState.currentAccountId,
-            pageSize: 5
+              userId: 1273 || this.currentAccountId,
+              marketId: 90 || this.currentMarket
           };
           Methods.getJSONP({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
               url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-              data: data,
+              data: JSON.stringify(data),
             success: function (res) {
               this.entrustRecord = res.datas.record;
             }.bind(this)
@@ -835,9 +835,9 @@
         },
         handleEntrustCancel: function(id, isReal) {
           var data = {
-            isReal: isReal,
-            market: this.market,
-            entrustId: id
+            // isReal: isReal,
+              marketId: this.market,
+              entrustId: id
           };
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',

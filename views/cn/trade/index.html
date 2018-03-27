@@ -1056,7 +1056,7 @@
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
               url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-              data: data,
+              data: JSON.stringify(data),
             success: function (res) {
               this.entrustRecord = res.datas.record;
             }.bind(this)
@@ -1231,9 +1231,9 @@
           var market = market || this.market;
           var userId = Methods.getCookie(ENV+'currentAccountId') || '';
           var data = {
-            isReal: isReal,
-            market: market,
-            userId: userId,
+            // isReal: isReal,
+              marketId: market,
+            // userId: userId,
             entrustId: id
           };
           Methods.ajax({

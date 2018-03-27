@@ -848,14 +848,14 @@
             return
           }
           var data = {
-            market: this.market,
-            userId: this.sharedState.currentAccountId,
-            pageSize: 5
-          };
-          Methods.getJSONP({
+                marketId: this.currentMarket,
+                userId: this.currentAccountId
+          }
+          console.log('循环-index_1004')
+          Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
               url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-              data: data,
+              data: JSON.stringify(data),
             success: function (res) {
               this.entrustRecord = res.datas.record;
             }.bind(this)
@@ -994,10 +994,10 @@
           var market = market || this.market;
           var userId = Methods.getCookie(ENV+'currentAccountId') || '';
           var data = {
-            isReal: isReal,
-            market: market,
-            userId: userId,
-            entrustId: id
+            // isReal: isReal,
+              marketId: market,
+            // userId: userId,
+              entrustId: id
           };
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
