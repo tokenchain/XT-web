@@ -15,35 +15,37 @@
         <li class="dashboard"><a href="/help"><%= LANG('帮助中心') %></a></li>
         <li><a href="/"><i class="icon iconfont icon-home"></i></a></li>
         <li class="is-active"><a href="/help/coin"><%= LANG('币种资料') %></a></li>
-        <li v-if="!isList">{{article.coinName}}</li>
+        <li v-if="!isList">{{article.propTag}}</li>
+          {{articles.name}}
       </ul>
     </nav>
   </div>
   <div v-if="isList" class="container coin-data-list" v-cloak="">
       <ul>
         <li v-for="category in articles">
-          <a :href="'/help/coin?id=' + category.id"><i :class="'coin-icon-' + category.propTag.toLowerCase()"></i><span>{{category.propTag}}</span></a>
+            <!--<a :href="'/help/coin?id=' + category.id"><i :class="'coin-icon-' + category.propTag.toLowerCase()"></i><span>{{category.name}}</span></a>-->
+            <a :href="'/help/coin?id=' + category.websiteCurrencyId"><i :class="'coin-icon-' + category.name.toLowerCase()"></i><span>{{toUpperCase(category.name)}}</span></a>
         </li>
       </ul>
   </div>
-
+<!--详细中心-->
   <div v-if="!isList" class="container coin-data-show" v-cloak="">
     <div class="s-hd">
         <div class="ld">
           <div class="ld-content">
 
-            <p style="font-size:28px;">{{article.coinName}} </p>
-            <p style="font-size:28px;"><%= LANG('简写') %>: {{article.keyEn}}</p>
+            <p style="font-size:28px;">{{article.name}} </p>
+            <p style="font-size:28px;"><%= LANG('简写') %>: {{article.alias}}</p>
             <p>{{article.remark}}</p>
           </div>
         </div>
         <div class="md">
-          <span :class="'coin-'+article.coinName"></span>
+          <span :class="'coin-'+article.logo"></span>
         </div>
         <div class="rd">
             <div class="rd-content">
-              <%= LANG('总量') %>： <span>{{fixFloat(article.totalNumber,8)}}</span>    <%= LANG('已发行') %>：<span>{{fixFloat(article.publishNumber,8)}}</span><br/>
-              <%= LANG('总市值') %>：<span>${{article.values}}</span><br/>
+              <%= LANG('总量') %>： <span>{{fixFloat(article.totalNumber,8)}}</span>    <%= LANG('已发行') %>：<span>{{fixFloat(article.totalNumber,8)}}</span><br/>
+              <%= LANG('总市值') %>：<span>${{article.marketValue}}</span><br/>
               <%= LANG('是否挖矿') %>：<span v-if="article.isMining==0"><%= LANG('否') %></span><span v-if="article.isMining==1"><%= LANG('是') %></span>     <%= LANG('共识算法') %>：<span>{{article.arithmetic}}</span><br/>
               <%= LANG('创始人') %>：<span>{{article.founder}}</span>   <%= LANG('团队所在地') %>：<span>{{article.address}}</span>
             </div>
@@ -80,9 +82,13 @@
           return Methods.fixFloat(value,unit);
         },
         getCoinList: function() {
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getCoinList',
+            var data = {
+                webId: 100
+            }
+            Methods.ajax({
+                type: 'GET',
+                data: data,
+                url: DOMAIN_DEV + '/exchange/controller/admin/config/CurrencyController/' + 'getCurrencyList',
             success: function(res) {
               if (res.datas) {
                 this.articles = res.datas;
@@ -92,11 +98,14 @@
         },
         getCoinContent: function(id) {
             var data = {
-                id: id
+                webId: 100,
+                websiteCurrencyId: 1
+                // id: id
             };
             Methods.ajax({
                 type: 'GET',
-                url: DOMAIN_MAIN + API_PREFIX + 'getCoinContent',
+                // url: DOMAIN_MAIN + API_PREFIX + 'getCoinContent',
+                url: DOMAIN_DEV + '/exchange/controller/admin/config/CurrencyController/' + 'getCurrencyContent',
                 data: data,
                 success: function(res) {
                     if (res.datas) {
@@ -104,7 +113,10 @@
                     }
                 }.bind(this)
             });
-        }
+        },
+          toUpperCase: function (str) {
+              return str.toUpperCase()
+          }
       },
       created: function() {
         var params = Methods.parseQueryString();
