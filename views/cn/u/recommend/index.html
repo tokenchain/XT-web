@@ -67,8 +67,8 @@
                         <p class="norecord"><%=LANG('暂无记录')%></p>
                     </div>
                     <div class="tr" v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
-                        <div class="td" style="width: 150px;flex: none;">{{recommend.userName}}</div>
-                        <div class="td" style="width: 160px;flex: none;">{{recommend.date}}</div>
+                        <div class="td" style="width: 150px;flex: none;">{{recommend.name}}</div>
+                        <div class="td" style="width: 160px;flex: none;">{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</div>
                         <div class="td" style="width: 160px;flex: none;">{{recommend.count}}</div>
                         <div class="td">
                             <div class="coinnum">
@@ -104,7 +104,8 @@
                         pageIndex: 1,
                         pageSize: 20,
                         pageCount: 0,
-                        isLogin: ISLOGIN
+                        isLogin: ISLOGIN,
+                        loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
                     }
                 },
                 methods: {
@@ -115,8 +116,9 @@
                         var data = {
                             pageIndex: this.pageIndex,
                             pageSize: this.pageSize,
-                            userId: "123"
+                            data: this.loginUser.userId
                         };
+                        console.log(data.data)
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'myRecommendList',
                             url: DOMAIN_DEV + '/exchange/controller/website/user/UserController/' + 'myRecommendList',
@@ -126,6 +128,9 @@
                                 this.pageCount = res.datas.length;
                             }.bind(this)
                         });
+                    },
+                    getDateTime: function (timestamp, format) {
+                        return Methods.getDateTime(timestamp, format)
                     }
                 },
                 mounted: function () {
