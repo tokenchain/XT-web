@@ -410,10 +410,12 @@
                 // 获取服务器时间
                 getServerTime: function (callback) {
                     var _this = this;
-                    Methods.getJSONP({
-                        url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
+                    console.log('获取服务器时间')
+                    Methods.ajax({
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
+                        url: DOMAIN_MAIN + '/exchange/controller/website/user/usercontroller/' + 'getservertime',
                         success: function (res) {
-                            callback && callback(res.datas.last);
+                            callback && callback(res.datas);
                         }
                     });
                 },
