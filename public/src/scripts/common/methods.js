@@ -187,11 +187,12 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             }
             return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
         },
-        logout: function (data) {
+        logout: function (headers) {
+            console.log(headers)
             this.ajax({
-                type: "GET",
+                type: "POST",
                 url: DOMAIN_DEV + '/exchange/controller/website/user/usercontroller/' + 'logOut',
-                data: data,
+                headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
                     this.setCookie(ENV + 'ExchangeMode', 1);

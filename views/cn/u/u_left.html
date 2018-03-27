@@ -50,13 +50,13 @@
       el: '#leftNav',
       data: function() {
         return {
-          userInfo: Methods.getLocalUserInfo()
+            loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
         }
       },
       methods: {
         logout: function() {
             var data = {
-                userId: userInfo.userId
+                UserId: loginUser.userId
             };
           Methods.logout(data);
         }

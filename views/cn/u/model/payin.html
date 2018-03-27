@@ -125,7 +125,8 @@
                         {label: "<%= LANG('确认次数') %>", key: "confirmTimes"},
                         {label: "<%= LANG('状态') %>", key: "status"}
                     ],
-                    payinRecords: []
+                    payinRecords: [],
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo') //用户信息
                 }
             },
             computed: {
@@ -147,14 +148,18 @@
                         }.bind(this)
                     });
                 },
+                // 获取平台虚拟币充值地址
                 getPayinAddress: function () {
                     var data = {
-                        coint: this.coin
+                        webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
-                        data: data,
+                        type: 'POST',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
+                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinAddress',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.payin = res.datas;
                         }.bind(this)
@@ -162,14 +167,18 @@
                 },
                 getPayinCoinRecord: function () {
                     var data = {
-                        coint: this.coin,
+                        webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin,
                         pageIndex: this.pageIndex,
-                        pageSize: this.pageSize
+                        pageSize: this.pageSize,
+                        sort:1
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
-                        data: data,
+                        type: 'POST',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
+                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinCoinRecord',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.payinRecords = res.datas.payin;
                             this.pageCount = res.datas.payin.length;

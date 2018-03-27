@@ -67,12 +67,12 @@
                 <div class="td state"><%= LANG('状态')%></div>
             </div>
             <div class="tr" v-for="record in payinRecords" v-if="payinRecords.length > 0">
-                <div class="td time"><span>{{showDate(record.subTime)}}</span></div>
+                <div class="td time"><span>{{record.createTime}}</span></div>
                 <div class="td type" v-if="record.type == 1">"<%= LANG('区块链转入') %>"</div>
                 <div class="td type" v-else-if="record.type == 93">"<%= LANG('内部转入') %>"</div>
                 <div class="td type" v-else>"<%= LANG('充值') %>"</div>
                 <div class="td amount">+ {{record.amount}}</div>
-                <div class="td time ok"><span>{{showDate(record.endTime)}}</span></div>
+                <div class="td time ok"><span>{{record.confirmTimes}}</span></div>
                 <div class="td num">{{record.confirmTimes}}</div>
                 <div class="td state">{{LANG(record.status)}}</div>
             </div>
@@ -107,6 +107,7 @@
                     currentUserAsset : '',
                     currentCoin : "<%= coin%>",
                     keyWord:'',
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo') //用户信息
                 }
             },
             computed : {
@@ -192,12 +193,15 @@
                 },
                 getPayinAddress: function () {
                     var data = {
-                        coint: this.currentCoin
+                        webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
-                        data: data,
+                        type: 'POST',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
+                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinAddress',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.payin = res.datas;
                         }.bind(this)
@@ -205,17 +209,33 @@
                 },
                 getPayinCoinRecord: function () {
                     var data = {
-                        coint: this.currentCoin,
+                        webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin,
                         pageIndex: this.pageIndex,
-                        pageSize: this.pageSize
+                        pageSize: this.pageSize,
+                        sort:1
+                    };
+                    // 测试数据
+                    var test = {
+                        webId:100,
+                        userId:1,
+                        currencyTypeName:"btc",
+                        // queryStartTime:'2018-01-01 11:11:11',
+                        // queryEndTime:'2018-01-01 11:11:11',
+                        // txId:"1111",
+                        sort:1,
+                        pageNum:1,
+                        pageSize:20
                     };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
-                        data: data,
+                        type: 'POST',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
+                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinCoinRecord',
+                        data: JSON.stringify(data),
                         success: function (res) {
-                            this.payinRecords = res.datas.payin;
-                            this.pageCount = res.datas.payin.length;
+                            this.payinRecords = res.datas.list;
+                            this.pageCount = res.datas.list.length;
                         }.bind(this)
                     });
                 },
@@ -243,6 +263,7 @@
             },
             created: function() {
                 this.getCoinConfig();
+                console.log('进入created钩子')
                 this.getPayinAddress();
                 this.getTargetUserAsset(this.pageInit);
                 this.getPayinCoinRecord();

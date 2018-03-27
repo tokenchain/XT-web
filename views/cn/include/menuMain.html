@@ -133,7 +133,8 @@
                     marketConfig:'',
                     userInfo: '',
                     userAssets: [],
-                    coinConfig: ''
+                    coinConfig: '',
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
                 }
             },
             watch : {
@@ -200,7 +201,7 @@
             methods: {
                 logout: function () {
                     var data = {
-                        userId: this.userInfo.userId
+                        UserId: this.loginUser.userId
                     };
                     Methods.logout(data);
                 },
