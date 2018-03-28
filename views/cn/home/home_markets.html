@@ -27,33 +27,39 @@
                     <li class="item trend"><%= LANG('6小时走势')%></li>
                 </ul>
                 <ul class="market-list" v-if="marketInit">
-                <li role="button" @click="goExchange(marketConfig[data.market].demoMode ? '0' : '1', data.market)" v-for="(data, index) in displayMarkets" v-if="marketConfig && assistPrice" v-cloak="">
-                    <div class="item currency">
-                        <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
-                        <em>{{getRealCoinName(data.market.split('_')[0]).toUpperCase()}}</em>/{{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
-                        <p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>
-                    </div>
+                    <li role="button"
+                        @click="goExchange(marketConfig[data.market].demoMode ? '0' : '1', data.market)"
+                        v-for="(data, index) in displayMarkets"
+                        v-if="marketConfig && assistPrice"
+                        v-cloak="">
+                        <div class="item currency">
+                            <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                            <!--<em>{{getRealCoinName(data.market.split('_')[0]).toUpperCase()}}</em>/{{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
+                            <p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>
+                        </div>
 
-                    <div class="item state">
-                        <span v-if="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>
-                        <span v-else class="gray"><%= LANG('未开启')%></span>
-                    </div>
-                    <div class="item">
-                        <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
-                    </div>
-                    <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
-                    <div class="item">¥{{getPriceByAssist(data.lastPrice, data.market, 'cny')}}</div>
-                    <div class="item">
-                        <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
-                    </div>
-                    <div class="item"><span class="hint--top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>
-                    <div class="item trend">
-                        <inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>
-                    </div>
-                </li>
+                        <!--<div class="item state">-->
+                            <!--<span v-if="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>-->
+                            <!--<span v-else class="gray"><%= LANG('未开启')%></span>-->
+                        <!--</div>-->
+                        <div class="item">
+                            <!--<span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
+                            <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{data.lastPrice}}</span>
+                            <!--{{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
+                        </div>
+                        <!--<div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>-->
+                        <!--<div class="item">¥{{getPriceByAssist(data.lastPrice, data.market, 'cny')}}</div>-->
+                        <div class="item">
+                            <!--<span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>-->
+                            <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
+                        </div>
+                        <!--<div class="item"><span class="hint&#45;&#45;top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>-->
+                        <!--<div class="item trend">-->
+                            <!--<inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>-->
+                        <!--</div>-->
+                    </li>
                 </ul>
-
-            <div class="loading loading-light-bg" v-else=""></div>
+        <div class="loading loading-light-bg" v-else=""></div>
     </div>
     </div>
 </div>
@@ -100,7 +106,10 @@
                     var markets = {};
                     var oriMarkets = this.markets;
                     Object.keys(this.markets).map(function(market){
-                       if (oriMarkets[market][11]) {
+                        console.log('循环')
+                        console.log(market)
+                        if (oriMarkets[market]) {
+                            // if (oriMarkets[market][11]) {
                            markets[market] = oriMarkets[market];
                        }
                     });
@@ -215,10 +224,12 @@
                 convertMarket : function (result) {
                     var _this = this;
                     var resultArray = [];
+                    console.log(result)
                     for(var key in result){
                         var obj = {
                             market : key,
-                            lastPrice : result[key][0],
+                            // 价格
+                            lastPrice : result[key][1],
                             buyOne : result[key][1],
                             sellOne : result[key][2],
                             highPrice : result[key][3],
@@ -227,7 +238,8 @@
                             //折算交易量为USD排序
                             convertVolume : _this.getVolumeByAssist(result[key][5], key, 'usd'),
                             lineData : result[key][7],
-                            rate : result[key][8]
+                            //涨跌幅
+                            rate : result[key][2]
                         }
                         resultArray.push(obj);
                     }
@@ -239,14 +251,19 @@
                     if(sortBy == '' || markets.length == 0){
                         return markets;
                     }
+                    console.log('markets: ' + markets)
                     markets.sort(function(x, y){
                         if(sortBy == 'rateUp'){
+                            // return x.rate - y.rate;
                             return x.rate - y.rate;
                         }else if(sortBy == 'rateDown'){
+                            // return y.rate - x.rate;
                             return y.rate - x.rate;
                         }else if(sortBy == 'volumeUp'){
+                            // return x.convertVolume - y.convertVolume;
                             return x.convertVolume - y.convertVolume;
                         }else if(sortBy == 'volumeDown'){
+                            // return y.convertVolume - x.convertVolume;
                             return y.convertVolume - x.convertVolume;
                         }
                     });
@@ -302,6 +319,8 @@
                 },
                 // 获取币价汇率
                 getPriceRate: function(callback) {
+                    // console.log('進入定時器請求')
+
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
@@ -332,7 +351,7 @@
                             _this.marketInit = true;
                         }
                     });*/
-                    var wsUrl = 'ws://192.168.4.89:28080/websocket';
+                    var wsUrl = 'ws://192.168.4.89:28080/getMarketList';
                     //建立握手
                     if ('WebSocket' in window) {
                         _this.websocket = new WebSocket(wsUrl);
@@ -345,17 +364,20 @@
 
                     _this.websocket.onopen = function (event) {
                         //
+                        console.log('触发websocket')
                     };
                     _this.websocket.onmessage = function (event) {
                         //
+                        if(!_this.marketInit){
+                            _this.marketInit = true;
+                        }
+                        console.log('数据变化了：')
+                        _this.markets = JSON.parse(event.data).market;
+                        console.log(event.data)
                     };
                     _this.websocket.onerror = function (event) {
                         //
                     };
-                    _this.websocket.onerror = function (event) {
-                        //
-                    };
-
                 },
                 getLineChartColor: function(index, isClose) {
                     var colors = [
