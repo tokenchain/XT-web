@@ -71,7 +71,7 @@
                 isNeedInterval : function (newVal,oldVal) {
                     if(newVal === true){
                         this.getAssistPrice();
-                        this.getAllMarket();
+                        // this.getAllMarket();
                         this.getUserMarket();
                     }
                 },
@@ -616,7 +616,7 @@
                 var _this = this;
                 //先获取配置和价格表
                 _this.getMarketConfig(function () {
-                    setInterval(_this.getAllMarket, 5000);
+                    // setInterval(_this.getAllMarket, 5000);
                     setInterval(_this.getAssistPrice, 5000);
                 });
 
