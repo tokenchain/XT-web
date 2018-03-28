@@ -855,7 +855,7 @@
           Methods.ajax({
             // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
               url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-              data: JSON.stringify(data),
+              data: data,
             success: function (res) {
               this.entrustRecord = res.datas.record;
             }.bind(this)

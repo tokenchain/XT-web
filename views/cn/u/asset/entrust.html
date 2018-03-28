@@ -288,7 +288,7 @@
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getCacheEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: JSON.stringify(data),
+                        data: data,
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];
@@ -314,13 +314,13 @@
                     _this.requestLocked = true;
                     console.log('循环-entrust')
                     var data = {
-                        marketId: _this.currentMarket,
-                        userId: _this.currentAccountId
+                        marketId: 90 || _this.currentMarket,
+                        userId: 1318 || _this.currentAccountId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: JSON.stringify(data),
+                        data: data,
                         success: function (res) {
                             //VUE数组的更新
                             _this.records = [];

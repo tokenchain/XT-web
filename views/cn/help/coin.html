@@ -15,7 +15,7 @@
         <li class="dashboard"><a href="/help"><%= LANG('帮助中心') %></a></li>
         <li><a href="/"><i class="icon iconfont icon-home"></i></a></li>
         <li class="is-active"><a href="/help/coin"><%= LANG('币种资料') %></a></li>
-        <li v-if="!isList">{{article.propTag}}</li>
+        <li v-if="!isList">{{article.name}}</li>
           {{articles.name}}
       </ul>
     </nav>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="s-bd" v-html="article.des">
+    <div class="s-bd" v-html="article.description">
     </div>
   </div>
 
