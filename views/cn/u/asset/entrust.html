@@ -39,7 +39,7 @@
 
                         <ul :class="{'block' : 1 == curIndex}">
                             <li v-for="(market,index) in marketConfig" :class="{'active': index == currentMarket}">
-                                <a @click="changeMarket(index)" role="button" target="_self">
+                                <a @click="changeMarket(market.name)" role="button" target="_self">
                                     <!--<span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.coin +'.png?<%= VERSION%>'"></span>{{market.coinName}}/{{market.moneyName}}-->
                                     <span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.buyerCurrencyId +'.png?<%= VERSION%>'"></span>{{market.name}}
                                 </a>
@@ -118,7 +118,7 @@
                 <!--<div class="cell source">-->
                     <!--<span>{{showSource(item[10])}}</span>-->
                 <!--</div>-->
-                <!--<div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>-->
+                <!--<div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item.entrustId,item.marketId)><%= LANG('取消') %></a></div>-->
                 <!--<div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>-->
             </template>
             <template v-if="item.type == 0">
@@ -135,7 +135,7 @@
                 <!--<div class="cell source">-->
                     <!--<span>{{showSource(item[10])}}</span>-->
                 <!--</div>-->
-                <!--<div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>-->
+                <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item.entrustId,item.marketId)"><%= LANG('取消') %></a></div>
                 <!--<div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>-->
             </template>
         </div>
@@ -196,6 +196,24 @@
                 }
             },
             computed : {
+                //转化marketId
+                currentMarketId: function () {
+                    var currentMarkets = this.currentMarket.split("_");
+                    var buyerCurrencyId = currentMarkets[0];
+                    var sellerCurrencyId = currentMarkets[0];
+                    console.log('buyerCurrencyId:' + buyerCurrencyId)
+                    console.log('sellerCurrencyId:' + sellerCurrencyId)
+
+                    var marketId = '';
+                    if (this.marketConfig) {
+                        this.marketConfig.forEach(function (coin, index, arr) {
+                            if (coin.buyerCurrencyId == buyerCurrencyId && coin.sellerCurrencyId == sellerCurrencyId) {
+                                marketId = coin.marketId;
+                            }
+                        });
+                    }
+                    return marketId;
+                },
                 isAll : function () {
                     return this.currentMarket == 'all_all' ? true : false;
                 },
@@ -283,8 +301,8 @@
                         // userId: _this.currentAccountId,
                         // pageIndex: _this.pageIndex,
                         // pageSize: _this.pageSize
-                        userId: 1273 || _this.currentAccountId,
-                        marketId: 90 || _this.currentMarket
+                        userId: _this.currentAccountId,
+                        marketId: _this.currentMarketId
                     };
                     console.log('进入循环')
                     console.log(data)
@@ -318,8 +336,8 @@
                     _this.requestLocked = true;
                     console.log('循环-entrust')
                     var data = {
-                        marketId: 90 || _this.currentMarket,
-                        userId: 1318 || _this.currentAccountId
+                        userId: _this.currentAccountId,
+                        marketId: _this.currentMarketId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
@@ -352,31 +370,31 @@
                     }
                 },
                 //取消委托
-                doCancelEntrust: function(id, market, isReal) {
+                doCancelEntrust: function(entrustId, marketId, isReal) {
                     var _this = this;
                     var data = {
                         // isReal: 0,
                         // market: market || _this.currentMarket,
                         // userId: _this.currentAccountId,
                         // entrustId: id
-                        marketId: 90 || _this.currentMarket,
-                        entrustId: 'E6375272109660176384'
+                        marketId: marketId,
+                        entrustId: entrustId
                     };
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
                         url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
                         data: data,
                         success: function (res) {
-                            if(_this.isAll){
-                                for(var i = 0; i < _this.records.length; i++){
-                                    //若是在所有委托页面则不请求刷新，仅改变本地数据状态
-                                    if(_this.records[i][0] == id){
-                                        Vue.set(_this.records[i], 7, 1);
-                                    }
-                                }
-                            }else{
+                            // if(_this.isAll){
+                            //     for(var i = 0; i < _this.records.length; i++){
+                            //         //若是在所有委托页面则不请求刷新，仅改变本地数据状态
+                            //         if(_this.records[i][0] == id){
+                            //             Vue.set(_this.records[i], 7, 1);
+                            //         }
+                            //     }
+                            // }else{
                                 _this.getEntrustRecord()
-                            }
+                            // }
                             $.toast({
                                 heading: 'Success',
                                 text: '<%= LANG("取消委托成功") %>',
@@ -387,6 +405,7 @@
                     });
                 },
                 changeMarket: function (market) {
+                    var market = market.replace('/', '_');
                     top.location.href = '/u/entrust/' + market;
                     /*this.pageIndex = 1;
                     this.pageCount = 0;
