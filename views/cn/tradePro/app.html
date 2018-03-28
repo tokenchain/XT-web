@@ -485,7 +485,7 @@
                         }.bind(this)
                     });
                 },
-                // 获取所有市场行情
+                // 获取所有市场行情 获取k线顶部数据
                 getAllMarket: function (callback) {
                     var _this = this;
                     Methods.getJSONP({
@@ -545,25 +545,26 @@
                         getDishDataByAjax();
                     }
                 },
+                doDealRecord: function (res) {
+                    var _this = this;
+                    var datas = res.datas || res.data;
+                    if(datas && datas.length > 0){
+                        _this.dealRecord = datas.slice(0, _this.tradesLimit);
+                        try{
+                            if(_this.last_trade_tid != 0){
+                                _this.$refs.dealRecord.pushTrades(_this.dealRecord);
+                            }else{
+                                _this.$refs.dealRecord.setFirstRecord(_this.dealRecord);
+                            }
+                        }catch (err){
+                            console.log('miss lastTrade component.')
+                        }
+                        _this.last_trade_tid = _this.dealRecord[_this.dealRecord.length - 1].tid;
+                    }
+                },
                 // 获取交易记录的方法
                 getDealRecord: function(callback) {
                     var _this = this;
-                    var doDealRecord = function (res) {
-                        var datas = res.datas || res.data;
-                        if(datas && datas.length > 0){
-                            _this.dealRecord = datas.slice(0, _this.tradesLimit);
-                            try{
-                                if(_this.last_trade_tid != 0){
-                                    _this.$refs.dealRecord.pushTrades(_this.dealRecord);
-                                }else{
-                                    _this.$refs.dealRecord.setFirstRecord(_this.dealRecord);
-                                }
-                            }catch (err){
-                                console.log('miss lastTrade component.')
-                            }
-                            _this.last_trade_tid = _this.dealRecord[_this.dealRecord.length - 1].tid;
-                        }
-                    };
                     //ajax获取成交记录
                     var getDealRecordByAjax = function () {
                         var data = {
@@ -574,7 +575,7 @@
                             url: DOMAIN_TRADE + API_PREFIX + 'records',
                             data: data,
                             success: function (res) {
-                                doDealRecord(res);
+                                _this.doDealRecord(res);
                             }
                         });
                     };
@@ -591,7 +592,7 @@
                                 message : channel,
                                 sended :false,
                                 method : function (json) {
-                                    doDealRecord(json);
+                                    _this.doDealRecord(json);
                                 }
                             };
                         }
@@ -665,13 +666,13 @@
                         // market: _this.currentMarket,
                         // userId: _this.currentAccountId,
                         // entrustId: id
-                        marketId: 90 || _this.currentMarket, //此处marketId为空
-                        entrustId: 'E6384400022213071872' || id
+                        marketId: _this.currentMarket, //此处marketId为空
+                        entrustId: id
                     };
                     Methods.ajax({
                         //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        // url: DOMAIN_TRADE + '/exchange/controller/website/entrust/entrustController/' + 'cancelEntrust',
-                        url: DOMAIN_DEV + '/entrust/entrustController/cancelEntrust',
+                        url: DOMAIN_DEV + '/exchange/controller/website/entrust/entrustController/' + 'cancelEntrust',
+                        // url: DOMAIN_DEV + '/entrust/entrustController/cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             $.toast({
@@ -1249,17 +1250,17 @@
 
                     _this.getAssistPrice(function () {
                         //获取盘口定时器
-                        _this.getDishData(function () {
-                            setInterval(_this.getDishData, 3000);
-                        });
+                        // _this.getDishData(function () {
+                        //     setInterval(_this.getDishData, 3000);
+                        // });
                         //获取成交记录定时器
-                        _this.getDealRecord(function () {
-                            setInterval(_this.getDealRecord, 3000);
-                        });
+                        // _this.getDealRecord(function () {
+                        //     setInterval(_this.getDealRecord, 3000);
+                        // });
                         //获取市场行情数据
-                        _this.getAllMarket(function () {
-                            setInterval(_this.getAllMarket, 10000);
-                        });
+                        // _this.getAllMarket(function () {
+                        //     setInterval(_this.getAllMarket, 10000);
+                        // });
                         //获取价格表定时器
                         _this.getAssistPrice(function () {
                             setInterval(_this.getAssistPrice, 3000);

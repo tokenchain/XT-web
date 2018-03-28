@@ -91,7 +91,8 @@
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
                         'cny': {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
-                    }
+                    },
+                    websocket: '' //websocket服务
                 }
             },
             computed: {
@@ -331,6 +332,29 @@
                             _this.marketInit = true;
                         }
                     });*/
+                    var wsUrl = 'ws://192.168.4.89:28080/websocket';
+                    //建立握手
+                    if ('WebSocket' in window) {
+                        _this.websocket = new WebSocket(wsUrl);
+                    } else if ('MozWebSocket' in window) {
+                        _this.websocket = new MozWebSocket(wsUrl);
+                    } else {
+                        console.log('Your browser does not support websocket.')
+                        return false;
+                    }
+
+                    _this.websocket.onopen = function (event) {
+                        //
+                    };
+                    _this.websocket.onmessage = function (event) {
+                        //
+                    };
+                    _this.websocket.onerror = function (event) {
+                        //
+                    };
+                    _this.websocket.onerror = function (event) {
+                        //
+                    };
 
                 },
                 getLineChartColor: function(index, isClose) {
@@ -421,7 +445,7 @@
                 this.getMarketConfig(function () {
                     this.getHomeMarket();
                     setInterval(this.getPriceRate, 5000);
-                    setInterval(this.getHomeMarket, 5000);
+                    // setInterval(this.getHomeMarket, 5000);
                 }.bind(this));
             },
             mounted : function () {

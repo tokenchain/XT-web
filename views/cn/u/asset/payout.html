@@ -123,15 +123,14 @@
         </div>
     </div>
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayoutCoinRecord" v-if="payoutRecords.length > 0"></page-lite>
+    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayoutCoinRecord" v-if="payoutRecords.length > 0"></page-lite>
 
-    </div>
     <!--添加编辑地址-->
     <modal v-cloak :open= "showModal == 'addAddress'" @close="showModal = false">
         <modal-address :coin="currentCoin" :address="selectedAddress" :type="editType" :done="getPayoutAddress" />
     </modal>
-
 </div>
+
 <%-include("../../component/search_box.html")%>
 <%-include("../../component/modal.html")%>
 <!--<%-include("../../component/send_code.html")%>-->

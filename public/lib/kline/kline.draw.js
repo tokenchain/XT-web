@@ -8629,7 +8629,7 @@ function getklinedataAjax(){
     var time = GLOBAL_VAR.time_type;
     var market = GLOBAL_VAR.market_from;
 
-    GLOBAL_VAR.G_HTTP_REQUEST = $.getJSON(GLOBAL_VAR.url+"?jsoncallback=?&"+GLOBAL_VAR.requestParam,function(json) {
+    /*GLOBAL_VAR.G_HTTP_REQUEST = $.getJSON(GLOBAL_VAR.url+"?jsoncallback=?&"+GLOBAL_VAR.requestParam,function(json) {
         if (GLOBAL_VAR.G_HTTP_REQUEST) {
             if (time != GLOBAL_VAR.time_type || market != GLOBAL_VAR.market_from) {
                 GLOBAL_VAR.TimeOutId = setTimeout(RequestData, 1000);
@@ -8675,7 +8675,7 @@ function getklinedataAjax(){
             $(".bk-animationload").fadeOut();
             ChartManager.getInstance().redraw('All', false);
         }
-    });
+    });*/
 
 	 /*GLOBAL_VAR.G_HTTP_REQUEST = $.ajax({
          type        : "post",

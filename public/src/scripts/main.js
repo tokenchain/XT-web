@@ -148,7 +148,9 @@ function hashMap() {
 //var ExxWebSocket = new webSocketClass(DOMAIN_WSS);
 var ExxWebSocket = {
     //推送接口
-    wsUrl: DOMAIN_SOCKET + '/websocket',
+    // wsUrl: DOMAIN_SOCKET + '/websocket',
+    // wsUrl: 'ws://192.168.4.137:28080' + '/websocket',
+    wsUrl: 'ws://192.168.4.89:28080' + '/websocket',
     //推送状态变量
     openWebSocket : false,
     //是否开启盘口增量更新（仅推送方式支持）
@@ -186,13 +188,17 @@ var ExxWebSocket = {
         _this.websocket.onopen = function(event) {
             _this.openWebSocket = true;
             _this.onOpen && _this.onOpen(event);
-            window.onbeforeunload =function(){
+
+            //离开或者刷新当前页面时
+            window.onbeforeunload =function() {
                 _this.websocket && _this.websocket.close();
             }
         };
+        //消息处理
         _this.websocket.onmessage = function(event) {
             _this.onMessage && _this.onMessage(event);
         };
+
         _this.websocket.onerror = function(event) {
             _this.openWebSocket = false;
             _this.onError && _this.onError(event);
@@ -227,36 +233,12 @@ var ExxWebSocket = {
                     doCallback(datas);
                 }
             }
-        }else{
+        } else {
             doCallback(datas);
         }
     }
-    //发送消息队列
-    ExxWebSocket.sendMessage = function () {
-        var _this = this;
-        //console.log(_this.websocket.readyState, _this.websocket.OPEN, _this.openWebSocket)
-
-            for(var key in _this.channelManage){
-                var channel = _this.channelManage[key];
-                //如果消息不为空且未发送过的频道才推送
-                if(channel.message != "" && !channel.sended){
-                    //加入自定义参数
-                    channel.message.isZip = _this.isZip;
-                    channel.message.binary = _this.isBinary;
-                    //发送消息
-                    _this.websocket.send(JSON.stringify(channel.message));
-                    //console.log('send message succses ' + JSON.stringify(channel.message));
-                    //标识为已处理
-                    channel.sended = true;
-                }
-            }
-        if(!_this.openWebSocket){
-            console.log('reconnect websocke.', _this.openWebSocket)
-            _this.init();
-        }
-    }
     //处理返回数据的方法
-    ExxWebSocket.dealMessage = function (json) {
+    ExxWebSocket.dealMessage = function (json, type) {
         var _this = this.channelManage;
         var result = json;
         var channel = result.channel;//推送返回频道处理
@@ -286,26 +268,105 @@ var ExxWebSocket = {
             //_this['klineData'].method && _this['klineData'].method(result);
         }
     }
+    //发送消息队列
+    ExxWebSocket.sendMessage = function () {
+        var _this = this;
+        // console.log(_this.websocket.readyState, _this.websocket.OPEN, _this.openWebSocket)
+
+        for(var key in _this.channelManage){
+            var channel = _this.channelManage[key];
+            //如果消息不为空且未发送过的频道才推送
+            if(channel.message != "" && !channel.sended){
+                //加入自定义参数
+                channel.message.isZip = _this.isZip;
+                channel.message.binary = _this.isBinary;
+                //发送消息
+                _this.websocket.send(JSON.stringify(channel.message));
+                //console.log('send message succses ' + JSON.stringify(channel.message));
+                //标识为已处理
+                channel.sended = true;
+            }
+        }
+        if(!_this.openWebSocket) {
+            console.log('reconnect websocke.', _this.openWebSocket)
+            _this.init();
+        }
+    }
     ExxWebSocket.onOpen = function (event) {
         var _this = this ;
         console.log('websocket init success.')
         //处理消息队列的定时器
-        _this.sendMsgInterval = setInterval(function () {
-            _this.sendMessage();
-        },1000);
+        // _this.sendMsgInterval = setInterval(function () {
+        //     _this.sendMessage();
+        // },1000);
+        _this.sendMessageParam();
     };
+
+    //发送消息参数到服务端
+    ExxWebSocket.sendMessageParam = function (event) {
+        var _this = this;
+        //发送K线参数
+        var klineParam = {
+            dataType: "1_KLINE_1M_ETH_BTC",
+            dataSize: 1,
+            action: "ADD"
+        };
+        _this.websocket.send(JSON.stringify(klineParam));
+
+        //发送委托盘口参数
+        var entrustParam = {
+            dataType: "1_ENTRUST_ADD_ETC_BTC",
+            dataSize: 1,
+            action: "ADD"
+        };
+        _this.websocket.send(JSON.stringify(entrustParam));
+
+        //发送交易参数
+        var tradeParam = {
+            dataType: "1_TRADE_ETC_BTC",
+            dataSize: 1,
+            action: "ADD"
+        };
+        _this.websocket.send(JSON.stringify(tradeParam));
+
+        if(!_this.openWebSocket) {
+            console.log('reconnect websocke.', _this.openWebSocket)
+            _this.init();
+        }
+    }
 
     ExxWebSocket.onMessage = function (event) {
         //处理收到的数据
         //console.log(event.data);
         var datas = event.data;
         var _this = this;
-        _this.unBinary(datas, function (json) {
-            //console.log(json);
-            _this.dealMessage(json);
-        })
+        // _this.unBinary(datas, function (json) {
+        //     //console.log(json);
+        //     _this.dealMessage(json);
+        // })
+        var dataHead = datas[0];
+        var type; //1 K线，2 委托盘口，3 交易记录
+        if (dataHead == 'K') {
+            type = 1;
+        } else if (dataHead == 'E') {
+            type = 2;
+        } else if (dataHead == 'T') {
+            type = 3;
+        }
 
+        _this.dealMessageHandle(datas, type);
     }
+
+    ExxWebSocket.dealMessageHandle = function (data, type) {
+        if (type == 1) {
+            updateKlineData(data);
+        } else if (type == 2) {
+            EXX.appTradePro.mixDishArray(data);
+        } else if (type == 3) {
+            EXX.appTradePro.doDealRecord();
+        }
+    }
+
     //初始化
     ExxWebSocket.init();
 
