@@ -36,7 +36,9 @@
                     showModal: false,
                     showSider: false,
                     siderScroll : '',
-                    lightShowsider : true
+                    lightShowsider : true,
+
+                    websocket: '' //websocket服务
                 }
             },
             computed: {
@@ -120,18 +122,36 @@
                 },
                 // 获取所有市场行情- 改为用websocket
                 getAllMarket: function (callback) {
-                    //不需要的时候不请求
-                    if(!this.isNeedInterval){
+                    var _this = this;
+
+                    // Methods.getJSONP({
+                    //     url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket?note=side',
+                    //     success: function (res) {
+                    //         _this.allMarket = res.datas;
+                    //         callback && callback(res.datas);
+                    //     }
+                    // });
+                    var wsUrl = 'ws://192.168.4.89:28080/getMarketList';
+                    //建立握手
+                    if ('WebSocket' in window) {
+                        _this.websocket = new WebSocket(wsUrl);
+                    } else if ('MozWebSocket' in window) {
+                        _this.websocket = new MozWebSocket(wsUrl);
+                    } else {
+                        console.log('Your browser does not support websocket.')
                         return false;
                     }
-                    var _this = this;
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket?note=side',
-                        success: function (res) {
-                            _this.allMarket = res.datas;
-                            callback && callback(res.datas);
+
+                    _this.websocket.onopen = function (event) {
+                        //离开或者刷新当前页面时
+                        window.onbeforeunload =function() {
+                            _this.websocket && _this.websocket.close();
                         }
-                    });
+                    };
+                    _this.websocket.onmessage = function (event) {
+                        var res = JSON.parse(event.data);
+                        _this.allMarket = res.market;
+                    };
                 },
                 //获取用户市场-ok
                 getUserMarket: function(callback) {
@@ -617,6 +637,7 @@
                 //先获取配置和价格表
                 _this.getMarketConfig(function () {
                     // setInterval(_this.getAllMarket, 5000);
+                    _this.getAllMarket();
                     setInterval(_this.getAssistPrice, 5000);
                 });
 

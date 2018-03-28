@@ -63,13 +63,13 @@
                             <p v-if="kline.period == '1m'">1<%= LANG('分') %></p>
                             <p v-if="kline.period == 'line'"><%= LANG('分时') %></p>
                             <ul class="item-list" v-cloak="">
-                                <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']"><%= LANG('周') %></li>
-                                <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']"><%= LANG('日') %></li>
-                                <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">1<%= LANG('小时') %></li>
-                                <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('line')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
+                                <li role="button" @click="switchPeriod('1w','7D')" :class="[kline.period == '1w' ? 'active' : '']"><%= LANG('周') %></li>
+                                <li role="button" @click="switchPeriod('1d','1D')" :class="[kline.period == '1d' ? 'active' : '']"><%= LANG('日') %></li>
+                                <li role="button" @click="switchPeriod('1h','1H')" :class="[kline.period == '1h' ? 'active' : '']">1<%= LANG('小时') %></li>
+                                <li role="button" @click="switchPeriod('30m','30M')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('15m','15M')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('1m','1M')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('line','1M')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
                             </ul>
                         </div>
                         <div class="line"></div>
@@ -161,7 +161,7 @@
                 <div class="entrust-head">
                     <h3>{{tab[1]}}</h3>
                     <div class="r-area oper" v-if="isLogin">
-                        <a v-if="tab[0] == 'history'" :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
+                        <a v-if="tab[0] == 'history'" :href="'/u/entrust/' + currentMarketName" target="_blank" role="button"><%=LANG('更多委托')%></a>
                         <a v-if="tab[0] == 'doing'" @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>
                     </div>
                 </div>
@@ -174,14 +174,14 @@
                             <div class="item"><p><span><%= LANG('成交额')%></span>({{moneyName}})</p></div>
                             <div class="item last"><p><%= LANG('操作')%></p></div>
                         </li>
-                        <!--有记录-->
+                        <!--有记录 TODO 渲染委托记录-->
                         <li v-if="isLogin && getGroupEntrust(tab[0]).length > 0" v-for="item,index in getGroupEntrust(tab[0])">
-                            <div class="type trading-redcolor" v-if="item[5]==1"><%= LANG('买')%></div>
-                            <div class="type trading-greencolor" v-if="item[5]==0"><%= LANG('卖')%></div>
-                            <div class="item time"><p><span class="trading-darkcolor">{{showTime(item[6])}}</span></p></div>
+                            <div class="type trading-redcolor" v-if="item.type==1"><%= LANG('买')%></div>
+                            <div class="type trading-greencolor" v-if="item.type==0"><%= LANG('卖')%></div>
+                            <div class="item time"><p><span class="trading-darkcolor">{{showTime(item.createTime)}}</span></p></div>
                             <div class="item">
                                 <p>
-                                    <span :class="item[5]==1 ? 'trading-redcolor' : 'trading-greencolor'" class="hint--top" :aria-label="showAssistHint(item[1])">{{showMoney(item[1])}}</span>
+                                    <span :class="item.type==1 ? 'trading-redcolor' : 'trading-greencolor'" class="hint--top" :aria-label="showAssistHint(item[1])">{{showMoney(item[1])}}</span>
                                     <span class="hint--top" :aria-label="showAssistHint(item[4]/item[3])">{{showMoney(item[4]/item[3])}}</span>
                                 </p>
                             </div>
