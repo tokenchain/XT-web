@@ -133,25 +133,26 @@
                         }
                     });
                 },
-                //获取用户市场
+                //获取用户市场-ok
                 getUserMarket: function(callback) {
                     //不需要的时候不请求
-                    if(!this.isNeedInterval){
+                    if(!this.isNeedInterval || !this.isLogin){
                         return false;
                     }
                     //alert(callback);
-                    var data = {
-                        childId: this.currentAccountId
+                    var headers = {
+                        userId: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
-                        url: DOMAIN_DEV + "/exchange/controller/website/usermarketcontroller/" + 'getusermarket',
-                        data: data,
+                        url: DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/" + 'getusermarket',
+                        headers: headers,
                         success: function (res) {
-                            if(!res.datas.userMarket){
+                            if(!res.datas){
                                 return console.log('getAllMarket failed.')
                             }
-                            this.userMarket = res.datas.userMarket;
+
+                            this.userMarket = res.datas;
                             callback && callback();
                         }.bind(this)
                     });
@@ -376,14 +377,18 @@
                     return result;
                 },
                 topUserMarket : function (market) {
+                    var headers = {
+                        userId: this.currentAccountId
+                    };
                     var data = {
-                        market: market,
-                        targetUserId: this.currentAccountId
+                        marketId: market
                     };
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'topUserMarket',
-                        data: data,
+                        // url: DOMAIN_MAIN + API_PREFIX + 'topUserMarket',
+                        url: DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/" + 'topusermarket',
+                        headers: headers,
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.getUserMarket();
                             $.toast({
@@ -575,16 +580,26 @@
                         this.siderScroll.refresh();
                     }
                 },
-                //编辑用户市场
+                //编辑用户市场 type 0 取消   1 添加
                 editUserMarket: function (type, market) {
+                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/";
+                    if (type == 0) {
+                        url += 'deleteusermarket';
+                    } else {
+                        url += 'addusermarket'
+                    }
+
+                    var headers = {
+                        userId: this.loginUser.userId
+                    };
                     var data = {
-                        isType: type,
-                        market: market,
-                        childId: this.currentAccountId
+                        marketId: market
                     };
                     Methods.ajax({
-                        url: DOMAIN_MAIN + API_PREFIX + 'doEditMarket',
-                        data: data,
+                        // url: DOMAIN_MAIN + API_PREFIX + 'doEditMarket',
+                        url: url,
+                        headers: headers,
+                        data: JSON.stringify(data),
                         success: function (res) {
                             this.getUserMarket();
                             $.toast({

@@ -232,7 +232,8 @@
                             isBefore:false,
                         },
                     },
-                    msgTag:0 //发送消息时的标识（会自增）
+                    msgTag:0, //发送消息时的标识（会自增）
+                    loginUser: Methods.getLocalUserInfo()
                 }
             },
             computed:{
@@ -708,20 +709,22 @@
                 },
                 initConnect: function(isRe){
                     if(!wSocket || isRe){
-                        $.ajax({
-                            url: DOMAIN_MAIN + '/api/web/v1_0/connect?jsoncallback=?',
-                            type: 'POST',
-                            dataType: "jsonp",
-                            success: function (json) {
-                                if (json.isSuc) {
-                                    this.wsServer = json.datas;
-                                    if(isRe){
-                                        this.reSocket();
-                                    }else{
-                                        this.initSocket();
-                                    }
+                        var data = {
+                            userId: this.loginUser.userId
+                        };
+
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + '/api/web/v1_0/connect?jsoncallback=?',
+                            url: DOMAIN_DEV + "/exchange/controller/website/chat/customerchatcontroller/" + 'connect',
+                            data: data,
+                            success: function (res) {
+                                this.wsServer = res.datas;
+                                if(isRe){
+                                    this.reSocket();
+                                }else{
+                                    this.initSocket();
                                 }
-                            }.bind(this),
+                            }.bind(this)
                         });
                     }
                 },

@@ -164,7 +164,7 @@ var ExxWebSocket = {
 };
     //初始化WebSocket
     ExxWebSocket.init = function () {
-        if(top.location.pathname.indexOf('/trade') == -1 && top.location.pathname.indexOf('/trading') == -1){
+        if(top.location.pathname.indexOf('/trade') == -1 && top.location.pathname.indexOf('/trading') == -1) {
             //屏蔽不需要的WS请求
             return false;
         }

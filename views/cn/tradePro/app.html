@@ -7,7 +7,7 @@
                     //风格类型
                     theme : '<%= typeof theme != "undefined" ? theme : "" %>',
                     //当前市场
-                    currentMarket: '<%= market %>',
+                    currentMarketName: '<%= market %>', //当前市场格式为 qtum_btc 要转为marketId
                     coin: '<%= market.split("_")[0] %>',
                     money: '<%= market.split("_")[1] %>',
                     coinName: '<%= market.split("_")[0].toUpperCase() %>',
@@ -89,9 +89,35 @@
                 }
             },
             computed: {
+                //转化marketId
+                currentMarket: function () {
+                    var currentMarkets = this.currentMarketName.split("_");
+                    var buyerCurrencyId = currentMarkets[1];
+                    var sellerCurrencyId = currentMarkets[0];
+
+                    var marketId = '';
+                    if (this.marketConfig) {
+                        this.marketConfig.forEach(function (coin, index, arr) {
+                            if (coin.buyerCurrencyId == buyerCurrencyId && coin.sellerCurrencyId == sellerCurrencyId) {
+                                marketId = coin.marketId;
+                            }
+                        });
+                    }
+                    return marketId;
+                },
                 currentMarketConfig : function () {
                     if(this.marketConfig){
-                        var config = this.marketConfig[this.currentMarket];
+                        // var config = this.marketConfig[this.currentMarket];
+                        // 过滤出当前市场信息
+                        var config = {};
+                        var sellerCurrencyId = this.currentMarket.split("_")[0];
+                        var buyerCurrencyId = this.currentMarket.split("_")[1];
+                        this.marketConfig.forEach(function (market, index, arr) {
+                            if (sellerCurrencyId == market.sellerCurrencyId && buyerCurrencyId == market.buyerCurrencyId) {
+                                config = market;
+                            }
+                        });
+
                         //处理模拟盘的币种名称
                         if(config.demoMode) {
                             config.coinName = config.coinName.substring(1);
@@ -632,7 +658,7 @@
                         }
                     });
                 },
-                //取消委托
+                //取消委托 TODO 取消委托
                 doCancelEntrust: function(id,isReal) {
                     var _this = this;
                     var data = {
@@ -640,12 +666,13 @@
                         // market: _this.currentMarket,
                         // userId: _this.currentAccountId,
                         // entrustId: id
-                        marketId: 90 || _this.currentMarket,
-                        entrustId: 'E6375272109660176384'
+                        marketId: 90 || _this.currentMarket, //此处marketId为空
+                        entrustId: 'E6384400022213071872' || id
                     };
                     Methods.ajax({
                         //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
+                        // url: DOMAIN_TRADE + '/exchange/controller/website/entrust/entrustController/' + 'cancelEntrust',
+                        url: DOMAIN_DEV + '/entrust/entrustController/cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             $.toast({
@@ -1203,9 +1230,10 @@
                 _this.getMarketConfig(function () {
                     //排查错误市场
                     if(!_this.marketConfig[_this.currentMarket]){
-                        JuaBox.info('Error Market !', function () {
-                            top.location.href = '/';
-                        })
+                        // 暂时注释掉
+                        // JuaBox.info('Error Market !', function () {
+                        //     top.location.href = '/';
+                        // })
                         return false;
                     }
                     //开盘时间处理

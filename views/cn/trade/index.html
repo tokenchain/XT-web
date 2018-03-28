@@ -1208,8 +1208,8 @@
               rangeHighPrice: 400 //区间委托的最高价
           };
           Methods.getJSONP({
-            //url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
-            url: DOMAIN_TRADE + '/entrust/entrustController/' + 'addEntrust',
+            url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
+            // url: DOMAIN_TRADE + '/entrust/entrustController/' + 'addEntrust',
             data: data,
             success: function (res) {
               this.showSafePwd = false;
