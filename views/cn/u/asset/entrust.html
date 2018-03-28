@@ -104,39 +104,39 @@
             <div class="cell type"><%= LANG('状态') %>/<%= LANG('操作') %></div>
         </div>
         <div class="table body" v-if="records.length > 0" v-for="item in records" v-cloak="">
-            <template v-if="item[5] == 1">
-                <div class="cell time"><i class="buyBgColor"><%= LANG('买') %></i>{{showTime(item[6])}}</div>
-                <div class="cell market">{{getMarket(item[11])}}</div>
-                <div class="cell price">
-                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /
-                    <span class="hint--top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>
-                </div>
-                <div class="cell amount"><b class="buyColor">{{showCoin(item[2],item[11])}}</b> / {{showCoin(item[3],item[11])}}</div>
-                <div class="cell num">
-                    <span class="hint--top" :aria-label="showAssistHint(item[4],item[11])">{{showAmount(item[4],item[11])}}</span>
-                </div>
-                <div class="cell source">
-                    <span>{{showSource(item[10])}}</span>
-                </div>
-                <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>
-                <div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+            <template v-if="item.type == 1">
+                <div class="cell time"><i class="buyBgColor"><%= LANG('买') %></i>{{getDateTime(item.createTime, 'YYYY-MM-DD')}}</div>
+                <div class="cell market">{{getMarket(item.marketId)}}</div>
+                <!--<div class="cell price">-->
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell amount"><b class="buyColor">{{showCoin(item[2],item[11])}}</b> / {{showCoin(item[3],item[11])}}</div>-->
+                <!--<div class="cell num">-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint(item[4],item[11])">{{showAmount(item[4],item[11])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell source">-->
+                    <!--<span>{{showSource(item[10])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>-->
+                <!--<div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>-->
             </template>
-            <template v-if="item[5] == 0">
-                <div class="cell time"><i class="sellBgColor"><%= LANG('卖') %></i>{{showTime(item[6])}}</div>
-                <div class="cell market">{{getMarket(item[11])}}</div>
-                <div class="cell price">
-                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1],item[11])">{{showMoney(item[1],item[11])}}</b> /
-                    <span class="hint--top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>
-                </div>
-                <div class="cell amount"><b class="sellColor">{{showCoin(item[2], item[11])}}</b> / {{showCoin(item[3], item[11])}}</div>
-                <div class="cell num">
-                    <span class="hint--top" :aria-label="showAssistHint(item[4], item[11])">{{showAmount(item[4], item[11])}}</span>
-                </div>
-                <div class="cell source">
-                    <span>{{showSource(item[10])}}</span>
-                </div>
-                <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>
-                <div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+            <template v-if="item.type == 0">
+                <div class="cell time"><i class="sellBgColor"><%= LANG('卖') %></i>{{getDateTime(item.createTime, 'YYYY-MM-DD')}}</div>
+                <div class="cell market">{{getMarket(item.marketId)}}</div>
+                <!--<div class="cell price">-->
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1],item[11])">{{showMoney(item[1],item[11])}}</b> /-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell amount"><b class="sellColor">{{showCoin(item[2], item[11])}}</b> / {{showCoin(item[3], item[11])}}</div>-->
+                <!--<div class="cell num">-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint(item[4], item[11])">{{showAmount(item[4], item[11])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell source">-->
+                    <!--<span>{{showSource(item[10])}}</span>-->
+                <!--</div>-->
+                <!--<div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>-->
+                <!--<div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>-->
             </template>
         </div>
         <div class="table no-data" v-if="records.length == 0">
@@ -245,6 +245,10 @@
                 }
             },
             methods: {
+                // 格式化时间
+                getDateTime: function (timestamp,format) {
+                    return Methods.getDateTime(timestamp,format)
+                },
                 // 获取币价汇率
                 getAssistPrice: function (callback) {
                     var _this = this;
