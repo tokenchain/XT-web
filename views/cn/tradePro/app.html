@@ -85,7 +85,13 @@
                     marketOpenTime : ['-','-','-','-'],
                     marketOpenStatus : false,
                     marketStartTime : '--',
-                    entrustScroll : ''
+                    entrustScroll : '',
+
+                    //websocket消息 计算属性
+                    // klineData: '',
+                    // entrustData: '',
+                    // tradeData: ''
+                    tm: '1M' //时间周期，默认 1M
                 }
             },
             computed: {
@@ -105,6 +111,20 @@
                     }
                     return marketId;
                 },
+                //K线消息
+                klineData: function () {
+                    // return this.currentMarket + '_KLINE_' + this.tm + '_' + this.currentMarketName.toUpperCase();
+                    return '90_KLINE_1M_ZB_QC'; //TODO
+                },
+                //委托盘口消息
+                entrustData: function () {
+                    return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
+                },
+                //交易记录消息
+                tradeData: function () {
+                    return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
+                },
+
                 currentMarketConfig : function () {
                     if(this.marketConfig){
                         // var config = this.marketConfig[this.currentMarket];
@@ -633,8 +653,8 @@
                     var _this = this;
                     var data = {
                         //status: 0,
-                        marketId: _this.currentMarket,
-                        userId: _this.currentAccountId
+                        marketId: 90 || _this.currentMarket,
+                        userId: 180 || _this.currentAccountId
                         //pageSize: 30
                     };
                     Methods.ajax({
@@ -643,17 +663,8 @@
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
-                            _this.entrustRecord = [];
-                            if(res.datas.record.length > 0){
-                                res.datas.record.forEach(function (item) {
-                                    _this.entrustRecord.push(item);
-                                });
-                            }
-                            if(res.datas.hrecord.length > 0){
-                                res.datas.hrecord.forEach(function (item) {
-                                    _this.entrustRecord.push(item);
-                                });
-                            }
+                            _this.entrustRecord = res.datas;
+
                             callback && callback(res.datas)
                         }
                     });
@@ -889,10 +900,16 @@
                 getGroupEntrust: function (group) {
                     var result = [];
                     this.entrustRecord.forEach(function (item) {
-                        if(group == 'doing' && (item[7] == 3 || item[7] == 0)){
+                        // if(group == 'doing' && (item[7] == 3 || item[7] == 0)){
+                        //     result.push(item);
+                        // }
+                        // if(group == 'history' && (item[7] == 1 || item[7] == 2)){
+                        //     result.push(item);
+                        // }
+                        if(group == 'doing' && (item.status == 3 || item.status == 0)){
                             result.push(item);
                         }
-                        if(group == 'history' && (item[7] == 1 || item[7] == 2)){
+                        if(group == 'history' && (item.status == 1 || item.status == 2)){
                             result.push(item);
                         }
                     })
@@ -1085,7 +1102,18 @@
                         }
                     }
                 },
-                switchPeriod: function(period){
+                switchPeriod: function(period, tm){
+                    //设置K线显示周期
+                    this.tm = tm;
+                    //发送K线参数
+                    var klineParam = {
+                        dataType: this.klineData,
+                        dataSize: 1,
+                        action: "ADD"
+                    };
+                    ExxWebSocket.websocket.send(JSON.stringify(klineParam));
+
+
                     this.setChartType('kline');
                     Vue.set(this.kline, "period", period);
                     this.klineFrame.switch_period(period);
@@ -1293,6 +1321,9 @@
                     minHeight: 223,
                     handles:"n"
                 });*/
+
+                //初始化
+                ExxWebSocket.init();
             },
             beforeDestroy: function () {
 

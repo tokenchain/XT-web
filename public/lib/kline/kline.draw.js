@@ -8520,7 +8520,7 @@ function clear_refresh_counter() {
 			}
             //console.log('message1:',message);
 			if(top.ExxWebSocket.openWebSocket){
-                top.ExxWebSocket.websocket.send(message);
+                // top.ExxWebSocket.websocket.send(message);
                 //console.log('message2:',message);
 				clearInterval(readyFun);
 			}
