@@ -313,7 +313,7 @@
                 },
                 getHomeMarket : function () {
                     var _this = this;
-                    Methods.getJSONP({
+                    /*Methods.getJSONP({
                         url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket',
                         success: function (res) {
                             //处理数据返回格式不统一的问题
@@ -330,7 +330,8 @@
                             _this.markets = result;
                             _this.marketInit = true;
                         }
-                    });
+                    });*/
+
                 },
                 getLineChartColor: function(index, isClose) {
                     var colors = [

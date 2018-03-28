@@ -3,7 +3,7 @@
     <div class="exx-modal-header"><h3><%= LANG('手机设置') %></h3></div>
     <div class="exx-modal-body">
 
-        <div v-show="step == 1" class="exx-form-box" style="display: none;">
+        <div v-if="step == 1" class="exx-form-box">
           <div class="exx-form-tips" v-if="userInfo.mobileAuth == 1">
             <%= LANG('修改手机并不会立即生效') %>
           </div>
@@ -184,23 +184,34 @@
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
                     }
-                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'doauthmobile';
-                    if (this.userInfo.mobileAuth == 1) {
-                        url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'domodifymobile';
-                    }
-                    var headers = {
-                        userId: this.userInfo.userId
-                    };
                     var data = {
                         // userId: this.userInfo.userId,
                         countryCode: this.countryCode,
                         phone: this.mobile,
                         emailCode: this.emailCode,
-                        oldMobileCode: this.oldMobileCode,
-                        newMobileCode: this.newMobileCode,
+                        mobileCode: this.newMobileCode,
                         rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
+                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'doauthmobile';
+
+                    if (this.userInfo.mobileAuth == 1) {
+                        url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'domodifymobile';
+                        data = {
+                            // userId: this.userInfo.userId,
+                            countryCode: this.countryCode,
+                            phone: this.mobile,
+                            emailCode: this.emailCode,
+                            oldMobileCode: this.oldMobileCode,
+                            newMobileCode: this.newMobileCode,
+                            rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                            googleCode: this.googleCode
+                        }
+                    }
+                    var headers = {
+                        userId: this.userInfo.userId
+                    };
+
                     if (!this.mobile) {
                         JuaBox.sure("<%= LANG('请输入有效的手机号码') %>");
                     } else if (this.safePwd.length < 6) {

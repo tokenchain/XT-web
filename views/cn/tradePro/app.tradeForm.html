@@ -296,18 +296,32 @@
                         return console.log('unknown trade type')
                     }
                     var data = {
+                        // userId: this.currentAccountId,
+                        // market: this.currentMarket,
+                        // isBuy: this.tradeType,
+                        // unitPrice: this.inputPrice,
+                        // number: this.inputNumber,
+                        // isReal: false
+
+                        // TODO 限价委托
+                        webId: 100,
+                        type: this.tradeType, //1买方 0卖方
+                        price: this.inputPrice,
+                        marketId: 90 || this.currentMarket,
                         userId: this.currentAccountId,
-                        market: this.currentMarket,
-                        isBuy: this.tradeType,
-                        unitPrice: this.inputPrice,
-                        number: this.inputNumber,
-                        isReal: false
+                        rangeType: 0, //0 现价委托 1 区间委托
+                        // rangeLowPrice: '', //区间委托的最低价
+                        // rangeHighPrice: '', //区间委托的最高价
+                        amount: this.inputNumber, //委托数量
+                        // entrustId: '',
                     };
                     //锁定请求
                     this.requestLocked = true;
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
-                        data: data,
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
+                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustController/" + 'addEntrust',
+                        // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             //解除请求锁定
                             this.requestLocked = false;
@@ -349,19 +363,33 @@
                         priceLow = this.inputMinPrice;
                     }
                     var data = {
+                        // userId: this.currentAccountId,
+                        // market: this.currentMarket,
+                        // isBuy: this.tradeType,
+                        // priceLow: priceLow,
+                        // priceHigh: priceHigh,
+                        // number: this.inputNumber,
+                        // isReal: false
+
+                        // TODO 批量委托
+                        webId: 100,
+                        type: this.tradeType, //1买方 0卖方
+                        price: this.inputPrice,
+                        marketId: 90 || this.currentMarket,
                         userId: this.currentAccountId,
-                        market: this.currentMarket,
-                        isBuy: this.tradeType,
-                        priceLow: priceLow,
-                        priceHigh: priceHigh,
-                        number: this.inputNumber,
-                        isReal: false
+                        rangeType: 1, //0 现价委托 1 区间委托
+                        rangeLowPrice: priceLow, //区间委托的最低价
+                        rangeHighPrice: priceHigh, //区间委托的最高价
+                        amount: this.inputNumber, //委托数量
+                        // entrustId: '',
                     };
                     //锁定请求
                     this.requestLocked = true;
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'doBatchEntrust',
-                        data: data,
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'doBatchEntrust',
+                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustController/" + 'addEntrust',
+                        // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
+                        data: JSON.stringify(data),
                         success: function (res) {
                             //解除请求锁定
                             this.requestLocked = false;
