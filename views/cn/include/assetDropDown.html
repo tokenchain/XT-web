@@ -33,7 +33,7 @@
                     <div class="td"><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
                     <div class="td"><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
                     <div class="td" v-if="loginUser.userType == 1">
-                        <!--TODO 判断能否充值,默认能充值-->
+                        <!--判断能否充值,默认能充值-->
                         <a v-if="item" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('充值')%></a>
 

@@ -76,7 +76,7 @@
 
                                 <div class="oper">
                                     <template v-if="loginUser.userType == 1">
-                                        <!--TODO 判断能否充值,默认能充值-->
+                                        <!--判断能否充值,默认能充值-->
                                         <a v-if="item" :href="'/u/payin/' + item.name" target="_self" class="f"><%= LANG('充值') %></a>
                                         <a v-else onclick="JuaBox.info('Not open yet...')" class="f disabled"><%= LANG('充值') %></a>
 
@@ -614,7 +614,7 @@
                         }.bind(this)
                     });
                 },
-                //置顶货币 TODO 接口暂无
+                //置顶货币 接口暂无
                 topUserCoin: function(coin, userId) {
                     var data = {
                         coin: coin,

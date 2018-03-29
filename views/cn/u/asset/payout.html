@@ -339,7 +339,7 @@
                         }.bind(this)
                     });
                 },
-                // 提币记录 TODO
+                // 提币记录
                 getPayoutCoinRecord: function () {
                     var data = {
                         // coint: this.currentCoin,
@@ -383,7 +383,7 @@
                         dynamicCode: this.payoutDynamicCode,
                         googleCode: this.googleCode,
 
-                        fees: this.currentMinFees, //手续费 TODO
+                        fees: this.currentMinFees, //手续费
                         actuallyAmount: this.actualPayout //实到金额
                     };
                     this.requestLocked = true;
@@ -414,7 +414,7 @@
                     // this.getPubKey(this.handlePayout);
                     this.handlePayout();
                 },
-                // 取消提币 TODO
+                // 取消提币
                 cancelPayout: function(id) {
                     var data = {
                         // coint: this.currentCoin,

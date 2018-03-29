@@ -232,7 +232,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             options.success = options.success || function (res) {
                 console.log('Requirest Success');
             };
-            //TODO 返回码非 1 都当作错误处理 (目前返回错误码待定)
+            // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
                 // switch (resMsg.code) {

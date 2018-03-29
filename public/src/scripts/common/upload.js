@@ -457,7 +457,7 @@
                     success: function(res) {
                         if(res.isSuc){
                             if(isPic(name)){
-                                // fixme 目前是完整的图片加载，当图片越大，加载时间时的空白期便越长，待改进
+                                // 目前是完整的图片加载，当图片越大，加载时间时的空白期便越长，待改进
                                 // var bg = res.small;
                                 var bg = options.server + "/picauth?file=" + res.fileName;
                                 bg = bg.replace("&amp;" , "&");

@@ -174,7 +174,7 @@
                             <div class="item"><p><span><%= LANG('成交额')%></span>({{moneyName}})</p></div>
                             <div class="item last"><p><%= LANG('操作')%></p></div>
                         </li>
-                        <!--有记录 TODO 渲染委托记录-->
+                        <!--有记录 渲染委托记录-->
                         <li v-if="isLogin && getGroupEntrust(tab[0]).length > 0" v-for="item,index in getGroupEntrust(tab[0])">
                             <div class="type trading-redcolor" v-if="item.type==1"><%= LANG('买')%></div>
                             <div class="type trading-greencolor" v-if="item.type==0"><%= LANG('卖')%></div>
