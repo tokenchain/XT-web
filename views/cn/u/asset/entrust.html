@@ -39,7 +39,7 @@
 
                         <ul :class="{'block' : 1 == curIndex}">
                             <li v-for="(market,index) in marketConfig" :class="{'active': index == currentMarket}">
-                                <a @click="changeMarket(index)" role="button" target="_self">
+                                <a @click="changeMarket(market.name)" role="button" target="_self">
                                     <!--<span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.coin +'.png?<%= VERSION%>'"></span>{{market.coinName}}/{{market.moneyName}}-->
                                     <span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.buyerCurrencyId +'.png?<%= VERSION%>'"></span>{{market.name}}
                                 </a>
@@ -104,39 +104,48 @@
             <div class="cell type"><%= LANG('状态') %>/<%= LANG('操作') %></div>
         </div>
         <div class="table body" v-if="records.length > 0" v-for="item in records" v-cloak="">
-            <template v-if="item[5] == 1">
-                <div class="cell time"><i class="buyBgColor"><%= LANG('买') %></i>{{showTime(item[6])}}</div>
-                <div class="cell market">{{getMarket(item[11])}}</div>
+            <template v-if="item.type == 1">
+                <div class="cell time"><i class="buyBgColor"><%= LANG('买') %></i>{{getDateTime(item.createTime, 'YYYY-MM-DD')}}</div>
+                <div class="cell market">{{getMarket(item.marketId)}}</div>
                 <div class="cell price">
-                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /
-                    <span class="hint--top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>-->
+
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /-->
+                    <span class="hint--top">{{item.price}}</span>
                 </div>
-                <div class="cell amount"><b class="buyColor">{{showCoin(item[2],item[11])}}</b> / {{showCoin(item[3],item[11])}}</div>
+                <div class="cell amount"><b class="buyColor">{{showCoin(item[2],item[11])}}</b> / {{item.completeAmount}}</div>
                 <div class="cell num">
-                    <span class="hint--top" :aria-label="showAssistHint(item[4],item[11])">{{showAmount(item[4],item[11])}}</span>
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint(item[4],item[11])">{{showAmount(item[4],item[11])}}</span>-->
+                    <span class="hint--top">{{item.completeTotalMoney}}</span>
                 </div>
                 <div class="cell source">
-                    <span>{{showSource(item[10])}}</span>
+                    <!--<span>{{showSource(item[10])}}</span>-->
+                    <span>''</span>
                 </div>
-                <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>
-                <div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+                <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId,item.marketId)"><%= LANG('取消') %></a></div>
+                <div class="cell type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
             </template>
-            <template v-if="item[5] == 0">
-                <div class="cell time"><i class="sellBgColor"><%= LANG('卖') %></i>{{showTime(item[6])}}</div>
-                <div class="cell market">{{getMarket(item[11])}}</div>
+            <template v-if="item.type == 0">
+                <div class="cell time"><i class="sellBgColor"><%= LANG('卖') %></i>{{getDateTime(item.createTime, 'YYYY-MM-DD')}}</div>
+                <div class="cell market">{{getMarket(item.marketId)}}</div>
                 <div class="cell price">
-                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1],item[11])">{{showMoney(item[1],item[11])}}</b> /
-                    <span class="hint--top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1],item[11])">{{showMoney(item[1],item[11])}}</b> /-->
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>-->
+                    <!--<b class="buyColor hint&#45;&#45;top" :aria-label="showAssistHint(item[1],item[11])">{{showMoney(item[1],item[11])}}</b> /-->
+                    <span class="hint--top">{{item.price}}</span>
                 </div>
-                <div class="cell amount"><b class="sellColor">{{showCoin(item[2], item[11])}}</b> / {{showCoin(item[3], item[11])}}</div>
+                <div class="cell amount"><b class="sellColor">{{showCoin(item[2], item[11])}}</b> / {{item.completeAmount}}</div>
                 <div class="cell num">
-                    <span class="hint--top" :aria-label="showAssistHint(item[4], item[11])">{{showAmount(item[4], item[11])}}</span>
+                    <!--<span class="hint&#45;&#45;top" :aria-label="showAssistHint(item[4], item[11])">{{showAmount(item[4], item[11])}}</span>-->
+                    <span class="hint--top" >{{item.completeTotalMoney}}</span>
                 </div>
                 <div class="cell source">
-                    <span>{{showSource(item[10])}}</span>
+                    <!--<span>{{showSource(item[10])}}</span>-->
+                    <span>''</span>
                 </div>
-                <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>
-                <div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+                <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId,item.marketId)"><%= LANG('取消') %></a></div>
+                <div class="cell type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
             </template>
         </div>
         <div class="table no-data" v-if="records.length == 0">
@@ -192,10 +201,29 @@
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
                         'cny': {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
-                    }
+                    },
+                    marketWebIdArray: []
                 }
             },
             computed : {
+                //转化marketId
+                currentMarketId: function () {
+                    var currentMarkets = this.currentMarket.split("_");
+                    var buyerCurrencyId = currentMarkets[0];
+                    var sellerCurrencyId = currentMarkets[0];
+                    console.log('buyerCurrencyId:' + buyerCurrencyId)
+                    console.log('sellerCurrencyId:' + sellerCurrencyId)
+
+                    var marketId = '';
+                    if (this.marketConfig) {
+                        this.marketConfig.forEach(function (coin, index, arr) {
+                            if (coin.buyerCurrencyId == buyerCurrencyId && coin.sellerCurrencyId == sellerCurrencyId) {
+                                marketId = coin.marketId;
+                            }
+                        });
+                    }
+                    return marketId;
+                },
                 isAll : function () {
                     return this.currentMarket == 'all_all' ? true : false;
                 },
@@ -245,6 +273,10 @@
                 }
             },
             methods: {
+                // 格式化时间
+                getDateTime: function (timestamp,format) {
+                    return Methods.getDateTime(timestamp,format)
+                },
                 // 获取币价汇率
                 getAssistPrice: function (callback) {
                     var _this = this;
@@ -268,6 +300,28 @@
                         }
                     });
                 },
+                // 获取所有开放的marketId
+                getMarketWebid: function (callback) {
+                    var _this = this;
+                    var data = {
+                        webId: 100
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/MarketController/" + 'getMarketByWebId',
+                        success: function (res) {
+                            var datas = res.datas;
+                            var marketWebIdArray = [];
+                            console.log(datas)
+                            for(var i = 0; i < datas.length; i++){
+                                marketWebIdArray[i] = datas[i].marketId
+                            }
+                            _this.marketWebIdArray = marketWebIdArray
+                            callback && callback();
+                        }
+                    })
+                },
                 //获取用户委托记录
                 getEntrustRecord: function(callback) {
                     var _this = this;
@@ -279,8 +333,8 @@
                         // userId: _this.currentAccountId,
                         // pageIndex: _this.pageIndex,
                         // pageSize: _this.pageSize
-                        userId: 1273 || _this.currentAccountId,
-                        marketId: 90 || _this.currentMarket
+                        userId: _this.currentAccountId,
+                        marketId: _this.currentMarketId
                     };
                     console.log('进入循环')
                     console.log(data)
@@ -313,30 +367,63 @@
                     var _this = this;
                     _this.requestLocked = true;
                     console.log('循环-entrust')
-                    var data = {
-                        marketId: 90 || _this.currentMarket,
-                        userId: 1318 || _this.currentAccountId
-                    };
-                    Methods.ajax({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
-                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
-                        data: data,
-                        success: function (res) {
-                            //VUE数组的更新
-                            _this.records = [];
-                            if(res.datas.length > 0){
-                                res.datas.forEach(function (item) {
-                                    _this.records.push(item);
-                                });
+                    if (_this.currentMarketId) {
+                        console.log('currentMarketId不为空')
+                        var data = {
+                            userId: _this.currentAccountId,
+                            marketId: _this.currentMarketId
+                        };
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
+                            url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
+                            data: data,
+                            success: function (res) {
+                                //VUE数组的更新
+                                _this.records = [];
+                                if(res.datas.length > 0){
+                                    res.datas.forEach(function (item) {
+                                        _this.records.push(item);
+                                    });
+                                }
+                                _this.requestLocked = false;
+                                callback && callback(res.datas)
+                            },
+                            error : function (res) {
+                                _this.requestLocked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message));
                             }
-                            _this.requestLocked = false;
-                            callback && callback(res.datas)
-                        },
-                        error : function (res) {
-                            _this.requestLocked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                        });
+                    } else {
+                        console.log('currentMarketId为""')
+                        for (var i = 0; i < _this.marketWebIdArray.length; i++) {
+                            var data = {
+                                userId: _this.currentAccountId,
+                                marketId: _this.marketWebIdArray[i]
+                            };
+                            console.log(_this.marketWebIdArray[i])
+                            Methods.ajax({
+                                // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
+                                url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
+                                data: data,
+                                success: function (res) {
+                                    //VUE数组的更新
+                                    _this.records = [];
+                                    if(res.datas.length > 0){
+                                        res.datas.forEach(function (item) {
+                                            _this.records.push(item);
+                                        });
+                                    }
+                                    callback && callback(res.datas)
+                                },
+                                error : function (res) {
+                                    _this.requestLocked = false;
+                                    JuaBox.info(EXX.L(res.resMsg.message));
+                                }
+                            });
                         }
-                    });
+                        _this.requestLocked = false;
+                    }
+
                 },
                 //封装选择请求方法
                 getRecord : function () {
@@ -348,31 +435,31 @@
                     }
                 },
                 //取消委托
-                doCancelEntrust: function(id, market, isReal) {
+                doCancelEntrust: function(entrustId, marketId, isReal) {
                     var _this = this;
                     var data = {
                         // isReal: 0,
                         // market: market || _this.currentMarket,
                         // userId: _this.currentAccountId,
                         // entrustId: id
-                        marketId: 90 || _this.currentMarket,
-                        entrustId: 'E6375272109660176384'
+                        marketId: marketId,
+                        entrustId: entrustId
                     };
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
                         url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
                         data: data,
                         success: function (res) {
-                            if(_this.isAll){
-                                for(var i = 0; i < _this.records.length; i++){
-                                    //若是在所有委托页面则不请求刷新，仅改变本地数据状态
-                                    if(_this.records[i][0] == id){
-                                        Vue.set(_this.records[i], 7, 1);
-                                    }
-                                }
-                            }else{
+                            // if(_this.isAll){
+                            //     for(var i = 0; i < _this.records.length; i++){
+                            //         //若是在所有委托页面则不请求刷新，仅改变本地数据状态
+                            //         if(_this.records[i][0] == id){
+                            //             Vue.set(_this.records[i], 7, 1);
+                            //         }
+                            //     }
+                            // }else{
                                 _this.getEntrustRecord()
-                            }
+                            // }
                             $.toast({
                                 heading: 'Success',
                                 text: '<%= LANG("取消委托成功") %>',
@@ -383,6 +470,7 @@
                     });
                 },
                 changeMarket: function (market) {
+                    var market = market.replace('/', '_');
                     top.location.href = '/u/entrust/' + market;
                     /*this.pageIndex = 1;
                     this.pageCount = 0;
@@ -521,10 +609,12 @@
                 }
             },
             created: function() {
-                this.getMarketConfig(function () {
-                    this.getAssistPrice();
-                    this.getRecord();
-                }.bind(this));
+                this.getMarketWebid(
+                    this.getMarketConfig(function () {
+                        this.getAssistPrice();
+                        this.getRecord();
+                    }.bind(this))
+                )
             },
             mounted : function () {
 

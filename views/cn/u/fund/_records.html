@@ -109,7 +109,8 @@
         getBillType: function() {
           Methods.ajax({
             type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getBillType',
+              // url: DOMAIN_MAIN + API_PREFIX + 'getBillType',
+              url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController' + 'getBillType',
             success: function(res) {
               //console.log(res);
               //return res;

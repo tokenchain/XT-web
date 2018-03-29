@@ -459,7 +459,7 @@
                     console.log('获取服务器时间')
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
-                        url: DOMAIN_DEV+ '/exchange/controller/website/user/usercontroller/' + 'getservertime',
+                        url: DOMAIN_DEV + '/exchange/controller/website/user/usercontroller/' + 'getservertime',
                         success: function (res) {
                             callback && callback(res.datas);
                         }
@@ -657,7 +657,6 @@
                         userId: 180 || _this.currentAccountId
                         //pageSize: 30
                     };
-                    console.log('循环app')
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
                         url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustcontroller/" + 'getEntrustRecord',
