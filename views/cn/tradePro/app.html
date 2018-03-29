@@ -118,11 +118,13 @@
                 },
                 //委托盘口消息
                 entrustData: function () {
-                    return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
+                    // return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
+                    return "90_ENTRUST_ZB";
                 },
                 //交易记录消息
                 tradeData: function () {
-                    return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
+                    // return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
+                    return "90_TRADE_ZB"
                 },
 
                 currentMarketConfig : function () {

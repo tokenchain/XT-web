@@ -379,12 +379,22 @@ var ExxWebSocket = {
 
             EXX.appTradePro.mixDishArray(result);
         } else if (type == 3) {
-            EXX.appTradePro.doDealRecord(getTempLastTrans());
+            console.log('进入type3')
+            var result =  transTradeData(data.data)
+            // EXX.appTradePro.doDealRecord(getTempLastTrans());
+            console.log(result)
+            EXX.appTradePro.doDealRecord(result);
         }
     }
 
 function getTempLastTrans(){
-    return {"dataType":"lastTrades","no":274717,"data":[{"amount":1.37,"price":15.35,"tid":25679134,"type":"sell","date":1522264039,"trade_type":"ask"},{"amount":1.81,"price":15.35,"tid":25679421,"type":"sell","date":1522264186,"trade_type":"ask"},{"amount":7.59,"price":15.37,"tid":25679471,"type":"sell","date":1522264206,"trade_type":"ask"},{"amount":4.49,"price":15.36,"tid":25679523,"type":"sell","date":1522264227,"trade_type":"ask"},{"amount":2.88,"price":15.33,"tid":25679546,"type":"sell","date":1522264234,"trade_type":"ask"},{"amount":2.28,"price":15.38,"tid":25679547,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":2.52,"price":15.34,"tid":25679548,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":1.64,"price":15.33,"tid":25679549,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":14.5,"price":15.38,"tid":25679580,"type":"sell","date":1522264251,"trade_type":"ask"},{"amount":2.87,"price":15.34,"tid":25679809,"type":"sell","date":1522264334,"trade_type":"ask"},{"amount":7.83,"price":15.34,"tid":25679894,"type":"sell","date":1522264370,"trade_type":"ask"},{"amount":0.62,"price":15.38,"tid":25679928,"type":"sell","date":1522264387,"trade_type":"ask"},{"amount":0.69,"price":15.36,"tid":25680001,"type":"sell","date":1522264413,"trade_type":"ask"},{"amount":0.86,"price":15.33,"tid":25680060,"type":"sell","date":1522264441,"trade_type":"ask"},{"amount":0.7,"price":15.34,"tid":25680270,"type":"sell","date":1522264538,"trade_type":"ask"},{"amount":12.4,"price":15.37,"tid":25680412,"type":"sell","date":1522264580,"trade_type":"ask"},{"amount":3.96,"price":15.37,"tid":25680494,"type":"sell","date":1522264607,"trade_type":"ask"},{"amount":7.22,"price":15.37,"tid":25680533,"type":"sell","date":1522264617,"trade_type":"ask"},{"amount":3.43,"price":15.38,"tid":25680637,"type":"sell","date":1522264644,"trade_type":"ask"},{"amount":11.64,"price":15.38,"tid":25680826,"type":"sell","date":1522264733,"trade_type":"ask"},{"amount":5.13,"price":15.37,"tid":25680964,"type":"sell","date":1522264782,"trade_type":"ask"},{"amount":10.98,"price":15.33,"tid":25681038,"type":"sell","date":1522264807,"trade_type":"ask"},{"amount":4.23,"price":15.38,"tid":25681073,"type":"sell","date":1522264825,"trade_type":"ask"},{"amount":0.82,"price":15.37,"tid":25681098,"type":"sell","date":1522264841,"trade_type":"ask"},{"amount":18.49,"price":15.33,"tid":25681187,"type":"sell","date":1522264879,"trade_type":"ask"},{"amount":3.52,"price":15.36,"tid":25681203,"type":"sell","date":1522264887,"trade_type":"ask"},{"amount":3.25,"price":15.37,"tid":25681405,"type":"sell","date":1522264963,"trade_type":"ask"},{"amount":15.67,"price":15.36,"tid":25681436,"type":"sell","date":1522264975,"trade_type":"ask"},{"amount":7.3,"price":15.35,"tid":25681592,"type":"sell","date":1522265031,"trade_type":"ask"},{"amount":1.06,"price":15.34,"tid":25681600,"type":"sell","date":1522265036,"trade_type":"ask"},{"amount":4.2,"price":15.33,"tid":25681635,"type":"sell","date":1522265071,"trade_type":"ask"},{"amount":0.84,"price":15.37,"tid":25681636,"type":"sell","date":1522265099,"trade_type":"ask"},{"amount":0.83,"price":15.35,"tid":25681637,"type":"sell","date":1522265122,"trade_type":"ask"},{"amount":1.65,"price":15.34,"tid":25681639,"type":"sell","date":1522265152,"trade_type":"ask"},{"amount":15.65,"price":15.38,"tid":25681700,"type":"sell","date":1522265173,"trade_type":"ask"},{"amount":13.46,"price":15.35,"tid":25681725,"type":"sell","date":1522265183,"trade_type":"ask"},{"amount":1.21,"price":15.34,"tid":25681784,"type":"sell","date":1522265207,"trade_type":"ask"},{"amount":2.86,"price":15.37,"tid":25681893,"type":"sell","date":1522265256,"trade_type":"ask"},{"amount":5.02,"price":15.34,"tid":25681930,"type":"sell","date":1522265285,"trade_type":"ask"},{"amount":0.63,"price":15.35,"tid":25681931,"type":"sell","date":1522265304,"trade_type":"ask"},{"amount":2.86,"price":15.38,"tid":25681963,"type":"sell","date":1522265326,"trade_type":"ask"},{"amount":0.77,"price":15.36,"tid":25682002,"type":"sell","date":1522265344,"trade_type":"ask"},{"amount":0.97,"price":15.36,"tid":25682224,"type":"sell","date":1522265478,"trade_type":"ask"},{"amount":0.06,"price":15.33,"tid":25682341,"type":"sell","date":1522265498,"trade_type":"ask"},{"amount":8.76,"price":15.33,"tid":25682628,"type":"sell","date":1522265594,"trade_type":"ask"},{"amount":0.23,"price":15.36,"tid":25682727,"type":"sell","date":1522265646,"trade_type":"ask"},{"amount":0.03,"price":15.36,"tid":25682815,"type":"sell","date":1522265682,"trade_type":"ask"},{"amount":1.56,"price":15.38,"tid":25682876,"type":"sell","date":1522265738,"trade_type":"ask"},{"amount":2.54,"price":15.35,"tid":25683011,"type":"sell","date":1522265783,"trade_type":"ask"},{"amount":15.16,"price":15.36,"tid":25683299,"type":"sell","date":1522265869,"trade_type":"ask"}],"channel":"qtumusdt_cny_lasttrades"};
+    return {
+        "dataType":"lastTrades",
+        "no":274717,
+        "data":[
+            {"amount":1.37,"price":15.35,"tid":25679134,"type":"sell","date":1522264039,"trade_type":"ask"}
+            ,{"amount":1.81,"price":15.35,"tid":25679421,"type":"sell","date":1522264186,"trade_type":"ask"},{"amount":7.59,"price":15.37,"tid":25679471,"type":"sell","date":1522264206,"trade_type":"ask"},{"amount":4.49,"price":15.36,"tid":25679523,"type":"sell","date":1522264227,"trade_type":"ask"},{"amount":2.88,"price":15.33,"tid":25679546,"type":"sell","date":1522264234,"trade_type":"ask"},{"amount":2.28,"price":15.38,"tid":25679547,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":2.52,"price":15.34,"tid":25679548,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":1.64,"price":15.33,"tid":25679549,"type":"sell","date":1522264235,"trade_type":"ask"},{"amount":14.5,"price":15.38,"tid":25679580,"type":"sell","date":1522264251,"trade_type":"ask"},{"amount":2.87,"price":15.34,"tid":25679809,"type":"sell","date":1522264334,"trade_type":"ask"},{"amount":7.83,"price":15.34,"tid":25679894,"type":"sell","date":1522264370,"trade_type":"ask"},{"amount":0.62,"price":15.38,"tid":25679928,"type":"sell","date":1522264387,"trade_type":"ask"},{"amount":0.69,"price":15.36,"tid":25680001,"type":"sell","date":1522264413,"trade_type":"ask"},{"amount":0.86,"price":15.33,"tid":25680060,"type":"sell","date":1522264441,"trade_type":"ask"},{"amount":0.7,"price":15.34,"tid":25680270,"type":"sell","date":1522264538,"trade_type":"ask"},{"amount":12.4,"price":15.37,"tid":25680412,"type":"sell","date":1522264580,"trade_type":"ask"},{"amount":3.96,"price":15.37,"tid":25680494,"type":"sell","date":1522264607,"trade_type":"ask"},{"amount":7.22,"price":15.37,"tid":25680533,"type":"sell","date":1522264617,"trade_type":"ask"},{"amount":3.43,"price":15.38,"tid":25680637,"type":"sell","date":1522264644,"trade_type":"ask"},{"amount":11.64,"price":15.38,"tid":25680826,"type":"sell","date":1522264733,"trade_type":"ask"},{"amount":5.13,"price":15.37,"tid":25680964,"type":"sell","date":1522264782,"trade_type":"ask"},{"amount":10.98,"price":15.33,"tid":25681038,"type":"sell","date":1522264807,"trade_type":"ask"},{"amount":4.23,"price":15.38,"tid":25681073,"type":"sell","date":1522264825,"trade_type":"ask"},{"amount":0.82,"price":15.37,"tid":25681098,"type":"sell","date":1522264841,"trade_type":"ask"},{"amount":18.49,"price":15.33,"tid":25681187,"type":"sell","date":1522264879,"trade_type":"ask"},{"amount":3.52,"price":15.36,"tid":25681203,"type":"sell","date":1522264887,"trade_type":"ask"},{"amount":3.25,"price":15.37,"tid":25681405,"type":"sell","date":1522264963,"trade_type":"ask"},{"amount":15.67,"price":15.36,"tid":25681436,"type":"sell","date":1522264975,"trade_type":"ask"},{"amount":7.3,"price":15.35,"tid":25681592,"type":"sell","date":1522265031,"trade_type":"ask"},{"amount":1.06,"price":15.34,"tid":25681600,"type":"sell","date":1522265036,"trade_type":"ask"},{"amount":4.2,"price":15.33,"tid":25681635,"type":"sell","date":1522265071,"trade_type":"ask"},{"amount":0.84,"price":15.37,"tid":25681636,"type":"sell","date":1522265099,"trade_type":"ask"},{"amount":0.83,"price":15.35,"tid":25681637,"type":"sell","date":1522265122,"trade_type":"ask"},{"amount":1.65,"price":15.34,"tid":25681639,"type":"sell","date":1522265152,"trade_type":"ask"},{"amount":15.65,"price":15.38,"tid":25681700,"type":"sell","date":1522265173,"trade_type":"ask"},{"amount":13.46,"price":15.35,"tid":25681725,"type":"sell","date":1522265183,"trade_type":"ask"},{"amount":1.21,"price":15.34,"tid":25681784,"type":"sell","date":1522265207,"trade_type":"ask"},{"amount":2.86,"price":15.37,"tid":25681893,"type":"sell","date":1522265256,"trade_type":"ask"},{"amount":5.02,"price":15.34,"tid":25681930,"type":"sell","date":1522265285,"trade_type":"ask"},{"amount":0.63,"price":15.35,"tid":25681931,"type":"sell","date":1522265304,"trade_type":"ask"},{"amount":2.86,"price":15.38,"tid":25681963,"type":"sell","date":1522265326,"trade_type":"ask"},{"amount":0.77,"price":15.36,"tid":25682002,"type":"sell","date":1522265344,"trade_type":"ask"},{"amount":0.97,"price":15.36,"tid":25682224,"type":"sell","date":1522265478,"trade_type":"ask"},{"amount":0.06,"price":15.33,"tid":25682341,"type":"sell","date":1522265498,"trade_type":"ask"},{"amount":8.76,"price":15.33,"tid":25682628,"type":"sell","date":1522265594,"trade_type":"ask"},{"amount":0.23,"price":15.36,"tid":25682727,"type":"sell","date":1522265646,"trade_type":"ask"},{"amount":0.03,"price":15.36,"tid":25682815,"type":"sell","date":1522265682,"trade_type":"ask"},{"amount":1.56,"price":15.38,"tid":25682876,"type":"sell","date":1522265738,"trade_type":"ask"},{"amount":2.54,"price":15.35,"tid":25683011,"type":"sell","date":1522265783,"trade_type":"ask"},{"amount":15.16,"price":15.36,"tid":25683299,"type":"sell","date":1522265869,"trade_type":"ask"}]
+        ,"channel":"qtumusdt_cny_lasttrades"};
 }
 
     function transDish(oldData) {
@@ -449,31 +459,34 @@ function getTempLastTrans(){
     }
 
 function transTradeData(oldData) {
-
+    console.log('进入transTradeData')
+    console.log(oldData)
     var result = {};
-    result.channel = "";
     result.dataType="lastTrades";
-    result.no = oldData[2];
+    result.no = oldData[1][2];
     result.data = [];
+    result.channel = "";
 
-    //new : [数据类型, 市场ID, 币种信息, 时间戳, 买卖类型, 价格, 量]*
-    var trade = {};
-    trade.amount = oldData[6]; // amount
-    trade.date = oldData[3];   // amount
-    trade.price = oldData[5];  // amount
-    trade.tid = oldData[3];
+    for(var i in oldData){
+        //      ["T", "90", "1522317163", "ZB_", "ask", "7.94000000", "8.0200"]
+        //new : [数据类型, 市场ID, 币种信息, 时间戳, 买卖类型, 价格, 量]*
+        var trade = {};
+        trade.amount = oldData[i][6]; // amount
+        trade.price = oldData[i][5];  // amount
+        trade.tid = oldData[i][3];
+        trade.date = oldData[i][2];   // amount
 
-    if(oldData[4]=='ask'){
-        trade.trade_type = 'ask';
-        trade.type = 'sell';
-    }else{
-        trade.trade_type = 'bid';
-        trade.type = 'buy';
+        if(oldData[i][4] =='ask'){
+            trade.trade_type = 'ask';
+            trade.type = 'sell';
+        }else{
+            trade.trade_type = 'bid';
+            trade.type = 'buy';
+        }
+        result.data[i] = trade;
     }
 
-
-    result.data[0] = trade;
-
+    console.table(result)
     return result;
 }
 
