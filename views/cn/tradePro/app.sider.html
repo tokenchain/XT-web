@@ -149,7 +149,7 @@
                     //         callback && callback(res.datas);
                     //     }
                     // });
-                    var wsUrl = 'ws://192.168.4.89:28080/getMarketList';
+                    var wsUrl = WEBSOCKET + '/getMarketList';
                     //建立握手
                     if ('WebSocket' in window) {
                         _this.websocket = new WebSocket(wsUrl);

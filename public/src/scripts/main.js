@@ -150,7 +150,7 @@ var ExxWebSocket = {
     //推送接口
     // wsUrl: DOMAIN_SOCKET + '/websocket',
     // wsUrl: 'ws://192.168.4.137:28080' + '/websocket',
-    wsUrl: 'ws://192.168.4.89:28080' + '/websocket',
+    wsUrl: WEBSOCKET + '/websocket',
     //推送状态变量
     openWebSocket : false,
     //是否开启盘口增量更新（仅推送方式支持）
