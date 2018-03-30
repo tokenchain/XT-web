@@ -23,7 +23,7 @@ module.exports = {
     DOMAIN_FILE : "//img1.exx.com",
     API_PREFIX : "/api/web/V1_0/",
     //调试用
-    DOMAIN_DEV : "http://192.168.4.137:9000",
-    WEBSOCKET : "ws://192.168.4.89:28080"
+    DOMAIN_DEV : "http://192.168.4.137",
+    WEBSOCKET : "ws://192.168.4.137:28080"
 }
 /* * 开发环境前端 + 生产环境后端* */

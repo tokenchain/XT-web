@@ -267,6 +267,13 @@
                     var resultArray = [];
                     // console.log(result)
                     for(var key in result){
+                        var lineData;
+                        try {
+                            lineData =  JSON.parse(result[key][4]);
+                        } catch (e) {
+                            lineData = '';
+                        }
+
                         var obj = {
                             market : key,
                             // 价格
@@ -282,7 +289,7 @@
                             //折算交易量为USD排序
                             convertVolume : _this.getVolumeByAssist(result[key][5], key, 'usd'),
                             // 玩的就是心跳-图
-                            lineData : JSON.parse(result[key][4]),
+                            lineData : lineData,
                             //涨跌幅
                             rate : result[key][3]
                         }
