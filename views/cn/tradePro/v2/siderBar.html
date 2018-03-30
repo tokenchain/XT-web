@@ -60,9 +60,11 @@
                         <span class="filter" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><%- LANG('涨跌幅')%></span>
                     </p>
                 </li>
+
                 <li v-if="currentTab == 'user' && userMarket.length == 0" style="padding: 0">
                     <%- LANG('通用没有任何记录')%>
                 </li>
+
                 <li role="button" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" :class="{'active' : data.market == currentMarket}" >
                     <p class="coin-name">
                         <img :src="'/src/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}

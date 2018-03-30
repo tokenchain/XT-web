@@ -50,6 +50,7 @@
                 currentUserAsset : function () {
                     return EXX.userNav.userInfo;
                 },
+                //  函数1
                 userMarketGroup : function () {
                     return this.getGroupMarket('user');
                 },
@@ -124,6 +125,8 @@
                 getAllMarket: function (callback) {
                     var _this = this;
 
+
+                    // 主页和专业交易
                     // Methods.getJSONP({
                     //     url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket?note=side',
                     //     success: function (res) {
@@ -149,6 +152,40 @@
                         }
                     };
                     _this.websocket.onmessage = function (event) {
+
+                        //逻辑一
+                        //  数据转换
+                        // old [当前价格，买一价格，卖一价格，24H最高价格，24H最低价格，24H成交总量，过去24小时价格，[价格趋势曲线]，24H涨跌幅]
+                        // new [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
+                        // var data = JSON.parse(event.data)
+                        // var result = {};
+                        // result.datas = {};
+                        // console.log(data)
+                        // for (var i = 0; i < data.market.length; i++){
+                        //     var market = []
+                        //     market[0] = data.market[i][1];
+                        //     market[1] = data.market[i][1];
+                        //     market[2] = data.market[i][1];
+                        //     market[3] = data.market[i][2];
+                        //     market[4] = data.market[i][3];
+                        //     market[5] = data.market[i][4];
+                        //     market[6] = data.market[i][5];
+                        //     market[7] = data.market[i][1];
+                        //     market[8] = JSON.parse(data.market[i][6]);
+                        //
+                        //     market[9] = false;
+                        //     market[10] = true;
+                        //     market[11] = false;
+                        //
+                        //     result.datas.btc_qtum = []
+                        //     result.datas.btc_qtum = market
+                        // }
+                        // console.log(result)
+                        // console.log('------------')
+                        // _this.allMarket = result;
+
+
+                        //逻辑二
                         var res = JSON.parse(event.data);
                         _this.allMarket = res.market;
                     };
@@ -383,6 +420,7 @@
                         }
 
                     });
+
                     return markets;
                 },
                 //检查是否是用户市场

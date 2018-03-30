@@ -354,7 +354,7 @@ var ExxWebSocket = {
         var type; //1 K线，2 委托盘口，3 交易记录
         if (dataHead == 'K') {
             type = 1;
-        } else if (dataHead == 'E') {
+        } else if (dataHead == 'AE') {
             type = 2;
         } else if (dataHead == 'T') {
             type = 3;
@@ -372,15 +372,15 @@ var ExxWebSocket = {
 
             win.updateKlineData(result);
         } else if (type == 2) {
-            // var result = transDish(data);
-            var result = {"asks":[[0.001941,9.72],[0.001970,0],[0.001981,1.31],[0.001994,11.10],[0.002029,0],[0.002239,33.10],[0.002249,10.54],[0.002715,0],[0.002851,5.00],[0.002950,29.30],[0.002987,6.10],[0.003007,1.60],[0.004313,4.22]],"currentPrice":0.001922,"bids":[[0.001264,1.90],[0.001266,4.90],[0.001267,0],[0.001276,4.20],[0.001856,0],[0.001858,0],[0.001859,1.17],[0.001861,4.38],[0.001881,15.30]],"channel":"qtumbtc_cny_depth"};
+            var result = transDish(data.data);
+            // var result = {"asks":[[0.001941,9.72],[0.001970,0],[0.001981,1.31],[0.001994,11.10],[0.002029,0],[0.002239,33.10],[0.002249,10.54],[0.002715,0],[0.002851,5.00],[0.002950,29.30],[0.002987,6.10],[0.003007,1.60],[0.004313,4.22]],"currentPrice":0.001922,"bids":[[0.001264,1.90],[0.001266,4.90],[0.001267,0],[0.001276,4.20],[0.001856,0],[0.001858,0],[0.001859,1.17],[0.001861,4.38],[0.001881,15.30]],"channel":"qtumbtc_cny_depth"};
 
             EXX.appTradePro.mixDishArray(result);
         } else if (type == 3) {
-            console.log('进入type3')
+            // console.log('进入type3')
             var result =  transTradeData(data.data)
             // EXX.appTradePro.doDealRecord(getTempLastTrans());
-            console.log(result)
+            // console.log(result)
             EXX.appTradePro.doDealRecord(result);
         }
     }
@@ -396,15 +396,32 @@ function getTempLastTrans(){
 }
 
     function transDish(oldData) {
+        // console.log(oldData)
+        var ifr = document.getElementById('marketFrame');
+        var win = ifr.window || ifr.contentWindow;
         var result = {};
         result.channel = EXX.appTradePro.currentMarket + "_" + EXX.appTradePro.assistCoin + "_kline_" + win.GLOBAL_VAR.time_type;
         result.asks = [];
+        result.bids = [];
 
-        // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
-        result.asks.concat(oldData.data[4].asks);
-        result.bids.concat(oldData.data[5].bids);
-        result.currentPrice = oldData.data[4].asks[0][0]; //当前价格 字段暂无
+        for (var i = 0; i < oldData.length; i++){
+            // console.log(oldData[i])
+            // result.asks.concat(oldData[i][4].asks);
+            // result.bids.concat(oldData[i][5].bids);
+            result.asks = oldData[i][4].asks;
+            result.bids = oldData[i][5].bids;
+            result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
+        }
+        // for(var i in oldData){
+        //     // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
+        //     console.log(oldData[i])
+        //     result.asks.concat(oldData[i][4].asks);
+        //     result.bids.concat(oldData[i][5].bids);
+        //     result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
+        // }
 
+
+        console.log(result)
         return result;
     }
 
@@ -457,8 +474,6 @@ function getTempLastTrans(){
     }
 
 function transTradeData(oldData) {
-    console.log('进入transTradeData')
-    console.log(oldData)
     var result = {};
     result.dataType="lastTrades";
     result.no = oldData[1][2];
@@ -484,7 +499,6 @@ function transTradeData(oldData) {
         result.data[i] = trade;
     }
 
-    console.table(result)
     return result;
 }
 
