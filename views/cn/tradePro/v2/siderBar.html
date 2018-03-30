@@ -65,22 +65,22 @@
                     <%- LANG('通用没有任何记录')%>
                 </li>
 
-                <li role="button" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" :class="{'active' : data.market == currentMarket}" >
+                <li role="button" v-for="(data,index) in getMarketByTab(currentTab)" @click="gotoTrade(marketsIdSwitch[data[0]])" :class="{'active' : data.market == currentMarket}" >
                     <p class="coin-name">
-                        <img :src="'/src/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
+                        <img :src="'/src/images/icon/market-icon/market-'+marketsIdSwitch[data[0]].split('/')[0]+'.png'">{{marketsIdSwitch[data[0]].toUpperCase()}}
                         <span class="text-icon" v-if="data.leverRate > 0"><i>{{data.leverRate}}X</i></span>
                     </p>
-                    <p class="hint--top" :aria-label="showAssistHint(data.lastPrice,data.market)">
-                        <b :class="data.rate >= 0 ? 'trading-redcolor' : 'trading-greencolor'">{{showPrice(data.lastPrice,data.market)}}</b>
+                    <p class="hint--top" :aria-label="showAssistHint(data[1],marketsIdSwitch[data[0]].split('/')[1])">
+                        <b :class="data.rate >= 0 ? 'trading-redcolor' : 'trading-greencolor'">{{data[1]}}</b>
                     </p>
                     <p class="rose" :class="data.rate >= 0 ? 'trading-redcolor' : 'trading-greencolor'">
-                        {{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%
+                        {{ data[5] }}%
                     </p>
                     <p style="width: 18px; flex:none;" v-if="isLogin && userMarket">
-                        <a v-if="checkUserMarket(data.market)" @click.stop="editUserMarket(0, data.market)" role="button" title="<%- LANG('取消自选')%>">
+                        <a v-if="checkUserMarket(data.market)" @click.stop="editUserMarket(0, data[0])" role="button" title="<%- LANG('取消自选')%>">
                             <img src="/src/images/icon/star_active.png" style="width: 14px;" />
                         </a>
-                        <a v-if="!checkUserMarket(data.market)" @click.stop="editUserMarket(1, data.market)" role="button" title="<%- LANG('添加自选')%>">
+                        <a v-if="!checkUserMarket(data.market)" @click.stop="editUserMarket(1, data[0])" role="button" title="<%- LANG('添加自选')%>">
                             <img src="/src/images/icon/star_gray.png" style="width: 14px;" />
                         </a>
                     </p>

@@ -201,7 +201,7 @@
             methods: {
                 logout: function () {
                     var data = {
-                        UserId: this.loginUser.userId
+                        Userid: this.loginUser.userId
                     };
                     Methods.logout(data);
                 },
@@ -302,7 +302,7 @@
                 getUserInfo: function () {
                     var _this = this;
                     var headers = {
-                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId
+                        Userid: Methods.getLocalStorage(ENV + 'userInfo').userId
                     };
                     Methods.ajax({
                         type:'POST',

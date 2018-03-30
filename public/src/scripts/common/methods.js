@@ -283,7 +283,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
                     data: options.data,
                     timeout: 30000,
                     success: function (res) {
-                        console.log('success: ' + options.url)
+                        // console.log('success: ' + options.url)
                         var resMsg = res.resMsg;
                         // 如果返回信息模式不正确
                         if (!resMsg) {
