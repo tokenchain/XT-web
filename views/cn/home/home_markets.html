@@ -30,7 +30,7 @@
                     <li role="button"
                         @click="goExchange(marketConfig[data.market].demoMode ? '0' : '1', marketsIdSwitch[index].replace('/','_'))"
                         v-for="(data, index) in displayMarkets"
-                        v-if="marketConfig && assistPrice"
+                        v-if="marketConfig && assistPrice && marketsIdSwitch.length > 0"
                         v-cloak="">
                         <div class="item currency">
                             <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + marketsIdSwitch[index].split('/')[0] + '.png?<%= VERSION%>'" />
