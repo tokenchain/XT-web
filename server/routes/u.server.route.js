@@ -64,10 +64,10 @@ router.get('/', function(req, res, next) {
 });
 //财务中心
 router.get('/asset', function(req, res, next) {
-res.render(TEMP_MANAGE,{
-    templateMain:'u/asset/indexNew.html',
-    column : 0
-});
+    res.render(TEMP_MANAGE,{
+        templateMain:'u/asset/indexNew.html',
+        column : 0
+    });
 });
 //综合账单
 router.get(['/bill','/bill/:coin'], function(req, res, next) {

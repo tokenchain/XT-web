@@ -188,7 +188,6 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
         },
         logout: function (headers) {
-            console.log(headers)
             this.ajax({
                 type: "POST",
                 url: DOMAIN_DEV + '/exchange/controller/website/user/usercontroller/' + 'logOut',
@@ -199,7 +198,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
                     this.setCookie(ENV + 'TradeTheme', 'dark');
                     this.setCookie(ENV + 'inputPriceMode', 0);
                     this.setCookie(ENV + 'mname', 'none');
-                    // 2018年03月26日16:00
+
                     this.setCookie(ENV + 'uname', 'none');
                     this.setCookie(ENV + 'uid', 'none');
                     this.setCookie(ENV + 'uon', 'none');

@@ -42,15 +42,15 @@
                 }
             },
             computed: {
-                // 将市场id转为 市场名字符串
+                // 将市场id转为 市场名字符串 返回对象 TODO 市场id转化为字符串逻辑修改，其它部分功能数据完善
                 marketsIdSwitch: function () {
-                    var marketId = [];
+                    var marketId = {};
                     if (this.marketConfig) {
                         for (var a = 0; a < this.allMarket.length; a++) {
                             for (var b = 0; b < this.marketConfig.length; b++) {
-                                if ((this.allMarket[a][0] + 2) == this.marketConfig[b].marketId){
+                                if (this.allMarket[a][0] == this.marketConfig[b].marketId){
                                     // if ((this.allMarket[a][0] + 2) == this.marketConfig[b].marketId){
-                                    marketId[a] = this.marketConfig[b].name
+                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name;  //格式: '1': btc/qtum
                                 }
                             }
                         }

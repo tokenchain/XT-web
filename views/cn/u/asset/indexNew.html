@@ -56,7 +56,7 @@
                                     <p>{{getRealCoinName(item.name).toUpperCase()}}</p>
                                 </div>
                                 <div class="td total">
-                                        <span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span>
+                                        <span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8)}}</span>
                                 </div>
                                 <!--<div class="td nettotoal">-->
                                         <!--<span class="hint&#45;&#45;top" :aria-label="'<%= LANG('折合') %>' + (currencySymbol(account.assistCoin) + showFixNumber(item.computeNetTotal))">{{showNumber(item.netTotal)}}</span>-->
@@ -492,7 +492,7 @@
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(price, 4);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin.name]), 4) || '--';
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin.name.toLowerCase()]), 4) || '--';
                     }
                 },
                 //获取当前货币单位
@@ -503,6 +503,11 @@
                     }else{
                         return this.MONEY.toUpperCase();
                     }
+                },
+                //总金额
+                showTotalAssistHint: function (coin) {
+                    var price = this.fixAvailableDecimal(coin, 8);
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
                 },
                 //可用价格折合的提示内容
                 showAvailableAssistHint : function (coin) {
@@ -519,6 +524,12 @@
                 },
                 fixNumber : function (value,unit) {
                     return Methods.fixNumber(value, unit);
+                },
+                //总资金
+                fixTotalDecimal: function (coin, unit) {
+                    var amount = coin.amount || 0;
+
+                    return Methods.fixDecimal(amount, unit);
                 },
                 //可用资金
                 fixAvailableDecimal : function (coin, unit) {
@@ -590,27 +601,6 @@
                             if(res.datas.list){
                                 this.userAssets = res.datas.list;
                             }
-                        }.bind(this)
-                    });
-                },
-                editMainUserCoin: function(act, coin, userId) {
-                    var data = {
-                        fundtype: coin,
-                        childId: userId,
-                        isType: act
-                    };
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'doEditUserFund',
-                        data: data,
-                        success: function (res) {
-                            this.getAccountAssets(1);
-                            $.toast({
-                                heading: "<%= LANG('修改用户币种信息成功') %>",
-                                text: EXX.L(res.resMsg.message),
-                                showHideTransition: 'plain',
-                                icon: 'success'
-                            });
                         }.bind(this)
                     });
                 },

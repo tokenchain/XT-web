@@ -208,23 +208,42 @@
                 //获取大写货币名称
                 getCoinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toUpperCase();
-                    return !market ? '' : market.sellerCurrencyId.toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
                 },
                 //获取小写货币名称
                 getCoinMinName : function (market) {
                     // return !market ? '' :  market.split('_')[0].toLowerCase();
-                    return !market ? '' : market.sellerCurrencyId.toLowerCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
                 },
                 //获取交易所属类型
                 getMoneyName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.buyerCurrencyId.toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[1].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
                 },
                 //获取交易名称
                 getTradeName : function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
-                    return !market ? '' : market.sellerCurrencyId.toLowerCase() + '_' + market.buyerCurrencyId.toLowerCase();
-
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase() + '_' + market.name.split('_')[1].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
                 },
                 goToExchange: function (type, market) {
                     Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
