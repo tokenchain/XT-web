@@ -8,7 +8,6 @@ module.exports = function(app){
     app.use('/', require('../routes/index.server.route.js'));
     //不需授权的路由
     app.use('/trade', require('../routes/trade.server.route'));
-    app.use('/trading', require('../routes/chbtc.server.route'));
     app.use('/tradePro', require('../routes/tradePro.server.route'));
     app.use('/kline', require('../routes/kline.server.route'));
     app.use('/help', require('../routes/help.server.route'));

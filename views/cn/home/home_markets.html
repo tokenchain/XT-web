@@ -28,15 +28,13 @@
                 </ul>
                 <ul class="market-list" v-if="marketInit">
                     <li role="button"
-                        @click="goExchange(marketConfig[data.market].demoMode ? '0' : '1', marketsIdSwitch[index].replace('/','_'))"
+                        @click="goExchange(1, data.market.replace('/','_'))"
                         v-for="(data, index) in displayMarkets"
-                        v-if="marketConfig && assistPrice && marketsIdSwitch.length > 0"
-                        v-cloak="">
+                        v-if="marketConfig && assistPrice" v-cloak>
                         <div class="item currency">
-                            <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + marketsIdSwitch[index].split('/')[0] + '.png?<%= VERSION%>'" />
-                            <!--<em>{{getRealCoinName(data.market.split('_')[0]).toUpperCase()}}</em>/{{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
-                            <em>{{marketsIdSwitch[index].toUpperCase()}}</em>
-                            <p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>
+                            <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                            <em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}
+                            <!--<p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>-->
                         </div>
 
                         <div class="item state">
@@ -45,23 +43,15 @@
                             <!--<span v-else class="gray"><%= LANG('未开启')%></span>-->
                         </div>
                         <div class="item">
-                            <!--<span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
-                            <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{data.lastPrice}}</span>
-                            <!--{{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
+                            <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
                         </div>
-                        <!--<div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>-->
-                        <div class="item">${{getPriceByAssistNew(data.lastPrice,marketsIdSwitch[index],'usd')}}</div>
-                        <!--<div class="item">¥{{getPriceByAssist(data.lastPrice, data.market, 'cny')}}</div>-->
-                        <!--CNY-->
-                        <div class="item">¥{{getPriceByAssistNew(data.lastPrice,marketsIdSwitch[index],'cny')}}</div>
+                        <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
+                        <div class="item">¥{{getPriceByAssist(data.lastPrice, data.market, 'cny')}}</div>
                         <div class="item">
-                            <!--<span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>-->
                             <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
                         </div>
-                        <!--<div class="item"><span class="hint&#45;&#45;top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>-->
                         <div class="item"><span class="hint--top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>
                         <div class="item trend">
-                            <!--<inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>-->
                             <inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>
                         </div>
                     </li>
@@ -87,7 +77,7 @@
                     sortBy : 'rateDown',
                     assistPrice : null,
                     dWidth : window.document.body.offsetWidth,
-                    markets: {},
+                    markets: [],
                     isMobile : Methods.isMobile(),
                     currentExchangeMode : 1,
                     marketsTab: 'hot',
@@ -109,33 +99,38 @@
                 }
             },
             computed: {
+                // 将市场id转为 市场名字符串 返回对象
                 marketsIdSwitch: function () {
-                    var marketId = []
+                    var marketId = {};
                     if (this.marketConfig) {
                         for (var a = 0; a < this.markets.length; a++) {
                             for (var b = 0; b < this.marketConfig.length; b++) {
-                                if ((this.markets[a][0] + 2) == this.marketConfig[b].marketId){
+                                if (this.markets[a][0] == this.marketConfig[b].marketId){
                                     // if ((this.markets[a][0] + 2) == this.marketConfig[b].marketId){
-                                    marketId[a] = this.marketConfig[b].name
+                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name;  //格式: '1': btc/qtum
                                 }
                             }
                         }
                     }
                     return marketId;
                 },
+                //推荐市场,目前显示全部 (旧逻辑根据某个字段布尔值过滤) -ok
                 hotMarkets: function() {
-                    var markets = {};
+                    var _this = this;
+                    var markets = [];
                     var oriMarkets = this.markets;
-                    Object.keys(this.markets).map(function(market){
-                        // console.log('循环')
-                        // console.log(market)
-                        if (oriMarkets[market]) {
-                            // if (oriMarkets[market][11]) {
-                           markets[market] = oriMarkets[market];
-                       }
+
+                    oriMarkets.forEach(function (item, index) {
+                        var currMarketName = _this.marketsIdSwitch[item[0]];
+                        if (currMarketName) {
+                            //过滤后的数组
+                            markets.push(item);
+                        }
                     });
+
                     return this.doSortMarket(this.convertMarket(markets));
                 },
+                //暂弃用
                 mockMarkets: function() {
                     var markets = {};
                     var oriMarkets = this.markets;
@@ -146,6 +141,7 @@
                     });
                     return this.doSortMarket(this.convertMarket(markets));
                 },
+                //过滤要显示的市场
                 displayMarkets: function() {
                     var type = this.marketsTab;
                     var keyWord = this.keyWord;
@@ -156,10 +152,10 @@
                         if (type === 'hot') {
                             return this.hotMarkets
                         } else if (type === 'mock') {
-                            return this.mockMarkets
+                            // return this.mockMarkets
+                            return [];
                         } else {
-                            console.log('走入else')
-                            return this.marketsForCoin(type)
+                            return this.marketsForCoin(type);
                         }
                     }
                 }
@@ -231,73 +227,90 @@
                         }
                     });
                 },
+                //按货币分类 -ok
                 marketsForCoin: function(coin) {
-                    // console.log("走入else: " + coin)
-                    var markets = {};
-                    // var oriMarkets = this.markets;
-                    for (var i = 0; i < this.marketsIdSwitch.length; i++) {
-                        console.log(this.marketsIdSwitch[i].split('/')[1] == coin)
-                        if (this.marketsIdSwitch[i].split('/')[1] == coin){
-                            markets[i] = this.markets[i];
+                    var _this = this;
+                    var markets = [];
+                    var oriMarkets = this.markets;
+
+                    oriMarkets.forEach(function (item, index) {
+                        if (_this.marketsIdSwitch[item[0]]) {
+                            var coinName = _this.marketsIdSwitch[item[0]].split('_')[1];
+                            if (coinName == coin) {
+                                //过滤后的数组
+                                markets.push(item);
+                            }
                         }
-                    }
+                    });
+
                     // Object.keys(this.marketsIdSwitch).map(function(market,index){
                     //     console.log(market)
                     //     if (market.split('/')[1] == coin) {
                     //         markets[market] = oriMarkets[market];
                     //     }
                     // });
+
                     return this.doSortMarket(this.convertMarket(markets));
                 },
+                // 搜索过滤-ok
                 marketsForKeyWord: function(keyword) {
                     var _this = this;
-                    var markets = {};
+                    var markets = [];
                     var oriMarkets = this.markets;
-                    Object.keys(this.markets).map(function(market){
-                        //过滤掉模拟市场，不给搜索
+                    /*Object.keys(this.markets).map(function(market){
                         if (market.indexOf(keyword) != -1 && _this.markets[market][9] == false) {
                             markets[market] = oriMarkets[market];
                         }
+                    });*/
+
+                    oriMarkets.forEach(function (item, index) {
+                        var currMarketName = _this.marketsIdSwitch[item[0]];
+                        if (currMarketName.indexOf(keyword) != -1) {
+                            //过滤后的数组
+                            markets.push(item);
+                        }
                     });
+
                     return this.doSortMarket(this.convertMarket(markets));
                 },
-                //转换对象市场为数组市场(为了排序)
+                //转换对象市场为数组市场(为了排序) -ok
                 convertMarket : function (result) {
                     var _this = this;
                     var resultArray = [];
                     // console.log(result)
-                    for(var key in result){
+                    result.forEach(function (item, index) {
                         var lineData;
                         try {
-                            lineData =  JSON.parse(result[key][4]);
+                            lineData =  JSON.parse(item[6]);
                         } catch (e) {
                             lineData = '';
                         }
 
                         var obj = {
-                            market : key,
+                            market : _this.marketsIdSwitch[item[0]], //市场名
                             // 价格
-                            lastPrice : result[key][1],
+                            lastPrice : item[1], //最新价
 
-                            buyOne : result[key][1],
-                            sellOne : result[key][2],
-                            highPrice : result[key][3],
-                            lowPrice : result[key][4],
+                            // buyOne : item[4],
+                            // sellOne : item[2],
+                            highPrice : item[2], //最高价
+                            lowPrice : item[3], //最低价
 
                             // 成交量
-                            volume : result[key][2],
+                            volume : item[4],
                             //折算交易量为USD排序
-                            convertVolume : _this.getVolumeByAssist(result[key][5], key, 'usd'),
-                            // 玩的就是心跳-图
+                            convertVolume : _this.getVolumeByAssist(item[4], _this.marketsIdSwitch[item[0]], 'usd'),
+                            // 走势图
                             lineData : lineData,
                             //涨跌幅
-                            rate : result[key][3]
+                            rate : item[5]
                         }
                         resultArray.push(obj);
-                    }
+                    });
+
                     return resultArray;
                 },
-                //排序的方法
+                //排序的方法-ok
                 doSortMarket : function (markets) {
                     var sortBy = this.sortBy;
                     if(sortBy == '' || markets.length == 0){
@@ -341,24 +354,22 @@
                     }
                     this.sortBy = swift(name, sortBy);
                 },
-                //获取指定辅助货币的价格
+                //获取指定辅助货币的价格 -ok
                 getVolumeByAssist: function (price, market, assist) {
                     if(!price || price == '' || !market || market == '' || this.assistPrice == null){
                         return ''
                     }
                     var coin = market.split('_')[0];
-                    //优先取指定的assist
+                    //优先取指定的assist 默认保留4位小数
                     var assistCoin = assist || this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.marketConfig[market].coinDecimal);
+                        return Methods.fixNumber(price, 4);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin]), this.assistList[assistCoin].decimal) || '--';
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin]), 4) || '--';
                     }
                 },
-                // 获取币价汇率
+                // 获取币价汇率 -ok
                 getPriceRate: function(callback) {
-                    // console.log('進入定時器請求')
-
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
                         success: function (res) {
@@ -401,15 +412,20 @@
                     }
 
                     _this.websocket.onopen = function (event) {
-                        //
-                        console.log('触发websocket')
+                        console.log('init websocket');
+
+                        //离开或者刷新当前页面时
+                        window.onbeforeunload =function() {
+                            _this.websocket && _this.websocket.close();
+                        }
                     };
                     _this.websocket.onmessage = function (event) {
-                        //
+                        //修改状态
                         if(!_this.marketInit){
                             _this.marketInit = true;
                         }
                         // console.log('数据变化了：')
+                        // [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
                         _this.markets = JSON.parse(event.data).market;
                         // console.log(event.data)
                     };
@@ -486,14 +502,14 @@
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixDecimal(val, this.marketConfig[market].coinDecimal)
+                        return Methods.fixDecimal(val, 4)
                     }
                 },
                 showMoney : function (val,market) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixDecimal(val, this.marketConfig[market].moneyDecimal)
+                        return Methods.fixDecimal(val, 4)
                     }
                 }
             },

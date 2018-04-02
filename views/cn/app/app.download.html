@@ -11,7 +11,8 @@
                 qrcodeUrl : function(){
                     var http = ENV == 'z' ? 'https:' : 'http:';
                     var str = http + DOMAIN_WEB + '/app';
-                    return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code='+str+'&width=160&height=160';
+                    // return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code='+str+'&width=160&height=160';
+                    return '';
                 }
             },
             methods: {
@@ -30,7 +31,7 @@
                     //         this.appInfo = res.datas;
                     //     }.bind(this)
                     // });
-                    console.log("获取app下载信息")
+                    console.log("获取app下载信息(已关闭)")
                 }
             },
             created: function() {

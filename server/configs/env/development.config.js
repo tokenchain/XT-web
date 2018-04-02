@@ -25,6 +25,6 @@ module.exports = {
     API_PREFIX : "/api/web/V1_0/",
     //调试用
     DOMAIN_DEV : "http://ww.exx.com/test",
-    WEBSOCKET : "ws://192.168.4.89:28080"
+    WEBSOCKET : "ws://192.168.4.137:28080"
 }
 /* * 开发环境前端 + 开发环境后端* */
