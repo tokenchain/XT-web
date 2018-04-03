@@ -6,26 +6,25 @@
         <div class="dropdown coin-type" v-cloak="">
             <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" : currentCoin.toUpperCase()}}</em></p>
             <div class="dropdown-menu">
-            <ul class="coin-type-list">
-                <li :class="{'active': currentCoin == 'all'}">
-                    <a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a>
-                </li>
-                <li v-for="(item,coin) in currentUserAsset.coinFundMap" :class="{'active': coin == currentCoin}"  v-if="item.showCoin">
-                    <a @click="changeCoin(coin)">
-                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'">{{coin.toUpperCase()}}
-                    </a>
-                </li>
-            </ul>
+                <ul class="coin-type-list">
+                    <li :class="{'active': currentCoin == 'all'}">
+                        <a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a>
+                    </li>
+                    <li v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}">
+                        <a @click="changeCoin(item.name)">
+                            <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'">{{item.name.toUpperCase()}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        </div>
-
 
         <div class="dropdown" v-cloak="">
             <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{billTypeObj[currentType]}}</em></p>
             <div class="dropdown-menu">
-            <ul class="dropdown-list">
-                <li :class="{'active': currentType == key}" v-for="item, key in billTypeObj"><a role="button" @click="changeType(key)">{{item}}</a></li>
-            </ul>
+                <ul class="dropdown-list">
+                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == key}"><a role="button" @click="changeType(key)">{{item}}</a></li>
+                </ul>
             </div>
         </div>
 
@@ -33,13 +32,10 @@
             <p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>
+                    <li v-for="(item,key) in timeTypeObj" :class="{'active': timeType == key}"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>
                 </ul>
             </div>
         </div>
-
-
-
     </div>
     <div class="bill-panel-body" :class="{'loading loading-light-bg' : requestLocked}">
         <div class="table head">
@@ -48,21 +44,15 @@
             <div class="cell type"><%= LANG('操作')%></div>
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
-        <div class="table body" v-for="(bill,index) in billRecords" v-if="billRecords.length > 0" v-cloak="">
-            <!--暂时性处理:返回数据不够完善-->
-            <!--<div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'" class="market-icon">{{bill.mainCurrency}}</div>-->
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-' + 'bcc.png'" class="market-icon">{{userCoinFunds[index].alias}}</div>
-
+        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.currencyTypeName.toLowerCase() +'.png'" class="market-icon">{{bill.currencyTypeName}}</div>
             <div class="cell time">{{showDate(bill.createTime)}}</div>
-            <!--暂时性处理:返回数据不够完善-->
-            <!--<div class="cell type">{{bill.typeName}}</div>-->
-            <div class="cell type">typeName</div>
-
+            <div class="cell type">{{getChangeName(bill.changeType)}}</div>
+            <!--TODO 渲染金额相关，暂无数据字段-->
             <div class="cell amount">
                 <div class="amount1"><p><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span></p>= {{bill.mainBalance}} {{bill.mainCurrency}}</div>
                 <template v-if="parseFloat(bill.subChange) != 0">
-                    <!--<div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>-->
-                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.amount}} {{bill.subCurrency}}</div>
+                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>
                 </template>
             </div>
         </div>
@@ -102,7 +92,9 @@
                     timeTypeObj : {
                         '0' : "<%= LANG('最近记录') %>",
                         '1' : "<%= LANG('历史记录') %>"
-                    }
+                    },
+
+                    loginUser: Methods.getLocalStorage(ENV + 'userInfo') //用户信息
                 }
             },
             computed : {
@@ -110,32 +102,25 @@
                     if (this.isLogin) {
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
-                },
-                /**
-                 * 格式化用户资产数据
-                 * 将金额不为0的货币与所有货币列表整合
-                 */
-                userCoinFunds: function() {
-                    var coins = this.coinConfig || [];
-                    var billRecords = this.billRecords;
-
-                    var coinAssets = [];
-                    coins.forEach(function (coin, index, array) {
-                        var coinItem = coin;
-                        billRecords.forEach(function (asset, idx, arr) {
-                            if (coin.currencyId == asset.currencyTypeId) {
-                                for (var k in asset) {
-                                    coin[k] = asset[k];
-                                }
-                            }
-                        });
-                        coinAssets.push(coinItem);
-                    }.bind(this));
-
-                    return coinAssets;
                 }
             },
             methods: {
+                //根据变更类型转换变更名称
+                // 变更类型，1:交易买变动  2:交易卖变动  3:充值变动 4:提现变动 5:其他变动
+                getChangeName: function (changeType) {
+                    switch (changeType) {
+                        case 1:
+                            return '交易买变动';
+                        case 2:
+                            return '交易卖变动';
+                        case 3:
+                            return '充值变动';
+                        case 4:
+                            return '提现变动';
+                        case 5:
+                            return '其他变动';
+                    }
+                },
                 showDate: function(date) {
                     return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
                 },
@@ -152,23 +137,6 @@
                         }.bind(this)
                     });
                 },
-                // 获取用户资金
-                getTargetUserAsset: function (callback) {
-                    var data = {
-                        targetUserId: this.currentAccountId,
-                        lastTime : 0
-                    };
-                    // Methods.ajax({
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                    //     data: data,
-                    //     success: function (res) {
-                    //         if(res.datas.userFund){
-                    //             this.currentUserAsset = res.datas.userFund;
-                    //             callback && callback();
-                    //         }
-                    //     }.bind(this)
-                    // });
-                },
                 /**
                  * 获取账单记录
                  * 按照货币类型获取，当货币类型传 空 时查询全部
@@ -183,23 +151,22 @@
                         // isBackup: this.timeType
                         webId: 100,
                         currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
-                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId,
+                        userId: this.loginUser.userId,
                         pageSize: this.pageSize,
                         pageNum: this.pageIndex
                     };
                     this.requestLocked = true;
                     Methods.ajax({
-                        // type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getBill',
-                        // url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findbypage',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
+                        url: DOMAIN_DEV + "/exchange/controller/website/fund/FundChangeController/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function(res) {
-                            console.log('进入回调')
                             this.requestLocked = false;
 
                             // this.billRecords = res.datas.results;
                             // //很重要，判断当前是否是最后一页的依据
                             // this.pageCount = res.datas.results.length;
+
                             this.billRecords = res.datas.list;
                             this.pageCount = res.datas.list.length;
                         }.bind(this)
@@ -225,7 +192,6 @@
                 }
             },
             created: function() {
-                this.getTargetUserAsset();
                 this.getCoinConfig();
                 this.getBill();
             }

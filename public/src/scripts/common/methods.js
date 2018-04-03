@@ -286,8 +286,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
                         var resMsg = res.resMsg;
                         // 如果返回信息模式不正确
                         if (!resMsg) {
-                            //('暂时无法提供服务，请联系网络管理员');
-                            console.log('返回参数不正确');
+                            console.log('data type error: ' + options.url)
                         } else if (resMsg.code == "1") {
                             return options.success(res);
                         } else {
