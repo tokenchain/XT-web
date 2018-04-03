@@ -182,7 +182,7 @@
                     //优先取指定的assist
                     var assistCoin = assist || MONEY;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.marketConfig[market].moneyDecimal);
+                        return Methods.fixNumber(price, 4);
                     } else {
                         return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
                     }
@@ -426,7 +426,13 @@
                         }
                         // console.log('数据变化了：')
                         // [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
-                        _this.markets = JSON.parse(event.data).market;
+                        var res = JSON.parse(event.data);
+
+                        if (typeof res.market == 'object') {
+                            _this.markets = res.market;
+                        } else {
+                            _this.markets = [];
+                        }
                         // console.log(event.data)
                     };
                     _this.websocket.onerror = function (event) {
