@@ -307,12 +307,12 @@
                         webId: 100,
                         type: this.tradeType, //1买方 0卖方
                         price: this.inputPrice,
-                        marketId: 90 || this.currentMarket,
+                        marketId: this.currentMarket,
                         userId: this.currentAccountId,
                         rangeType: 0, //0 现价委托 1 区间委托
                         // rangeLowPrice: '', //区间委托的最低价
                         // rangeHighPrice: '', //区间委托的最高价
-                        amount: this.inputNumber, //委托数量
+                        amount: this.inputNumber //委托数量
                         // entrustId: '',
                     };
                     //锁定请求
@@ -375,12 +375,12 @@
                         webId: 100,
                         type: this.tradeType, //1买方 0卖方
                         price: this.inputPrice,
-                        marketId: 90 || this.currentMarket,
+                        marketId: this.currentMarket,
                         userId: this.currentAccountId,
                         rangeType: 1, //0 现价委托 1 区间委托
                         rangeLowPrice: priceLow, //区间委托的最低价
                         rangeHighPrice: priceHigh, //区间委托的最高价
-                        amount: this.inputNumber, //委托数量
+                        amount: this.inputNumber //委托数量
                         // entrustId: '',
                     };
                     //锁定请求

@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div class="form-group" v-if="loginUser.code == '1018'">
+          <div class="form-group" v-if="loginUser.code == '6011'">
             <div class="form-control">
               <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
             </div>

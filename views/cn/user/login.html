@@ -208,12 +208,13 @@
                                 Methods.setCookie(ENV+'uon', res.resMsg.code);
 
                                 var resMsg = res.resMsg;
-                                if (resMsg.code == 1018 || resMsg.code == 1058 || resMsg.code == 1059) {
+                                // 谷歌，短信，邮箱
+                                if (resMsg.code == 6011 || resMsg.code == 1058 || resMsg.code == 1059) {
                                     data.code = resMsg.code; //将二次验证code传递
                                     Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
                                     //需要进一步验证
                                     window.location.href = '/loginAuth';
-                                } else if (resMsg.code == 1028) {
+                                } else if (resMsg.code == 6015) {
                                     //需要输入图形验证码
                                     _this.showImgCode = true;
                                     _this.getImageCode();

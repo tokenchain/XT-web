@@ -83,18 +83,19 @@
             <div class="cell market">{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</div>
             <!--TODO 渲染以下委托记录-->
             <div class="cell price">
-                <b class="buyColor hint--top" :aria-label="showAssistHint(item[1], item[11])">{{showMoney(item[1], item[11])}}</b> /
-                <span class="hint--top" :aria-label="showAssistHint((item[4]/item[3]), item[11])">{{showMoney((item[4]/item[3]), item[11])}}</span>
+                <b class="buyColor hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price, switchIds[item.marketId])}}</b> /
+                <span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])}}</span>
             </div>
-            <div class="cell amount"><b :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item[2],item[11])}}</b> / {{showCoin(item[3],item[11])}}</div>
+            <div class="cell amount"><b :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</b> / {{showCoin(item.completeAmount,switchIds[item.marketId])}}</div>
             <div class="cell num">
-                <span class="hint--top" :aria-label="showAssistHint(item[4],item[11])">{{showAmount(item[4],item[11])}}</span>
+                <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney,switchIds[item.marketId])">{{showAmount(item.completeTotalMoney,switchIds[item.marketId])}}</span>
             </div>
             <div class="cell source">
-                <span>{{showSource(item[10])}}</span>
+                <!--<span>{{showSource(item[10])}}</span>-->
+                <span>WEB</span>
             </div>
-            <div class="cell type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0],item[11])"><%= LANG('取消') %></a></div>
-            <div class="cell type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+            <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item[0],switchIds[item.marketId])"><%= LANG('取消') %></a></div>
+            <div class="cell type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
         </div>
         <div class="table no-data" v-if="records.length == 0">
             <%= LANG('暂无记录')%>

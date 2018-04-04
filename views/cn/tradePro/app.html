@@ -95,16 +95,14 @@
                 }
             },
             computed: {
-                //转化marketId
+                //转化marketId TODO 需处理
                 currentMarket: function () {
-                    var currentMarkets = this.currentMarketName.split("_");
-                    var buyerCurrencyId = currentMarkets[1];
-                    var sellerCurrencyId = currentMarkets[0];
+                    var currentMarkets = this.currentMarketName;
 
                     var marketId = '';
                     if (this.marketConfig) {
                         this.marketConfig.forEach(function (coin, index, arr) {
-                            if (coin.buyerCurrencyId == buyerCurrencyId && coin.sellerCurrencyId == sellerCurrencyId) {
+                            if (coin.name == currentMarkets) {
                                 marketId = coin.marketId;
                             }
                         });
