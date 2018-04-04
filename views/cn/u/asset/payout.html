@@ -243,9 +243,9 @@
                     var _this = this;
                     this.userCoinFunds.forEach(function (coin, index, arr) {
                         if (coin.name == _this.currentCoin) {
-                            var total = coin.amount || 0;
-                            var freeze = coin.freeze || 0;
-                            amount_ky = parseFloat(total - freeze);
+                            // var total = coin.amount || 0;
+                            // var freeze = coin.freeze || 0;
+                            amount_ky = parseFloat(coin.amount || 0);
                         }
                     });
 

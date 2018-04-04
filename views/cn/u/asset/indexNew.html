@@ -528,14 +528,16 @@
                 //总资金
                 fixTotalDecimal: function (coin, unit) {
                     var amount = coin.amount || 0;
+                    var freeze = coin.freeze || 0;
 
-                    return Methods.fixDecimal(amount, unit);
+                    return Methods.fixDecimal(amount + freeze, unit);
                 },
                 //可用资金
                 fixAvailableDecimal : function (coin, unit) {
                     var amount = coin.amount || 0;
-                    var freeze = coin.freeze || 0;
-                    var value = parseFloat(amount - freeze);
+                    var value = parseFloat(amount);
+                    // var freeze = coin.freeze || 0;
+                    // var value = parseFloat(amount - freeze);
 
                     return Methods.fixDecimal(value, unit);
                 },

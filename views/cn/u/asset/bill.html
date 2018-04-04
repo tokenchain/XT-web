@@ -45,15 +45,12 @@
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
         <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ bill.currencyTypeName.toLowerCase() +'.png'" class="market-icon">{{bill.currencyTypeName}}</div>
-            <div class="cell time">{{showDate(bill.createTime)}}</div>
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ switchIds[bill.marketId].split('_')[0].toLowerCase() +'.png'" class="market-icon">{{switchIds[bill.marketId].split('_')[0].toUpperCase()}}</div>
+            <div class="cell time">{{bill.createTime}}</div>
             <div class="cell type">{{getChangeName(bill.changeType)}}</div>
-            <!--TODO 渲染金额相关，暂无数据字段-->
+
             <div class="cell amount">
-                <div class="amount1"><p><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span></p>= {{bill.mainBalance}} {{bill.mainCurrency}}</div>
-                <template v-if="parseFloat(bill.subChange) != 0">
-                    <div class="amount2"><p><span :class="bill.marketInout == '+' ? 'plus' : 'less'">{{bill.marketInout}} {{bill.subChange}} <em>{{bill.subCurrency}}</em></span></p>= {{bill.subBalance}} {{bill.subCurrency}}</div>
-                </template>
+                <div class="amount1"><p><span :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{switchIds[bill.marketId].split('_')[0].toUpperCase()}}</em></span></p></div>
             </div>
         </div>
         <div class="table no-data" v-if="billRecords.length == 0">
@@ -94,10 +91,35 @@
                         '1' : "<%= LANG('历史记录') %>"
                     },
 
+                    marketConfig : [],
                     loginUser: Methods.getLocalStorage(ENV + 'userInfo') //用户信息
                 }
             },
             computed : {
+                //转换市场id
+                switchMarkets: function () {
+                    var _this = this;
+                    var marketAndId = {};
+
+                    if (_this.marketConfig) {
+                        _this.marketConfig.forEach(function (item, index) {
+                            marketAndId[item.name] = item.marketId;
+                        });
+                    }
+                    return marketAndId;
+                },
+                //转换市场名称
+                switchIds: function () {
+                    var _this = this;
+                    var marketAndId = {};
+
+                    if (_this.marketConfig) {
+                        _this.marketConfig.forEach(function (item, index) {
+                            marketAndId[item.marketId] = item.name;
+                        });
+                    }
+                    return marketAndId;
+                },
                 currentAccountId: function () {
                     if (this.isLogin) {
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
@@ -151,7 +173,7 @@
                         // pageSize: this.pageSize,
                         // isBackup: this.timeType
                         webId: 100,
-                        currencyTypeId: this.currentCoin == 'all' ? '' : this.currentCoin,
+                        currencyTypeName: this.currentCoin == 'all' ? '' : this.currentCoin,
                         userId: this.loginUser.userId,
                         pageSize: this.pageSize,
                         pageNum: this.pageIndex
@@ -171,6 +193,18 @@
                             this.billRecords = res.datas.list;
                             this.pageCount = res.datas.list.length;
                         }.bind(this)
+                    });
+                },
+                // 获取市场配置
+                getMarketConfig: function (callback) {
+                    var _this = this;
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
+                        success: function (res) {
+                            _this.marketConfig = res.datas;
+                            callback && callback(res.datas);
+                        }
                     });
                 },
                 changeCoin: function (type) {
@@ -194,7 +228,7 @@
             },
             created: function() {
                 this.getCoinConfig();
-                this.getBill();
+                this.getMarketConfig(this.getBill);
             }
         })
     })
