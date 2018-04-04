@@ -81,7 +81,7 @@
                 <template v-if="item.type == 0"><%= LANG('卖') %></template>
             </i>{{showTime(item.createTime)}}</div>
             <div class="cell market">{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</div>
-            <!--TODO 渲染以下委托记录-->
+            <!--委托记录-->
             <div class="cell price">
                 <b class="buyColor hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price, switchIds[item.marketId])}}</b> /
                 <span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])}}</span>
@@ -94,7 +94,7 @@
                 <!--<span>{{showSource(item[10])}}</span>-->
                 <span>WEB</span>
             </div>
-            <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item[0],switchIds[item.marketId])"><%= LANG('取消') %></a></div>
+            <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId, item.marketId)"><%= LANG('取消') %></a></div>
             <div class="cell type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
         </div>
         <div class="table no-data" v-if="records.length == 0">
@@ -352,28 +352,24 @@
                     })
                 },
                 //取消委托
-                doCancelEntrust: function(id, market, isReal) {
+                doCancelEntrust: function(id, marketid, isReal) {
                     var _this = this;
                     var data = {
-                        isReal: 0,
-                        market: market || _this.currentMarket,
-                        userId: _this.currentAccountId,
+                        // isReal: 0,
+                        // market: market || _this.currentMarket,
+                        // userId: _this.currentAccountId,
+                        // entrustId: id
+
+                        marketId: marketid,
                         entrustId: id
                     };
-                    Methods.getJSONP({
-                        url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        data: data,
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+                        url: DOMAIN_DEV + '/exchange/controller/website/entrust/entrustController/' + 'cancelEntrust',
+                        data: JSON.stringify(data),
                         success: function (res) {
-                            if(_this.isAll){
-                                for(var i = 0; i < _this.records.length; i++){
-                                    //若是在所有委托页面则不请求刷新，仅改变本地数据状态
-                                    if(_this.records[i][0] == id){
-                                        Vue.set(_this.records[i], 7, 1);
-                                    }
-                                }
-                            }else{
-                                _this.getEntrustRecord()
-                            }
+                            _this.getRecord();
+
                             $.toast({
                                 heading: 'Success',
                                 text: '<%= LANG("取消委托成功") %>',
@@ -394,19 +390,19 @@
                     this.pageIndex = 1;
                     this.pageCount = 0;
                     this.tradeStatus = type;
-                    this.getEntrustRecord();
+                    this.getRecord();
                 },
                 changeTradeType: function (type) {
                     this.pageIndex = 1;
                     this.pageCount = 0;
                     this.tradeType = type;
-                    this.getEntrustRecord();
+                    this.getRecord();
                 },
                 changeTimeType: function (type) {
                     this.pageIndex = 1;
                     this.pageCount = 0;
                     this.timeType = type;
-                    this.getEntrustRecord();
+                    this.getRecord();
                 },
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price, market) {
@@ -416,7 +412,7 @@
                     var money = this.getMoney(market || this.currentMarket);
                     var assistCoin = this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.marketConfig[market || this.currentMarket].moneyDecimal);
+                        return Methods.fixNumber(price, 4);
                     } else {
                         return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
                     }
@@ -468,21 +464,21 @@
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.marketConfig[market || this.currentMarket].coinDecimal)
+                        return Methods.fixNumber(val, 4)
                     }
                 },
                 showMoney : function (val, market) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.marketConfig[market || this.currentMarket].moneyDecimal)
+                        return Methods.fixNumber(val, 4)
                     }
                 },
                 showAmount : function (val, market) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.marketConfig[market || this.currentMarket].amountDecimal)
+                        return Methods.fixNumber(val, 4)
                     }
                 },
                 showRate : function (val) {

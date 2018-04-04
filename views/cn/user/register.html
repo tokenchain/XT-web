@@ -213,7 +213,8 @@
                         imgCodeId: this.imgCodeId,
                         smsCode: this.smsCode,
                         //recommId: Methods.getCookie(ENV + 'recommendCode'),
-                        countryCode: this.countryCode
+                        countryCode: this.countryCode,
+                        pwdLevel: this.pwdStrength //密码强度，前端计算
                     };
                     if (this.requestLocked) {
                         return false;

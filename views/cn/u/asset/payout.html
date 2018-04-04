@@ -90,6 +90,7 @@
 
     </div>
 
+    <!--提币记录-->
     <div class="pay-record" v-cloak="">
         <h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2>
         <div class="exx-record">
@@ -106,13 +107,13 @@
                 <div class="tr" v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
                     <div class="td" style="width: 300px;flex: none; color: #333;">{{record.withdrawalAddress}}</div>
                     <div class="td"><span>{{showDate(record.createTime)}}</span></div>
-                    <div class="td"><span>{{record.verifyStatus == 0 ? '--' : showDate(record.modifyTime)}}</span></div>
+                    <div class="td"><span>{{record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)}}</span></div>
                     <div class="td" style="color: #333;">{{record.amount}}</div>
                     <div class="td" style="color: #31C871">{{record.actuallyAmount}}</div>
                     <div class="td">{{ record.verifyStatus == 0 ? LANG('待审核') : (record.verifyStatus == 1 ? LANG('审核通过') : LANG('审核不通过')) }}</div>
                     <div class="td oper">
                         <a role="button" v-if="record.verifyStatus == 0" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
-                        <a role="button" v-else-if="record.verifyStatus == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>
+                        <!--<a role="button" v-else-if="record.verifyStatus == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>-->
                         <a role="button" v-else="">--</a>
                     </div>
                 </div>
@@ -133,7 +134,6 @@
 
 <%-include("../../component/search_box.html")%>
 <%-include("../../component/modal.html")%>
-<!--<%-include("../../component/send_code.html")%>-->
 <%-include("../../component/send_code/index.html")%>
 <%-include("../../component/page_lite.html")%>
 <%-include("../model/editAddress.html")%>
@@ -214,7 +214,7 @@
                     var minFee = 0;
                     var _this = this;
                     this.coinConfig.forEach(function (coin, index, arr) {
-                        if (coin.name == _this.currentCoin && coin.minFee) {
+                        if ((coin.name == _this.currentCoin) && coin.minFee) {
                             minFee = coin.minFee;
                         }
                     });
@@ -295,7 +295,7 @@
                 getAccountAssets: function () {
                     var data = {
                         webId: 100,
-                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId,
+                        userId: this.loginUser.userId,
                         pageSize: 9999,
                         pageNum: 1
                     };
@@ -315,7 +315,8 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
+                        // url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/CurrencyController/" + 'getAll',
                         success: function(res) {
                             this.coinConfig = res.datas;
 
@@ -359,7 +360,8 @@
                         success: function (res) {
                             // console.log(res)
                             this.payoutRecords = res.datas.list;
-                            this.pageCount = res.datas.totalRow;
+
+                            this.pageCount = res.datas.list.length;
                         }.bind(this)
                     });
                 },
@@ -449,6 +451,7 @@
                         this.step = step;
                     }
                 },
+                //暂弃用
                 pageInit : function () {
                     if(this.currentUserAsset.userType != 1){
                         swal({
@@ -467,10 +470,13 @@
                 }
             },
             created: function() {
-                this.getCoinConfig(this.getPayoutAddress);
+                var _this = this;
                 this.getAccountAssets();
 
-                this.getCoinConfig(this.getPayoutCoinRecord);
+                this.getCoinConfig(function () {
+                    _this.getPayoutAddress();
+                    _this.getPayoutCoinRecord();
+                });
             }
         })
     })

@@ -32,10 +32,10 @@
         <li class="<%= PATH.indexOf('/u/sweet') != -1 ? 'active' : ''%>">
             <a href="/u/sweet"><%= LANG('领取糖果')%></a>
         </li>
-        <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="currentUserAsset.userType == 1" v-cloak="">
+        <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
             <a href="/u/payin"><%= LANG('充值')%></a>
         </li>
-        <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="currentUserAsset.userType == 1" v-cloak="">
+        <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
             <a href="/u/payout"><%= LANG('提币')%></a>
         </li>
         <li class="<%= PATH.indexOf('/u/bill') != -1 ? 'active' : ''%>">
@@ -83,6 +83,7 @@
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
                 },
+                //暂弃用
                 entrustlink : function () {
                     if(this.currentUserAsset && this.currentUserAsset.userType == 3){
                         return '/u/entrust/dhsr_dbtc'
@@ -92,26 +93,10 @@
                 }
             },
             methods: {
-                // 获取用户资金
-                getTargetUserAsset: function (callback) {
-                    var data = {
-                        targetUserId: this.currentAccountId,
-                        lastTime : 0
-                    };
-                    // Methods.ajax({
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                    //     data: data,
-                    //     success: function (res) {
-                    //         if(res.datas.userFund){
-                    //             this.currentUserAsset = res.datas.userFund;
-                    //             callback && callback();
-                    //         }
-                    //     }.bind(this)
-                    // });
-                }
+                //
             },
             created: function() {
-                //this.getTargetUserAsset();
+                //
             }
         })
     })

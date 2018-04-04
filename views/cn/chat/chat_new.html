@@ -709,14 +709,14 @@
                 },
                 initConnect: function(isRe){
                     if(!wSocket || isRe){
-                        var data = {
-                            userId: this.loginUser.userId
+                        var headers = {
+                            Userid: this.loginUser.userId
                         };
 
                         Methods.ajax({
                             // url: DOMAIN_MAIN + '/api/web/v1_0/connect?jsoncallback=?',
                             url: DOMAIN_DEV + "/exchange/controller/website/chat/customerchatcontroller/" + 'connect',
-                            data: data,
+                            headers: headers,
                             success: function (res) {
                                 this.wsServer = res.datas;
                                 if(isRe){

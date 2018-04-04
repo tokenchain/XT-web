@@ -11,7 +11,7 @@
       </div>
       <div class="form-group">
         <div class="form-control">
-          <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>" v-model="newPassword" type="password">
+          <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>" v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
         </div>
       </div>
       <div class="form-group">
@@ -58,6 +58,7 @@
                     passwordIdentical: false,
                     dynamicCode: '',
                     googleCode: '',
+                    pwdStrength: 0,
                     userName: Methods.getCookie(ENV + 'uname')
                 }
             },
@@ -82,6 +83,10 @@
                 //         }.bind(this)
                 //     });
                 // },
+                //校验密码强度
+                handleCheckPwdStrength: function () {
+                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                },
                 handleSubmit: function () {
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
@@ -93,7 +98,8 @@
                         oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
                         smsCode: this.dynamicCode,
-                        googleCode: this.googleCode
+                        googleCode: this.googleCode,
+                        pwdLevel: this.pwdStrength
                     };
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");

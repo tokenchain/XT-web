@@ -112,7 +112,7 @@
                 //K线消息
                 klineData: function () {
                     // return this.currentMarket + '_KLINE_' + this.tm + '_' + this.currentMarketName.toUpperCase();
-                    return '90_KLINE_1M_QC_ZB';
+                    return '90_KLINE_5M_qc_btc';
                 },
                 //委托盘口消息
                 entrustData: function () {
@@ -499,7 +499,8 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
+                        // url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/CurrencyController/" + 'getAll',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)

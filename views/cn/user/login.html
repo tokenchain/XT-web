@@ -208,8 +208,8 @@
                                 Methods.setCookie(ENV+'uon', res.resMsg.code);
 
                                 var resMsg = res.resMsg;
-                                // 谷歌，短信，邮箱
-                                if (resMsg.code == 6011 || resMsg.code == 1058 || resMsg.code == 1059) {
+                                // 依次是: 谷歌，短信，邮箱
+                                if (resMsg.code == 6011 || resMsg.code == 6037 || resMsg.code == 6038) {
                                     data.code = resMsg.code; //将二次验证code传递
                                     Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
                                     //需要进一步验证
