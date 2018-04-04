@@ -500,14 +500,14 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         // url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
-                        url: DOMAIN_DEV + "/exchange/controller/admin/config/CurrencyController/" + 'getAll',
+                        url: DOMAIN_DEV + "/exchange/controller/admin/config/CurrencyController/" + 'getCurrencyList?webId=100',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
                     });
                 },
                 // 获取所有市场行情 获取k线顶部数据
-                getAllMarket: function (callback) {
+                /*getAllMarket: function (callback) {
                     var _this = this;
                     Methods.getJSONP({
                         url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket',
@@ -523,7 +523,7 @@
                             callback && callback(res.datas);
                         }
                     });
-                },
+                },*/
                 // 获取盘口数据
                 getDishData: function(callback) {
                     var _this = this;
@@ -1258,13 +1258,13 @@
                 _this.getCoinConfig();
                 _this.getMarketConfig(function () {
                     //排查错误市场
-                    if(!_this.marketConfig[_this.currentMarket]){
+                    /*if(!_this.marketConfig[_this.currentMarket]){
                         // 暂时注释掉
                         // JuaBox.info('Error Market !', function () {
                         //     top.location.href = '/';
                         // })
                         return false;
-                    }
+                    }*/
                     //开盘时间处理
                     _this.getServerTime(function (serverTime) {
                         var openTime = parseFloat(_this.currentMarketConfig.openTime) * 1000;
