@@ -45,7 +45,7 @@
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
         <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ switchIds[bill.marketId].split('_')[0].toLowerCase() +'.png'" class="market-icon">{{switchIds[bill.marketId].split('_')[0].toUpperCase()}}</div>
+            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'" class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}</div>
             <div class="cell time">{{bill.createTime}}</div>
             <div class="cell type">{{getChangeName(bill.changeType)}}</div>
 
@@ -57,7 +57,7 @@
             <%= LANG('暂无记录')%>
         </div>
     </div>
-    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0"></page-lite>
+    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
 </div>
 
 <%-include("../../component/page_lite.html")%>
@@ -70,7 +70,7 @@
                 return {
                     isLogin : ISLOGIN,
                     pageIndex : 1,
-                    pageSize : 10,
+                    pageSize : 48,
                     pageCount: 0,
                     requestLocked : false,
                     currentUserAsset: '',
@@ -119,6 +119,18 @@
                         });
                     }
                     return marketAndId;
+                },
+                //转换所有币种id
+                coinsId: function () {
+                    var _this = this;
+                    var coinId = {};
+
+                    if (_this.coinConfig) {
+                        _this.coinConfig.forEach(function (item, index) {
+                            coinId[item.currencyId] = item.name;
+                        });
+                    }
+                    return coinId;
                 },
                 currentAccountId: function () {
                     if (this.isLogin) {

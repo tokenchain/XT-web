@@ -554,8 +554,10 @@
         //chart_set_money(MONEY);
         document.title = '<%= market.replace("_","/").toUpperCase() %> - <%= WEB.NAME %>';
 
-        //初始化
-        window.parent.ExxWebSocket.init();
+        // 初始化
+        if(!window.parent.ExxWebSocket.openWebSocket){
+            window.parent.ExxWebSocket.init();
+        }
     })
 </script>
 

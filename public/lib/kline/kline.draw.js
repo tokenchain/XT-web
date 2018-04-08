@@ -8520,7 +8520,7 @@ function clear_refresh_counter() {
 			}
             //console.log('message1:',message);
 			if(top.ExxWebSocket.openWebSocket){
-                // top.ExxWebSocket.websocket.send(message);
+                top.ExxWebSocket.websocket.send(message);
                 //console.log('message2:',message);
 				clearInterval(readyFun);
 			}
@@ -8591,21 +8591,21 @@ function getklinedataWebsocket() {
     //console.log(channel+"---"+lastTime);
     var message = '{"event":"addChannel","channel":"' + channel + '","lastTime":"' + lastTime + '","isZip":"' + top.ExxWebSocket.isZip + '","binary":"' + top.ExxWebSocket.isBinary + '"}';
     if (initFristKline) {
-        getklinedataAjax();
+        // getklinedataAjax();
         initFristKline = false;
     } else {
         //发送websocket 请求信息
         if (oldChannel != channel) {//发送新请求频道，先删除旧渠道
             if (oldChannel != null) {
-                sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
+                // sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
                 //sendChannel('{"event":"removeChannel","channel":"'+oldChannel+'"}');
             }else{
-                sendChannel(message);
+                // sendChannel(message);
             }
-            getklinedataAjax();//更换频道第一次调用Ajax
+            // getklinedataAjax();//更换频道第一次调用Ajax
             oldChannel = channel;
         } else {
-            sendChannel(message);
+            // sendChannel(message);
         }
         //ajax轮询
         //ajaxRun webcommon.js 判断是否进行ajax轮询
@@ -8615,7 +8615,7 @@ function getklinedataWebsocket() {
         } else {
             //if (!top.webSocket || !top.webSocket.socket || (top.webSocket && top.webSocket.socket && top.webSocket.socket.readyState != WebSocket.OPEN)) {
             if (!top.ExxWebSocket.openWebSocket) {
-                getklinedataAjax();
+                // getklinedataAjax();
             }
         }
     }
@@ -8623,13 +8623,13 @@ function getklinedataWebsocket() {
 
 
 /**
- * ajax 获取Kline 数据 
+ * ajax 获取Kline 数据 暂弃用
  */
 function getklinedataAjax(){
     var time = GLOBAL_VAR.time_type;
     var market = GLOBAL_VAR.market_from;
 
-    /*GLOBAL_VAR.G_HTTP_REQUEST = $.getJSON(GLOBAL_VAR.url+"?jsoncallback=?&"+GLOBAL_VAR.requestParam,function(json) {
+    GLOBAL_VAR.G_HTTP_REQUEST = $.getJSON(GLOBAL_VAR.url+"?jsoncallback=?&"+GLOBAL_VAR.requestParam,function(json) {
         if (GLOBAL_VAR.G_HTTP_REQUEST) {
             if (time != GLOBAL_VAR.time_type || market != GLOBAL_VAR.market_from) {
                 GLOBAL_VAR.TimeOutId = setTimeout(RequestData, 1000);
@@ -8675,7 +8675,7 @@ function getklinedataAjax(){
             $(".bk-animationload").fadeOut();
             ChartManager.getInstance().redraw('All', false);
         }
-    });*/
+    });
 
 	 /*GLOBAL_VAR.G_HTTP_REQUEST = $.ajax({
          type        : "post",
@@ -8909,7 +8909,7 @@ function chart_switch_money(money) {
     ChartSettings.save();
     //切换辅助货币之前移除旧频道
     if(top.ExxWebSocket.openWebSocket) {
-        sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
+        // sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
     }
     location.reload();
 }
@@ -8919,7 +8919,7 @@ function chart_set_money(money) {
     ChartSettings.save();
     //切换辅助货币之前移除旧频道
     if(top.ExxWebSocket.openWebSocket) {
-        sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
+        // sendChannel('{"event":"removeChannel","channel":"' + oldChannel + '"}');
     }
 }
 function on_size() {

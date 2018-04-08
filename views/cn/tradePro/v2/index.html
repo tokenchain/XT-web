@@ -69,7 +69,7 @@
                                 <li role="button" @click="switchPeriod('30m','30M')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
                                 <li role="button" @click="switchPeriod('15m','15M')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
                                 <li role="button" @click="switchPeriod('1m','1M')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('line','1M')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
+                                <li role="button" @click="switchPeriod('line','1H')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
                             </ul>
                         </div>
                         <div class="line"></div>
@@ -161,7 +161,7 @@
                 <div class="entrust-head">
                     <h3>{{tab[1]}}</h3>
                     <div class="r-area oper" v-if="isLogin">
-                        <a v-if="tab[0] == 'history'" :href="'/u/entrust/' + currentMarketName" target="_blank" role="button"><%=LANG('更多委托')%></a>
+                        <a v-if="tab[0] == 'history'" :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
                         <a v-if="tab[0] == 'doing'" @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>
                     </div>
                 </div>

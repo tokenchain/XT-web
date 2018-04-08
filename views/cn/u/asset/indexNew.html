@@ -527,8 +527,9 @@
                 },
                 //总资金
                 fixTotalDecimal: function (coin, unit) {
-                    var amount = coin.amount || 0;
-                    var freeze = coin.freeze || 0;
+                    var amount = parseFloat(coin.amount || 0);
+                    var freeze = parseFloat(coin.freeze || 0);
+                    // console.log(freeze);
 
                     return Methods.fixDecimal(amount + freeze, unit);
                 },
@@ -543,7 +544,7 @@
                 },
                 //冻结资金
                 fixFreezeDecimal : function (coin, unit) {
-                    var freeze = coin.freeze || 0;
+                    var freeze = parseFloat(coin.freeze || 0);
 
                     return Methods.fixDecimal(freeze, unit);
                 },

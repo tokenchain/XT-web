@@ -7,7 +7,7 @@
                     //风格类型
                     theme : '<%= typeof theme != "undefined" ? theme : "" %>',
                     //当前市场
-                    currentMarketName: '<%= market %>', //当前市场格式为 qtum_btc 要转为marketId
+                    currentMarket: '<%= market %>', //当前市场格式为 qtum_btc 要转为marketId
                     coin: '<%= market.split("_")[0] %>',
                     money: '<%= market.split("_")[1] %>',
                     coinName: '<%= market.split("_")[0].toUpperCase() %>',
@@ -96,8 +96,8 @@
             },
             computed: {
                 //转化marketId
-                currentMarket: function () {
-                    var currentMarkets = this.currentMarketName;
+                currentMarketId: function () {
+                    var currentMarkets = this.currentMarket;
 
                     var marketId = '';
                     if (this.marketConfig) {
@@ -111,40 +111,37 @@
                 },
                 //K线消息
                 klineData: function () {
-                    return this.currentMarket + '_KLINE_' + this.tm + '_' + this.currentMarketName.toUpperCase();
+                    return this.currentMarketId + '_KLINE_' + this.tm + '_' + this.currentMarket.toUpperCase();
                     // return '90_KLINE_5M_qc_btc';
                 },
                 //委托盘口消息
                 entrustData: function () {
-                    return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
+                    return this.currentMarketId + '_ENTRUST_ADD_' + this.currentMarket.toUpperCase();
                     // return "90_ENTRUST_ZB";
                 },
                 //交易记录消息
                 tradeData: function () {
-                    return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
+                    return this.currentMarketId + '_TRADE_' + this.currentMarket.toUpperCase();
                     // return "90_TRADE_ZB"
                 },
-
                 currentMarketConfig : function () {
-                    if(this.marketConfig){
-                        // var config = this.marketConfig[this.currentMarket];
+                    var _this = this;
+                    if(_this.marketConfig){
                         // 过滤出当前市场信息
                         var config = {};
-                        var sellerCurrencyId = this.currentMarket.split("_")[0];
-                        var buyerCurrencyId = this.currentMarket.split("_")[1];
-                        this.marketConfig.forEach(function (market, index, arr) {
-                            if (sellerCurrencyId == market.sellerCurrencyId && buyerCurrencyId == market.buyerCurrencyId) {
+                        _this.marketConfig.forEach(function (market, index) {
+                            if (market.name == _this.currentMarket) {
                                 config = market;
                             }
                         });
 
                         //处理模拟盘的币种名称
-                        if(config.demoMode) {
+                        /*if(config.demoMode) {
                             config.coinName = config.coinName.substring(1);
                             config.moneyName = config.moneyName.substring(1);
-                            this.coinName = config.coinName;
-                            this.moneyName = config.moneyName;
-                        }
+                            _this.coinName = config.coinName;
+                            _this.moneyName = config.moneyName;
+                        }*/
                         return config;
                     }else{
                         return {}
@@ -524,48 +521,6 @@
                         }
                     });
                 },*/
-                // 获取盘口数据
-                getDishData: function(callback) {
-                    var _this = this;
-                    var getDishDataByAjax = function(){
-                        var data = {
-                            market: _this.currentMarket,
-                            length: _this.depthShowSize
-                        };
-                        Methods.getJSONP({
-                            url: DOMAIN_TRADE + API_PREFIX + 'dish',
-                            data: data,
-                            success: function (res) {
-                                _this.mixDishArray(res);
-                                callback && callback(res);
-                            }
-                        });
-                    }
-                    var getDishDataByWebsocket = function () {
-                        var channel = {
-                            event : "addChannel",
-                            channel : _this.coin + _this.money + "_cny_depth"
-                        }
-                        //如果没有则初始化
-                        if(typeof ExxWebSocket.channelManage.dishData == 'undefined'){
-                            ExxWebSocket.channelManage.dishData = {
-                                message : channel,
-                                sended :false,
-                                method : function (res) {
-                                    _this.mixDishArray(res);
-                                    callback && callback(res);
-                                }
-                            };
-                        }
-                    }
-                    //推送与ajax方式智能切换
-                    if(ExxWebSocket && ExxWebSocket.openWebSocket && !!_this.currentMarketConfig.isPush){
-                        getDishDataByWebsocket();
-                        //getDishDataByAjax();
-                    }else{
-                        getDishDataByAjax();
-                    }
-                },
                 doDealRecord: function (res) {
                     var _this = this;
                     var datas = res.datas || res.data;
@@ -631,8 +586,8 @@
                     var _this = this;
                     var data = {
                         //status: 0,
-                        marketId: 90 || _this.currentMarket,
-                        userId: 180 || _this.currentAccountId
+                        marketId: _this.currentMarketId,
+                        userId: _this.currentAccountId
                         //pageSize: 30
                     };
                     Methods.ajax({
@@ -652,10 +607,10 @@
                     var _this = this;
                     var data = {
                         // isReal: 0,
-                        // market: _this.currentMarket,
+                        // market: _this.currentMarketId,
                         // userId: _this.currentAccountId,
                         // entrustId: id
-                        marketId: _this.currentMarket, //此处marketId为空
+                        marketId: _this.currentMarketId, //此处marketId为空
                         entrustId: id
                     };
                     Methods.ajax({
@@ -1092,7 +1047,7 @@
                     //发送K线参数
                     var klineParam = {
                         dataType: this.klineData,
-                        dataSize: 1,
+                        dataSize: 1000,
                         action: "ADD"
                     };
                     ExxWebSocket.websocket.send(JSON.stringify(klineParam));
@@ -1123,7 +1078,7 @@
                 setChartMoney: function(type) {
                     this.setChartType('kline');
                     Vue.set(this.kline, "money", type);
-                    this.klineFrame.chart_set_money(type);
+                    // this.klineFrame.chart_set_money(type);
                     this.klineFrame.document.location.href = '/kline/lite/' +this.currentMarket+ '?money=' + type;
                 },
                 setChartMainIndicator : function (style) {
@@ -1221,7 +1176,7 @@
                         var totalTime = openTime - nowTime;
                         if(totalTime > 0){
                             _this.marketStartTime = Methods.getDateTime(openTime,"YYYY-MM-DD HH:MM:SS");
-                            _this.marketOpenStatus = true;
+                            // _this.marketOpenStatus = true; //TODO 开盘时间？暂时注释
                             _this.countOpenTime(totalTime);
                         }
                     });
@@ -1241,11 +1196,10 @@
                             });
                         }
                     })
-                })
+                });
             },
             updated: function() {
                 this.initEntrustScroll();
-
             },
             mounted: function () {
                 this.getChartSettings();

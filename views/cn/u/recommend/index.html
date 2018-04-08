@@ -85,8 +85,7 @@
                     </div>
 
                 </div>
-                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"
-                           :turn-page="getmyRecommend"></page-lite>
+                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getmyRecommend"></page-lite>
             </div>
         </div>
 
@@ -124,8 +123,8 @@
                             url: DOMAIN_DEV + '/exchange/controller/website/user/UserController/' + 'myRecommendList',
                             data: JSON.stringify(data),
                             success: function (res) {
-                                this.myRecommend = res.datas;
-                                this.pageCount = res.datas.length;
+                                this.myRecommend = res.datas.results;
+                                this.pageCount = res.datas.results.length;
                             }.bind(this)
                         });
                     },
