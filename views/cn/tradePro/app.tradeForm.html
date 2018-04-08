@@ -92,10 +92,16 @@
                     return this.marketConfig.money;
                 },
                 coinName : function(){
-                    return this.marketConfig.coinName;
+                    // return this.marketConfig.coinName;
+                    if (this.marketConfig.name) {
+                        return this.marketConfig.name.split("_")[0].toUpperCase();
+                    }
                 },
                 moneyName : function(){
-                    return this.marketConfig.moneyName;
+                    // return this.marketConfig.moneyName;
+                    if (this.marketConfig.name) {
+                        return this.marketConfig.name.split("_")[1].toUpperCase();
+                    }
                 },
                 currentAccountId : function(){
                     return this.$parent.currentAccountId;
@@ -307,7 +313,7 @@
                         webId: 100,
                         type: this.tradeType, //1买方 0卖方
                         price: this.inputPrice,
-                        marketId: this.currentMarket,
+                        marketId: this.marketConfig.marketId,
                         userId: this.currentAccountId,
                         rangeType: 0, //0 现价委托 1 区间委托
                         // rangeLowPrice: '', //区间委托的最低价
@@ -375,7 +381,7 @@
                         webId: 100,
                         type: this.tradeType, //1买方 0卖方
                         price: this.inputPrice,
-                        marketId: this.currentMarket,
+                        marketId: this.marketConfig.marketId,
                         userId: this.currentAccountId,
                         rangeType: 1, //0 现价委托 1 区间委托
                         rangeLowPrice: priceLow, //区间委托的最低价
