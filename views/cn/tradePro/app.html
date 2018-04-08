@@ -95,13 +95,13 @@
                 }
             },
             computed: {
-                //转化marketId TODO 需处理
+                //转化marketId
                 currentMarket: function () {
                     var currentMarkets = this.currentMarketName;
 
                     var marketId = '';
                     if (this.marketConfig) {
-                        this.marketConfig.forEach(function (coin, index, arr) {
+                        this.marketConfig.forEach(function (coin, index) {
                             if (coin.name == currentMarkets) {
                                 marketId = coin.marketId;
                             }
@@ -111,18 +111,18 @@
                 },
                 //K线消息
                 klineData: function () {
-                    // return this.currentMarket + '_KLINE_' + this.tm + '_' + this.currentMarketName.toUpperCase();
-                    return '90_KLINE_5M_qc_btc';
+                    return this.currentMarket + '_KLINE_' + this.tm + '_' + this.currentMarketName.toUpperCase();
+                    // return '90_KLINE_5M_qc_btc';
                 },
                 //委托盘口消息
                 entrustData: function () {
-                    // return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
-                    return "90_ENTRUST_ZB";
+                    return this.currentMarket + '_ENTRUST_ADD_' + this.currentMarketName.toUpperCase();
+                    // return "90_ENTRUST_ZB";
                 },
                 //交易记录消息
                 tradeData: function () {
-                    // return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
-                    return "90_TRADE_ZB"
+                    return this.currentMarket + '_TRADE_' + this.currentMarketName.toUpperCase();
+                    // return "90_TRADE_ZB"
                 },
 
                 currentMarketConfig : function () {
@@ -626,29 +626,6 @@
                     }
                     callback && callback();
                 },
-                // 获取用户资金
-                getTargetUserAsset: function (callback) {
-                    var _this = this;
-                    var data = {
-                        targetUserId: _this.currentAccountId,
-                        lastTime : _this.lastAssetTime,
-                        market : _this.currentMarket
-                    };
-                    // Methods.ajax({
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
-                    //     data: data,
-                    //     success: function (res) {
-                    //         //时间戳不相等才更新
-                    //         if(res.datas.userFund){
-                    //             _this.currentUserAsset = res.datas.userFund;
-                    //             _this.lastAssetTime = res.datas.userFund.lastTime;
-                    //             callback && callback();
-                    //         }else{
-                    //             _this.lastAssetTime = res.datas.lastTime;
-                    //         }
-                    //     }
-                    // });
-                },
                 //获取用户委托记录
                 getEntrustRecord: function(callback) {
                     var _this = this;
@@ -724,12 +701,17 @@
                         this.assistCoin = coin;
                         return false;
                     }
+
+                    var data = {
+                        assistCoin : coin
+                    };
                     Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        data: {
-                            assistCoin: coin
+                        // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
+                        url: DOMAIN_DEV+ "/exchange/controller/website/user/usercontroller/" + 'editassistcoin',
+                        headers: {
+                            Userid: this.loginUser.userId
                         },
+                        data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
                             this.assistCoin = coin;
@@ -739,6 +721,8 @@
 
                 },
                 //合并盘口数据
+                //[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]
+                //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
                     var _this = this;
                     //增量更新的合并盘口方法
@@ -1008,7 +992,6 @@
                     return function() {
                         //this.getUsersInfo();
                         this.showModal = false;
-                        this.getTargetUserAsset();
                     }.bind(this)
                 },
                 //开启关闭杠杆
@@ -1160,41 +1143,6 @@
                 closeModal: function (name) {
                     this.showModal = false;
                 },
-                //检测用户是否有当前市场的资金(已取消该功能)
-                checkMarketCoin : function () {
-                    var _this = this;
-                    //console.log('check market coin');
-                    var coinFundMap = this.currentUserAsset.coinFundMap;
-                    //编辑用户市场
-                    var editUserMarket= function (type, market) {
-                        //0删 1减
-                        var data = {
-                            isType: type,
-                            market: market,
-                            childId: _this.currentAccountId
-                        };
-                        Methods.ajax({
-                            url: DOMAIN_MAIN + API_PREFIX + 'doEditMarket',
-                            data: data,
-                            success: function (res) {
-                                console.log('add market success');
-                            },
-                            error : function (res) {
-                                console.log(EXX.L(res.resMsg.message));
-                            }
-                        });
-                    }
-                    if(!coinFundMap[this.coin] || !coinFundMap[this.money] || !coinFundMap[this.coin].showCoin || !coinFundMap[this.money].showCoin){
-                        //模拟账号+模拟盘
-                        if(this.currentMarketConfig.demoMode && this.currentUserAsset.userType == 3){
-                            editUserMarket(1, this.currentMarket);
-                        }
-                        //真实账号+真实盘
-                        if(!this.currentMarketConfig.demoMode && this.currentUserAsset.userType != 3){
-                            editUserMarket(1, this.currentMarket);
-                        }
-                    }
-                },
                 //倒计时开盘时间
                 countOpenTime : function (totalTime) {
                     var _this = this;
@@ -1265,6 +1213,7 @@
                         // })
                         return false;
                     }*/
+
                     //开盘时间处理
                     _this.getServerTime(function (serverTime) {
                         var openTime = parseFloat(_this.currentMarketConfig.openTime) * 1000;
@@ -1278,29 +1227,13 @@
                     });
 
                     _this.getAssistPrice(function () {
-                        //获取盘口定时器
-                        // _this.getDishData(function () {
-                        //     setInterval(_this.getDishData, 3000);
-                        // });
-                        //获取成交记录定时器
-                        // _this.getDealRecord(function () {
-                        //     setInterval(_this.getDealRecord, 3000);
-                        // });
-                        //获取市场行情数据
-                        // _this.getAllMarket(function () {
-                        //     setInterval(_this.getAllMarket, 10000);
-                        // });
                         //获取价格表定时器
                         _this.getAssistPrice(function () {
                             setInterval(_this.getAssistPrice, 3000);
                         });
+
                         //登录后的数据获取
                         if (_this.isLogin) {
-                            //获取资金定时器
-                            _this.getTargetUserAsset(function () {
-                                setInterval(_this.getTargetUserAsset, 5000);
-                                //_this.checkMarketCoin();
-                            });
                             //获取委托记录定时器
                             _this.getEntrustRecord(function () {
                                 _this.initEntrustScroll();
@@ -1317,17 +1250,6 @@
             mounted: function () {
                 this.getChartSettings();
                 this.checkInputPriceMode();
-                //Methods.bindResizeDiv(".entrust-area");
-                /*$( "#resizable" ).resizable({
-                    minHeight: 223,
-                    handles:"n"
-                });*/
-
-                // //初始化
-                // ExxWebSocket.init();
-            },
-            beforeDestroy: function () {
-
             }
         })
     });
