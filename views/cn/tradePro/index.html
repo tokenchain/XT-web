@@ -116,37 +116,39 @@
                             <div class="td type"><span><%=LANG('状态')%>/<%=LANG('操作')%></span></div>
                         </div>
                         <div class="tr body" v-if="isLogin && getGroupEntrust(currentEntrustTab).length > 0" v-for="item in getGroupEntrust(currentEntrustTab)">
-                            <template v-if="item[5] == 1">
-                                <div class="td time"><i class="buyBgColor"><%=LANG('买')%></i>{{showTime(item[6])}}</div>
+                            <template v-if="item.type == 1">
+                                <div class="td time"><i class="buyBgColor"><%=LANG('买')%></i>{{showTime(item.createTime)}}</div>
                                 <div class="td price">
-                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1])">{{showMoney(item[1])}}</b> /
-                                    <span class="hint--top" :aria-label="showAssistHint(item[4]/item[3])">{{showMoney(item[4]/item[3])}}</span>
+                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item.price)">{{showMoney(item.price)}}</b> /
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{showMoney(item.completeTotalMoney/item.completeAmount)}}</span>
                                 </div>
-                                <div class="td amount"><b class="buyColor">{{showCoin(item[2])}}</b> / {{showCoin(item[3])}}</div>
+                                <div class="td amount"><b class="buyColor">{{showCoin(item.amount)}}</b> / {{showCoin(item.completeAmount)}}</div>
                                 <div class="td num">
-                                    <span class="hint--top" :aria-label="showAssistHint(item[4])">{{showAmount(item[4])}}</span>
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{showAmount(item.completeTotalMoney)}}</span>
                                 </div>
                                 <div class="td source">
-                                    <span>{{showSource(item[10])}}</span>
+                                    <!--<span>{{showSource(item[10])}}</span>-->
+                                    <span>WEB</span>
                                 </div>
-                                <div class="td type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0])"><%=LANG('取消')%></a></div>
-                                <div class="td type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+                                <div class="td type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a></div>
+                                <div class="td type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
                             </template>
-                            <template v-if="item[5] == 0">
-                                <div class="td time"><i class="sellBgColor"><%=LANG('卖')%></i>{{showTime(item[6])}}</div>
+                            <template v-if="item.type == 0">
+                                <div class="td time"><i class="sellBgColor"><%=LANG('卖')%></i>{{showTime(item.createTime)}}</div>
                                 <div class="td price">
-                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item[1])">{{showMoney(item[1])}}</b> /
-                                    <span class="hint--top" :aria-label="showAssistHint(item[4]/item[3])">{{showMoney(item[4]/item[3])}}</span>
+                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item.price)">{{showMoney(item.price)}}</b> /
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{showMoney(item.completeTotalMoney/item.completeAmount)}}</span>
                                 </div>
-                                <div class="td amount"><b class="sellColor">{{showCoin(item[2])}}</b> / {{showCoin(item[3])}}</div>
+                                <div class="td amount"><b class="sellColor">{{showCoin(item.amount)}}</b> / {{showCoin(item.completeAmount)}}</div>
                                 <div class="td num">
-                                    <span class="hint--top" :aria-label="showAssistHint(item[4])">{{showAmount(item[4])}}</span>
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{showAmount(item.completeTotalMoney)}}</span>
                                 </div>
                                 <div class="td source">
-                                    <span>{{showSource(item[10])}}</span>
+                                    <!--<span>{{showSource(item[10])}}</span>-->
+                                    <span>WEB</span>
                                 </div>
-                                <div class="td type" v-if="item[7] == 3 || item[7] == 0"><span v-html="showStatus(item[7])"></span> | <a role="button" @click="doCancelEntrust(item[0])"><%=LANG('取消')%></a></div>
-                                <div class="td type" v-if="item[7] != 3 && item[7] != 0"><span v-html="showStatus(item[7])"></span></div>
+                                <div class="td type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a></div>
+                                <div class="td type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
                             </template>
                         </div>
                     </div>
