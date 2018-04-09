@@ -44,13 +44,13 @@
             <div class="cell type"><%= LANG('操作')%></div>
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
-        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0" v-cloak="">
+        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0" v-cloak="">
             <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'" class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}</div>
             <div class="cell time">{{bill.createTime}}</div>
             <div class="cell type">{{getChangeName(bill.changeType)}}</div>
 
             <div class="cell amount">
-                <div class="amount1"><p><span :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{switchIds[bill.marketId].split('_')[0].toUpperCase()}}</em></span></p></div>
+                <div class="amount1"><p><span :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{coinsId[bill.currencyTypeId].toUpperCase()}}</em></span></p></div>
             </div>
         </div>
         <div class="table no-data" v-if="billRecords.length == 0">
@@ -70,7 +70,7 @@
                 return {
                     isLogin : ISLOGIN,
                     pageIndex : 1,
-                    pageSize : 48,
+                    pageSize : 10,
                     pageCount: 0,
                     requestLocked : false,
                     currentUserAsset: '',

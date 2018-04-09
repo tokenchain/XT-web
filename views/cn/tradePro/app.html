@@ -174,47 +174,47 @@
                 },
                 canUseCoin: function () {
                     if(this.isLogin){
-                        return this.showCoin(this.getAllUseable(this.coin));
+                        return this.showCoin(this.getUseable(this.coin));
                     }else{
                         return "--";
                     }
                 },
                 canUseMoney: function () {
                     if(this.isLogin){
-                        return this.showMoney(this.getAllUseable(this.money));
+                        return this.showMoney(this.getUseable(this.money));
                     }else{
                         return "--";
                     }
                 },
                 canBuyCoinReal: function () {
-                    if (!this.isLogin || !this.sellOne) {
+                    if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numDivide(this.getUseable(this.money), this.sellOne);
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc.qc);
                         return this.showCoin(canbuy);
                     }
                 },
                 canSellMoneyReal: function () {
-                    if (!this.isLogin || !this.buyOne) {
+                    if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var cansell = Methods.numMultiply(this.getUseable(this.coin), this.buyOne);
+                        var cansell = Methods.numMultiply(this.getUseable(this.coin), this.assistPrice.cny.btc);
                         return this.showMoney(cansell);
                     }
                 },
                 canBuyCoin: function () {
-                    if (!this.isLogin || !this.sellOne) {
+                    if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numDivide(this.getAllUseable(this.money), this.sellOne);
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc.qc);
                         return this.showCoin(canbuy);
                     }
                 },
                 canSellMoney: function () {
-                    if (!this.isLogin || !this.buyOne) {
+                    if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var cansell = Methods.numMultiply(this.getAllUseable(this.coin), this.buyOne);
+                        var cansell = Methods.numMultiply(this.getUseable(this.coin), this.assistPrice.cny.btc);
                         return this.showMoney(cansell);
                     }
                 },
@@ -787,15 +787,17 @@
                 //获取币种的可用资金（不包括杠杆）
                 getUseable: function (coin) {
                     var _this = this;
-                    if (!_this.currentUserAsset.coinFundMap || !_this.currentUserAsset.coinFundMap[coin]) {
-                        return '--';
-                    } else {
-                        var coinAsset = _this.currentUserAsset.coinFundMap[coin];
-                        var useable = coinAsset.available || 0;
-                        return useable;
+                    var userCoinFunds = EXX.userNav.userCoinFunds;
+
+                    for(var i=0; i<userCoinFunds.length; i++) {
+                        var currCoin = userCoinFunds[i].name;
+                        if (currCoin == coin) {
+                            var useable = userCoinFunds[i].amount || 0;
+                            return useable;
+                        }
                     }
                 },
-                //获取币种的可用资金（包括杠杆）
+                //获取币种的可用资金（包括杠杆）暂弃用
                 getAllUseable: function (coin) {
                     var _this = this;
                     if (!_this.currentUserAsset.coinFundMap || !_this.currentUserAsset.coinFundMap[coin]) {
@@ -818,7 +820,7 @@
                     var money = this.money;
                     var assistCoin = this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.currentMarketConfig.moneyDecimal);
+                        return Methods.fixNumber(price, this.currentMarketConfig.buyDecimal);
                     } else {
                         return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
                     }
@@ -831,9 +833,9 @@
                     var money = this.money;
                     var assistCoin = this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.currentMarketConfig.moneyDecimal);
+                        return Methods.fixNumber(price, this.currentMarketConfig.buyDecimal);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) / parseFloat(this.assistPrice[assistCoin][money]), this.currentMarketConfig.moneyDecimal) || '--';
+                        return Methods.fixNumber(parseFloat(price) / parseFloat(this.assistPrice[assistCoin][money]), this.currentMarketConfig.buyDecimal) || '--';
                     }
                 },
                 //过滤指定的委托
@@ -857,13 +859,30 @@
                 },
                 //是否可以充值
                 getIsPayIn : function (coin) {
-                    return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayIn;
+                    // return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayIn;
+                    var _this = this;
+                    if (_this.coinConfig) {
+                        for (var i=0; i<_this.coinConfig.length; i++) {
+                            if (_this.coinConfig[i].name == coin) {
+                                //默认都能充值，返回true
+                                return _this.coinConfig[i];
+                            }
+                        }
+                    }
                 },
                 //是否可以提币
                 getIsPayOut : function (coin) {
-                    return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayOut;
+                    // return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayOut;
+                    var _this = this;
+                    if (_this.coinConfig) {
+                        for (var i=0; i<_this.coinConfig.length; i++) {
+                            if (_this.coinConfig[i].name == coin) {
+                                return _this.coinConfig[i].drawFlag;
+                            }
+                        }
+                    }
                 },
-                //是否可以划入划出
+                //是否可以划入划出 暂无用
                 getIsDoInOut : function (coin) {
                     return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isDoInOut;
                 },
@@ -892,28 +911,28 @@
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.currentMarketConfig.coinDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
                     }
                 },
                 showMoney : function (val) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.currentMarketConfig.moneyDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.buyDecimal)
                     }
                 },
                 showPrice : function (val) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixDecimal(val, this.currentMarketConfig.moneyDecimal)
+                        return Methods.fixDecimal(val, this.currentMarketConfig.buyDecimal)
                     }
                 },
                 showAmount : function (val) {
                     if(isNaN(val)){
                         return '--'
                     }else{
-                        return Methods.fixNumber(val, this.currentMarketConfig.amountDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
                     }
                 },
                 showRate : function (val) {

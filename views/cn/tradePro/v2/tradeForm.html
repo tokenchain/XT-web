@@ -4,13 +4,9 @@
         <h2><%= LANG('卖出') %>{{coinName}}</h2>
         <p class="form-assets">
             <%= LANG('可用') %>{{coinName}}：<span class="trading-greencolor hint--top" :aria-label="'<%- LANG('可卖')%>：' + $parent.canSellMoneyReal + ' ' + moneyName">{{canUseCoinReal}}</span>
-            <template v-if="isLogin && $parent.loginUser.userType == 1 && $parent.currentUserAsset.userType == 1">
+            <template v-if="isLogin && $parent.loginUser.userType == 1">
                 <a :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/'+coin" target="_blank"><%= LANG('充值') %></a>
                 <a :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/'+coin" target="_blank"><%= LANG('提币') %></a>
-            </template>
-            <template v-if="isLogin && $parent.loginUser.userType == 1 && $parent.currentUserAsset.userType != 1">
-                <a :class="{'disabled' : !$parent.getIsDoInOut(coin)}" @click="openTransfer('in', coin)"><%= LANG('划入') %></a>
-                <a :class="{'disabled' : !$parent.getIsDoInOut(coin)}" @click="openTransfer('out', coin)"><%= LANG('划出') %></a>
             </template>
         </p>
         <p class="form-assets" v-if="isLogin && $parent.currentMarketLever">
@@ -83,18 +79,14 @@
         <h2><%= LANG('买入') %>{{coinName}}</h2>
         <p class="form-assets">
             <%= LANG('可用') %>{{moneyName}}：<span class="trading-redcolor hint--top" :aria-label="'<%- LANG('可买')%>：' + $parent.canBuyCoinReal + ' ' + coinName">{{canUseMoneyReal}}</span>
-            <template v-if="isLogin && $parent.loginUser.userType == 1 && $parent.currentUserAsset.userType == 1">
+            <template v-if="isLogin && $parent.loginUser.userType == 1">
                 <a :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/'+money" target="_blank"><%= LANG('充值') %></a>
                 <a :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/'+money" target="_blank"><%= LANG('提币') %></a>
             </template>
-            <template v-if="isLogin && $parent.loginUser.userType == 1 && $parent.currentUserAsset.userType != 1">
-                <a :class="{'disabled' : !$parent.getIsDoInOut(money)}" @click="openTransfer('in', money)"><%= LANG('划入') %></a>
-                <a :class="{'disabled' : !$parent.getIsDoInOut(money)}" @click="openTransfer('out', money)"><%= LANG('划出') %></a>
-            </template>
         </p>
-        <p class="form-assets" v-if="isLogin && $parent.currentMarketLever">
-            <%= LANG('可借') %>{{moneyName}}：<span class="trading-redcolor">{{$parent.canLoanMoney}}</span>
-        </p>
+        <!--<p class="form-assets" v-if="isLogin && $parent.currentMarketLever">-->
+            <!--<%= LANG('可借') %>{{moneyName}}：<span class="trading-redcolor">{{$parent.canLoanMoney}}</span>-->
+        <!--</p>-->
         <!--原始价格输入-->
         <div class="form-group" v-if="tradeMode == 1 && inputPriceMode == 0">
             <div class="form-control">
