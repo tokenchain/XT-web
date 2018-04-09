@@ -88,6 +88,7 @@
                     this.pwdStrength = Methods.checkPwdStrength(this.password);
                 },
                 handleSubmit: function () {
+                    //TODO 校验密码强度
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return

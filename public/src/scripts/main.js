@@ -342,6 +342,8 @@ var ExxWebSocket = {
             return false;
         }
 
+        // console.log(datas);
+
         var _this = this;
         // _this.unBinary(datas, function (json) {
         //     //console.log(json);
@@ -365,11 +367,11 @@ var ExxWebSocket = {
             var ifr = document.getElementById('marketFrame');
             var win = ifr.window || ifr.contentWindow;
 
-            var result = transData(data);
+            var result = transKlineData(data);
 
             win.updateKlineData(result);
         } else if (type == 2) {
-            var result = transDish(data.data);
+            var result = transDishData(data.data);
 
             EXX.appTradePro.mixDishArray(result);
         } else if (type == 3) {
@@ -382,7 +384,7 @@ var ExxWebSocket = {
     }
 
     //格式化K线数据
-    function transData(oldData) {
+    function transKlineData(oldData) {
         var ifr = document.getElementById('marketFrame');
         var win = ifr.window || ifr.contentWindow;
 
@@ -414,7 +416,7 @@ var ExxWebSocket = {
     }
 
     //格式化盘口数据
-    function transDish(oldData) {
+    function transDishData(oldData) {
         // console.log(oldData)
         var ifr = document.getElementById('marketFrame');
         var win = ifr.window || ifr.contentWindow;
@@ -429,7 +431,12 @@ var ExxWebSocket = {
             // result.bids.concat(oldData[i][5].bids);
             result.asks = oldData[i][4].asks;
             result.bids = oldData[i][5].bids;
-            result.currentPrice = oldData[i][4].asks[0][0]; //当前价格
+
+            if (oldData[i][4].asks.length > 0) {
+                result.currentPrice = oldData[i][4].asks[0][0]; //当前价格
+            } else {
+                result.currentPrice = 0;
+            }
         }
         // for(var i in oldData){
         //     // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
@@ -447,6 +454,9 @@ var ExxWebSocket = {
 
     //格式化交易数据
     function transTradeData(oldData) {
+        //根据时间倒序
+        oldData = oldData.reverse();
+
         var result = {};
         result.dataType="lastTrades";
         result.no = oldData[1][2];

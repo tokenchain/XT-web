@@ -10,9 +10,9 @@
                 </button>
             </div>
             <div class="info">
-                <img class="codeimg"
-                     :src="'<%= DOMAIN_MAIN %>/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'"
-                     title="您的推荐人地址二维码">
+                <!--<img class="codeimg"-->
+                     <!--:src="'<%= DOMAIN_MAIN %>/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'"-->
+                     <!--title="您的推荐人地址二维码">-->
                 <% if(LAN == 'cn' || LAN == 'hk'){ %>
                     <div class="tips">
                         <h4>推荐人关系</h4>
@@ -98,13 +98,13 @@
                 el: "#myRecommend",
                 data: function () {
                     return {
-                        reommendUrl: location.protocol + '' + DOMAIN_WEB + '/r/' + Methods.getLocalUserInfo().recommendCode,
+                        reommendUrl: location.protocol + '' + DOMAIN_WEB + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                         myRecommend: [],
                         pageIndex: 1,
                         pageSize: 20,
                         pageCount: 0,
                         isLogin: ISLOGIN,
-                        loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
+                        loginUser: Methods.getLocalStorage(ENV + 'userInfo') //用户信息
                     }
                 },
                 methods: {
@@ -117,7 +117,7 @@
                             pageSize: this.pageSize,
                             userId: this.loginUser.userId
                         };
-                        console.log(data.data)
+
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'myRecommendList',
                             url: DOMAIN_DEV + '/exchange/controller/website/user/UserController/' + 'myRecommendList',
