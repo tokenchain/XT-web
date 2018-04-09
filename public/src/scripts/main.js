@@ -381,38 +381,6 @@ var ExxWebSocket = {
         }
     }
 
-
-    //格式化盘口数据
-    function transDish(oldData) {
-        // console.log(oldData)
-        var ifr = document.getElementById('marketFrame');
-        var win = ifr.window || ifr.contentWindow;
-        var result = {};
-        result.channel = EXX.appTradePro.currentMarket + "_" + EXX.appTradePro.assistCoin + "_kline_" + win.GLOBAL_VAR.time_type;
-        result.asks = [];
-        result.bids = [];
-
-        for (var i = 0; i < oldData.length; i++){
-            // console.log(oldData[i])
-            // result.asks.concat(oldData[i][4].asks);
-            // result.bids.concat(oldData[i][5].bids);
-            result.asks = oldData[i][4].asks;
-            result.bids = oldData[i][5].bids;
-            result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
-        }
-        // for(var i in oldData){
-        //     // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
-        //     console.log(oldData[i])
-        //     result.asks.concat(oldData[i][4].asks);
-        //     result.bids.concat(oldData[i][5].bids);
-        //     result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
-        // }
-
-
-        // console.log(result)
-        return result;
-    }
-
     //格式化K线数据
     function transData(oldData) {
         var ifr = document.getElementById('marketFrame');
@@ -442,6 +410,38 @@ var ExxWebSocket = {
             result.datas.data[index] = tmpdata;
         });
 
+        return result;
+    }
+
+    //格式化盘口数据
+    function transDish(oldData) {
+        // console.log(oldData)
+        var ifr = document.getElementById('marketFrame');
+        var win = ifr.window || ifr.contentWindow;
+        var result = {};
+        result.channel = EXX.appTradePro.currentMarket + "_" + EXX.appTradePro.assistCoin + "_kline_" + win.GLOBAL_VAR.time_type;
+        result.asks = [];
+        result.bids = [];
+
+        for (var i = 0; i < oldData.length; i++){
+            // console.log(oldData[i])
+            // result.asks.concat(oldData[i][4].asks);
+            // result.bids.concat(oldData[i][5].bids);
+            result.asks = oldData[i][4].asks;
+            result.bids = oldData[i][5].bids;
+            result.currentPrice = oldData[i][4].asks[0][0]; //当前价格
+        }
+        // for(var i in oldData){
+        //     // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
+        //        [数据类型, 市场ID, 币种信息, 时间戳, // asks:(卖价)[ // [价格, 量] // ], // bids(买价)[ // [价格, 量] // ] // ]
+        //     console.log(oldData[i])
+        //     result.asks.concat(oldData[i][4].asks);
+        //     result.bids.concat(oldData[i][5].bids);
+        //     result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
+        // }
+
+
+        // console.log(result)
         return result;
     }
 

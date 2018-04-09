@@ -373,6 +373,7 @@
                     }
                     this.getMessage({objectkey:conversation.objectkey,conversationType:conversation.conversationType});
                 },
+                //发送单聊消息
                 sendSingleMessage: function() {
                     if (!this.inputSingleMsg || !this.inputSingleMsg.trim()) {
                         JuaBox.info("<%= LANG('请不要惜字如金') %>")
@@ -380,11 +381,12 @@
                     }
                     this.msgTag++;
                     var body = {
-                        userkey : this.wsServer.userkey,
+                        appkey: this.wsServer.appKey,
+                        userkey : this.wsServer.userKey,
                         messageType : "1",
                         content : this.inputSingleMsg,
-                        objectkey:this.wsServer.servicekey,
-                        objectType:'0',
+                        objectkey:this.wsServer.serviceKey,
+                        objecttype:'0',
                         msgTag:this.msgTag
                     };
                     this.wsSend('sendMessage', body);
@@ -399,6 +401,7 @@
                     this.singleMsg.push(chatMessage)
                     this.inputSingleMsg = '';
                 },
+                //发送群聊消息
                 sendGroupMessage: function() {
                     if (!this.inputGroupMsg || !this.inputGroupMsg.trim()) {
                         JuaBox.info("<%= LANG('请不要惜字如金') %>")
@@ -406,11 +409,12 @@
                     }
                     this.msgTag++;
                     var body = {
-                        userkey : this.wsServer.userkey,
+                        appkey: this.wsServer.appKey,
+                        userkey : this.wsServer.userKey,
                         messageType : "1",
                         content : this.inputGroupMsg,
                         objectkey:this.selectedConversation.objectkey,
-                        objectType:this.selectedConversation.conversationType,
+                        objecttype:this.selectedConversation.conversationType,
                         msgTag:this.msgTag
                     };
                     this.wsSend('sendMessage', body);
@@ -610,7 +614,7 @@
                         sendTime:message.sendTime,
                         msgid:message.msgid,
                     }
-                    if(message.objectType == '0'){
+                    if(message.objecttype == '0'){
                         this.singleMsg.map(function(obj,index){
                             if(obj.waiting && obj.msgTag == message.msgTag){
                                 obj.msgid = message.msgid
@@ -619,7 +623,7 @@
                             }
                             return obj;
                         })
-                    }else if(message.objectType == '1'){
+                    }else if(message.objecttype == '1'){
                         this.groupMsg.map(function(obj){
                             if(obj.waiting && obj.msgTag == message.msgTag){
                                 obj.msgid = message.msgid
