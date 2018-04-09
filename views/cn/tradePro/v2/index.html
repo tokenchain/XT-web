@@ -181,17 +181,17 @@
                             <div class="item time"><p><span class="trading-darkcolor">{{showTime(item.createTime)}}</span></p></div>
                             <div class="item">
                                 <p>
-                                    <span :class="item.type==1 ? 'trading-redcolor' : 'trading-greencolor'" class="hint--top" :aria-label="showAssistHint(item[1])">{{showMoney(item[1])}}</span>
-                                    <span class="hint--top" :aria-label="showAssistHint(item[4]/item[3])">{{showMoney(item[4]/item[3])}}</span>
+                                    <span :class="item.type==1 ? 'trading-redcolor' : 'trading-greencolor'" class="hint--top" :aria-label="showAssistHint(item.price)">{{showMoney(item.price)}}</span>
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{showMoney(item.completeTotalMoney/item.completeAmount)}}</span>
                                 </p>
                             </div>
-                            <div class="item"><p><span class="trading-darkcolor">{{showCoin(item[2])}}</span>{{showCoin(item[3])}}</p></div>
-                            <div class="item"><p class="hint--top" :aria-label="showAssistHint(item[4])">{{showAmount(item[4])}}</p></div>
-                            <div class="item last" v-if="item[7] == 3 || item[7] == 0">
-                                <p><a role="button" @click="doCancelEntrust(item[0])"><i class="trading-icon trading-icon-cancel"></i></a></p>
+                            <div class="item"><p><span class="trading-darkcolor">{{showCoin(item.amount)}}</span>{{showCoin(item.completeAmount)}}</p></div>
+                            <div class="item"><p class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{showAmount(item.completeTotalMoney)}}</p></div>
+                            <div class="item last" v-if="item.status == 3 || item.status == 0">
+                                <p><a role="button" @click="doCancelEntrust(item.entrustId)"><i class="trading-icon trading-icon-cancel"></i></a></p>
                             </div>
-                            <div class="item last" v-if="item[7] != 3 && item[7] != 0">
-                                <p v-html="showStatus(item[7])"></p>
+                            <div class="item last" v-if="item.status != 3 && item.status != 0">
+                                <p v-html="showStatus(item.status)"></p>
                             </div>
                         </li>
                         <!--无记录-->

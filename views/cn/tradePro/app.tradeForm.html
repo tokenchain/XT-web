@@ -345,7 +345,7 @@
                                 int ++ ;
                                 if(int <= 3){
                                     this.$parent.lastAssetTime = 0;
-                                    this.$parent.getTargetUserAsset();
+                                    // this.$parent.getTargetUserAsset();
                                 }else {
                                     window.clearInterval(call);
                                 }
@@ -413,15 +413,16 @@
                                 int ++ ;
                                 if(int <= 3){
                                     this.$parent.lastAssetTime = 0;
-                                    this.$parent.getTargetUserAsset();
+                                    // this.$parent.getTargetUserAsset();
                                 }else {
                                     window.clearInterval(call);
                                 }
                             }.bind(this),1000)
-                            var data = res.datas.split(":");
+                            // var data = res.datas.split(":");
                             $.toast({
                                 heading: "<%= LANG('定单已执行') %>",
-                                text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", data[0], data[1], this.coinName, data[2], this.moneyName),
+                                // text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", data[0], data[1], this.coinName, data[2], this.moneyName),
+                                text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", 1, 1, this.coinName, 1, this.moneyName),
                                 icon: 'success',
                                 loader: true,
                                 loaderBg: '#9EC600'
