@@ -220,7 +220,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/controller/admin/config/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getall',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
