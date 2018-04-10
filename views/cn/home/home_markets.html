@@ -371,7 +371,7 @@
                 // 获取币价汇率 -ok
                 getPriceRate: function(callback) {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if(typeof callback == 'function'){

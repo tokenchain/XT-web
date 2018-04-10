@@ -331,7 +331,7 @@
                     this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doEntrust',
-                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustController/" + 'addEntrust',
+                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'addEntrust',
                         // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -399,7 +399,7 @@
                     this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doBatchEntrust',
-                        url: DOMAIN_DEV + "/exchange/controller/website/entrust/entrustController/" + 'addEntrust',
+                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'addEntrust',
                         // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {

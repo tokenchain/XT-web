@@ -349,11 +349,20 @@ var ExxWebSocket = {
         //     //console.log(json);
         //     _this.dealMessage(json);
         // })
+
+        if (typeof datas.data[0] != 'object') {
+            debugger
+            var oriData = datas.data;
+            datas.data = [];
+            datas.data.push(oriData);
+        }
+
         var dataHead = datas.data[0][0];
         var type; //1 K线，2 委托盘口，3 交易记录
         if (dataHead == 'K') {
             type = 1;
-        } else if (dataHead == 'AE') {
+        } else if (dataHead == 'AE' || dataHead == 'E') {
+            //AE 全量委托，E增量委托
             type = 2;
         } else if (dataHead == 'T') {
             type = 3;

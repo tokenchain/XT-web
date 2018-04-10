@@ -190,7 +190,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
         logout: function (headers) {
             this.ajax({
                 type: "POST",
-                url: DOMAIN_DEV + '/exchange/controller/website/user/usercontroller/' + 'logOut',
+                url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logOut',
                 headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
@@ -446,7 +446,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             Methods.ajax({
                 type:'POST',
                 data: data,
-                url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'getuserinfo',
+                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
                 success: function (res) {
                     //更新用户信息
                     this.setLocalUserInfo(res.datas);

@@ -95,7 +95,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -139,7 +139,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'checkUserName',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'checkUserName',
                         data: data,
                         success: function (res) {
 
@@ -230,7 +230,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'register',
-                            url: DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'register',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'register',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.requestLocked = false;

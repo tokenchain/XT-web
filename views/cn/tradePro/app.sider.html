@@ -126,7 +126,7 @@
                         return false;
                     }
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);
@@ -198,7 +198,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/" + 'getusermarket',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/" + 'getusermarket',
                         headers: headers,
                         success: function (res) {
                             if(!res.datas){
@@ -224,7 +224,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV+ "/exchange/controller/website/user/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
                         headers: {
                             Userid: this.loginUser.userId
                         },
@@ -455,7 +455,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'topUserMarket',
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/" + 'topusermarket',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/" + 'topusermarket',
                         headers: headers,
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -656,7 +656,7 @@
                 },
                 //编辑用户市场 type 0 取消   1 添加
                 editUserMarket: function (type, marketid) {
-                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usermarketcontroller/";
+                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/";
                     if (type == 0) {
                         url += 'deleteusermarket';
                     } else {

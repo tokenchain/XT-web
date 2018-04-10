@@ -193,10 +193,10 @@
                         rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
-                    var url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'doauthmobile';
+                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doauthmobile';
 
                     if (this.userInfo.mobileAuth == 1) {
-                        url = DOMAIN_DEV + "/exchange/controller/website/user/usercontroller/" + 'domodifymobile';
+                        url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'domodifymobile';
                         data = {
                             // userId: this.userInfo.userId,
                             countryCode: this.countryCode,

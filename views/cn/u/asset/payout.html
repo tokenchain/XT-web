@@ -300,7 +300,7 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'findbypage',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
                         data: JSON.stringify(data),
                         success: function(res) {
                             this.loaded = true;
@@ -315,7 +315,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
-                        // url: DOMAIN_DEV + "/exchange/controller/website/fund/fundcontroller/" + 'getcoinmaps',
+                        // url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'getcoinmaps',
                         url: DOMAIN_DEV + "/exchange/controller/admin/config/CurrencyController/" + 'getCurrencyList?webId=100',
                         success: function(res) {
                             this.coinConfig = res.datas;
@@ -333,7 +333,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getwithdrawaddress',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getwithdrawaddress',
                         data: data,
                         success: function(res) {
                             this.address = res.datas.list;
@@ -355,7 +355,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getpayoutcoinrecord',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getpayoutcoinrecord',
                         data: data,
                         success: function (res) {
                             // console.log(res)
@@ -393,7 +393,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
@@ -427,7 +427,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'docancelpayout',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'docancelpayout',
                         data: data,
                         success: function(res) {
                             this.getPayoutCoinRecord();

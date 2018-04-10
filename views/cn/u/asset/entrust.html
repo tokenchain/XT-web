@@ -240,7 +240,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);
@@ -276,7 +276,7 @@
                     _this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
-                        url: DOMAIN_DEV + '/exchange/controller/website/entrust/EntrustController/' + 'getEntrustRecord',
+                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             //数组更新
@@ -365,7 +365,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_DEV + '/exchange/controller/website/entrust/entrustController/' + 'cancelEntrust',
+                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             _this.getRecord();

@@ -91,7 +91,7 @@
                     if(this.googleSecret == ''){
                         return ''
                     }else{
-                        return DOMAIN_DEV + '/exchange/controller/website/verifycode/userverifycontroller/getgoogleauthqr?userId=' + this.userInfo.userId +'&secret=' + this.googleSecret;
+                        return DOMAIN_DEV + '/exchange/verifycode/controller/website/userverifycontroller/getgoogleauthqr?userId=' + this.userInfo.userId +'&secret=' + this.googleSecret;
                     }
                 },
                 /*type: function () {
@@ -126,7 +126,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'getgooglesecret',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getgooglesecret',
                         data: data,
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
@@ -155,7 +155,7 @@
                     this.locked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
-                        url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'dosetgoogleauth',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dosetgoogleauth',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.locked = false;

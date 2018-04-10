@@ -1247,7 +1247,7 @@
                 return false;
             }*/
               Methods.ajax({
-                  url: DOMAIN_DEV + "/exchange/controller/website/user/pricecontroller/" + 'getassistprice',
+                  url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
                   success: function (res) {
                       this.allPriceRate = res.datas;
                       //store.state.allPriceRate = res.datas;

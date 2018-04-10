@@ -127,7 +127,7 @@
                         this.locked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
-                            url: DOMAIN_DEV + "/exchange/controller/website/verifycode/userverifycontroller/" + 'authemail',
+                            url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'authemail',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.locked = false;
