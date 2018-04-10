@@ -155,7 +155,8 @@
                 },
                 currentAccountId: function () {
                     if (this.isLogin) {
-                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                        // return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                        return this.loginUser.userId;
                     }
                 },
                 canUseCoinReal: function () {
