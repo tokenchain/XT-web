@@ -484,7 +484,7 @@ var ExxWebSocket = {
 
         var result = {};
         result.dataType="lastTrades";
-        result.no = oldData[1][2];
+        result.no = oldData[0][2];
         result.data = [];
         result.channel = "";
 
