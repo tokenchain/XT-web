@@ -351,7 +351,6 @@ var ExxWebSocket = {
         // })
 
         if (typeof datas.data[0] != 'object') {
-            debugger
             var oriData = datas.data;
             datas.data = [];
             datas.data.push(oriData);
