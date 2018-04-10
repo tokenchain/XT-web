@@ -333,7 +333,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getwithdrawaddress',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaddress',
                         data: data,
                         success: function(res) {
                             this.address = res.datas.list;
@@ -355,7 +355,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getpayoutcoinrecord',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getpayoutcoinrecord',
                         data: data,
                         success: function (res) {
                             // console.log(res)

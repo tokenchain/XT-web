@@ -375,7 +375,7 @@ var ExxWebSocket = {
             var ifr = document.getElementById('marketFrame');
             var win = ifr.window || ifr.contentWindow;
 
-            var result = transKlineData(data);
+            var result = transKlineData(data.data);
 
             win.updateKlineData(result);
         } else if (type == 2) {
@@ -384,7 +384,7 @@ var ExxWebSocket = {
             EXX.appTradePro.mixDishArray(result);
         } else if (type == 3) {
             // console.log('进入type3')
-            var result =  transTradeData(data.data)
+            var result =  transTradeData(data.data);
             // EXX.appTradePro.doDealRecord(getTempLastTrans());
             // console.log(result)
             EXX.appTradePro.doDealRecord(result);
@@ -408,7 +408,7 @@ var ExxWebSocket = {
         //时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量
         //数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换
 
-        oldData.data.forEach(function (item, index) {
+        oldData.forEach(function (item, index) {
             var tmpdata = [];
             tmpdata[0] = parseFloat(item[3]);
             tmpdata[1] = parseFloat(item[4]);
@@ -433,19 +433,25 @@ var ExxWebSocket = {
         result.asks = [];
         result.bids = [];
 
-        for (var i = 0; i < oldData.length; i++){
-            // console.log(oldData[i])
-            // result.asks.concat(oldData[i][4].asks);
-            // result.bids.concat(oldData[i][5].bids);
-            result.asks = oldData[i][4].asks;
-            result.bids = oldData[i][5].bids;
+        var dataType = oldData[0][0];
+        if (dataType == 'AE') {
+            for (var i = 0; i < oldData.length; i++){
+                // console.log(oldData[i])
+                // result.asks.concat(oldData[i][4].asks);
+                // result.bids.concat(oldData[i][5].bids);
+                result.asks = oldData[i][4].asks;
+                result.bids = oldData[i][5].bids;
 
-            if (oldData[i][4].asks.length > 0) {
-                result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 该货币当前价格，字段暂无
-            } else {
-                result.currentPrice = 0;
+                if (oldData[i][4].asks.length > 0) {
+                    result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 该货币当前价格，字段暂无
+                } else {
+                    result.currentPrice = 0;
+                }
             }
+        } else if (dataType == 'E') {
+            //
         }
+
         // for(var i in oldData){
         //     // [数据类型, 市场ID, 时间戳, 币种信息, 买卖类型, 价格, 量]
         //        [数据类型, 市场ID, 币种信息, 时间戳, // asks:(卖价)[ // [价格, 量] // ], // bids(买价)[ // [价格, 量] // ] // ]
