@@ -16,14 +16,7 @@ module.exports = {
     VERSION : Date.now(),
     //域配置
     DOMAIN_BASE : "exx.com",
-    DOMAIN_WEB : "ww.exx.com",
-    DOMAIN_EXC2C : "http://ww.exc2c.com",
-    DOMAIN_MAIN : "https://main.exx.com",
-    DOMAIN_TRADE : "//trans.exx.com",
-    DOMAIN_SOCKET : "wss://kline.exx.com",
-    DOMAIN_FILE : "//img1.exx.com",
-    API_PREFIX : "/api/web/V1_0/",
-    //调试用
+
     DOMAIN_DEV : "http://ww.exx.com/test",
     WEBSOCKET : "ws://192.168.4.137:28080"
 }

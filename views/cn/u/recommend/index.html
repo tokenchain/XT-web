@@ -10,9 +10,8 @@
                 </button>
             </div>
             <div class="info">
-                <!--<img class="codeimg"-->
-                     <!--:src="'<%= DOMAIN_MAIN %>/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'"-->
-                     <!--title="您的推荐人地址二维码">-->
+                <!--TODO 生成推荐二维码-->
+                <!--<img class="codeimg" :src="'/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'" title="您的推荐人地址二维码">-->
                 <% if(LAN == 'cn' || LAN == 'hk'){ %>
                     <div class="tips">
                         <h4>推荐人关系</h4>
@@ -98,7 +97,7 @@
                 el: "#myRecommend",
                 data: function () {
                     return {
-                        reommendUrl: location.protocol + '' + DOMAIN_WEB + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
+                        reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                         myRecommend: [],
                         pageIndex: 1,
                         pageSize: 20,
@@ -202,15 +201,15 @@
                             pageIndex: this.pageIndex,
                             pageSize: this.pageSize
                         };
-                        Methods.ajax({
-                            type: 'GET',
-                            url: DOMAIN_MAIN + API_PREFIX + 'myRecommendTaskList',
-                            data: data,
-                            success: function (res) {
-                                this.myMission = res.datas.list;
-                                this.pageCount = res.datas.list.length;
-                            }.bind(this)
-                        });
+                        // Methods.ajax({
+                        //     type: 'GET',
+                        //     url: DOMAIN_MAIN + API_PREFIX + 'myRecommendTaskList',
+                        //     data: data,
+                        //     success: function (res) {
+                        //         this.myMission = res.datas.list;
+                        //         this.pageCount = res.datas.list.length;
+                        //     }.bind(this)
+                        // });
                     },
                     getBill: function () {
                         var data = {
@@ -219,16 +218,16 @@
                             pageIndex: this.pageIndex,
                             pageSize: this.pageSize
                         };
-                        Methods.ajax({
-                            type: 'GET',
-                            url: DOMAIN_MAIN + API_PREFIX + 'getBill',
-                            data: data,
-                            success: function (res) {
-                                this.billRecords = res.datas.results;
-                                //很重要，判断当前是否是最后一页的依据
-                                this.pageCount = res.datas.results.length;
-                            }.bind(this)
-                        });
+                        // Methods.ajax({
+                        //     type: 'GET',
+                        //     url: DOMAIN_MAIN + API_PREFIX + 'getBill',
+                        //     data: data,
+                        //     success: function (res) {
+                        //         this.billRecords = res.datas.results;
+                        //         //很重要，判断当前是否是最后一页的依据
+                        //         this.pageCount = res.datas.results.length;
+                        //     }.bind(this)
+                        // });
                     }
                 },
                 mounted: function () {

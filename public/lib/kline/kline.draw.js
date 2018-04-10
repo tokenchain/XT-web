@@ -11,7 +11,8 @@ var GLOBAL_VAR = {
     TimeOutId 		  :  null,
     button_down       :  false,
     init			  :  false,
-    url				  :  DOMAIN_TRADE + API_PREFIX + "charts",
+    // url				  :  DOMAIN_TRADE + API_PREFIX + "charts",
+    url				  :  "",
     scale             :  2,//高清屏放大倍数，解决模糊的问题，需要配合CSS缩放
     lineWidth         :  2,//线条宽度，高清屏下需要加宽
 };
@@ -8229,11 +8230,11 @@ function KLineMouseEvent() {
         $("#chart_toolbar_periods_vert ul a").click(function(){
             switch_period($(this).parent().attr('name'));
         });
-        
+
         $(".market_chooser ul a").click(function(){
             switch_market($(this).attr('name'));
         });
-        
+
         $('#chart_show_tools')
             .click(function() {
                 if ($(this).hasClass('selected')) {
@@ -8504,14 +8505,14 @@ function clear_refresh_counter() {
 	//var initChannel =  kline.symbol+"_kline_"+GLOBAL_VAR.time_type;
 	//oldChannel = initChannel;
 	//初始化websocket 并发送信息
-	
+
 	function sendChannel(message){
 //		top.webSocket.init(function(){
 //			top.webSocket.sendMessage(message);
 //			console.log("kline message send...")
 //		});
-		
-		
+
+
 		var timeout= 0;
 		var readyFun = setInterval(function(){
 			timeout+=20;
@@ -8526,9 +8527,9 @@ function clear_refresh_counter() {
 			}
 		},20);
 	}
-	
+
 	//sendChannel('{"event":"addChannel","channel":"'+initChannel+'"}');
-	
+
 	var initFristKline = true;//初始化
 	//modify by zhanglinbo 20161202 默认显示用户在cookie选择的语言
 	//var lan= parent.chbtc.getLan();
@@ -8704,16 +8705,16 @@ function getklinedataAjax(){
                  	return;
                  }
                  GLOBAL_VAR.market_from_name=json.datas.marketName;
-                 
+
                  var chart=ChartManager.getInstance().getChart();
                  chart._contract_unit=json.datas.contractUnit;
                  chart._money_type=json.datas.moneyType;
                  chart._usd_cny_rate=json.datas.USDCNY;
                  chart.setTitle();
-                 
+
                  kline.setMarketShow(GLOBAL_VAR.market_from_name,chart._contract_unit,chart._money_type,json.datas.url);
                  kline.setTopTickers(json.datas.topTickers);
-                 
+
                  GLOBAL_VAR.KLineData = eval(json.datas.data);
                  try {
                      if (!GLOBAL_VAR.chartMgr.updateData("frame0.k0", GLOBAL_VAR.KLineData)) {
@@ -9049,7 +9050,7 @@ function on_size() {
         dropDownSettings.before(selectTheme);
         rowTheme.style.display = "none";
     }
-    
+
     if(width <1050){
     	$("#chart_updated_time").css("display","none");
     }else{
@@ -9093,7 +9094,7 @@ function mouseWheel(e, delta) {
     return false;
 }
 function switch_theme(name) {
-	
+
     $('#chart_toolbar_theme a').removeClass('selected');
     $('#chart_select_theme a').removeClass('selected');
     $('#chart_toolbar_theme').find('a').each(function(){
@@ -9108,7 +9109,7 @@ function switch_theme(name) {
     });
     $('#chart_container').attr('class', name);
     $(".marketName_ a").attr('class',name);
-    
+
     if (name == 'dark') {
     	$("#trade_container").addClass("dark").removeClass("light");
     	$("#markettop").addClass("dark").removeClass("light");

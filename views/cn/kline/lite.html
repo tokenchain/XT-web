@@ -524,7 +524,7 @@
     var kline = new Kline();
     kline.symbol="<%= market %>";
     kline.money = getUrlparm("money");
-    kline.basePath="<%= DOMAIN_WEB %>/kline/";
+    kline.basePath="/kline/";
     kline.depthChannel="<%= market %>_depth";
     kline.tradeChannel="<%= market %>_lasttrades";
     kline.tradesLimit=1000;
