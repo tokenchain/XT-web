@@ -187,7 +187,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
-                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinAddress',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinAddress',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.payin = res.datas;
@@ -205,7 +205,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
-                        url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController/' + 'getPayinCoinRecord',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinCoinRecord',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.payinRecords = res.datas.list;
