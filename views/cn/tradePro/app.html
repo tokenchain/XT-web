@@ -718,9 +718,9 @@
                     var result = {
                         datas: {}
                     };
-                    //正常请求的数据处理
+                    //正常请求的数据处理 盘口推送暂无当前价格字段，所以暂不设置当前价格(已注释掉)
                     if (res.datas) {
-                        _this.currentPrice = _this.showPrice(res.datas.currentPrice);
+                        // _this.currentPrice = _this.showPrice(res.datas.currentPrice);
                         //兼容写法
                         if (res.datas.listUp) {
                             //数组的深拷贝Array.slice(0)，不影响赋值的引用
@@ -732,7 +732,7 @@
                         }
                     } else {
                         //推送的数据处理
-                        _this.currentPrice = _this.showPrice(res.currentPrice);
+                        // _this.currentPrice = _this.showPrice(res.currentPrice);
                         result.datas.asks = res.asks;
                         result.datas.bids = res.bids;
                     }

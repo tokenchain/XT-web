@@ -433,7 +433,7 @@ var ExxWebSocket = {
             result.bids = oldData[i][5].bids;
 
             if (oldData[i][4].asks.length > 0) {
-                result.currentPrice = oldData[i][4].asks[0][0]; //当前价格
+                result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 该货币当前价格，字段暂无
             } else {
                 result.currentPrice = 0;
             }
