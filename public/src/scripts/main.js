@@ -350,6 +350,7 @@ var ExxWebSocket = {
         //     _this.dealMessage(json);
         // })
 
+        //如果推送的是单条数据，添加一层数组
         if (typeof datas.data[0] != 'object') {
             var oriData = datas.data;
             datas.data = [];
@@ -442,14 +443,24 @@ var ExxWebSocket = {
                 result.asks = oldData[i][4].asks;
                 result.bids = oldData[i][5].bids;
 
-                if (oldData[i][4].asks.length > 0) {
+                /*if (oldData[i][4].asks.length > 0) {
                     result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 该货币当前价格，字段暂无
                 } else {
                     result.currentPrice = 0;
-                }
+                }*/
             }
         } else if (dataType == 'E') {
-            //
+            //增量委托数据
+            var entrustType = oldData[0][4]; //买卖类型，BID, ASK
+            var entrustData = [];
+            entrustData[0] = oldData[0][5]; //价格
+            entrustData[1] = oldData[0][6]; //量
+
+            if (entrustType == 'ASK') {
+                result.asks.push(entrustData);
+            } else if (entrustType == 'BID') {
+                result.bids.push(entrustData);
+            }
         }
 
         // for(var i in oldData){
