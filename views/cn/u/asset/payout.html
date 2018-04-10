@@ -393,7 +393,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
