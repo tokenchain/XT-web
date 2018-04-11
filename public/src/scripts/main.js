@@ -406,12 +406,15 @@ var ExxWebSocket = {
         result.datas = {};
         result.datas.data = [];
 
+        //根据时间倒序
+        oldData = oldData.reverse();
+
         //时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量
         //数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换
 
         oldData.forEach(function (item, index) {
             var tmpdata = [];
-            tmpdata[0] = parseFloat(item[3]);
+            tmpdata[0] = parseInt(item[3]) * 1000;
             tmpdata[1] = parseFloat(item[4]);
             tmpdata[2] = parseFloat(item[5]);
             tmpdata[3] = parseFloat(item[6]);
