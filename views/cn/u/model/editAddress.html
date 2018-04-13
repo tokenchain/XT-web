@@ -159,8 +159,11 @@
                     } else {
                         address = this.selectedAddress.address;
                     }
+                    var headers = {
+                        Userid: this.loginUser.userId
+                    };
                     var data = {
-                        userId: this.loginUser.userId,
+                        // userId: this.loginUser.userId,
                         account: address,
                         safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         dynamicCode: this.dynamicCode,
@@ -186,6 +189,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetAddress',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dosetaddress',
                         data: JSON.stringify(data),
+                        headers: headers,
                         success: function (res) {
                             this.requestLocked = false;
 

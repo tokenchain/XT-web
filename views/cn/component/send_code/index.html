@@ -86,10 +86,13 @@
                         countryCode: this.countryCode,
                         codeType: this.codeType, //1-注册，23-邮箱，24-手机
                         imgCode: this.imgCode,
-                        userId: this.userId //注册时传空
+                        // userId: this.userId //注册时传空
                         // safePwd: this.safePwd,
                         // cardId: this.cardId
-                    }
+                    };
+                    var headers = {
+                        Userid: this.userId
+                    };
                     if (this.timeout > 0 || this.requestLocked) {
                         return false;
                     } else if (this.userName.length < 8) {
@@ -102,6 +105,7 @@
                             // url: DOMAIN_MAIN + API_PREFIX + (this.userKey == '' ? 'sendcode' : 'sendcode2'),
                             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'sendcode',
                             data: JSON.stringify(data),
+                            headers: headers,
                             success: function (res) {
                                 var resMsg = res.resMsg;
                                 if (resMsg.code == '1') {

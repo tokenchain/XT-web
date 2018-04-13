@@ -597,7 +597,7 @@
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
-                            _this.entrustRecord = res.datas;
+                            _this.entrustRecord = res.datas.reverse();
 
                             callback && callback(res.datas)
                         }

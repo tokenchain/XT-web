@@ -326,15 +326,19 @@
                 },
                 getPayoutAddress: function () {
                     var data = {
-                        userId: this.loginUser.userId,
+                        // userId: this.loginUser.userId,
                         currencyId: this.currencyId,
                         pageNum: 1,
                         pageSize: 9999
+                    };
+                    var headers = {
+                        Userid: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaddress',
                         data: data,
+                        headers: headers,
                         success: function(res) {
                             this.address = res.datas.list;
                         }.bind(this)
@@ -350,13 +354,17 @@
                         pageSize: this.pageSize,
                         // webId: 100,
                         currencyId: this.currencyId,
-                        userId: this.loginUser.userId
+                        // userId: this.loginUser.userId
+                    };
+                    var headers = {
+                        Userid: this.loginUser.userId
                     };
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getpayoutcoinrecord',
                         data: data,
+                        headers: headers,
                         success: function (res) {
                             // console.log(res)
                             this.payoutRecords = res.datas.list;
@@ -377,7 +385,7 @@
                         return JuaBox.info("<%= LANG('超出最大可用金额，请检查。')%>")
                     }
                     var data = {
-                        userId: this.loginUser.userId,
+                        // userId: this.loginUser.userId,
                         addressId: this.selectedAddress.userFundAddressId,
                         safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         currencyId: this.currencyId,
@@ -389,12 +397,16 @@
                         fees: this.currentMinFees, //手续费
                         actuallyAmount: this.actualPayout //实到金额
                     };
+                    var headers = {
+                        Userid: this.loginUser.userId
+                    };
                     this.requestLocked = true;
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
+                        headers: headers,
                         success: function (res) {
                             this.requestLocked = false;
 
@@ -423,12 +435,16 @@
                         // coint: this.currentCoin,
                         // did: id
                         userApplyWithdrawId: id,
-                        userId: this.loginUser.userId
+                        // userId: this.loginUser.userId
+                    };
+                    var headers = {
+                        Userid: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'docancelpayout',
                         data: data,
+                        headers: headers,
                         success: function(res) {
                             this.getPayoutCoinRecord();
                             JuaBox.info(EXX.L(res.resMsg.message));

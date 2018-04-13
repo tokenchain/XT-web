@@ -4493,6 +4493,7 @@ MainDataSource.prototype.update = function (data) {
         for (i = 0; i < cnt; i++) {
             e = data[i];
             if (e[0] == lastItem.date) {
+                // 增量更新当前周期K线
                 if (lastItem.open == e[1]
                     && lastItem.high == e[2]
                     && lastItem.low == e[3]
@@ -4507,6 +4508,7 @@ MainDataSource.prototype.update = function (data) {
                     this._updatedCount++;
                 }
                 i++;
+                // 增量更新的同时 有新周期数据 新起柱子？
                 if (i < cnt) {
                     this.setUpdateMode(DataSource.UpdateMode.Append);
                     for (; i < cnt; i++, this._appendedCount++) {
@@ -4517,13 +4519,25 @@ MainDataSource.prototype.update = function (data) {
                     }
                 }
                 return true;
+            } else {
+                // 新周期数据
+                if (e[0] > lastItem.date) {
+                    this.setUpdateMode(DataSource.UpdateMode.Append);
+                    this._dataItems.push({
+                        date:e[0], open:e[1], high:e[2], low:e[3], close:e[4], volume:e[5]
+                    });
+                    this._appendedCount++;
+                }
+                return true;
             }
         }
+        //数据小于1000 数据不正确不做处理？
         if (cnt < 1000) {
             this.setUpdateMode(DataSource.UpdateMode.DoNothing);
             return false;
         }
     }
+    // 刷新k线
     this.setUpdateMode(DataSource.UpdateMode.Refresh);
     this._dataItems = [];
     var d, n, e, i, cnt = data.length;

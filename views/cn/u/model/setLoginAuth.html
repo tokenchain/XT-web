@@ -79,17 +79,21 @@
             methods: {
                 doSafeAuth : function () {
                     var data = {
-                        userId: this.loginUser.userId,
+                        // userId: this.loginUser.userId,
                         autoType : this.params.autoType,
                         type : this.params.type, //0-google 1-email 2-phone
                         googleCode : this.googleCode,
                         emailCode : this.emailCode,
                         dynamicCode : this.dynamicCode
+                    };
+                    var headers = {
+                        Userid: this.loginUser.userId
                     }
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSafeAuth',
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dosafeauth',
                         data: JSON.stringify(data),
+                        headers: headers,
                         success: function(res) {
                             // Methods.setLocalUserInfo(res.datas.userInfo);
                             //this.$parent.$parent.loginUser = res.datas.userInfo;
