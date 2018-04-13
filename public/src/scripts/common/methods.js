@@ -149,6 +149,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             }
             return result;
         },
+        // 2邮箱 1手机号
         checkUserType: function (userName) {
             var userType;
             if (this.isEmail(userName)) {

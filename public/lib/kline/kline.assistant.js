@@ -27,14 +27,14 @@ Kline.prototype={
 			}
 			if(parent.webSocket){
 				parent.webSocket.init(function(){
-					parent.webSocket.sendMessage('{"event":"addChannel","channel":"'+$this.depthChannel+'","isZip":"'+parent.isZipData()+'"}');
-					parent.webSocket.sendMessage('{"event":"addChannel","channel":"'+$this.tradeChannel+'","isZip":"'+parent.isZipData()+'"}');
+					// parent.webSocket.sendMessage('{"event":"addChannel","channel":"'+$this.depthChannel+'","isZip":"'+parent.isZipData()+'"}');
+					// parent.webSocket.sendMessage('{"event":"addChannel","channel":"'+$this.tradeChannel+'","isZip":"'+parent.isZipData()+'"}');
 				});
 				clearInterval(readyFun);
 			}
 		},50);
-		
-		
+
+
 	},
 	reset:function(symbol){
 		var $this = this;
@@ -50,18 +50,18 @@ Kline.prototype={
 		$("#gbids .table").empty();
 		$("#asks .table").empty();
 		$("#bids .table").empty();
-		
+
 		this.setFirstRecord(function(){
 			$this.initWebSocket();
 			$this.klineTradeInit=true;
 			$this.setAssistantData();
-			
+
 		})
 	},
 	setAssistantData:function(){
 		var $this=this;
 			$this.websocketRedister();
-    	
+
 	},
 	setTitle:function(){
 		//document.title=(this.curPrice==null?"":this.curPrice+" ")+this.title;
@@ -114,7 +114,7 @@ Kline.prototype={
 		}else if(marketData[0].market=="eosdefault"){
             currency = "chbtceoscny";
         }*/
-		
+
 		//1.http 初始化深度
 		var depthUrl =  DOMAIN_TRADE + API_PREFIX  + "getKlineDish?market="+currency+"&length=10&depth=0&jsoncallback=?" ;
 		$.getJSON(depthUrl, function(result){
@@ -126,14 +126,14 @@ Kline.prototype={
 		$.getJSON(jsonUrl,  function(result) {
     		var item = result.data;
     		if(item!=null && item.length > 0){
-    			//初始化50条交易记录 
+    			//初始化50条交易记录
     			var totalUls = "";
     			for(var i = item.length-1; i >=0; i--){
     				$this.tradeDate.setTime(item[i].date*1000);
     				var dateStr=$this.dateFormatTf($this.tradeDate.getHours())
     				+":"+$this.dateFormatTf($this.tradeDate.getMinutes())
     				+":"+$this.dateFormatTf($this.tradeDate.getSeconds());
-    				
+
     				var formatPrice = $this.fixNumber(item[i].price,$this.moneyDecimal[$this.symbol]);
     				var formatAmount = $this.fixNumber(item[i].amount,$this.coinDecimal[$this.symbol]);
     				var arr = formatAmount.split(".");
@@ -150,7 +150,7 @@ Kline.prototype={
     	});
 	},
 	ajaxRedister:function(){
-		
+
 		var $this=this;
 		//var jsonUrl =  DOMAIN_TRADE + "/depth-"+marketData[0].market+"?lastTime=0&length=10&depth=0&jsoncallback=?" ;
 		var currency = this.symbol || "chbtcbtccny";
@@ -170,13 +170,13 @@ Kline.prototype={
 			currency = "chbtcbtscny";
 		}*/
 		var jsonUrl =  DOMAIN_TRADE + API_PREFIX + "getKlineDish?jsoncallback=?&market="+currency+"&lastTime=0&length=10&depth=0&random="+(Math.random()*10000) ;
-		
+
 		//console.log("jsonUrl:"+jsonUrl)
 		$.getJSON(jsonUrl, function(result){
     	//	console.log("1:"+result["return"])
     		$this.updateDepth(result["return"]);
     	});
-    	
+
     	var tradeUrl =  DOMAIN_TRADE + API_PREFIX + "getDealRecord?jsoncallback=?&market="+currency+"&last_trade_tid="+$this.last_trade_tid+"&random="+(Math.random()*10000) ;
     	$.getJSON(tradeUrl,  function(result) {
     		$this.pushTrades(result.datas);
@@ -186,11 +186,11 @@ Kline.prototype={
 			$this.setAssistantData();
 			},1000)
     	clear_refresh_counter();
-    	
+
 	},
 	websocketRedister:function(){
 		var $this=this;
-		
+
 		if(parent.ajaxRun!=false){
 			if (!parent.webSocket || !parent.webSocket.socket || (parent.webSocket && parent.webSocket.socket && parent.webSocket.socket.readyState != WebSocket.OPEN)) {
 				 $this.ajaxRedister();
@@ -201,7 +201,7 @@ Kline.prototype={
 	fixNumber : function(value,unit){
 		//此处不能使用toString方法转换字符串，超出7位小数将返回科学计数法的字符串
     	var value = parseFloat(value).toFixed(8);
-    	var unit = unit || 0 ; 
+    	var unit = unit || 0 ;
     	var isInt = value.indexOf(".") == -1 ? true : false ;
     	var intNum = value.split(".")[0];
     	var floatNum = !isInt ? value.split(".")[1] : "0";
@@ -224,7 +224,7 @@ Kline.prototype={
 		var $this = this;
 		var $trades=$("#trades .trades_list");
 		var totalUls="";
-		
+
 		for(var i=0;i<array.length;i++){
 			var item=array[i];
 			if(i>=array.length-this.tradesLimit){
@@ -233,19 +233,19 @@ Kline.prototype={
 				var dateStr=this.dateFormatTf(this.tradeDate.getHours())
 				+":"+this.dateFormatTf(this.tradeDate.getMinutes())
 				+":"+this.dateFormatTf(this.tradeDate.getSeconds());
-				
+
 				var formatPrice = this.fixNumber(item.price,this.moneyDecimal[this.symbol]);
 				var formatAmount = this.fixNumber(item.amount,this.coinDecimal[this.symbol]);
 				var arr = formatAmount.split(".");
-				
+
 				if(this.klineTradeInit){
 					totalUls="<ul class='newul'><li class='tm'>"+dateStr+"</li><li class='pr-"+(item.type=='buy'?'green':'red')+"'>"+formatPrice+"</li><li class='vl'>"+arr[0]+"<g>."+arr[1]+"</g></li></ul>"+totalUls;
 				}else{
 					totalUls="<ul><li class='tm'>"+dateStr+"</li><li class='pr-"+(item.type=='buy'?'green':'red')+"'>"+formatPrice+"</li><li class='vl'>"+arr[0]+"<g>."+arr[1]+"</g></li></ul>"+totalUls;
 				}
-			}			
+			}
 		}
-		
+
 		var j=0;//计数开始初始化
 		if(array && array.length>10){
 			j = array.length - 10;//确保只循环10次减少数据变动太频繁
@@ -253,7 +253,7 @@ Kline.prototype={
 		var that = this;
 		if(this.klineTradeInit){
 			clearInterval(myTime);
-			var myTime = setInterval( function(){ 
+			var myTime = setInterval( function(){
 				var item=array[j];
 				//排除错误数据
 				if(typeof item != 'object') return false;
@@ -273,7 +273,7 @@ Kline.prototype={
 		if(array && array.length>0){
 			$this.last_trade_tid = array[array.length-1].tid;
 		}
-		
+
 		if(this.klineTradeInit){
 			$trades.prepend(totalUls);
 		}else{
@@ -304,7 +304,7 @@ Kline.prototype={
 			var oldasks=this.lastDepth.asks;
 			this.lastDepth.asks=newasks;
 			this.asksAndBids(newasks.slice(0),oldasks,parentAsks);
-			
+
 			var parentBids=$("#bids .table");
 			parentBids.find("div.remove").remove();
 			parentBids.find("div.add").removeClass("add");
@@ -312,11 +312,11 @@ Kline.prototype={
 			var oldbids=this.lastDepth.bids;
 			this.lastDepth.bids=newbids;
 			this.asksAndBids(newbids.slice(0),oldbids,parentBids);
-			
+
 			//更新表单价格
 			var $sellForm = $(window.top.document.body).find("#sellUnitPrice"),
 				$buyForm = $(window.top.document.body).find("#buyUnitPrice");
-			
+
 			if($buyForm.val() == ""){
 				$buyForm.val(data.asks[data.asks.length-1][0]);
 			};
@@ -393,7 +393,7 @@ Kline.prototype={
 			tbDiv.append(totalDiv);
 		}
 		totalDiv=null;
-		
+
 		var lastInt;
 		for(var i=0;i<oldasks.length;i++){
 			var $div=tbDiv.find("div:eq("+i+")");
@@ -415,7 +415,7 @@ Kline.prototype={
 							$add.removeClass("add");
 						};
 					})(tbDiv.find("div.remove"),tbDiv.find("div.add")), 1000);
-		
+
 	},
 	getAsks:function(array,len){
 		if(array && array.length>len){
@@ -447,7 +447,7 @@ Kline.prototype={
 		if(!array){
 			return [];
 		}
-		
+
 		var low=array[array.length-1][0];//最低价
 		var high=array[0][0];//最高价
 		var r=high-low;
@@ -481,7 +481,7 @@ Kline.prototype={
 		if(!array){
 			return [];
 		}
-		
+
 		var low=array[array.length-1][0];
 		var high=array[0][0];
 		var r=high-low;
@@ -494,7 +494,7 @@ Kline.prototype={
 		if(block>=1)(n=0);
 		low=parseInt(low/block)*block;
 		high=parseInt(high/block)*block;
-		
+
 		var gbids=[];
 		var amount=0;
 		for(var i=0;i<array.length;i++){
@@ -535,7 +535,7 @@ Kline.prototype={
 		var arrStr = arr[0] + "." + arr[1];
 			arrStr = this.fixNumber(parseFloat(arrStr),this.moneyDecimal[this.symbol]);
 			arrStr = arrStr.split(".");
-		
+
 		return [arrStr[0],arrStr[1]];
 	},
 	getAmount:function(arr){
@@ -562,7 +562,7 @@ Kline.prototype={
 	setMarketShow:function(market_from_name,_contract_unit,_money_type,url){
 		var market_show=market_from_name+"  "+(_contract_unit+"/"+_money_type).toUpperCase();;
         //$("#market a:eq(0)").attr("href",url).attr("title",market_show).text(market_show);
-        
+
         if(this.isBtc123()){
         	$("#markettop li.order_info a").hide();
         	$("#markettop li.depth_info a").hide();

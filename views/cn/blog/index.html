@@ -49,17 +49,17 @@
                     var data = {
                         tab: 1
                     };
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
-                        data: data,
-                        success: function (res) {
-                            if (res.datas.problemType && res.datas.problemType.length) {
-                                this.categories = res.datas.problemType[0].problCategor;
-                            }
-
-                        }.bind(this)
-                    });
+                    // Methods.ajax({
+                    //     type: 'GET',
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         if (res.datas.problemType && res.datas.problemType.length) {
+                    //             this.categories = res.datas.problemType[0].problCategor;
+                    //         }
+                    //
+                    //     }.bind(this)
+                    // });
                 },
                 getKeywordNews : function () {
                     if(this.keyWord == ''){
@@ -83,27 +83,27 @@
                         return false;
                     }
                     this.loading = true;
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-                        data: data,
-                        success: function (res) {
-                            var news = res.datas.titelList;
-                            if(_this.pageNo == 1){
-                                _this.news = news;
-                            }else{
-                                for(var i = 0, ilen = news.length; i < ilen; i++){
-                                    _this.news.push(news[i]);
-                                }
-                            }
-                            _this.pageCount = news.length || 0;
-                            _this.pageNo += 1;
-                            _this.loading = false;
-                        },
-                        error : function () {
-                            _this.loading = false;
-                        }
-                    });
+                    // Methods.ajax({
+                    //     type: 'GET',
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         var news = res.datas.titelList;
+                    //         if(_this.pageNo == 1){
+                    //             _this.news = news;
+                    //         }else{
+                    //             for(var i = 0, ilen = news.length; i < ilen; i++){
+                    //                 _this.news.push(news[i]);
+                    //             }
+                    //         }
+                    //         _this.pageCount = news.length || 0;
+                    //         _this.pageNo += 1;
+                    //         _this.loading = false;
+                    //     },
+                    //     error : function () {
+                    //         _this.loading = false;
+                    //     }
+                    // });
                 },
                 changeNewsType: function (type) {
                     this.newsType = type;

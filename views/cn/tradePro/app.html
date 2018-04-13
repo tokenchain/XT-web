@@ -742,7 +742,7 @@
                     //合并盘口数据
                     var data = result.datas;
 
-                    if (_this.lastDepth.asks.length == 0) {
+                    if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0) {
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks)
                         Vue.set(_this.lastDepth, 'bids', data.bids)

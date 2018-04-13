@@ -33,7 +33,7 @@
           </div>
           </div>
           <div class="form-group">
-              <div class="form-control hint--top" aria-label="<%- LANG('请输入图中算式的答案')%>" style="display: block !important;">
+              <div class="form-control hint--top" aria-label="<%- LANG('请输入图中验证码')%>" style="display: block !important;">
               <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
               <div class="code-img" v-cloak=""><img :src="imageCodeUrl" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
           </div>

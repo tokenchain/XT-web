@@ -83,7 +83,7 @@ router.get('/passport', function(req, res, next) {
 });
 
 router.get('/register', function(req, res, next) {
-    /*res.cookie('secureKey', 'fuck you !', {
+    /*res.cookie('secureKey', 'hello !', {
         expires: 0,
         httpOnly: true ,
         domain: '.' + DOMAIN_BASE,

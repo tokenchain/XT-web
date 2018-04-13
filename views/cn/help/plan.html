@@ -1,4 +1,4 @@
-<div id="help-plan" class="help-plan" :class="{'loaded': loaded}">
+<div id="help-plan" class="help-plan" :class="{'loaded': loaded}" v-cloak>
   <div class="container">
     <h2><%= LANG('常见问题')%></h2>
     <ul class="box vue-init">
@@ -37,14 +37,14 @@
           var data = {
             tab: 3
           };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
-            data: data,
-            success: function(res) {
-              this.categories = res.datas.problemType[0].problCategor
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+          //   data: data,
+          //   success: function(res) {
+          //     this.categories = res.datas.problemType[0].problCategor
+          //   }.bind(this)
+          // });
         },
         getArticlesList: function(categoryId, index) {
           var data = {
@@ -52,16 +52,16 @@
             problCategor: categoryId
           };
           var catalog = this.categories;
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-            data: data,
-            success: function(res) {
-              catalog[index].articles = res.datas.titelList;
-              this.catalog = catalog;
-              this.$forceUpdate();
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+          //   data: data,
+          //   success: function(res) {
+          //     catalog[index].articles = res.datas.titelList;
+          //     this.catalog = catalog;
+          //     this.$forceUpdate();
+          //   }.bind(this)
+          // });
         }
       },
       created: function() {

@@ -3,8 +3,8 @@ require.config({
   baseUrl: '/lib',
   urlArgs: 'ver=' + VERSION,
   paths: {
-    //'vue': ENV == 'w' ? 'vue/dist/vue' : 'vue/dist/vue.min',
-    'vue': 'vue/dist/vue',
+    'vue': ENV == 'w' ? 'vue/dist/vue' : 'vue/dist/vue.min',
+    // 'vue': 'vue/dist/vue',
     //'jquery': 'jquery/dist/jquery.min',
     'text': 'requirejs/text',
     'css': 'requirejs/css',
@@ -326,7 +326,7 @@ var ExxWebSocket = {
         };
         _this.websocket.send(JSON.stringify(tradeParam));
 
-        if(!_this.openWebSocket) {
+        if(!_this.openWebSocket){
             console.log('reconnect websocke.', _this.openWebSocket)
             _this.init();
         }
@@ -433,7 +433,7 @@ var ExxWebSocket = {
         var ifr = document.getElementById('marketFrame');
         var win = ifr.window || ifr.contentWindow;
         var result = {};
-        result.channel = EXX.appTradePro.currentMarket + "_" + EXX.appTradePro.assistCoin + "_kline_" + win.GLOBAL_VAR.time_type;
+        result.channel = EXX.appTradePro.currentMarket.replace('_', '') + "_" + EXX.appTradePro.assistCoin + "_depth";
         result.asks = [];
         result.bids = [];
 
@@ -487,18 +487,19 @@ var ExxWebSocket = {
 
         var result = {};
         result.dataType="lastTrades";
-        result.no = oldData[0][2];
+        result.no = parseFloat(oldData[0][2]); // 目前为 时间戳
         result.data = [];
-        result.channel = "";
+        result.channel = EXX.appTradePro.currentMarket.replace('_', '') + "_" + EXX.appTradePro.assistCoin + "_lasttrades";
 
-        for(var i in oldData){
-            //      ["T", "90", "1522317163", "ZB_", "ask", "7.94000000", "8.0200"]
+        for(var i=0; i<oldData.length; i++) {
+            //      ["T","92","1523601554","ETH_QC","ask","12.00000000","0.9800"]
             //new : [数据类型, 市场ID, 币种信息, 时间戳, 买卖类型, 价格, 量]*
             var trade = {};
-            trade.amount = oldData[i][6]; // amount
-            trade.price = oldData[i][5];  // amount
-            trade.tid = oldData[i][3];
-            trade.date = oldData[i][2];   // amount
+            trade.amount = parseFloat(oldData[i][6]); // 金额
+            trade.price = parseFloat(oldData[i][5]);  // 价格
+            trade.tid = parseFloat(oldData[i][2]); //交易id? 目前为 时间戳
+            // trade.tid = oldData[i][3];
+            trade.date = parseFloat(oldData[i][2]);   // 日期时间戳
 
             if(oldData[i][4] =='ask'){
                 trade.trade_type = 'ask';

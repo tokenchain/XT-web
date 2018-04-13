@@ -12,7 +12,7 @@
   <div class="container">
     <%-include("help_left.html")%>
     <div id="help-display" class="help-rd" :class="{'loaded': loaded}">
-      <div class="help-cont vue-init">
+      <div class="help-cont vue-init" v-cloak>
         <h3>{{article.title}}</h3>
         <div class="scont" v-html="article.content">
         </div>

@@ -73,31 +73,31 @@
               var data = {
                   tab: 1
               };
-              Methods.ajax({
-                  type: 'GET',
-                  url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
-                  data: data,
-                  success: function(res) {
-                      if (res.datas.problemType && res.datas.problemType.length ) {
-                          this.categories = res.datas.problemType[0].problCategor;
-                      }
-
-                  }.bind(this)
-              });
+              // Methods.ajax({
+              //     type: 'GET',
+              //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+              //     data: data,
+              //     success: function(res) {
+              //         if (res.datas.problemType && res.datas.problemType.length ) {
+              //             this.categories = res.datas.problemType[0].problCategor;
+              //         }
+              //
+              //     }.bind(this)
+              // });
           },
           getNewsList: function(type) {
               var data = {
                   problemType: 1,
                   problCategor: type
               };
-              Methods.ajax({
-                      type: 'GET',
-                      url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-                      data: data,
-                      success: function(res) {
-                          this.news = res.datas.titelList;
-                      }.bind(this)
-              });
+              // Methods.ajax({
+              //     type: 'GET',
+              //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+              //     data: data,
+              //     success: function(res) {
+              //         this.news = res.datas.titelList;
+              //     }.bind(this)
+              // });
           },
           changeNewsType: function(type) {
               this.newsType = type;

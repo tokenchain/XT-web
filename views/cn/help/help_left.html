@@ -77,7 +77,7 @@
           var data = {
             tab: this.sharedState.fid
           };
-          Methods.ajax({
+          /*Methods.ajax({
             type: 'GET',
             url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
             data: data,
@@ -97,31 +97,31 @@
                   }
               });
             }.bind(this)
-          });
+          });*/
         },
         getArticlesList: function(categoryId) {
           var data = {
             problemType: this.sharedState.fid,
             problCategor: categoryId
           };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-            data: data,
-            success: function(res) {
-              var articles = this.articles;
-              articles[categoryId] = res.datas.titelList;
-              this.articles = articles;
-              //store.setArticles(articles);
-              this.sharedState.articles[categoryId] = res.datas.titelList;
-              this.$nextTick(function () {
-                  this.$forceUpdate();
-                if (EXX.helpDisplay) {
-                  EXX.helpDisplay.$forceUpdate();
-                }
-              });
-            }.bind(this)
-          });
+          // Methods.ajax({
+          //   type: 'GET',
+          //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+          //   data: data,
+          //   success: function(res) {
+          //     var articles = this.articles;
+          //     articles[categoryId] = res.datas.titelList;
+          //     this.articles = articles;
+          //     //store.setArticles(articles);
+          //     this.sharedState.articles[categoryId] = res.datas.titelList;
+          //     this.$nextTick(function () {
+          //         this.$forceUpdate();
+          //       if (EXX.helpDisplay) {
+          //         EXX.helpDisplay.$forceUpdate();
+          //       }
+          //     });
+          //   }.bind(this)
+          // });
         }
       },
       created: function() {
