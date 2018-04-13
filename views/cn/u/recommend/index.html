@@ -11,41 +11,44 @@
             </div>
             <div class="info">
                 <!--TODO 生成推荐二维码-->
+                <canvas class="codeimg" id="canvas"></canvas>
                 <!--<img class="codeimg" :src="'/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'" title="您的推荐人地址二维码">-->
                 <% if(LAN == 'cn' || LAN == 'hk'){ %>
-                    <div class="tips">
-                        <h4>推荐人关系</h4>
-                        <p>1、对于您通过推荐链接邀请成功注册的用户，您是他们的一级推荐人；</p>
-                        <p>2、对于您直接推荐的用户通过推荐链接邀请成功注册的用户，您是他们的二级推荐人；</p>
-                        <p>3、您是您的子账号的一级推荐人；</p>
-                        <p>4、您是您直接推荐用户的子账号的二级推荐人；</p>
-                        <p>5、推荐人关系最终解释权归EXX所有。</p>
-                    </div>
-                    <div class="tips">
-                        <h4>交易手续费奖励活动</h4>
-                        <p>1、交易产生的手续费9%作为一级推荐人奖励；</p>
-                        <p>2、交易产生的手续费6%作为二级推荐人奖励；</p>
-                        <p>3、奖励当日统计，次日到账；</p>
-                        <p>4、本期活动时间：北京时间2017年11月19日-2020年11月18日；</p>
-                        <p>5、本活动最终解释权归EXX所有。</p>
-                    </div>
+                <div class="tips">
+                    <h4>推荐人关系</h4>
+                    <p>1、对于您通过推荐链接邀请成功注册的用户，您是他们的一级推荐人；</p>
+                    <p>2、对于您直接推荐的用户通过推荐链接邀请成功注册的用户，您是他们的二级推荐人；</p>
+                    <p>3、您是您的子账号的一级推荐人；</p>
+                    <p>4、您是您直接推荐用户的子账号的二级推荐人；</p>
+                    <p>5、推荐人关系最终解释权归EXX所有。</p>
+                </div>
+                <div class="tips">
+                    <h4>交易手续费奖励活动</h4>
+                    <p>1、交易产生的手续费9%作为一级推荐人奖励；</p>
+                    <p>2、交易产生的手续费6%作为二级推荐人奖励；</p>
+                    <p>3、奖励当日统计，次日到账；</p>
+                    <p>4、本期活动时间：北京时间2017年11月19日-2020年11月18日；</p>
+                    <p>5、本活动最终解释权归EXX所有。</p>
+                </div>
                 <% }else{ %>
-                    <div class="tips">
-                        <h4>Referral Relationship</h4>
-                        <p>1. You are the first-level referral of users successfully signed up with EXX.com through your referral invitation.</p>
-                        <p>2. You are the second-level referral of users that signed up with EXX.com through your recommend user.</p>
-                        <p>3. You are a first-level referral of your sub-account.</p>
-                        <p>4. You are a second-level referral of your recommend user’s sub-account.</p>
-                        <p>5. EXX.com reserves all the right for the final explanation.</p>
-                    </div>
-                    <div class="tips">
-                        <h4>Transaction Free Rewards Activity</h4>
-                        <p>1. 9% of transaction fees is for the first-level referral rewards.</p>
-                        <p>2. 6% of transaction fees is for the second-level referral rewards</p>
-                        <p>3. Reward will be counted every day and distributed to your account in the second day.</p>
-                        <p>4. Activity Time: November 19, 2017 - November 18, 2020 (UTC+8)</p>
-                        <p>5. EXX.com reserves all the right for the final explanation.</p>
-                    </div>
+                <div class="tips">
+                    <h4>Referral Relationship</h4>
+                    <p>1. You are the first-level referral of users successfully signed up with EXX.com through your
+                        referral invitation.</p>
+                    <p>2. You are the second-level referral of users that signed up with EXX.com through your recommend
+                        user.</p>
+                    <p>3. You are a first-level referral of your sub-account.</p>
+                    <p>4. You are a second-level referral of your recommend user’s sub-account.</p>
+                    <p>5. EXX.com reserves all the right for the final explanation.</p>
+                </div>
+                <div class="tips">
+                    <h4>Transaction Free Rewards Activity</h4>
+                    <p>1. 9% of transaction fees is for the first-level referral rewards.</p>
+                    <p>2. 6% of transaction fees is for the second-level referral rewards</p>
+                    <p>3. Reward will be counted every day and distributed to your account in the second day.</p>
+                    <p>4. Activity Time: November 19, 2017 - November 18, 2020 (UTC+8)</p>
+                    <p>5. EXX.com reserves all the right for the final explanation.</p>
+                </div>
                 <% } %>
             </div>
         </div>
@@ -67,7 +70,9 @@
                     </div>
                     <div class="tr" v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
                         <div class="td" style="width: 150px;flex: none;">{{recommend.name}}</div>
-                        <div class="td" style="width: 160px;flex: none;">{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</div>
+                        <div class="td" style="width: 160px;flex: none;">
+                            {{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}
+                        </div>
                         <div class="td" style="width: 160px;flex: none;">{{recommend.count}}</div>
                         <div class="td">
                             <div class="coinnum">
@@ -84,15 +89,17 @@
                     </div>
 
                 </div>
-                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getmyRecommend"></page-lite>
+                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"
+                           :turn-page="getmyRecommend"></page-lite>
             </div>
         </div>
 
     </div>
 
 
+    <script></script>
     <script>
-        require(['vue', 'common/methods', 'common/juabox', 'clipboadrd'], function (Vue, Methods, JuaBox, Clipboard) {
+        require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox, Clipboard, QRCode) {
             var recommend = new Vue({
                 el: "#myRecommend",
                 data: function () {
@@ -137,6 +144,8 @@
                     clipboard.on('success', function (e) {
                         JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
                     });
+                    QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, function (error) {
+                    })
                 }
             })
         });
