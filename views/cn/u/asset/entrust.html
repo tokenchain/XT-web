@@ -274,6 +274,7 @@
                         marketId: marketid || _this.switchMarkets[_this.currentMarket]
                     };
                     _this.requestLocked = true;
+                    _this.records=[]
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
                         url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getEntrustRecord',
@@ -282,6 +283,7 @@
                             //数组更新
                             if (marketid) {
                                 _this.records = _this.records.concat(res.datas);
+                                // _this.records = res.datas;
                             } else {
                                 _this.records = res.datas;
                             }
@@ -321,8 +323,10 @@
                 getRecord : function () {
                     if(this.isAll){
                         //轮询获取所有委托记录
+                        console.log("进入循环1")
                         this.getOpenMarketByWebId(this.getEntrustRecord);
                     }else{
+                        console.log("进入循环2")
                         this.getEntrustRecord();
                     }
                 },
