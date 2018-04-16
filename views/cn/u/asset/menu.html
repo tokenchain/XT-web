@@ -26,19 +26,19 @@
         <li class="<%= PATH.indexOf('/u/asset') != -1 ? 'active' : ''%>">
             <a href="/u/asset"><%= LANG('资金')%></a>
         </li>
-        <!--<li class="<%= PATH.indexOf('/exchange') != -1 ? 'active' : ''%>">-->
-            <!--<a href="/passport" style="color:#f00;" target="_blank"><%= LANG('法币交易')%></a>-->
-        <!--</li>-->
-        <!--<li class="<%= PATH.indexOf('/u/sweet') != -1 ? 'active' : ''%>">-->
-            <!--<a href="/u/sweet"><%= LANG('领取糖果')%></a>-->
-        <!--</li>-->
+        <li class="<%= PATH.indexOf('/exchange') != -1 ? 'active' : ''%>">
+            <a href="/passport" style="color:#f00;" target="_blank"><%= LANG('法币交易')%></a>
+        </li>
+        <li class="<%= PATH.indexOf('/u/sweet') != -1 ? 'active' : ''%>">
+            <a href="/u/sweet"><%= LANG('领取糖果')%></a>
+        </li>
         <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
             <a href="/u/payin"><%= LANG('充值')%></a>
         </li>
         <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
             <a href="/u/payout"><%= LANG('提币')%></a>
         </li>
-        <li class="<%= PATH.indexOf('/u/bill') != -1 ? 'active' : ''%>
+        <li class="<%= PATH.indexOf('/u/bill') != -1 ? 'active' : ''%>">
             <a href="/u/bill"><%= LANG('综合账单')%></a>
         </li>
         <li class="<%= PATH.indexOf('/u/entrust') != -1 ? 'active' : ''%>">
