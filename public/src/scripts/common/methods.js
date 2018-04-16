@@ -265,7 +265,9 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
                 //         icon: "error"
                 //     });*/
                 // }
-                JuaBox.showWrong(EXX.L(resMsg.message));
+                if (resMsg.message) {
+                    JuaBox.showWrong(EXX.L(resMsg.message));
+                }
             }.bind(this);
 
             $.ajaxSetup({
@@ -385,15 +387,24 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
                 alert("Your browser does not support Web Socket.");
             }
         },
-        //只有用户信息没有资金
-        getUserListAll: function (callback) {
-            // Methods.getJSONP({
-            //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAssetNew',
-            //     success: function (res) {
-            //         this.setLocalStorage(ENV + 'userList', res.datas.userFunds);
-            //         callback && callback(res.datas.userFunds);
-            //     }.bind(this)
-            // });
+        //获取用户信息
+        getUserInfo: function(callback) {
+            if(!ISLOGIN){
+                return false;
+            }
+            var data = {
+                userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId
+            };
+            Methods.ajax({
+                type:'POST',
+                data: data,
+                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                success: function (res) {
+                    //更新用户信息
+                    this.setLocalUserInfo(res.datas);
+                    callback && callback(res.datas);
+                }.bind(this)
+            });
         },
         getUserList : function (callback) {
             var loginUser = this.getLocalUserInfo();
@@ -428,32 +439,25 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
             }
             var userInfo = this.getLocalStorage(ENV + 'userInfo');
             if(userInfo == null || typeof userInfo != 'object'){
-                this.getUserInfo(function (data) {
+                /*this.getUserInfo(function (data) {
                     //报错后刷新页面
                     top.location.reload();
-                })
+                })*/
+                // 报错后跳转至登录
+                this.deleCookie(ENV + 'currentAccountId');
+                this.setCookie(ENV + 'ExchangeMode', 1);
+                this.setCookie(ENV + 'TradeTheme', 'dark');
+                this.setCookie(ENV + 'inputPriceMode', 0);
+                this.setCookie(ENV + 'mname', 'none');
+
+                this.setCookie(ENV + 'uname', 'none');
+                this.setCookie(ENV + 'uid', 'none');
+                this.setCookie(ENV + 'uon', 'none');
+                window.localStorage.clear();
+                window.location.href = '/login';
             }else{
                 return userInfo;
             }
-        },
-        //获取用户信息
-        getUserInfo: function(callback) {
-            if(!ISLOGIN){
-                return false;
-            }
-            var data = {
-                userId: Methods.getLocalStorage(ENV + 'userInfo').userId
-            };
-            Methods.ajax({
-                type:'POST',
-                data: data,
-                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
-                success: function (res) {
-                    //更新用户信息
-                    this.setLocalUserInfo(res.datas);
-                    callback && callback(res.datas);
-                }.bind(this)
-            });
         },
         // 获取未登录用户信息
         getNoLoginUserInfo: function () {

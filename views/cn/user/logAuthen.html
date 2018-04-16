@@ -75,7 +75,7 @@
             el: '#logAuth',
             data: function () {
                 return {
-                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
+                    loginUser: Methods.getLocalUserInfo(ENV + 'noLoginUserInfo'),
                     dynamicCode: '',
                     emailCode: '',
                     googleCode: ''

@@ -9,7 +9,7 @@
                     marketConfig : '',
                     ad : '',
                     amount : '',
-                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo') || {},
+                    currentUserInfo : Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
                     payment : {
                         '1' : "<%- LANG('微信')%>",
                         '2' : "<%- LANG('支付宝')%>",
