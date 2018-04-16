@@ -91,7 +91,6 @@
                     // klineData: '',
                     // entrustData: '',
                     // tradeData: ''
-                    tm: '1M' //时间周期，默认 1M
                 }
             },
             computed: {
@@ -111,7 +110,12 @@
                 },
                 //K线消息
                 klineData: function () {
-                    return this.currentMarketId + '_KLINE_' + this.tm + '_' + this.currentMarket.toUpperCase();
+                    var time = this.kline.period.toUpperCase();
+                    if (time == 'LINE') {
+                        //分时 传1M
+                        time = '1M';
+                    }
+                    return this.currentMarketId + '_KLINE_' + time + '_' + this.currentMarket.toUpperCase();
                     // return '90_KLINE_5M_qc_btc';
                 },
                 //委托盘口消息
@@ -467,7 +471,7 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             try{
@@ -1061,9 +1065,11 @@
                         }
                     }
                 },
-                switchPeriod: function(period, tm){
-                    //设置K线显示周期
-                    this.tm = tm;
+                switchPeriod: function(period){
+                    this.setChartType('kline');
+                    Vue.set(this.kline, "period", period);
+                    this.klineFrame.switch_period(period);
+
                     //发送K线参数
                     var klineParam = {
                         dataType: this.klineData,
@@ -1071,11 +1077,6 @@
                         action: "ADD"
                     };
                     ExxWebSocket.websocket.send(JSON.stringify(klineParam));
-
-
-                    this.setChartType('kline');
-                    Vue.set(this.kline, "period", period);
-                    this.klineFrame.switch_period(period);
                 },
                 switchTheme: function(theme){
                     Vue.set(this.kline, "theme", theme);
@@ -1098,8 +1099,8 @@
                 setChartMoney: function(type) {
                     this.setChartType('kline');
                     Vue.set(this.kline, "money", type);
-                    // this.klineFrame.chart_set_money(type);
-                    this.klineFrame.document.location.href = '/kline/lite/' +this.currentMarket+ '?money=' + type;
+                    this.klineFrame.chart_set_money(type);
+                    this.klineFrame.document.location.href = '/kline/lite/' +this.currentMarket+ '?money=' + type; //改变iframe的href, src属性不会随之改变
                 },
                 setChartMainIndicator : function (style) {
                     Vue.set(this.kline, "mIndic", style);

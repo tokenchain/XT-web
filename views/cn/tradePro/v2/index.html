@@ -63,13 +63,13 @@
                             <p v-if="kline.period == '1m'">1<%= LANG('分') %></p>
                             <p v-if="kline.period == 'line'"><%= LANG('分时') %></p>
                             <ul class="item-list" v-cloak="">
-                                <li role="button" @click="switchPeriod('1w','7D')" :class="[kline.period == '1w' ? 'active' : '']"><%= LANG('周') %></li>
-                                <li role="button" @click="switchPeriod('1d','1D')" :class="[kline.period == '1d' ? 'active' : '']"><%= LANG('日') %></li>
-                                <li role="button" @click="switchPeriod('1h','1H')" :class="[kline.period == '1h' ? 'active' : '']">1<%= LANG('小时') %></li>
-                                <li role="button" @click="switchPeriod('30m','30M')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('15m','15M')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('1m','1M')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
-                                <li role="button" @click="switchPeriod('line','1H')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
+                                <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']"><%= LANG('周') %></li>
+                                <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']"><%= LANG('日') %></li>
+                                <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">1<%= LANG('小时') %></li>
+                                <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
+                                <li role="button" @click="switchPeriod('line')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
                             </ul>
                         </div>
                         <div class="line"></div>

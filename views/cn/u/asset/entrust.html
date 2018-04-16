@@ -240,7 +240,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/base/controller/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);

@@ -206,6 +206,7 @@ ExxWebSocket.init = function () {
     _this.websocket.onclose = function (event) {
         _this.openWebSocket = false;
         _this.onClose && _this.onClose(event);
+        console.log('websocket closed.')
     };
 }
 //处理二进制数据
@@ -305,7 +306,7 @@ ExxWebSocket.sendMessageParam = function (event) {
     //发送K线参数
     var klineParam = {
         dataType: EXX.appTradePro.klineData,
-        dataSize: 1000,
+        dataSize: 1000, //如需修改，还要改时间显示周期切换那里
         action: "ADD"
     };
     _this.websocket.send(JSON.stringify(klineParam));
@@ -398,9 +399,11 @@ function transKlineData(oldData) {
     var win = ifr.window || ifr.contentWindow;
 
     var result = {};
+
+    var currentMarket = EXX.appTradePro.currentMarket;
     // result.channel = '4_cny_kline_1day';
     // result.channel = kline.symbol.replace('_', '') + "_" + (kline.money || kline.symbol.split('_')[1]) + "_kline_" + GLOBAL_VAR.time_type;
-    result.channel = EXX.appTradePro.currentMarket.replace('_', '') + "_" + EXX.appTradePro.assistCoin + "_kline_" + win.GLOBAL_VAR.time_type;
+    result.channel = currentMarket.replace('_', '') + "_" + (win.kline.money || currentMarket.split('_')[1]) + "_kline_" + win.GLOBAL_VAR.time_type;
     result.isSuc = true;
     result.des = '';
     result.datas = {};

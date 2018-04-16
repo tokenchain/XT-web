@@ -558,6 +558,8 @@
         if(!window.parent.ExxWebSocket.openWebSocket){
             window.parent.ExxWebSocket.init();
         }
+        // websocket只初始化一次, 当切换辅助价格显示时，需要发送消息订阅对应辅助价格频道，获取数据后展示K线
+        // window.parent.ExxWebSocket.init();
     })
 </script>
 
