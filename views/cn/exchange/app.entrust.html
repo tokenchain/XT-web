@@ -43,7 +43,7 @@
                     locked : false,
                     adId : Methods.getUrlparm('id') || '',
                     loginUser: Methods.getLocalUserInfo(),
-                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo') || {},
+                    currentUserInfo : Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
                     accountInfo : '',
                     marketConfig : '',
                     //广告信息对象

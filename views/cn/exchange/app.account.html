@@ -215,7 +215,7 @@
                 //     })
                 // },
                 getAssetsInfo:function(){
-                    var currentUserInfo = Methods.getLocalStorage(ENV + 'currentUserInfo');
+                    var currentUserInfo = Methods.getLocalUserInfo(ENV + 'currentUserInfo');
                     if(currentUserInfo && currentUserInfo.coinFundMap){
                         this.assetsInfo = currentUserInfo.coinFundMap;
                     }

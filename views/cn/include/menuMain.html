@@ -134,7 +134,7 @@
                     userInfo: '',
                     userAssets: [],
                     coinConfig: '',
-                    loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
             },
             watch : {
@@ -291,7 +291,7 @@
                 getAccountAssets: function () {
                     var data = {
                         webId: 100,
-                        userId: Methods.getLocalStorage(ENV + 'userInfo').userId,
+                        userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,
                         pageSize: 9999,
                         pageNum: 1
                     };
@@ -322,7 +322,7 @@
                 getUserInfo: function () {
                     var _this = this;
                     var headers = {
-                        Userid: Methods.getLocalStorage(ENV + 'userInfo').userId
+                        Userid: Methods.getLocalUserInfo(ENV + 'userInfo').userId
                     };
                     Methods.ajax({
                         type:'POST',

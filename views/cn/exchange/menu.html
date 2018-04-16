@@ -34,7 +34,7 @@
                     pathName:window.location.pathname,
                     paramName:Methods.getUrlparm('type') || '2',
                     market:Methods.getUrlparm('market') || 'qc_cny',
-                    currentUserInfo : Methods.getLocalStorage(ENV + 'currentUserInfo'),
+                    currentUserInfo : Methods.getLocalUserInfo(ENV + 'currentUserInfo'),
                     pathArr:{
                         index:['/exchange','/exchange/orderCreate'],
                         entrust:['/exchange/entrustList'],

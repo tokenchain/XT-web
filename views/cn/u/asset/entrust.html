@@ -151,7 +151,7 @@
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
                         'cny': {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
                     },
-                    loginUser: Methods.getLocalStorage(ENV + 'userInfo'), //用户信息
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     openMarkets: [] //开放的市场
                 }
             },
