@@ -4,7 +4,8 @@
 
 
         <div class="dropdown coin-type" v-cloak="">
-            <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" : currentCoin.toUpperCase()}}</em></p>
+            <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" :
+                currentCoin.toUpperCase()}}</em></p>
             <div class="dropdown-menu">
                 <ul class="coin-type-list">
                     <li :class="{'active': currentCoin == 'all'}">
@@ -23,7 +24,12 @@
             <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{billTypeObj[currentType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == key}"><a role="button" @click="changeType(key)">{{item}}</a></li>
+                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == key}">
+                        <a role="button"
+                           @click="changeType(key)">
+                            {{item}}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,7 +38,9 @@
             <p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li v-for="(item,key) in timeTypeObj" :class="{'active': timeType == key}"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>
+                    <li v-for="(item,key) in timeTypeObj" :class="{'active': timeType == key}"><a role="button"
+                                                                                                  @click="changeTimeType(key)">{{item}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -44,58 +52,76 @@
             <div class="cell type"><%= LANG('操作')%></div>
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
-        <div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0" v-cloak="">
-            <div class="cell coin"><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'" class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}</div>
-            <div class="cell time">{{bill.createTime}}</div>
+        <div class="table body"
+             v-for="bill in billRecords"
+             v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
+            <div class="cell coin"><img
+                    :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'"
+                    class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}
+            </div>
+            <div class="cell time">{{bill.createTime.split('.')[0]}}</div>
             <div class="cell type">{{getChangeName(bill.changeType)}}</div>
 
             <div class="cell amount">
-                <div class="amount1"><p><span :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{coinsId[bill.currencyTypeId].toUpperCase()}}</em></span></p></div>
+                <div class="amount1"><p><span
+                        :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{coinsId[bill.currencyTypeId].toUpperCase()}}</em></span>
+                </p></div>
             </div>
         </div>
         <div class="table no-data" v-if="billRecords.length == 0">
             <%= LANG('暂无记录')%>
         </div>
     </div>
-    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
+    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill"
+               v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
 </div>
 
 <%-include("../../component/page_lite.html")%>
 
 <script>
-    require(['vue','common/methods'], function (Vue, Methods) {
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         EXX.appBill = new Vue({
             el: "#app-bill",
             data: function () {
                 return {
-                    isLogin : ISLOGIN,
-                    pageIndex : 1,
-                    pageSize : 10,
+                    isLogin: ISLOGIN,
+                    pageIndex: 1,
+                    pageSize: 10,
                     pageCount: 0,
-                    requestLocked : false,
+                    requestLocked: false,
                     currentUserAsset: '',
-                    coinConfig : '',
-                    billRecords : '',
-                    currentCoin : "<%= coin%>",
-                    currentType : 'all',
-                    billTypeObj : {
-                        "all" : "<%= LANG('全部') %>",
-                        "trade" : "<%= LANG('交易') %>",
-                        "payin" : "<%= LANG('充值') %>",
-                        "payout" : "<%= LANG('提现') %>",
-                        "other" : "<%= LANG('其他') %>"
-                    },
-                    timeType : '0',
-                    timeTypeObj : {
-                        '0' : "<%= LANG('最近记录') %>",
-                        '1' : "<%= LANG('历史记录') %>"
+                    coinConfig: '',
+                    billRecords: '',
+                    currentCoin: "<%= coin%>",
+                    // currentType: 'all',
+                    currentType: 0,
+                    // billTypeObj: {
+                    //     "all": "<%= LANG('全部') %>",
+                    //     "trade": "<%= LANG('交易') %>",
+                    //     "payin": "<%= LANG('充值') %>",
+                    //     "payout": "<%= LANG('提现') %>",
+                    //     "other": "<%= LANG('其他') %>"
+                    // },
+                    billTypeObj: [
+                        '全部',
+                        '交易买',
+                        '交易卖',
+                        '充值',
+                        '提现',
+                        '系统充值',
+                        '系统扣款'
+                    ],
+                    timeType: '0',
+                    timeTypeObj: {
+                        '0': "<%= LANG('最近记录') %>",
+                        '1': "<%= LANG('历史记录') %>"
                     },
 
-                    marketConfig : [],
+                    marketConfig: [],
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo') //用户信息
                 }
             },
-            computed : {
+            computed: {
                 //转换市场id
                 switchMarkets: function () {
                     var _this = this;
@@ -152,22 +178,24 @@
                         case 4:
                             return '提现变动';
                         case 5:
-                            return '其他变动';
+                            return '系统充值';
+                        case 6:
+                            return '系统扣款';
                     }
                 },
-                showDate: function(date) {
+                showDate: function (date) {
                     return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
                 },
                 /*
                 * 获取所有货币信息
                 * */
-                getCoinConfig: function() {
+                getCoinConfig: function () {
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         // url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'getcoinmaps',
                         url: DOMAIN_DEV + "/exchange/config/controller/admin/currencycontroller/" + 'getCurrencyList?webId=100',
-                        success: function(res) {
+                        success: function (res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
                     });
@@ -176,7 +204,7 @@
                  * 获取账单记录
                  * 按照货币类型获取，当货币类型传 空 时查询全部
                  */
-                getBill: function() {
+                getBill: function () {
                     var data = {
                         // billType: this.currentType,
                         // childId: this.currentAccountId,
@@ -188,14 +216,17 @@
                         currencyTypeName: this.currentCoin == 'all' ? '' : this.currentCoin,
                         userId: this.loginUser.userId,
                         pageSize: this.pageSize,
-                        pageNum: this.pageIndex
+                        pageNum: this.pageIndex,
                     };
+                    if (this.currentType != 0) {
+                        data.changeType = this.currentType
+                    }
                     this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundChangeController/" + 'findByPage',
                         data: JSON.stringify(data),
-                        success: function(res) {
+                        success: function (res) {
                             this.requestLocked = false;
 
                             // this.billRecords = res.datas.results;
@@ -238,7 +269,7 @@
                     this.getBill();
                 }
             },
-            created: function() {
+            created: function () {
                 this.getCoinConfig();
                 this.getMarketConfig(this.getBill);
             }
