@@ -169,13 +169,13 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], functi
         //检测密码强度
         checkPwdStrength: function (pwd) {
             var level = 0, index = 1;
-            if (pwd.length >= 6 && pwd.length <= 20) {
+            if (pwd.length >= 8 && pwd.length <= 20) {
                 //正则表达式验证符合要求的
-                if (/\d/.test(pwd)) level++; //数字
-                if (/[a-z]/.test(pwd)) level++; //小写
-                if (/[A-Z]/.test(pwd)) level++; //大写
-                if (/\W/.test(pwd)) level++; //特殊字符
-                if (level > 1 && pwd.length > 12) level++;//超过12位并且两种组合以上
+                if (/\d/.test(pwd)) level++; //数字 20
+                if (/[a-z]/.test(pwd)) level++; //小写 40
+                if (/[A-Z]/.test(pwd)) level++; //大写 60
+                if (/\W/.test(pwd)) level++; //特殊字符 80
+                if (level > 1 && pwd.length > 12) level++;//超过12位并且两种组合以上 100
             }
             return level
         },

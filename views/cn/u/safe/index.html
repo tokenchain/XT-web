@@ -26,9 +26,9 @@
         </div>
         <div class="col-md-4 vue-init">
           <%= LANG('安全性') %>：
-          <span v-if="userInfo.loginPwdLevel <= 40" class="di"><%= LANG('弱') %></span>
-          <span v-if="userInfo.loginPwdLevel > 40 && userInfo.loginPwdLevel <= 60" class="di"><%= LANG('中') %></span>
-          <span v-if="userInfo.loginPwdLefel > 60" class="gao"><%= LANG('高') %></span>
+          <span v-if="userInfo.loginPwdLevel <= 2" class="di"><%= LANG('弱') %></span>
+          <span v-if="userInfo.loginPwdLevel > 2 && userInfo.loginPwdLevel <= 3" class="di"><%= LANG('中') %></span>
+          <span v-if="userInfo.loginPwdLefel > 3" class="gao"><%= LANG('高') %></span>
         </div>
         <div class="col-md-4 text-right">
           <a class="btn btn-primary btn-sm" href="/u/safe/setLoginPwd"><%= LANG('修改') %></a>

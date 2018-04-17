@@ -74,21 +74,11 @@
                 handleComparedPwd: function () {
                     this.passwordIdentical = this.newPassword === this.passwordConfirmation
                 },
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
                 //校验密码强度
                 handleCheckPwdStrength: function () {
                     this.pwdStrength = Methods.checkPwdStrength(this.password);
                 },
                 handleSubmit: function () {
-                    //TODO 校验密码强度
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
@@ -109,6 +99,16 @@
                     } else if (this.dynamicCode == '') {
                         JuaBox.sure("<%= LANG('请输入验证码') %>");
                     } else {
+                        // 校验密码强度
+                        if (Methods.checkPwdStrength(this.oldPassword) < 2) {
+                            JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
+                            return;
+                        }
+                        if (Methods.checkPwdStrength(this.newPassword) < 2) {
+                            JuaBox.sure("<%= LANG('新登录密码格式不正确') %>");
+                            return;
+                        }
+
                         this.locked = true;
                         //通过headers传参，使用ajax原生方法
                         Methods.ajax({

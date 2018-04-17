@@ -58,9 +58,9 @@
                         <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
                         <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
 
-                        <span v-if="loginUser.loginPwdLevel <= 40" class="ruo"><%= LANG('弱') %></span>
-                        <span v-if="loginUser.loginPwdLevel > 40 && loginUser.loginPwdLevel <= 60" class="zhong"><%= LANG('中') %></span>
-                        <span v-if="loginUser.loginPwdLevel > 60" class="gao"><%= LANG('高') %></span>
+                        <span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>
+                        <span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>
+                        <span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>
                     </p>
                     </div>
                     <div class="r">
