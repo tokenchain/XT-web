@@ -239,11 +239,11 @@
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price, market, assist) {
                     if(!price || price == '' || !market || market == '' || this.assistPrice == null){
-                        return '--'
+                        return ''
                     }
                     var money = market.split('_')[1];
                     //优先取指定的assist
-                    var assistCoin = assist || MONEY;
+                    var assistCoin = assist || this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(price, 4);
                     } else {

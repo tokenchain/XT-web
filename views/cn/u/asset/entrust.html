@@ -282,10 +282,9 @@
                         success: function (res) {
                             //数组更新
                             if (marketid) {
-                                _this.records = _this.records.concat(res.datas);
-                                // _this.records = res.datas;
+                                _this.records = _this.records.concat(_this.filterRecord(res.datas));
                             } else {
-                                _this.records = res.datas;
+                                _this.records = _this.filterRecord(res.datas);
                             }
 
                             _this.requestLocked = false;
@@ -296,29 +295,20 @@
                         }
                     });
                 },
-                //获取用户所有委托记录
-                // getOpenEntrustRecord: function(callback) {
-                //     var _this = this;
-                //     _this.requestLocked = true;
-                //     Methods.getJSONP({
-                //         url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
-                //         success: function (res) {
-                //             //VUE数组的更新
-                //             _this.records = [];
-                //             if(res.datas.length > 0){
-                //                 res.datas.forEach(function (item) {
-                //                     _this.records.push(item);
-                //                 });
-                //             }
-                //             _this.requestLocked = false;
-                //             callback && callback(res.datas)
-                //         },
-                //         error : function (res) {
-                //             _this.requestLocked = false;
-                //             JuaBox.info(EXX.L(res.resMsg.message));
-                //         }
-                //     });
-                // },
+                // 委托记录条件过滤
+                filterRecord: function (record) {
+                    return record.filter(function (currentValue, index, arr) {
+                        if (this.tradeStatus != '-2' && this.tradeType != '-1') {
+                            return currentValue.status == this.tradeStatus && currentValue.type == this.tradeType
+                        } else if (this.tradeStatus != '-2') {
+                            return currentValue.status == this.tradeStatus
+                        } else if (this.tradeType != '-1') {
+                            return currentValue.type == this.tradeType
+                        } else {
+                            return true;
+                        }
+                    }, this);
+                },
                 //封装选择请求方法
                 getRecord : function () {
                     if(this.isAll){
@@ -348,7 +338,7 @@
                             _this.openMarkets.forEach(function (item, index) {
                                 setTimeout(function () {
                                     callback && callback(item.marketId);
-                                }, 10);
+                                }, 50);
                             });
 
                             _this.requestLocked = false;
