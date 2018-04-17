@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div class="bill-panel-body" :class="{'loading loading-light-bg' : requestLocked}">
+    <div class="bill-panel-body" :class="{'loading loading-light-bg' : requestLocked}" v-cloak="">
         <div class="table head">
             <div class="cell coin"><%= LANG('币种')%></div>
             <div class="cell time"><%= LANG('时间')%></div>
@@ -57,7 +57,8 @@
              v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
             <div class="cell coin"><img
                     :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'"
-                    class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}
+                    class="market-icon">
+                {{coinsId[bill.currencyTypeId].toUpperCase()}}
             </div>
             <div class="cell time">{{bill.createTime.split('.')[0]}}</div>
             <div class="cell type">{{getChangeName(bill.changeType)}}</div>
