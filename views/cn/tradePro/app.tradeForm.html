@@ -339,17 +339,9 @@
                             this.requestLocked = false;
                             //清除输入框内容
                             this.clearEntrustInput();
-                            //马上刷新委托和资金
-                            var int = 0;
-                            var call = setInterval(function () {
-                                int ++ ;
-                                if(int <= 3){
-                                    this.$parent.lastAssetTime = 0;
-                                    // this.$parent.getTargetUserAsset();
-                                }else {
-                                    window.clearInterval(call);
-                                }
-                            }.bind(this),1000)
+                            //刷新委托和资金
+                            EXX.userNav.getAccountAssets();
+
                             $.toast({
                                 heading: "<%= LANG('定单已执行') %>",
                                 text: text,
@@ -407,22 +399,14 @@
                             this.requestLocked = false;
                             //清除输入框内容
                             this.clearEntrustInput();
-                            //马上刷新委托和资金
-                            var int = 0;
-                            var call = setInterval(function () {
-                                int ++ ;
-                                if(int <= 3){
-                                    this.$parent.lastAssetTime = 0;
-                                    // this.$parent.getTargetUserAsset();
-                                }else {
-                                    window.clearInterval(call);
-                                }
-                            }.bind(this),1000)
+                            //刷新委托和资金
+                            EXX.userNav.getAccountAssets();
+
                             // var data = res.datas.split(":");
                             $.toast({
                                 heading: "<%= LANG('定单已执行') %>",
                                 // text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", data[0], data[1], this.coinName, data[2], this.moneyName),
-                                text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", 1, 1, this.coinName, 1, this.moneyName),
+                                text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", 1, data.amount, this.coinName, data.amount * data.rangeHighPrice, this.moneyName),
                                 icon: 'success',
                                 loader: true,
                                 loaderBg: '#9EC600'
