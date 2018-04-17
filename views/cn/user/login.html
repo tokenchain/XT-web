@@ -8,13 +8,13 @@
         <div class="form-box">
             <div class="form-group">
               <div class="form-control" id="nikeForm">
-            <input autocomplete="off" placeholder="<%= LANG('手机') %>/<%= LANG('邮箱') %>/<%= LANG('用户名') %>" v-model="userName" v-on:blur="handleCheckUserType($event)" v-on:focus="clearInputError($event)" type="text">
+            <input autocomplete="off" placeholder="<%= LANG('手机') %>/<%= LANG('邮箱') %>/<%= LANG('用户名') %>" v-model="userName" v-on:blur="handleCheckUserType($event)" v-on:focus="clearPhoneInputError($event)" type="text">
           <country-code v-if="showCountry" :selected="selectCountry" />
           </div>
           </div>
           <div class="form-group">
               <div class="form-control" id="passwordForm">
-              <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearInputError($event)" >
+              <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearPwdInputError($event)" >
               <a class="label-a" href="/findLoginPwd"><%= LANG('忘记密码?') %></a>
               </div>
           </div>
@@ -92,7 +92,9 @@
                     url : Methods.getUrlparm('url'),
                     // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
                     imgCodeId: '',
-                    imageCodeUrl: ''
+                    imageCodeUrl: '',
+                    phoneState: true,
+                    pwdState: true
                 }
             },
             methods: {
@@ -114,8 +116,10 @@
                     var target = e.target || e.currentTarget || e.srcElement;
                     if (this.userName.length < 6) {
                         Methods.showLineError(target, "<%= LANG('手机、邮箱或用户名格式不正确') %>")
+                        this.phoneState = false;
                     } else {
                         Methods.showLineError(target, "")
+                        this.phoneState = true;
                     }
                 },
                 //密码输入框失去焦点时，判断密码格式是否满足-ok
@@ -123,14 +127,23 @@
                     var target = e.target || e.currentTarget || e.srcElement;
                     if (Methods.checkPwdStrength(this.password) < 2) {
                         Methods.showLineError(target, "<%= LANG('登录密码格式不正确') %>")
+                        this.pwdState = false;
                     } else {
                         Methods.showLineError(target, "")
+                        this.pwdState = true;
                     }
                 },
                 //清除输入框错误信息-ok
-                clearInputError : function (e) {
+                clearPhoneInputError : function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
                     Methods.showLineError(target, "")
+                    this.phoneState = true;
+                },
+                //清除输入框错误信息-ok
+                clearPwdInputError : function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                    this.pwdState = true;
                 },
                 //选择国家代码
                 selectCountry: function (country) {
@@ -153,6 +166,9 @@
                 },
                 //登录方法
                 handleLogin: function () {
+                    if (!this.pwdState || !this.phoneState) {
+                        return false;
+                    }
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
                         userType: Methods.checkUserType(this.userName),
@@ -208,14 +224,24 @@
                                 Methods.setCookie(ENV+'uon', res.resMsg.code);
 
                                 var resMsg = res.resMsg;
-                                // 依次是: 谷歌，短信，邮箱
-                                if (resMsg.code == 6011 || resMsg.code == 6037 || resMsg.code == 6038) {
+                                // 依次是: 6011 谷歌，6037 短信，6038 邮箱
+                                // 6061 需要输入谷歌、邮箱验证码，
+                                // 6062 需要输入谷歌、短信验证码，
+                                // 6063 需要输入邮箱，短信验证码，
+                                // 6064 需要输入谷歌、邮箱、短信验证码
+                                if (resMsg.code == 6011 ||
+                                    resMsg.code == 6037 ||
+                                    resMsg.code == 6038 ||
+                                    resMsg.code == 6061 ||
+                                    resMsg.code == 6062 ||
+                                    resMsg.code == 6063 ||
+                                    resMsg.code == 6064) {
                                     data.code = resMsg.code; //将二次验证code传递
                                     Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
                                     //需要进一步验证
                                     window.location.href = '/loginAuth';
                                 } else if (resMsg.code == 6015) {
-                                    //需要输入图形验证码
+                                    // 6015 图片验证码
                                     _this.showImgCode = true;
                                     _this.getImageCode();
 
