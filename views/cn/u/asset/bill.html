@@ -24,8 +24,11 @@
             <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{billTypeObj[currentType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == key}"><a role="button"
-                                                                                                     @click="changeType(key)">{{item}}</a>
+                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == key}">
+                        <a role="button"
+                           @click="changeType(key)">
+                            {{item}}
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -49,8 +52,9 @@
             <div class="cell type"><%= LANG('操作')%></div>
             <div class="cell amount"><%= LANG('发生金额')%></div>
         </div>
-        <div class="table body" v-for="bill in billRecords"
-             v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0" v-cloak="">
+        <div class="table body"
+             v-for="bill in billRecords"
+             v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
             <div class="cell coin"><img
                     :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'"
                     class="market-icon">{{coinsId[bill.currencyTypeId].toUpperCase()}}
@@ -89,14 +93,24 @@
                     coinConfig: '',
                     billRecords: '',
                     currentCoin: "<%= coin%>",
-                    currentType: 'all',
-                    billTypeObj: {
-                        "all": "<%= LANG('全部') %>",
-                        "trade": "<%= LANG('交易') %>",
-                        "payin": "<%= LANG('充值') %>",
-                        "payout": "<%= LANG('提现') %>",
-                        "other": "<%= LANG('其他') %>"
-                    },
+                    // currentType: 'all',
+                    currentType: 0,
+                    // billTypeObj: {
+                    //     "all": "<%= LANG('全部') %>",
+                    //     "trade": "<%= LANG('交易') %>",
+                    //     "payin": "<%= LANG('充值') %>",
+                    //     "payout": "<%= LANG('提现') %>",
+                    //     "other": "<%= LANG('其他') %>"
+                    // },
+                    billTypeObj: [
+                        '全部',
+                        '交易买',
+                        '交易卖',
+                        '充值',
+                        '提现',
+                        '系统充值',
+                        '系统扣款'
+                    ],
                     timeType: '0',
                     timeTypeObj: {
                         '0': "<%= LANG('最近记录') %>",
@@ -164,7 +178,9 @@
                         case 4:
                             return '提现变动';
                         case 5:
-                            return '其他变动';
+                            return '系统充值';
+                        case 6:
+                            return '系统扣款';
                     }
                 },
                 showDate: function (date) {
@@ -200,8 +216,11 @@
                         currencyTypeName: this.currentCoin == 'all' ? '' : this.currentCoin,
                         userId: this.loginUser.userId,
                         pageSize: this.pageSize,
-                        pageNum: this.pageIndex
+                        pageNum: this.pageIndex,
                     };
+                    if (this.currentType != 0) {
+                        data.changeType = this.currentType
+                    }
                     this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
