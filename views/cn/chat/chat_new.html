@@ -6,17 +6,20 @@
             <h2>{{currTabText}}</h2>
             <ul>
                 <li>
-                    <a class="single" :class="{active: currTab == 'single'}" @click="switchTab('single')" title="<%= LANG('客服')%>">
+                    <a class="single" :class="{active: currTab == 'single'}" @click="switchTab('single')"
+                       title="<%= LANG('客服')%>">
                         <span v-if="unreadSingleCount > 0">{{unreadSingleCount}}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="group" :class="{active: currTab == 'group'}" @click="switchTab('group')" title="<%= LANG('会话列表')%>">
+                    <a class="group" :class="{active: currTab == 'group'}" @click="switchTab('group')"
+                       title="<%= LANG('会话列表')%>">
                         <span v-if="unreadGroupCount > 0">{{unreadGroupCount}}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="notice" :class="{active: currTab == 'notice'}" @click="switchTab('notice')" title="<%= LANG('通知')%>">
+                    <a class="notice" :class="{active: currTab == 'notice'}" @click="switchTab('notice')"
+                       title="<%= LANG('通知')%>">
                         <span v-if="unreadNoticeCount > 0">{{unreadNoticeCount}}</span>
                     </a>
                 </li>
@@ -38,7 +41,8 @@
             </div>
             <span class="close" @click="toggleChat" title="<%= LANG('收起')%>">
                 <svg width="17" height="17" viewBox="0 0 17 17" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.502 8.5l7.29 7.29c.277.278.277.727 0 1.003-.137.138-.32.207-.5.207s-.362-.07-.5-.207L8.5 9.503l-7.29 7.29c-.14.138-.32.207-.5.207-.183 0-.364-.07-.502-.207-.277-.276-.277-.725 0-1.002l7.29-7.29-7.29-7.29C-.07.932-.07.483.208.206c.277-.276.725-.276 1 0L8.5 7.497l7.29-7.29c.277-.276.725-.276 1.002 0 .277.277.277.726 0 1.002L9.502 8.5z" fill-rule="evenodd"></path>
+                    <path d="M9.502 8.5l7.29 7.29c.277.278.277.727 0 1.003-.137.138-.32.207-.5.207s-.362-.07-.5-.207L8.5 9.503l-7.29 7.29c-.14.138-.32.207-.5.207-.183 0-.364-.07-.502-.207-.277-.276-.277-.725 0-1.002l7.29-7.29-7.29-7.29C-.07.932-.07.483.208.206c.277-.276.725-.276 1 0L8.5 7.497l7.29-7.29c.277-.276.725-.276 1.002 0 .277.277.277.726 0 1.002L9.502 8.5z"
+                          fill-rule="evenodd"></path>
                 </svg>
             </span>
         </div>
@@ -50,10 +54,12 @@
                     <div class="item other" v-if="scrollProp.single.hasMore && singleMsg.length">
                         <div class="sys">
                             <a @click="loadMoreSingleMsg" v-show="!scrollProp.single.isLock">点击查看更多消息</a>
-                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif" v-show="scrollProp.single.isLock"/>
+                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif"
+                                 v-show="scrollProp.single.isLock"/>
                         </div>
                     </div>
-                    <div class="item" v-for="message,index in singleMsg" :class="message.senderkey == wsServer.userkey ? 'user' : 'other'">
+                    <div class="item" v-for="message,index in singleMsg"
+                         :class="message.senderkey == wsServer.userKey ? 'user' : 'other'">
                         <template v-if="message.senderInfo.role == '109'">
                             <div class="sys">
                                 <span>{{message.content}}</span>
@@ -63,12 +69,16 @@
                             <div v-if="messageDatetime(message,singleMsg[index - 1])" class="sys">
                                 <span>{{messageDatetime(message,singleMsg[index - 1])}}</span>
                             </div>
-                            <div v-if="message.senderkey != wsServer.userkey" class="img">
+                            <div v-if="message.senderkey != wsServer.userKey" class="img">
                                 <img src='<%= STATIC %>/images/chat/webchat-header.png'/>
                             </div>
                             <div class="txt">
-                                <h4>{{message.senderkey == wsServer.userkey ? 'Me' : '客服'}}</h4>
-                                <div class="chat-content"><img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif" v-if="message.waiting" />{{message.content}}</div>
+                                <!--此处判断 聊天角色-->
+                                <h4>{{message.senderkey == wsServer.userKey ? 'Me' : '客服'}}</h4>
+                                <div class="chat-content"><img class="msg-load"
+                                                               src="<%= STATIC %>/images/chat/loader.gif"
+                                                               v-if="message.waiting"/>{{message.content}}
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -76,11 +86,13 @@
             </div>
         </div>
         <div class="h-textarea">
-            <textarea @keyup.ctrl.enter="sendSingleMessage" v-model="inputSingleMsg" placeholder="<%= LANG('在这里输入消息...')%>"></textarea>
+            <textarea @keyup.ctrl.enter="sendSingleMessage" v-model="inputSingleMsg"
+                      placeholder="<%= LANG('在这里输入消息...')%>"></textarea>
             <span @click="sendSingleMessage">
                 <i>
                     <svg width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.975.38c.014.043.02.087.024.132v.06c-.004.048-.014.095-.03.14-.006.017-.007.032-.014.046L7.252 12.692c-.09.19-.28.308-.49.308-.216-.002-.406-.127-.493-.32l-.537-3.41C5.56 8.18 4.55 7.1 3.478 6.86l-3.2-.72c-.18-.1-.287-.293-.277-.5.012-.206.138-.39.328-.47L12.248.04 12.3.026c.05-.015.098-.025.148-.026.02 0 .038 0 .058.003.046.004.09.013.132.028l.055.02c.056.027.11.06.154.107.053.053.085.11.11.168.008.018.013.036.018.055z" fill-rule="evenodd"/>
+                        <path d="M12.975.38c.014.043.02.087.024.132v.06c-.004.048-.014.095-.03.14-.006.017-.007.032-.014.046L7.252 12.692c-.09.19-.28.308-.49.308-.216-.002-.406-.127-.493-.32l-.537-3.41C5.56 8.18 4.55 7.1 3.478 6.86l-3.2-.72c-.18-.1-.287-.293-.277-.5.012-.206.138-.39.328-.47L12.248.04 12.3.026c.05-.015.098-.025.148-.026.02 0 .038 0 .058.003.046.004.09.013.132.028l.055.02c.056.027.11.06.154.107.053.053.085.11.11.168.008.018.013.036.018.055z"
+                              fill-rule="evenodd"/>
                     </svg>
                     <%= LANG('发送消息') %>
                 </i>
@@ -98,7 +110,8 @@
         <div id="groupScroll" class="exx-chat-body" :class="{'is-chatting':selectedConversation}">
             <div class="scroll-warp">
                 <div class="h-conversation" v-show="!selectedConversation">
-                    <div class="item" v-for="curr in groupConversation" :class="{offline: curr.objectModel.online == '0'}" @click="selectConversation(curr)">
+                    <div class="item" v-for="curr in groupConversation"
+                         :class="{offline: curr.objectModel.online == '0'}" @click="selectConversation(curr)">
                         <div class="item-inner">
                             <span v-if="curr.unreadCount > 0" class="unread">{{curr.unreadCount}}</span>
                             <div class="img">
@@ -110,17 +123,20 @@
                                 <em>{{formatDateTime(curr.lastChatMessage.sendTime)}}</em>
                             </template>
                         </div>
-                        <span @click.stop="closeConversation(curr)" class="del" title="<%= LANG('删除会话') %>"><i class="trading-icon trading-icon-delete"></i></span>
+                        <span @click.stop="closeConversation(curr)" class="del" title="<%= LANG('删除会话') %>"><i
+                                class="trading-icon trading-icon-delete"></i></span>
                     </div>
                 </div>
                 <div class="h-message" v-show="selectedConversation">
                     <div class="item other" v-if="scrollProp.group.hasMore && groupMsg.length">
                         <div class="sys">
                             <a @click="loadMoreGroupMsg" v-show="!scrollProp.group.isLock">点击查看更多消息</a>
-                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif" v-show="scrollProp.group.isLock"/>
+                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif"
+                                 v-show="scrollProp.group.isLock"/>
                         </div>
                     </div>
-                    <div class="item" v-for="message,index in groupMsg" :class="message.senderkey == wsServer.userkey ? 'user' : 'other'">
+                    <div class="item" v-for="message,index in groupMsg"
+                         :class="message.senderkey == wsServer.userkey ? 'user' : 'other'">
                         <template v-if="message.senderInfo.role == '109'">
                             <div class="sys">
                                 <span>{{message.content}}</span>
@@ -131,11 +147,14 @@
                                 <span>{{messageDatetime(message,groupMsg[index - 1])}}</span>
                             </div>
                             <div v-if="message.senderkey != wsServer.userkey" class="img">
-                                <img :src="message.senderInfo.avatarUrl" />
+                                <img :src="message.senderInfo.avatarUrl"/>
                             </div>
                             <div class="txt">
                                 <h4>{{message.senderkey == wsServer.userkey ? 'Me' : message.senderInfo.nickname}}</h4>
-                                <div class="chat-content"><img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif" v-if="message.waiting" />{{message.content}}</div>
+                                <div class="chat-content"><img class="msg-load"
+                                                               src="<%= STATIC %>/images/chat/loader.gif"
+                                                               v-if="message.waiting"/>{{message.content}}
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -143,11 +162,13 @@
             </div>
         </div>
         <div class="h-textarea" v-show="selectedConversation">
-            <textarea @keyup.ctrl.enter="sendGroupMessage" v-model="inputGroupMsg" placeholder="<%= LANG('在这里输入消息...')%>"></textarea>
-                <span @click="sendGroupMessage">
+            <textarea @keyup.ctrl.enter="sendGroupMessage" v-model="inputGroupMsg"
+                      placeholder="<%= LANG('在这里输入消息...')%>"></textarea>
+            <span @click="sendGroupMessage">
                 <i>
                     <svg width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.975.38c.014.043.02.087.024.132v.06c-.004.048-.014.095-.03.14-.006.017-.007.032-.014.046L7.252 12.692c-.09.19-.28.308-.49.308-.216-.002-.406-.127-.493-.32l-.537-3.41C5.56 8.18 4.55 7.1 3.478 6.86l-3.2-.72c-.18-.1-.287-.293-.277-.5.012-.206.138-.39.328-.47L12.248.04 12.3.026c.05-.015.098-.025.148-.026.02 0 .038 0 .058.003.046.004.09.013.132.028l.055.02c.056.027.11.06.154.107.053.053.085.11.11.168.008.018.013.036.018.055z" fill-rule="evenodd"/>
+                        <path d="M12.975.38c.014.043.02.087.024.132v.06c-.004.048-.014.095-.03.14-.006.017-.007.032-.014.046L7.252 12.692c-.09.19-.28.308-.49.308-.216-.002-.406-.127-.493-.32l-.537-3.41C5.56 8.18 4.55 7.1 3.478 6.86l-3.2-.72c-.18-.1-.287-.293-.277-.5.012-.206.138-.39.328-.47L12.248.04 12.3.026c.05-.015.098-.025.148-.026.02 0 .038 0 .058.003.046.004.09.013.132.028l.055.02c.056.027.11.06.154.107.053.053.085.11.11.168.008.018.013.036.018.055z"
+                              fill-rule="evenodd"/>
                     </svg>
                     <%= LANG('发送消息') %>
                 </i>
@@ -172,7 +193,8 @@
                     <div class="item" v-if="scrollProp.notice.hasMore && noticeMsg.length">
                         <div class="sys">
                             <a @click="loadMoreNoticeMsg" v-show="!scrollProp.notice.isLock">点击查看更多通知</a>
-                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif" v-show="scrollProp.notice.isLock"/>
+                            <img class="msg-load" src="<%= STATIC %>/images/chat/loader.gif"
+                                 v-show="scrollProp.notice.isLock"/>
                         </div>
                     </div>
                 </div>
@@ -193,52 +215,52 @@
     var singleScroll = null,
         groupScroll = null,
         noticeScroll = null;
-    require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         EXX.chatPlugin = new Vue({
             el: "#exx-chat",
             data: function () {
                 return {
-                    isOpen:false,
-                    loaded:false,
-                    currTab:'single',
-                    wsServer:{},
-                    inputSingleMsg:'',
-                    inputGroupMsg:'',
-                    selectedConversation:'',
-                    groupConversation:[],
-                    singleMsg:[],
-                    groupMsg:[],
-                    noticeMsg:[],
-                    unreadSingleCount:0,
-                    unreadNoticeCount:0,
-                    outSideGroupKey:'',
-                    scrollProp:{
-                        single:{
-                            loaded:false,
-                            isLock:false,
-                            hasMore:true,
-                            isBefore:false,
+                    isOpen: false,
+                    loaded: false,
+                    currTab: 'single',
+                    wsServer: {},
+                    inputSingleMsg: '',
+                    inputGroupMsg: '',
+                    selectedConversation: '',
+                    groupConversation: [],
+                    singleMsg: [],
+                    groupMsg: [],
+                    noticeMsg: [],
+                    unreadSingleCount: 0,
+                    unreadNoticeCount: 0,
+                    outSideGroupKey: '',
+                    scrollProp: {
+                        single: {
+                            loaded: false,
+                            isLock: false,
+                            hasMore: true,
+                            isBefore: false,
                         },
-                        group:{
-                            loaded:false,
-                            isLock:false,
-                            hasMore:true,
-                            isBefore:false,
+                        group: {
+                            loaded: false,
+                            isLock: false,
+                            hasMore: true,
+                            isBefore: false,
                         },
-                        notice:{
-                            loaded:false,
-                            isLock:false,
-                            hasMore:true,
-                            isBefore:false,
+                        notice: {
+                            loaded: false,
+                            isLock: false,
+                            hasMore: true,
+                            isBefore: false,
                         },
                     },
-                    msgTag:0, //发送消息时的标识（会自增）
+                    msgTag: 0, //发送消息时的标识（会自增）
                     loginUser: Methods.getLocalUserInfo()
                 }
             },
-            computed:{
-                currTabText:function(){
-                    switch(this.currTab){
+            computed: {
+                currTabText: function () {
+                    switch (this.currTab) {
                         case "single":
                             return '客服'
                             break;
@@ -252,108 +274,116 @@
                             return ""
                     }
                 },
-                unreadGroupCount: function() {
+                unreadGroupCount: function () {
                     var count = 0;
-                    this.groupConversation.forEach(function(item){
+                    this.groupConversation.forEach(function (item) {
                         count += Number(item.unreadCount);
                     });
                     return count;
                 },
             },
-            methods:{
-                toggleChat: function(boolean) {
-                    if(!ISLOGIN){
-                        return JuaBox.info("请登陆账号",function(){
+            methods: {
+                toggleChat: function (boolean) {
+                    if (!ISLOGIN) {
+                        return JuaBox.info("请登陆账号", function () {
                             window.location.href = '/login'
                         })
                     }
-                    this.isOpen = typeof boolean === 'boolean'? boolean : !this.isOpen;
+                    this.isOpen = typeof boolean === 'boolean' ? boolean : !this.isOpen;
                     if (this.isOpen) {
                         this.initConnect();
                     }
                 },
-                switchTab: function(tab) {
+                switchTab: function (tab) {
                     this.currTab = tab;
-                    if(tab == 'single'){
-                        this.$nextTick(function(){
+                    if (tab == 'single') {
+                        this.$nextTick(function () {
                             singleScroll.refresh();
                         })
-                        if(this.unreadSingleCount > 0){
-                            this.readConversation({role:'100'})
+                        if (this.unreadSingleCount > 0) {
+                            this.readConversation({role: '100'})
                         }
-                    }else if(tab == 'group'){
-                        this.$nextTick(function(){
+                    } else if (tab == 'group') {
+                        this.$nextTick(function () {
                             groupScroll.refresh();
                         })
-                    }else if(tab == 'notice'){
-                        this.$nextTick(function(){
+                    } else if (tab == 'notice') {
+                        this.$nextTick(function () {
                             noticeScroll.refresh();
                         })
-                        if(this.unreadNoticeCount > 0){
-                            this.readConversation({role:'101'})
+                        if (this.unreadNoticeCount > 0) {
+                            this.readConversation({role: '101'})
                         }
                     }
                 },
-                backIndex: function() {
+                backIndex: function () {
                     this.selectedConversation = '';
                     this.groupMsg = [];
                     this.inputGroupMsg = '';
                 },
-                formatDateTime: function(timestamp) {
+                formatDateTime: function (timestamp) {
                     return Methods.getDateTime(timestamp * 1000, 'YYYY-MM-DD HH:MM');
                 },
-                scrollToBottom:function(iScroll){
-                    if(iScroll.y != iScroll.maxScrollY){
+                scrollToBottom: function (iScroll) {
+                    if (iScroll.y != iScroll.maxScrollY) {
                         setTimeout(function () {
                             iScroll.scrollTo(0, iScroll.maxScrollY, 500)
                         }, 500)
                     }
                 },
-                scrollToTop:function(iScroll){
-                    if(iScroll.y != 0){
+                scrollToTop: function (iScroll) {
+                    if (iScroll.y != 0) {
                         setTimeout(function () {
                             iScroll.scrollTo(0, 0, 500)
                         }, 500)
                     }
                 },
-                outSideGroupChat:function(groupkey){
+                outSideGroupChat: function (groupkey) {
                     this.currTab = 'group';
-                    if(wSocket){
+                    if (wSocket) {
                         this.isOpen = true;
                         var fConverstation = this.groupConversation.getObject('objectkey', groupkey);
-                        if(this.selectedConversation && this.selectedConversation == fConverstation){
+                        if (this.selectedConversation && this.selectedConversation == fConverstation) {
                             return;
                         }
-                        if(this.groupConversation.indexOf(fConverstation) !== -1){
+                        if (this.groupConversation.indexOf(fConverstation) !== -1) {
                             this.selectConversation(fConverstation)
-                        }else{
+                        } else {
                             this.selectedConversation && this.backIndex();
-                            this.createConversation({objectkey: groupkey,conversationType:'1'})
+                            this.createConversation({objectkey: groupkey, conversationType: '1'})
                         }
-                    }else{
+                    } else {
                         this.outSideGroupKey = groupkey;
                         this.toggleChat(true);
                     }
                 },
-                loadMoreSingleMsg:function(){
-                    if(!this.scrollProp.single.isLock && this.scrollProp.single.hasMore){
+                loadMoreSingleMsg: function () {
+                    if (!this.scrollProp.single.isLock && this.scrollProp.single.hasMore) {
                         this.scrollProp.single.isLock = true;
-                        this.getMessage({conversationType:'0',role:'100',lastMsgid:this.singleMsg[0].msgid});
+                        this.getMessage({conversationType: '0', role: '100', lastMsgid: this.singleMsg[0].msgid});
                     }
                 },
-                loadMoreGroupMsg:function(){
-                    if(!this.scrollProp.group.isLock && this.scrollProp.group.hasMore){
+                loadMoreGroupMsg: function () {
+                    if (!this.scrollProp.group.isLock && this.scrollProp.group.hasMore) {
                         this.scrollProp.group.isLock = true;
-                        this.getMessage({objectkey:this.selectedConversation.objectkey,conversationType:this.selectedConversation.conversationType,lastMsgid:this.groupMsg[0].msgid});
+                        this.getMessage({
+                            objectkey: this.selectedConversation.objectkey,
+                            conversationType: this.selectedConversation.conversationType,
+                            lastMsgid: this.groupMsg[0].msgid
+                        });
                     }
                 },
-                loadMoreNoticeMsg:function(){
-                    if(!this.scrollProp.notice.isLock && this.scrollProp.notice.hasMore){
+                loadMoreNoticeMsg: function () {
+                    if (!this.scrollProp.notice.isLock && this.scrollProp.notice.hasMore) {
                         this.scrollProp.notice.isLock = true;
-                        this.getMessage({conversationType:'0',role:'101',lastMsgid:this.noticeMsg[this.noticeMsg.length-1].msgid});
+                        this.getMessage({
+                            conversationType: '0',
+                            role: '101',
+                            lastMsgid: this.noticeMsg[this.noticeMsg.length - 1].msgid
+                        });
                     }
                 },
-                messageDatetime: function(message,preMessage) {
+                messageDatetime: function (message, preMessage) {
                     if (!message.sendTime) {
                         return null;
                     }
@@ -364,188 +394,193 @@
                         return this.formatDateTime(message.sendTime)
                     }
                 },
-                selectConversation: function(conversation) {
+                selectConversation: function (conversation) {
                     this.scrollProp.group.hasMore = true;
                     this.scrollProp.group.loaded = false;
                     this.selectedConversation = conversation;
-                    if(conversation.unreadCount > 0){
+                    if (conversation.unreadCount > 0) {
                         this.readConversation({conversationkey: conversation.conversationkey});
                     }
-                    this.getMessage({objectkey:conversation.objectkey,conversationType:conversation.conversationType});
+                    this.getMessage({
+                        objectkey: conversation.objectkey,
+                        conversationType: conversation.conversationType
+                    });
                 },
                 //发送单聊消息
-                sendSingleMessage: function() {
+                sendSingleMessage: function () {
                     if (!this.inputSingleMsg || !this.inputSingleMsg.trim()) {
                         JuaBox.info("<%= LANG('请不要惜字如金') %>")
                         return;
                     }
+                    console.log(this.wsServer.userKey)
                     this.msgTag++;
                     var body = {
                         appkey: this.wsServer.appKey,
-                        userkey : this.wsServer.userKey,
-                        messageType : "1",
-                        content : this.inputSingleMsg,
-                        objectkey:this.wsServer.serviceKey,
-                        objecttype:'0',
-                        msgTag:this.msgTag
+                        userkey: this.wsServer.userKey,
+                        messageType: "1",
+                        content: this.inputSingleMsg,
+                        objectkey: this.wsServer.serviceKey,
+                        objecttype: '0',
+                        msgTag: this.msgTag
                     };
                     this.wsSend('sendMessage', body);
                     var chatMessage = {
-                        senderkey:this.wsServer.userkey,
-                        content:this.inputSingleMsg,
-                        senderInfo:{role:"1"},
-                        sendTime:Math.round(new Date() / 1000),
-                        msgTag:this.msgTag,
-                        waiting:true
+                        senderkey: this.wsServer.userKey,
+                        content: this.inputSingleMsg,
+                        senderInfo: {role: "1"},
+                        sendTime: Math.round(new Date() / 1000),
+                        msgTag: this.msgTag,
+                        waiting: true
                     }
                     this.singleMsg.push(chatMessage)
                     this.inputSingleMsg = '';
                 },
                 //发送群聊消息
-                sendGroupMessage: function() {
+                sendGroupMessage: function () {
                     if (!this.inputGroupMsg || !this.inputGroupMsg.trim()) {
                         JuaBox.info("<%= LANG('请不要惜字如金') %>")
                         return;
                     }
+
                     this.msgTag++;
                     var body = {
                         appkey: this.wsServer.appKey,
-                        userkey : this.wsServer.userKey,
-                        messageType : "1",
-                        content : this.inputGroupMsg,
-                        objectkey:this.selectedConversation.objectkey,
-                        objecttype:this.selectedConversation.conversationType,
-                        msgTag:this.msgTag
+                        userkey: this.wsServer.userKey,
+                        messageType: "1",
+                        content: this.inputGroupMsg,
+                        objectkey: this.selectedConversation.objectkey,
+                        objecttype: this.selectedConversation.conversationType,
+                        msgTag: this.msgTag
                     };
                     this.wsSend('sendMessage', body);
                     var chatMessage = {
-                        senderkey:this.wsServer.userkey,
-                        content:this.inputGroupMsg,
-                        senderInfo:{role:"1"},
-                        sendTime:Math.round(new Date() / 1000),
-                        msgTag:this.msgTag,
-                        waiting:true
+                        senderkey: this.wsServer.userKey,
+                        content: this.inputGroupMsg,
+                        senderInfo: {role: "1"},
+                        sendTime: Math.round(new Date() / 1000),
+                        msgTag: this.msgTag,
+                        waiting: true
                     }
                     this.groupMsg.push(chatMessage)
                     this.inputGroupMsg = '';
                 },
-                getMessage: function(options) {
+                getMessage: function (options) {
                     var body = {
-                        userkey : this.wsServer.userkey,
-                        isContainUser:"1",
-                        count : "20"
+                        userkey: this.wsServer.userkey,
+                        isContainUser: "1",
+                        count: "20"
                     };
-                    this.wsSend('getMessages', $.extend({},body,options));
+                    this.wsSend('getMessages', $.extend({}, body, options));
                 },
-                createConversation: function(conversation) {
+                createConversation: function (conversation) {
                     var fConverstation = this.groupConversation.getObject('objectkey', conversation.objectkey);
-                    if(conversation.conversationType == '1' && this.groupConversation.indexOf(fConverstation) === -1){
+                    if (conversation.conversationType == '1' && this.groupConversation.indexOf(fConverstation) === -1) {
                         var body = {
                             userkey: this.wsServer.userkey,
                             objectkey: conversation.objectkey,
                             conversationName: conversation.conversationName,
-                            type:conversation.conversationType
+                            type: conversation.conversationType
                         };
                         this.wsSend('createConversation', body);
                     }
                 },
-                readConversation: function(options) {
+                readConversation: function (options) {
                     var body = {
                         userkey: this.wsServer.userkey,
                     };
-                    this.wsSend('setReadConversation', $.extend({},body,options));
+                    this.wsSend('setReadConversation', $.extend({}, body, options));
                 },
-                getConversations: function() {
+                getConversations: function () {
                     var body = {
                         userkey: this.wsServer.userkey,
-                        count:10,
+                        count: 10,
                     };
                     this.wsSend('getConversations', body);
                 },
-                closeConversation: function(conversation) {
+                closeConversation: function (conversation) {
                     var body = {
                         userkey: this.wsServer.userkey,
                         conversationkey: conversation.conversationkey,
                     };
                     this.wsSend('closeConversation', body);
                 },
-                handleCloseConversation:function(message){
+                handleCloseConversation: function (message) {
                     var conversationkey = message.body.datas.conversationkey;
                     var fConverstation = this.groupConversation.getObject('conversationkey', conversationkey);
                     this.groupConversation.remove(fConverstation);
                 },
-                handleCreateConversation:function(message){
+                handleCreateConversation: function (message) {
                     var conversation = message.body.datas.conversation;
                     var fConverstation = this.groupConversation.getObject('conversationkey', conversation.conversationkey);
-                    if(conversation.conversationType == '1'){
-                        if(this.groupConversation.indexOf(fConverstation) === -1){
+                    if (conversation.conversationType == '1') {
+                        if (this.groupConversation.indexOf(fConverstation) === -1) {
                             this.groupConversation.unshift(conversation);
                         }
                         this.selectConversation(conversation)
                     }
                 },
-                handleReceiveMessage: function(data) {
-                    var conversation =  data.body.conversation;
-                    var chatMessage =  data.body.chatMessage;
+                handleReceiveMessage: function (data) {
+                    var conversation = data.body.conversation;
+                    var chatMessage = data.body.chatMessage;
                     chatMessage.senderInfo = conversation.userInfo;
                     conversation.lastChatMessage = chatMessage;
-                    if(conversation.conversationType == '0'){
-                        if(conversation.objectModel.role == '100'){
+                    if (conversation.conversationType == '0') {
+                        if (conversation.objectModel.role == '100') {
                             this.singleMsg.push(chatMessage)
                             this.wsServer.servicekey = conversation.objectModel.userkey;
-                            if(this.currTab != 'single'){
+                            if (this.currTab != 'single') {
                                 this.unreadSingleCount++;
-                            }else{
-                                this.readConversation({role:'100'})
+                            } else {
+                                this.readConversation({role: '100'})
                             }
-                        }else if(conversation.objectModel.role == '101'){
+                        } else if (conversation.objectModel.role == '101') {
                             this.noticeMsg.unshift(chatMessage)
-                            if(this.currTab != 'notice'){
+                            if (this.currTab != 'notice') {
                                 this.unreadNoticeCount++;
-                            }else{
-                                this.readConversation({role:'101'})
+                            } else {
+                                this.readConversation({role: '101'})
                             }
                         }
-                    }else if(conversation.conversationType == '1'){
+                    } else if (conversation.conversationType == '1') {
                         var conversations = this.groupConversation.slice(0);
                         var fConverstation = conversations.getObject('conversationkey', conversation.conversationkey);
                         if (conversations.indexOf(fConverstation) === -1) {
                             this.groupConversation.unshift(conversation);
-                        }else{
+                        } else {
                             conversations.remove(fConverstation);
                             conversations.unshift(conversation);
                             this.groupConversation = conversations;
                         }
                         if (this.selectedConversation && this.selectedConversation.conversationkey == conversation.conversationkey) {
                             this.groupMsg.push(chatMessage);
-                            this.readConversation({conversationkey:conversation.conversationkey});
+                            this.readConversation({conversationkey: conversation.conversationkey});
                         }
                     }
                 },
-                handleGetMessages: function(data) {
+                handleGetMessages: function (data) {
                     var message = data.body.datas;
                     var role = message.role;
                     var msg = message.chatMessages;
                     var isBefore = !!message.lastMsgid;
-                    switch(role){
+                    switch (role) {
                         case "100":
-                            if(isBefore){
+                            if (isBefore) {
                                 this.scrollProp.single.isLock = false;
                                 this.scrollProp.single.isBefore = true;
-                                if(!msg.length){
+                                if (!msg.length) {
                                     return this.scrollProp.single.hasMore = false;
                                 }
                                 this.singleMsg = msg.reverse().concat(this.singleMsg)
-                            }else{
+                            } else {
                                 this.scrollProp.single.loaded = true;
                                 this.singleMsg = this.singleMsg.concat(msg.reverse())
                             }
                             break;
                         case "101":
-                            if(isBefore){
+                            if (isBefore) {
                                 this.scrollProp.notice.isLock = false;
                                 this.scrollProp.notice.isBefore = true;
-                                if(!msg.length){
+                                if (!msg.length) {
                                     return this.scrollProp.notice.hasMore = false;
                                 }
                             }
@@ -553,29 +588,29 @@
                             this.noticeMsg = this.noticeMsg.concat(msg)
                             break;
                         default:
-                            if(isBefore){
+                            if (isBefore) {
                                 this.scrollProp.group.isLock = false;
                                 this.scrollProp.group.isBefore = true;
-                                if(!msg.length){
+                                if (!msg.length) {
                                     return this.scrollProp.group.hasMore = false;
                                 }
                                 this.groupMsg = msg.reverse().concat(this.groupMsg)
-                            }else{
+                            } else {
                                 this.scrollProp.group.loaded = true;
                                 this.groupMsg = this.groupMsg.concat(msg.reverse())
                             }
                     }
                 },
-                handleGetConversations: function(message) {
+                handleGetConversations: function (message) {
                     var conversations = message.body.datas.conversations;
                     var groupConversation = this.groupConversation.slice(0);
                     var unreadSingleCount = 0;
                     var unreadNoticeCount = 0;
-                    conversations.forEach(function(item){
+                    conversations.forEach(function (item) {
                         if (item.conversationType == '0') {
-                            if(item.objectModel.role == '100'){
+                            if (item.objectModel.role == '100') {
                                 unreadSingleCount += Number(item.unreadCount);
-                            }else if(item.objectModel.role == '101'){
+                            } else if (item.objectModel.role == '101') {
                                 unreadNoticeCount += Number(item.unreadCount);
                             }
                         } else if (item.conversationType == '1') {
@@ -590,31 +625,42 @@
                     this.unreadSingleCount = unreadSingleCount;
                     this.unreadNoticeCount = unreadNoticeCount;
                 },
-                handleSetReadConversation:function(message){
+                handleSetReadConversation: function (message) {
                     message = message.body.datas;
-                    if(message.role){
-                        if(message.role == '100'){
+                    if (message.role) {
+                        if (message.role == '100') {
                             this.unreadSingleCount = 0;
-                        }else if(message.role == '101'){
+                        } else if (message.role == '101') {
                             this.unreadNoticeCount = 0;
                         }
-                    }else if(message.conversationkey){
+                    } else if (message.conversationkey) {
                         var fConverstation = this.groupConversation.getObject('conversationkey', message.conversationkey);
                         var index = this.groupConversation.indexOf(fConverstation);
-                        if(index !== -1){
+                        if (index !== -1) {
                             this.groupConversation[index].unreadCount = 0;
                         }
                     }
                 },
-                handleSendMessages:function(message){
+                //发送消息->状态码待处理
+                handleSendMessages: function (message) {
                     message = message.body.datas;
                     var chatMessage = {
-                        senderkey:this.wsServer.userkey,
-                        senderInfo:{role:"1"},
-                        sendTime:message.sendTime,
-                        msgid:message.msgid,
+                        senderkey: this.wsServer.userkey,
+                        senderInfo: {role: "1"},
+                        sendTime: message.sendTime,
+                        msgid: message.msgid,
                     }
-                    if(message.objecttype == '0'){
+                    this.singleMsg.map(function (obj, index) {
+                        if (obj.waiting && obj.msgTag == message.msgTag) {
+                            obj.msgid = message.msgid
+                            obj.sendTime = message.sendTime
+                            delete obj.waiting
+                        }
+                        return obj;
+                    })
+
+                    // 取消群聊天
+                    /*if(message.objecttype == '0'){
                         this.singleMsg.map(function(obj,index){
                             if(obj.waiting && obj.msgTag == message.msgTag){
                                 obj.msgid = message.msgid
@@ -632,25 +678,25 @@
                             }
                             return obj;
                         })
-                    }
+                    }*/
                 },
-                wsSend: function(method, body, seq) {
+                wsSend: function (method, body, seq) {
                     var seq = seq || "c_124";
                     if (wSocket) {
                         wSocket.send(JSON.stringify({
-                            type : "1",
-                            protocol : "1",
-                            ver : "1",
-                            method : method,
-                            seq : seq,
-                            body : body
+                            type: "1",
+                            protocol: "1",
+                            ver: "1",
+                            method: method,
+                            seq: seq,
+                            body: body
                         }));
                     } else {
                         console.log('连接未开启');
                     }
                 },
-                initWsMessage:function(message){
-                    if(message.method == 'didReceiveAIChatMessage' || message.body.resMsg.code == '1000'){
+                initWsMessage: function (message) {
+                    if (message.method == 'didReceiveAIChatMessage' || message.body.resMsg.code == '1000') {
                         var method = message.method;
                         if (method == 'getConversations') {
                             this.handleGetConversations(message);
@@ -667,52 +713,51 @@
                         } else if (method == 'didReceiveAIChatMessage') {
                             this.handleReceiveMessage(message);
                         }
-                    }else{
+                    } else {
                         console.log('消息返回错误')
                     }
                 },
                 reSocket: function () {
                     wSocket = new WebSocket(this.wsServer.url); //创建WebSocket对象
-                    wSocket.onopen = function(evt) {
+                    wSocket.onopen = function (evt) {
                         console.log('重连成功')
                         this.loaded = true;
                     }.bind(this);
-                    wSocket.onmessage = function(evt) {
+                    wSocket.onmessage = function (evt) {
                         this.initWsMessage(JSON.parse(evt.data)); //解析后台传回的消息,并予以展示
                     }.bind(this);
-                    wSocket.onclose = function(evt) {
-                        JuaBox.info("会话已断开，点击确定重连",function(){
+                    wSocket.onclose = function (evt) {
+                        JuaBox.info("会话已断开，点击确定重连", function () {
                             this.loaded = false;
                             this.initConnect(true);
                         }.bind(this))
                     }.bind(this);
                 },
-                initSocket: function() {
+                initSocket: function () {
                     wSocket = new WebSocket(this.wsServer.url); //创建WebSocket对象
-                    wSocket.onopen = function(evt) {
-                        console.log('成功建立连接')
+                    wSocket.onopen = function (evt) {
                         this.loaded = true;
-                        if(this.outSideGroupKey){
-                            this.createConversation({objectkey: this.outSideGroupKey,conversationType:'1'})
+                        if (this.outSideGroupKey) {
+                            this.createConversation({objectkey: this.outSideGroupKey, conversationType: '1'})
                             this.outSideGroupKey = '';
                         }
-                        this.getMessage({conversationType:'0',role:'100'});
-                        this.getMessage({conversationType:'0',role:'101'});
+                        this.getMessage({conversationType: '0', role: '100'});
+                        this.getMessage({conversationType: '0', role: '101'});
                         this.getConversations();
                     }.bind(this);
-                    wSocket.onmessage = function(evt) {
+                    wSocket.onmessage = function (evt) {
                         this.initWsMessage(JSON.parse(evt.data)); //解析后台传回的消息,并予以展示
                     }.bind(this);
-                    wSocket.onclose = function(evt) {
+                    wSocket.onclose = function (evt) {
                         console.log('连接被关闭...')
-                        JuaBox.info("会话已断开，点击确定重连",function(){
+                        JuaBox.info("会话已断开，点击确定重连", function () {
                             this.loaded = false;
                             this.initConnect(true);
                         }.bind(this))
                     }.bind(this);
                 },
-                initConnect: function(isRe){
-                    if(!wSocket || isRe){
+                initConnect: function (isRe) {
+                    if (!wSocket || isRe) {
                         var headers = {
                             Userid: this.loginUser.userId
                         };
@@ -723,86 +768,86 @@
                             headers: headers,
                             success: function (res) {
                                 this.wsServer = res.datas;
-                                if(isRe){
+                                if (isRe) {
                                     this.reSocket();
-                                }else{
+                                } else {
                                     this.initSocket();
                                 }
                             }.bind(this)
                         });
                     }
                 },
-                initScroll: function() {
-                    if(!singleScroll){
-                        singleScroll = new IScroll('#singleScroll',{
+                initScroll: function () {
+                    if (!singleScroll) {
+                        singleScroll = new IScroll('#singleScroll', {
                             mouseWheel: true,
                             scrollbars: true,
-                            preventDefault:false,
+                            preventDefault: false,
                         });
                     }
-                    if(!groupScroll){
-                        groupScroll = new IScroll('#groupScroll',{
+                    if (!groupScroll) {
+                        groupScroll = new IScroll('#groupScroll', {
                             mouseWheel: true,
                             scrollbars: true,
-                            preventDefault:false
+                            preventDefault: false
                         });
                     }
-                    if(!noticeScroll){
-                        noticeScroll = new IScroll('#noticeScroll',{
+                    if (!noticeScroll) {
+                        noticeScroll = new IScroll('#noticeScroll', {
                             mouseWheel: true,
                             scrollbars: true,
-                            preventDefault:false
+                            preventDefault: false
                         });
                     }
                 },
             },
-            mounted : function() {
+            mounted: function () {
                 this.initScroll();
             },
-            watch:{
-                groupConversation:function(){
-                    if(this.currTab == 'group' && !this.selectedConversation){
-                        this.$nextTick(function(){
+            watch: {
+                groupConversation: function () {
+                    if (this.currTab == 'group' && !this.selectedConversation) {
+                        this.$nextTick(function () {
                             groupScroll.refresh();
-                            if(this.scrollProp.group.isBefore){
+                            if (this.scrollProp.group.isBefore) {
                                 this.scrollProp.group.isBefore = false;
-                            }else{
+                            } else {
                                 this.scrollToTop(groupScroll);
                             }
                         });
                     }
                 },
-                singleMsg:function(){
-                    if(this.currTab == 'single'){
-                        this.$nextTick(function(){
+                singleMsg: function () {
+                    if (this.currTab == 'single') {
+                        this.$nextTick(function () {
                             singleScroll.refresh();
-                            if(this.scrollProp.single.isBefore){
+                            if (this.scrollProp.single.isBefore) {
                                 this.scrollProp.single.isBefore = false;
-                            }else{
+                            } else {
                                 this.scrollToBottom(singleScroll);
                             }
                         });
                     }
                 },
-                groupMsg:function(){
-                    if(this.currTab == 'group'){
-                        this.$nextTick(function(){
+                groupMsg: function () {
+                    if (this.currTab == 'group') {
+                        this.$nextTick(function () {
                             groupScroll.refresh();
-                            if(this.scrollProp.group.isBefore){
+                            if (this.scrollProp.group.isBefore) {
                                 this.scrollProp.group.isBefore = false;
-                            }else{
+                            } else {
                                 this.scrollToBottom(groupScroll);
                             }
                         });
                     }
                 },
-                noticeMsg:function(){
-                    if(this.currTab == 'notice'){
-                        this.$nextTick(function(){
+                noticeMsg: function () {
+                    if (this.currTab == 'notice') {
+                        this.$nextTick(function () {
                             noticeScroll.refresh();
-                            if(this.scrollProp.notice.isBefore){
+                            if (this.scrollProp.notice.isBefore) {
                                 this.scrollProp.notice.isBefore = false;
-                            }else{
+                            } else {
                                 this.scrollToTop(noticeScroll);
                             }
                         });
@@ -813,7 +858,7 @@
     })
 
     $(function () {
-        $("body").on('click', ".webchat-r", function(){
+        $("body").on('click', ".webchat-r", function () {
             EXX.chatPlugin.toggleChat();
         });
     })
