@@ -144,7 +144,10 @@
                     clipboard.on('success', function (e) {
                         JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
                     });
-                    QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, function (error) {
+                    QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl,{
+                        width : 200,
+                        height : 200
+                    }, function (error) {
                     })
                 }
             })
