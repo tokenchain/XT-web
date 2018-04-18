@@ -21,7 +21,10 @@
         </div>
 
         <div class="payin-address" v-if="currentCoin == 'bts' || currentCoin == 'tv' || currentCoin == 'bds'" v-cloak="">
-            <!--<div class="code"><img style="width: 200px;" :src="qrUrl"></div>-->
+            <div class="code">
+                <canvas ref="canvas"></canvas>
+                <!--<img style="width: 200px;" :src="qrUrl">-->
+            </div>
             <div class="address">
                 <h4><%= LANG('账户') %></h4>
                 <p v-text="btsAccount"></p>
@@ -43,7 +46,10 @@
             <div class="address">
                 <h4><%= coin.toUpperCase()%><%= LANG('钱包地址')%></h4>
                 <p class="address" v-text="payin.address"></p><a :data-clipboard-text="payin.address" class="copyAddress"><%= LANG('复制钱包地址')%></a>
-                <div class="code"><img style="width: 200px;" id="keyPreImg" :src="qrUrl"></div>
+                <div class="code">
+                    <canvas ref="canvas"></canvas>
+                    <!--<img style="width: 200px;" id="keyPreImg" :src="qrUrl">-->
+                </div>
                 <div class="tips">
                     <h5><%= LANG('充值说明')%>：</h5>
                     <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
@@ -53,7 +59,7 @@
         </div>
     </div>
 
-    <!--充值记录 TODO 暂无渲染数据 -->
+    <!--充值记录-->
     <div class="pay-record" v-cloak="">
         <h2><%= coin.toUpperCase()%><%= LANG('充值记录')%></h2>
         <div class="exx-record">
@@ -89,7 +95,7 @@
 <%-include("../../component/page_lite.html")%>
 
 <script>
-    require(['vue','common/methods', 'clipboadrd'], function (Vue, Methods, Clipboard) {
+    require(['vue','common/methods', 'clipboadrd', 'qrcode'], function (Vue, Methods, Clipboard, QRCode) {
         EXX.appPayin = new Vue({
             el: "#app-payin",
             data: function () {
@@ -114,7 +120,7 @@
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
                 },
-                //获取充值二维码 TODO
+                //获取充值二维码 暂弃用
                 qrUrl: function () {
                     // return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code=' + this.payin.address + "&width=160&height=160";
                     return '';
@@ -227,6 +233,15 @@
 
                 this.getPayinAddress();
                 this.getPayinCoinRecord();
+            },
+            mounted: function () {
+                var _this = this;
+                this.$watch('payin.address', function () {
+                    QRCode.toCanvas(_this.$refs.canvas, _this.payin.address, {
+                        width: 200,
+                        height: 200
+                    }, function (error) { })
+                });
             }
         })
     })
