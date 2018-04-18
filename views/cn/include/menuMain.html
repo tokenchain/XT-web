@@ -422,7 +422,7 @@
                     var _this = this;
 
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getMarketByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                         }

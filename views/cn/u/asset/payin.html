@@ -73,21 +73,21 @@
                     <div class="td state"><%= LANG('状态')%></div>
                 </div>
                 <div class="tr" v-for="record in payinRecords" v-if="payinRecords.length > 0">
-                    <div class="td time"><span>{{showDate(record.subTime)}}</span></div>
-                    <div class="td type" v-if="record.type == 1">"<%= LANG('区块链转入') %>"</div>
-                    <div class="td type" v-else-if="record.type == 93">"<%= LANG('内部转入') %>"</div>
-                    <div class="td type" v-else>"<%= LANG('充值') %>"</div>
+                    <div class="td time"><span>{{record.createTime.split('.')[0]}}</span></div>
+                    <div class="td type" v-if="record.type == 1"><%= LANG('区块链转入') %></div>
+                    <div class="td type" v-else-if="record.type == 2"><%= LANG('内部转入') %></div>
+                    <div class="td type" v-else-if="record.type == 3"><%= LANG('充值') %></div>
                     <div class="td amount">+ {{record.amount}}</div>
-                    <div class="td time ok"><span>{{showDate(record.endTime)}}</span></div>
+                    <div class="td time ok"><span>{{record.depositTime}}</span></div>
                     <div class="td num">{{record.confirmTimes}}</div>
-                    <div class="td state">{{LANG(record.status)}}</div>
+                    <div class="td state">{{record.status == 0 ? '<%= LANG('未到账') %>' : '<%= LANG('已到账') %>'}}</div>
                 </div>
                 <div class="tr" v-if="payinRecords.length == 0">
                     <p class="norecord"><%= LANG('暂无记录')%></p>
                 </div>
             </div>
         </div>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayinCoinRecord" v-if="payinRecords.length > 0"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayinCoinRecord" v-if="payinRecords.length > 0 || pageIndex > 1"></page-lite>
     </div>
 
 </div>

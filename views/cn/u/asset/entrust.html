@@ -101,7 +101,7 @@
             <%= LANG('暂无记录')%>
         </div>
     </div>
-    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getEntrustRecord" v-if="records.length > 0 && !isAll"></page-lite>
+    <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getEntrustRecord" v-if="records.length > 0 && !isAll"></page-lite>-->
 </div>
 
 <%-include("../../component/page_lite.html")%>
@@ -252,7 +252,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getall',
+                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getMarketByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
