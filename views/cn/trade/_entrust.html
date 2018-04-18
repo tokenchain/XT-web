@@ -330,7 +330,7 @@
                 getMarketConfig: function (callback) {
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getMarketByWebId',
+                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getByWebId',
                         success: function (res) {
                             this.marketConfig = res.datas;
                             if (typeof callback == 'function') {

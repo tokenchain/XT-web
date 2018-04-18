@@ -101,7 +101,14 @@ router.get('/findLoginPwd', function(req, res, next) {
     });
 });
 
-router.get('/getWebConfig', function(req, res, next) {
+// 推荐跳转至注册
+router.get('/r/:recommendCode', function(req, res, next) {
+    var recommendCode = req.params.recommendCode;
+    res.cookie(ENV + 'recommendCode', recommendCode);
+    res.redirect('/register');
+});
+
+/*router.get('/getWebConfig', function(req, res, next) {
     res.jsonp(WEB(LAN));
 });
 
@@ -117,14 +124,8 @@ router.get('/getMarketConfig', function(req, res, next) {
     res.jsonp(MARKET);
 });
 
-router.get('/r/:recommendCode', function(req, res, next) {
-  var recommendCode = req.params.recommendCode;
-  res.cookie(ENV + 'recommendCode', recommendCode);
-  res.redirect('/register');
-});
-
 router.get('/setLan', function(req, res, next) {
     res.end();
-});
+});*/
 
 module.exports = router;
