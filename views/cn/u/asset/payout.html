@@ -107,12 +107,12 @@
                 <div class="tr" v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
                     <div class="td" style="width: 300px;flex: none; color: #333;">{{record.withdrawalAddress}}</div>
                     <div class="td"><span>{{showDate(record.createTime)}}</span></div>
-                    <div class="td"><span>{{record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)}}</span></div>
+                    <div class="td"><span>{{ record.verifyStatus == 0 && record.state == -1 ? showDate(record.modifyTime) : (record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)) }}</span></div>
                     <div class="td" style="color: #333;">{{record.amount}}</div>
                     <div class="td" style="color: #31C871">{{record.actuallyAmount}}</div>
-                    <div class="td">{{ record.verifyStatus == 0 ? LANG('待审核') : (record.verifyStatus == 1 ? LANG('审核通过') : LANG('审核不通过')) }}</div>
+                    <div class="td">{{ record.verifyStatus == 0 && record.state == -1 ? LANG('已取消') : (record.verifyStatus == 0 ? LANG('待审核') : (record.verifyStatus == 1 ? LANG('审核通过') : LANG('审核不通过'))) }}</div>
                     <div class="td oper">
-                        <a role="button" v-if="record.verifyStatus == 0" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
+                        <a role="button" v-if="record.verifyStatus == 0 && record.state == 1" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
                         <!--<a role="button" v-else-if="record.verifyStatus == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>-->
                         <a role="button" v-else="">--</a>
                     </div>
@@ -355,6 +355,7 @@
                         // webId: 100,
                         currencyId: this.currencyId,
                         // userId: this.loginUser.userId
+                        tab: 'all'
                     };
                     var headers = {
                         Userid: this.loginUser.userId
