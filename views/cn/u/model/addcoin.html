@@ -89,7 +89,7 @@
           avatarBasePath: '<%= STATIC %>/images/userhead/',
           currencyList: [
             {name: 'usd', icon: 'icon-meiyuan', symbol: '$',decimal : 2},
-            {name: 'cny', icon: 'icon-cny', symbol: '¥',decimal : 2}
+            {name: '<%= UNIT %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
           ]
         }
       },

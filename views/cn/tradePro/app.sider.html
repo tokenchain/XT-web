@@ -31,7 +31,7 @@
                         'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-                        'cny': {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
+                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
                     },
                     showModal: false,
                     showSider: false,
@@ -423,9 +423,9 @@
                         }else if(sortBy == 'nameDown'){
                             return x.market.substring(0,1).charCodeAt() - y.market.substring(0,1).charCodeAt();
                         }else if(sortBy == 'priceUp'){
-                            return parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'cny')) - parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'cny'));
+                            return parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'usd')) - parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'usd'));
                         }else if(sortBy == 'priceDown'){
-                            return parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'cny')) - parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'cny'));
+                            return parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'usd')) - parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'usd'));
                         }else if(tab == 'user'){
                             return y.sortId - x.sortId;
                         }

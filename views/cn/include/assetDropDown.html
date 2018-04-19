@@ -9,7 +9,7 @@
                     <p>{{MONEY == 'none' ? '<%= LANG('默认')%>' : MONEY.toUpperCase()}}</p>
                     <ul class="drop-box">
                         <li @click="setCurrency('usd')" :class="MONEY == 'usd' ? 'active' : ''">USD</li>
-                        <li @click="setCurrency('cny')" :class="MONEY == 'cny' ? 'active' : ''">CNY</li>
+                        <li @click="setCurrency('<%= UNIT %>')" :class="MONEY == '<%= UNIT %>' ? 'active' : ''"><%= LEGAL[UNIT].unit %></li>
                     </ul>
                 </div>
                 </div>
@@ -66,7 +66,7 @@
             },
             data: function () {
                 return {
-                    MONEY : MONEY == 'none' ? 'cny' : MONEY,
+                    MONEY : MONEY == 'none' ? '<%= UNIT %>' : MONEY,
                     // coinConfig : '',
                     hideZero : false,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),

@@ -4,7 +4,7 @@
         <div class="market-head">
             <ul class="market-tab">
                 <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'qc' && keyWord == ''}" @click="changeMarketsTab('qc')">QC<%= LANG('市场')%></li>
+                <li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>
                 <li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>
                 <li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>
                 <li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>
@@ -21,7 +21,7 @@
                     <li class="item state"><%= LANG('状态')%></li>
                     <li class="item"><%= LANG('价格')%></li>
                     <li class="item"><%= LANG('折合')%>(USD)</li>
-                    <li class="item"><%= LANG('折合')%>(CNY)</li>
+                    <li class="item"><%= LANG('折合')%>(<%= LEGAL[UNIT].unit %>)</li>
                     <li class="item sort" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><span><%= LANG('涨跌幅')%></span></li>
                     <li class="item sort" @click="changeSort('volume')" :class="{'up' : sortBy == 'volumeUp', 'down' : sortBy == 'volumeDown'}"><span><%= LANG('交易量')%></span></li>
                     <li class="item trend"><%= LANG('6小时走势')%></li>
@@ -46,7 +46,7 @@
                             <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
                         </div>
                         <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
-                        <div class="item">¥{{getPriceByAssist(data.lastPrice, data.market, 'cny')}}</div>
+                        <div class="item"><%= LEGAL[UNIT].note %>{{getPriceByAssist(data.lastPrice, data.market, '<%= UNIT %>')}}</div>
                         <div class="item">
                             <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
                         </div>
@@ -93,7 +93,7 @@
                         'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-                        'cny': {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
+                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
                     },
                     websocket: '' //websocket服务,
                 }
@@ -167,7 +167,7 @@
                     return marketInfo ? marketInfo.leverType : '0'
                 },
                 moneyPrice: function(money, coin){
-                    if(money == 'btc' || money == 'usd' || money == 'cny'){
+                    if(money == 'btc' || money == 'usd' || money == '<%= UNIT %>'){
                         return Number(this.assistPrice[money][coin] ? this.assistPrice[money][coin] : 1)
                     }else{
                         return 1;

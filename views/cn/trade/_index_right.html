@@ -494,7 +494,7 @@
           currencyList: [
             {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
             {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-            {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 3}
+            {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
           ],
           currentMarketArray : [],
           currentMarketObj : {}
@@ -753,7 +753,7 @@
             }
         },
         moneyPrice: function(money, coin){
-            if(money == 'btc' || money == 'usd' || money == 'cny'){
+            if(money == 'btc' || money == 'usd' || money == '<%= UNIT %>'){
                 return Number(this.sharedState.allPriceRate && this.sharedState.allPriceRate[money] && this.sharedState.allPriceRate[money][coin] ? this.sharedState.allPriceRate[money][coin] : 1)
             }else{
                 return 1;

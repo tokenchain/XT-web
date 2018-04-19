@@ -387,19 +387,19 @@
                     userAssets: [],
                     mainUserAssets: [],
                     allPriceRate: {
-                        btc : {
+                        'btc' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
                             etc : 0
                         },
-                        cny : {
+                        '<%= UNIT %>' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
                             etc : 0
                         },
-                        usd : {
+                        'usd' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
@@ -424,7 +424,7 @@
                     currencyList: [
                         {key:'none', name: "<%= LANG('原始')%>", icon: '', symbol: '฿',decimal : 6},
                         {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 2},
-                        {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 2}
+                        {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
                     ],
                     assetsTableSettings: {
                         rowClass: function(item) {

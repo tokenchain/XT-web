@@ -255,7 +255,7 @@
           <span>
             <b style="font-size: 12px;">{{getRealCoinName(coinType).toUpperCase()}}<%= LANG('成交价') %></b>
             <b v-show="MONEY == 'usd'" v-cloak="">$</b>
-            <b v-show="MONEY == 'cny'" v-cloak="">￥</b>
+            <b v-show="MONEY == '<%= UNIT %>'" v-cloak=""><%= LEGAL[UNIT].note %></b>
             <animated-number :number="currentPriceCovert"></animated-number>
             <b v-show="MONEY == 'none'" v-cloak="" style="font-size: 12px;">{{showCurrentPriceType}}</b>
           </span>
@@ -462,7 +462,7 @@
             }
         },
         moneyPrice: function(){
-          if(this.currentPriceType == 'btc' ||this.currentPriceType == 'usd' || this.currentPriceType == 'cny'){
+          if(this.currentPriceType == 'btc' ||this.currentPriceType == 'usd' || this.currentPriceType == '<%= UNIT %>'){
               return (this.sharedState.allPriceRate && this.sharedState.allPriceRate[this.currentPriceType] && this.sharedState.allPriceRate[this.currentPriceType][this.moneyType]) ?  this.sharedState.allPriceRate[this.currentPriceType][this.moneyType] : 1;
           }else{
               return 1;

@@ -8,10 +8,9 @@
             <p><%- LANG('价格显示')%>:<span>{{showAssistName()}}</span></p>
             <ul class="drop-box">
                 <li @click="assistCoin = 'usd'" :class="{'active' : assistCoin == 'usd'}">USD</li>
-                <li @click="assistCoin = 'cny'" :class="{'active' : assistCoin == 'cny'}">CNY</li>
+                <li @click="assistCoin = '<%= UNIT %>'" :class="{'active' : assistCoin == '<%= UNIT %>'}"><%= LEGAL[UNIT].unit %></li>
             </ul>
         </div>
-        <!--<div class="switch"><p role="button">价格显示<em>CNY</em></p></div>-->
     </div>
     <div class="trading-market">
         <div class="trading-tab">

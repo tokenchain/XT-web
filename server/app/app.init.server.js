@@ -17,9 +17,10 @@ global.LANG = function(LAN){
 global.WEB = function(LAN){
     return require('../configs/web.server.config')(LAN);
 }
-global.CURRENCY = require('../configs/currency.server.config');
+// global.CURRENCY = require('../configs/currency.server.config');
 global.USER = require('../configs/user.server.config');
 global.MARKET = require('../configs/market.server.config');
+global.LEGAL = require('../configs/legal.server.config');
 //设置主模板文件变量
 global.TEMP_HOME = 'cn/homePage';
 global.TEMP_FULL = 'cn/fullPage';
@@ -59,6 +60,8 @@ module.exports = function(app){
         app.locals.PATH = req.path;
         app.locals.LANG = global.LANG(LAN);
         app.locals.WEB = global.WEB(LAN);
+
+        app.locals.LEGAL = global.LEGAL;
 
         app.locals.UON = req.cookies[ENV + "uon"];
         app.locals.UID = req.cookies[ENV + "uid"];

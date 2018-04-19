@@ -9,6 +9,8 @@ module.exports = {
     STATIC : "/src",
     //默认语言
     LAN : "en",
+    //法币单位
+    UNIT : "krw",
     //网站端口
     PORT : "3002",
     //版本号

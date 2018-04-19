@@ -29,7 +29,7 @@
                                 <a role="button">{{MONEY == 'none' ? '<%= LANG('默认')%>' : MONEY.toUpperCase()}}</a>
                                 <ul >
                                     <li @click="setCurrency('usd')" :class="MONEY == 'usd' ? 'active' : ''">USD</li>
-                                    <li @click="setCurrency('cny')" :class="MONEY == 'cny' ? 'active' : ''">CNY</li>
+                                    <li @click="setCurrency('<%= UNIT %>')" :class="MONEY == '<%= UNIT %>' ? 'active' : ''"><%= LEGAL[UNIT].unit %></li>
                                 </ul>
                             </div>
                         </div>
@@ -249,19 +249,19 @@
                     mainUserAssets: [],
                     coinConfig : EXX.userNav.coinConfig,  //从顶部vue实例获取数据
                     assistPrice: {
-                        btc : {
+                        'btc' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
                             etc : 0
                         },
-                        cny : {
+                    '<%= UNIT %>' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
                             etc : 0
                         },
-                        usd : {
+                        'usd' : {
                             btc : 0,
                             ltc : 0,
                             eth : 0,
@@ -287,7 +287,7 @@
                     //     {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 2},
                     //     {key: 'cny', name: 'CNY', icon: 'icon-cny', symbol: '¥',decimal : 2}
                     // ],
-                    MONEY : MONEY == 'none' ? 'cny' : MONEY,
+                    MONEY : MONEY == 'none' ? '<%= UNIT %>' : MONEY,
 
                     currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
                     keyWord:''
@@ -386,7 +386,7 @@
                     return moneyPrice * Number(num);
                 },
                 resetCurrency: function(coin) {
-                    return coin != '' && coin != 'none' ? coin : 'cny';
+                    return coin != '' && coin != 'none' ? coin : '<%= UNIT %>';
                 },
                 moneyPrice: function(money, coin){
                     var money = money || 'usd';
