@@ -166,6 +166,9 @@
                 },
                 //登录方法
                 handleLogin: function () {
+                    if (this.requestLocked) {
+                        return false;
+                    }
                     if (!this.pwdState || !this.phoneState) {
                         return false;
                     }

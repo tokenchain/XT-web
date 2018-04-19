@@ -10,25 +10,25 @@
               <p style="font-size: 12px; color: #f00;margin-bottom: 30px; text-align: center;"><%= LANG('根据您的登录设置，本次登录需要验证。') %></p>
           <div class="form-group" v-if="loginUser.code == '6038' || loginUser.code == '6061' || loginUser.code == '6063' || loginUser.code == '6064'">
             <div class="form-control">
-              <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
+              <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
                 <send-code class="text-nowrap" :code-type="23" :user-name="loginUser.userName" :country-code="loginUser.countryCode" />
             </div>
           </div>
 
           <div class="form-group" v-if="loginUser.code == '6037' || loginUser.code == '6062' || loginUser.code == '6063' || loginUser.code == '6064'">
             <div class="form-control">
-              <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
+              <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
                 <send-code class="text-nowrap" :code-type="24" :user-name="loginUser.userName" :country-code="loginUser.countryCode" />
             </div>
           </div>
 
           <div class="form-group" v-if="loginUser.code == '6011' || loginUser.code == '6061' || loginUser.code == '6062' || loginUser.code == '6064'">
             <div class="form-control">
-              <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)">
+              <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
             </div>
           </div>
           <div class="form-button">
-              <button id="submitBtn" type="button" v-on:click="handleSubmit" class="button"><span><%= LANG('立即验证') %></span></button>
+              <button id="submitBtn" type="button" @click="handleSubmit" class="button" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('立即验证') %></span></button>
           </div>
       </div>
   </div>
@@ -78,7 +78,8 @@
                     loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
                     dynamicCode: '',
                     emailCode: '',
-                    googleCode: ''
+                    googleCode: '',
+                    requestLocked : false
                 }
             },
             methods: {
@@ -106,6 +107,10 @@
                 },
                 //登录验证
                 handleSubmit: function () {
+                    if (this.requestLocked) {
+                        return false;
+                    }
+                    var _this = this;
                     var data = {
                         // userKey: this.loginUser.userKey,
                         userName: this.loginUser.userName,
@@ -116,11 +121,13 @@
                         smsCode: this.dynamicCode,
                         googleCode: this.googleCode
                     }
+                    _this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'loginauth',
                         data: JSON.stringify(data),
                         success: function (res) {
+                            _this.requestLocked = false;
                             Methods.deleLocalStorage(ENV + 'noLoginUserInfo');
                             //存储个人信息
                             Methods.setLocalUserInfo(res.datas);
@@ -134,6 +141,7 @@
                             //window.location.href = '/u';
                         },
                         error: function (res) {
+                            _this.requestLocked = false;
                             var resMsg = res.resMsg;
                             authErrorUi(EXX.L(resMsg.message));
                         }
