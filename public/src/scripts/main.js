@@ -377,6 +377,10 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         var ifr = document.getElementById('marketFrame');
         var win = ifr.window || ifr.contentWindow;
 
+        if (!win.kline) {
+            return false;
+        }
+
         var result = transKlineData(data.data);
 
         win.updateKlineData(result);
@@ -424,6 +428,9 @@ function transKlineData(oldData) {
         tmpdata[4] = parseFloat(item[7]);
         tmpdata[5] = parseFloat(item[8]);
 
+        // 法币汇率
+        tmpdata[6] = parseFloat(item[10]);
+
         result.datas.data[index] = tmpdata;
     });
 
@@ -433,8 +440,6 @@ function transKlineData(oldData) {
 //格式化盘口数据
 function transDishData(oldData) {
     // console.log(oldData)
-    var ifr = document.getElementById('marketFrame');
-    var win = ifr.window || ifr.contentWindow;
     var result = {};
     result.channel = EXX.appTradePro.currentMarket.replace('_', '') + "_" + EXX.appTradePro.assistCoin + "_depth";
     result.asks = [];

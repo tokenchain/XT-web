@@ -353,8 +353,7 @@
                         userId: this.params.userId
                     };
                     Methods.ajax({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
-                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getEntrustRecord',
+                        url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
                         data: data,
                         success: function (res) {
                             this.pageCount = res.datas.record.length;

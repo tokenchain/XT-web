@@ -276,7 +276,6 @@
                     _this.requestLocked = true;
                     _this.records=[]
                     Methods.ajax({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
                         url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getEntrustRecord',
                         data: data,
                         success: function (res) {

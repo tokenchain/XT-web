@@ -86,6 +86,7 @@
                     marketOpenStatus : false,
                     marketStartTime : '--',
                     entrustScroll : '',
+                    localCoin: '<%= UNIT %>' // 当地法币
 
                     //websocket消息 计算属性
                     // klineData: '',
@@ -654,6 +655,9 @@
                 },
                 // 设置辅助币种
                 setAssistCoin: function (coin) {
+                    // 设置K线单位cookie
+                    Methods.setCookie(ENV+'kassist', coin);
+
                     if (!this.isLogin) {
                         Methods.setCookie(ENV + 'mname', coin);
                         this.assistCoin = coin;
@@ -1104,6 +1108,15 @@
                     this.setChartType('kline');
                     Vue.set(this.kline, "money", type);
                     this.klineFrame.chart_set_money(type);
+
+                    // 设置K线单位cookie
+                    if (type.toLowerCase() == this.money) {
+                        Methods.setCookie(ENV+'kassist', 'none'); // 默认
+                    } else {
+                        Methods.setCookie(ENV+'kassist', type.toLowerCase());
+                    }
+
+
                     this.klineFrame.document.location.href = '/kline/lite/' +this.currentMarket+ '?money=' + type; //改变iframe的href, src属性不会随之改变
                 },
                 setChartMainIndicator : function (style) {

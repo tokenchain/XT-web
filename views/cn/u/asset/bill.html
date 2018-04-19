@@ -65,7 +65,7 @@
 
             <div class="cell amount">
                 <div class="amount1"><p><span
-                        :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{bill.changeAmount}} <em>{{coinsId[bill.currencyTypeId].toUpperCase()}}</em></span>
+                        :class="[bill.changeAmount > 0 ? 'plus' : 'less']">{{parseFloat(bill.changeAmount)}} <em>{{coinsId[bill.currencyTypeId].toUpperCase()}}</em></span>
                 </p></div>
             </div>
         </div>

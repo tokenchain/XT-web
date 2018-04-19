@@ -68,6 +68,7 @@
                 return {
                     MONEY : MONEY == 'none' ? '<%= UNIT %>' : MONEY,
                     // coinConfig : '',
+                    isLogin: ISLOGIN,
                     hideZero : false,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                     assetScroll : '',
@@ -203,7 +204,7 @@
                     if (!this.isLogin) {
                         Methods.setCookie(ENV+'mname', coin);
                         this.MONEY = coin;
-                        return
+                        return;
                     }
 
                     var data = {
