@@ -195,7 +195,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc.qc);
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc['<%= LEGAL[UNIT].alias %>']);
                         return this.showCoin(canbuy);
                     }
                 },
@@ -211,7 +211,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc.qc);
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), this.assistPrice.btc['<%= LEGAL[UNIT].alias %>']);
                         return this.showCoin(canbuy);
                     }
                 },

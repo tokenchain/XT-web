@@ -6,7 +6,7 @@
                 return {
                     currentMarket : "<%= typeof market != 'undefined' ? market : ''%>",
                     //spot现货，forward期货，user用户市场
-                    currentTab : ISLOGIN ? 'user' : '_qc',
+                    currentTab : ISLOGIN ? 'user' : '_<%= LEGAL[UNIT].alias %>',
                     theme : "<%= typeof theme != 'undefined' ? theme : 'dark' %>",
                     //精简模式切换
                     currentShow : true,
