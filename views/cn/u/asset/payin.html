@@ -78,7 +78,7 @@
                     <div class="td type" v-else-if="record.type == 2"><%= LANG('内部转入') %></div>
                     <div class="td type" v-else-if="record.type == 3"><%= LANG('充值') %></div>
                     <div class="td amount">+ {{record.amount}}</div>
-                    <div class="td time ok"><span>{{record.depositTime.split('.')[0]}}</span></div>
+                    <div class="td time ok"><span>{{record.depositTime ? record.depositTime.split('.')[0] : '--'}}</span></div>
                     <div class="td num">{{record.confirmTimes}}</div>
                     <div class="td state">{{record.status == 0 ? '<%= LANG('未到账') %>' : '<%= LANG('已到账') %>'}}</div>
                 </div>
