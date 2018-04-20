@@ -80,8 +80,8 @@
                 doSafeAuth : function () {
                     var data = {
                         // userId: this.loginUser.userId,
-                        autoType : this.params.autoType,
-                        type : this.params.type, //0-google 1-email 2-phone
+                        autoType : this.params.autoType, //0-google 1-email 2-phone
+                        type : this.params.type, //0-关闭 1-开启
                         googleCode : this.googleCode,
                         emailCode : this.emailCode,
                         dynamicCode : this.dynamicCode
@@ -97,14 +97,26 @@
                         success: function(res) {
                             // Methods.setLocalUserInfo(res.datas.userInfo);
                             //this.$parent.$parent.loginUser = res.datas.userInfo;
-                            JuaBox.info("<%= LANG('设置成功') %>", function () {
-                                top.location.reload();
-                            });
                             // Vue.set(this.$parent.$parent.loginUser, 'loginEmailAuth', res.datas.userInfo.loginEmailAuth);
                             // Vue.set(this.$parent.$parent.loginUser, 'loginMobileAuth', res.datas.userInfo.loginMobileAuth);
                             // Vue.set(this.$parent.$parent.loginUser, 'loginGoogleAuth', res.datas.userInfo.loginGoogleAuth);
+                            var loginUser = Methods.getLocalUserInfo(ENV + 'userInfo');
+                            if (this.params.autoType == 0) {
+                                loginUser.loginGoogleAuth = this.params.type;
+                                Vue.set(this.$parent.$parent.loginUser, 'loginGoogleAuth', this.params.type);
+                            } else if (this.params.autoType == 1) {
+                                loginUser.loginEmailAuth = this.params.type;
+                                Vue.set(this.$parent.$parent.loginUser, 'loginEmailAuth', this.params.type);
+                            } else if (this.params.autoType == 2) {
+                                loginUser.loginMobileAuth = this.params.type;
+                                Vue.set(this.$parent.$parent.loginUser, 'loginMobileAuth', this.params.type);
+                            }
+
+                            // 更新本地存储
+                            Methods.setLocalUserInfo(loginUser);
 
                             this.closeModal();
+                            JuaBox.info("<%= LANG('设置成功') %>");
                         }.bind(this)
                     });
                 },

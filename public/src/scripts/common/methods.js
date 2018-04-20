@@ -226,7 +226,17 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             var options = typeof ops == 'object' ? ops : {};
             options.url = options.url || '';
             options.type = options.type || 'POST';
-            options.headers = options.headers || {};
+            // 登录状态下 设置header(UserId,ClientType,Timestamp,Sign)
+            if (Methods.getLocalUserInfo()) {
+                var timestamp = (new Date()).getTime();
+                var header = {
+                    UserId: Methods.getLocalUserInfo().userId,
+                    ClientType: 1,
+                    Timestamp: timestamp,
+                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + Methods.getCookie(ENV+'utoken'))
+                };
+                options.headers = header;
+            }
             options.data = options.data || {};
             options.contentType = options.contentType || 'application/json; charset=utf-8';
             options.dataType = options.dataType || 'json';
