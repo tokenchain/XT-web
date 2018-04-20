@@ -407,10 +407,10 @@ function transKlineData(oldData) {
             currRate = usd_krate;
         }
 
-        tmpdata[1] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[4])), Methods.math.bignumber(currRate));
-        tmpdata[2] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[5])), Methods.math.bignumber(currRate));
-        tmpdata[3] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[6])), Methods.math.bignumber(currRate));
-        tmpdata[4] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[7])), Methods.math.bignumber(currRate));
+        tmpdata[1] = parseFloat(Methods.math.format(parseFloat(item[4]) * currRate, {precision: 14}));
+        tmpdata[2] = parseFloat(Methods.math.format(parseFloat(item[5]) * currRate, {precision: 14}));
+        tmpdata[3] = parseFloat(Methods.math.format(parseFloat(item[6]) * currRate, {precision: 14}));
+        tmpdata[4] = parseFloat(Methods.math.format(parseFloat(item[7]) * currRate, {precision: 14}));
 
         tmpdata[5] = parseFloat(item[8]);
 
