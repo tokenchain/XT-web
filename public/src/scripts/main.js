@@ -395,7 +395,7 @@ function transKlineData(oldData) {
     if (EXX.appTradePro.assistPrice) {
         usd_krate = EXX.appTradePro.assistPrice.usd[EXX.appTradePro.money];
     } else {
-        return;
+        return false;
     }
 
     //时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量

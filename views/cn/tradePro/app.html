@@ -196,7 +196,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numMultiply(this.getUseable(this.money), Methods.numDivider(this.assistPrice.usd[this.coin], this.assistPrice.usd[this.money]));
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), Methods.numDivider(this.assistPrice.usd[this.money], this.assistPrice.usd[this.coin]));
                         return this.showCoin(canbuy);
                     }
                 },
@@ -204,7 +204,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var cansell = Methods.numMultiply(this.getUseable(this.coin), Methods.numDivider(this.assistPrice.usd[this.money], this.assistPrice.usd[this.coin]));
+                        var cansell = Methods.numMultiply(this.getUseable(this.coin), Methods.numDivider(this.assistPrice.usd[this.coin], this.assistPrice.usd[this.money]));
                         return this.showMoney(cansell);
                     }
                 },
@@ -212,7 +212,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var canbuy = Methods.numMultiply(this.getUseable(this.money), Methods.numDivider(this.assistPrice.usd[this.coin], this.assistPrice.usd[this.money]));
+                        var canbuy = Methods.numMultiply(this.getUseable(this.money), Methods.numDivider(this.assistPrice.usd[this.money], this.assistPrice.usd[this.coin]));
                         return this.showCoin(canbuy);
                     }
                 },
@@ -220,7 +220,7 @@
                     if (!this.isLogin || !this.assistPrice) {
                         return '--';
                     } else {
-                        var cansell = Methods.numMultiply(this.getUseable(this.coin), Methods.numDivider(this.assistPrice.usd[this.money], this.assistPrice.usd[this.coin]));
+                        var cansell = Methods.numMultiply(this.getUseable(this.coin), Methods.numDivider(this.assistPrice.usd[this.coin], this.assistPrice.usd[this.money]));
                         return this.showMoney(cansell);
                     }
                 },
