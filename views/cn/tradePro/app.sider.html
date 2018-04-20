@@ -194,7 +194,7 @@
                     }
                     //alert(callback);
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
@@ -226,7 +226,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
                         headers: {
-                            Userid: this.loginUser.userId
+                            UserId: this.loginUser.userId
                         },
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -447,7 +447,7 @@
                 },
                 topUserMarket : function (market) {
                     var headers = {
-                        Userid: this.currentAccountId
+                        UserId: this.currentAccountId
                     };
                     var data = {
                         marketId: market
@@ -664,7 +664,7 @@
                     }
 
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     var data = {
                         marketId: marketid

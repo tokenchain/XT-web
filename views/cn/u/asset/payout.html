@@ -114,7 +114,7 @@
                     <div class="td"><span>{{ record.verifyStatus == 0 && record.state == -1 ? showDate(record.modifyTime) : (record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)) }}</span></div>
                     <div class="td" style="color: #333;">{{parseFloat(record.amount)}}</div>
                     <div class="td" style="color: #31C871">{{parseFloat(record.actuallyAmount)}}</div>
-                    <div class="td">{{ record.verifyStatus == 0 && record.state == -1 ? '<%= LANG('已取消') %>' : (record.verifyStatus == 0 ? '<%= LANG('待审核') %>' : (record.verifyStatus == 1 ? '<%= LANG('审核通过') %>' : '<%= LANG('审核不通过') %>' )) }}</div>
+                    <div class="td">{{ record.verifyStatus == 0 && record.state == -1 ? '<%= LANG('已取消') %>' : (record.verifyStatus == 0 ? '<%= LANG('待审核') %>' : (record.verifyStatus == 1 ? '<%= LANG('已完成') %>' : '<%= LANG('审核不通过') %>' )) }}</div>
                     <div class="td oper">
                         <a role="button" v-if="record.verifyStatus == 0 && record.state == 1" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
                         <!--<a role="button" v-else-if="record.verifyStatus == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>-->
@@ -339,7 +339,7 @@
                         pageSize: 9999
                     };
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
@@ -364,7 +364,7 @@
                         tab: 'all'
                     };
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     Methods.ajax({
                         type: 'POST',
@@ -405,7 +405,7 @@
                         actuallyAmount: this.actualPayout //实到金额
                     };
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     this.requestLocked = true;
                     Methods.ajax({
@@ -446,7 +446,7 @@
                         // userId: this.loginUser.userId
                     };
                     var headers = {
-                        Userid: this.loginUser.userId
+                        UserId: this.loginUser.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',

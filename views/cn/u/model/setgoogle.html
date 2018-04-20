@@ -122,7 +122,7 @@
             methods: {
                 getGoogleSecret: function () {
                     var headers = {
-                        Userid: this.userInfo.userId
+                        UserId: this.userInfo.userId
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
@@ -153,7 +153,7 @@
                         dynamicCode: this.dynamicCode
                     };
                     var headers = {
-                        Userid: this.userInfo.userId
+                        UserId: this.userInfo.userId
                     }
                     this.locked = true;
                     Methods.ajax({
