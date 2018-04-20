@@ -12,9 +12,9 @@
                         <div class="item"><p @click="setChartType('kline')" :class="{'active' : chartType == 'kline'}"><%= LANG('K线图') %></p></div>
                         <div class="item"><p @click="setChartType('depth')" :class="{'active' : chartType == 'depth'}"><%= LANG('深度图') %></p></div>
                         <div class="line"></div>
-                        <div class="item"><p @click="setChartMoney(money)" :class="{'active' : kline.money == money}" class="hint--bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="moneyName"></p></div>
-                        <div class="item"><p @click="setChartMoney(assistCoin.toLowerCase())" :class="{'active' : kline.money != money && kline.money != 'none'}" class="hint--bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="showAssistCoin()"></p></div>
-                        <div class="line"></div>
+                        <!--<div class="item"><p @click="setChartMoney(money)" :class="{'active' : kline.money == money}" class="hint&#45;&#45;bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="moneyName"></p></div>-->
+                        <!--<div class="item"><p @click="setChartMoney(assistCoin.toLowerCase())" :class="{'active' : kline.money != money && kline.money != 'none'}" class="hint&#45;&#45;bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="showAssistCoin()"></p></div>-->
+                        <!--<div class="line"></div>-->
                         <div class="item arrow" v-cloak="">
                             <p v-if="kline.period == '1w'"><%= LANG('周') %></p>
                             <p v-if="kline.period == '1d'"><%= LANG('日') %></p>
