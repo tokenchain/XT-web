@@ -86,8 +86,9 @@ if (typeof localStorage === 'object') {
     }
 }
 
-define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox'], function (MD5, JSEncrypt, SHA1, JuaBox) {
+define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs/dist/math.min'], function (MD5, JSEncrypt, SHA1, JuaBox, math) {
     var Methods = {
+        math: math,
         isEmail: function (str) {
             var emailReg = /^([a-zA-Z0-9]+[_|_|.|/-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,4}$/;
             return emailReg.test(str);

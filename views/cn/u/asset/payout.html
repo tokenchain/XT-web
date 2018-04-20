@@ -215,15 +215,15 @@
                     }
                     // return parseFloat(this.coinConfig[this.currentCoin].minFees) || 0;
 
-                    var minFee = 0;
+                    var drawFee = 0;
                     var _this = this;
                     this.coinConfig.forEach(function (coin, index, arr) {
-                        if ((coin.name == _this.currentCoin) && coin.minFee) {
-                            minFee = coin.minFee;
+                        if (coin.name == _this.currentCoin) {
+                            drawFee = coin.drawFee;
                         }
                     });
 
-                    return parseFloat(minFee);
+                    return parseFloat(drawFee);
                 },
                 actualPayout:function(){
                     if(!this.coinConfig){

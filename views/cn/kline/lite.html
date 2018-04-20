@@ -557,6 +557,14 @@
         // 初始化
         if(!window.parent.ExxWebSocket.openWebSocket){
             window.parent.ExxWebSocket.init();
+        } else {
+            //发送K线参数
+            var klineParam = {
+                dataType: window.parent.EXX.appTradePro.klineData,
+                dataSize: 1000, //如需修改，还要改时间显示周期切换那里
+                action: "ADD"
+            };
+            window.parent.ExxWebSocket.websocket.send(JSON.stringify(klineParam));
         }
         // websocket只初始化一次, 当切换辅助价格显示时，需要发送消息订阅对应辅助价格频道，获取数据后展示K线
         // window.parent.ExxWebSocket.init();

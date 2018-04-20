@@ -238,37 +238,7 @@ ExxWebSocket.unBinary = function (datas, callback) {
         doCallback(datas);
     }
 }
-//处理返回数据的方法 暂弃用
-ExxWebSocket.dealMessage = function (json, type) {
-    var _this = this.channelManage;
-    var result = json;
-    var channel = result.channel;//推送返回频道处理
-    if (!channel) {
-        channel = result[0].channel;
-    }
-    /**
-     * 反向处理回调方法  回调方法写在调用接口的地方
-     * 交易记录键值：dealRecord
-     * 盘口数据键值：dishData
-     * 委托记录键值：entrustRecord
-     * K线数据键值：klineData
-     */
-    if (channel.indexOf("_cny_lasttrades") != -1) {
-        //console.log(channel);
-        _this['dealRecord'].method && _this['dealRecord'].method(result);
-    }
-    if (channel.indexOf("_cny_depth") != -1) {
-        //console.log(channel);
-        _this['dishData'].method && _this['dishData'].method(result);
-    }
-    if (channel.indexOf("_kline_") != -1) {
-        var ifr = document.getElementById('marketFrame');
-        var win = ifr.window || ifr.contentWindow;
-        win.updateKlineData(result); // 调用iframe中的a函数
-        //console.log(channel);
-        //_this['klineData'].method && _this['klineData'].method(result);
-    }
-}
+
 //发送消息队列
 ExxWebSocket.sendMessage = function () {
     var _this = this;
@@ -377,7 +347,7 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         var ifr = document.getElementById('marketFrame');
         var win = ifr.window || ifr.contentWindow;
 
-        if (!win.kline) {
+        if (!win || !win.kline) {
             return false;
         }
 
@@ -416,20 +386,33 @@ function transKlineData(oldData) {
     //根据时间倒序
     oldData = oldData.reverse();
 
+    //获取当前K线单位
+    var unit = Methods.getCookie(ENV + 'kassist');
+    // 当地法币
+    var localCoin = EXX.appTradePro.localCoin;
+    // 美元汇率
+    var usd_krate = EXX.appTradePro.assistPrice.usd[localCoin];
+
     //时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量
     //数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换
-
     oldData.forEach(function (item, index) {
         var tmpdata = [];
-        tmpdata[0] = parseInt(item[3]) * 1000;
-        tmpdata[1] = parseFloat(item[4]);
-        tmpdata[2] = parseFloat(item[5]);
-        tmpdata[3] = parseFloat(item[6]);
-        tmpdata[4] = parseFloat(item[7]);
-        tmpdata[5] = parseFloat(item[8]);
+        tmpdata[0] = Methods.math.multiply(parseInt(item[3]), 1000);
 
-        // 法币汇率
-        tmpdata[6] = parseFloat(item[10]);
+        var currRate = 1.0; //默认none 汇率为1
+        if (unit == localCoin) {
+            // 法币汇率
+            currRate = parseFloat(item[10]);
+        } else if (unit == 'usd') {
+            currRate = usd_krate;
+        }
+
+        tmpdata[1] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[4])), Methods.math.bignumber(currRate));
+        tmpdata[2] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[5])), Methods.math.bignumber(currRate));
+        tmpdata[3] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[6])), Methods.math.bignumber(currRate));
+        tmpdata[4] = Methods.math.multiply(Methods.math.bignumber(parseFloat(item[7])), Methods.math.bignumber(currRate));
+
+        tmpdata[5] = parseFloat(item[8]);
 
         result.datas.data[index] = tmpdata;
     });

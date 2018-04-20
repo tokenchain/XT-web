@@ -105,7 +105,7 @@
                     pageSize : 10,
                     pageCount: 0,
                     requestLocked : false,
-                    coinConfig : '',
+                    coinConfig : [],
                     payin : '',
                     payinRecords : [],
                     currentUserAsset : '',
@@ -132,11 +132,19 @@
                     return this.payin.address ? this.payin.address.split("_")[1] : "--";
                 },
                 confirmTimes : function () {
-                    if(this.coinConfig && this.coinConfig[this.currentCoin]){
+                    /*if(this.coinConfig && this.coinConfig[this.currentCoin]){
                         return this.coinConfig[this.currentCoin].inConfigTimes;
                     }else{
                         return '--';
+                    }*/
+                    var _this = this;
+                    for (var i=0; i<_this.coinConfig.length; i++) {
+                        if (_this.coinConfig[i].name == _this.currentCoin) {
+                            return _this.coinConfig[i].inConfigTimes;
+                        }
                     }
+
+                    return '--';
                 }
             },
             methods: {
