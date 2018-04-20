@@ -9,7 +9,7 @@
                     //当前市场
                     currentMarket: '<%= market %>', //当前市场格式为 qtum_btc 要转为marketId
                     coin: '<%= market.split("_")[0] %>',
-                    money: '<%= market.split("_")[1] %>',
+                    money: '<%= market.split("_")[1] %>', // 当前市场买方币
                     coinName: '<%= market.split("_")[0].toUpperCase() %>',
                     moneyName: '<%= market.split("_")[1].toUpperCase() %>',
                     siteTitle : document.title,

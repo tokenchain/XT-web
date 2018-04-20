@@ -390,8 +390,8 @@ function transKlineData(oldData) {
     var unit = Methods.getCookie(ENV + 'kassist');
     // 当地法币
     var localCoin = EXX.appTradePro.localCoin;
-    // 美元汇率
-    var usd_krate = EXX.appTradePro.assistPrice.usd[localCoin];
+    // 当前市场币对美元汇率
+    var usd_krate = EXX.appTradePro.assistPrice.usd[EXX.appTradePro.money];
 
     //时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量
     //数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换
