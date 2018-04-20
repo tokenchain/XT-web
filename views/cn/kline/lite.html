@@ -554,7 +554,7 @@
         //chart_set_money(MONEY);
         document.title = '<%= market.replace("_","/").toUpperCase() %> - <%= WEB.NAME %>';
 
-        // 初始化
+        // 初始化或者重连
         if(!window.parent.ExxWebSocket.openWebSocket){
             window.parent.ExxWebSocket.init();
         } else {
@@ -566,7 +566,7 @@
             };
             window.parent.ExxWebSocket.websocket.send(JSON.stringify(klineParam));
         }
-        // websocket只初始化一次, 当切换辅助价格显示时，需要发送消息订阅对应辅助价格频道，获取数据后展示K线
+        // websocket只初始化一次, 当切换辅助价格显示时，需要重新发送消息获取订阅数据
         // window.parent.ExxWebSocket.init();
     })
 </script>
