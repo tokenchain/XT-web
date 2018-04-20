@@ -93,7 +93,7 @@
     <!--提币记录-->
     <!--
         state: -1删除 0禁用 1正常
-        verify_status: 0待审核 1审核通过 审核不通过
+        verify_status: 0待审核 1审核通过 -1审核不通过
     -->
     <div class="pay-record" v-cloak="">
         <h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2>
@@ -117,7 +117,7 @@
                     <div class="td">{{ record.verifyStatus == 0 && record.state == -1 ? '<%= LANG('已取消') %>' : (record.verifyStatus == 0 ? '<%= LANG('待审核') %>' : (record.verifyStatus == 1 ? '<%= LANG('已完成') %>' : '<%= LANG('审核不通过') %>' )) }}</div>
                     <div class="td oper">
                         <a role="button" v-if="record.verifyStatus == 0 && record.state == 1" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
-                        <!--<a role="button" v-else-if="record.verifyStatus == 2" :href="record.webUrl" target="_blank"><%= LANG('查看详情') %></a>-->
+                        <a role="button" v-else-if="record.verifyStatus == 1 && record.state == 1" @click="viewDetail(record.userApplyWithdrawId)"><%= LANG('查看详情') %></a>
                         <a role="button" v-else="">--</a>
                     </div>
                 </div>
@@ -185,6 +185,18 @@
                     });
 
                     return currencyId;
+                },
+                // 当前货币区块浏览器url
+                blockChianUrl: function () {
+                    var blockChianUrl = '';
+                    var _this = this;
+                    this.coinConfig.forEach(function (coin, index, arr) {
+                        if (coin.name == _this.currentCoin) {
+                            blockChianUrl = coin.blockChianUrl;
+                        }
+                    });
+
+                    return blockChianUrl;
                 },
                 /**
                  * 格式化用户资产数据
@@ -442,7 +454,7 @@
                     var data = {
                         // coint: this.currentCoin,
                         // did: id
-                        userApplyWithdrawId: id,
+                        userApplyWithdrawId: id
                         // userId: this.loginUser.userId
                     };
                     var headers = {
@@ -458,6 +470,28 @@
                             JuaBox.info(EXX.L(res.resMsg.message));
                         }.bind(this)
                     });
+                },
+                // 查看详情
+                viewDetail: function (id) {
+                    var data = {
+                        userApplyWithdrawId: id
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaltxid',
+                        data: data,
+                        success: function(res) {
+                            var txid = res.datas;
+                            var webUrl = this.blockChianUrl + txid;
+                            this.openWin(webUrl);
+                        }.bind(this)
+                    });
+                },
+                openWin: function (url) {
+                    var a = document.createElement("a"); //创建a对象
+                    a.setAttribute("href", url);
+                    a.setAttribute("target", "_blank");
+                    document.body.appendChild(a);
+                    a.click(); //执行当前对象
                 },
                 openEditAddress : function (type, address) {
                     this.editType = type;
