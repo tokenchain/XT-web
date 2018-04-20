@@ -326,6 +326,12 @@ ExxWebSocket.onMessage = function (event) {
         var oriData = datas.data;
         datas.data = [];
         datas.data.push(oriData);
+
+        // 全量数据标识
+        _this.allPush = false;
+    } else {
+        // 全量数据标识
+        _this.allPush = true;
     }
 
     var dataHead = datas.data[0][0];
@@ -352,8 +358,8 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         }
 
         //判断是否获取全量数据(切换K线价格时)
-        if (EXX.appTradePro.allFlag && data.data.length === 1) {
-            // 长度为1判断为增量数据,return 等待全量数据过来(如果首次进入页面只有一条K线数据,此时会不显示,考虑到实际部署肯定会有多个K线,该情况暂不处理)
+        if (EXX.appTradePro.allFlag && !this.allPush && data.data.length === 1) {
+            // 长度为1判断为增量数据或者全量只有一条的情况, 如果不是全量推送数据allPush, 则return
             return;
         }
 
