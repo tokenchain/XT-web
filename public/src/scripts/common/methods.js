@@ -296,7 +296,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 //     });*/
                 // }
                 if (resMsg.message) {
-                    JuaBox.showWrong(EXX.L(resMsg.message));
+                    JuaBox.showWrong(EXX.L(resMsg.code));
                 }
             }.bind(this);
 

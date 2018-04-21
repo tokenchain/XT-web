@@ -1015,9 +1015,9 @@
                 },
                 //切换价格输入模式
                 toggleInputPriceMode : function () {
-                    if(this.moneyName == this.showAssistCoin()){
+                    /*if(this.moneyName == this.showAssistCoin()){
                         return JuaBox.info("<%= LANG('请先选择价格显示货币为USD或CNY再开启价格输入转换功能')%>");
-                    }
+                    }*/
                     if(this.inputPriceMode == 0){
                         Methods.setCookie(ENV + 'inputPriceMode', 1, 7);
                         this.inputPriceMode = 1;
