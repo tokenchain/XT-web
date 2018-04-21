@@ -86,14 +86,10 @@
                         emailCode : this.emailCode,
                         dynamicCode : this.dynamicCode
                     };
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    }
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSafeAuth',
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dosafeauth',
                         data: JSON.stringify(data),
-                        headers: headers,
                         success: function(res) {
                             // Methods.setLocalUserInfo(res.datas.userInfo);
                             //this.$parent.$parent.loginUser = res.datas.userInfo;

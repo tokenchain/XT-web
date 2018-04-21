@@ -310,7 +310,7 @@
                 // 获取用户总额不为零的货币信息(财务中心)
                 getAccountAssets: function () {
                     var data = {
-                        webId: 100,
+                        // webId: 100,
                         userId: this.loginUser.userId,
                         pageSize: 9999,
                         pageNum: 1
@@ -329,7 +329,7 @@
                 },
                 getCoinConfig: function(callback) {
                     var data = {
-                        webId: 100
+                        // webId: 100
                     };
                     Methods.ajax({
                         type: 'GET',
@@ -350,14 +350,10 @@
                         pageNum: 1,
                         pageSize: 9999
                     };
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaddress',
                         data: data,
-                        headers: headers,
                         success: function(res) {
                             this.address = res.datas.list;
                         }.bind(this)
@@ -375,15 +371,11 @@
                         currencyId: this.currencyId,
                         tab: 'all'
                     };
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getpayoutcoinrecord',
                         data: data,
-                        headers: headers,
                         success: function (res) {
                             // console.log(res)
                             this.payoutRecords = res.datas.list;
@@ -416,16 +408,12 @@
                         fees: this.currentMinFees, //手续费
                         actuallyAmount: this.actualPayout //实到金额
                     };
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     this.requestLocked = true;
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
-                        headers: headers,
                         success: function (res) {
                             this.requestLocked = false;
 
@@ -457,14 +445,10 @@
                         userApplyWithdrawId: id
                         // userId: this.loginUser.userId
                     };
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'docancelpayout',
                         data: data,
-                        headers: headers,
                         success: function(res) {
                             this.getPayoutCoinRecord();
                             JuaBox.info(EXX.L(res.resMsg.message));

@@ -200,10 +200,7 @@
             },
             methods: {
                 logout: function () {
-                    var data = {
-                        UserId: this.loginUser.userId
-                    };
-                    Methods.logout(data);
+                    Methods.logout();
                 },
                 //获取大写货币名称
                 getCoinName : function (market) {
@@ -278,7 +275,7 @@
                 * */
                 getCoinConfig: function() {
                     var data = {
-                        webId: 100
+                        // webId: 100
                     };
                     Methods.ajax({
                         type: 'GET',
@@ -293,7 +290,7 @@
                 // 获取用户总额不为零的货币信息(财务中心)
                 getAccountAssets: function () {
                     var data = {
-                        webId: 100,
+                        // webId: 100,
                         userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,
                         pageSize: 9999,
                         pageNum: 1
@@ -324,12 +321,8 @@
                 //获取用户信息-ok
                 getUserInfo: function () {
                     var _this = this;
-                    var headers = {
-                        UserId: Methods.getLocalUserInfo(ENV + 'userInfo').userId
-                    };
                     Methods.ajax({
                         type:'POST',
-                        headers: headers,
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
                         success: function (res) {
                             _this.userInfo = res.datas;

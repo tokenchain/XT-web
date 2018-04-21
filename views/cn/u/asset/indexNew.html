@@ -581,7 +581,7 @@
                 * */
                 getCoinConfig: function() {
                     var data = {
-                        webId: 100
+                        // webId: 100
                     };
                     Methods.ajax({
                         type: 'GET',
@@ -596,7 +596,7 @@
                 // 获取用户总额不为零的货币信息(财务中心)
                 getAccountAssets: function () {
                     var data = {
-                        webId: 100,
+                        // webId: 100,
                         userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,
                         pageSize: 9999,
                         pageNum: 1
@@ -655,9 +655,6 @@
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
-                        headers: {
-                            UserId: this.loginUser.userId
-                        },
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV+'mname', coin);

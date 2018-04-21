@@ -55,10 +55,7 @@
       },
       methods: {
         logout: function() {
-            var data = {
-                UserId: this.loginUser.userId
-            };
-          Methods.logout(data);
+          Methods.logout();
         }
       }
     });

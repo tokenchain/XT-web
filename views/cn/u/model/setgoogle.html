@@ -121,13 +121,9 @@
             },
             methods: {
                 getGoogleSecret: function () {
-                    var headers = {
-                        UserId: this.userInfo.userId
-                    };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getgooglesecret',
-                        headers: headers,
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
                         }.bind(this)
@@ -152,15 +148,11 @@
                         googleCode: this.googleCode,
                         dynamicCode: this.dynamicCode
                     };
-                    var headers = {
-                        UserId: this.userInfo.userId
-                    }
                     this.locked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dosetgoogleauth',
                         data: JSON.stringify(data),
-                        headers: headers,
                         success: function (res) {
                             this.locked = false;
 

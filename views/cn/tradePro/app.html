@@ -501,7 +501,7 @@
                 //获取币种配置
                 getCoinConfig: function() {
                     var data = {
-                        webId: 100
+                        // webId: 100
                     };
                     Methods.ajax({
                         type: 'GET',
@@ -658,7 +658,6 @@
                 setAssistCoin: function (coin) {
                     // 设置K线单位cookie
                     Methods.setCookie(ENV+'kassist', coin);
-                    this.allFlag = true;
 
                     if (!this.isLogin) {
                         Methods.setCookie(ENV + 'mname', coin);
@@ -668,6 +667,7 @@
                     }
                     if(coin == 'none'){
                         this.assistCoin = coin;
+                        this.allFlag = true;
                         return false;
                     }
 
@@ -677,13 +677,11 @@
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
-                        headers: {
-                            UserId: this.loginUser.userId
-                        },
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
                             this.assistCoin = coin;
+                            this.allFlag = true;
                             //top.location.reload();
                         }.bind(this)
                     });
@@ -1087,6 +1085,8 @@
                         action: "ADD"
                     };
                     ExxWebSocket.websocket.send(JSON.stringify(klineParam));
+
+                    this.allFlag = true;
                 },
                 switchTheme: function(theme){
                     Vue.set(this.kline, "theme", theme);

@@ -208,9 +208,6 @@
                             googleCode: this.googleCode
                         }
                     }
-                    var headers = {
-                        UserId: this.userInfo.userId
-                    };
 
                     if (!this.mobile) {
                         JuaBox.sure("<%= LANG('请输入有效的手机号码') %>");
@@ -224,7 +221,6 @@
                         _this.locked = true;
                         Methods.ajax({
                             url: url,
-                            headers: headers,
                             data: data,
                             success: function (res) {
                                 _this.locked = false;

@@ -109,7 +109,7 @@
                 //获取市场货币信息
                 getCoinConfig: function() {
                     var data = {
-                        webId: 100
+                        // webId: 100
                     };
                     Methods.ajax({
                         type: 'GET',
@@ -213,9 +213,6 @@
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
-                        headers: {
-                            UserId: this.loginUser.userId
-                        },
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV+'mname', coin);

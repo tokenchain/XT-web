@@ -193,7 +193,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             this.ajax({
                 type: "POST",
                 url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logOut',
-                headers: headers,
+                // headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
                     this.setCookie(ENV + 'ExchangeMode', 1);
@@ -217,6 +217,15 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                         null;
             return document[hiddenProperty];
         },
+        //生成请求传参content
+        enryptData: function (params) {
+            var sorted = Object.keys(params).sort();
+            var parametersContent = '';
+            sorted.forEach(function (item, index) {
+                parametersContent  += item + params[item];
+            });
+            return parametersContent;
+        },
         // ajax 请求二次封装
         ajax: function (ops) {
             if(this.checkPageActive()){
@@ -224,20 +233,30 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 return false;
             }
             var options = typeof ops == 'object' ? ops : {};
+            var parametersContent = '';
+
             options.url = options.url || '';
             options.type = options.type || 'POST';
+            options.data = options.data || {};
+            if (typeof options.data == 'object') {
+                // form data或get传参
+                parametersContent = this.enryptData(options.data);
+            } else {
+                // body json字符串传参
+                parametersContent = options.data;
+            }
             // 登录状态下 设置header(UserId,ClientType,Timestamp,Sign)
+            // Sign:UserId+timestamp+parametersContent+token
             if (Methods.getLocalUserInfo()) {
                 var timestamp = (new Date()).getTime();
                 var header = {
                     UserId: Methods.getLocalUserInfo().userId,
-                    ClientType: 1,
+                    ClientType: 0,
                     Timestamp: timestamp,
-                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + Methods.getCookie(ENV+'utoken'))
+                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken'))
                 };
                 options.headers = header;
             }
-            options.data = options.data || {};
             options.contentType = options.contentType || 'application/json; charset=utf-8';
             options.dataType = options.dataType || 'json';
             options.success = options.success || function (res) {

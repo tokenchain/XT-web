@@ -193,13 +193,9 @@
                         return false;
                     }
                     //alert(callback);
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/" + 'getusermarket',
-                        headers: headers,
                         success: function (res) {
                             if(!res.datas){
                                 return console.log('getAllMarket failed.')
@@ -225,9 +221,6 @@
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
-                        headers: {
-                            UserId: this.loginUser.userId
-                        },
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
@@ -446,9 +439,6 @@
                     return result;
                 },
                 topUserMarket : function (market) {
-                    var headers = {
-                        UserId: this.currentAccountId
-                    };
                     var data = {
                         marketId: market
                     };
@@ -456,7 +446,6 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'topUserMarket',
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/" + 'topusermarket',
-                        headers: headers,
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.getUserMarket();
@@ -663,16 +652,12 @@
                         url += 'addusermarket'
                     }
 
-                    var headers = {
-                        UserId: this.loginUser.userId
-                    };
                     var data = {
                         marketId: marketid
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doEditMarket',
                         url: url,
-                        headers: headers,
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.getUserMarket();

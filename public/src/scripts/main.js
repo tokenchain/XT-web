@@ -358,8 +358,8 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         }
 
         //判断是否获取全量数据(切换K线价格时)
-        if (EXX.appTradePro.allFlag && !this.allPush && data.data.length === 1) {
-            // 长度为1判断为增量数据或者全量只有一条的情况, 如果不是全量推送数据allPush, 则return
+        if (EXX.appTradePro.allFlag && !this.allPush) {
+            //切换K线价格显示时需要获取全量数据, 如果不是全量推送数据allPush, 则return
             return;
         }
 
@@ -434,7 +434,7 @@ function transKlineData(oldData) {
         result.datas.data[index] = tmpdata;
     });
 
-    // 获取完全量数据完成后,将全量标识关闭
+    // 首次获取全量数据完成后, 将全量标识关闭,后续接收增量数据
     EXX.appTradePro.allFlag = false;
 
     return result;
