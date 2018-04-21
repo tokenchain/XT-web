@@ -2697,7 +2697,8 @@ EXX.addLan = function (key, options) {
     var options = options || {};
     EXX.pack[key] = options;
 };
-EXX.L = function (key) {
+EXX.L = function (res) {
+    var key = res.code;
     try {
         var result = "";
         var currentLang = LAN;//EXX.getCookie('wlan') || "cn";
@@ -2706,8 +2707,8 @@ EXX.L = function (key) {
         } else {
             result = EXX.pack[key][currentLang];
         }
-        //若不存在语言包或为空则使用默认的方法
-        if (result == "" || result == undefined) return key;
+        //若不存在语言包或为空则使用默认的方法 返回默认消息
+        if (result == "" || result == undefined) return res.message;
         if (arguments.length > 1) {
             for (var i = 1; i < arguments.length; i++) {
                 result = result.replace(eval('/\\[\\$' + i + '\\]/g'), arguments[i]);
@@ -2715,7 +2716,7 @@ EXX.L = function (key) {
         }
         return result;
     } catch (e) {
-        return key;
+        return res.message;
     }
 };
 
