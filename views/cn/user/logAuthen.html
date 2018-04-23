@@ -137,6 +137,8 @@
                             Methods.setCookie(ENV+'uid', res.datas.userId);
                             Methods.setCookie(ENV+'uname', res.datas.loginName);
 
+                            Methods.setCookie(ENV+'utoken', res.datas.token);
+
                             loginSuccessUi('/u')
                             //window.location.href = '/u';
                         },
