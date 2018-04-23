@@ -250,8 +250,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             if (Methods.getLocalUserInfo()) {
                 var timestamp = (new Date()).getTime();
                 var header = {
-                    UserId: Methods.getLocalUserInfo().userId,
-                    ClientType: 0,
+                    Userid: Methods.getLocalUserInfo().userId,
+                    Clienttype: 0,
                     Timestamp: timestamp,
                     Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken'))
                 };
