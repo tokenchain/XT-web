@@ -251,7 +251,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 var timestamp = (new Date()).getTime();
                 var header = {
                     Userid: Methods.getLocalUserInfo().userId,
-                    Clienttype: 0,
+                    Clienttype: 1,
                     Timestamp: timestamp,
                     Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken'))
                 };
@@ -265,38 +265,27 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
-                // switch (resMsg.code) {
-                //     case 1003:
-                //         JuaBox.showWrong(EXX.L(resMsg.message));
-                //         this.deleCookie(ENV + 'currentAccountId');
-                //         this.setCookie(ENV + 'ExchangeMode', 1);
-                //         this.setCookie(ENV + 'TradeTheme', 'dark');
-                //         this.setCookie(ENV + 'inputPriceMode', 0);
-                //         this.setCookie(ENV + 'mname', 'none');
-                //         window.localStorage.clear();
-                //         setTimeout(function () {
-                //             window.location.replace('/login');
-                //         }, 1500);
-                //         break;
-                //     // 错误市场处理
-                //     //case 5002:
-                //     //JuaBox.showWrong(resMsg.message);
-                //     //console.log(resMsg.message)
-                //     //break;
-                //     // 错误市场处理
-                //     case 999:
-                //         console.log(resMsg.message);
-                //         break;
-                //     default:
-                //         JuaBox.showWrong(EXX.L(resMsg.message));
-                //     //console.log(resMsg.message)
-                //     /*swal({
-                //         text: resMsg.message,
-                //         icon: "error"
-                //     });*/
-                // }
-                if (resMsg.message) {
-                    JuaBox.showWrong(EXX.L(resMsg));
+
+                switch (resMsg.code) {
+                    case '999':
+                        JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
+                        this.deleCookie(ENV + 'currentAccountId');
+                        this.setCookie(ENV + 'ExchangeMode', 1);
+                        this.setCookie(ENV + 'TradeTheme', 'dark');
+                        this.setCookie(ENV + 'inputPriceMode', 0);
+                        this.setCookie(ENV + 'mname', 'none');
+
+                        this.setCookie(ENV + 'uname', 'none');
+                        this.setCookie(ENV + 'uid', 'none');
+                        this.setCookie(ENV + 'uon', 'none');
+
+                        window.localStorage.clear();
+                        setTimeout(function () {
+                            window.location.replace('/login');
+                        }, 1500);
+                        break;
+                    default:
+                        JuaBox.showWrong(EXX.Err(resMsg));
                 }
             }.bind(this);
 

@@ -4,7 +4,9 @@
     <div class="exx-modal-body">
 
       <div class="exx-google-box" v-if="isOpen">
-        <div class="code-img"><img :src="googleQrCodeUrl"></div>
+        <div class="code-img">
+          <canvas id="canvas" style="width: 150px; height: 150px"></canvas>
+        </div>
         <div class="help">
           <h4><%= LANG('使用帮助') %></h4>
           <p>1.<%= LANG('下载安装Google认证器') %></p>
@@ -52,7 +54,7 @@
 </script>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'qrcode'], function (Vue, Methods, JuaBox, QRCode) {
         return Vue.component('set-google', {
             template: "#set-google",
             props: {
@@ -87,6 +89,7 @@
                 userInfo: function () {
                     return Methods.getLocalUserInfo();
                 },
+                // 暂弃用
                 googleQrCodeUrl: function () {
                     if(this.googleSecret == ''){
                         return ''
@@ -122,10 +125,17 @@
             methods: {
                 getGoogleSecret: function () {
                     Methods.ajax({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getGoogleSecret',
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getgooglesecret',
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
+
+                            var googleAuthUrl = 'otpauth://totp/' + this.userInfo.loginName +'?secret=' + this.googleSecret + '&issuer=Exx';
+
+                            QRCode.toCanvas(document.getElementById('canvas'), googleAuthUrl,{
+                                width : 150,
+                                height : 150
+                            }, function (error) {
+                            })
                         }.bind(this)
                     });
                 },
@@ -181,9 +191,9 @@
                     this.isOpen = false;
                     this.type = 0;
                 }
-                this.getGoogleSecret();
             },
             mounted: function () {
+                this.getGoogleSecret();
             }
         })
     })

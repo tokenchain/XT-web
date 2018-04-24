@@ -1218,6 +1218,10 @@ EXX.pack = {
         "cn": "授权失效，需要重新登录",
         "en": "Authorization invalid, please sign in again."
     },
+    "账户已过期，请重新登录": {
+        "cn": "账户已过期，请重新登录",
+        "en": "Account expired, please sign in again"
+    },
     "网络确认": {
         "cn": "网络确认",
         "en": "Confirmation"
@@ -2697,8 +2701,8 @@ EXX.addLan = function (key, options) {
     var options = options || {};
     EXX.pack[key] = options;
 };
-EXX.L = function (res) {
-    var key = res.code;
+// 旧的错误信息通过错误中文字段配置多语言
+EXX.L = function (key) {
     try {
         var result = "";
         var currentLang = LAN;//EXX.getCookie('wlan') || "cn";
@@ -2707,8 +2711,9 @@ EXX.L = function (res) {
         } else {
             result = EXX.pack[key][currentLang];
         }
-        //若不存在语言包或为空则使用默认的方法 返回默认消息
-        if (result == "" || result == undefined) return res.message;
+        //若不存在语言包或为空则使用默认的方法
+        if (result == "" || result == undefined) return key;
+        // 替换要输出的变量
         if (arguments.length > 1) {
             for (var i = 1; i < arguments.length; i++) {
                 result = result.replace(eval('/\\[\\$' + i + '\\]/g'), arguments[i]);
@@ -2716,7 +2721,34 @@ EXX.L = function (res) {
         }
         return result;
     } catch (e) {
-        return res.message;
+        return key;
     }
 };
+// 新的接口通过错误码配置多语言
+EXX.Err = function (res) {
+    var code = res.code;
+    var message = res.message;
 
+    try {
+        var result = "";
+        var currentLang = LAN;//EXX.getCookie('wlan') || "cn";
+        if (currentLang == "hk") {
+            result = EXX.toFT(EXX.pack[code]["cn"]);
+        } else {
+            result = EXX.pack[code][currentLang];
+        }
+        //若不存在语言包或为空则使用默认的方法
+        if (result == "" || result == undefined) {
+            return message;
+        }
+        // 替换要输出的变量
+        if (arguments.length > 1) {
+            for (var i = 1; i < arguments.length; i++) {
+                result = result.replace(eval('/\\[\\$' + i + '\\]/g'), arguments[i]);
+            }
+        }
+        return result;
+    } catch (e) {
+        return message;
+    }
+};
