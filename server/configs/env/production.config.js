@@ -18,7 +18,7 @@ module.exports = {
     //域配置
     DOMAIN_BASE : "exx.com",
 
-    DOMAIN_DEV : "http://137.main.exx.com",
-    WEBSOCKET : "ws://192.168.4.137:28080"
+    DOMAIN_DEV : "http://72.main.exx.com",
+    WEBSOCKET : "ws://192.168.4.72:28080"
 }
 /* * 开发环境前端 + 生产环境后端* */
