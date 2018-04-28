@@ -76,6 +76,11 @@
                     }
                     this.initRecord = true;
                 },
+                /**
+                 *作者: GongQi
+                 *时间: 2018/4/28
+                 *功能: 专业交易->最新成交 刷新成交记录
+                 */
                 pushTrades: function (array) {
                     var $this = this;
                     var $trades = $("#tradeRecord .tradeNew-table");
@@ -83,16 +88,23 @@
                     if (array == '' && array.length == 0) {
                         return false;
                     }
+                    //倒序处理
                     for (var i = array.length - 1; i >= 0; i--) {
                         var item = array[i];
                         if (i >= array.length - $this.tradesLimit) {
                             if (item.tid <= $this.$parent.last_trade_tid) continue;
 
-                            if (this.$parent.last_trade_tid != 0) {
-                                totalUls += $this.getRowHtml(item, 'add');
-                            } else {
-                                totalUls += $this.getRowHtml(item);
-                            }
+                            totalUls += $this.getRowHtml(item);
+                            /**
+                             *作者: GongQi
+                             *时间: 2018/4/28
+                             *功能: 取消动画效果
+                             */
+                            // if (this.$parent.last_trade_tid != 0) {
+                            //     totalUls += $this.getRowHtml(item, 'add');
+                            // } else {
+                            //     totalUls += $this.getRowHtml(item);
+                            // }
                         }
                     }
                     if ($this.$parent.last_trade_tid != 0) {
@@ -101,9 +113,16 @@
                         $trades.append(totalUls);
                     }
                     totalUls = null;
-                    $trades.find(".add").slideDown(1000, function () {
-                        $(this).removeClass("add");
-                    });
+
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/4/28
+                     *功能: 取消动画效果
+                     */
+                    // $trades.find(".add").slideDown(100, function () {
+                    //     $(this).removeClass("add");
+                    // });
+
                     //删除大于100条的数据
                     $trades.find(".tr:gt("+ ($this.tradesLimit - 1) +")").remove();
                 },
