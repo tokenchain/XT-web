@@ -13,6 +13,13 @@ module.exports = function(app){
     app.use('/help', require('../routes/help.server.route'));
     app.use('/blog', require('../routes/blog.server.route'));
     app.use('/newcoin', require('../routes/newcoin.server.route'));
+    /**
+     *作者: GongQi
+     *时间: 2018/5/3
+     *功能: 杠杆交易->引入路由
+     */
+    app.use('/leverage', require('../routes/leverage.server.route'));
+
     //用户中心需要授权的路由
     app.use('/u', require('../routes/u.server.route'));
 

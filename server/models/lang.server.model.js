@@ -26,7 +26,7 @@ var mergeJsons = function (des, src, override) {
     return des;
 }
 //引入所有语言包并合并
-var LANGPACK = mergeJsons({},[
+var LANGPACK = mergeJsons({}, [
     require('../langs/global.server.lang.json'),
     require('../langs/loan.server.lang.json'),
     require('../langs/payin.server.lang.json'),
@@ -72,7 +72,7 @@ var toJT = function (cc) {
 
 module.exports = function (LAN) {
     //返回一个方法
-    return function(key){
+    return function (key) {
         try {
             var result = "";
             var currentLang = LAN;
@@ -81,8 +81,8 @@ module.exports = function (LAN) {
             } else {
                 result = LANGPACK[key][currentLang];
             }
-            if (result == ""){
-                if(currentLang == "hk"){
+            if (result == "") {
+                if (currentLang == "hk") {
                     key = toFT(key);
                 }
                 return key;
@@ -95,7 +95,7 @@ module.exports = function (LAN) {
             }
             return result;
         } catch (e) {
-            if(currentLang == "hk"){
+            if (currentLang == "hk") {
                 key = toFT(key);
             }
             return key;

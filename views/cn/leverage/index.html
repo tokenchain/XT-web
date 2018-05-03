@@ -1,0 +1,348 @@
+<link rel="stylesheet" href="/src/styles/tradePro.css?<%= VERSION %>">
+<script src="/lib/others/jquery.range.js" type="application/javascript"></script>
+<style type="text/css">
+    .site-wrapper { overflow-x: hidden}
+</style>
+<section class="tradeNew" id="app-trade-pro">
+    <div class="chartEntrust-area">
+        <div class="chart-area">
+            <div class="common-box chart-box">
+                <div class="chart-box-head" v-cloak="">
+                    <div class="l-area">
+                        <div class="item"><p @click="setChartType('kline')" :class="{'active' : chartType == 'kline'}"><%= LANG('K线图') %></p></div>
+                        <div class="item"><p @click="setChartType('depth')" :class="{'active' : chartType == 'depth'}"><%= LANG('深度图') %></p></div>
+                        <div class="line"></div>
+                        <!--<div class="item"><p @click="setChartMoney(money)" :class="{'active' : kline.money == money}" class="hint&#45;&#45;bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="moneyName"></p></div>-->
+                        <!--<div class="item"><p @click="setChartMoney(assistCoin.toLowerCase())" :class="{'active' : kline.money != money && kline.money != 'none'}" class="hint&#45;&#45;bottom" aria-label="<%= LANG('K线价格显示单位设置')%>" v-html="showAssistCoin()"></p></div>-->
+                        <!--<div class="line"></div>-->
+                        <div class="item arrow" v-cloak="">
+                            <p v-if="kline.period == '1w'"><%= LANG('周') %></p>
+                            <p v-if="kline.period == '1d'"><%= LANG('日') %></p>
+                            <p v-if="kline.period == '1h'">1<%= LANG('小时') %></p>
+                            <p v-if="kline.period == '30m'">30<%= LANG('分') %></p>
+                            <p v-if="kline.period == '15m'">15<%= LANG('分') %></p>
+                            <p v-if="kline.period == '1m'">1<%= LANG('分') %></p>
+                            <p v-if="kline.period == 'line'"><%= LANG('分时') %></p>
+                                <ul class="item-list" v-cloak="">
+                                    <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']"><%= LANG('周') %></li>
+                                    <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']"><%= LANG('日') %></li>
+                                    <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">1<%= LANG('小时') %></li>
+                                    <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">30<%= LANG('分') %></li>
+                                    <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">15<%= LANG('分') %></li>
+                                    <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">1<%= LANG('分') %></li>
+                                    <li role="button" @click="switchPeriod('line')" :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %></li>
+                                </ul>
+                        </div>
+                        <div class="line"></div>
+                        <div class="item arrow">
+                            <p><%= LANG('更多') %></p>
+                                <ul class="item-list more">
+                                    <li>
+                                        <p><%= LANG('技术指标')%>：</p>
+                                        <div class="common-select"><a @click="switchIndic()" role="button" :class="{'on' : kline.indicsStatus == 'on'}"><i></i></a></div>
+                                    </li>
+                                    <li>
+                                        <p><%= LANG('画线工具')%>：</p>
+                                        <div class="common-select"><a @click="switchTool()" role="button" :class="{'on' : kline.toolStatus == 'on'}"><i></i></a></div>
+                                    </li>
+                                    <li>
+                                        <p><%= LANG('主指标')%>：</p>
+                                        <a @click="setChartMainIndicator('MA')" :class="{'selected': kline.mIndic == 'MA'}">MA</a>
+                                        <a @click="setChartMainIndicator('EMA')" :class="{'selected': kline.mIndic == 'EMA'}">EMA</a>
+                                        <a @click="setChartMainIndicator('BOLL')" :class="{'selected': kline.mIndic == 'BOLL'}">BOLL</a>
+                                        <a @click="setChartMainIndicator('SAR')" :class="{'selected': kline.mIndic == 'SAR'}">SAR</a>
+                                        <a @click="setChartMainIndicator('NONE')" :class="{'selected': kline.mIndic == 'NONE'}">NONE</a>
+                                    </li>
+                                    <li>
+                                        <p><%= LANG('主图样式')%>：</p>
+                                        <a @click="setChartMainStyle('CandleStick')" :class="{'selected': kline.chartStyle == 'CandleStick'}">CandleStick</a>
+                                        <a @click="setChartMainStyle('CandleStickHLC')" :class="{'selected': kline.chartStyle == 'CandleStickHLC'}">CandleStickHLC</a>
+                                        <a @click="setChartMainStyle('OHLC')" :class="{'selected': kline.chartStyle == 'OHLC'}">OHLC</a>
+                                    </li>
+                                    <li><p></p><a @click="showChartSetting" role="button"><%= LANG('指标参数设置')%></a></li>
+                                </ul>
+                        </div>
+
+                    </div>
+                    <div class="r-area">
+                        <div class="item arrow">
+                            <p><%= LANG('价格显示')%>：<span v-html="showAssistName()"></span></p>
+                                <ul class="item-list">
+                                    <li role="button" @click="setAssistCoin(item.key)" :class="item.key == assistCoin ? 'active' : ''" v-for="item in assistList">{{item.name}}</li>
+                                </ul>
+                        </div>
+                        <div class="item"><p role="button"><a :href="'/tradePro/' + currentMarket" target="_self"><%= LANG('专业交易')%></a></p></div>
+                        <div class="item"><p role="button" onclick="$('.chart-area').toggleClass('full')"><%= LANG('全屏')%></p></div>
+                    </div>
+                </div>
+
+                <div class="chart-box-body">
+                    <div style="height: 100%;" v-show="chartType === 'kline'">
+                    <iframe :src="'/kline/lite/' + currentMarket + '?money=' + assistCoin.toLowerCase()" id="marketFrame" class="marketFrame" name="marketFrame" onload="" frameborder="0" width="100%" style="height:100%" hspace="0" scrolling="no"></iframe>
+                    </div>
+                    <div style="height: 100%;" v-if="chartType === 'depth'">
+                        <exx-highchart class="depth-chart" :options="depthChartOptions" ref="depth"></exx-highchart>
+                    </div>
+
+                    </div>
+
+
+            </div>
+        </div>
+        <div class="entrust-area" id="resizable">
+            <div class="common-box entrust-box">
+                <div class="entrust-box-head resize">
+                    <ul class="tab">
+                        <li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('限价委托')%></li>
+                        <li @click="changeEntrustTab('history')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('历史委托')%></li>
+                    </ul>
+                    <div class="r-area oper" v-if="isLogin">
+                        <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
+                        <a :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
+                        <a @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>
+                    </div>
+                </div>
+                <div class="entrust-box-body">
+                    <div v-if="!isLogin" class="notLogin">
+                        <%=LANG('请您先')%><a href="/login"><%=LANG('登录')%></a><%=LANG('或')%><a href="/register"><%=LANG('注册')%></a>
+                    </div>
+                    <div class="tradeNew-table" v-if="isLogin" v-cloak="">
+                        <div class="tr head">
+                            <div class="td time"><span><%=LANG('时间')%></span></div>
+                            <div class="td price"><span><%=LANG('委托价')%>/<%=LANG('成交均价')%>({{moneyName}})</span></div>
+                            <div class="td amount"><span><%=LANG('委托量')%>/<%=LANG('成交量')%>({{coinName}})</span></div>
+                            <div class="td num"><span><%=LANG('成交额')%>({{moneyName}})</span></div>
+                            <div class="td source"><span><%=LANG('来源')%></span></div>
+                            <div class="td type"><span><%=LANG('状态')%>/<%=LANG('操作')%></span></div>
+                        </div>
+                        <div class="tr body" v-if="isLogin && getGroupEntrust(currentEntrustTab).length > 0" v-for="item in getGroupEntrust(currentEntrustTab)">
+                            <template v-if="item.type == 1">
+                                <div class="td time"><i class="buyBgColor"><%=LANG('买')%></i>{{showTime(item.createTime)}}</div>
+                                <div class="td price">
+                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item.price)">{{showMoney(item.price)}}</b> /
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{showMoney(item.completeTotalMoney/item.completeAmount)}}</span>
+                                </div>
+                                <div class="td amount"><b class="buyColor">{{showCoin(item.amount)}}</b> / {{showCoin(item.completeAmount)}}</div>
+                                <div class="td num">
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{showAmount(item.completeTotalMoney)}}</span>
+                                </div>
+                                <div class="td source">
+                                    <!--<span>{{showSource(item[10])}}</span>-->
+                                    <span>WEB</span>
+                                </div>
+                                <div class="td type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a></div>
+                                <div class="td type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
+                            </template>
+                            <template v-if="item.type == 0">
+                                <div class="td time"><i class="sellBgColor"><%=LANG('卖')%></i>{{showTime(item.createTime)}}</div>
+                                <div class="td price">
+                                    <b class="buyColor hint--top" :aria-label="showAssistHint(item.price)">{{showMoney(item.price)}}</b> /
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{showMoney(item.completeTotalMoney/item.completeAmount)}}</span>
+                                </div>
+                                <div class="td amount"><b class="sellColor">{{showCoin(item.amount)}}</b> / {{showCoin(item.completeAmount)}}</div>
+                                <div class="td num">
+                                    <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{showAmount(item.completeTotalMoney)}}</span>
+                                </div>
+                                <div class="td source">
+                                    <!--<span>{{showSource(item[10])}}</span>-->
+                                    <span>WEB</span>
+                                </div>
+                                <div class="td type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a></div>
+                                <div class="td type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="noRecord" v-if="isLogin && getGroupEntrust(currentEntrustTab).length == 0"><%=LANG('没有记录')%></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="plateFill-area">
+        <div class="plate-area">
+            <dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket" :assist-price="assistPrice" ref="dishPart"></dish-part>
+            <div class="plateInside-line"></div>
+            <deal-record :deal-record="dealRecord" :market-config="currentMarketConfig" :current-market="currentMarket" ref="dealRecord"></deal-record>
+        </div>
+        <div class="fill-area">
+            <div class="common-box fill-box" v-cloak="">
+
+                <div class="fill-box-head">
+                    <ul class="tab">
+                        <li @click="changeTradeMode(0)" :class="{'on' : currentTradeMode == 0 && !showLeverInfo}"><%= LANG('限价委托')%></li>
+                        <li @click="changeTradeMode(1)" :class="{'on' : currentTradeMode == 1 && !showLeverInfo}"><%= LANG('批量委托')%></li>
+                        <li @click="showLeverInfo = true" :class="{'on' : showLeverInfo}">
+                            {{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}
+                            <span class="hint--top" aria-label="<%= LANG('已开启杠杆倍数')%> / <%= LANG('最大杠杆倍数')%>">
+                            [{{currentMarketLever ? currentMarketLever.leverLevel : 0}}/{{currentMarketConfig ? currentMarketConfig.leverRate : 0}}]
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="r-area">
+
+                        <div class="common-select">
+                            <p><%= LANG('价格输入转换')%></p>
+                            <a :class="{'on': inputPriceMode != 0}" @click="toggleInputPriceMode"></a>
+                        </div>
+                        <template v-if="isLogin">
+                            <div class="common-select">
+                                <p v-if="currentMarketLever"><%= LANG('杠杆已开启')%> <span class="corY">{{currentMarketLever.userRatio}}%</span></p>
+                                <p v-else=""><%= LANG('杠杆已关闭')%></p>
+                                <a :class="{'on': currentMarketLever}" @click="toggleLever" :disabled="!isLogin"></a></div>
+                        </template>
+                    </div>
+                </div>
+                <div class="fill-box-body">
+                    <div class="lever-box" v-if="showLeverInfo && isLogin && currentMarketLever">
+                        <div class="lever-box-head">
+                            <b class="corW">{{coinName}}</b>/{{moneyName}}
+                            <span class="corY">{{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}-{{currentMarketLever.leverLevel}}<%= LANG('倍杠杆')%></span>
+                        </div>
+                        <div class="lever-box-proportion">
+                            <ul>
+                                <li><%= LANG('平仓风险')%><p>{{currentMarketLever.userRatio == '0' ? '--' : (currentMarketLever.userRatio + '%')}}</p></li>
+                                <li><%= LANG('提醒比例')%><p>{{currentMarketLever.noticeRatio}}%</p></li>
+                                <li><%= LANG('平仓比例')%><p>{{currentMarketLever.flatRatio}}%</p></li>
+                                <li><%= LANG('平仓价格')%><p class="corY">{{(currentMarketLever.flatPrice == 0 ? '--' : (showMoney(currentMarketLever.flatPrice)) + ' ' + moneyName)}}</p></li>
+                                <li><%= LANG('风险等级')%><p class="corY" style="font-size: 12px;">{{leverRiskWord}}</p></li>
+                            </ul>
+                            <div class="lever-safe"><p><span :style="{width: leverSliderPecent + '%' }"></span></p></div>
+                        </div>
+                        <div class="lever-box-data">
+                            <div class="lever-date">
+                                <div class="item head">
+                                    <p class="coinname"></p>
+                                    <p class="surplus"><%= LANG('剩余额度')%></p>
+                                    <p><%= LANG('已使用')%></p>
+                                    <p><%= LANG('未支付利息')%></p>
+                                    <p></p>
+                                </div>
+                                <div class="item">
+                                    <p class="coinname corY">{{coinName}}：</p>
+                                    <p class="surplus">{{canLoanCoin}}</p>
+                                    <p>{{hasLoanCoin}}</p>
+                                    <p>{{currentUserAsset.coinFundMap[coin].leverInterest}}</p>
+                                    <p><a role="button" @click="openRefund(coin)"><%= LANG('还款')%></a></p>
+                                </div>
+                                <div class="item">
+                                    <p class="coinname corY">{{moneyName}}：</p>
+                                    <p class="surplus">{{canLoanMoney}}</p>
+                                    <p>{{hasLoanMoney}}</p>
+                                    <p>{{currentUserAsset.coinFundMap[money].leverInterest}}</p>
+                                    <p><a role="button" @click="openRefund(money)"><%= LANG('还款')%></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lever-box" v-if="(!isLogin && showLeverInfo) || (isLogin && showLeverInfo && !currentMarketLever)">
+                        <div class="lever-box-head">
+                            <b class="corW">{{coinName}}</b>/{{moneyName}}
+                            <span class="corY">{{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}-<%= LANG('未开启')%></span>
+                        </div>
+                        <div class="lever-box-proportion">
+                            <ul>
+                                <li><%= LANG('平仓风险')%><p>--</p></li>
+                                <li><%= LANG('提醒比例')%><p>--</p></li>
+                                <li><%= LANG('平仓比例')%><p>--</p></li>
+                                <li><%= LANG('平仓价格')%><p class="corY">--</p></li>
+                                <li><%= LANG('风险等级')%><p class="corY" style="font-size: 12px;">--</p></li>
+                            </ul>
+                            <div class="lever-safe"><p><span :style="{width: '100%' }"></span></p></div>
+                        </div>
+                        <div class="lever-box-data">
+                            <div class="lever-date">
+                                <div class="item head">
+                                    <p class="coinname"></p>
+                                    <p class="surplus"><%= LANG('剩余额度')%></p>
+                                    <p><%= LANG('已使用')%></p>
+                                    <p><%= LANG('未支付利息')%></p>
+                                    <p></p>
+                                </div>
+                                <div class="item">
+                                    <p class="coinname corY">{{coinName}}：</p>
+                                    <p class="surplus">--</p>
+                                    <p>--</p>
+                                    <p>--</p>
+                                </div>
+                                <div class="item">
+                                    <p class="coinname corY">{{moneyName}}：</p>
+                                    <p class="surplus">--</p>
+                                    <p>--</p>
+                                    <p>--</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fill-box-info" v-show="!showLeverInfo">
+                        <trade-form :trade-type="1" :current-user-asset="currentUserAsset" :market-config="currentMarketConfig" :current-market="currentMarket" :assist-price="assistPrice" ref="tradeFormBuy"></trade-form>
+                        <trade-form :trade-type="0" :current-user-asset="currentUserAsset" :market-config="currentMarketConfig" :current-market="currentMarket" :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="plate-time flex flex-lr-center flex-tb-center" v-cloak="" v-if="marketOpenStatus">
+        <div class="time">
+            <template v-if="marketOpenStatus && marketOpenTime[0] < 30">
+                <h3><%= LANG('开盘倒计时')%></h3>
+                <div class="countdown flex flex-tb-center">
+                    <p>{{marketOpenTime[0]}}</p>
+                    <em><%= LANG('天')%></em>
+                    <p>{{marketOpenTime[1]}}</p>
+                    <em><%= LANG('时')%></em>
+                    <p>{{marketOpenTime[2]}}</p>
+                    <em><%= LANG('分')%></em>
+                    <p class="sec">{{marketOpenTime[3]}}</p>
+                    <em><%= LANG('秒')%></em>
+                </div>
+                <p><%= LANG('开盘时间')%>：{{marketStartTime}} GMT+0800 (CST)</p>
+            </template>
+            <template v-if="marketOpenStatus && marketOpenTime[0] > 30">
+                <h3 class="text"><%= LANG('敬请期待')%></h3>
+            </template>
+        </div>
+    </div>
+
+
+    <!-- 账单 -->
+    <modal v-cloak class="modal-bill" :open="showModal == 'bill'"  @close="showModal = false" >
+        <bill :params="billParams" theme="light" />
+    </modal>
+    <!-- 委托记录 -->
+    <modal v-cloak class="modal-entrust" :open="showModal == 'entrust'"  @close="showModal = false" >
+        <modal-entrust :params="entrustParams" theme="light" />
+    </modal>
+    <!-- 开启关闭杠杆 -->
+    <modal v-cloak :open= "showModal == 'toggleUserAction'" @close="showModal = false">
+        <toggle-user-action :params="userParams" :done="userActionSuccess()" theme="light"/>
+    </modal>
+    <!-- 批量取消委托 -->
+    <modal v-cloak :open= "showModal == 'batchCancel'" @close="showModal = false">
+        <batch-cancel :market-config="currentMarketConfig" theme="light"/>
+    </modal>
+    <!--还款-->
+    <modal v-cloak :open= "showModal == 'refund'" @close="showModal = false">
+        <modal-refund :params="refundParams" :user-asset="currentUserAsset" />
+    </modal>
+</section>
+
+<%-include("app/dishPartDark.html")%>
+<%-include("app/lastTradeDark.html")%>
+<%-include("app/tradeFormDark.html")%>
+<%-include("app/batchCancel.html")%>
+<%-include("../component/json_table.html")%>
+<%-include("../component/page_lite.html")%>
+
+<%-include("../component/modal.html")%>
+<%-include("../u/model/bill.html")%>
+<%-include("../u/model/refund.html")%>
+<%-include("../u/model/toggleUserAction.html")%>
+<%-include("../trade/_entrust.html")%>
+<%-include("../component/vue_highcharts.html")%>
+<%-include("../activity/_addMarket.html")%>
+
+<%-include("../component/inline_chart.html")%>
+<!--引入交易app-->
+<%-include("app.html")%>
+<!--侧边栏-->
+<%-include("app/siderBar.html")%>
