@@ -1,83 +1,42 @@
-<div class="home-banner">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="50000" data-pause="hover">
+<div class="home-banner" id="home-banner">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="50000"
+         data-pause="hover">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" role="button" data-slide-to="0" class="active"><span></span></li>
-            <li data-target="#carousel-example-generic" role="button" data-slide-to="1"><span></span></li>
-            <li data-target="#carousel-example-generic" role="button" data-slide-to="2"><span></span></li>
-            <li data-target="#carousel-example-generic" role="button" data-slide-to="3"><span></span></li>
-            <li data-target="#carousel-example-generic" role="button" data-slide-to="4"><span></span></li>
+            <li v-for="(item,index) in bannerArray"
+                data-target="#carousel-example-generic"
+                role="button"
+                :data-slide-to="index"
+                class="active">
+                <span></span>
+            </li>
         </ol>
         <div class="carousel-inner" role="listbox">
-            <div class="item active" style="background:url(/src/images/home/gram/banner.jpg) no-repeat center center; background-size: cover;">
+            <div class="item"
+                 :class="{'active' : index == 0}"
+                 v-for="(item,index) in bannerArray"
+                 :style="'background:url(' + 'http://192.168.4.234:9000/' +item.picture + ') no-repeat center center'"
+                 style="background-size: cover;">
                 <div class="info">
-                    <div class="logo"><img src="/src/images/icon/market-icon/market-gram.png" style="height: 120px;" /></div>
-                    <h2>GRAM<%= LANG('新增QC、BTC交易区')%></h2>
-                    <div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('2018年2月12日19时')%></div>
-                    <div class="subtitle"><%= LANG('交易市场')%>：<a href="/tradePro/gram_qc" target="_self">GRAM/QC、</a><a href="/tradePro/gram_btc" target="_self">GRAM/BTC</a></div>
+                    <!--<div class="logo"><img src="/src/images/icon/market-icon/market-gram.png" style="height: 120px;"/>-->
+                    <!--</div>-->
+                    <!--<h2>GRAM<%= LANG('新增QC、BTC交易区')%></h2>-->
+                    <!--<div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('2018年2月12日19时')%></div>-->
+                    <!--<div class="subtitle"><%= LANG('交易市场')%>：<a href="/tradePro/gram_qc" target="_self">GRAM/QC、</a>-->
+                    <!--<a href="/tradePro/gram_btc" target="_self">GRAM/BTC</a>-->
+                    <!--</div>-->
+                    <!--
                     <div class="btn">
-                        <a style="border-color: #ffae01;background: #ffae01;" href="http://gram.plus/" target="_blank">GRAM<%= LANG('介绍')%></a>
-                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/gram" target="_self"><%= LANG('立即充值')%></a>
+                        <a style="border-color: #ffae01;background: #ffae01;" href="http://gram.plus/" target="_blank">
+                            GRAM<%= LANG('介绍')%>
+                        </a>
+                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/gram" target="_self">
+                            <%= LANG('立即充值')%>
+                        </a>
                     </div>
+                    -->
                 </div>
             </div>
-            <div class="item" style="background:url(/src/images/home/qash/banner.jpg) no-repeat center center; background-size: cover;">
-                <div class="info">
-                    <div class="logo"><img src="/src/images/icon/market-icon/market-xuc.png" style="height: 120px;" /></div>
-                    <h2>XUC<%= LANG('现已登陆EXX')%></h2>
-                    <div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('2月6日下午14:00')%></div>
-                    <div class="subtitle"><%= LANG('交易市场')%>：<a href="/tradePro/xuc_usdt" target="_self">XUC/USDT</a>、<a href="/tradePro/xuc_btc" target="_self">XUC/BTC</a>、<a href="/tradePro/xuc_eth" target="_self">XUC/ETH</a></div>
-                    <div class="btn">
-                        <a style="border-color: #ffae01;background: #ffae01;" href="https://www.exchangeunion.com/" target="_blank">XUC<%= LANG('介绍')%></a>
-                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/xuc" target="_self"><%= LANG('立即充值')%></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item" style="background:url(/src/images/home/bds/banner.jpg) no-repeat center center">
-                <div class="info">
-                    <div class="logo"><img src="/src/images/home/bds/logo.png" style="height: 120px;" /></div>
-                    <h2>Borderless<%= LANG('现已登陆EXX')%></h2>
-                            <div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('2月1日下午14:00')%></div>
-                            <div class="subtitle"><%= LANG('交易市场')%>：<a href="/trade/bds_qc" target="_self">BDS/QC</a>、<a href="/trade/bds_btc" target="_self">BDS/BTC</a></div>
-                            <div class="btn">
-                                <a style="border-color: #ffae01;background: #ffae01;" href="http://www.borderless.vip/" target="_blank">BDS<%= LANG('介绍')%></a>
-                                <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/bds" target="_self"><%= LANG('立即充值')%></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item" style="background:url(/src/images/home/bcd/bcd-bg.jpg) no-repeat center center;background-size: cover;">
-                <div class="info">
-                    <div class="logo"><img src="/src/images/home/vlc/logo.png" style="height: 60px;" /></div>
-                    <h2>Value Chain<%= LANG('现已登陆EXX')%></h2>
-                    <div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('1月27日下午20:00')%></div>
-                    <div class="subtitle"><%= LANG('交易市场')%>：<a href="/trade/vlc_qc" target="_self">VLC/QC</a>、<a href="/trade/vlc_eth" target="_self">VLC/ETH</a></div>
-                    <div class="btn">
-                        <a style="border-color: #ffae01;background: #ffae01;" href="http://valuechain.biz/index_pc.html" target="_blank">VLC<%= LANG('介绍')%></a>
-                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/vlc" target="_self"><%= LANG('立即充值')%></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item" style="background:url(/src/images/home/epc/banner.jpg) no-repeat center center;background-size: auto 100%;">
-                <div class="info">
-                    <div class="logo"><img src="/src/images/home/epc/logo.png" style="height: 60px;" /></div>
-                    <h2>EPC<%= LANG('现已登陆EXX')%></h2>
-                    <div class="subtitle"><%= LANG('开盘时间')%>：<%= LANG('1月24日下午14:00')%></div>
-                    <div class="subtitle"><%= LANG('交易市场')%>：<a href="/trade/epc_qc" target="_self">EPC/QC</a>、<a href="/trade/epc_btc" target="_self">EPC/BTC</a>、<a href="/trade/epc_eth" target="_self">EPC/ETH</a></div>
-                    <div class="btn">
-                        <a style="border-color: #ffae01;background: #ffae01;" href="http://epc.im/" target="_blank">EPC<%= LANG('介绍')%></a>
-                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/epc" target="_self"><%= LANG('立即充值')%></a>
-                    </div>
-                </div>
-            </div>GRAM/BTC
-            <!--<div class="item" style="background:url(/src/images/home/c2c2.jpg) no-repeat center center">
-                <div class="info" style="padding-top: 250px;">
-                    <h2 style="display: none;"><img src="/src/images/home/c2c2.jpg?v2018" /></h2>
-                    <div class="btn">
-                        <a href="/exchange" style="border-color: #ffae01;background: #ffae01;" target="_self"><%= LANG('立即交易')%></a>
-                        <a href="/exchange/apply" style="border-color: #ffae01;background: #ffae01;" target="_self"><%= LANG('商家申请入驻')%></a>
-                    </div>
-                </div>
-            </div>-->
 
         </div>
         <a class="carousel-control left" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -88,3 +47,38 @@
         </a>
     </div>
 </div>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        var homeBanner = new Vue({
+            el: "#home-banner",
+            created: function () {
+            },
+            mounted: function () {
+                this.getByLanType()
+            },
+            data: function () {
+                return {
+                    bannerArray: []
+                }
+            },
+            methods: {
+                getByLanType: function () {
+                    var that = this
+                    var data = {
+                        lanType: 1
+                    };
+
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/banner/controller/website/bannercontroller/" + 'getByLanType',
+                        data: data,
+                        success: function (res) {
+                            that.bannerArray = res.datas
+                        }
+                    });
+                }
+            }
+        })
+    })
+</script>
