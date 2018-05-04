@@ -7,15 +7,16 @@
                 data-target="#carousel-example-generic"
                 role="button"
                 :data-slide-to="index"
-                class="active">
+                :class="{'active': index == 0}">
                 <span></span>
             </li>
         </ol>
         <div class="carousel-inner" role="listbox">
             <div class="item"
-                 :class="{'active' : index == 0}"
                  v-for="(item,index) in bannerArray"
-                 :style="'background:url(' + 'http://192.168.4.234:9000/' +item.picture + ') no-repeat center center'"
+                 @click="windowOpen(item.forwardUrl)"
+                 :class="{'active': index == 0}"
+                 :style="'background:url(' + item.picture + ') no-repeat center center'"
                  style="background-size: cover;">
                 <div class="info">
                     <!--<div class="logo"><img src="/src/images/icon/market-icon/market-gram.png" style="height: 120px;"/>-->
@@ -25,19 +26,16 @@
                     <!--<div class="subtitle"><%= LANG('交易市场')%>：<a href="/tradePro/gram_qc" target="_self">GRAM/QC、</a>-->
                     <!--<a href="/tradePro/gram_btc" target="_self">GRAM/BTC</a>-->
                     <!--</div>-->
-                    <!--
-                    <div class="btn">
-                        <a style="border-color: #ffae01;background: #ffae01;" href="http://gram.plus/" target="_blank">
-                            GRAM<%= LANG('介绍')%>
-                        </a>
-                        <a style="border-color: #ffae01;background: #ffae01;" href="/u/payin/gram" target="_self">
-                            <%= LANG('立即充值')%>
+
+                    <div class="btn" v-if="!!item.extJson">
+                        <a v-for="(extItem,key) in JSON.parse(item.extJson)"
+                           style="border-color: #ffae01;background: #ffae01;" :href="extItem"
+                           target="_blank">
+                            {{key}}
                         </a>
                     </div>
-                    -->
                 </div>
             </div>
-
         </div>
         <a class="carousel-control left" href="#carousel-example-generic" role="button" data-slide="prev">
             <span aria-hidden="true"></span>
@@ -77,6 +75,11 @@
                             that.bannerArray = res.datas
                         }
                     });
+                },
+                windowOpen: function (url) {
+                    if (url) {
+                        window.open(url)
+                    }
                 }
             }
         })
