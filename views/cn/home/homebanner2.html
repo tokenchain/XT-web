@@ -16,7 +16,7 @@
                  v-for="(item,index) in bannerArray"
                  @click="windowOpen(item.forwardUrl)"
                  :class="{'active': index == 0}"
-                 :style="'background:url(' + item.picture + ') no-repeat center center'"
+                 :style="'background:url(' + VUE_DOMAIN_DEV + item.picture + ') no-repeat center center'"
                  style="background-size: cover;">
                 <div class="info">
                     <!--<div class="logo"><img src="/src/images/icon/market-icon/market-gram.png" style="height: 120px;"/>-->
@@ -80,6 +80,11 @@
                     if (url) {
                         window.open(url)
                     }
+                }
+            },
+            computed: {
+                VUE_DOMAIN_DEV: function () {
+                    return DOMAIN_DEV
                 }
             }
         })
