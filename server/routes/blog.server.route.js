@@ -21,21 +21,31 @@ router.get('/display2', function(req, res, next) {
 
 router.get('/display', function(req, res, next) {
 
-    METHOD.axios({
-        method : 'getProblemContent',
-        param : {
-            ids : req.query.id
-        },
-        success : function (json) {
-            res.render(TEMP_FULL,{
-                templateMain:'blog/displays.html',
-                content : json.datas.problemList[0],
-                newsType : req.query.type
-            });
-        }
-    },next)
+    res.render(TEMP_FULL,{
+        templateMain:'blog/display.html'
+    });
 
 });
+
+// router.get('/display', function(req, res, next) {
+//     res.render(TEMP_FULL,{
+//         templateMain:'blog/displays.html'
+//     });
+//
+//     // METHOD.axios({
+//     //     method : 'getProblemContent',
+//     //     param : {
+//     //         ids : req.query.id
+//     //     },
+//     //     success : function (json) {
+//     //         res.render(TEMP_FULL,{
+//     //             templateMain:'blog/displays.html',
+//     //             content : json.datas.problemList[0],
+//     //             newsType : req.query.type
+//     //         });
+//     //     }
+//     // },next)
+// });
 
 module.exports = router;
 

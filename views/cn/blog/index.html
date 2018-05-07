@@ -5,8 +5,8 @@
         </div>
         <h3><%= LANG('公告') %></h3>
         <div class="blog-list" :class="{'loading loading-light-bg' : !news}" style="min-height: 435px;">
-            <a :href="'/blog/display?type=' + newsType + '&id=' + item.id" class="blog-item" v-for="item in news" v-cloak="" v-if="news.length > 0">
-                {{item.title}}
+            <a :href="'/blog/display?articleId=' + item.articleId" class="blog-item" v-for="item in news" v-cloak="" v-if="news.length > 0">
+                {{item.articleTitle}}
                 <span class="time">{{getDateTime(item.createTime)}}</span>
                 <!--<p v-if="newsType =='101'">{{item.summary}}</p>-->
             </a>
@@ -70,19 +70,75 @@
                     this.news = [];
                     this.getNewsList();
                 },
-                getNewsList: function (type) {
-                    var _this = this;
+                getCategoryByType: function () {
+                    var that = this
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
                     var data = {
-                        problemType: 1,
-                        keyWord : this.keyWord,
-                        problCategor: this.newsType,
-                        pageSize : this.pageSize,
-                        pageIndex : this.pageNo
+                        lanType: lanNum
                     };
+
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecontroller/" + 'getfaqarticles',
+                        data: data,
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                that.catalog = res.datas
+                            }
+                        }
+                    });
+                },
+                getNewsList: function (type) {
                     if(this.loading){
                         return false;
                     }
                     this.loading = true;
+
+                    var that = this
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
+                    var data = {
+                        type: 2,
+                        lanType: lanNum
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecategorycontroller/" + 'getCategoryByType',
+                        data: data,
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                that.news = res.datas[0].subsetCategory[0].subArticle
+                            }
+                            that.loading = false;
+                        }
+                    });
                     // Methods.ajax({
                     //     type: 'GET',
                     //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
@@ -117,18 +173,35 @@
                     window.history.replaceState("", "exx.com", DOMAIN_WEB + "/blog?type=" + this.newsType + "&id=" + id);
                 },
                 getNewsContent: function (id) {
+                    var that = this
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
                     var data = {
-                        ids: id
+                        type: 1,
+                        lanType: lanNum
                     };
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getProblemContent',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecategorycontroller/" + 'getCategoryByType',
                         data: data,
                         success: function (res) {
-                            if (res.datas.problemList.length) {
-                                this.newsContent = res.datas.problemList[0];
+                            if (res.datas.length > 0) {
+                                that.category = res.datas[0]
                             }
-                        }.bind(this)
+                        }
                     });
                 }
             },
