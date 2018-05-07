@@ -1,142 +1,177 @@
 <div id="help-left" class="help-ld loaded" :class="{'out': showMenu}" v-cloak>
-  <div class="rightbtn"><i @click="setShowMenu(true)" class="iconfont icon-liebiao"></i><i @click="setShowMenu(false)"  class="iconfont icon-jiantouleft"></i></div>
-  <div class="help-ldlist">
-    <div v-for="category in categories" class="list vue-init">
-      <h3 @click="changeCategory(category)" :class="{add: sharedState.currentCategoryId == category.code}">{{category.name}}</h3>
-      <transition name="slide-down">
-        <ul v-show="sharedState.currentCategoryId == category.code">
-          <li v-for="article in articles[category.code]"><a href="javascript:;" @click="changeArticle(article.id)">{{article.title}}</a></li>
-        </ul>
-      </transition>
+    <div class="rightbtn"><i @click="setShowMenu(true)" class="iconfont icon-liebiao"></i><i @click="setShowMenu(false)"
+                                                                                             class="iconfont icon-jiantouleft"></i>
     </div>
-  </div>
+    <div class="help-ldlist">
+        <div v-for="(category,key) in categories" class="list vue-init">
+            <h3 @click="changeCategory(category)" :class="{add: sharedState.currentCategoryId == category.categoryId}">
+                {{category.categoryName}}</h3>
+            <transition name="slide-down">
+                <ul v-show="sharedState.currentCategoryId == category.categoryId">
+                    <li v-for="article in category.subArticle">
+                        <a href="javascript:;" @click="changeArticle(article.articleId)">{{article.articleTitle}}</a>
+                    </li>
+                </ul>
+            </transition>
+        </div>
+    </div>
 </div>
 
 <script>
-  var store = {
-    state: {
-      currentCategoryIndex: '',
-      currentCategoryId: '',
-      currentCategoryName: '',
-      articleId: '',
-      articles: {}
-    },
-    setArticles: function(articles) {
-      this.state.articles = articles;
-    }
-  };
-  require(['vue', 'common/methods'], function(Vue, Methods) {
-    var helpLeft = new Vue({
-      el: "#help-left",
-      data: function() {
-        return {
-          loaded: true,
-          showMenu: false,
-          fid: 4,
-          sharedState: store.state,
-          categories: [],
-          articles: {},
-          catalog: []
+    var store = {
+        state: {
+            currentCategoryIndex: '',
+            currentCategoryId: '',
+            currentCategoryName: '',
+            articleId: '',
+            articles: {}
+        },
+        setArticles: function (articles) {
+            this.state.articles = articles;
         }
-      },
-      computed: {
-      },
-      methods: {
-        getCategory: function() {
-          var data = {
-            tag: ''
-          };
-          Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getProblCategor',
-            data: data,
-            success: function(res) {
-              this.categories = res.datas.problCategor
-            }.bind(this)
-          });
-        },
-        setShowMenu: function(boolean) {
-          this.showMenu = boolean;
-        },
-        changeCategory: function(category) {
-          this.sharedState.currentCategoryId = category.code;
-          this.sharedState.currentCategoryName = category.name;
-            var articles = this.sharedState.articles[this.sharedState.currentCategoryId] || [];
-            this.sharedState.articleId = articles.length ? articles[0].id : '';
-          this.$forceUpdate();
-        },
-        changeArticle: function(id) {
-          if (EXX.helpDisplay) {
-            EXX.helpDisplay.getArticle(id);
-          } else {
-            window.location.replace('/help/display?id=' + id+ '&cid=' + this.sharedState.currentCategoryId + '&fid=' + this.sharedState.fid);
-          }
-          this.sharedState.articleId = id;
-        },
-        getCatalog: function() {
-          var data = {
-            tab: this.sharedState.fid
-          };
-          /*Methods.ajax({
-            type: 'GET',
-            url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
-            data: data,
-            success: function(res) {
-              var categories = res.datas.problemType[0].problCategor;
-              this.categories = categories;
-              if (categories.length && this.sharedState.currentCategoryId == '') {
-                this.changeCategory(categories[0]);
-              }
-              this.$nextTick(function () {
-                this.categories.forEach(function(category, index){
-                  this.getArticlesList(category.code, index);
-                }.bind(this));
-                this.$forceUpdate();
-                  if (EXX.helpDisplay) {
-                      EXX.helpDisplay.$forceUpdate();
-                  }
-              });
-            }.bind(this)
-          });*/
-        },
-        getArticlesList: function(categoryId) {
-          var data = {
-            problemType: this.sharedState.fid,
-            problCategor: categoryId
-          };
-          // Methods.ajax({
-          //   type: 'GET',
-          //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-          //   data: data,
-          //   success: function(res) {
-          //     var articles = this.articles;
-          //     articles[categoryId] = res.datas.titelList;
-          //     this.articles = articles;
-          //     //store.setArticles(articles);
-          //     this.sharedState.articles[categoryId] = res.datas.titelList;
-          //     this.$nextTick(function () {
-          //         this.$forceUpdate();
-          //       if (EXX.helpDisplay) {
-          //         EXX.helpDisplay.$forceUpdate();
-          //       }
-          //     });
-          //   }.bind(this)
-          // });
-        }
-      },
-      created: function() {
-        var params = Methods.parseQueryString();
-        if (params.cid) {
-          this.sharedState.currentCategoryId = params.cid;
-        }
-        this.sharedState.fid = params.fid;
-        this.getCatalog();
-      },
-      mounted: function() {
-      },
-      watch: {
-      }
-    });
-  })
+    };
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        var helpLeft = new Vue({
+            el: "#help-left",
+            data: function () {
+                return {
+                    loaded: true,
+                    showMenu: false,
+                    fid: 4,
+                    sharedState: store.state,
+                    categories: [],
+                    articles: {},
+                    catalog: []
+                }
+            },
+            computed: {},
+            methods: {
+                getCategory: function () {
+                    var data = {
+                        tag: ''
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getProblCategor',
+                        data: data,
+                        success: function (res) {
+                            this.categories = res.datas.problCategor
+                        }.bind(this)
+                    });
+                },
+                setShowMenu: function (boolean) {
+                    this.showMenu = boolean;
+                },
+                changeCategory: function (category) {
+                    this.sharedState.currentCategoryId = category.categoryId;
+                    this.sharedState.currentCategoryName = category.name;
+                    var articles = this.sharedState.articles[this.sharedState.currentCategoryId] || [];
+                    this.sharedState.articleId = articles.length ? articles[0].id : '';
+                    this.$forceUpdate();
+                },
+                changeArticle: function (id) {
+                    if (EXX.helpDisplay) {
+                        EXX.helpDisplay.getArticleById(id);
+                    } else {
+                        window.location.replace('/help/display?id=' + id + '&cid=' + this.sharedState.currentCategoryId + '&fid=' + this.sharedState.fid);
+                    }
+                    this.sharedState.articleId = id;
+                },
+                getCatalog: function () {
+                    var data = {
+                        tab: this.sharedState.fid
+                    };
+                    /*Methods.ajax({
+                      type: 'GET',
+                      url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+                      data: data,
+                      success: function(res) {
+                        var categories = res.datas.problemType[0].problCategor;
+                        this.categories = categories;
+                        if (categories.length && this.sharedState.currentCategoryId == '') {
+                          this.changeCategory(categories[0]);
+                        }
+                        this.$nextTick(function () {
+                          this.categories.forEach(function(category, index){
+                            this.getArticlesList(category.code, index);
+                          }.bind(this));
+                          this.$forceUpdate();
+                            if (EXX.helpDisplay) {
+                                EXX.helpDisplay.$forceUpdate();
+                            }
+                        });
+                      }.bind(this)
+                    });*/
+                },
+                getArticlesList: function (categoryId) {
+                    var data = {
+                        problemType: this.sharedState.fid,
+                        problCategor: categoryId
+                    };
+                    // Methods.ajax({
+                    //   type: 'GET',
+                    //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
+                    //   data: data,
+                    //   success: function(res) {
+                    //     var articles = this.articles;
+                    //     articles[categoryId] = res.datas.titelList;
+                    //     this.articles = articles;
+                    //     //store.setArticles(articles);
+                    //     this.sharedState.articles[categoryId] = res.datas.titelList;
+                    //     this.$nextTick(function () {
+                    //         this.$forceUpdate();
+                    //       if (EXX.helpDisplay) {
+                    //         EXX.helpDisplay.$forceUpdate();
+                    //       }
+                    //     });
+                    //   }.bind(this)
+                    // });
+                },
+                getCategoryByType: function () {
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
+                    var data = {
+                        type: 1,
+                        lanType: lanNum
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecategorycontroller/getCategoryByType" + 'getCategoryByType',
+                        data: data,
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                this.categories = res.datas[0].subsetCategory
+                            }
+                        }.bind(this)
+                    });
+                }
+            },
+            created: function () {
+                var params = Methods.parseQueryString();
+                if (params.categoryId) {
+                    this.sharedState.currentCategoryId = params.categoryId;
+                }
+                this.sharedState.fid = params.fid;
+                this.getCatalog();
+            },
+            mounted: function () {
+                this.getCategoryByType()
+            },
+            watch: {}
+        });
+    })
 
 </script>
