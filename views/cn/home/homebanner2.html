@@ -28,10 +28,10 @@
                     <!--</div>-->
 
                     <div class="btn" v-if="!!item.extJson">
-                        <a v-for="(extItem,key) in JSON.parse(item.extJson)"
-                           style="border-color: #ffae01;background: #ffae01;" :href="extItem"
-                           target="_blank">
-                            {{key}}
+                        <a v-for="(extItem,key) in item.extJson.btns"
+                        style="border-color: #ffae01;background: #ffae01;" :href="extItem.url"
+                        target="_blank">
+                        {{extItem.name}}
                         </a>
                     </div>
                 </div>
@@ -72,6 +72,16 @@
                         url: DOMAIN_DEV + "/exchange/banner/controller/website/bannercontroller/" + 'getByLanType',
                         data: data,
                         success: function (res) {
+                            var datas = res.datas
+                            for (i = 0, len = datas.length; i < len; i++) {
+                                console.log(datas[i])
+                                if (datas[i].extJson) {
+                                    datas[i].extJson = JSON.parse(decodeURI(datas[i].extJson))
+                                }else {
+                                    datas[i].extJson = {}
+                                }
+
+                            }
                             that.bannerArray = res.datas
                             // console.log(decodeURI(res.datas[1].extJson))
                         }
