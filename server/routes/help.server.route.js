@@ -69,6 +69,18 @@ router.get('/restApi', function (req, res, next) {
     });
 });
 
+/**
+ *作者: GongQi
+ *时间: 2018/5/8
+ *功能: 
+ */
+router.get('/apiContent', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'api/index.html',
+        templateChild: 'api_content.html'
+    });
+});
+
 router.get('/websocketApi', function (req, res, next) {
     res.render(TEMP_FULL, {
         templateMain: 'api/index.html',
