@@ -16,4 +16,132 @@
     display:none;
     cursor:pointer;
 }
+.hc_header >.site-menu > p{
+    color: red;
+}
+.hc_header  .language p {
+    height: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: rgba(255, 255, 255, .8);
+    padding: 0 20px;
+}
 
+.hc_header .language {
+    position: relative;
+}
+.hc_header .language p:after {
+    left: auto;
+    right: 0;
+}
+
+
+
+.hc_header .language img {
+    width: 20px;
+    min-width: 20px;
+    margin-right: 3px;
+}
+
+.hc_header .language ul {
+    position: absolute;
+    left: 50%;
+    padding: 5px 0;
+    display: none;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: #fff;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.hc_header .language:hover ul {
+    display: block;
+}
+
+.hc_header .language ul li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+}
+
+.hc_header .language ul li img {
+    margin-right: 5px;
+}
+
+.hc_header {
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+    position: relative;
+    z-index: 500;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.hc_header .h-content {
+    position: relative;
+    background: #1f2126;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.home .hc_header .h-content {
+    background: transparent;
+}
+
+
+.hc_header .h-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.hc_header .logo {
+    padding-left: 15px;
+}
+
+.hc_header .logo a {
+    display: block;
+}
+
+.hc_header .logo a img {
+    width: 90px;
+}
+.hc_header .site-menus:hover > p,.hc_header .site-menus > p.active {
+
+}
+.hc_header .site-menus > p {
+    color: rgba(255, 255, 255, .8);
+    font-size: 14px;
+    height: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    padding: 0 30px 0 20px;
+}

@@ -1,5 +1,63 @@
+<link href="<%= STATIC %>/styles/helpCenter.css?<%= VERSION %>" rel="stylesheet" type="text/css">
 <section class="help">
+    <div style="position:absolute;top:0;z-index:501;width:100%;">
+        <header class="hc_header" id="user-nav">
+            <!--<div class="exx-notice" v-if="news.readed === false" v-cloak="" v-for="(news,index) in topNews">-->
+            <!--<a class="text" @click="gotoReadNews(news.id)" v-text="news.title"></a>-->
+            <!--<a class="close" @click="setHasReadNews(news.id)" title="<%= LANG('关闭')%>"></a>-->
+            <!--</div>-->
+            <div class="h-content">
+                <div class="h-box">
+                    <div class="logo">
+                        <a href="/" target="_self" title="<%= WEB.NAME %>"><img alt="<%= WEB.NAME %>" src="<%= WEB.LOGO %>"/></a>
+                    </div>
+                    <div class="site-menus">
+                        <p ><%= LANG('帮助中心') %></p>
+                    </div>
+                </div>
+                <div class="h-box">
+                    <div class="language">
+                        <p role="button"><img src="/src/images/guoqi/<%= LAN %>.svg" /><%= WEB.LAN[LAN] %></p>
+                        <ul>
+                            <% for(var key in WEB.LAN){ %>
+                            <% if(key != LAN){ %>
+                            <li role="button" class="<%= key %>" @click="setLan('<%= key %>')"><img src="/src/images/guoqi/<%= key %>.svg" /> <%= WEB.LAN[key] %></li>
+                            <% } %>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <modal  :open= "showModal == 'transfer'" @close="showModal = false">
+                        <transfer :info="transferInfo" />
+                    </modal>
+
+                    <modal  :open= "showModal == 'payin'" @close="showModal = false">
+                        <modal-payin :coin="payinCoin" />
+                    </modal>
+                </div>
+            </div>
+        </header>
+
+    </div>
     <%-include("banner.html")%>
     <%-include("plan.html")%>
-
 </section>
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        EXX.userNav = new Vue({
+            el: '#user-nav',
+            data: function () {
+                return {
+
+                }
+            },
+            methods:{
+                //设置语言
+                setLan: function (lan) {
+                    var name = ENV + 'lan';
+                    Methods.setCookie(name, lan);
+                    top.location.reload();
+                },
+            }
+        })
+    })
+</script>
