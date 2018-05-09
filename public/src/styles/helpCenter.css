@@ -1,0 +1,19 @@
+.goTop {
+    height: 31px;
+    position: fixed;
+    width:28px;
+    right: 0;
+    top: 45%;
+
+}
+
+.goTop div {
+    height: 50px;
+
+}
+
+.goTop #back-to-top {
+    display:none;
+    cursor:pointer;
+}
+
