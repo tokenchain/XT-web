@@ -5,87 +5,93 @@
             data: function () {
                 return {
                     //风格类型
-                    theme : '<%= typeof theme != "undefined" ? theme : "" %>',
+                    theme: '<%= typeof theme != "undefined" ? theme : "" %>',
                     //当前市场
                     currentMarket: '<%= market %>', //当前市场格式为 qtum_btc 要转为marketId
                     coin: '<%= market.split("_")[0] %>',
                     money: '<%= market.split("_")[1] %>', // 当前市场买方币
                     coinName: '<%= market.split("_")[0].toUpperCase() %>',
                     moneyName: '<%= market.split("_")[1].toUpperCase() %>',
-                    siteTitle : document.title,
-                    assistPrice : null,
+                    siteTitle: document.title,
+                    assistPrice: null,
                     showLeverInfo: false,
-                    lastAssetTime : 0,
-                    currentUserAsset : {
-                        userFund : {},
-                        marketLevers : {}
+                    lastAssetTime: 0,
+                    currentUserAsset: {
+                        userFund: {},
+                        marketLevers: {}
                     },
-                    allMarket : null,
-                    currentMarketData : null,
-                    assistCoin : MONEY,
+                    allMarket: null,
+                    currentMarketData: null,
+                    assistCoin: MONEY,
                     loginUser: Methods.getLocalUserInfo(),
                     isMobile: Methods.isMobile(),
                     isLogin: ISLOGIN,
                     marketConfig: null,
-                    coinConfig : '',
+                    coinConfig: '',
                     //get方法获取盘口的数量
-                    depthShowSize : 50,
+                    depthShowSize: 50,
                     //大众版控制的盘口数量
-                    dishLength : 5,
-                    currentPrice : "--",
-                    highPrice : '--',
-                    lowPrice : '--',
-                    volume : '--',
-                    riseRate : '0.00',
-                    buyOne : '',
-                    sellOne : '',
-                    lastDepth : {
-                        asks : [],
-                        bids : [],
+                    dishLength: 5,
+                    currentPrice: "--",
+                    highPrice: '--',
+                    lowPrice: '--',
+                    volume: '--',
+                    riseRate: '0.00',
+                    buyOne: '',
+                    sellOne: '',
+                    lastDepth: {
+                        asks: [],
+                        bids: [],
                         maxbBids: "0",
-                        maxbAsks:"0"
+                        maxbAsks: "0"
                     },
-                    dealRecord : [],
-                    tradesLimit : 100,
-                    last_trade_tid : 0,
-                    rateClass : 'text-primary trading-redcolor',
-                    priceClass : 'text-primary trading-redcolor',
-                    arrowClass : 'icon-arrowup',
-                    entrustRecord : [],
-                    entrustTab : [
-                        ['doing' ,"<%= LANG('正在进行的委托')%>"],
-                        ['history' ,"<%= LANG('历史委托')%>"]
+                    dealRecord: [],
+                    tradesLimit: 100,
+                    last_trade_tid: 0,
+                    rateClass: 'text-primary trading-redcolor',
+                    priceClass: 'text-primary trading-redcolor',
+                    arrowClass: 'icon-arrowup',
+                    entrustRecord: [],
+                    entrustTab: [
+                        ['doing', "<%= LANG('正在进行的委托')%>"],
+                        ['history', "<%= LANG('历史委托')%>"]
                     ],
-                    currentEntrustTab : 'doing',
-                    assistList : {
-                        'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
+                    currentEntrustTab: 'doing',
+                    assistList: {
+                        'none': {key: 'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿', decimal: 6},
                         //'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},
-                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
+                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$', decimal: 3},
+                        '<%= UNIT %>': {
+                            key: '<%= UNIT %>',
+                            name: '<%= LEGAL[UNIT].unit %>',
+                            icon: '',
+                            symbol: '<%= LEGAL[UNIT].note %>',
+                            decimal: '<%= LEGAL[UNIT].decimal %>'
+                        }
                     },
                     showModal: false,
                     billParams: {},
                     userParams: {},
                     entrustParams: {},
                     refundParams: {},
-                    currentTradeMode : 0,
-                    chartType : 'kline',
-                    kline : {
-                        period : '15m',
-                        theme : 'dark',
-                        money : MONEY,
-                        chartStyle : '',
-                        mIndic : '',
-                        indicsStatus : '',
-                        toolStatus : ''
+                    currentTradeMode: 0,
+                    chartType: 'kline',
+                    kline: {
+                        period: '15m',
+                        theme: 'dark',
+                        money: MONEY,
+                        chartStyle: '',
+                        mIndic: '',
+                        indicsStatus: '',
+                        toolStatus: ''
                     },
                     //输入价格模式：0输入原始价格，1输入转换价格
-                    inputPriceMode : Methods.getCookie(ENV + 'inputPriceMode') || 0,
+                    inputPriceMode: Methods.getCookie(ENV + 'inputPriceMode') || 0,
                     //开盘时间处理
-                    marketOpenTime : ['-','-','-','-'],
-                    marketOpenStatus : false,
-                    marketStartTime : '--',
-                    entrustScroll : '',
+                    marketOpenTime: ['-', '-', '-', '-'],
+                    marketOpenStatus: false,
+                    marketStartTime: '--',
+                    entrustScroll: '',
                     localCoin: '<%= UNIT %>', // 当地法币
                     allFlag: true //默认true获取全量数据, K线价格切换时,必须接收全量数据显示.
 
@@ -130,9 +136,9 @@
                     return this.currentMarketId + '_TRADE_' + this.currentMarket.toUpperCase();
                     // return "90_TRADE_ZB"
                 },
-                currentMarketConfig : function () {
+                currentMarketConfig: function () {
                     var _this = this;
-                    if(_this.marketConfig){
+                    if (_this.marketConfig) {
                         // 过滤出当前市场信息
                         var config = {};
                         _this.marketConfig.forEach(function (market, index) {
@@ -149,12 +155,12 @@
                             _this.moneyName = config.moneyName;
                         }*/
                         return config;
-                    }else{
+                    } else {
                         return {}
                     }
                 },
-                currentMarketLever : function () {
-                    if(!this.currentUserAsset.marketLevers){
+                currentMarketLever: function () {
+                    if (!this.currentUserAsset.marketLevers) {
                         this.currentUserAsset.marketLevers = {}
                     }
                     return this.currentUserAsset.marketLevers[this.currentMarket];
@@ -166,30 +172,30 @@
                     }
                 },
                 canUseCoinReal: function () {
-                    if(this.isLogin){
+                    if (this.isLogin) {
                         return this.showCoin(this.getUseable(this.coin));
-                    }else{
+                    } else {
                         return "--";
                     }
                 },
                 canUseMoneyReal: function () {
-                    if(this.isLogin){
+                    if (this.isLogin) {
                         return this.showMoney(this.getUseable(this.money));
-                    }else{
+                    } else {
                         return "--";
                     }
                 },
                 canUseCoin: function () {
-                    if(this.isLogin){
+                    if (this.isLogin) {
                         return this.showCoin(this.getUseable(this.coin));
-                    }else{
+                    } else {
                         return "--";
                     }
                 },
                 canUseMoney: function () {
-                    if(this.isLogin){
+                    if (this.isLogin) {
                         return this.showMoney(this.getUseable(this.money));
-                    }else{
+                    } else {
                         return "--";
                     }
                 },
@@ -225,35 +231,35 @@
                         return this.showMoney(cansell);
                     }
                 },
-                canLoanCoin : function () {
+                canLoanCoin: function () {
                     if (!this.isLogin || !this.currentUserAsset.coinFundMap || !this.currentUserAsset.coinFundMap[this.coin]) {
                         return '--';
                     } else {
                         return this.showCoin(this.currentUserAsset.coinFundMap[this.coin].canLoan);
                     }
                 },
-                canLoanMoney : function () {
+                canLoanMoney: function () {
                     if (!this.isLogin || !this.currentUserAsset.coinFundMap || !this.currentUserAsset.coinFundMap[this.money]) {
                         return '--';
                     } else {
                         return this.showMoney(this.currentUserAsset.coinFundMap[this.money].canLoan);
                     }
                 },
-                hasLoanCoin : function () {
+                hasLoanCoin: function () {
                     if (!this.isLogin || !this.currentUserAsset.coinFundMap || !this.currentUserAsset.coinFundMap[this.coin]) {
                         return '--';
                     } else {
                         return this.showCoin(this.currentUserAsset.coinFundMap[this.coin].loanIn);
                     }
                 },
-                hasLoanMoney : function () {
+                hasLoanMoney: function () {
                     if (!this.isLogin || !this.currentUserAsset.coinFundMap || !this.currentUserAsset.coinFundMap[this.money]) {
                         return '--';
                     } else {
                         return this.showMoney(this.currentUserAsset.coinFundMap[this.money].loanIn);
                     }
                 },
-                leverRiskWord : function () {
+                leverRiskWord: function () {
                     if (!this.isLogin || !this.currentMarketLever) {
                         return '--';
                     } else {
@@ -268,7 +274,7 @@
                         return wordArray[leverRatioStatus];
                     }
                 },
-                leverSliderPecent : function () {
+                leverSliderPecent: function () {
                     if (!this.isLogin || !this.currentMarketLever) {
                         return 0;
                     } else {
@@ -418,7 +424,7 @@
                         ]
                     };
                     var isLight = top.location.href.indexOf('/tradePro') != -1;
-                    if(isLight){
+                    if (isLight) {
                         opts.chart.plotBorderColor = "#fff";
                         opts.chart.backgroundColor = "#fff";
                         opts.yAxis[1].gridLineColor = "#eee";
@@ -426,31 +432,31 @@
 
                     return opts;
                 },
-                klineFrame : function () {
+                klineFrame: function () {
                     return document.getElementById('marketFrame').window || document.getElementById('marketFrame').contentWindow;
                 }
             },
             watch: {
-                currentPrice : function (newVal, oldVal) {
-                    if(!isNaN(newVal)){
+                currentPrice: function (newVal, oldVal) {
+                    if (!isNaN(newVal)) {
                         document.title = newVal + ' ' + this.siteTitle;
                     }
-                    if(!isNaN(newVal) && !isNaN(oldVal)){
-                        if(parseFloat(newVal) > parseFloat(oldVal)){
+                    if (!isNaN(newVal) && !isNaN(oldVal)) {
+                        if (parseFloat(newVal) > parseFloat(oldVal)) {
                             this.priceClass = 'text-primary trading-redcolor';
                             this.arrowClass = 'icon-arrowup';
-                        }else{
+                        } else {
                             this.priceClass = 'text-second trading-greencolor';
                             this.arrowClass = 'icon-arrowdown ';
                         }
                     }
                 },
-                riseRate : function (newVal, oldVal) {
-                    if(!isNaN(newVal)){
-                        if(parseFloat(newVal) >= 0){
+                riseRate: function (newVal, oldVal) {
+                    if (!isNaN(newVal)) {
+                        if (parseFloat(newVal) >= 0) {
                             this.riseRate = '+' + parseFloat(this.riseRate);
                             this.rateClass = 'text-primary trading-redcolor';
-                        }else{
+                        } else {
                             this.rateClass = 'text-second trading-greencolor';
                         }
                     }
@@ -476,10 +482,10 @@
                         url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
-                            try{
+                            try {
                                 _this.$refs.dishPart.flushAssistPrice();
                                 _this.$refs.dealRecord.flushAssistPrice();
-                            }catch(err){
+                            } catch (err) {
                                 console.log('miss dish part component.')
                             }
                             callback && callback(res.datas);
@@ -499,7 +505,7 @@
                     });
                 },
                 //获取币种配置
-                getCoinConfig: function() {
+                getCoinConfig: function () {
                     var data = {
                         // webId: 100
                     };
@@ -508,7 +514,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
                         url: DOMAIN_DEV + "/exchange/config/controller/admin/currencycontroller/" + 'getCurrencyList',
-                        success: function(res) {
+                        success: function (res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
                     });
@@ -534,28 +540,34 @@
                 doDealRecord: function (res) {
                     var _this = this;
                     var datas = res.datas || res.data;
-                    if(datas && datas.length > 0){
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/5/9
+                     *功能: 修改currentPrice的取值在app（EXX.appTradePro中进行）
+                     */
+                    this.currentPrice = datas[0].price;
+                    if (datas && datas.length > 0) {
                         _this.dealRecord = datas.slice(0, _this.tradesLimit);
-                        try{
-                            if(_this.last_trade_tid != 0){
+                        try {
+                            if (_this.last_trade_tid != 0) {
                                 _this.$refs.dealRecord.pushTrades(_this.dealRecord);
-                            }else{
+                            } else {
                                 _this.$refs.dealRecord.setFirstRecord(_this.dealRecord);
                             }
-                        }catch (err){
+                        } catch (err) {
                             console.log('miss lastTrade component.')
                         }
                         _this.last_trade_tid = _this.dealRecord[_this.dealRecord.length - 1].tid;
                     }
                 },
                 // 获取交易记录的方法 暂弃用
-                getDealRecord: function(callback) {
+                getDealRecord: function (callback) {
                     var _this = this;
                     //ajax获取成交记录
                     var getDealRecordByAjax = function () {
                         var data = {
                             market: _this.currentMarket,
-                            last_trade_tid : _this.last_trade_tid
+                            last_trade_tid: _this.last_trade_tid
                         };
                         Methods.getJSONP({
                             url: DOMAIN_TRADE + API_PREFIX + 'records',
@@ -568,31 +580,31 @@
                     //webSocket方法获取成交记录
                     var getDealRecordByWebsocket = function () {
                         var channel = {
-                            event : "addChannel",
-                            channel : _this.coin + _this.money + "_cny_lasttrades",
-                            last_trade_tid : _this.last_trade_tid
+                            event: "addChannel",
+                            channel: _this.coin + _this.money + "_cny_lasttrades",
+                            last_trade_tid: _this.last_trade_tid
                         }
                         //如果没有则初始化
-                        if(typeof ExxWebSocket.channelManage.dealRecord == 'undefined'){
+                        if (typeof ExxWebSocket.channelManage.dealRecord == 'undefined') {
                             ExxWebSocket.channelManage.dealRecord = {
-                                message : channel,
-                                sended :false,
-                                method : function (json) {
+                                message: channel,
+                                sended: false,
+                                method: function (json) {
                                     _this.doDealRecord(json);
                                 }
                             };
                         }
                     }
-                    if(ExxWebSocket && ExxWebSocket.openWebSocket && !!_this.currentMarketConfig.isPush){
+                    if (ExxWebSocket && ExxWebSocket.openWebSocket && !!_this.currentMarketConfig.isPush) {
                         getDealRecordByWebsocket();
                         //getDealRecordByAjax();
-                    }else{
+                    } else {
                         getDealRecordByAjax();
                     }
                     callback && callback();
                 },
                 //获取用户委托记录
-                getEntrustRecord: function(callback) {
+                getEntrustRecord: function (callback) {
                     var _this = this;
                     var data = {
                         //status: 0,
@@ -613,7 +625,7 @@
                     });
                 },
                 //取消委托
-                doCancelEntrust: function(id,isReal) {
+                doCancelEntrust: function (id, isReal) {
                     var _this = this;
                     var data = {
                         // isReal: 0,
@@ -639,7 +651,7 @@
                     });
                 },
                 //全部还款
-                doRepayAll : function (coin) {
+                doRepayAll: function (coin) {
                     var data = {};
                     data.coint = coin;
                     data.userId = this.currentAccountId;
@@ -647,7 +659,7 @@
                         type: 'GET',
                         url: DOMAIN_MAIN + API_PREFIX + 'doRepayAll',
                         data: data,
-                        success: function(res) {
+                        success: function (res) {
                             //this.swiftTab('action');
                             //EXX.userIndex.closeModal();
                             JuaBox.info("<%= LANG('还款成功') %>");
@@ -657,7 +669,7 @@
                 // 设置辅助币种
                 setAssistCoin: function (coin) {
                     // 设置K线单位cookie
-                    Methods.setCookie(ENV+'kassist', coin);
+                    Methods.setCookie(ENV + 'kassist', coin);
 
                     if (!this.isLogin) {
                         Methods.setCookie(ENV + 'mname', coin);
@@ -665,18 +677,18 @@
                         //top.location.reload();
                         return false;
                     }
-                    if(coin == 'none'){
+                    if (coin == 'none') {
                         this.assistCoin = coin;
                         this.allFlag = true;
                         return false;
                     }
 
                     var data = {
-                        assistCoin : coin
+                        assistCoin: coin
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
@@ -774,18 +786,18 @@
                         //_this.lastDepth.bids = resultBidsArray;
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
-                        try{
+                        try {
                             _this.$refs.dishPart.updateDepth(_this.lastDepth);
-                        }catch (err){
+                        } catch (err) {
                             console.log('miss dishpartDark component.')
                         }
                     }
                     //计算最大深度值
                     var getMaxDepth = function (depth) {
-                        var maxNum = 0 ;
+                        var maxNum = 0;
                         //求卖单最大深度值
-                        for(var i = 0;i < depth.length; i++){
-                            if(parseFloat(depth[i][1]) > maxNum){
+                        for (var i = 0; i < depth.length; i++) {
+                            if (parseFloat(depth[i][1]) > maxNum) {
                                 maxNum = parseFloat(depth[i][1]);
                             }
                         }
@@ -801,7 +813,7 @@
                     var _this = this;
                     var userCoinFunds = EXX.userNav.userCoinFunds;
 
-                    for(var i=0; i<userCoinFunds.length; i++) {
+                    for (var i = 0; i < userCoinFunds.length; i++) {
                         var currCoin = userCoinFunds[i].name;
                         if (currCoin == coin) {
                             var useable = userCoinFunds[i].amount || 0;
@@ -827,7 +839,7 @@
                 },
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price) {
-                    if(!price || price == '' || this.assistPrice == null){
+                    if (!price || price == '' || this.assistPrice == null) {
                         return ''
                     }
                     var money = this.money;
@@ -840,7 +852,7 @@
                 },
                 //获取辅助货币价格的下单价
                 getPriceByPrice: function (price) {
-                    if(!price || price == ''){
+                    if (!price || price == '') {
                         return ''
                     }
                     var money = this.money;
@@ -861,21 +873,21 @@
                         // if(group == 'history' && (item[7] == 1 || item[7] == 2)){
                         //     result.push(item);
                         // }
-                        if(group == 'doing' && (item.status == 3 || item.status == 0)){
+                        if (group == 'doing' && (item.status == 3 || item.status == 0)) {
                             result.push(item);
                         }
-                        if(group == 'history' && (item.status == 1 || item.status == 2)){
+                        if (group == 'history' && (item.status == 1 || item.status == 2)) {
                             result.push(item);
                         }
                     })
                     return result;
                 },
                 //是否可以充值
-                getIsPayIn : function (coin) {
+                getIsPayIn: function (coin) {
                     // return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayIn;
                     var _this = this;
                     if (_this.coinConfig) {
-                        for (var i=0; i<_this.coinConfig.length; i++) {
+                        for (var i = 0; i < _this.coinConfig.length; i++) {
                             if (_this.coinConfig[i].name == coin) {
                                 //默认都能充值，返回true
                                 return _this.coinConfig[i];
@@ -884,11 +896,11 @@
                     }
                 },
                 //是否可以提币
-                getIsPayOut : function (coin) {
+                getIsPayOut: function (coin) {
                     // return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isPayOut;
                     var _this = this;
                     if (_this.coinConfig) {
-                        for (var i=0; i<_this.coinConfig.length; i++) {
+                        for (var i = 0; i < _this.coinConfig.length; i++) {
                             if (_this.coinConfig[i].name == coin) {
                                 return _this.coinConfig[i].drawFlag;
                             }
@@ -896,94 +908,94 @@
                     }
                 },
                 //是否可以划入划出 暂无用
-                getIsDoInOut : function (coin) {
+                getIsDoInOut: function (coin) {
                     return this.coinConfig && this.coinConfig[coin] && this.coinConfig[coin].isDoInOut;
                 },
-                showStatus : function (status) {
+                showStatus: function (status) {
                     var obj = {
-                        "-1" : "<%= LANG('计划中')%>",
-                        "0" : "<span class='text-second'><%= LANG('交易中')%></span>",
-                        "1" : "<%= LANG('已取消')%>",
-                        "2" : "<span class='text-primary'><%= LANG('已完成')%></span>",
-                        "3" : "<span class='text-second'><%= LANG('交易中')%></span>"
+                        "-1": "<%= LANG('计划中')%>",
+                        "0": "<span class='text-second'><%= LANG('交易中')%></span>",
+                        "1": "<%= LANG('已取消')%>",
+                        "2": "<span class='text-primary'><%= LANG('已完成')%></span>",
+                        "3": "<span class='text-second'><%= LANG('交易中')%></span>"
                     }
                     return obj[status];
                 },
-                showSource : function (source) {
+                showSource: function (source) {
                     var obj = {
-                        "6" : "API",
-                        "8" : "WEB",
-                        "5" : "APP"
+                        "6": "API",
+                        "8": "WEB",
+                        "5": "APP"
                     }
                     return obj[source];
                 },
-                showTime : function (time) {
+                showTime: function (time) {
                     return Methods.getDateTime(time, "MM-DD HH:MM:SS");
                 },
-                showCoin : function (val) {
-                    if(isNaN(val)){
+                showCoin: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
                     }
                 },
-                showMoney : function (val) {
-                    if(isNaN(val)){
+                showMoney: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, this.currentMarketConfig.buyDecimal)
                     }
                 },
-                showPrice : function (val) {
-                    if(isNaN(val)){
+                showPrice: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixDecimal(val, this.currentMarketConfig.buyDecimal)
                     }
                 },
-                showAmount : function (val) {
-                    if(isNaN(val)){
+                showAmount: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
                     }
                 },
-                showRate : function (val) {
-                    if(isNaN(val)){
+                showRate: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
-                        if(parseFloat(val) >= 0){
+                    } else {
+                        if (parseFloat(val) >= 0) {
                             return "+" + Methods.fixNumber(val, 2)
-                        }else{
+                        } else {
                             return Methods.fixNumber(val, 2)
                         }
                     }
                 },
-                showAssistCoin : function () {
+                showAssistCoin: function () {
                     //显示辅助货币名字，不显示默认
-                    if(this.assistCoin == 'none'){
+                    if (this.assistCoin == 'none') {
                         return this.moneyName;
-                    }else{
+                    } else {
                         return this.assistList[this.assistCoin].name || this.moneyName;
                     }
                 },
-                showAssistName : function () {
+                showAssistName: function () {
                     //显示辅助货币名字，有默认显示
                     return this.assistList[this.assistCoin].name || this.moneyName;
                 },
                 //价格折合的提示内容
-                showAssistHint : function (price) {
+                showAssistHint: function (price) {
                     return "<%= LANG('折合')%>:" + this.getPriceByAssist(price) + " " + this.showAssistCoin();
                 },
-                userActionSuccess: function() {
-                    return function() {
+                userActionSuccess: function () {
+                    return function () {
                         //this.getUsersInfo();
                         this.showModal = false;
                     }.bind(this)
                 },
                 //开启关闭杠杆
                 toggleLever: function () {
-                    if(!this.isLogin){
+                    if (!this.isLogin) {
                         return false;
                     }
                     if (this.currentUserAsset.userType == 1) {
@@ -1014,47 +1026,47 @@
                     }*/
                 },
                 //切换价格输入模式
-                toggleInputPriceMode : function () {
+                toggleInputPriceMode: function () {
                     /*if(this.moneyName == this.showAssistCoin()){
                         return JuaBox.info("<%= LANG('请先选择价格显示货币为USD或CNY再开启价格输入转换功能')%>");
                     }*/
-                    if(this.inputPriceMode == 0){
+                    if (this.inputPriceMode == 0) {
                         Methods.setCookie(ENV + 'inputPriceMode', 1, 7);
                         this.inputPriceMode = 1;
-                    }else{
+                    } else {
                         Methods.setCookie(ENV + 'inputPriceMode', 0, 7);
                         this.inputPriceMode = 0;
                     }
                 },
                 //检测当前价格输入模式，不合法则恢复默认
-                checkInputPriceMode : function () {
-                    if(this.moneyName == this.showAssistCoin()){
+                checkInputPriceMode: function () {
+                    if (this.moneyName == this.showAssistCoin()) {
                         Methods.setCookie(ENV + 'inputPriceMode', 0, 7);
                         this.inputPriceMode = 0;
                     }
                 },
-                openBill: function() {
+                openBill: function () {
                     this.billParams = {
                         userId: this.currentAccountId,
                         coin: this.coin
                     };
                     this.showModal = 'bill';
                 },
-                openEntrust: function() {
+                openEntrust: function () {
                     this.entrustParams = {
                         market: this.currentMarket,
                         userId: this.currentAccountId
                     };
                     this.showModal = 'entrust';
                 },
-                openRefund: function(coin) {
+                openRefund: function (coin) {
                     this.refundParams = {
                         userId: this.currentAccountId,
                         coin: coin
                     };
                     this.showModal = 'refund';
                 },
-                changeEntrustTab : function (type) {
+                changeEntrustTab: function (type) {
                     this.currentEntrustTab = type;
                 },
                 changeTradeMode: function (type) {
@@ -1064,16 +1076,16 @@
                     this.$refs.tradeFormSell.tradeMode = type;
                 },
                 //获取图表的默认设置
-                getChartSettings : function () {
+                getChartSettings: function () {
                     var chartSettings = Methods.getCookie('chartSettings');
-                    if(chartSettings){
+                    if (chartSettings) {
                         chartSettings = JSON.parse(decodeURIComponent(chartSettings));
-                        for(var key in chartSettings.charts){
+                        for (var key in chartSettings.charts) {
                             Vue.set(this.kline, key, chartSettings.charts[key]);
                         }
                     }
                 },
-                switchPeriod: function(period){
+                switchPeriod: function (period) {
                     this.setChartType('kline');
                     Vue.set(this.kline, "period", period);
                     this.klineFrame.switch_period(period);
@@ -1088,73 +1100,73 @@
 
                     this.allFlag = true;
                 },
-                switchTheme: function(theme){
+                switchTheme: function (theme) {
                     Vue.set(this.kline, "theme", theme);
                     this.klineFrame.switch_theme(theme);
                 },
-                switchTool: function(val){
-                    if(!val){
+                switchTool: function (val) {
+                    if (!val) {
                         val = this.kline.toolStatus == 'on' ? 'off' : 'on';
                     }
                     Vue.set(this.kline, "toolStatus", val);
                     this.klineFrame.switch_tools(val);
                 },
-                switchIndic: function(val){
-                    if(!val){
+                switchIndic: function (val) {
+                    if (!val) {
                         val = this.kline.indicsStatus == 'on' ? 'off' : 'on';
                     }
                     Vue.set(this.kline, "indicsStatus", val);
                     this.klineFrame.switch_indic(val);
                 },
-                setChartMoney: function(type) {
+                setChartMoney: function (type) {
                     this.setChartType('kline');
                     Vue.set(this.kline, "money", type);
                     this.klineFrame.chart_set_money(type);
 
                     // 设置K线单位cookie
                     if (type.toLowerCase() == this.money) {
-                        Methods.setCookie(ENV+'kassist', 'none'); // 默认
+                        Methods.setCookie(ENV + 'kassist', 'none'); // 默认
                     } else {
-                        Methods.setCookie(ENV+'kassist', type.toLowerCase());
+                        Methods.setCookie(ENV + 'kassist', type.toLowerCase());
                     }
                     this.allFlag = true;
 
 
-                    this.klineFrame.document.location.href = '/kline/lite/' +this.currentMarket+ '?money=' + type; //改变iframe的href, src属性不会随之改变
+                    this.klineFrame.document.location.href = '/kline/lite/' + this.currentMarket + '?money=' + type; //改变iframe的href, src属性不会随之改变
                 },
-                setChartMainIndicator : function (style) {
+                setChartMainIndicator: function (style) {
                     Vue.set(this.kline, "mIndic", style);
                     this.klineFrame.setChartMainIndicator(style);
                 },
-                setChartMainStyle : function (style) {
+                setChartMainStyle: function (style) {
                     Vue.set(this.kline, "chartStyle", style);
                     this.klineFrame.setChartMainStyle(style);
                 },
-                showChartSetting : function () {
+                showChartSetting: function () {
                     this.klineFrame.showChartSetting();
                 },
-                setChartType: function(type) {
+                setChartType: function (type) {
                     this.chartType = type;
                 },
                 closeModal: function (name) {
                     this.showModal = false;
                 },
                 //倒计时开盘时间
-                countOpenTime : function (totalTime) {
+                countOpenTime: function (totalTime) {
                     var _this = this;
                     var totalTime = totalTime;
                     var timedown = function () {
                         //计算出相差天数
-                        var days=Math.floor(totalTime/(24*3600*1000))
+                        var days = Math.floor(totalTime / (24 * 3600 * 1000))
                         //计算出小时数
-                        var leave1=totalTime%(24*3600*1000);
-                        var hours=Math.floor(leave1/(3600*1000))
+                        var leave1 = totalTime % (24 * 3600 * 1000);
+                        var hours = Math.floor(leave1 / (3600 * 1000))
                         //计算相差分钟数
-                        var leave2=leave1%(3600*1000);
-                        var minutes=Math.floor(leave2/(60*1000))
+                        var leave2 = leave1 % (3600 * 1000);
+                        var minutes = Math.floor(leave2 / (60 * 1000))
                         //计算相差秒数
-                        var leave3=leave2%(60*1000);
-                        var seconds=Math.round(leave3/1000)
+                        var leave3 = leave2 % (60 * 1000);
+                        var seconds = Math.round(leave3 / 1000)
 
                         Vue.set(_this.marketOpenTime, 0, days < 10 ? '0' + days : days + '');
                         Vue.set(_this.marketOpenTime, 1, hours < 10 ? '0' + hours : hours + '');
@@ -1167,30 +1179,30 @@
 
                         timedown();
 
-                        if(totalTime < 1000){
+                        if (totalTime < 1000) {
                             window.clearInterval(openMarketInterval);
                             window.setTimeout(function () {
                                 top.location.reload();
-                            },1000)
+                            }, 1000)
                             return false;
                         }
-                    },1000)
+                    }, 1000)
                 },
-                initEntrustScroll : function(){
-                    if(!this.entrustScroll && $('.entrust-box-body').length > 0){
-                        this.entrustScroll = new IScroll('.entrust-box-body',{
+                initEntrustScroll: function () {
+                    if (!this.entrustScroll && $('.entrust-box-body').length > 0) {
+                        this.entrustScroll = new IScroll('.entrust-box-body', {
                             mouseWheel: true,
                             scrollbars: "custom",
-                            fadeScrollbars : true,
-                            bounceEasing : 'quadratic'
+                            fadeScrollbars: true,
+                            bounceEasing: 'quadratic'
                         });
                     }
-                    if(this.entrustScroll){
+                    if (this.entrustScroll) {
                         this.entrustScroll.refresh();
                     }
                 },
-                lightThemeInit : function () {
-                    if(this.theme == 'light'){
+                lightThemeInit: function () {
+                    if (this.theme == 'light') {
                         this.switchIndic('off');
                         this.switchTool('off');
                     }
@@ -1215,8 +1227,8 @@
                         var openTime = parseFloat(_this.currentMarketConfig.openTime) * 1000;
                         var nowTime = Date.parse(new Date(parseFloat(serverTime)));
                         var totalTime = openTime - nowTime;
-                        if(totalTime > 0){
-                            _this.marketStartTime = Methods.getDateTime(openTime,"YYYY-MM-DD HH:MM:SS");
+                        if (totalTime > 0) {
+                            _this.marketStartTime = Methods.getDateTime(openTime, "YYYY-MM-DD HH:MM:SS");
                             // _this.marketOpenStatus = true; // 开盘时间？暂时注释
                             _this.countOpenTime(totalTime);
                         }
@@ -1239,7 +1251,7 @@
                     })
                 });
             },
-            updated: function() {
+            updated: function () {
                 this.initEntrustScroll();
             },
             mounted: function () {

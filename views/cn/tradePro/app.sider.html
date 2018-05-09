@@ -4,39 +4,45 @@
             el: "#app-sider",
             data: function () {
                 return {
-                    currentMarket : "<%= typeof market != 'undefined' ? market : ''%>",
+                    currentMarket: "<%= typeof market != 'undefined' ? market : ''%>",
                     //spot现货，forward期货，user用户市场
-                    currentTab : ISLOGIN ? 'user' : '_<%= LEGAL[UNIT].alias %>',
-                    theme : "<%= typeof theme != 'undefined' ? theme : 'dark' %>",
+                    currentTab: ISLOGIN ? 'user' : '_<%= LEGAL[UNIT].alias %>',
+                    theme: "<%= typeof theme != 'undefined' ? theme : 'dark' %>",
                     //精简模式切换
-                    currentShow : true,
-                    keyWord : '',
+                    currentShow: true,
+                    keyWord: '',
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
-                    sortBy : 'rateDown',
-                    assistPrice : null,
+                    sortBy: 'rateDown',
+                    assistPrice: null,
                     /*currentUserAsset : {
                         userFund : {}
                     },*/
                     //原始的所有市场数据
-                    allMarket : '',
-                    allMarketArray : [],
+                    allMarket: '',
+                    allMarketArray: [],
                     //用户市场
-                    userMarket : '',
-                    assistCoin : MONEY,
+                    userMarket: '',
+                    assistCoin: MONEY,
                     loginUser: Methods.getLocalUserInfo(),
                     isLogin: ISLOGIN,
                     marketConfig: '',
-                    marketParams : {},
-                    assistList : {
-                        'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
+                    marketParams: {},
+                    assistList: {
+                        'none': {key: 'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿', decimal: 6},
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
-                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
+                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$', decimal: 3},
+                        '<%= UNIT %>': {
+                            key: '<%= UNIT %>',
+                            name: '<%= LEGAL[UNIT].unit %>',
+                            icon: '',
+                            symbol: '<%= LEGAL[UNIT].note %>',
+                            decimal: '<%= LEGAL[UNIT].decimal %>'
+                        }
                     },
                     showModal: false,
                     showSider: false,
-                    siderScroll : '',
-                    lightShowsider : true,
+                    siderScroll: '',
+                    lightShowsider: true,
 
                     websocket: '' //websocket服务
                 }
@@ -48,7 +54,7 @@
                     if (this.marketConfig) {
                         for (var a = 0; a < this.allMarket.length; a++) {
                             for (var b = 0; b < this.marketConfig.length; b++) {
-                                if (this.allMarket[a][0] == this.marketConfig[b].marketId){
+                                if (this.allMarket[a][0] == this.marketConfig[b].marketId) {
                                     // if ((this.allMarket[a][0] + 2) == this.marketConfig[b].marketId){
                                     marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name;  //格式: '1': btc/qtum
                                 }
@@ -62,11 +68,11 @@
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
                 },
-                currentUserAsset : function () {
+                currentUserAsset: function () {
                     return EXX.userNav.loginUser;
                 },
-                isNeedInterval : function () {
-                    if(!this.showSider){
+                isNeedInterval: function () {
+                    if (!this.showSider) {
                         return false;
                     }
                     /*if(this.currentTab != 'spot' && this.currentTab != 'forward' && this.currentTab != 'user' && this.keyWord == ''){
@@ -82,9 +88,14 @@
                     if (EXX.appTradePro && EXX.appTradePro.currentMarketId) {
 
                         var currMarketId = EXX.appTradePro.currentMarketId;
-                        for(var i=0; i<newVal.length; i++) {
+                        for (var i = 0; i < newVal.length; i++) {
                             if (newVal[i][0] == currMarketId) {
-                                EXX.appTradePro.currentPrice = newVal[i][1]; //当前价格
+                                /**
+                                 *作者: GongQi
+                                 *时间: 2018/5/9
+                                 *功能: 修改currentPrice的取值在app（EXX.appTradePro中进行）,
+                                 */
+                                // EXX.appTradePro.currentPrice = newVal[i][1]; //当前价格
                                 EXX.appTradePro.riseRate = newVal[i][5]; //涨跌幅
                                 EXX.appTradePro.highPrice = newVal[i][2]; //最高价
                                 EXX.appTradePro.lowPrice = newVal[i][3]; //最低价
@@ -95,18 +106,18 @@
                         }
                     }
                 },
-                isNeedInterval : function (newVal,oldVal) {
-                    if(newVal === true){
+                isNeedInterval: function (newVal, oldVal) {
+                    if (newVal === true) {
                         this.getAssistPrice();
                         // this.getAllMarket();
                         this.getUserMarket();
                     }
                 },
-                currentTab : function (newVal,oldVal) {
-                    if(this.currentTab == '' && this.theme == 'light'){
+                currentTab: function (newVal, oldVal) {
+                    if (this.currentTab == '' && this.theme == 'light') {
                         this.lightShowsider = false;
                     }
-                    if(this.currentTab != '' && this.theme == 'light'){
+                    if (this.currentTab != '' && this.theme == 'light') {
                         this.lightShowsider = true;
                     }
                 }
@@ -116,13 +127,13 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     //如果在交易页面就不请求，直接取隔壁数据
-                    if(EXX.appTradePro && EXX.appTradePro.assistPrice){
+                    if (EXX.appTradePro && EXX.appTradePro.assistPrice) {
                         _this.assistPrice = EXX.appTradePro.assistPrice;
                         //callback && callback(EXX.appTradePro.assistPrice);
                         return false;
                     }
                     //不需要的时候不请求
-                    if(!this.isNeedInterval){
+                    if (!this.isNeedInterval) {
                         return false;
                     }
                     Methods.ajax({
@@ -171,7 +182,7 @@
 
                     _this.websocket.onopen = function (event) {
                         //离开或者刷新当前页面时
-                        window.onbeforeunload =function() {
+                        window.onbeforeunload = function () {
                             _this.websocket && _this.websocket.close();
                         }
                     };
@@ -187,9 +198,9 @@
                     };
                 },
                 //获取用户市场-ok
-                getUserMarket: function(callback) {
+                getUserMarket: function (callback) {
                     //不需要的时候不请求
-                    if(!this.isNeedInterval || !this.isLogin){
+                    if (!this.isNeedInterval || !this.isLogin) {
                         return false;
                     }
                     //alert(callback);
@@ -197,7 +208,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usermarketcontroller/" + 'getusermarket',
                         success: function (res) {
-                            if(!res.datas){
+                            if (!res.datas) {
                                 return console.log('getAllMarket failed.')
                             }
 
@@ -216,11 +227,11 @@
                     }
 
                     var data = {
-                        assistCoin : coin
+                        assistCoin: coin
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
@@ -231,7 +242,7 @@
                 },
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price, market, assist) {
-                    if(!price || price == '' || !market || market == '' || this.assistPrice == null){
+                    if (!price || price == '' || !market || market == '' || this.assistPrice == null) {
                         return ''
                     }
                     var money = market.split('_')[1];
@@ -245,7 +256,7 @@
                 },
                 //获取指定辅助货币的价格
                 getVolumeByAssist: function (price, market, assist) {
-                    if(!price || price == '' || !market || market == '' || this.assistPrice == null){
+                    if (!price || price == '' || !market || market == '' || this.assistPrice == null) {
                         return ''
                     }
                     var coin = market.split('_')[0];
@@ -261,7 +272,7 @@
                 getGroupMarket: function (group) {
                     var _this = this;
                     //搜索优先
-                    if(this.keyWord != ''){
+                    if (this.keyWord != '') {
                         return this.getMarketsForKeyWord(this.keyWord);
                     }
                     var result = [];
@@ -270,18 +281,18 @@
                     var userMarket = this.userMarket;
                     // var userType = this.currentUserAsset.userType;
 
-                    if(allMarket == '' || marketConfig == ''){
+                    if (allMarket == '' || marketConfig == '') {
                         console.log('allMarket or marketConfig not init');
                         return result;
                     }
-                    if(this.isLogin && this.currentTab == 'user' && userMarket == ''){
+                    if (this.isLogin && this.currentTab == 'user' && userMarket == '') {
                         console.log('userMarket not init');
                         return result;
                     }
 
                     allMarket.forEach(function (item, index) {
                         var key = _this.marketsIdSwitch[item[0]];
-                        if(group == 'spot'){
+                        if (group == 'spot') {
                             /*if(marketConfig[key].leverType == 0){
                                 if (!this.isLogin) {
                                     if(!marketConfig[key].demoMode){
@@ -297,7 +308,7 @@
                                     }
                                 }
                             }*/
-                        }else if(group == 'forward'){
+                        } else if (group == 'forward') {
                             /*if(marketConfig[key].leverType != 0){
                                 if (!this.isLogin) {
                                     if(!marketConfig[key].demoMode){
@@ -313,16 +324,16 @@
                                     }
                                 }
                             }*/
-                        }else if(group == 'user'){
+                        } else if (group == 'user') {
                             //用户自选市场
                             userMarket.forEach(function (umarket, idx) {
-                                if(item[0] == umarket.marketId) {
+                                if (item[0] == umarket.marketId) {
                                     result.push(item);
                                     // result[result.length-1].push(umarket.sortId); //将sortId追加到最后面
                                 }
                             });
-                        }else{
-                            if(key.indexOf(group) != -1){
+                        } else {
+                            if (key.indexOf(group) != -1) {
                                 // 过滤掉模拟市场
                                 // if(!allMarket[key][9]){
                                 //     result[key] = allMarket[key];
@@ -335,7 +346,7 @@
                     return this.doSortMarket(this.convertMarket(result));
                 },
                 //搜索关键字市场
-                getMarketsForKeyWord: function(keyword) {
+                getMarketsForKeyWord: function (keyword) {
                     var _this = this;
                     // var userType = this.currentUserAsset.userType;
                     // var marketConfig = this.marketConfig;
@@ -353,41 +364,41 @@
                     return this.doSortMarket(this.convertMarket(markets));
                 },
                 //转换对象市场为数组市场(为了排序)
-                convertMarket : function (result) {
+                convertMarket: function (result) {
                     var _this = this;
                     var resultArray = [];
 
                     result.forEach(function (item, index) {
                         var lineData;
                         try {
-                            lineData =  JSON.parse(item[6]);
+                            lineData = JSON.parse(item[6]);
                         } catch (e) {
                             lineData = '';
                         }
 
                         var obj = {
-                            marketId : item[0], //市场id
-                            market : _this.marketsIdSwitch[item[0]], //市场名
+                            marketId: item[0], //市场id
+                            market: _this.marketsIdSwitch[item[0]], //市场名
                             // 价格
-                            lastPrice : item[1], //最新价
+                            lastPrice: item[1], //最新价
 
                             // buyOne : item[4],
                             // sellOne : item[2],
-                            highPrice : item[2], //最高价
-                            lowPrice : item[3], //最低价
+                            highPrice: item[2], //最高价
+                            lowPrice: item[3], //最低价
 
                             // 成交量
-                            volume : item[4],
+                            volume: item[4],
                             //折算交易量为USD排序
-                            convertVolume : _this.getVolumeByAssist(item[4], _this.marketsIdSwitch[item[0]], 'usd'),
+                            convertVolume: _this.getVolumeByAssist(item[4], _this.marketsIdSwitch[item[0]], 'usd'),
                             // 走势图
-                            lineData : lineData,
+                            lineData: lineData,
                             //涨跌幅
-                            rate : item[5],
+                            rate: item[5],
 
                             //杠杆倍数
                             // leverRate : _this.marketConfig[key].leverRate,
-                            sortId : item[item.length-1] ? item[item.length-1] : 0
+                            sortId: item[item.length - 1] ? item[item.length - 1] : 0
                         }
                         resultArray.push(obj);
                     });
@@ -395,31 +406,31 @@
                     return resultArray;
                 },
                 //排序的方法
-                doSortMarket : function (markets) {
+                doSortMarket: function (markets) {
                     var _this = this;
                     var sortBy = this.sortBy;
                     var tab = this.currentTab;
-                    if((tab != 'user' && sortBy == '') || markets.length == 0){
+                    if ((tab != 'user' && sortBy == '') || markets.length == 0) {
                         return markets;
                     }
-                    markets.sort(function(x, y){
-                        if(sortBy == 'rateUp'){
+                    markets.sort(function (x, y) {
+                        if (sortBy == 'rateUp') {
                             return x.rate - y.rate;
-                        }else if(sortBy == 'rateDown'){
+                        } else if (sortBy == 'rateDown') {
                             return y.rate - x.rate;
-                        }else if(sortBy == 'volumeUp'){
+                        } else if (sortBy == 'volumeUp') {
                             return x.convertVolume - y.convertVolume;
-                        }else if(sortBy == 'volumeDown'){
+                        } else if (sortBy == 'volumeDown') {
                             return y.convertVolume - x.convertVolume;
-                        }else if(sortBy == 'nameUp'){
-                            return y.market.substring(0,1).charCodeAt() - x.market.substring(0,1).charCodeAt();
-                        }else if(sortBy == 'nameDown'){
-                            return x.market.substring(0,1).charCodeAt() - y.market.substring(0,1).charCodeAt();
-                        }else if(sortBy == 'priceUp'){
+                        } else if (sortBy == 'nameUp') {
+                            return y.market.substring(0, 1).charCodeAt() - x.market.substring(0, 1).charCodeAt();
+                        } else if (sortBy == 'nameDown') {
+                            return x.market.substring(0, 1).charCodeAt() - y.market.substring(0, 1).charCodeAt();
+                        } else if (sortBy == 'priceUp') {
                             return parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'usd')) - parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'usd'));
-                        }else if(sortBy == 'priceDown'){
+                        } else if (sortBy == 'priceDown') {
                             return parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'usd')) - parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'usd'));
-                        }else if(tab == 'user'){
+                        } else if (tab == 'user') {
                             return y.sortId - x.sortId;
                         }
 
@@ -428,17 +439,17 @@
                     return markets;
                 },
                 //检查是否是用户自选市场
-                checkUserMarket : function (marketid) {
+                checkUserMarket: function (marketid) {
                     var result = false;
                     var userMarket = this.userMarket;
-                    for(var i = 0; i < userMarket.length; i++){
-                        if(userMarket[i].marketId == marketid){
+                    for (var i = 0; i < userMarket.length; i++) {
+                        if (userMarket[i].marketId == marketid) {
                             result = true;
                         }
                     }
                     return result;
                 },
-                topUserMarket : function (market) {
+                topUserMarket: function (market) {
                     var data = {
                         marketId: market
                     };
@@ -459,7 +470,7 @@
                     });
                 },
                 //获取线图样式
-                getLineChartColor: function(index, isClose) {
+                getLineChartColor: function (index, isClose) {
                     var colors = [
                         ['#58A065', 'rgba(67,144,234,0.08)'],
                         ['#4390EB', 'rgba(67,144,234,0.08)'],
@@ -474,7 +485,7 @@
                         ['#666', 'rgba(67,144,234,0.08)']
                     ];
 
-                    if(index >= colors.length){
+                    if (index >= colors.length) {
                         index = index % colors.length;
                     }
                     var obj = {
@@ -487,102 +498,102 @@
                     return obj;
                 },
                 //处理小线图数据
-                getLineData : function (array) {
-                    if(array.length > 0){
+                getLineData: function (array) {
+                    if (array.length > 0) {
                         var arr = [];
                         //容错处理
 
-                        if(!array){
+                        if (!array) {
                             array = []
                         }
-                        arr = array.map(function(item){
+                        arr = array.map(function (item) {
                             return item[1];
                         });
                         var min = arr[0];
-                        for(var i = 0;i < arr.length; i++){
+                        for (var i = 0; i < arr.length; i++) {
                             if (arr[i] < min) {
                                 min = arr[i]
                             }
                         }
-                        var arr2 = arr.map(function(item){
+                        var arr2 = arr.map(function (item) {
                             return item - min;
                         });
                         return arr2.join(",");
-                    }else{
+                    } else {
                         return '';
                     }
                 },
-                showPrice : function (val,market) {
-                    if(isNaN(val) || !market){
+                showPrice: function (val, market) {
+                    if (isNaN(val) || !market) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, 4)
                     }
                 },
-                showCoin : function (market) {
+                showCoin: function (market) {
                     return market.split('_')[0].toUpperCase();
                 },
-                showMoney : function (market) {
+                showMoney: function (market) {
                     return market.split('_')[1].toUpperCase();
                 },
-                showRate : function (rate) {
+                showRate: function (rate) {
                     return Methods.fixNumber(rate, 2)
                 },
-                showAssistCoin : function (market) {
-                    if(!market){
+                showAssistCoin: function (market) {
+                    if (!market) {
                         return '--'
                     }
                     var moneyName = market.split('_')[1].toUpperCase();
                     //显示辅助货币名字，不显示默认
-                    if(this.assistCoin == 'none'){
+                    if (this.assistCoin == 'none') {
                         return moneyName;
-                    }else{
+                    } else {
                         return this.assistList[this.assistCoin].name || moneyName;
                     }
                 },
-                showAssistName : function (market) {
+                showAssistName: function (market) {
                     //显示辅助货币名字，有默认显示
                     return this.assistList[this.assistCoin].name || market.split('_')[1].toUpperCase();
                 },
                 //价格折合的提示内容
-                showAssistHint : function (price,market) {
-                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price,market) + " " + this.showAssistCoin(market);
+                showAssistHint: function (price, market) {
+                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price, market) + " " + this.showAssistCoin(market);
                 },
-                showHintClass : function (index, rate) {
+                showHintClass: function (index, rate) {
                     var class1 = index == 0 && this.currentShow ? 'hint--bottom' : 'hint--top',
                         class1 = this.currentShow ? class1 : 'hint--right',
                         class2 = parseFloat(rate) >= 0 ? 'red' : 'green';
                     return class1 + ' ' + class2;
                 },
                 //交易量折合的提示内容
-                showVolumeHint : function (volume) {
-                    if(parseFloat(volume) > 10000 && parseFloat(volume) < 100000000 ){
+                showVolumeHint: function (volume) {
+                    if (parseFloat(volume) > 10000 && parseFloat(volume) < 100000000) {
                         volume = Methods.fixNumber((parseFloat(volume) / 10000), 2) + "<%= LANG('万')%>";
                     }
-                    if(parseFloat(volume) > 100000000 ){
+                    if (parseFloat(volume) > 100000000) {
                         volume = Methods.fixNumber((parseFloat(volume) / 100000000), 4) + "<%= LANG('亿')%>";
                     }
-                    return "<%= LANG('折合')%>:$ " + volume ;
+                    return "<%= LANG('折合')%>:$ " + volume;
                 },
-                changeShow : function () {
-                   if(this.currentShow == true){
-                       this.currentShow = false;
-                   }else{
-                       this.currentShow = true;
-                   }
+                changeShow: function () {
+                    if (this.currentShow == true) {
+                        this.currentShow = false;
+                    } else {
+                        this.currentShow = true;
+                    }
                 },
                 //切换市场列表
-                changeTab : function (tab) {
-                    if(this.currentTab == tab){
+                changeTab: function (tab) {
+                    if (this.currentTab == tab) {
                         $('body').removeClass('side-open');
                         this.currentTab = ''
                         this.showSider = false;
-                    }else{
+                    } else {
                         this.currentTab = tab;
                         $('body').addClass('side-open');
                         this.showSider = true;
                         //切换至用户市场清除排序
-                        if(tab == 'user' && this.theme == 'dark'){
+                        if (tab == 'user' && this.theme == 'dark') {
                             this.sortBy = '';
                         }
                     }
@@ -594,52 +605,52 @@
                     this.keyWord = '';
                 },
                 //列表排序
-                changeSort : function (name) {
+                changeSort: function (name) {
                     var sortBy = this.sortBy;
                     var swift = function (name, sort) {
-                        if(sort == ''){
+                        if (sort == '') {
                             return name + 'Down';
                         }
-                        if(sort.indexOf(name) != -1){
-                            if(sort.indexOf('Down') != -1){
+                        if (sort.indexOf(name) != -1) {
+                            if (sort.indexOf('Down') != -1) {
                                 return name + 'Up';
                             }
-                            if(sort.indexOf('Up') != -1){
+                            if (sort.indexOf('Up') != -1) {
                                 return '';
                             }
-                        }else{
+                        } else {
                             //递归
                             return arguments.callee(name, '');
                         }
                     }
                     this.sortBy = swift(name, sortBy);
                 },
-                openAddMarket: function() {
+                openAddMarket: function () {
                     this.marketParams = {
                         account: this.currentUserAsset,
                         userMarkets: this.userMarket
                     }
                     this.showModal = 'addMarket';
                 },
-                gotoTrade : function (market) {
+                gotoTrade: function (market) {
                     market = market.replace('/', '_');
 
-                    if(this.theme == 'light'){
+                    if (this.theme == 'light') {
                         top.location.href = '/tradePro/' + market;
-                    }else{
+                    } else {
                         top.location.href = '/trade/' + market;
                     }
                 },
-                initChatScroll : function(){
-                    if(!this.siderScroll && $('.market-box-content').length > 0){
-                        this.siderScroll = new IScroll('.market-box-content',{
+                initChatScroll: function () {
+                    if (!this.siderScroll && $('.market-box-content').length > 0) {
+                        this.siderScroll = new IScroll('.market-box-content', {
                             mouseWheel: true,
                             scrollbars: "custom",
-                            fadeScrollbars : true,
-                            bounceEasing : 'quadratic'
+                            fadeScrollbars: true,
+                            bounceEasing: 'quadratic'
                         });
                     }
-                    if(this.siderScroll){
+                    if (this.siderScroll) {
                         this.siderScroll.refresh();
                     }
                 },
@@ -680,16 +691,16 @@
                     setInterval(_this.getAssistPrice, 5000);
                 });
 
-                if(_this.theme == 'light'){
+                if (_this.theme == 'light') {
                     _this.showSider = true;
                 }
             },
-            updated: function() {
+            updated: function () {
                 this.initChatScroll();
             },
             mounted: function () {
                 var _this = this;
-                if(_this.isLogin){
+                if (_this.isLogin) {
                     _this.getUserMarket();
                 }
             },
