@@ -22,6 +22,7 @@
         <div class="disc-line"></div>
         <div class="disc-price">
             <div class="price">
+                <!--修改 $parent.currentPrice 时间:-->
                 <h3><span :class="$parent.priceClass">{{$parent.currentPrice}} <b style="font-size: 12px; vertical-align: middle">{{$parent.moneyName}}</b></span></h3>
                 ≈ {{$parent.getPriceByAssist($parent.currentPrice)}} {{$parent.showAssistCoin()}}
             </div>
