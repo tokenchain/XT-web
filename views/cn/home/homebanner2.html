@@ -29,9 +29,9 @@
 
                     <div class="btn" v-if="!!item.extJson">
                         <a v-for="(extItem,key) in item.extJson.btns"
-                        style="border-color: #ffae01;background: #ffae01;" :href="extItem.url"
-                        target="_blank">
-                        {{extItem.name}}
+                           style="border-color: #ffae01;background: #ffae01;" :href="extItem.url"
+                           target="_blank">
+                            {{extItem.name}}
                         </a>
                     </div>
                 </div>
@@ -75,7 +75,6 @@
                         success: function (res) {
                             var datas = res.datas
                             for (i = 0, len = datas.length; i < len; i++) {
-                                console.log(datas[i])
                                 if (datas[i].extJson) {
                                     datas[i].extJson = JSON.parse(decodeURI(datas[i].extJson))
                                 }else {

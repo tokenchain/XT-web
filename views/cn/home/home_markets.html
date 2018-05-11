@@ -1,63 +1,63 @@
 <div id="home-market" class="home-market">
     <div class="container">
-    <div class="market-content">
-        <div class="market-head">
-            <ul class="market-tab">
-                <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
-                <li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'qtum' && keyWord == ''}"  @click="changeMarketsTab('qtum')">QTUM<%= LANG('市场')%></li>
-                <li class="item" :class="{active: marketsTab == 'hsr' && keyWord == ''}" @click="changeMarketsTab('hsr')">HSR<%= LANG('市场')%></li>
-            </ul>
-            <div class="market-search">
-                <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord" autocomplete="off" name="search_<%= VERSION%>">
-                <i class="trading-icon trading-icon-search"></i>
+        <div class="market-content">
+            <div class="market-head">
+                <ul class="market-tab">
+                    <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
+                    <li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>
+                    <li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>
+                    <li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>
+                    <li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>
+                    <li class="item" :class="{active: marketsTab == 'qtum' && keyWord == ''}"  @click="changeMarketsTab('qtum')">QTUM<%= LANG('市场')%></li>
+                    <li class="item" :class="{active: marketsTab == 'hsr' && keyWord == ''}" @click="changeMarketsTab('hsr')">HSR<%= LANG('市场')%></li>
+                </ul>
+                <div class="market-search">
+                    <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord" autocomplete="off" name="search_<%= VERSION%>">
+                    <i class="trading-icon trading-icon-search"></i>
+                </div>
             </div>
-        </div>
-                <ul class="market-title">
-                    <li class="item"><%= LANG('市场')%></li>
-                    <li class="item state"><%= LANG('状态')%></li>
-                    <li class="item"><%= LANG('价格')%></li>
-                    <li class="item"><%= LANG('折合')%>(USD)</li>
-                    <li class="item"><%= LANG('折合')%>(<%= LEGAL[UNIT].unit %>)</li>
-                    <li class="item sort" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><span><%= LANG('涨跌幅')%></span></li>
-                    <li class="item sort" @click="changeSort('volume')" :class="{'up' : sortBy == 'volumeUp', 'down' : sortBy == 'volumeDown'}"><span><%= LANG('交易量')%></span></li>
-                    <li class="item trend"><%= LANG('6小时走势')%></li>
-                </ul>
-                <ul class="market-list" v-if="marketInit">
-                    <li role="button"
-                        @click="goExchange(1, data.market.replace('/','_'))"
-                        v-for="(data, index) in displayMarkets"
-                        v-if="marketConfig && assistPrice" v-cloak>
-                        <div class="item currency">
-                            <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
-                            <em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}
-                            <!--<p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>-->
-                        </div>
+            <ul class="market-title">
+                <li class="item"><%= LANG('市场')%></li>
+                <li class="item state"><%= LANG('状态')%></li>
+                <li class="item"><%= LANG('价格')%></li>
+                <li class="item"><%= LANG('折合')%>(USD)</li>
+                <li class="item"><%= LANG('折合')%>(<%= LEGAL[UNIT].unit %>)</li>
+                <li class="item sort" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><span><%= LANG('涨跌幅')%></span></li>
+                <li class="item sort" @click="changeSort('volume')" :class="{'up' : sortBy == 'volumeUp', 'down' : sortBy == 'volumeDown'}"><span><%= LANG('交易量')%></span></li>
+                <li class="item trend"><%= LANG('6小时走势')%></li>
+            </ul>
+            <ul class="market-list" v-if="marketInit">
+                <li role="button"
+                    @click="goExchange(1, data.market.replace('/','_'))"
+                    v-for="(data, index) in displayMarkets"
+                    v-if="marketConfig && assistPrice" v-cloak>
+                    <div class="item currency">
+                        <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                        <em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}
+                        <!--<p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>-->
+                    </div>
 
-                        <div class="item state">
-                            <span class="green"><%= LANG('已开启')%></span>
-                            <!--<span v-if="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>-->
-                            <!--<span v-else class="gray"><%= LANG('未开启')%></span>-->
-                        </div>
-                        <div class="item">
-                            <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
-                        </div>
-                        <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
-                        <div class="item"><%= LEGAL[UNIT].note %>{{getPriceByAssist(data.lastPrice, data.market, '<%= UNIT %>')}}</div>
-                        <div class="item">
-                            <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
-                        </div>
-                        <div class="item"><span class="hint--top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>
-                        <div class="item trend">
-                            <inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>
-                        </div>
-                    </li>
-                </ul>
-        <div class="loading loading-light-bg" v-else=""></div>
-    </div>
+                    <div class="item state">
+                        <span class="green"><%= LANG('已开启')%></span>
+                        <!--<span v-if="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>-->
+                        <!--<span v-else class="gray"><%= LANG('未开启')%></span>-->
+                    </div>
+                    <div class="item">
+                        <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
+                    </div>
+                    <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
+                    <div class="item"><%= LEGAL[UNIT].note %>{{getPriceByAssist(data.lastPrice, data.market, '<%= UNIT %>')}}</div>
+                    <div class="item">
+                        <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
+                    </div>
+                    <div class="item"><span class="hint--top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>
+                    <div class="item trend">
+                        <inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>
+                    </div>
+                </li>
+            </ul>
+            <div class="loading loading-light-bg" v-else=""></div>
+        </div>
     </div>
 </div>
 
@@ -192,10 +192,6 @@
                     var market = market.split('/')[1];
                     var assist = assist;
                     var assistPrice = this.assistPrice[assist]
-                    console.log(price)
-                    console.log(market)
-                    console.log(assist)
-                    console.log(assistPrice[market])
                     return assistPrice[market] * price
                 },
                 //去掉虚拟市场货币的D字符
@@ -211,7 +207,7 @@
                     window.location.href = '/tradePro/' + market;
                 },
                 changeMarketsTab: function(type) {
-                   // $('html, body').animate({scrollTop: window.innerHeight - 150}, 400);
+                    // $('html, body').animate({scrollTop: window.innerHeight - 150}, 400);
                     this.keyWord = '';
                     this.marketsTab = type;
                 },
@@ -400,7 +396,9 @@
                             _this.marketInit = true;
                         }
                     });*/
-                    var wsUrl = WEBSOCKET + '/getMarketList';
+                    var wsUrl = WEBSOCKET + '/websocket';
+                    // var wsUrl = 'ws://192.168.4.95:28080' + '/websocket';
+
                     //建立握手
                     if ('WebSocket' in window) {
                         _this.websocket = new WebSocket(wsUrl);
@@ -412,6 +410,12 @@
                     }
 
                     _this.websocket.onopen = function (event) {
+                        var marketParam = {
+                            dataType: "ALL_TRADE_STATISTIC_24H",
+                            dataSize: 1,
+                            action: "ADD"
+                        }
+                        _this.websocket.send(JSON.stringify(marketParam));
                         // console.log('init websocket');
 
                         //离开或者刷新当前页面时
@@ -428,8 +432,8 @@
                         // [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
                         var res = JSON.parse(event.data);
 
-                        if (typeof res.market == 'object') {
-                            _this.markets = res.market;
+                        if (typeof res.trade_statistic == 'object') {
+                            _this.markets = res.trade_statistic;
                         } else {
                             _this.markets = [];
                         }

@@ -149,7 +149,7 @@ function hashMap() {
 var ExxWebSocket = {
     //推送接口
     // wsUrl: DOMAIN_SOCKET + '/websocket',
-    // wsUrl: 'ws://192.168.4.137:28080' + '/websocket',
+    // wsUrl: 'ws://192.168.4.95:28080' + '/websocket',
     wsUrl: WEBSOCKET + '/websocket',
     //推送状态变量
     openWebSocket: false,
@@ -297,6 +297,20 @@ ExxWebSocket.sendMessageParam = function (event) {
     };
     _this.websocket.send(JSON.stringify(tradeParam));
 
+    /**
+     *作者: GongQi
+     *时间: 2018/5/10
+     *功能: 发送市场列表参数
+     */
+    if (top.location.pathname.indexOf('/tradePro') == 0) {
+        var marketParam = {
+            dataType: "ALL_TRADE_STATISTIC_24H",
+            dataSize: 1,
+            action: "ADD"
+        }
+        _this.websocket.send(JSON.stringify(marketParam));
+    }
+
     if (!_this.openWebSocket) {
         console.log('reconnect websocke.', _this.openWebSocket)
         _this.init();
@@ -334,8 +348,14 @@ ExxWebSocket.onMessage = function (event) {
         _this.allPush = true;
     }
 
-    var dataHead = datas.data[0][0];
-    var type; //1 K线，2 委托盘口，3 交易记录
+    var dataHead = datas.data[0][0] || 'trade_statistic';
+    /**
+     *作者: GongQi
+     *时间: 2018/5/10
+     *功能: Websocket/getMarketList 合并为 Websocket/getMarketList
+     * 1:K线，2:委托盘口，3:交易记录 4:市场列表(new)
+     */
+    var type;
     if (dataHead == 'K') {
         type = 1;
     } else if (dataHead == 'AE' || dataHead == 'E') {
@@ -343,6 +363,8 @@ ExxWebSocket.onMessage = function (event) {
         type = 2;
     } else if (dataHead == 'T') {
         type = 3;
+    } else if (dataHead == 'trade_statistic' && top.location.pathname.indexOf('/tradePro') == 0) {
+        type = 4;
     }
 
     _this.dealMessageHandle(datas, type);
@@ -373,9 +395,9 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
     } else if (type == 3) {
         // console.log('进入type3')
         var result = transTradeData(data.data);
-        // EXX.appTradePro.doDealRecord(getTempLastTrans());
-        // console.log(result)
         EXX.appTradePro.doDealRecord(result);
+    } else if (type == 4) {
+        EXX.appSider.doDealTradeStatistic(data.data[0])
     }
 }
 

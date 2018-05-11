@@ -187,15 +187,32 @@
                         }
                     };
                     _this.websocket.onmessage = function (event) {
-
-                        var res = JSON.parse(event.data);
-
-                        if (typeof res.market == 'object') {
-                            _this.allMarket = res.market;
-                        } else {
-                            _this.allMarket = [];
-                        }
+                        // console.log(JSON.parse(event.data))
+                        // var res = JSON.parse(event.data);
+                        //
+                        // if (typeof res.market == 'object') {
+                        //     _this.allMarket = res.market;
+                        // } else {
+                        //     _this.allMarket = [];
+                        // }
                     };
+                },
+
+                /**
+                 *作者: GongQi
+                 *时间: 2018/5/10
+                 *功能: 接口->Websocket/getMarketList 合并为 Websocket/getMarketList
+                 *     函数->doDealTradeStatistic 替换 getAllMarket
+                 */
+                doDealTradeStatistic: function (data) {
+                    var _this = this;
+                    var res = data;
+
+                    if (typeof res.trade_statistic == 'object') {
+                        _this.allMarket = res.trade_statistic;
+                    } else {
+                        _this.allMarket = [];
+                    }
                 },
                 //获取用户市场-ok
                 getUserMarket: function (callback) {
@@ -687,7 +704,7 @@
                 //先获取配置和价格表
                 _this.getMarketConfig(function () {
                     // setInterval(_this.getAllMarket, 5000);
-                    _this.getAllMarket();
+                    // _this.getAllMarket();
                     setInterval(_this.getAssistPrice, 5000);
                 });
 
