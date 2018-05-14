@@ -1,10 +1,7 @@
-<div id="help-left" class="help-ld loaded" :class="{'out': showMenu}" v-cloak>
-    <div class="rightbtn"><i @click="setShowMenu(true)" class="iconfont icon-liebiao"></i><i @click="setShowMenu(false)"
-                                                                                             class="iconfont icon-jiantouleft"></i>
-    </div>
+<div id="help-left" class="help-ld loaded " :class="{'out': showMenu}" v-cloak>
     <div class="help-ldlist">
         <div v-for="(category,key) in categories" class="list vue-init">
-            <h3 @click="changeCategory(category)" :class="{add: sharedState.currentCategoryId == category.categoryId}">
+            <h3 clss="help-left-h3"  @click="changeCategory(category)" :class="{add: sharedState.currentCategoryId == category.categoryId}">
                 {{category.categoryName}}</h3>
             <transition name="slide-down">
                 <ul v-show="sharedState.currentCategoryId == category.categoryId">
@@ -73,7 +70,7 @@
                     if (EXX.helpDisplay) {
                         EXX.helpDisplay.getArticleById(id);
                     } else {
-                        window.location.replace('/help/display?id=' + id + '&cid=' + this.sharedState.currentCategoryId + '&fid=' + this.sharedState.fid);
+                        window.location.replace('/help/articles?id=' + id + '&cid=' + this.sharedState.currentCategoryId + '&fid=' + this.sharedState.fid);
                     }
                     this.sharedState.articleId = id;
                 },
@@ -81,51 +78,12 @@
                     var data = {
                         tab: this.sharedState.fid
                     };
-                    /*Methods.ajax({
-                      type: 'GET',
-                      url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
-                      data: data,
-                      success: function(res) {
-                        var categories = res.datas.problemType[0].problCategor;
-                        this.categories = categories;
-                        if (categories.length && this.sharedState.currentCategoryId == '') {
-                          this.changeCategory(categories[0]);
-                        }
-                        this.$nextTick(function () {
-                          this.categories.forEach(function(category, index){
-                            this.getArticlesList(category.code, index);
-                          }.bind(this));
-                          this.$forceUpdate();
-                            if (EXX.helpDisplay) {
-                                EXX.helpDisplay.$forceUpdate();
-                            }
-                        });
-                      }.bind(this)
-                    });*/
                 },
                 getArticlesList: function (categoryId) {
                     var data = {
                         problemType: this.sharedState.fid,
                         problCategor: categoryId
                     };
-                    // Methods.ajax({
-                    //   type: 'GET',
-                    //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-                    //   data: data,
-                    //   success: function(res) {
-                    //     var articles = this.articles;
-                    //     articles[categoryId] = res.datas.titelList;
-                    //     this.articles = articles;
-                    //     //store.setArticles(articles);
-                    //     this.sharedState.articles[categoryId] = res.datas.titelList;
-                    //     this.$nextTick(function () {
-                    //         this.$forceUpdate();
-                    //       if (EXX.helpDisplay) {
-                    //         EXX.helpDisplay.$forceUpdate();
-                    //       }
-                    //     });
-                    //   }.bind(this)
-                    // });
                 },
                 getCategoryByType: function () {
                     var lanNum = 1

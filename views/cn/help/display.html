@@ -1,16 +1,4 @@
 <section class="help helpshow">
-    <div class="banner">
-        <h2><%= LANG('帮助中心')%></h2>
-        <div class="search">
-            <div class="search-box"><input type="text" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off"><a
-                    href="#"></a></div>
-        </div>
-        <div class="sub-nav">
-            <a href="/help"><%= LANG('帮助中心')%></a>/<a href="/help/display?fid=4"><%= LANG('入门指南')%></a>/<a
-                href="/help/display?fid=3"><%= LANG('操作指南')%></a>/<a href="/help/coin"><%= LANG('币种资料')%></a>
-        </div>
-    </div>
-
     <div class="container">
         <%-include("help_left.html")%>
         <div id="help-display" class="help-rd" :class="{'loaded': loaded}">

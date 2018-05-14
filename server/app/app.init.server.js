@@ -6,15 +6,15 @@
 var CONFIG = require('../configs/main.server.config.js');
 var METHOD = require('../models/method.server.model.js');
 //设置全局配置
-for(var key in CONFIG){
+for (var key in CONFIG) {
     global[key] = CONFIG[key];
 }
 global.METHOD = METHOD;
 //此处定义为方法返回才能及时更新语言包
-global.LANG = function(LAN){
+global.LANG = function (LAN) {
     return require('../models/lang.server.model')(LAN);
 }
-global.WEB = function(LAN){
+global.WEB = function (LAN) {
     return require('../configs/web.server.config')(LAN);
 }
 // global.CURRENCY = require('../configs/currency.server.config');
@@ -32,7 +32,7 @@ global.TEMP_SITE = 'cn/mainPage';
 global.TEMP_TRADE = 'cn/tradePage';
 global.TEMP_TRADE_PRO = 'cn/tradeProPage';
 
-module.exports = function(app){
+module.exports = function (app) {
 
     //多语言支持设置
     app.use(function (req, res, next) {
@@ -40,7 +40,7 @@ module.exports = function(app){
 
         var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
         //语言类别检测
-        if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk"|| reqLAN == "jp"|| reqLAN == "kr")) {
+        if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk" || reqLAN == "jp" || reqLAN == "kr")) {
             global.LAN = reqLAN;
         }
         /*for(var key in global.WEB.LAN){
@@ -75,10 +75,10 @@ module.exports = function(app){
         //console.log(app.locals.UON,app.locals.UID,app.locals.UNAME,req.cookies[ENV + "JSESSIONID"]);
         //app.locals.isLogin = app.locals.UON == 1 && app.locals.UID && app.locals.UNAME && req.cookies[ENV + "JSESSIONID"];
         app.locals.isLogin = app.locals.UON == 1 && app.locals.UID && app.locals.UNAME;
-        console.log('当前是否登录：',Boolean(app.locals.isLogin));
+        console.log('当前是否登录：', Boolean(app.locals.isLogin));
 
         //用户cookie转发变量
-        global.COOKIES = ENV+"uname="+req.cookies[ENV+'uname']+"; "+ENV+"uon="+req.cookies[ENV+'uon']+"; "+ENV+"uid="+req.cookies[ENV+'uid']+"; "+ENV+"currentAccountId="+req.cookies[ENV+'currentAccountId']+"; "+ENV+"JSESSIONID="+req.cookies[ENV+'JSESSIONID']+"; "+ENV+"lan="+req.cookies[ENV+'lan']+"";
+        global.COOKIES = ENV + "uname=" + req.cookies[ENV + 'uname'] + "; " + ENV + "uon=" + req.cookies[ENV + 'uon'] + "; " + ENV + "uid=" + req.cookies[ENV + 'uid'] + "; " + ENV + "currentAccountId=" + req.cookies[ENV + 'currentAccountId'] + "; " + ENV + "JSESSIONID=" + req.cookies[ENV + 'JSESSIONID'] + "; " + ENV + "lan=" + req.cookies[ENV + 'lan'] + "";
 
         next();
     });

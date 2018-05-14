@@ -7,14 +7,16 @@
 <body>
 <div class="site-wrapper">
     <%-include("include/menuMain.html")%>
-        <% try{ %>
-        <%-include(templateMain)%>
-        <% }catch(err){ %>
-        <%-include("include/error.html")%>
-        <% } %>
-        <%-include("include/footMain.html")%>
-    </div>
-    <%-include("chat/chat_new.html")%>
-    <%-include("include/footInit.html")%>
+
+    <% try{ %>
+    <%-include(templateMain)%>
+    <% }catch(err){ %>
+    <%-include("include/error.html")%>
+    <% } %>
+
+    <%-include("include/footMain.html")%>
+</div>
+<%-include("chat/chat_new.html")%>
+<%-include("include/footInit.html")%>
 </body>
 </html>

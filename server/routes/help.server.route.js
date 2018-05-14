@@ -94,5 +94,11 @@ router.get('/rate', function (req, res, next) {
     });
 });
 
+router.get('/search', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'help/search_result.html'
+    });
+});
+
 module.exports = router;
 

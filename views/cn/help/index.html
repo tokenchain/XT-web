@@ -1,57 +1,110 @@
+<link rel="stylesheet" href="<%= STATIC %>/styles/help/index.css?<%= VERSION %>">
 
-<section class="help">
-    <div style="position:absolute;top:0;z-index:501;width:100%;">
-        <header class="hc_header" id="user-navs">
-            <!--<div class="exx-notice" v-if="news.readed === false" v-cloak="" v-for="(news,index) in topNews">-->
-            <!--<a class="text" @click="gotoReadNews(news.id)" v-text="news.title"></a>-->
-            <!--<a class="close" @click="setHasReadNews(news.id)" title="<%= LANG('关闭')%>"></a>-->
-            <!--</div>-->
-            <div class="h-content">
-                <div class="h-box">
-                    <div class="logo">
-                        <a href="/" target="_self" title="<%= WEB.NAME %>"><img alt="<%= WEB.NAME %>" src="<%= WEB.LOGO %>"/></a>
-                    </div>
-                    <div class="site-menus">
-                        <p ><%= LANG('帮助中心') %></p>
-                    </div>
+<div class="help" id="help-index">
+    <div class="help-banner">
+        <h2 class="banner-h2">EXX帮助中心</h2>
+        <span class="banner-span">欢迎使用EXX帮助中心，我们对以往搜集到的问题进行汇总与解答，希望能够帮助到您。</span>
+    </div>
+
+    <%-include("help_search.html")%>
+
+    <div class="help-content">
+        <div class="help-container">
+            <%-include("help_left.html")%>
+            <div class="help_right" id="help_right">
+                <div>
+                    <h2>热门问题</h2>
+                    <span>大家都在搜索的，或许是您所要了解的.</span>
+                    <ul class="articles-ul">
+                        <li class="articles-li" v-for="(item,key) in hotArticles">{{item.articleTitle}}</li>
+                    </ul>
                 </div>
-                <div class="h-box">
-                    <div class="language">
-                        <p role="button"><img src="/src/images/guoqi/<%= LAN %>.svg" /><%= WEB.LAN[LAN] %></p>
-                        <ul>
-                            <% for(var key in WEB.LAN){ %>
-                            <% if(key != LAN){ %>
-                            <li role="button" class="<%= key %>" @click="setLan('<%= key %>')"><img src="/src/images/guoqi/<%= key %>.svg" /> <%= WEB.LAN[key] %></li>
-                            <% } %>
-                            <% } %>
-                        </ul>
-                    </div>
-
+                <div>
+                    <h2>常见问题</h2>
+                    <span>汇总了不同场景下常用操作指南教程，快速找到您的问题！</span>
+                    <ul class="articles-ul">
+                        <li class="articles-li articles-li-border" v-for="(item,key) in faqArticles">{{item.articleTitle}}</li>
+                    </ul>
                 </div>
             </div>
-        </header>
-
+        </div>
     </div>
-    <%-include("banner.html")%>
-    <%-include("plan.html")%>
-</section>
+</div>
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
-        EXX.userNav = new Vue({
-            el: '#user-navs',
+        new Vue({
+            el: '#help_right',
+            mounted: function () {
+                this.getHotArticles()
+                this.getFaqArticles()
+            },
             data: function () {
                 return {
-
+                    hotArticles:[],
+                    faqArticles:[]
                 }
             },
             methods:{
-                //设置语言
-                setLan: function (lan) {
-                    console.log(lan)
-                    var name = ENV + 'lan';
-                    Methods.setCookie(name, lan);
-                    top.location.reload();
+                getHotArticles: function () {
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
+                    var data = {
+                        lanType: lanNum
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecontroller/" + 'gethotarticles',
+                        data: data,
+                        success: function (res) {
+                            this.hotArticles = res.datas
+                        }.bind(this)
+                    });
                 },
+                getFaqArticles: function () {
+                    var that = this
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
+                    var data = {
+                        lanType: lanNum
+                    };
+
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecontroller/" + 'getfaqarticles',
+                        data: data,
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                that.faqArticles = res.datas
+                            }
+                        }
+                    });
+                }
             }
         })
     })
