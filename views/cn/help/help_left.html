@@ -1,12 +1,13 @@
 <div id="help-left" class="help-ld loaded " :class="{'out': showMenu}" v-cloak>
     <div class="help-ldlist">
         <div v-for="(category,key) in categories" class="list vue-init">
-            <h3 clss="help-left-h3"  @click="changeCategory(category)" :class="{add: sharedState.currentCategoryId == category.categoryId}">
+            <h3 clss="help-left-h3" @click="changeCategory(category)"
+                :class="{add: sharedState.currentCategoryId == category.categoryId}">
                 {{category.categoryName}}</h3>
             <transition name="slide-down">
                 <ul v-show="sharedState.currentCategoryId == category.categoryId">
                     <li v-for="article in category.subArticle">
-                        <a href="javascript:;" @click="changeArticle(article.articleId)">{{article.articleTitle}}</a>
+                        <a href="javascript:;" @click="changeArticle(article)">{{article.articleTitle}}</a>
                     </li>
                 </ul>
             </transition>
@@ -66,13 +67,8 @@
                     this.sharedState.articleId = articles.length ? articles[0].id : '';
                     this.$forceUpdate();
                 },
-                changeArticle: function (id) {
-                    if (EXX.helpDisplay) {
-                        EXX.helpDisplay.getArticleById(id);
-                    } else {
-                        window.location.replace('/help/articles?id=' + id + '&cid=' + this.sharedState.currentCategoryId + '&fid=' + this.sharedState.fid);
-                    }
-                    this.sharedState.articleId = id;
+                changeArticle: function (item) {
+                    window.location.replace('/help/articles?categoryId=' + item.categoryId + '&articleId=' + item.articleId);
                 },
                 getCatalog: function () {
                     var data = {

@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="<%= STATIC %>/styles/help/search_result.css?<%= VERSION %>">
 
-<section class="search_section">
+<section class="search_section" >
     <%-include("help_search.html")%>
     <div id="search_result" class="search_result">
         <div class="witdh-1095">
-            <div class="search-title">
+            <div class="search-title"v-cloak>
                 <h2>搜索"{{searchText}}"的结果</h2>
-                <div class="return-help">返回帮助中心</div>
+                <a class="return-help" href="/help">返回帮助中心</a>
             </div>
 
             <ul class="search-ul">
                 <li class="search-item" v-for="(item,key) in searchResult">
-                    <h3 class="item-title" v-html="item.articleTitle"></h3>
+                    <h3 class="item-title" v-html="item.articleTitle" @click="changeArticle(item)"></h3>
                     <!--内容处理-->
                     <div class="item-content" v-html="item.contentStr"></div>
                 </li>
@@ -70,15 +70,19 @@
                                 var searchResult = res.datas
                                 if (searchResult.length > 0) {
                                     var replaceText = that.searchText
+                                    var regExp = new RegExp(replaceText, "g")
                                     for (var i = 0; i < searchResult.length; i++) {
-                                        searchResult[i].contentStr = searchResult[i].contentStr.replace(replaceText, '<em class="high-light">' + replaceText + '</em>')
-                                        searchResult[i].articleTitle = searchResult[i].articleTitle.replace(replaceText, '<em class="high-light">' + replaceText + '</em>')
+                                        searchResult[i].contentStr = searchResult[i].contentStr.replace(regExp, '<em class="high-light">' + replaceText + '</em>')
+                                        searchResult[i].articleTitle = searchResult[i].articleTitle.replace(regExp, '<em class="high-light">' + replaceText + '</em>')
                                     }
                                     that.searchResult = res.datas
                                 }
                             }
                         });
                     }
+                },
+                changeArticle: function (item) {
+                    window.location.replace('/help/articles?categoryId=' + item.categoryId + '&articleId=' + item.articleId);
                 }
             }
         })

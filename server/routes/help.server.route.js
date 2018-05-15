@@ -100,5 +100,11 @@ router.get('/search', function (req, res, next) {
     });
 });
 
+router.get('/articles', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'help/index.html'
+    });
+});
+
 module.exports = router;
 

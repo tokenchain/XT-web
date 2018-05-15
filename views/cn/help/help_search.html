@@ -3,7 +3,7 @@
 <div class="help-search" id="help-search">
     <div class="search">
         <div class="search-box">
-            <input type="text" v-model="searchText" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off">
+            <input type="text" v-model="searchText" placeholder="<%= LANG('请输入您要查找的关键字')%>" autocomplete="off" @keyup.enter="changeArticle()">
             <a :href="'/help/search?contentPart=' + searchText"></a>
         </div>
     </div>
@@ -25,6 +25,9 @@
                 }
             },
             methods: {
+                changeArticle: function () {
+                    window.location.replace('/help/search?contentPart=' + this.searchText);
+                },
             }
         })
     })
