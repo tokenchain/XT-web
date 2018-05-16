@@ -26,7 +26,6 @@
             el: '#search_result',
             created: function () {
                 var param = Methods.parseQueryString()
-                console.log(param.contentPart)
                 if (param.contentPart) {
                     this.searchText = decodeURI(param.contentPart)
                 }

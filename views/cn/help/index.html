@@ -14,8 +14,13 @@
             <!--侧边栏-->
             <div class="help-ld loaded " :class="{'out': showMenu}" v-cloak>
                 <div class="help-ldlist">
+                    <div class="list vue-init">
+                        <a href="/help" class="title">
+                            热门问题
+                        </a>
+                    </div>
                     <div v-for="(category,key) in categories" class="list vue-init">
-                        <h3 class="help-left-h3"
+                        <h3 class="help-left-h3 title"
                             @click="changeCategory(category)"
                             :class="{add: sharedState.currentCategoryId == category.categoryId}">
                             {{category.categoryName}}
@@ -66,7 +71,9 @@
                 </div>
 
                 <div class='article-box' v-if="type == 1">
-                    <div class="article-box-nav"></div>
+                    <div class="article-box-nav">
+                        <a class="nav-span" v-for='categoryItem in categorys'>{{categoryItem.categoryName}}  ></a>
+                    </div>
                     <div class="article-border">
                         <h2 class="article-title">{{article.articleTitle}}</h2>
                         <div v-html="decodeURI(article.content)"></div>
@@ -95,14 +102,21 @@
                 </div>
 
                 <div class='cascading-menu' v-if="type == 2">
-                    <div class="article-box-nav"></div>
+                    <div class="article-box-nav">
+                        <div v-for='categoryItem in categorys'>
+                            <a class="nav-span" href="/help">{{categoryItem.categoryName}}  </a>
+                            <span>></span>
+                        </div>
+                    </div>
                     <h2 class="menu-title">{{categoriesMenu.categoryName}}</h2>
                     <ul class="menu-ul">
-                        <li class="menu-li" v-for="item in categoriesMenu.subArticle" @click="changeArticle(item)">{{item.articleTitle}}</li>
+                        <li class="menu-li" v-for="item in categoriesMenu.subArticle" @click="changeArticle(item)">
+                            {{item.articleTitle}}
+                        </li>
                     </ul>
                     <div class="help-customer-service">
                         不是你想要的答案？试试
-                        <button class="feedback-button">联系客服</button>
+                        <button class="feedback-button" @click="isHelpFul('no_help_count')">联系客服</button>
                     </div>
                 </div>
             </div>
@@ -167,7 +181,8 @@
                     categories: [],
                     articles: {},
                     catalog: [],
-                    categoriesMenu: []
+                    categoriesMenu: [],
+                    categorys: [],
                 }
             },
             methods: {
@@ -259,7 +274,10 @@
                         url: DOMAIN_DEV + "/exchange/support/controller/website/articlecontroller/" + 'getarticlebyid',
                         data: data,
                         success: function (res) {
-                            this.article = res.datas
+                            console.log(res.datas.categorys)
+                            this.article = res.datas.article
+
+                            this.categorys = res.datas.categorys
                         }.bind(this)
                     });
                 },
@@ -353,11 +371,18 @@
                                 if (params.levelOneId && params.levelOneId) {
                                     for (var i = 0; i < this.categories.length; i++) {
                                         if (this.categories[i].categoryId == params.levelOneId) {
-                                            // console.log('查找到')
+                                            this.categorys[0] = {
+                                                categoryId: '',
+                                                categoryName: '帮助中心'
+                                            }
+                                            this.categorys[1] = {
+                                                categoryId: params.levelOneId,
+                                                categoryName: this.categories[i].categoryName
+                                            }
                                             var menu = this.categories[i].subsetCategory
                                             for (var j = 0; j < menu.length; j++) {
-                                                if (menu[i].categoryId == params.levelTwoId) {
-                                                    this.categoriesMenu = menu[i]
+                                                if (menu[j].categoryId == params.levelTwoId) {
+                                                    this.categoriesMenu = menu[j]
                                                     break;
                                                 }
                                             }
@@ -378,7 +403,7 @@
             el: '#help-banner',
             created: function () {
                 var param = Methods.parseQueryString()
-                if (param.categoryId || param.levelOneId){
+                if (param.categoryId || param.levelOneId) {
                     this.type = -1
                 }
             },

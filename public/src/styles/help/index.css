@@ -39,14 +39,14 @@
     margin-right: 70px;
 }
 
-.help-container .help-ld h3 {
+.help-container .help-ld .title {
     font-size: 16px;
     color: #333;
     position: relative;
     cursor: pointer;
 }
 
-.help-container .help-ld h3:after {
+.help-container .help-ld .help-left-h3:after {
     content: "+";
     position: absolute;
     color: #999;
@@ -102,40 +102,49 @@
     flex: 1;
 }
 
-.article-box,.cascading-menu{
+.article-box, .cascading-menu {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.cascading-menu .help-customer-service{
+
+.cascading-menu .help-customer-service {
     border-bottom: none;
 }
-.cascading-menu .menu-title{
+
+.cascading-menu .menu-title {
     text-align: center;
 }
-.cascading-menu .menu-ul{
+
+.cascading-menu .menu-ul {
     display: flex;
     flex-direction: column;
 }
-.cascading-menu .menu-li{
+
+.cascading-menu .menu-li {
     cursor: pointer;
     font-size: 16px;
     text-align: center;
     line-height: 55px;
     height: 55px;
-    border-bottom: 1px solid rgb(228,228,228);
+    border-bottom: 1px solid rgb(228, 228, 228);
 }
-.cascading-menu .menu-li:first-child{
-    border-top: 1px solid rgb(228,228,228);
+
+.cascading-menu .menu-li:first-child {
+    border-top: 1px solid rgb(228, 228, 228);
 }
-.cascading-menu .menu-li:hover{
+
+.cascading-menu .menu-li:hover {
     color: #808080;
 }
 
-
 .article-box-nav {
-    height: 30px;
-    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    height: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid black;
 }
 
 .article-border {
@@ -191,11 +200,10 @@
     margin-bottom: 20px;
 }
 
-.help_right span {
-    font-size: 14px;
-    color: #999999;
-    margin-bottom: 20px;
+.article-box-nav .nav-span {
+    margin-left: 5px;
 }
+
 
 .articles-ul {
     display: flex;
