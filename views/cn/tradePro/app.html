@@ -545,7 +545,8 @@
                      *时间: 2018/5/9
                      *功能: 修改currentPrice的取值在app（EXX.appTradePro中进行）
                      */
-                    this.currentPrice = datas[0].price;
+                    console.log(datas.length)
+                    this.currentPrice = datas[datas.length - 1].price;
                     if (datas && datas.length > 0) {
                         _this.dealRecord = datas.slice(0, _this.tradesLimit);
                         try {
@@ -1086,16 +1087,16 @@
                     }
                 },
                 switchPeriod: function (period) {
-                   /**
-                    *作者: GongQi
-                    *时间: 2018/5/9
-                    *功能: 取消订阅 ws推送
-                    */
-                   var delKlineParam = {
-                       dataType: this.klineData,
-                       dataSize: 1000,
-                       action: "DEL"
-                   };
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/5/9
+                     *功能: 取消订阅 ws推送
+                     */
+                    var delKlineParam = {
+                        dataType: this.klineData,
+                        dataSize: 1000,
+                        action: "DEL"
+                    };
                     ExxWebSocket.websocket.send(JSON.stringify(delKlineParam));
 
                     this.setChartType('kline');
