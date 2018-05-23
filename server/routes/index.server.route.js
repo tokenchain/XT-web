@@ -108,6 +108,19 @@ router.get('/r/:recommendCode', function(req, res, next) {
     res.redirect('/register');
 });
 
+router.get('/new_register', function(req, res, next) {
+    /*res.cookie('secureKey', 'hello !', {
+        expires: 0,
+        httpOnly: true ,
+        domain: '.' + DOMAIN_BASE,
+        path: '/',
+        secure: false
+    });*/
+    res.render(TEMP_FULL,{
+        templateMain:'user/new_register.html'
+    });
+});
+
 /*router.get('/getWebConfig', function(req, res, next) {
     res.jsonp(WEB(LAN));
 });

@@ -166,4 +166,32 @@ router.get('/recommend', function(req, res, next) {
     });
 });
 
+/**
+ *作者: GongQi
+ *时间: 2018/5/23
+ *功能: 新增用户认证
+ */
+router.get('/account/basic_information', function(req, res, next) {
+    res.render(TEMP_MANAGE,{
+        templateMain:'u/certified/basic_information.html',
+        column : 2,
+        STEP : 'STEP 1'
+    });
+});
+router.get('/account/verified', function(req, res, next) {
+    res.render(TEMP_MANAGE,{
+        templateMain:'u/certified/verified.html',
+        column : 2,
+        STEP : 'STEP 2'
+
+    });
+});
+router.get('/account/payment_information', function(req, res, next) {
+    res.render(TEMP_MANAGE,{
+        templateMain:'u/certified/payment_information.html',
+        column : 2,
+        STEP : 'STEP 3'
+    });
+});
+
 module.exports = router;

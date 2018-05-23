@@ -1,0 +1,41 @@
+<link href="<%= STATIC %>/styles/certified/verified.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
+<div id="verified" class="verified certified">
+    <div class="verified-box">
+        <div class="item">
+            <span class="item-title">性别</span>
+            <div class="radio-box">
+                <input class="item-radio" type="radio" name="sex" value="1"/>男
+            </div>
+            <div class="radio-box">
+                <input class="item-radio" type="radio" name="sex" value="0"/>女
+            </div>
+        </div>
+        <div class="item">
+            <span class="item-title ">账户名称</span>
+            <input type="text" class="item-input item-input-default" readonly>
+            <span class="item-prompt flex-center">帐户验证所需值（使用真实姓名）</span>
+        </div>
+        <div class="item">
+            <span class="item-title">居民号码</span>
+            <input type="text" class="item-input item-input-default" readonly>
+            <span class="item-prompt flex-center">帐户验证所需的值</span>
+        </div>
+        <div class="item">
+            <span class="item-title">身份</span>
+            <select class="item-select">
+                <option value ="volvo">国民</option>
+                <option value ="saab">国民2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="bottom-button">
+        <button class="button-big button-complete button-mr40">完成</button>
+        <button class="button-big button-cancel">取消</button>
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,52 @@
+<link href="<%= STATIC %>/styles/certified/basic_information.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
+<div id="basic-information" class="basic-information certified">
+    <div class="information-box">
+        <div class="item">
+            <span class="item-title">电话号码</span>
+            <span class="item-content">SKT / +86 15012605705</span>
+            <button class="item-button">修改</button>
+        </div>
+        <div class="item">
+            <span class="item-title">电子邮箱</span>
+            <span class="item-content">+86 15012605705</span>
+            <button class="item-button">修改</button>
+        </div>
+        <div class="item">
+            <span class="item-title">电话号码</span>
+            <input type="text" class="item-input">
+        </div>
+        <div class="item">
+            <span class="item-title item-title-2">详细地址</span>
+            <textarea class="item-input item-input-2" cols="30" rows="10"></textarea>
+        </div>
+        <div class="item">
+            <span class="item-title">邮政编号</span>
+            <input type="text" class="item-input">
+        </div>
+    </div>
+
+    <div class="bottom-button">
+        <button class="button-big button-complete button-mr40">完成</button>
+        <button class="button-big button-cancel">取消</button>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+
+        EXX.userIndex = new Vue({
+            el: "#basic-information",
+            data: function () {
+                return {}
+            },
+            created: function () {
+            },
+            mounted: function () {
+            },
+            computed: {},
+            watch: {},
+            methods: {}
+        })
+    });
+</script>
