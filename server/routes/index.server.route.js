@@ -76,11 +76,11 @@ router.get('/loginAuth', function(req, res, next) {
         templateMain:'user/logAuthen.html'
     });
 });
-router.get('/passport', function(req, res, next) {
-    res.render(TEMP_FULL,{
-        templateMain:'user/passport.html'
-    });
-});
+// router.get('/passport', function(req, res, next) {
+//     res.render(TEMP_FULL,{
+//         templateMain:'user/passport.html'
+//     });
+// });
 
 router.get('/register', function(req, res, next) {
     /*res.cookie('secureKey', 'hello !', {

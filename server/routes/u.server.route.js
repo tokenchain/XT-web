@@ -118,18 +118,18 @@ router.get(['/payout','/payout/:coin'], function(req, res, next) {
     }
 });
 //糖果领取
-router.get(['/sweet','/sweet/:coin'], function(req, res, next) {
-    var coin = req.params.coin;
-    if(!coin){
-        res.redirect('/u/sweet/btc');
-    }else{
-        res.render(TEMP_MANAGE,{
-            templateMain:'u/asset/sweet.html',
-            coin : coin.toLowerCase(),
-            column : 0
-        });
-    }
-});
+// router.get(['/sweet','/sweet/:coin'], function(req, res, next) {
+//     var coin = req.params.coin;
+//     if(!coin){
+//         res.redirect('/u/sweet/btc');
+//     }else{
+//         res.render(TEMP_MANAGE,{
+//             templateMain:'u/asset/sweet.html',
+//             coin : coin.toLowerCase(),
+//             column : 0
+//         });
+//     }
+// });
 //CHBTC资金转入
 router.get('/welcome', function(req, res, next) {
     res.render(TEMP_MANAGE,{

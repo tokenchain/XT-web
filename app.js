@@ -16,6 +16,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(require('node-sass-middleware')({
+    src:path.join(__dirname, 'public'),
+    outputStyle: 'compressed'
+}));
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 //静态目录资源设置
 app.use('/', express.static(path.join(__dirname, 'public')));
