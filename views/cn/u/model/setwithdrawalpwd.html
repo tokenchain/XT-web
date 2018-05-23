@@ -1,0 +1,147 @@
+<script type="text/x-template" id="setwithdrawalpwd">
+    <div class="exx-modal-container">
+        <div class="exx-modal-header"><h3><%= LANG('提现密码设置') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <div class="form-group">
+                        <div class="form-control" id="nikeForm">
+                            <input autocomplete="new-password" placeholder="<%= LANG('当前提现密码') %>" v-model="oldPassword" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="new-password" placeholder="<%= LANG('新提现密码') %>" v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="new-password" placeholder="<%= LANG('确认新提现密码') %>" v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+                            <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
+                        </div>
+                    </div>
+                    <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-button">
+                        <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button"><span><%= LANG('提交') %></span></button>
+                        <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('setwithdrawalpwd', {
+            template: "#setwithdrawalpwd",
+            data: function () {
+                return {
+                    locked: false,
+                    pubKey: '',
+                    oldPassword: '',
+                    newPassword: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    googleCode: '',
+                    pwdStrength: 0,
+                    userName: Methods.getCookie(ENV + 'uname')
+                }
+            },
+            computed: {
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                },
+                hasLoginPwd: function () {
+                    return Methods.getLocalUserInfo.loginPwd != 0;
+                }
+            },
+            methods: {
+                handleComparedPwd: function () {
+                    this.passwordIdentical = this.newPassword === this.passwordConfirmation
+                },
+                //校验密码强度
+                handleCheckPwdStrength: function () {
+                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    var data = {
+                        // type: 1,
+                        // userId: this.userInfo.userId,
+                        oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
+                        newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
+                        smsCode: this.dynamicCode,
+                        googleCode: this.googleCode,
+                        pwdLevel: this.pwdStrength
+                    };
+                    if (this.newPassword == '') {
+                        JuaBox.sure("<%= LANG('请输入新密码') %>");
+                    } else if (!this.passwordIdentical) {
+                        JuaBox.sure("<%= LANG('两次输入的密码不一致') %>");
+                    } else if (this.dynamicCode == '') {
+                        JuaBox.sure("<%= LANG('请输入验证码') %>");
+                    } else {
+                        // 校验密码强度
+                        if (Methods.checkPwdStrength(this.oldPassword) < 2) {
+                            JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
+                            return;
+                        }
+                        if (Methods.checkPwdStrength(this.newPassword) < 2) {
+                            JuaBox.sure("<%= LANG('新登录密码格式不正确') %>");
+                            return;
+                        }
+
+                        this.locked = true;
+                        //通过headers传参，使用ajax原生方法
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
+                            type: "POST",
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setLoginPassword',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                //密码修改成功，返回空
+                                this.locked = false;
+                                EXX.userIndex.closeModal();
+                                JuaBox.sure("<%= LANG('登录密码修改成功') %>");
+                                this.oldPassword = '';
+                                this.newPassword = '';
+                                this.passwordConfirmation = '';
+                                this.dynamicCode = '';
+
+                                // Methods.setLocalUserInfo(res.datas);
+                                // for(var key in res.datas){
+                                //     Vue.set(EXX.userIndex.loginUser, key, res.datas[key])
+                                // }
+                            }.bind(this),
+                            error: function (res) {
+                                this.locked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message))
+                            }.bind(this)
+                        });
+                    }
+                }
+            },
+            mounted: function () {
+                // this.getPubKey();
+            }
+        })
+    })
+</script>

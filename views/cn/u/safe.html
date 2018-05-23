@@ -46,6 +46,60 @@
                     </div>
                 </div>
             </div>-->
+            <div class="approve">
+                <div class="approve-info" :class="{'done':true}">
+                    <div class="icon">
+
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            <%= LANG('基本信息') %>
+                        </div>
+                        <div class="text">
+                            <%= LANG('手机号注册') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':approveStep==1,'done':approveStep>1}">
+                    <div class="icon">
+
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP1
+                        </div>
+                        <div class="text">
+                            <%= LANG('实名认证') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':approveStep==2,'done':approveStep>2}">
+                    <div class="icon">
+
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP2
+                        </div>
+                        <div class="text">
+                            <%= LANG('支付信息') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':approveStep==3,'done':approveStep>3}">
+                    <div class="icon">
+
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP3
+                        </div>
+                        <div class="text">
+                            <%= LANG('立即充值') %>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <h2  v-if="loginUser.userType == 1"><%= LANG('安全设置') %></h2>
@@ -65,6 +119,22 @@
                     </div>
                     <div class="r">
                         <a  @click="openModal('setloginpwd')"><%= LANG('修改') %></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="l">
+                        <h3><%= LANG('提现密码') %></h3>
+                        <p>
+                            <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
+                            <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
+
+                            <span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>
+                            <span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>
+                            <span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>
+                        </p>
+                    </div>
+                    <div class="r">
+                        <a  @click="openModal('setwithdrawalpwd')"><%= LANG('修改') %></a>
                     </div>
                 </li>
                 <li>
@@ -188,6 +258,9 @@
     <modal v-cloak :open="showModal == 'setloginpwd'"  @close="showModal = false">
         <setloginpwd />
     </modal>
+    <modal v-cloak :open="showModal == 'setwithdrawalpwd'"  @close="showModal = false">
+        <setwithdrawalpwd />
+    </modal>
 
     <modal v-cloak :open= "showModal == 'loginAuth'" @close="showModal = false">
         <modal-login-auth :params="loginAuthParams" :done="callCloseModal()" />
@@ -223,6 +296,7 @@
 <%-include("model/setLoginPwd.html")%>
 <%-include("model/setLoginAuth.html")%>
 <%-include("../activity/_addMarket.html")%>
+<%-include("model/setwithdrawalpwd.html")%>
 
 
 
@@ -268,6 +342,7 @@
             el: "#user-index",
             data: function () {
                 return {
+                    approveStep:1,//当前流程节点
                     isLogin : ISLOGIN,
                     loaded: true,
                     pubKey: '',
