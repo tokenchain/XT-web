@@ -18,7 +18,11 @@
             <div class="form-group">
               <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('原手机验证码') %>" v-model="oldMobileCode" type="text">
-              <send-code :code-type="24" :country-code="userInfo.countryCode" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
+              <send-code :code-type="2"
+                         :country-code="userInfo.countryCode"
+                         :user-name="userInfo.loginName"
+                         :user-id="userInfo.userId"
+                         bus-type="9"/>
             </div>
             </div>
 
@@ -57,16 +61,36 @@
             <!--</label>-->
             <div class="form-control">
               <input autocomplete="off" :placeholder="userInfo.mobileAuth == '0' ? '<%= LANG('手机验证码') %>' : '<%= LANG('新手机验证码') %>' " v-model="newMobileCode" type="text">
-              <send-code v-if="userInfo.mobileAuth == 0" :code-type="1" :country-code="countryCode" :user-name="mobile" :user-id="userInfo.userId" />
-              <send-code v-if="userInfo.mobileAuth == 1" :code-type="1" :country-code="countryCode" :user-name="mobile" :user-id="userInfo.userId" />
+              <send-code v-if="userInfo.mobileAuth == 0"
+                         :code-type="2"
+                         :country-code="countryCode"
+                         :user-name="mobile"
+                         :user-id="userInfo.userId"
+                         bus-type="9"/>
+              <send-code v-if="userInfo.mobileAuth == 1"
+                         :code-type="2"
+                         :country-code="countryCode"
+                         :user-name="mobile"
+                         :user-id="userInfo.userId"
+                         bus-type="9"/>
             </div>
           </div>
 
             <div class="form-group">
               <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-              <send-code v-if="userInfo.mobileAuth == 0" :code-type="23" :country-code="countryCode" :user-name="userInfo.email" :user-id="userInfo.userId" />
-              <send-code v-if="userInfo.mobileAuth == 1" :code-type="23" :country-code="countryCode" :user-name="userInfo.email" :user-id="userInfo.userId" />
+              <send-code v-if="userInfo.mobileAuth == 0"
+                         :code-type="1"
+                         :country-code="countryCode"
+                         :user-name="userInfo.email"
+                         :user-id="userInfo.userId"
+                         bus-type="9"/>
+              <send-code v-if="userInfo.mobileAuth == 1"
+                         :code-type="1"
+                         :country-code="countryCode"
+                         :user-name="userInfo.email"
+                         :user-id="userInfo.userId"
+                         bus-type="9"/>
             </div>
             </div>
 

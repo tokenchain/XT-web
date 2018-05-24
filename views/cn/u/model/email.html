@@ -27,14 +27,20 @@
       <div class="form-group">
         <div class="form-control">
           <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-          <send-code :code-type="23" :user-name="email" :user-id="userInfo.userId" />
+          <send-code :code-type="1"
+                     :user-name="email"
+                     :user-id="userInfo.userId"
+                     :busType="10" />
       </div>
       </div>
 
       <div class="form-group">
         <div class="form-control">
           <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
-          <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
+          <send-code :code-type="1"
+                     :user-name="userInfo.loginName"
+                     :user-id="userInfo.userId"
+                     :busType="11"/>
       </div>
       </div>
 

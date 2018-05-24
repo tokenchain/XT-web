@@ -21,14 +21,20 @@
                 <div v-if="loginUser.emailAuth == 1 && params.autoType == 1" class="form-group">
                     <div class="form-control">
                         <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode" type="text">
-                    <send-code :code-type="23" :user-name="loginUser.email" :user-id="loginUser.userId" />
+                    <send-code :code-type="1"
+                               :user-name="loginUser.email"
+                               :user-id="loginUser.userId"
+                               :busType="10"/>
                     </div>
                 </div>
 
                 <div v-if="loginUser.mobileAuth == 1 && params.autoType == 2" class="form-group">
                     <div class="form-control">
                         <input v-model="dynamicCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
-                    <send-code :code-type="24" :user-name="loginUser.loginName" :user-id="loginUser.userId" />
+                    <send-code :code-type="2"
+                               :user-name="loginUser.loginName"
+                               :user-id="loginUser.userId"
+                               :busType="11"/>
                     </div>
                 </div>
 

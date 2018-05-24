@@ -30,7 +30,10 @@
       <div class="form-group">
         <div class="form-control">
           <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-        <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
+        <send-code :code-type="3"
+                   :user-name="userInfo.loginName"
+                   :user-id="userInfo.userId"
+                   :bus-type="12"/>
         </div>
       </div>
 

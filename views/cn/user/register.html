@@ -41,7 +41,13 @@
           <div class="form-group">
           <div class="form-control" id="msgCodeForm">
             <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" type="text">
-             <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :error-fun="handleRefreshImgcode" />
+             <send-code :code-type="2"
+                        :user-name="userName"
+                        :country-code="countryCode"
+                        :img-code="imgCode"
+                        :img-code-id="imgCodeId"
+                        :bus-type="1"
+                        :error-fun="handleRefreshImgcode" />
           </div>
 
           </div>
