@@ -1,4 +1,9 @@
 <script>
+    /**
+     *作者: GongQi
+     *时间: 2018/5/24
+     *功能: 废弃
+     */
     require(['vue', 'common/juabox', 'common/methods'], function (Vue, JuaBox, Methods) {
         return Vue.component('send-code', {
             template: `<a href="javascript:;" v-on:click="sendCode" class="code-num" :class="['', '', {disabled: isTimeout || disabled}]"><span v-if="isTimeout">{{timeout}}<%= LANG('秒') %></span><span v-else><%= LANG('获取验证码') %></span></a>`,
@@ -42,15 +47,15 @@
                     type: String,
                     default: ''
                 },
-                successFun : {
-                    type : Function,
-                    default : function () {
+                successFun: {
+                    type: Function,
+                    default: function () {
 
                     }
                 },
-                errorFun : {
-                    type : Function,
-                    default : function () {
+                errorFun: {
+                    type: Function,
+                    default: function () {
 
                     }
                 }
@@ -58,7 +63,7 @@
             data: function () {
                 return {
                     timeout: 0,
-                    requestLocked : false
+                    requestLocked: false
                 }
             },
             computed: {
@@ -114,7 +119,7 @@
                                 }
                                 JuaBox.sure(EXX.L(resMsg.message));
                             },
-                            error : function (res) {
+                            error: function (res) {
                                 _this.requestLocked = false;
                                 _this.errorFun(res);
                                 _this.timeout = 0;

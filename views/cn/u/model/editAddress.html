@@ -43,7 +43,11 @@
                     <div v-if="type != 'dele'" class="form-group">
                         <div class="form-control">
                             <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-                            <send-code :code-type="24" :country-code="loginUser.countryCode" :user-name="loginUser.loginName" :user-id="loginUser.userId" />
+                            <send-code :code-type="3"
+                                       :country-code="loginUser.countryCode"
+                                       :user-name="loginUser.loginName"
+                                       :user-id="loginUser.userId"
+                                       :bus-type="21"/>
                         </div>
                     </div>
 
