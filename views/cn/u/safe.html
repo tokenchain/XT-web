@@ -47,9 +47,9 @@
                 </div>
             </div>-->
             <div class="approve">
-                <div class="approve-info" :class="{'done':true}">
+                <div class="approve-info done" @click="approveHanlder(0)">
                     <div class="icon">
-
+                        <img src="/src/images/u/step_0.png">
                     </div>
                     <div class="right">
                         <div class="step">
@@ -60,9 +60,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="approve-info" :class="{'active':approveStep==1,'done':approveStep>1}">
+                <div class="approve-info" :class="{'active':loginUser.status==0,'done':loginUser.status>0}" @click="approveHanlder(1)">
                     <div class="icon">
-
+                        <img src="/src/images/u/step_1_active.png" v-if="loginUser.status==0" />
+                        <img v-else src="/src/images/u/step_1_done.png" />
                     </div>
                     <div class="right">
                         <div class="step">
@@ -73,9 +74,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="approve-info" :class="{'active':approveStep==2,'done':approveStep>2}">
+                <div class="approve-info" :class="{'active':loginUser.status==1,'done':loginUser.status>1}" @click="approveHanlder(2)">
                     <div class="icon">
-
+                        <img src="/src/images/u/step_2_active.png" v-if="loginUser.status==1" />
+                        <img v-else-if="loginUser.status<1" src="/src/images/u/step_2.png" />
+                        <img v-else src="/src/images/u/step_2_done.png" />
                     </div>
                     <div class="right">
                         <div class="step">
@@ -86,9 +89,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="approve-info" :class="{'active':approveStep==3,'done':approveStep>3}">
+                <div class="approve-info" :class="{'active':loginUser.status==2,'done':loginUser.status>2}" @click="approveHanlder(3)">
                     <div class="icon">
-
+                        <img src="/src/images/u/step_3_active.png" v-if="loginUser.status==2" />
+                        <img v-else-if="loginUser.status<2" src="/src/images/u/step_3.png" />
+                        <img v-else src="/src/images/u/step_3_done.png" />
                     </div>
                     <div class="right">
                         <div class="step">
@@ -128,9 +133,9 @@
                             <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
                             <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
 
-                            <span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>
-                            <span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>
-                            <span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>
+                            <!--<span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>-->
+                            <!--<span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>-->
+                            <!--<span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>-->
                         </p>
                     </div>
                     <div class="r">
@@ -342,7 +347,7 @@
             el: "#user-index",
             data: function () {
                 return {
-                    approveStep:1,//当前流程节点
+                    approveStep:0,//当前流程节点
                     isLogin : ISLOGIN,
                     loaded: true,
                     pubKey: '',
@@ -434,6 +439,18 @@
                 }
             },
             methods: {
+                //当前kyc步骤
+                approveHanlder:function (index) {
+                    if(index==0){
+                        //基本信息
+                    }else if(index==1){
+                        //实名页面
+                    }else if(index==2){
+                        //支付页面
+                    }else if(index==3){
+                        //充值页面
+                    }
+                },
                 //去掉虚拟市场货币的D字符
                 getRealCoinName : function (coin) {
                     if(coin.length > 3 && coin.substring(0,1) == 'd'){
@@ -751,6 +768,7 @@
                 }
             },
             created: function() {
+                // this.approveStep=this.loginUser.status;
                 //this.getAssets();
                 // this.getPubKey();
                 // this.getPriceRate();
