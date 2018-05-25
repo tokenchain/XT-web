@@ -2,8 +2,8 @@
 
 <div id="verified" class="verified certified">
     <div class="verified-box">
-        <div class="item">
-            <span class="item-title">性别</span>
+        <!--<div class="item">
+            <div class="item-title">性别</div>
             <div class="radio-box">
                 <input class="item-radio" type="radio" name="sex" value="1"/>男
             </div>
@@ -13,12 +13,12 @@
         </div>
         <div class="item">
             <span class="item-title ">账户名称</span>
-            <input type="text" class="item-input item-input-default" readonly>
+            <input type="text" class="item-input item-input-default">
             <span class="item-prompt flex-center">帐户验证所需值（使用真实姓名）</span>
         </div>
         <div class="item">
             <span class="item-title">居民号码</span>
-            <input type="text" class="item-input item-input-default" readonly>
+            <input type="text" class="item-input item-input-default">
             <span class="item-prompt flex-center">帐户验证所需的值</span>
         </div>
         <div class="item">
@@ -27,13 +27,116 @@
                 <option value ="volvo">国民</option>
                 <option value ="saab">国民2</option>
             </select>
+        </div>-->
+        <div class="item">
+            <div class="top">性别</div>
+            <div class="sex-radio">
+                <div class="radio-box">
+                    <input class="item-radio" type="radio" name="sex" value="1" checked/>男
+                </div>
+                <div class="radio-box">
+                    <input class="item-radio" type="radio" name="sex" value="0"/>女
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">姓名</span>
+                <span class="item-prompt">帐户验证所需值（使用真实姓名）</span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入您的姓名">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">电话号码</span>
+                <span class="item-prompt"></span>
+            </div>
+            <div class="box-item">
+                <select class="item-select item-select2">
+                    <option value ="1">通讯社1</option>
+                    <option value ="2">通讯社2</option>
+                </select>
+                <input type="text" class="item-input item-input-default item-input2" placeholder="请输入手机号码">
+            </div>
+        </div>
+        <div  class="getcode-div">
+            <input type="text" class="item-input item-input-default" placeholder="动态验证码">
+            <span class="getcode"><button>获取验证码</button></span>
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">居民号码</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入居民号码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">邮政编码</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入邮政编码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title">默认地址</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入邮政编码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title">详细地址</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入邮政编码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">银行名称</span>
+                <span class="item-prompt">帐户验证所需的值</span>
+            </div>
+            <select class="item-select">
+                <option value ="volvo">友利银行</option>
+                <option value ="saab">友利银行2</option>
+            </select>
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">银行账号</span>
+                <span class="item-prompt">帐户验证所需的值</span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入邮政编码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">提现密码</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请输入您的提现密码">
+        </div>
+        <div class="item">
+            <div class="top">
+                <span class="item-title ">确认提现密码</span>
+                <span class="item-prompt"></span>
+            </div>
+            <input type="text" class="item-input item-input-default" placeholder="请再次输入您的提现密码">
+        </div>
+        <div style="text-align: left;width: 500px">
+            <input type="checkbox" class="item-input item-input-default"> 人机验证
+        </div>
+
+        <div class="bottom-button">
+            <button class="button-big button-complete button-mr40">保存</button>
+            <button class="button-big button-cancel">取消</button>
         </div>
     </div>
 
-    <div class="bottom-button">
-        <button class="button-big button-complete button-mr40">完成</button>
-        <button class="button-big button-cancel">取消</button>
-    </div>
+
+    <!--<div class="bottom-button">-->
+        <!--<button class="button-big button-complete button-mr40">完成</button>-->
+        <!--<button class="button-big button-cancel">取消</button>-->
+    <!--</div>-->
 </div>
 
 <script>

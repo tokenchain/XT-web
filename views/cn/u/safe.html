@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="approve-info" :class="{'active':loginUser.status==1,'done':loginUser.status>1}" @click="approveHanlder(2)">
+                <!--<div class="approve-info" :class="{'active':loginUser.status==1,'done':loginUser.status>1}" @click="approveHanlder(2)">
                     <div class="icon">
                         <img src="/src/images/u/step_2_active.png" v-if="loginUser.status==1" />
                         <img v-else-if="loginUser.status<1" src="/src/images/u/step_2.png" />
@@ -103,7 +103,7 @@
                             <%= LANG('立即充值') %>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -443,6 +443,7 @@
                 approveHanlder:function (index) {
                     if(index==0){
                         //基本信息
+                        window.location.href="/u/account/basic_information"
                     }else if(index==1){
                         //实名页面
                     }else if(index==2){
