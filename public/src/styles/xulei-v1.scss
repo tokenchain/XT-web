@@ -4997,6 +4997,10 @@ p.exx-prompt {
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin: -10px -10px 20px -10px;
@@ -5015,7 +5019,8 @@ p.exx-prompt {
     -webkit-box-flex: 0;
     -ms-flex: none;
     flex: none;
-    width: calc(100% / 2)
+    //width: calc(100% / 2)
+    width: calc(100% / 4)
   }
 }
 
@@ -5027,7 +5032,7 @@ p.exx-prompt {
   -ms-flex-align: center;
   align-items: center;
   border-radius: 3px;
-  border: 3px solid #f2f2f2;
+  //border: 3px solid #f2f2f2;
   padding: 10px;
   position: relative;
   height: 100%;
@@ -5035,7 +5040,7 @@ p.exx-prompt {
 }
 
 .safe-panel .account-admin .item.active .user-box {
-  border-color: #ff9d11
+  //border-color: #ff9d11
 }
 
 .safe-panel .account-admin .item .user-box .selected {
@@ -5153,6 +5158,75 @@ p.exx-prompt {
 
 .safe-panel .account-admin .item.add-account .user-box:hover {
   border-color: #ff9d11
+}
+
+.safe-panel .account-admin .approve {
+  padding: 10px 0;
+  border-radius: 2px;
+  //width: 100px;
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  padding-right: 10px;
+  .approve-info {
+    background: #F3F3F5;
+    border-radius: 2px;
+    //border: 3px solid rosybrown;
+    height: 100%;
+    //padding: 10px;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    width: 164px;
+    height: 72px;
+    padding-left: 15px;
+    margin-left: 20px;
+    .icon {
+      width: 44px;
+      height: 44px;
+      margin-right: 10px;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .step {
+      font-family: PingFangSC-Semibold;
+      font-size: 14px;
+      color: #AFB7C9;
+    }
+    .text {
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #AFB7C9;
+      margin-top: 8px;
+    }
+    &.done {
+      background: #ffffff;
+      border: 1px solid #C8E7D8;
+      .step, .text {
+        color: #5AC693;
+      }
+    }
+    &.active {
+      background: #FFFCF8;
+      border: 2px solid #FCE5C3;
+      .step, .text {
+        color: #FD9800;
+      }
+    }
+    /* &:hover{
+            background: #FFFCF8;
+            border: 2px solid #FCE5C3;
+            .step,.text
+            {
+                color: #FD9800;
+            }
+        }*/
+  }
 }
 
 .safe-panel .add-account {
@@ -6896,7 +6970,8 @@ p.exx-prompt {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 53px;
+  //height: 53px;
+  height: 70px;
   color: #333;
   padding: 0 25px;
   font-size: 14px;
