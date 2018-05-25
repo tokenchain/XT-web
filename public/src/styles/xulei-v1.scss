@@ -4959,8 +4959,7 @@ p.exx-prompt {
 
 .user-group-body .tr .oper a {
   color: #ff9d11;
-  margin-left: 10px;
-
+  margin-left: 20px;
 }
 
 .user-group-body .tr .oper a.disabled {
@@ -4972,7 +4971,7 @@ p.exx-prompt {
 .user-group-body .tr .act {
   font-size: 12px;
   position: absolute;
-  left: 95px;
+  left: 108px;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -6800,8 +6799,8 @@ p.exx-prompt {
 }
 
 .user-crumbs h2 {
-  color: #000;
-  font-size: 18px;
+  color: #202126;
+  font-size: 16px;
 }
 
 .user-crumbs p {
@@ -6897,10 +6896,9 @@ p.exx-prompt {
   -ms-flex-align: center;
   align-items: center;
   height: 53px;
-  color: #333;
+  color: #202126;
   padding: 0 25px;
   font-size: 14px;
-  font-weight: 600;
 }
 
 .user-sidebar .menu li a:hover {

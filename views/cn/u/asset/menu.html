@@ -6,6 +6,8 @@
                 <h2><%= LANG('用户中心')%></h2>
                 <% }else if(column == 2){ %>
                 <h2> <%= STEP %></h2>
+                <% }else{ %>
+                <h2><%= LANG('财务中心')%></h2>
                 <% } %>
             <% } %>
             <% if(PATH.indexOf('/u/payin') != -1){ %>

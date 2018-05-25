@@ -1,4 +1,6 @@
 <script src="/lib/others/jquery.peity.js" charset="utf-8" ></script>
+<link href="<%= STATIC %>/styles/u/asset.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
     <div id="user-index" :class="{'loading loading-light-bg' : !loaded}">
         <div class="account-panel" v-cloak="" v-if="loaded">
             <div class="user-group" :class="'user-type-' + loginUser.userType" >
@@ -36,7 +38,7 @@
                         <div class="onffflist"><a role="button" @click="hideZero = !hideZero" :class="{'on' : hideZero}"><span><%= LANG('隐藏小额资产币种') %></span><i></i></a></div>
                     </div>
                 </div>
-                <div style="margin: 10px;display: flex;justify-content: flex-end">
+                <div style="margin: 10px 10px 31px;display: flex;justify-content: flex-end">
                     <search-box v-model="keyWord"></search-box>
                 </div>
                 <div class="user-group-body">
@@ -54,6 +56,7 @@
                                 <div class="td cointTag">
                                     <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + item.name.toLowerCase() + '.png?<%= VERSION%>'"/>
                                     <p>{{getRealCoinName(item.name).toUpperCase()}}</p>
+                                    <span v-if='item.isLayerCoin' class="is-layer-coin"><%= LANG('法币') %></span>
                                 </div>
                                 <div class="td total">
                                         <span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8)}}</span>
