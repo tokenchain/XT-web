@@ -46,6 +46,65 @@
                     </div>
                 </div>
             </div>-->
+            <div class="approve">
+                <div class="approve-info done" @click="approveHanlder(0)">
+                    <div class="icon">
+                        <img src="/src/images/u/step_0.png">
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            <%= LANG('基本信息') %>
+                        </div>
+                        <div class="text">
+                            <%= LANG('手机号注册') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':loginUser.status==0,'done':loginUser.status>0}" @click="approveHanlder(1)">
+                    <div class="icon">
+                        <img src="/src/images/u/step_1_active.png" v-if="loginUser.status==0" />
+                        <img v-else src="/src/images/u/step_1_done.png" />
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP1
+                        </div>
+                        <div class="text">
+                            <%= LANG('实名认证') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':loginUser.status==1,'done':loginUser.status>1}" @click="approveHanlder(2)">
+                    <div class="icon">
+                        <img src="/src/images/u/step_2_active.png" v-if="loginUser.status==1" />
+                        <img v-else-if="loginUser.status<1" src="/src/images/u/step_2.png" />
+                        <img v-else src="/src/images/u/step_2_done.png" />
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP2
+                        </div>
+                        <div class="text">
+                            <%= LANG('支付信息') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="approve-info" :class="{'active':loginUser.status==2,'done':loginUser.status>2}" @click="approveHanlder(3)">
+                    <div class="icon">
+                        <img src="/src/images/u/step_3_active.png" v-if="loginUser.status==2" />
+                        <img v-else-if="loginUser.status<2" src="/src/images/u/step_3.png" />
+                        <img v-else src="/src/images/u/step_3_done.png" />
+                    </div>
+                    <div class="right">
+                        <div class="step">
+                            STEP3
+                        </div>
+                        <div class="text">
+                            <%= LANG('立即充值') %>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <h2  v-if="loginUser.userType == 1"><%= LANG('安全设置') %></h2>
@@ -65,6 +124,22 @@
                     </div>
                     <div class="r">
                         <a  @click="openModal('setloginpwd')"><%= LANG('修改') %></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="l">
+                        <h3><%= LANG('提现密码') %></h3>
+                        <p>
+                            <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
+                            <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
+
+                            <!--<span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>-->
+                            <!--<span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>-->
+                            <!--<span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>-->
+                        </p>
+                    </div>
+                    <div class="r">
+                        <a  @click="openModal('setwithdrawalpwd')"><%= LANG('修改') %></a>
                     </div>
                 </li>
                 <li>
@@ -188,6 +263,9 @@
     <modal v-cloak :open="showModal == 'setloginpwd'"  @close="showModal = false">
         <setloginpwd />
     </modal>
+    <modal v-cloak :open="showModal == 'setwithdrawalpwd'"  @close="showModal = false">
+        <setwithdrawalpwd />
+    </modal>
 
     <modal v-cloak :open= "showModal == 'loginAuth'" @close="showModal = false">
         <modal-login-auth :params="loginAuthParams" :done="callCloseModal()" />
@@ -223,6 +301,7 @@
 <%-include("model/setLoginPwd.html")%>
 <%-include("model/setLoginAuth.html")%>
 <%-include("../activity/_addMarket.html")%>
+<%-include("model/setwithdrawalpwd.html")%>
 
 
 
@@ -268,6 +347,7 @@
             el: "#user-index",
             data: function () {
                 return {
+                    approveStep:0,//当前流程节点
                     isLogin : ISLOGIN,
                     loaded: true,
                     pubKey: '',
@@ -359,6 +439,18 @@
                 }
             },
             methods: {
+                //当前kyc步骤
+                approveHanlder:function (index) {
+                    if(index==0){
+                        //基本信息
+                    }else if(index==1){
+                        //实名页面
+                    }else if(index==2){
+                        //支付页面
+                    }else if(index==3){
+                        //充值页面
+                    }
+                },
                 //去掉虚拟市场货币的D字符
                 getRealCoinName : function (coin) {
                     if(coin.length > 3 && coin.substring(0,1) == 'd'){
@@ -676,6 +768,7 @@
                 }
             },
             created: function() {
+                // this.approveStep=this.loginUser.status;
                 //this.getAssets();
                 // this.getPubKey();
                 // this.getPriceRate();
