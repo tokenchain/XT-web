@@ -1,3 +1,5 @@
+<link href="<%= STATIC %>/styles/u/payout.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
 <div class="pay-panel payout-panel" id="app-payout">
     <div class="pay-content">
         <div style="display: flex;justify-content:space-between;margin-bottom: 20px;align-items: center;">
@@ -7,8 +9,13 @@
         <div class="pay-tab">
             <ul class="coin-type" v-cloak>
                 <li v-for="(item,index) in filterCoin(coinConfig)"
-                    :class="{'active': item.name == currentCoin, 'disabled': !item.drawFlag}">
-                    <a :href="'/u/payout/' + item.name" v-if="item.drawFlag">
+                    :class="{'active': item.name == currentCoin, 'disabled': !item.drawFlag}" class="coin-item">
+                    <a :href="'/u/payout/' + item.name" v-if="item.drawFlag && item.isLayerCoin!=1">
+                        <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
+                             class="market-icon">
+                        {{item.name.toUpperCase()}}
+                    </a>
+                    <a :href="'/u/payout/legaltender/' + item.name" v-if="item.drawFlag && item.isLayerCoin==1">
                         <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
                              class="market-icon">
                         {{item.name.toUpperCase()}}
@@ -18,11 +25,12 @@
                              class="market-icon">
                         {{item.name.toUpperCase()}}
                     </a>
+                    <span class="is-layer-coin" v-if="item.isLayerCoin"><%= LANG('法币')%></span>
                 </li>
             </ul>
         </div>
 
-        <div class="payout-address" v-if="step == 1" v-cloak="">
+        <div class="payout-address" v-if="step == 1 && isLayerCoin != 1" v-cloak="">
             <div class="choice-address">
                 <div class="table head">
                     <div class="cell chc"><%= LANG('选择') %></div>
@@ -54,6 +62,51 @@
             <div class="exx-form-btn" style="justify-content: center;margin-top: 50px;" v-if="address.length > 0">
                 <button style="flex: none; width: 300px;" class="exxbtn btn-ok" @click="gotoStep(2)"><span><%= LANG('下一步，填写提币信息') %></span>
                 </button>
+            </div>
+        </div>
+        <div class="payout-legal-tender" v-if="isLayerCoin == 1" v-cloak="">
+            <div class="legal-tender-box">
+                <div class="legal-tender-info">
+                    <span class="info-title">可用余额</span>
+                    <div class="info-right">
+                        <span class="info-num">{{canUseAmount}}</span>
+                        <span class="info-basic">可用余额</span>
+                    </div>
+                </div>
+                <div class="legal-tender-info">
+                    <span class="info-title">真实姓名</span>
+                    <div class="info-right">
+                        <span class="info-basic">{{loginUser.userName}}</span>
+                    </div>
+                </div>
+                <div class="legal-tender-info">
+                    <span class="info-title">到账银行卡</span>
+                    <div class="info-right">
+                        <div class="info-bank-carinfo-basicd">
+                            <span class="info-basic">{{bankInfo.withdrawBankNm}}</span>
+                            <span class="info-basic">{{bankInfo.withdrawBankAccount}}</span>
+                        </div>
+                        <span class="info-edit">修改</span>
+                    </div>
+                </div>
+                <input class="payout-input" type="text" placeholder="提现金额" v-model="payoutAmount">
+                <input class="payout-input payout-input-last" type="password" placeholder="提现密码" v-model="safePwd">
+                <div class="payout-code">
+                    <input class="code-input" autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
+                           type="text">
+                    <send-code class="code-button"
+                               :code-type="3"
+                               :country-code="loginUser.countryCode"
+                               :user-name="loginUser.loginName"
+                               :user-id="loginUser.userId"
+                               :bus-type="22"/>
+                </div>
+                <button class="payout-confirm" @click="payoutLegalTender">提 现</button>
+                <div class="payout-button">
+                    <span>24小时内到账</span>
+                    <span>|</span>
+                    <span>提现银行开户名必须与认证的EXX账户真实姓名一致才能提现成功</span>
+                </div>
             </div>
         </div>
 
@@ -117,7 +170,7 @@
         state: -1删除 0禁用 1正常
         verify_status: 0待审核 1审核通过 -1审核不通过
     -->
-    <div class="pay-record" v-cloak="">
+    <div class="pay-record" v-cloak="" v-if="isLayerCoin != 1">
         <h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2>
         <div class="exx-record">
             <div class="table">
@@ -195,11 +248,13 @@
                     payoutRecords: [],
                     currentUserAsset: '',
                     currentCoin: "<%= coin%>",
+                    isLayerCoin: "<%= isLayerCoin%>",
                     showModal: false,
                     editType: 'add',
                     loginUser: Methods.getLocalUserInfo(),
                     userName: Methods.getCookie(ENV + 'uname'),
-                    keyWord: ''
+                    keyWord: '',
+                    bankInfo: {}
                 }
             },
             computed: {
@@ -462,6 +517,45 @@
                         }.bind(this)
                     });
                 },
+                payoutLegalTender: function(){
+                    if (this.payoutAmount == '' || this.payoutAmount == 0) {
+                        return JuaBox.info("<%= LANG('请输入提币金额')%>")
+                    }
+                    if (parseFloat(this.payoutAmount) > parseFloat(this.canUseAmount)) {
+                        return JuaBox.info("<%= LANG('超出最大可用金额，请检查。')%>")
+                    }
+                    var data = {
+                        currencyId: this.currencyId,
+                        coint: this.currentCoin,
+                        amount: this.payoutAmount,
+                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        dynamicCode: this.payoutDynamicCode,
+                        addressId: this.bankInfo.withdrawBankAccount
+                    };
+                    Methods.ajax({
+                        type: 'POST',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            this.requestLocked = false;
+
+                            this.payoutAmount = '';
+                            this.safePwd = '';
+                            this.payoutDynamicCode = '';
+                            this.googleCode = '';
+
+                            this.getAccountAssets();
+                            this.getPayoutCoinRecord();
+
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                        }.bind(this),
+                        error: function (res) {
+                            this.requestLocked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
                 doSubmit: function () {
                     // this.getPubKey(this.handlePayout);
                     this.handlePayout();
@@ -539,6 +633,14 @@
                             window.location.href = '/u/asset';
                         }, 3000);
                     }
+                },
+                getBankaccountSearch: function () {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'bankaccountsearch',
+                        success: function (res) {
+                            this.bankInfo = res.datas
+                        }.bind(this)
+                    });
                 }
             },
             created: function () {
@@ -549,6 +651,9 @@
                     _this.getPayoutAddress();
                     _this.getPayoutCoinRecord();
                 });
+                if (this.isLayerCoin) {
+                    this.getBankaccountSearch()
+                }
             }
         })
     })

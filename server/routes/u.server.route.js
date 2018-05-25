@@ -91,7 +91,7 @@ router.get(['/entrust','/entrust/:market'], function(req, res, next) {
         });
     }
 });
-//充值业务
+//充值业务-虚拟货币
 router.get(['/payin','/payin/:coin'], function(req, res, next) {
     var coin = req.params.coin;
     if(!coin){
@@ -100,11 +100,26 @@ router.get(['/payin','/payin/:coin'], function(req, res, next) {
         res.render(TEMP_MANAGE,{
             templateMain:'u/asset/payin.html',
             coin : coin.toLowerCase(),
-            column : 0
+            column : 0,
+            isLayerCoin: 0
         });
     }
 });
-//提现业务
+//充值业务-法币
+router.get(['/payin/legaltender','/payin/legaltender/:coin'], function(req, res, next) {
+    var coin = req.params.coin;
+    if(!coin){
+        res.redirect('/u/payin/btc');
+    }else{
+        res.render(TEMP_MANAGE,{
+            templateMain:'u/asset/payin.html',
+            coin : coin.toLowerCase(),
+            column : 0,
+            isLayerCoin: 1
+        });
+    }
+});
+//提现业务-虚拟货币
 router.get(['/payout','/payout/:coin'], function(req, res, next) {
     var coin = req.params.coin;
     if(!coin){
@@ -113,7 +128,22 @@ router.get(['/payout','/payout/:coin'], function(req, res, next) {
         res.render(TEMP_MANAGE,{
             templateMain:'u/asset/payout.html',
             coin : coin.toLowerCase(),
-            column : 0
+            column : 0,
+            isLayerCoin: 0
+        });
+    }
+});
+//提现业务-法币
+router.get(['/payout/legaltender','/payout/legaltender/:coin'], function(req, res, next) {
+    var coin = req.params.coin;
+    if(!coin){
+        res.redirect('/u/payout/legaltender/btc');
+    }else{
+        res.render(TEMP_MANAGE,{
+            templateMain:'u/asset/payout.html',
+            coin : coin.toLowerCase(),
+            column : 0,
+            isLayerCoin: 1
         });
     }
 });

@@ -1,0 +1,136 @@
+.pay-tab {
+  .coin-type {
+    .coin-item {
+      position: relative;
+    }
+    .is-layer-coin {
+      width: 25px;
+      height: 13px;
+      line-height: 13px;
+      text-align: center;
+      font-size: 10px;
+      -webkit-text-size-adjust: none !important;
+      color: #FFFFFF;
+      background: #FF9D10;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}
+
+.payout-legal-tender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 87px;
+  .legal-tender-box{
+    width: 450px;
+    min-width: 450px;
+    .legal-tender-info {
+      display: flex;
+      line-height: 20px;
+      margin-bottom: 11px;
+      &:last-child{
+        margin-bottom: 0px;
+      }
+      .info-title {
+        width: 75px;
+        height: 20px;
+        font-size: 14px;
+        color: #202126;
+        margin-right: 20px;
+      }
+      .info-right{
+        position: relative;
+        display: flex;
+        width: 348px;
+        min-width: 348px;
+        .info-edit{
+          position: absolute;
+          right: 0;
+          cursor: pointer;
+          font-size: 12px;
+          color: #FF9D10;
+          &:hover{
+            color: #ffae12;
+          }
+        }
+      }
+      .info-num{
+        font-size: 16px;
+        color: #FF9D10;
+        margin-right: 5px;
+      }
+      .info-basic{
+        font-size: 14px;
+        color: #999999;
+      }
+    }
+  }
+
+  .payout-input{
+    width: 450px;
+    height: 42px;
+    font-size: 14px;
+    padding: 12px 0 10px 16px;
+    border: 1px solid #DDE2ED;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    margin-top: 36px;
+  }
+  .payout-input-last{
+    margin-top: 0;
+  }
+  .payout-code{
+    position: relative;
+    display: flex;
+    padding: 12px 0 10px 16px;
+
+    border: 1px solid #DDE2ED;
+    border-radius: 3px;
+    height: 42px;
+    margin-bottom: 20px;
+
+    .code-input{
+      flex: 1;
+    }
+    .code-button{
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 42px;
+      width: 100px;
+      text-align: center;
+      line-height: 42px;
+      border-left: 1px solid #dee2ec ;
+      &:hover{
+        background: #f3a13d;
+        border-radius: 3px;
+
+        color: #fff;
+      }
+    }
+  }
+  .payout-confirm{
+    cursor: pointer;
+    width: 450px;
+    height: 42px;
+    background: #FF9D10;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+
+    &:hover{
+      background: #ffa810;
+    }
+  }
+
+  .payout-button{
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #AFB7C9;
+  }
+}

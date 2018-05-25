@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="form-control">
                             <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-                            <send-code :code-type="24" :user-name="userInfo.loginName" :user-id="userInfo.userId" />
+                            <send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"  :bus-type="5"/>
                         </div>
                     </div>
                     <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">
@@ -77,7 +77,7 @@
                 },
                 //校验密码强度
                 handleCheckPwdStrength: function () {
-                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                    this.pwdStrength = Methods.checkPwdStrength(this.newPassword);
                 },
                 handleSubmit: function () {
                     if (this.locked) {
@@ -91,7 +91,6 @@
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
                         smsCode: this.dynamicCode,
                         googleCode: this.googleCode,
-                        pwdLevel: this.pwdStrength
                     };
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");
@@ -113,9 +112,8 @@
                         this.locked = true;
                         //通过headers传参，使用ajax原生方法
                         Methods.ajax({
-                            // url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
                             type: "POST",
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setLoginPassword',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 //密码修改成功，返回空
