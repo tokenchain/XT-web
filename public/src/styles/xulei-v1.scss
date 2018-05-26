@@ -5176,9 +5176,10 @@ p.exx-prompt {
   padding-right: 10px;
   .approve-info {
     cursor: pointer;
-    background: #F3F3F5;
+    //background: #F3F3F5;
+    background: #ffffff;
     border-radius: 2px;
-    //border: 3px solid rosybrown;
+    border: 1px solid #C8E7D8;
     height: 100%;
     //padding: 10px;
     display: flex;
@@ -5202,7 +5203,8 @@ p.exx-prompt {
     .step {
       font-family: PingFangSC-Semibold;
       font-size: 14px;
-      color: #AFB7C9;
+      //color: #AFB7C9;
+      color: #5AC693;
     }
     .text {
       font-family: PingFangSC-Regular;
@@ -5216,6 +5218,12 @@ p.exx-prompt {
       .step, .text {
         color: #5AC693;
       }
+      .gray{
+        color: #9AA1B3;
+      }
+    }
+    .no{
+      color: #FD9800;
     }
     &.active {
       background: #FFFCF8;
@@ -5224,14 +5232,14 @@ p.exx-prompt {
         color: #FD9800;
       }
     }
-    /* &:hover{
+     /*&:hover{
             background: #FFFCF8;
             border: 2px solid #FCE5C3;
             .step,.text
             {
                 color: #FD9800;
             }
-        }*/
+     }*/
   }
 }
 

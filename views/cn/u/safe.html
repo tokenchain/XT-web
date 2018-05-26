@@ -55,22 +55,26 @@
                         <div class="step">
                             <%= LANG('基本信息') %>
                         </div>
-                        <div class="text">
+                        <div class="text gray">
                             <%= LANG('已完成') %>
                         </div>
                     </div>
                 </div>
-                <div class="approve-info" :class="{'active':loginUser.status==0,'done':loginUser.status>0}" @click="approveHanlder(1)">
+                <div class="approve-info" :class="{'done':loginUser.status>0}" @click="approveHanlder(1)">
                     <div class="icon">
-                        <img src="/src/images/u/step_1_active.png" v-if="loginUser.status==0" />
-                        <img v-else src="/src/images/u/step_1_done.png" />
+                        <!--<img src="/src/images/u/step_1_active.png" v-if="loginUser.status==0" />-->
+                        <!--<img v-else src="/src/images/u/step_1_done.png" />-->
+                        <img src="/src/images/u/step_1_done.png" />
                     </div>
                     <div class="right">
                         <div class="step">
                             <%= LANG('实名认证') %>
                         </div>
-                        <div class="text">
+                        <div class="text no" v-if="loginUser.status==0">
                             <%= LANG('未认证') %>
+                        </div>
+                        <div class="text gray" v-else>
+                            <%= LANG('已认证') %>
                         </div>
                     </div>
                 </div>
