@@ -312,10 +312,8 @@
                 getRecord : function () {
                     if(this.isAll){
                         //轮询获取所有委托记录
-                        console.log("进入循环1")
                         this.getOpenMarketByWebId(this.getEntrustRecord);
                     }else{
-                        console.log("进入循环2")
                         this.getEntrustRecord();
                     }
                 },

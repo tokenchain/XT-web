@@ -176,7 +176,7 @@
                     } else if ('MozWebSocket' in window) {
                         _this.websocket = new MozWebSocket(wsUrl);
                     } else {
-                        console.log('Your browser does not support websocket.')
+                        // console.log('Your browser does not support websocket.')
                         return false;
                     }
 
@@ -299,11 +299,11 @@
                     // var userType = this.currentUserAsset.userType;
 
                     if (allMarket == '' || marketConfig == '') {
-                        console.log('allMarket or marketConfig not init');
+                        // console.log('allMarket or marketConfig not init');
                         return result;
                     }
                     if (this.isLogin && this.currentTab == 'user' && userMarket == '') {
-                        console.log('userMarket not init');
+                        // console.log('userMarket not init');
                         return result;
                     }
 
