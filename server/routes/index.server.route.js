@@ -91,7 +91,7 @@ router.get('/register', function(req, res, next) {
         secure: false
     });*/
     res.render(TEMP_FULL,{
-        templateMain:'user/register.html'
+        templateMain:'user/register_new.html'
     });
 });
 

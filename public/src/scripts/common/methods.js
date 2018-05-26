@@ -256,6 +256,11 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                     Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken'))
                 };
                 options.headers = header;
+            } else {
+                var header = {
+                    Clienttype: 1,
+                };
+                options.headers = header;
             }
             options.contentType = options.contentType || 'application/json; charset=utf-8';
             options.dataType = options.dataType || 'json';

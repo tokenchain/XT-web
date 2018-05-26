@@ -4,27 +4,39 @@
     <div class="register-box" id="register-box">
         <h1 class="register-title">注册</h1>
         <!--<div class="box-item">-->
-            <!--<select class="item-select">-->
-                <!--<option value ="1">通讯社1</option>-->
-                <!--<option value ="2">通讯社1</option>-->
-            <!--</select>-->
-            <!--<input type="text" class="register-input" placeholder="设置密码">-->
+        <!--<select class="item-select">-->
+        <!--<option value ="1">通讯社1</option>-->
+        <!--<option value ="2">通讯社1</option>-->
+        <!--</select>-->
+        <!--<input type="text" class="register-input" placeholder="设置密码">-->
         <!--</div>-->
         <!--<div class="box-item">-->
-            <!--<input type="text" class="register-input" placeholder="提现密码">-->
+        <!--<input type="text" class="register-input" placeholder="提现密码">-->
         <!--</div>-->
         <!--<div class="box-item">-->
-            <!--<input type="text" class="register-input" placeholder="确认提现密码">-->
+        <!--<input type="text" class="register-input" placeholder="确认提现密码">-->
         <!--</div>-->
         <div class="box-item">
-            <input type="text" v-model="register.email" class="register-input" placeholder="请输入您的邮箱">
+            <input type="text"
+                   v-model="register.email"
+                   class="register-input"
+                   placeholder="请输入您的邮箱">
         </div>
         <div class="box-item">
-            <input type="text" class="register-input" placeholder="<%= LANG('图形验证码') %>">
-            <img class='img-captcha' @click="getImageCode" :src="imageCodeUrl" alt="<%= LANG('点击刷新验证码') %>">
+            <input type="text"
+                   class="register-input"
+                   v-model="register.imgCode"
+                   placeholder="<%= LANG('图形验证码') %>">
+            <img class='img-captcha'
+                 @click="getImageCode"
+                 :src="imageCodeUrl"
+                 alt="<%= LANG('点击刷新验证码') %>">
         </div>
         <div class="box-item box-item-2">
-            <input type="text" class="register-input register-input-2"  placeholder="动态验证码">
+            <input type="text"
+                   v-model="register.dynamicCode"
+                   class="register-input register-input-2"
+                   placeholder="动态验证码">
             <send-code class='captcha-btn'
                        :code-type="1"
                        :user-name="register.email"
@@ -32,16 +44,24 @@
                        :img-code="imgCode"
                        :img-code-id="imgCodeId"
                        :bus-type="1"
-                       :error-fun="handleRefreshImgcode" />
+                       :error-fun="handleRefreshImgcode"/>
         </div>
         <div class="box-item">
-            <input type="text" class="register-input" placeholder="设置密码">
+            <input type="text"
+                   v-model="password"
+                   class="register-input"
+                   placeholder="设置密码">
         </div>
         <div class="box-item">
-            <input type="text" class="register-input" placeholder="确认密码">
+            <input type="text"
+                   v-model="register.password"
+                   v-model="register.email"
+                   class="register-input"
+                   placeholder="确认密码">
         </div>
-        <div class="box-item">
-            <input class="item-checkobox" type="checkbox">
+        <div class="b.exx-entrance-mainox-item">
+            <input class="item-checkobox"
+                   type="checkbox">
             <a class='item-a' href="#">阅读并同意《用户服务协议》</a>
         </div>
         <div>
@@ -58,8 +78,14 @@
             data: function () {
                 return {
                     register: {
-                        email: ''
+                        email: '',
+                        password: '',
+                        pwdLevel: '',
+                        imgCode: '',
+                        imgCodeId: '',
+                        dynamicCode: ''
                     },
+                    password: '',
                     imgCodeId: '',
                     imageCodeUrl: ''
                 }
