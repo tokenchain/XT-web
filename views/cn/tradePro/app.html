@@ -545,7 +545,6 @@
                      *时间: 2018/5/9
                      *功能: 修改currentPrice的取值在app（EXX.appTradePro中进行）
                      */
-                    console.log(datas.length)
                     this.currentPrice = datas[datas.length - 1].price;
                     if (datas && datas.length > 0) {
                         _this.dealRecord = datas.slice(0, _this.tradesLimit);

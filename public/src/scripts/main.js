@@ -417,7 +417,7 @@ function transKlineData(oldData) {
     result.datas = {};
     result.datas.data = [];
 
-    //根据时间倒序
+    //根据时间倒
     oldData = oldData.reverse();
 
     //获取当前K线单位

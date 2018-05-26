@@ -130,8 +130,8 @@
                     <div class="l">
                         <h3><%= LANG('提现密码') %></h3>
                         <p>
-                            <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
-                            <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
+                            <span class="not-auth" v-if="loginUser.safePwdAuth == 0"><%= LANG('未设置') %></span>
+                            <span class="auth" v-if="loginUser.safePwdAuth == 1"><%= LANG('已设置') %></span>
 
                             <!--<span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>-->
                             <!--<span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>-->
@@ -139,7 +139,8 @@
                         </p>
                     </div>
                     <div class="r">
-                        <a  @click="openModal('setwithdrawalpwd')"><%= LANG('修改') %></a>
+                        <a v-if="loginUser.safePwdAuth == 0" @click="approveHanlder(1)"><%= LANG('实名认证') %></a>
+                        <a v-if="loginUser.safePwdAuth == 1" @click="openModal('setwithdrawalpwd')"><%= LANG('修改') %></a>
                     </div>
                 </li>
                 <li>
@@ -264,7 +265,7 @@
         <setloginpwd />
     </modal>
     <modal v-cloak :open="showModal == 'setwithdrawalpwd'"  @close="showModal = false">
-        <setwithdrawalpwd />
+        <setwithdrawalpwd :prosafePwdAuthp="loginUser.loginPwd"/>
     </modal>
 
     <modal v-cloak :open= "showModal == 'loginAuth'" @close="showModal = false">
@@ -446,6 +447,7 @@
                         window.location.href="/u/account/basic_information"
                     }else if(index==1){
                         //实名页面
+                        window.location.href="/u/account/verified"
                     }else if(index==2){
                         //支付页面
                     }else if(index==3){

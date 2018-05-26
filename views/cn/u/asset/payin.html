@@ -108,14 +108,14 @@
         </div>
         <div v-if="isLayerCoin == 1" class="layer-coin-box" v-cloak="">
             <div class="bank-card">
-                <h2 class="bank-card-title">银行账号</h2>
+                <h2 class="bank-card-title"><%= LANG('银行账号')%></h2>
                 <span class="bank-card-num">{{formatBank(bankInfo.depositBankAccount)}}</span>
                 <span class="bank-card-name">{{bankInfo.depositBankNm}}</span>
             </div>
             <div class="payin-explain">
-                <h2 class="explain-title">充值说明</h2>
-                <p class="explain-p">往该地址充值，汇款完成，等待网络自动确认12个确认后系统自动到账；</p>
-                <p class="explain-p">为了快速到账，充值时可以适当提高网络手续费。</p>
+                <h2 class="explain-title"><%= LANG('充值说明')%></h2>
+                <p class="explain-p"><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
+                <p class="explain-p"><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
             </div>
         </div>
 

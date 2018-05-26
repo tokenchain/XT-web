@@ -67,30 +67,30 @@
         <div class="payout-legal-tender" v-if="isLayerCoin == 1" v-cloak="">
             <div class="legal-tender-box">
                 <div class="legal-tender-info">
-                    <span class="info-title">可用余额</span>
+                    <span class="info-title"><%= LANG('可用余额')%></span>
                     <div class="info-right">
                         <span class="info-num">{{canUseAmount}}</span>
-                        <span class="info-basic">可用余额</span>
+                        <span class="info-basic"><%= LANG('可用余额')%></span>
                     </div>
                 </div>
                 <div class="legal-tender-info">
-                    <span class="info-title">真实姓名</span>
+                    <span class="info-title"><%= LANG('真实姓名')%></span>
                     <div class="info-right">
                         <span class="info-basic">{{loginUser.userName}}</span>
                     </div>
                 </div>
                 <div class="legal-tender-info">
-                    <span class="info-title">到账银行卡</span>
+                    <span class="info-title"><%= LANG('到账银行卡')%></span>
                     <div class="info-right">
                         <div class="info-bank-carinfo-basicd">
                             <span class="info-basic">{{bankInfo.withdrawBankNm}}</span>
                             <span class="info-basic">{{bankInfo.withdrawBankAccount}}</span>
                         </div>
-                        <span class="info-edit">修改</span>
+                        <span class="info-edit"><%= LANG('修改')%></span>
                     </div>
                 </div>
-                <input class="payout-input" type="text" placeholder="提现金额" v-model="payoutAmount">
-                <input class="payout-input payout-input-last" type="password" placeholder="提现密码" v-model="safePwd">
+                <input class="payout-input" type="text" placeholder="<%= LANG('提现金额')%>" v-model="payoutAmount">
+                <input class="payout-input payout-input-last" type="password" placeholder="<%= LANG('提现密码')%>" v-model="safePwd" autocomplete="off">
                 <div class="payout-code">
                     <input class="code-input" autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
                            type="text">
@@ -101,11 +101,11 @@
                                :user-id="loginUser.userId"
                                :bus-type="22"/>
                 </div>
-                <button class="payout-confirm" @click="payoutLegalTender">提 现</button>
+                <button class="payout-confirm" @click="payoutLegalTender"><%= LANG('提现')%></button>
                 <div class="payout-button">
-                    <span>24小时内到账</span>
+                    <span><%= LANG('24小时内到账')%></span>
                     <span>|</span>
-                    <span>提现银行开户名必须与认证的EXX账户真实姓名一致才能提现成功</span>
+                    <span><%= LANG('提现银行开户名必须与认证的EXX账户真实姓名一致才能提现成功')%></span>
                 </div>
             </div>
         </div>
