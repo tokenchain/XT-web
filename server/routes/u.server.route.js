@@ -224,4 +224,15 @@ router.get('/account/payment_information', function(req, res, next) {
     });
 });
 
+/**
+ *作者: GongQi
+ *时间: 2018/5/29
+ *功能: 新增重置提现密码
+ */
+router.get('/account/reset_funds_pwd', function(req, res, next) {
+    res.render(TEMP_BASIC,{
+        templateMain:'u/account/reset-funds-pwd.html',
+    });
+});
+
 module.exports = router;

@@ -1,0 +1,26 @@
+<!--头部底部固定 通用模板-->
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+<head>
+    <%-include("include/headInit.html")%>
+    <%-include("include/headMeta.html")%>
+</head>
+<body>
+<link href="<%= STATIC %>/styles/basic-page.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
+<div class="site-wrapper">
+    <%-include("include/menuMain.html")%>
+    <section class="basic-page-style">
+        <% try{ %>
+        <%-include(templateMain)%>
+        <% }catch(err){ %>
+        <%- err%>
+        <%-include("include/error.html")%>
+        <% } %>
+    </section>
+    <%-include("include/footMain.html")%>
+</div>
+<%-include("chat/chat_new.html")%>
+<%-include("include/footInit.html")%>
+</body>
+</html>

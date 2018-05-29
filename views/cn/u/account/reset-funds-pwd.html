@@ -1,0 +1,235 @@
+<link href="<%= STATIC %>/styles/u/account/reset-funds-pwd.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
+<div id="reset-funds-pwd" class="reset-funds-pwd">
+    <div class="container">
+        <div class="container-top">
+            <h1 class="top-title"><%= LANG('重置资金密码')%></h1>
+        </div>
+        <div class="pwd-course-box flex-double-center" v-if="resetType != -1" v-cloak="">
+            <ul class="pwd-course">
+                <li class="pwd-course-li flex-double-center">
+                    <div class="course-round flex-double-center">1
+                        <div class="round-title"><%= LANG('重置资金密码')%></div>
+                    </div>
+                    <span class="course-line"></span>
+                </li>
+                <li class="pwd-course-li flex-double-center">
+                    <span class="course-line"></span>
+                    <div class="course-round flex-double-center" :class="{'course-round-none':course == 1}">2
+                        <div class="round-title"><%= LANG('重置成功')%></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pwd-type-box" v-if="resetType == -1">
+            <ul class="pwd-type flex-double-center">
+                <li class="type-button flex-double-center" @click="selectResetType(0)">
+                    <img class="type-icon" src="<%= STATIC %>/images/icon/phone.png" alt="">
+                    <div class="type-text">
+                        <div class="type-title"><%= LANG('我忘记资金密码了')%></div>
+                        <%= LANG('通过“验证短信”+“身份信息”+“提现银行卡信息”')%>
+                    </div>
+                </li>
+                <li class="type-button flex-double-center" @click="selectResetType(1)">
+                    <img class="type-icon" src="<%= STATIC %>/images/icon/moeny.png">
+                    <div class="type-text">
+                        <div class="type-title"><%= LANG('我记得原资金密码')%></div>
+                        <%= LANG('通过验证支付密码')%>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="flex-double-center" v-if="resetType != -1">
+            <div class="container-input" v-cloak="" v-if="resetType == 0 || resetType == 1">
+                <div class="input-title" v-if="resetType == 0"><%= LANG('您正在使用 “验证短信+身份信息+绑定银行卡信息” 进行校验。')%></div>
+                <div class="input-title" v-if="resetType == 1"><%= LANG('您正在使用 “验证支付密码” 进行校验。')%></div>
+                <div v-if="resetType == 0">
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('手机号码')%>
+                        </div>
+                        <input class='input-right' type="text" :placeholder="loginUser.mobile" readonly="readonly">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('短信验证码')%>
+                        </div>
+                        <div class="send-code-box">
+                            <input class='input-right' type="text" v-model="fundsInput.smsCode">
+                            <send-code :code-type="2" :user-name="loginUser.loginName" :user-id="loginUser.userId"  :bus-type="3"/>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('证件号码')%>
+                        </div>
+                        <input class='input-right' type="text" v-model="fundsInput.idCard">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('银行卡号')%>
+                        </div>
+                        <input class='input-right' type="text" v-model="fundsInput.bankAccount">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('新的资金密码')%>
+                        </div>
+                        <input class='input-right' type="password" v-model="fundsInput.newPassword">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('确认新的资金密码')%>
+                        </div>
+                        <input class='input-right' type="password" v-model="fundsInput.samePassword">
+                    </div>
+                    <div class="input-box">
+                        <button class="button-big" @click="retrieveFundsPwd()">完成</button>
+                    </div>
+                </div>
+
+                <div v-if="resetType == 1">
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('资金密码')%>
+                        </div>
+                        <input class='input-right' type="password" v-model="fundsInput.oldPassword">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('新的资金密码')%>
+                        </div>
+                        <input class='input-right' type="password" v-model="fundsInput.samePassword">
+                    </div>
+                    <div class="input-box">
+                        <div class="input-left-title">
+                            <%= LANG('确认新的资金密码')%>
+                        </div>
+                        <input class='input-right' type="password" v-model="fundsInput.newPassword">
+                    </div>
+                    <div class="input-box">
+                        <button class="button-big" @click="editFundsPwd()">完成</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="succeed-page flex-double-center" v-if="resetType == 2 && course == 2" v-cloak="">
+                <img class='succeed-icon' src="<%= STATIC %>/images/icon/select.png" alt="">
+                <div>
+                    <%= LANG('恭喜你,资金账号重置成功!')%>
+                </div>
+                <a href="/u/account" class="succeed-a">跳转到用户中心</a>
+            </div>
+        </div>
+    </div>
+</div>
+<%-include("../../component/send_code/index.html")%>
+<script>
+    require(['vue', 'common/methods',], function (Vue, Methods) {
+        EXX.resetFundsPwd = new Vue({
+            el: "#reset-funds-pwd",
+            created: function () {
+
+            },
+            mounted: function () {
+
+            },
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(),
+                    resetType: -1,
+                    course: 1,
+                    fundsInput: {
+                        oldPassword: '',
+                        samePassword: '',
+                        newPassword: '',
+                        smsCode: '',
+                        idCard: '',
+                        bankAccount: '',
+                    },
+                }
+            },
+            computed: {},
+            methods: {
+                selectResetType: function (type) {
+                    this.resetType = type
+                    this.course = 1
+                },
+                auditPassword: function () {
+                    if (this.fundsInput.samePassword != this.fundsInput.newPassword) {
+                        return
+                    }
+                },
+                editFundsPwd: function (type) {
+                    this.auditPassword();
+                    var data = {
+                        oldPassword: Methods.encryptPwd(this.fundsInput.oldPassword, this.pubKey),
+                        newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
+                    }
+                    Methods.ajax({
+                        type: "POST",
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            if (res.resMsg.code == 1) {
+
+                            }
+                            console.log(res)
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                editFundsPwd: function (type) {
+                    this.auditPassword();
+                    var data = {
+                        oldPassword: Methods.encryptPwd(this.fundsInput.oldPassword, this.pubKey),
+                        newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
+                    }
+                    Methods.ajax({
+                        type: "POST",
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            if (res.resMsg.code == 1) {
+                                this.resetType = 2;
+                                this.course = 2;
+                            }
+                            console.log(res)
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                retrieveFundsPwd: function () {
+                    this.auditPassword();
+                    var data = {
+                        newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
+                        idCard: this.fundsInput.idCard,
+                        bankAccount: this.fundsInput.bankAccount,
+                        smsCode: this.fundsInput.smsCode
+                    }
+                    Methods.ajax({
+                        type: "POST",
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'findsecuritypassword',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            if (res.resMsg.code == 1) {
+                                this.resetType = 2;
+                                this.course = 2;
+                            }
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                }
+            }
+        })
+    });
+</script>
