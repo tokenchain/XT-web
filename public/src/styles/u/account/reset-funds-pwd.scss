@@ -62,6 +62,7 @@
     }
     .pwd-type-box{
       height: 400px;
+      min-height: 400px;
       .pwd-type{
         height: 400px;
         flex-direction: column;
@@ -82,7 +83,6 @@
           .type-icon{
             width: 40px;
             height: 40px;
-            background: deepskyblue;
             margin-right: 20px;
           }
           .type-text{
@@ -93,6 +93,29 @@
       }
     }
 
+    .succeed-page{
+      flex-direction: column;
+      height: 400px;
+      font-size: 18px;
+      .succeed-icon{
+        width: 130px;
+        height: 130px;
+      }
+      .succeed-a{
+        width: 160px;
+        height: 34px;
+        margin-top: 15px;
+        font-size: 16px;
+        background: #f39105;
+        color: #fff;
+        border-radius: 3px;
+        line-height: 34px;
+        text-align: center;
+        &:hover{
+          background: #ff9c05;
+        }
+      }
+    }
     .container-input{
       width: 700px;
       margin-top: 40px;
@@ -118,6 +141,35 @@
           padding: 0 19px;
           border: 1px solid #DDE2ED;
           border-radius: 5px;
+        }
+        .send-code-box{
+          display: flex;
+          position: relative;
+          .code-num {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            color: #ff9d11;
+            width: 100px;
+            border-left: 1px solid #dde2ed;
+            -webkit-transition: border 0.2s ease;
+            transition: border 0.2s ease;
+            border-radius: 0 3px 3px 0;
+            &:hover{
+              background: #ff9d11;
+              color: #fff;
+            }
+          }
         }
       }
 
