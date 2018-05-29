@@ -6,20 +6,20 @@
 </head>
 <body>
 <div class="site-wrapper">
-<%-include("include/menuMain.html")%>
-<section class="management-center">
-<div class="user-center">
-        <%-include("u/asset/menu.html")%>
-        <div class="user-container">
-            <% try{ %>
+    <%-include("include/menuMain.html")%>
+    <section class="management-center">
+        <div class="user-center">
+            <%-include("u/asset/menu.html")%>
+            <div class="user-container">
+                <% try{ %>
                 <%-include(templateMain)%>
-            <% }catch(err){ %>
-            <%- err%>
+                <% }catch(err){ %>
+                <%- err%>
                 <%-include("include/error.html")%>
-            <% } %>
+                <% } %>
+            </div>
         </div>
-</div>
-</section>
+    </section>
     <%-include("include/footMain.html")%>
 </div>
 <%-include("chat/chat_new.html")%>

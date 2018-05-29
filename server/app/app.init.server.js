@@ -22,6 +22,7 @@ global.USER = require('../configs/user.server.config');
 global.MARKET = require('../configs/market.server.config');
 global.LEGAL = require('../configs/legal.server.config');
 //设置主模板文件变量
+global.TEMP_BASIC = 'cn/basic-page';
 global.TEMP_HOME = 'cn/homePage';
 global.TEMP_FULL = 'cn/fullPage';
 global.TEMP_MOBILE = 'cn/mobilePage';

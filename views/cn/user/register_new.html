@@ -245,7 +245,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'register',
-                            url: DOMAIN_DEV + "/exchange/external/krw/controller/krwusercontroller/" + 'register',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'register',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.requestLocked = false;
