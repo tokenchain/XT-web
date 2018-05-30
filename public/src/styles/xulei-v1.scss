@@ -5353,7 +5353,10 @@ p.exx-prompt {
 
 .safe-panel .safe-info li p {
   color: #999;
-  width: 150px
+  width: 150px;
+  ////新增
+  //display: flex;
+  //align-items: center;
 }
 
 .safe-panel .safe-info li p .not-auth {
@@ -5375,6 +5378,10 @@ p.exx-prompt {
 .safe-panel .safe-info li p .gao {
   color: #31C871
 }
+.safe-panel .safe-info li p img{
+  margin-right: 4px;
+  padding-bottom: 3px;
+}
 
 .safe-panel .safe-info li .r a {
   margin-left: 10px;
@@ -5388,7 +5395,7 @@ p.exx-prompt {
   line-height: 24px;
   text-align: center;
 }
-.safe-panel .safe-info li .auth{
+.safe-panel .safe-info li .r .auth{
   color: #5AC693 !important;
   background: #ffffff !important;
   border: 1px solid #5AC693;
@@ -5405,27 +5412,33 @@ p.exx-prompt {
     display: flex;
     width: 240px;
     border: 1px dashed #f4f4f4;
-    height: 40px;
+    height: 36px;
     //padding: 15px 0;
     margin-left: 10px;
     align-items: center;
     justify-content: center;
     text-align: center;
+    cursor: pointer;
+    border-radius: 2px;
     &.active {
       border: 1px solid #5AC693;
       color: #5AC693;
-      &:before {
-        position: absolute;
-        width: 12px;
-        height: 6px;
-        border-left: 1px solid #5AC693;
-        border-bottom: 1px solid #5AC693;
-        position: absolute;
-        right: 8px;
-        content: '';
-        transform:rotate(-60deg);
-        //display: block;
-      }
+      background-image: url("../images/u/gou.png");
+      background-repeat: no-repeat;
+      background-size: 20px 20px;
+      background-position: right bottom;
+      //&:before {
+      //  position: absolute;
+      //  width: 12px;
+      //  height: 6px;
+      //  border-left: 1px solid #5AC693;
+      //  border-bottom: 1px solid #5AC693;
+      //  position: absolute;
+      //  right: 8px;
+      //  content: '';
+      //  transform:rotate(-60deg);
+      //  //display: block;
+      //}
     }
   }
 }
