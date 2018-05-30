@@ -592,7 +592,7 @@
                         type: 'GET',
                         //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
