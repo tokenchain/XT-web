@@ -491,7 +491,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getByWebId',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -507,7 +507,7 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
                         success: function(res) {
                             this.coinConfig = res.datas;
                         }.bind(this)

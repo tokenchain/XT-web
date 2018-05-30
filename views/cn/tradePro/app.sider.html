@@ -149,7 +149,7 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/admin/marketcontroller/" + 'getByWebId',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
