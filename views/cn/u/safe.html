@@ -26,8 +26,8 @@
                             </span>
                         </div>
                         <!--<div class="onffflist" v-if="loginUser.emailAuth == 1">-->
-                            <!--<a @click="setLoginAuth(1, loginUser.loginEmailAuth)"-->
-                               <!--:class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
+                        <!--<a @click="setLoginAuth(1, loginUser.loginEmailAuth)"-->
+                        <!--:class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
                         <!--</div>-->
                     </div>
                     <div class="r">
@@ -44,8 +44,8 @@
                             <span class="auth" v-if="loginUser.emailAuth == 1"><%= LANG('已认证') %></span>
                         </p>
                         <!--<div class="onffflist" v-if="loginUser.emailAuth == 1">-->
-                            <!--<a @click="setLoginAuth(1, loginUser.loginEmailAuth)"-->
-                               <!--:class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
+                        <!--<a @click="setLoginAuth(1, loginUser.loginEmailAuth)"-->
+                        <!--:class="loginUser.loginEmailAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
                         <!--</div>-->
                     </div>
                     <div class="r">
@@ -280,8 +280,8 @@
                             <span class="auth" v-if="loginUser.googleAuth == 1"><%= LANG('已认证') %></span>
                         </p>
                         <!--<div class="onffflist" v-if="loginUser.googleAuth == 1">-->
-                            <!--<a @click="setLoginAuth(0, loginUser.loginGoogleAuth)"-->
-                               <!--:class="loginUser.loginGoogleAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
+                        <!--<a @click="setLoginAuth(0, loginUser.loginGoogleAuth)"-->
+                        <!--:class="loginUser.loginGoogleAuth == 1 ? 'on' : ''"><span><%= LANG('登录验证') %></span><i></i></a>-->
                         <!--</div>-->
                     </div>
                     <div class="r">
@@ -341,13 +341,16 @@
                         <h3 class="h3-width"><%= LANG('提现验证') %><span class=""></span></h3>
                     </div>
                     <div class="right">
-                        <div class="safe-item" :class="{active:safewithdrawalType==3}" @click="safeWithdrawalTypeHandler(3)">
+                        <div class="safe-item" :class="{active:safewithdrawalType==3}"
+                             @click="safeWithdrawalTypeHandler(3)">
                             <%= LANG('资金密码+短信/邮件验证码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safewithdrawalType==5}" @click="safeWithdrawalTypeHandler(5)">
+                        <div class="safe-item" :class="{active:safewithdrawalType==5}"
+                             @click="safeWithdrawalTypeHandler(5)">
                             <%= LANG('资金密码+Google验证码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safewithdrawalType==7}" @click="safeWithdrawalTypeHandler(7)">
+                        <div class="safe-item" :class="{active:safewithdrawalType==7}"
+                             @click="safeWithdrawalTypeHandler(7)">
                             <%= LANG('资金密码+Google验证码+短信/邮件验证') %>
                         </div>
                     </div>
@@ -421,11 +424,16 @@
     </modal>
     <modal v-cloak :open="showModal == 'setwithdrawalpwd'" @close="showModal = false">
         <setwithdrawalpwd :prosafePwdAuthp="loginUser.loginPwd"/>
+        safePwdAuth
     </modal>
+
     <modal v-cloak :open="showModal == 'loginAuth'" @close="showModal = false">
         <modal-login-auth :params="loginAuthParams" :done="callCloseModal()"/>
     </modal>
 
+    <modal v-cloak :open="showModal == 'setsafepay'" @close="showModal = false">
+        <setsafepay :safe-wayinfo="safeWayinfo" v-on:childByValue="childByValue"/>
+    </modal>
 </div>
 
 
@@ -498,9 +506,10 @@
             el: "#user-index",
             data: function () {
                 return {
-                    safeLoginType:1,//登录验证方式，默认为登录密码
-                    safeTradeType:1,//交易验证方式，默认为免密码
-                    safewithdrawalType:3,//提现验证方式，默认为资金密码+短信/邮件验证码
+                    safeLoginType: 1,//登录验证方式，默认为登录密码
+                    safeTradeType: 1,//交易验证方式，默认为免密码
+                    safewithdrawalType: 3,//提现验证方式，默认为资金密码+短信/邮件验证码
+                    safeWayinfo: {},//
                     approveStep: 0,//当前流程节点
                     isLogin: ISLOGIN,
                     loaded: true,
@@ -599,25 +608,47 @@
                 }
             },
             methods: {
+                childByValue: function(){
+                    alert(22)
+                },
                 //安全策略-设置登录验证的方式
-                safeLoginTypeHandler:function(type){
-                    if(this.loginUser.googleAuth==0 && (type==5 || type==7)){
+                safeLoginTypeHandler: function (type) {
+                    if (type == this.loginUser.loginAuth) {
+                        return;
+                    }
+                    if (this.loginUser.googleAuth == 0 && (type == 5 || type == 7)) {
                         JuaBox.info("<%= LANG('google验证未认证') %>");
                         return;
                     }
-                    this.safeLoginType=type;
+                    this.safeWayinfo.type = "login";
+                    this.safeWayinfo.way = type;
+                    this.openModal("setsafepay");
+                    // this.safeLoginType=type;
                 },
                 //安全策略-设置交易验证的方式
-                safeTradeTypeHandler:function(type){
-                    this.safeTradeType=type;
+                safeTradeTypeHandler: function (type) {
+                    if (type == this.loginUser.tradeAuth) {
+                        return;
+                    }
+                    this.safeWayinfo.type = "trade";
+                    this.safeWayinfo.way = type;
+                    this.openModal("setsafepay");
+                    // this.safeTradeType=type;
                 },
-                //安全策略-设置登录验证的方式
-                safeWithdrawalTypeHandler:function(type){
-                    if(this.loginUser.googleAuth==0 && (type==5 || type==7)){
+                //安全策略-设置提现验证的方式
+                safeWithdrawalTypeHandler: function (type) {
+                    console.log(type, this.loginUser.withdrawAuth);
+                    if (type == this.loginUser.withdrawAuth) {
+                        return;
+                    }
+                    if (this.loginUser.googleAuth == 0 && (type == 5 || type == 7)) {
                         JuaBox.info("<%= LANG('google验证未认证') %>");
                         return;
                     }
-                    this.safewithdrawalType=type;
+                    this.safeWayinfo.type = "withdrawal";
+                    this.safeWayinfo.way = type;
+                    this.openModal("setsafepay");
+                    // this.safewithdrawalType=type;
                 },
                 //当前kyc步骤
                 approveHanlder: function (index) {
@@ -634,7 +665,7 @@
                     }
                 },
                 //去修改资金密码
-                gowithdrawalpwd:function(){
+                gowithdrawalpwd: function () {
                     window.location.href = "/u/account/reset_funds_pwd"
                 },
                 //去掉虚拟市场货币的D字符
@@ -717,7 +748,6 @@
                         this.showModal = false;
                         return
                     }
-                    console.log(name);
                     this.showModal = name;
                     //this.$refs[name].open = true;
                 },
@@ -955,6 +985,9 @@
                 }
             },
             created: function () {
+                this.safeTradeType = this.loginUser.tradeAuth;
+                this.safeLoginType = this.loginUser.loginAuth;
+                this.safewithdrawalType = this.loginUser.withdrawAuth;
                 // this.approveStep=this.loginUser.status;
                 //this.getAssets();
                 // this.getPubKey();
