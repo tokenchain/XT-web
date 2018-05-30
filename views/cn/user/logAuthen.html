@@ -1,47 +1,65 @@
 <section class="exx-entrance">
     <%-include("canvas.html")%>
-  <div class="exx-entrance-main">
+    <div class="exx-entrance-main">
         <div class="exx-entrance-head">
             <h3><%= LANG('登录验证') %></h3>
         </div>
-<div id="logAuth">
-      <div class="exx-entrance-body" id="logBox">
-          <div class="form-box" id="vipLogin">
-              <p style="font-size: 12px; color: #f00;margin-bottom: 30px; text-align: center;"><%= LANG('根据您的登录设置，本次登录需要验证。') %></p>
-          <div class="form-group" v-if="loginUser.code == '6038' || loginUser.code == '6061' || loginUser.code == '6063' || loginUser.code == '6064'">
-            <div class="form-control">
-              <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
-                <send-code class="text-nowrap"
-                           :code-type="1"
-                           :user-name="loginUser.userName"
-                           :country-code="loginUser.countryCode"
-                           :bus-type="6"/>
-            </div>
-          </div>
+        <div id="logAuth">
+            <div class="exx-entrance-body" id="logBox">
+                <div class="form-box" id="vipLogin">
+                    <p style="font-size: 12px; color: #f00;margin-bottom: 30px; text-align: center;"><%=
+                        LANG('根据您的登录设置，本次登录需要验证。') %></p>
+                    <!--<div class="form-group" v-if="loginUser.code == '6038' || loginUser.code == '6061' || loginUser.code == '6063' || loginUser.code == '6064'">-->
+                    <!--<div class="form-control">-->
+                    <!--<input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">-->
+                    <!--<send-code class="text-nowrap"-->
+                    <!--:code-type="1"-->
+                    <!--:user-name="loginUser.userName"-->
+                    <!--:country-code="loginUser.countryCode"-->
+                    <!--:bus-type="6"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
 
-          <div class="form-group" v-if="loginUser.code == '6037' || loginUser.code == '6062' || loginUser.code == '6063' || loginUser.code == '6064'">
-            <div class="form-control">
-              <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
-                <send-code class="text-nowrap"
-                           :code-type="2"
-                           :user-name="loginUser.userName"
-                           :country-code="loginUser.countryCode"
-                           :bus-type="6" />
-            </div>
-          </div>
+                    <!--<div class="form-group" v-if="loginUser.code == '6037' || loginUser.code == '6062' || loginUser.code == '6063' || loginUser.code == '6064'">-->
+                    <!--<div class="form-control">-->
+                    <!--<input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">-->
+                    <!--<send-code class="text-nowrap"-->
+                    <!--:code-type="2"-->
+                    <!--:user-name="loginUser.userName"-->
+                    <!--:country-code="loginUser.countryCode"-->
+                    <!--:bus-type="6" />-->
+                    <!--</div>-->
+                    <!--</div>-->
 
-          <div class="form-group" v-if="loginUser.code == '6011' || loginUser.code == '6061' || loginUser.code == '6062' || loginUser.code == '6064'">
-            <div class="form-control">
-              <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                    <div class="form-group"
+                         v-if="loginUser.code == '6065' || loginUser.code == '6066'">
+                        <div class="form-control">
+                            <input v-model="remoteCode" placeholder="<%= LANG('异地登录验证码') %>" autocomplete="off"
+                                   type="text"
+                                   @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                            <send-code class="text-nowrap"
+                                       :code-type="3"
+                                       :user-name="loginUser.userName"
+                                       :country-code="loginUser.countryCode"
+                                       :bus-type="6"
+                                       @type="editSendCodeType"/>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         v-if="loginUser.code == '6011' || loginUser.code == '6061' || loginUser.code == '6062' || loginUser.code == '6064' || loginUser.code == '6065'">
+                        <div class="form-control">
+                            <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text"
+                                   @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                        </div>
+                    </div>
+                    <div class="form-button">
+                        <button id="submitBtn" type="button" @click="handleSubmit" class="button"
+                                :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('立即验证') %></span></button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="form-button">
-              <button id="submitBtn" type="button" @click="handleSubmit" class="button" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('立即验证') %></span></button>
-          </div>
-      </div>
-  </div>
-  </div>
-  </div>
+        </div>
+    </div>
 </section>
 <%-include("../component/send_code/index.html")%>
 <script>
@@ -87,10 +105,25 @@
                     dynamicCode: '',
                     emailCode: '',
                     googleCode: '',
-                    requestLocked : false
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/5/30
+                     *功能: 异地登录验证码
+                     */
+                    remoteCode: '',
+                    requestLocked: false,
+                    sendCodeType: '',
                 }
             },
             methods: {
+                /**
+                 *作者: GongQi
+                 *时间: 2018/5/30
+                 *功能: 接收子组件 codeType
+                 */
+                editSendCodeType: function (res) {
+                    this.sendCodeType = res
+                },
                 handleCheckLength: function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
                     if ($(target).val().length < 4) {
@@ -99,15 +132,15 @@
                         Methods.showLineError(target, "")
                     }
                 },
-                clearInputError : function (e) {
+                clearInputError: function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
                     Methods.showLineError(target, "")
                 },
-                bindEnter : function () {
+                bindEnter: function () {
                     var _this = this;
-                    document.onkeydown = function(e){
+                    document.onkeydown = function (e) {
                         var ev = document.all ? window.event : e;
-                        if(ev.keyCode==13) {
+                        if (ev.keyCode == 13) {
                             _this.handleSubmit()
                             return false;
                         }
@@ -125,14 +158,20 @@
                         userNameType: this.loginUser.userType,
                         password: this.loginUser.password,
                         countryCode: this.loginUser.countryCode, //暂无该参数
-                        emailCode: this.emailCode,
-                        smsCode: this.dynamicCode,
-                        googleCode: this.googleCode
+                        googleCode: this.googleCode,
+                    }
+                    switch (this.sendCodeType) {
+                        case 'sms':
+                            data.smsCode = this.remoteCode
+                            break;
+                        case 'email':
+                            data.emailCode = this.remoteCode
+                            break
                     }
                     _this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
-                        url: DOMAIN_DEV+ "/exchange/user/controller/website/usercontroller/" + 'loginauth',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'loginauth',
                         data: JSON.stringify(data),
                         success: function (res) {
                             _this.requestLocked = false;
@@ -141,11 +180,11 @@
                             Methods.setLocalUserInfo(res.datas);
 
                             //设置登录状态 cookie
-                            Methods.setCookie(ENV+'uon', 1);
-                            Methods.setCookie(ENV+'uid', res.datas.userId);
-                            Methods.setCookie(ENV+'uname', res.datas.loginName);
+                            Methods.setCookie(ENV + 'uon', 1);
+                            Methods.setCookie(ENV + 'uid', res.datas.userId);
+                            Methods.setCookie(ENV + 'uname', res.datas.loginName);
 
-                            Methods.setCookie(ENV+'utoken', res.datas.token);
+                            Methods.setCookie(ENV + 'utoken', res.datas.token);
 
                             loginSuccessUi('/u')
                             //window.location.href = '/u';
@@ -158,7 +197,7 @@
                     });
                 }
             },
-            mounted : function () {
+            mounted: function () {
                 Methods.checkMobileStyle();
                 this.bindEnter();
             }

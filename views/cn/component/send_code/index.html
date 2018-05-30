@@ -119,7 +119,17 @@
                                     _this.requestLocked = false;
                                     _this.successFun(res);
                                 }
-                                JuaBox.sure(EXX.L(resMsg.message));
+                                switch (res.datas) {
+                                    case 'sms':
+                                        _this.$emit('type','sms');
+                                        JuaBox.sure('<%= LANG("验证码已发送至手机") %>');
+                                        break;
+                                    case 'email':
+                                        _this.$emit('type','email');
+                                        JuaBox.sure('<%= LANG("验证码已发送至邮箱") %>');
+                                        break;
+                                }
+
                             },
                             error: function (res) {
                                 _this.requestLocked = false;
