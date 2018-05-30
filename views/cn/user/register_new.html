@@ -86,6 +86,7 @@
                 return {
                     timestramp: '',
                     pubKey: '',
+                    rsaKeyId:'',
                     pwdStrength: 0,
                     userType: 1,
                     showCountry: false,
@@ -117,15 +118,16 @@
                         }.bind(this)
                     });
                 },
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 handleCheckUserType: function (e) {
                     var target = e.target || e.currentTarget || e.srcElement;
                     this.userType = Methods.checkUserType(this.userName);
@@ -224,6 +226,7 @@
                         // userType: this.userType,
                         email: this.userName,
                         password: encryptionPwd,
+                        rsaKeyId: this.rsaKeyId,
                         imgCode: this.imgCode,
                         imgCodeId: this.imgCodeId,
                         dynamicCode: this.smsCode,
@@ -279,7 +282,7 @@
             mounted: function () {
                 Methods.checkMobileStyle();
                 this.bindEnter();
-                // this.getPubKey();
+                this.getPubKey();
 
                 this.getImageCode();
             }

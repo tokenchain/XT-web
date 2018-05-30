@@ -831,15 +831,16 @@
                     this.loginAuthParams.type = type == 1 ? 0 : 1;
                     this.showModal = 'loginAuth';
                 },
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 // 获取币价汇率
                 getPriceRate: function (callback) {
                     Methods.ajax({
@@ -943,7 +944,7 @@
             created: function () {
                 // this.approveStep=this.loginUser.status;
                 //this.getAssets();
-                // this.getPubKey();
+                this.getPubKey();
                 // this.getPriceRate();
             },
             mounted: function () {

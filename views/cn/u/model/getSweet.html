@@ -206,15 +206,16 @@
                 getAllSweet : function () {
                     this.sweetAmount = this.exxCoinCanGet;
                 },
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 // 获取用户资金
                 getTargetUserAsset: function (callback) {
                     var data = {
@@ -283,7 +284,7 @@
                 }
             },
             created: function () {
-                // this.getPubKey();
+                this.getPubKey();
                 this.getSweetList();
                 this.getTargetUserAsset();
             },

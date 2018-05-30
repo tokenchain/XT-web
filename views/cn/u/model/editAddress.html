@@ -145,7 +145,7 @@
                 // getPubKey: function (callback) {
                 //     Methods.ajax({
                 //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                //         url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
                 //         success: function (res) {
                 //             this.pubKey = res.datas.pubKey;
                 //             callback && callback();
@@ -209,7 +209,7 @@
                     });
                 },
                 doSubmit : function () {
-                    // this.getPubKey();
+                    this.getPubKey();
                     this.handleAddressSubmit();
                 }
             },

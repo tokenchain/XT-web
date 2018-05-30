@@ -80,6 +80,7 @@
             data: function () {
                 return {
                     pubKey: '',
+                    rsaKeyId:'',
                     timestramp: '',
                     userType: 1,
                     showCountry: false,
@@ -150,15 +151,16 @@
                     this.countryCode = country.code
                 },
                 //获取公钥-ok
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 //刷新图形验证码-ok
                 handleRefreshImgcode: function () {
                     // this.timestramp = '-' + new Date().getTime();
@@ -177,6 +179,7 @@
                         userType: Methods.checkUserType(this.userName),
                         userName: this.userName,
                         password: encryptionPwd,
+                        rsaKeyId: this.rsaKeyId,
                         imgCode: this.imgCode,
                         imgCodeId: this.imgCodeId,
                         //暂无该参数
@@ -292,7 +295,7 @@
                 if (this.userName != '') {
                     $('#username').parent().parent().addClass('activenocolor');
                 }
-                // this.getPubKey();
+                this.getPubKey();
                 this.userType = Methods.checkUserType(this.userName);
 
                 this.getImageCode();
