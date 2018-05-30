@@ -234,13 +234,16 @@
                                 // 6062 需要输入谷歌、短信验证码，
                                 // 6063 需要输入邮箱，短信验证码，
                                 // 6064 需要输入谷歌、邮箱、短信验证码
+                                
+                                /**
+                                 *作者: GongQi
+                                 *时间: 2018/5/30
+                                 *功能: 6066 开启异地登录
+                                 *     6065 开启异地登录、Google验证
+                                 */
                                 if (resMsg.code == 6011 ||
-                                    resMsg.code == 6037 ||
-                                    resMsg.code == 6038 ||
-                                    resMsg.code == 6061 ||
-                                    resMsg.code == 6062 ||
-                                    resMsg.code == 6063 ||
-                                    resMsg.code == 6064) {
+                                    resMsg.code == 6065 ||
+                                    resMsg.code == 6066) {
                                     data.code = resMsg.code; //将二次验证code传递
                                     Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
                                     //需要进一步验证

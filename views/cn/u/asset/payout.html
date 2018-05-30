@@ -90,8 +90,8 @@
                     </div>
                 </div>
                 <input class="payout-input" type="text" placeholder="<%= LANG('提现金额')%>" v-model="payoutAmount">
-                <input class="payout-input payout-input-last" type="password" placeholder="<%= LANG('提现密码')%>" v-model="safePwd" autocomplete="off">
-                <div class="payout-code">
+                <input class="payout-input payout-input-last" type="password" placeholder="<%= LANG('资金密码')%>" v-model="safePwd" autocomplete="off">
+                <div class="payout-code"  v-if="loginUser.withdrawAuth == 3 || loginUser.withdrawAuth == 7">
                     <input class="code-input" autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
                            type="text">
                     <send-code class="code-button"
@@ -100,6 +100,10 @@
                                :user-name="loginUser.loginName"
                                :user-id="loginUser.userId"
                                :bus-type="22"/>
+                </div>
+                <div class="payout-code" v-if="loginUser.withdrawAuth == 5 || loginUser.withdrawAuth == 7">
+                    <input class="code-input" autocomplete="off" placeholder="<%= LANG('谷歌验证码') %>" v-model="googleCode"
+                           type="text">
                 </div>
                 <button class="payout-confirm" @click="payoutLegalTender"><%= LANG('提现')%></button>
                 <div class="payout-button">
@@ -132,12 +136,12 @@
                     </div>
                     <div class="form-group">
                         <div class="form-control">
-                            <input :placeholder="loginUser.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' "
+                            <input :placeholder="loginUser.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('资金密码')%>' "
                                    autocomplete="new-password" v-model="safePwd" type="password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="form-control">
+                        <div class="form-control" v-if="loginUser.withdrawAuth == 3 || loginUser.withdrawAuth == 7">
                             <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
                                    type="text">
                             <send-code :code-type="3"
@@ -147,7 +151,7 @@
                                        :bus-type="22"/>
                         </div>
                     </div>
-                    <div v-if="loginUser.googleAuth == 1 || loginUser.googleAuth == -1" class="form-group">
+                    <div v-if="loginUser.withdrawAuth == 5 || loginUser.withdrawAuth == 7" class="form-group">
                         <div class="form-control">
                             <input autocomplete="off" placeholder="<%= LANG('谷歌验证码') %>" v-model="googleCode"
                                    type="text"/>
@@ -530,7 +534,8 @@
                         amount: this.payoutAmount,
                         safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         dynamicCode: this.payoutDynamicCode,
-                        addressId: this.bankInfo.withdrawBankAccount
+                        addressId: this.bankInfo.withdrawBankAccount,
+                        googleCode: this.googleCode,
                     };
                     Methods.ajax({
                         type: 'POST',
