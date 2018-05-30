@@ -306,16 +306,16 @@
                         <h3 class="h3-width"><%= LANG('登录验证') %></h3>
                     </div>
                     <div class="right">
-                        <div class="safe-item" :class="{active:safeLoginType==1}" @click="safeLoginTypeHandler(1)">
+                        <div class="safe-item" :class="{active:loginUser.loginAuth==1}" @click="safeLoginTypeHandler(1)">
                             <%= LANG('登录密码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safeLoginType==3}" @click="safeLoginTypeHandler(3)">
+                        <div class="safe-item" :class="{active:loginUser.loginAuth==3}" @click="safeLoginTypeHandler(3)">
                             <%= LANG('登录密码+异地登录') %>
                         </div>
-                        <div class="safe-item" :class="{active:safeLoginType==5}" @click="safeLoginTypeHandler(5)">
+                        <div class="safe-item" :class="{active:loginUser.loginAuth==5}" @click="safeLoginTypeHandler(5)">
                             <%= LANG('登录密码+Google验证码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safeLoginType==7}" @click="safeLoginTypeHandler(7)">
+                        <div class="safe-item" :class="{active:loginUser.loginAuth==7}" @click="safeLoginTypeHandler(7)">
                             <%= LANG('登录密码+Google验证码+异地登录') %>
                         </div>
                     </div>
@@ -325,13 +325,13 @@
                         <h3 class="h3-width"><%= LANG('交易验证') %></h3>
                     </div>
                     <div class="right">
-                        <div class="safe-item" :class="{active:safeTradeType==1}" @click="safeTradeTypeHandler(1)">
+                        <div class="safe-item" :class="{active:loginUser.tradeAuth==1}" @click="safeTradeTypeHandler(1)">
                             <%= LANG('免输入资金密码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safeTradeType==2}" @click="safeTradeTypeHandler(2)">
+                        <div class="safe-item" :class="{active:loginUser.tradeAuth==2}" @click="safeTradeTypeHandler(2)">
                             <%= LANG('6小时内免输入资金密码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safeTradeType==3}" @click="safeTradeTypeHandler(3)">
+                        <div class="safe-item" :class="{active:loginUser.tradeAuth==3}" @click="safeTradeTypeHandler(3)">
                             <%= LANG('每次交易输入资金密码') %>
                         </div>
                     </div>
@@ -341,15 +341,15 @@
                         <h3 class="h3-width"><%= LANG('提现验证') %><span class=""></span></h3>
                     </div>
                     <div class="right">
-                        <div class="safe-item" :class="{active:safewithdrawalType==3}"
+                        <div class="safe-item" :class="{active:loginUser.withdrawAuth==3}"
                              @click="safeWithdrawalTypeHandler(3)">
                             <%= LANG('资金密码+短信/邮件验证码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safewithdrawalType==5}"
+                        <div class="safe-item" :class="{active:loginUser.withdrawAuth==5}"
                              @click="safeWithdrawalTypeHandler(5)">
                             <%= LANG('资金密码+Google验证码') %>
                         </div>
-                        <div class="safe-item" :class="{active:safewithdrawalType==7}"
+                        <div class="safe-item" :class="{active:loginUser.withdrawAuth==7}"
                              @click="safeWithdrawalTypeHandler(7)">
                             <%= LANG('资金密码+Google验证码+短信/邮件验证') %>
                         </div>
@@ -432,7 +432,7 @@
     </modal>
 
     <modal v-cloak :open="showModal == 'setsafepay'" @close="showModal = false">
-        <setsafepay :safe-wayinfo="safeWayinfo" v-on:childByValue="childByValue"/>
+        <setsafepay :safe-wayinfo="safeWayinfo"/>
     </modal>
 </div>
 
@@ -608,9 +608,6 @@
                 }
             },
             methods: {
-                childByValue: function(){
-                    alert(22)
-                },
                 //安全策略-设置登录验证的方式
                 safeLoginTypeHandler: function (type) {
                     if (type == this.loginUser.loginAuth) {
@@ -988,7 +985,6 @@
                 this.safeTradeType = this.loginUser.tradeAuth;
                 this.safeLoginType = this.loginUser.loginAuth;
                 this.safewithdrawalType = this.loginUser.withdrawAuth;
-                // this.approveStep=this.loginUser.status;
                 //this.getAssets();
                 // this.getPubKey();
                 // this.getPriceRate();

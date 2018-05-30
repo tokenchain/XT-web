@@ -33,7 +33,8 @@
         <send-code :code-type="3"
                    :user-name="userInfo.loginName"
                    :user-id="userInfo.userId"
-                   :bus-type="12"/>
+                   :bus-type="12"
+                   @type="editSendCodeType"/>
         </div>
       </div>
 
@@ -80,6 +81,7 @@
             },
             data: function () {
                 return {
+                    sendCodeType:'',
                     type: '',
                     locked: false,
                     isOpen: true,
@@ -126,6 +128,10 @@
                 }
             },
             methods: {
+                //接收子组件验证类型（短信/邮件）
+                editSendCodeType: function (res) {
+                    this.sendCodeType = res;
+                },
                 getGoogleSecret: function () {
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getgooglesecret',
@@ -159,8 +165,13 @@
                         type: type,
                         googleSecret: this.googleSecret,
                         googleCode: this.googleCode,
-                        dynamicCode: this.dynamicCode
+                        // dynamicCode: this.dynamicCode
                     };
+                    if(this.sendCodeType=="sms"){
+                        data.dynamicCode= this.dynamicCode;
+                    }else if(this.sendCodeType=="email"){
+                        data.emailCode= this.dynamicCode;
+                    }
                     this.locked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
@@ -172,7 +183,8 @@
                             JuaBox.info(EXX.L(res.resMsg.message), function () {
                                 top.location.reload();
                             });
-
+                            Vue.set(EXX.userIndex.loginUser, "", this.safeWayinfo.way);//更新Vue用户信息
+                            Methods.setLocalUserInfo(EXX.userIndex.loginUser);//更新localStroage本地用户信息
                             EXX.userIndex.closeModal();
                         }.bind(this),
                         error: function (res) {

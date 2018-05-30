@@ -31,7 +31,7 @@
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
                                        type="text">
                                 <send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"
-                                           :bus-type="13"/>
+                                           :bus-type="13" @type="editSendCodeType"/>
                             </div>
                         </div>
                         <div v-if="safeWayinfo.way==5 || safeWayinfo.way==7" class="form-group">
@@ -103,6 +103,7 @@
             },
             data: function () {
                 return {
+                    sendCodeType:"",//发送验证类型
                     moneyPass: '',//资金密码
                     locked: false,
                     pubKey: '',
@@ -125,6 +126,10 @@
                 }
             },
             methods: {
+                //接收子组件验证类型（短信/邮件）
+                editSendCodeType: function (res) {
+                    this.sendCodeType = res;
+                },
                 handleComparedPwd: function () {
                     this.passwordIdentical = this.newPassword === this.passwordConfirmation
                 },
@@ -187,16 +192,23 @@
                     this.locked = true;
                     var url = "";
                     if(this.safeWayinfo.type != "trade"){
-                        data.emailCode= this.dynamicCode;
-                        data.smsCode= this.dynamicCode;
+                        if(this.sendCodeType=="sms"){
+                            data.smsCode= this.dynamicCode;
+                        }else if(this.sendCodeType=="email"){
+                            data.emailCode= this.dynamicCode;
+                        }
                         data.googleCode=this.googleCode;
                     }
+                    var keyStr="";
                     if (this.safeWayinfo.type == "trade") {
+                        keyStr="tradeAuth";
                         url = "dosettradeauth";
                         data.securityPassword= Methods.encryptPwd(this.moneyPass, this.pubKey);
                     } else if (this.safeWayinfo.type == "login") {
+                        keyStr="loginAuth";
                         url = "dosetloginauth";
                     } else if (this.safeWayinfo.type == "withdrawal") {
+                        keyStr="withdrawAuth";
                         url = "dosetwithdrawauth";
                     }
                     //通过headers传参，使用ajax原生方法
@@ -214,7 +226,8 @@
                             this.newPassword = '';
                             this.passwordConfirmation = '';
                             this.dynamicCode = '';
-                            // window.location.reload();
+                            Vue.set(EXX.userIndex.loginUser, "googleAuth", 1);//更新Vue用户信息
+                            Methods.setLocalUserInfo(EXX.userIndex.loginUser);//更新localStroage本地用户信息
                         }.bind(this),
                         error: function (res) {
                             this.locked = false;
@@ -271,7 +284,6 @@
             },
             mounted: function () {
                 // this.getPubKey();
-                this.$emit('childByValue')
             }
         })
     })
