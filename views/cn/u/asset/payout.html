@@ -263,17 +263,6 @@
                 }
             },
             computed: {
-                //获取公钥-ok
-                getPubKey: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
-                        success: function (res) {
-                            this.pubKey = res.datas.pubKey;
-                            this.rsaKeyId= res.datas.keyId;
-                        }.bind(this)
-                    });
-                },
                 // 当前货币id-ok
                 currencyId: function () {
                     var currencyId = '';
@@ -378,6 +367,17 @@
                 }
             },
             methods: {
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 filterCoin: function (objs) {
                     var _this = this;
                     if (!_this.keyWord) {
