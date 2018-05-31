@@ -238,7 +238,7 @@
                             this.newPassword = '';
                             this.passwordConfirmation = '';
                             this.dynamicCode = '';
-                            Vue.set(EXX.userIndex.loginUser, "googleAuth", 1);//更新Vue用户信息
+                            Vue.set(EXX.userIndex.loginUser, keyStr, this.safeWayinfo.way);//更新Vue用户信息
                             Methods.setLocalUserInfo(EXX.userIndex.loginUser);//更新localStroage本地用户信息
                         }.bind(this),
                         error: function (res) {
