@@ -51,6 +51,7 @@
                     rateClass: 'text-primary trading-redcolor',
                     priceClass: 'text-primary trading-redcolor',
                     arrowClass: 'icon-arrowup',
+                    entrustingRecord: [],
                     entrustRecord: [],
                     entrustTab: [
                         ['doing', "<%= LANG('正在进行的委托')%>"],
@@ -603,6 +604,32 @@
                     }
                     callback && callback();
                 },
+                //获取用户委托记录-委托中记录
+                getUserEntrustRecordFromCache: function (callback) {
+                    var _this = this;
+                    var data = {
+                        marketId: _this.currentMarketId,
+                        userId: _this.currentAccountId,
+                        entrustType: 0
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "exchange/entrust/controller/website/EntrustController/" + 'getUserEntrustRecordFromCache',
+                        data: data,
+                        success: function (res) {
+                            //VUE数组的更新
+                            _this.entrustingRecord = res.datas.reverse();
+                            if (res.datas.length > 0) {
+                                /**
+                                 *作者: GongQi
+                                 *时间: 2018/5/31
+                                 *功能: 委托后刷新 可用余额-暂时处理方案
+                                 */
+                                EXX.userNav.getAccountAssets()
+                            }
+                            callback && callback(res.datas)
+                        }
+                    });
+                },
                 //获取用户委托记录
                 getEntrustRecord: function (callback) {
                     var _this = this;
@@ -866,20 +893,28 @@
                 //过滤指定的委托
                 getGroupEntrust: function (group) {
                     var result = [];
-                    this.entrustRecord.forEach(function (item) {
-                        // if(group == 'doing' && (item[7] == 3 || item[7] == 0)){
-                        //     result.push(item);
-                        // }
-                        // if(group == 'history' && (item[7] == 1 || item[7] == 2)){
-                        //     result.push(item);
-                        // }
-                        if (group == 'doing' && (item.status == 3 || item.status == 0)) {
-                            result.push(item);
-                        }
-                        if (group == 'history' && (item.status == 1 || item.status == 2)) {
-                            result.push(item);
-                        }
-                    })
+                    switch (group){
+                        case "doing":
+                            this.entrustingRecord.forEach(function (item) {
+                                if (group == 'doing' && (item.status == 3 || item.status == 0)) {
+                                    result.push(item);
+                                }
+                            })
+                            break;
+                        case "history":
+                            this.entrustRecord.forEach(function (item) {
+                                // if(group == 'doing' && (item[7] == 3 || item[7] == 0)){
+                                //     result.push(item);
+                                // }
+                                // if(group == 'history' && (item[7] == 1 || item[7] == 2)){
+                                //     result.push(item);
+                                // }
+                                if (group == 'history' && (item.status == 1 || item.status == 2)) {
+                                    result.push(item);
+                                }
+                            })
+                            break;
+                    }
                     return result;
                 },
                 //是否可以充值
@@ -1258,7 +1293,11 @@
                             _this.getEntrustRecord(function () {
                                 _this.initEntrustScroll();
                                 setInterval(_this.getEntrustRecord, 3000);
+
                             });
+                            _this.getUserEntrustRecordFromCache(function () {
+                                setInterval(_this.getUserEntrustRecordFromCache, 3000);
+                            })
                         }
                     })
                 });
