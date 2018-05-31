@@ -155,6 +155,7 @@
             data: function () {
                 return {
                     pubKey: '',
+                    rsaKeyId:'',
                     locked: false,
                     step: 1,
                     // loginUser: Methods.getLocalUserInfo(),
@@ -176,15 +177,16 @@
                 }
             },
             methods: {
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 coverPhone: function (phone) {
                     return Methods.coverPhone(phone);
                 },
@@ -214,10 +216,11 @@
                         phone: this.mobile,
                         emailCode: this.emailCode,
                         mobileCode: this.newMobileCode,
+                        rsaKeyId: this.rsaKeyId,
                         rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
-                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doauthmobile';
+                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doAuthMobile';
 
                     if (this.userInfo.mobileAuth == 1) {
                         url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'domodifymobile';
@@ -228,6 +231,7 @@
                             emailCode: this.emailCode,
                             oldMobileCode: this.oldMobileCode,
                             newMobileCode: this.newMobileCode,
+                            rsaKeyId: this.rsaKeyId,
                             rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                             googleCode: this.googleCode
                         }
@@ -264,7 +268,7 @@
                 }
             },
             created: function () {
-                // this.getPubKey();
+                this.getPubKey();
                 if (this.userInfo.mobileAuth == 0) {
                     this.step = 2;
                 }

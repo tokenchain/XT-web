@@ -510,11 +510,15 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             window.localStorage.removeItem(name);
         },
         //sha1加密 pubKey暂不起作用
+        // encryptPwd: function (password, pubKey) {
+        //     return SHA1(password);
+        // },
+        /**
+         *作者: GongQi
+         *时间: 2018/5/30
+         *功能: 启用加密方式
+         */
         encryptPwd: function (password, pubKey) {
-            return SHA1(password);
-        },
-        //加密pwd(已弃用)
-        encryptPwd_old: function (password, pubKey) {
             var encrypt = new JSEncrypt.JSEncrypt;
             encrypt.setPublicKey(pubKey);
             return encrypt.encrypt(password);
