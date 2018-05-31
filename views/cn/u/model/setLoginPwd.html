@@ -55,6 +55,7 @@
                 return {
                     locked: false,
                     pubKey: '',
+                    rsaKeyId:'',
                     oldPassword: '',
                     newPassword: '',
                     passwordConfirmation: '',
@@ -74,6 +75,16 @@
                 }
             },
             methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 handleComparedPwd: function () {
                     this.passwordIdentical = this.newPassword === this.passwordConfirmation
                 },
@@ -93,7 +104,8 @@
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
                         smsCode: this.dynamicCode,
                         googleCode: this.googleCode,
-                        pwdLevel: this.pwdStrength
+                        pwdLevel: this.pwdStrength,
+                        rsaKeyId:this.rsaKeyId
                     };
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");
@@ -143,7 +155,7 @@
                 }
             },
             mounted: function () {
-                // this.getPubKey();
+                this.getPubKey();
             }
         })
     })

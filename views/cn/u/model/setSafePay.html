@@ -107,6 +107,7 @@
                     moneyPass: '',//资金密码
                     locked: false,
                     pubKey: '',
+                    rsaKeyId:'',
                     oldPassword: '',
                     newPassword: '',
                     passwordConfirmation: '',
@@ -126,6 +127,16 @@
                 }
             },
             methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 //接收子组件验证类型（短信/邮件）
                 editSendCodeType: function (res) {
                     this.sendCodeType = res;
@@ -204,6 +215,7 @@
                         keyStr="tradeAuth";
                         url = "dosettradeauth";
                         data.securityPassword= Methods.encryptPwd(this.moneyPass, this.pubKey);
+                        data.rsaKeyId=this.rsaKeyId;
                     } else if (this.safeWayinfo.type == "login") {
                         keyStr="loginAuth";
                         url = "dosetloginauth";
@@ -283,7 +295,7 @@
                 }
             },
             mounted: function () {
-                // this.getPubKey();
+                this.getPubKey();
             }
         })
     })
