@@ -72,7 +72,7 @@
         // getPubKey: function() {
         //     Methods.ajax({
         //         type: 'GET',
-        //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
+        //         url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
         //         success: function (res) {
         //             this.pubKey = res.datas.pubKey;
         //         }.bind(this)
@@ -108,7 +108,7 @@
         }
       },
       mounted: function () {
-        // this.getPubKey();
+        this.getPubKey();
       }
     });
   })

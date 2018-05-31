@@ -240,6 +240,7 @@
                     pageCount: 0,
                     step: 1,
                     pubKey: '',
+                    rsaKeyId:'',
                     safePwd: '',
                     googleCode: '',
                     payoutAmount: '',
@@ -262,6 +263,17 @@
                 }
             },
             computed: {
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 // 当前货币id-ok
                 currencyId: function () {
                     var currencyId = '';
@@ -492,7 +504,7 @@
                         amount: this.payoutAmount,
                         dynamicCode: this.payoutDynamicCode,
                         googleCode: this.googleCode,
-
+                        rsaKeyId: this.rsaKeyId,
                         fees: this.currentMinFees, //手续费
                         actuallyAmount: this.actualPayout //实到金额
                     };
@@ -536,6 +548,7 @@
                         dynamicCode: this.payoutDynamicCode,
                         addressId: this.bankInfo.withdrawBankAccount,
                         googleCode: this.googleCode,
+                        rsaKeyId: this.rsaKeyId,
                     };
                     Methods.ajax({
                         type: 'POST',
@@ -659,6 +672,9 @@
                 if (this.isLayerCoin) {
                     this.getBankaccountSearch()
                 }
+            },
+            mounted: function () {
+                this.getPubKey();
             }
         })
     })

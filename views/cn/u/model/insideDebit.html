@@ -195,15 +195,16 @@
                     //     }.bind(this)
                     // });
                 },
-                // getPubKey: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV + "/exchange/controller/website/common/baseapicontroller/" + 'getpubkey',
-                //         success: function (res) {
-                //             this.pubKey = res.datas.pubKey;
-                //         }.bind(this)
-                //     });
-                // },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 handleSubmit: function () {
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
@@ -247,7 +248,7 @@
                 }
             },
             created: function () {
-                // this.getPubKey();
+                this.getPubKey();
                 this.getMainUserAsset(function () {
                     if (this.info.type == 'in') {
                         this.inAccount = this.getUserInfo(this.info.userId);

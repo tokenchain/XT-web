@@ -135,7 +135,7 @@
 
             },
             mounted: function () {
-
+                this.getPubKey();
             },
             data: function () {
                 return {
@@ -149,11 +149,25 @@
                         smsCode: '',
                         idCard: '',
                         bankAccount: '',
+
                     },
+                    pubKey: '',
+                    rsaKeyId:'',
                 }
             },
             computed: {},
             methods: {
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 selectResetType: function (type) {
                     this.resetType = type
                     this.course = 1
@@ -168,6 +182,7 @@
                     var data = {
                         oldPassword: Methods.encryptPwd(this.fundsInput.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
                     }
                     Methods.ajax({
                         type: "POST",
@@ -175,9 +190,9 @@
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.resMsg.code == 1) {
-
+                                this.resetType = 2;
+                                this.course = 2;
                             }
-                            console.log(res)
                         }.bind(this),
                         error: function (res) {
                             JuaBox.info(EXX.L(res.resMsg.message))
@@ -189,6 +204,7 @@
                     var data = {
                         oldPassword: Methods.encryptPwd(this.fundsInput.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
                     }
                     Methods.ajax({
                         type: "POST",
@@ -212,7 +228,8 @@
                         newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
                         idCard: this.fundsInput.idCard,
                         bankAccount: this.fundsInput.bankAccount,
-                        smsCode: this.fundsInput.smsCode
+                        smsCode: this.fundsInput.smsCode,
+                        rsaKeyId: this.rsaKeyId,
                     }
                     Methods.ajax({
                         type: "POST",
