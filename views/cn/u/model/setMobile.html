@@ -66,13 +66,13 @@
                          :country-code="countryCode"
                          :user-name="mobile"
                          :user-id="userInfo.userId"
-                         bus-type="9"/>
+                         :bus-type="7"/>
               <send-code v-if="userInfo.mobileAuth == 1"
                          :code-type="2"
                          :country-code="countryCode"
                          :user-name="mobile"
                          :user-id="userInfo.userId"
-                         bus-type="9"/>
+                         :bus-type="9"/>
             </div>
           </div>
 
@@ -84,13 +84,13 @@
                          :country-code="countryCode"
                          :user-name="userInfo.email"
                          :user-id="userInfo.userId"
-                         bus-type="9"/>
+                         :bus-type="7"/>
               <send-code v-if="userInfo.mobileAuth == 1"
                          :code-type="1"
                          :country-code="countryCode"
                          :user-name="userInfo.email"
                          :user-id="userInfo.userId"
-                         bus-type="9"/>
+                         :bus-type="9"/>
             </div>
             </div>
 
