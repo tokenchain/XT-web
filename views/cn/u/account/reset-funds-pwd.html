@@ -61,12 +61,12 @@
                             <send-code :code-type="2" :user-name="loginUser.loginName" :user-id="loginUser.userId"  :bus-type="3"/>
                         </div>
                     </div>
-                    <div class="input-box">
-                        <div class="input-left-title">
-                            <%= LANG('证件号码')%>
-                        </div>
-                        <input class='input-right' type="text" v-model="fundsInput.idCard">
-                    </div>
+                    <!--<div class="input-box">-->
+                        <!--<div class="input-left-title">-->
+                            <!--<%= LANG('证件号码')%>-->
+                        <!--</div>-->
+                        <!--<input class='input-right' type="text" v-model="fundsInput.idCard">-->
+                    <!--</div>-->
                     <div class="input-box">
                         <div class="input-left-title">
                             <%= LANG('银行卡号')%>
@@ -147,7 +147,7 @@
                         samePassword: '',
                         newPassword: '',
                         smsCode: '',
-                        idCard: '',
+                        // idCard: '',
                         bankAccount: '',
 
                     },
@@ -226,7 +226,7 @@
                     this.auditPassword();
                     var data = {
                         newPassword: Methods.encryptPwd(this.fundsInput.newPassword, this.pubKey),
-                        idCard: this.fundsInput.idCard,
+                        // idCard: this.fundsInput.idCard,
                         bankAccount: this.fundsInput.bankAccount,
                         smsCode: this.fundsInput.smsCode,
                         rsaKeyId: this.rsaKeyId,
