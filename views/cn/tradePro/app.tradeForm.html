@@ -49,11 +49,13 @@
                     //委托类型 0限价委托，1批量委托，2计划委托
                     tradeMode: 0,
                     flashForm: false,
-                    showModal: false,
+                    // showModal: false,
                     securityPassword: '',
                     pubKey: '',
                     rsaKeyId: '',
-                    entrustParams: {}
+                    entrustParams: {},
+                    tradeFormModal: false,
+                    verificationPwd:''
                 }
             },
             computed: {
@@ -354,10 +356,9 @@
                         // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
-                            this.showModal = false;
-                            this.entrustParams = {}
+                            // this.showModal = false;
+                            this.cancelVerification();
                             //解除请求锁定
-                            this.requestLocked = false;
                             //清除输入框内容
                             this.clearEntrustInput();
                             //刷新委托和资金
@@ -375,7 +376,7 @@
                             switch (res.resMsg.code) {
                                 case "6077":
                                     this.entrustParams = data;
-                                    this.showModal = true;
+                                    this.tradeFormModal = true;
                                     break;
                                 default:
                                     //解除请求锁定
@@ -670,9 +671,10 @@
                     this.doSubmitEntrust(true)
                 },
                 cancelVerification: function () {
-                    this.showModal = false;
+                    this.tradeFormModal = false;
                     this.requestLocked = false;
                     this.entrustParams = {};
+                    this.verificationPwd = ''
                 }
             },
             watch: {
