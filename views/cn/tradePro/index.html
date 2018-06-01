@@ -170,12 +170,12 @@
                     <ul class="tab">
                         <li @click="changeTradeMode(0)" :class="{'on' : currentTradeMode == 0 && !showLeverInfo}"><%= LANG('限价委托')%></li>
                         <li @click="changeTradeMode(1)" :class="{'on' : currentTradeMode == 1 && !showLeverInfo}"><%= LANG('批量委托')%></li>
-                        <li @click="showLeverInfo = true" :class="{'on' : showLeverInfo}">
-                            {{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}
-                            <span class="hint--top" aria-label="<%= LANG('已开启杠杆倍数')%> / <%= LANG('最大杠杆倍数')%>">
-                            [{{currentMarketLever ? currentMarketLever.leverLevel : 0}}/{{currentMarketConfig ? currentMarketConfig.leverRate : 0}}]
-                            </span>
-                        </li>
+                        <!--<li @click="showLeverInfo = true" :class="{'on' : showLeverInfo}">-->
+                            <!--{{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}-->
+                            <!--<span class="hint&#45;&#45;top" aria-label="<%= LANG('已开启杠杆倍数')%> / <%= LANG('最大杠杆倍数')%>">-->
+                            <!--[{{currentMarketLever ? currentMarketLever.leverLevel : 0}}/{{currentMarketConfig ? currentMarketConfig.leverRate : 0}}]-->
+                            <!--</span>-->
+                        <!--</li>-->
                     </ul>
                     <div class="r-area">
 
@@ -183,12 +183,12 @@
                             <p><%= LANG('价格输入转换')%></p>
                             <a :class="{'on': inputPriceMode != 0}" @click="toggleInputPriceMode"></a>
                         </div>
-                        <template v-if="isLogin">
-                            <div class="common-select">
-                                <p v-if="currentMarketLever"><%= LANG('杠杆已开启')%> <span class="corY">{{currentMarketLever.userRatio}}%</span></p>
-                                <p v-else=""><%= LANG('杠杆已关闭')%></p>
-                                <a :class="{'on': currentMarketLever}" @click="toggleLever" :disabled="!isLogin"></a></div>
-                        </template>
+                        <!--<template v-if="isLogin">-->
+                            <!--<div class="common-select">-->
+                                <!--<p v-if="currentMarketLever"><%= LANG('杠杆已开启')%> <span class="corY">{{currentMarketLever.userRatio}}%</span></p>-->
+                                <!--<p v-else=""><%= LANG('杠杆已关闭')%></p>-->
+                                <!--<a :class="{'on': currentMarketLever}" @click="toggleLever" :disabled="!isLogin"></a></div>-->
+                        <!--</template>-->
                     </div>
                 </div>
                 <div class="fill-box-body">

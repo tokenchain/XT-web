@@ -1,12 +1,15 @@
-<script type="text/x-template" id="trade-form">
+<template id="trade-form">
     <!--卖出表单开始-->
     <div class="box trading-sell" :class="{'flash' : flashForm}" v-if="tradeType == 0">
         <h2><%= LANG('卖出') %>{{coinName}}</h2>
         <p class="form-assets">
-            <%= LANG('可用') %>{{coinName}}：<span class="trading-greencolor hint--top" :aria-label="'<%- LANG('可卖')%>：' + $parent.canSellMoneyReal + ' ' + moneyName">{{canUseCoinReal}}</span>
+            <%= LANG('可用') %>{{coinName}}：<span class="trading-greencolor hint--top"
+                                                :aria-label="'<%- LANG('可卖')%>：' + $parent.canSellMoneyReal + ' ' + moneyName">{{canUseCoinReal}}</span>
             <template v-if="isLogin && $parent.loginUser.userType == 1">
-                <a :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/'+coin" target="_blank"><%= LANG('充值') %></a>
-                <a :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/'+coin" target="_blank"><%= LANG('提币') %></a>
+                <a :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/'+coin" target="_blank"><%=
+                    LANG('充值') %></a>
+                <a :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/'+coin" target="_blank"><%=
+                    LANG('提币') %></a>
             </template>
         </p>
         <p class="form-assets" v-if="isLogin && $parent.currentMarketLever">
@@ -15,7 +18,8 @@
         <!--原始价格输入-->
         <div class="form-group" v-if="inputPriceMode == 0">
             <div class="form-control">
-                <input class="sellColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)" v-on:change="convertPrice($event,0)" />
+                <input class="sellColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)"
+                       v-on:change="convertPrice($event,0)"/>
                 <label v-if="tradeMode != 1"><%= LANG('卖出价') %>{{moneyName}}</label>
                 <label v-if="tradeMode == 1"><%= LANG('最低卖出价格')%>{{moneyName}}</label>
                 <span>≈<b class="sellColor">{{inputPriceConvert}}</b> {{showAssistCoin}}</span>
@@ -24,7 +28,8 @@
         <!--转换价格输入-->
         <div class="form-group" v-if="inputPriceMode != 0">
             <div class="form-control">
-                <input class="sellColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)" v-on:change="convertPrice($event,3)"/>
+                <input class="sellColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)"
+                       v-on:change="convertPrice($event,3)"/>
                 <label v-if="tradeMode != 1"><%= LANG('卖出价')%>{{showAssistCoin}}</label>
                 <label v-if="tradeMode == 1"><%= LANG('最低卖出价格')%>{{showAssistCoin}}</label>
                 <span>=<b class="sellColor">{{inputPrice}}</b> {{moneyName}}</span>
@@ -34,7 +39,8 @@
         <!--原始价格输入-->
         <div class="form-group" v-if="tradeMode == 1 && inputPriceMode == 0">
             <div class="form-control">
-                <input class="sellColor" type="text" v-model="inputMaxPrice" @input="convertPrice($event,1)" v-on:change="convertPrice($event,1)"/>
+                <input class="sellColor" type="text" v-model="inputMaxPrice" @input="convertPrice($event,1)"
+                       v-on:change="convertPrice($event,1)"/>
                 <label class="t"><%= LANG('最高卖出价格')%>{{moneyName}}</label>
                 <span>≈<b class="sellColor">{{inputMaxPriceConvert}}</b> {{showAssistCoin}}</span>
             </div>
@@ -42,7 +48,8 @@
         <!--转换价格输入-->
         <div class="form-group" v-if="tradeMode == 1 && inputPriceMode != 0">
             <div class="form-control">
-                <input class="sellColor" type="text" v-model="inputMaxPriceConvert" @input="convertPrice($event,4)" v-on:change="convertPrice($event,4)"/>
+                <input class="sellColor" type="text" v-model="inputMaxPriceConvert" @input="convertPrice($event,4)"
+                       v-on:change="convertPrice($event,4)"/>
                 <label class="t"><%= LANG('最高卖出价格')%>{{showAssistCoin}}</label>
                 <span>=<b class="sellColor">{{inputMaxPrice}}</b> {{moneyName}}</span>
             </div>
@@ -68,29 +75,40 @@
                 </div>
             </div>
         </div>
-        <p class="form-assets"><%= LANG('预计交易额')%>：<span class="trading-greencolor hint--top-left" :aria-label="showAssistTotalAmount">{{totalAmount}}</span> {{moneyName}}</p>
-        <p class="form-assets" v-if="isLogin && $parent.currentMarketLever"><%= LANG('使用杠杆额度')%>：<span class="trading-greencolor">{{leverAmount}}</span> {{coinName}}</p>
+        <p class="form-assets"><%= LANG('预计交易额')%>：<span class="trading-greencolor hint--top-left"
+                                                         :aria-label="showAssistTotalAmount">{{totalAmount}}</span>
+            {{moneyName}}</p>
+        <p class="form-assets" v-if="isLogin && $parent.currentMarketLever"><%= LANG('使用杠杆额度')%>：<span
+                class="trading-greencolor">{{leverAmount}}</span> {{coinName}}</p>
         <div class="form-button">
-            <button type="button" class="trading-greenbg" v-html="showButton" :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
+            <button type="button" class="trading-greenbg" v-html="showButton"
+                    :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
         </div>
+        <modal v-cloak :open="showModal" @close="cancelVerification">
+            <transaction-verification theme="light" @verification="verification"/>
+        </modal>
     </div>
     <!--买入表单开始-->
     <div class="box trading-buy" :class="{'flash' : flashForm}" v-else="">
         <h2><%= LANG('买入') %>{{coinName}}</h2>
         <p class="form-assets">
-            <%= LANG('可用') %>{{moneyName}}：<span class="trading-redcolor hint--top" :aria-label="'<%- LANG('可买')%>：' + $parent.canBuyCoinReal + ' ' + coinName">{{canUseMoneyReal}}</span>
+            <%= LANG('可用') %>{{moneyName}}：<span class="trading-redcolor hint--top"
+                                                 :aria-label="'<%- LANG('可买')%>：' + $parent.canBuyCoinReal + ' ' + coinName">{{canUseMoneyReal}}</span>
             <template v-if="isLogin && $parent.loginUser.userType == 1">
-                <a :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/'+money" target="_blank"><%= LANG('充值') %></a>
-                <a :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/'+money" target="_blank"><%= LANG('提币') %></a>
+                <a :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/'+money" target="_blank"><%=
+                    LANG('充值') %></a>
+                <a :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/'+money" target="_blank"><%=
+                    LANG('提币') %></a>
             </template>
         </p>
         <!--<p class="form-assets" v-if="isLogin && $parent.currentMarketLever">-->
-            <!--<%= LANG('可借') %>{{moneyName}}：<span class="trading-redcolor">{{$parent.canLoanMoney}}</span>-->
+        <!--<%= LANG('可借') %>{{moneyName}}：<span class="trading-redcolor">{{$parent.canLoanMoney}}</span>-->
         <!--</p>-->
         <!--原始价格输入-->
         <div class="form-group" v-if="tradeMode == 1 && inputPriceMode == 0">
             <div class="form-control">
-                <input class="buyColor" type="text" v-model="inputMinPrice" @input="convertPrice($event,2)" v-on:change="convertPrice($event,2)"/>
+                <input class="buyColor" type="text" v-model="inputMinPrice" @input="convertPrice($event,2)"
+                       v-on:change="convertPrice($event,2)"/>
                 <label class="t"><%= LANG('最低买入价格')%>{{moneyName}}</label>
                 <span>≈<b class="sellColor">{{inputMinPriceConvert}}</b> {{showAssistCoin}}</span>
             </div>
@@ -98,7 +116,8 @@
         <!--转换价格输入-->
         <div class="form-group" v-if="tradeMode == 1 && inputPriceMode != 0">
             <div class="form-control">
-                <input class="buyColor" type="text" v-model="inputMinPriceConvert" @input="convertPrice($event,5)" v-on:change="convertPrice($event,5)"/>
+                <input class="buyColor" type="text" v-model="inputMinPriceConvert" @input="convertPrice($event,5)"
+                       v-on:change="convertPrice($event,5)"/>
                 <label class="t"><%= LANG('最低买入价格')%>{{showAssistCoin}}</label>
                 <span>=<b class="sellColor">{{inputMinPrice}}</b> {{moneyName}}</span>
             </div>
@@ -106,7 +125,8 @@
         <!--原始价格输入-->
         <div class="form-group" v-if="inputPriceMode == 0">
             <div class="form-control">
-                <input class="buyColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)" v-on:change="convertPrice($event,0)" />
+                <input class="buyColor" type="text" v-model="inputPrice" @input="convertPrice($event,0)"
+                       v-on:change="convertPrice($event,0)"/>
                 <label v-if="tradeMode != 1"><%= LANG('买入价') %>{{moneyName}}</label>
                 <label v-if="tradeMode == 1"><%= LANG('最高买入价格')%>{{moneyName}}</label>
                 <span>≈<b class="sellColor">{{inputPriceConvert}}</b> {{showAssistCoin}}</span>
@@ -115,7 +135,8 @@
         <!--转换价格输入-->
         <div class="form-group" v-if="inputPriceMode != 0">
             <div class="form-control">
-                <input class="buyColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)" v-on:change="convertPrice($event,3)" />
+                <input class="buyColor" type="text" v-model="inputPriceConvert" @input="convertPrice($event,3)"
+                       v-on:change="convertPrice($event,3)"/>
                 <label v-if="tradeMode != 1"><%= LANG('买入价')%>{{showAssistCoin}}</label>
                 <label v-if="tradeMode == 1"><%= LANG('最高买入价格')%>{{showAssistCoin}}</label>
                 <span>=<b class="sellColor">{{inputPrice}}</b> {{moneyName}}</span>
@@ -143,15 +164,24 @@
                 </div>
             </div>
         </div>
-        <p class="form-assets"><%= LANG('预计交易额')%>：<span class="trading-redcolor hint--top-left" :aria-label="showAssistTotalAmount">{{totalAmount}}</span> {{moneyName}}</p>
-        <p class="form-assets" v-if="isLogin && $parent.currentMarketLever"><%= LANG('使用杠杆额度')%>：<span class="trading-redcolor">{{leverAmount}}</span> {{moneyName}}</p>
+        <p class="form-assets"><%= LANG('预计交易额')%>：<span class="trading-redcolor hint--top-left"
+                                                         :aria-label="showAssistTotalAmount">{{totalAmount}}</span>
+            {{moneyName}}</p>
+        <p class="form-assets" v-if="isLogin && $parent.currentMarketLever"><%= LANG('使用杠杆额度')%>：<span
+                class="trading-redcolor">{{leverAmount}}</span> {{moneyName}}</p>
         <div class="form-button">
-            <button type="button" class="trading-redbg" v-html="showButton" :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
+            <button type="button" class="trading-redbg" v-html="showButton"
+                    :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
         </div>
+        <modal v-cloak :open="showModal" @close="cancelVerification">
+            <transaction-verification theme="light" @verification="verification"/>
+        </modal>
     </div>
 
+</template>
 
-</script>
+<%-include("../../component/modal.html")%>
+<%-include("../../u/model/transactionVerification.html")%>
 
 <!--引入交易表单app-->
 <%-include("../app.tradeForm.html")%>

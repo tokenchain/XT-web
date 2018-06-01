@@ -43,174 +43,189 @@
                     inputMaxPriceConvert: '',
                     inputMinPriceConvert: '',
                     inputNumber: '',
-                    rangeSlider : '',
-                    rangePercent : '0.00',
-                    requestLocked : false,
+                    rangeSlider: '',
+                    rangePercent: '0.00',
+                    requestLocked: false,
                     //委托类型 0限价委托，1批量委托，2计划委托
-                    tradeMode : 0,
-                    flashForm : false
+                    tradeMode: 0,
+                    flashForm: false,
+                    showModal: false,
+                    securityPassword: '',
+                    pubKey: '',
+                    rsaKeyId: '',
+                    entrustParams: {}
                 }
             },
             computed: {
                 //输入价格模式：0输入原始价格，1输入转换价格
-                inputPriceMode : function () {
+                inputPriceMode: function () {
                     return this.$parent.inputPriceMode;
                 },
-                showAssistCoin : function () {
+                showAssistCoin: function () {
                     return this.$parent.showAssistCoin();
                 },
-                canUseCoin : function(){
+                canUseCoin: function () {
                     return this.$parent.canUseCoin;
                 },
-                canUseMoney : function(){
+                canUseMoney: function () {
                     return this.$parent.canUseMoney;
                 },
-                canUseCoinReal : function(){
+                canUseCoinReal: function () {
                     return this.$parent.canUseCoinReal;
                 },
-                canUseMoneyReal : function(){
+                canUseMoneyReal: function () {
                     return this.$parent.canUseMoneyReal;
                 },
-                realCanBuyCoin : function () {
-                    if(this.inputPrice != ''){
-                        return Methods.fixDecimal(this.canUseMoney/this.inputPrice, this.marketConfig.sellDecimal);
-                    }else{
+                realCanBuyCoin: function () {
+                    if (this.inputPrice != '') {
+                        return Methods.fixDecimal(this.canUseMoney / this.inputPrice, this.marketConfig.sellDecimal);
+                    } else {
                         return this.$parent.canBuyCoin;
                     }
                 },
-                realCanSellMoney : function () {
-                    if(this.inputPrice != ''){
+                realCanSellMoney: function () {
+                    if (this.inputPrice != '') {
                         return Methods.fixDecimal(this.canUseCoin * this.inputPrice, this.marketConfig.buyDecimal);
-                    }else{
+                    } else {
                         return this.$parent.canSellMoney;
                     }
                 },
-                coin : function(){
+                coin: function () {
                     // return this.marketConfig.coin;
                     if (this.marketConfig.name) {
                         return this.marketConfig.name.split("_")[0].toLowerCase();
                     }
                 },
-                money : function(){
+                money: function () {
                     // return this.marketConfig.money;
                     if (this.marketConfig.name) {
                         return this.marketConfig.name.split("_")[1].toLowerCase();
                     }
                 },
-                coinName : function(){
+                coinName: function () {
                     // return this.marketConfig.coinName;
                     if (this.marketConfig.name) {
                         return this.marketConfig.name.split("_")[0].toUpperCase();
                     }
                 },
-                moneyName : function(){
+                moneyName: function () {
                     // return this.marketConfig.moneyName;
                     if (this.marketConfig.name) {
                         return this.marketConfig.name.split("_")[1].toUpperCase();
                     }
                 },
-                currentAccountId : function(){
+                currentAccountId: function () {
                     return this.$parent.currentAccountId;
                 },
-                assistRegEx : function(){
+                assistRegEx: function () {
                     return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.$parent.assistList[this.$parent.assistCoin].decimal + "})?$");
                 },
-                moneyRegEx : function(){
+                moneyRegEx: function () {
                     return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.buyDecimal + "})?$");
                 },
-                coinRegEx : function(){
+                coinRegEx: function () {
                     return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.sellDecimal + "})?$");
                 },
-                totalAmount : function () {
-                    if(this.inputPrice && this.inputNumber && this.tradeMode == 0){
+                totalAmount: function () {
+                    if (this.inputPrice && this.inputNumber && this.tradeMode == 0) {
                         return Methods.fixDecimal(Methods.numMultiply(this.inputPrice, this.inputNumber), this.marketConfig.sellDecimal);
-                    }else{
+                    } else {
                         return '--';
                     }
                 },
                 showAssistTotalAmount: function () {
-                    if(!isNaN(this.totalAmount)){
+                    if (!isNaN(this.totalAmount)) {
                         return "<%= LANG('折合')%>:" + this.$parent.getPriceByAssist(this.totalAmount) + " " + this.showAssistCoin;
                     }
                 },
-                leverAmount : function () {
+                leverAmount: function () {
                     //计算使用了多少杠杆资金
                     var result = '--';
-                    if(this.$parent.currentMarketLever && this.isLogin){
-                        if(this.tradeType == 0 && this.inputNumber > 0){
+                    if (this.$parent.currentMarketLever && this.isLogin) {
+                        if (this.tradeType == 0 && this.inputNumber > 0) {
                             result = this.inputNumber - this.$parent.getUseable(this.coin);
-                            return Methods.fixDecimal(Math.max(result,0), this.marketConfig.sellDecimal);
+                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.sellDecimal);
                         }
-                        if(this.tradeType == 1 && this.totalAmount > 0){
+                        if (this.tradeType == 1 && this.totalAmount > 0) {
                             result = this.totalAmount - this.$parent.getUseable(this.money);
-                            return Methods.fixDecimal(Math.max(result,0), this.marketConfig.buyDecimal);
+                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.buyDecimal);
                         }
                     }
                     return result;
                 },
-                showButton : function () {
-                    if(this.isLogin){
-                        if(this.requestLocked){
+                showButton: function () {
+                    if (this.isLogin) {
+                        if (this.requestLocked) {
                             return "<%= LANG('正在提交委托...')%>";
                         }
                         //非开启杠杆的市场不可下单
                         /*if(this.noEntrust){
                             return "<%= LANG('已开启杠杆不可在该市场下单')%>";
                         }*/
-                        if(this.tradeMode == 0){
-                            if(this.tradeType == 0){
+                        if (this.tradeMode == 0) {
+                            if (this.tradeType == 0) {
                                 return "<%= LANG('限价卖出')%>";
                             }
-                            if(this.tradeType == 1){
+                            if (this.tradeType == 1) {
                                 return "<%= LANG('限价买入')%>";
                             }
                         }
-                        if(this.tradeMode == 1){
-                            if(this.tradeType == 0){
+                        if (this.tradeMode == 1) {
+                            if (this.tradeType == 0) {
                                 return "<%= LANG('批量卖出')%>";
                             }
-                            if(this.tradeType == 1){
+                            if (this.tradeType == 1) {
                                 return "<%= LANG('批量买入')%>";
                             }
                         }
-                        if(this.tradeMode == 2){
-                            if(this.tradeType == 0){
+                        if (this.tradeMode == 2) {
+                            if (this.tradeType == 0) {
                                 return "<%= LANG('计划卖出')%>";
                             }
-                            if(this.tradeType == 1){
+                            if (this.tradeType == 1) {
                                 return "<%= LANG('计划买入')%>";
                             }
                         }
-                    }else{
+                    } else {
                         return "<%= LANG('登录')%>/<%= LANG('注册')%>";
                     }
 
                 },
                 //单独写的动态计算显示百分比数据
-                showPercent : function () {
+                showPercent: function () {
                     //此处不做超出100%验证，监视属性中计算
-                    if(this.isLogin){
-                        if(this.tradeType == 1 && this.inputPrice && this.inputNumber && parseFloat(this.canUseMoney) > 0){
+                    if (this.isLogin) {
+                        if (this.tradeType == 1 && this.inputPrice && this.inputNumber && parseFloat(this.canUseMoney) > 0) {
                             return Methods.fixNumber(this.inputPrice * this.inputNumber / this.canUseMoney * 100, 2);
                         }
-                        if(this.tradeType == 0  && this.inputNumber&& parseFloat(this.canUseCoin) > 0){
+                        if (this.tradeType == 0 && this.inputNumber && parseFloat(this.canUseCoin) > 0) {
                             return Methods.fixNumber(this.inputNumber / this.canUseCoin * 100, 2);
                         }
                     }
                     return '0.00';
                 },
-                priceCover : function () {
+                priceCover: function () {
                     return this.$parent.getPriceByAssist(this.inputPrice);
                 },
-                maxPriceCover : function () {
+                maxPriceCover: function () {
                     return this.$parent.getPriceByAssist(this.inputMaxPrice);
                 },
-                minPriceCover : function () {
+                minPriceCover: function () {
                     return this.$parent.getPriceByAssist(this.inputMinPrice);
                 }
             },
             methods: {
-                openTransfer : function (type, coin) {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                openTransfer: function (type, coin) {
                     return EXX.userNav.openTransfer(type, this.$parent.currentUserAsset.userId, coin)
                 },
                 doCheckEntrust: function () {
@@ -242,7 +257,7 @@
                     var _buyOne = parseFloat(this.$parent.buyOne);    //买一价
                     var _percentProtect = ((parseFloat(_priceProtect) - 1) * 100).toFixed(2);
                     //校验限价委托表单数据
-                    if(this.tradeMode == 0){
+                    if (this.tradeMode == 0) {
                         if (!this.moneyRegEx.test(this.inputPrice) || this.inputPrice == 0 || this.inputPrice == '') {
                             return showError("<%= LANG('请输入正确的委托金额') %>");
                         }
@@ -261,13 +276,13 @@
                         this.doSubmitEntrust();
                     }
                     //校验批量委托表单数据
-                    if(this.tradeMode == 1){
-                        if(this.tradeType == 0){
+                    if (this.tradeMode == 1) {
+                        if (this.tradeType == 0) {
                             if (!this.moneyRegEx.test(this.inputPrice) || this.inputPrice == 0 || this.inputPrice == ''
                                 || !this.moneyRegEx.test(this.inputMaxPrice) || this.inputMaxPrice == 0 || this.inputMaxPrice == '') {
                                 return showError("<%= LANG('请输入正确的委托金额。') %>");
                             }
-                            if(parseFloat(this.inputPrice) > parseFloat(this.inputMaxPrice)){
+                            if (parseFloat(this.inputPrice) > parseFloat(this.inputMaxPrice)) {
                                 return showError(EXX.L("<%= LANG('批量分散卖出的最低限定价格m应低于最高限定价格n，请重设价格。') %>", this.inputPrice, this.inputMaxPrice));
                             }
                             if (!this.coinRegEx.test(this.inputNumber) || this.inputNumber == 0 || this.inputNumber == '') {
@@ -279,12 +294,12 @@
                             }*/
                             this.doBatchEntrust();
                         }
-                        if(this.tradeType == 1){
+                        if (this.tradeType == 1) {
                             if (!this.moneyRegEx.test(this.inputPrice) || this.inputPrice == 0 || this.inputPrice == ''
                                 || !this.moneyRegEx.test(this.inputMinPrice) || this.inputMinPrice == 0 || this.inputMinPrice == '') {
                                 return showError("<%= LANG('请输入正确的委托金额') %>");
                             }
-                            if(parseFloat(this.inputPrice) < parseFloat(this.inputMinPrice)){
+                            if (parseFloat(this.inputPrice) < parseFloat(this.inputMinPrice)) {
                                 return showError(EXX.L("<%= LANG('批量分散买入的最高限定价格m应高于最低限定价格n，请重设价格。') %>", this.inputPrice, this.inputMinPrice));
                             }
                             if (!this.coinRegEx.test(this.inputNumber) || this.inputNumber == 0 || this.inputNumber == '') {
@@ -298,7 +313,7 @@
                         }
                     }
                 },
-                doSubmitEntrust: function () {
+                doSubmitEntrust: function (verification) {
                     var text = '';
                     if (this.tradeType == 0) {
                         text = "<%= LANG('价格') %>" + this.inputPrice + "" + this.moneyName + "<%= LANG('卖出') %>" + this.coinName + this.inputNumber;
@@ -307,26 +322,30 @@
                     } else {
                         return console.log('unknown trade type')
                     }
-                    var data = {
-                        // userId: this.currentAccountId,
-                        // market: this.currentMarket,
-                        // isBuy: this.tradeType,
-                        // unitPrice: this.inputPrice,
-                        // number: this.inputNumber,
-                        // isReal: false
+                    var data = {};
+                    if (verification) {
+                        data = this.entrustParams
+                    } else {
+                        data = {
+                            // userId: this.currentAccountId,
+                            // market: this.currentMarket,
+                            // isBuy: this.tradeType,
+                            // unitPrice: this.inputPrice,
+                            // number: this.inputNumber,
+                            // isReal: false
 
-                        // 限价委托
-                        // webId: 100,
-                        type: this.tradeType, //1买方 0卖方
-                        price: this.inputPrice,
-                        marketId: this.marketConfig.marketId,
-                        userId: this.currentAccountId,
-                        rangeType: 0, //0 现价委托 1 区间委托
-                        // rangeLowPrice: '', //区间委托的最低价
-                        // rangeHighPrice: '', //区间委托的最高价
-                        amount: this.inputNumber //委托数量
-                        // entrustId: '',
-                    };
+                            // 限价委托
+                            // webId: 100,
+                            type: this.tradeType, //1买方 0卖方
+                            price: this.inputPrice,
+                            marketId: this.marketConfig.marketId,
+                            userId: this.currentAccountId,
+                            rangeType: 0, //0 现价委托 1 区间委托
+                            // rangeLowPrice: '', //区间委托的最低价
+                            // rangeHighPrice: '', //区间委托的最高价
+                            amount: this.inputNumber, //委托数量
+                        };
+                    }
                     //锁定请求
                     this.requestLocked = true;
                     Methods.ajax({
@@ -335,6 +354,8 @@
                         // url: DOMAIN_DEV + '/entrust/entrustController/addEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
+                            this.showModal = false;
+                            this.entrustParams = {}
                             //解除请求锁定
                             this.requestLocked = false;
                             //清除输入框内容
@@ -351,18 +372,25 @@
                             });
                         }.bind(this),
                         error: function (res) {
-                            //解除请求锁定
-                            this.requestLocked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            switch (res.resMsg.code) {
+                                case "6077":
+                                    this.entrustParams = data;
+                                    this.showModal = true;
+                                    break;
+                                default:
+                                    //解除请求锁定
+                                    this.requestLocked = false;
+                                    JuaBox.info(EXX.L(res.resMsg.message));
+                            }
                         }.bind(this)
                     });
                 },
                 doBatchEntrust: function () {
-                    var priceHigh ,priceLow;
-                    if(this.tradeType == 0){
+                    var priceHigh, priceLow;
+                    if (this.tradeType == 0) {
                         priceHigh = this.inputMaxPrice;
                         priceLow = this.inputPrice;
-                    }else{
+                    } else {
                         priceHigh = this.inputPrice;
                         priceLow = this.inputMinPrice;
                     }
@@ -406,7 +434,7 @@
                             $.toast({
                                 heading: "<%= LANG('定单已执行') %>",
                                 // text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", data[0], data[1], this.coinName, data[2], this.moneyName),
-                                text : EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", 1, data.amount, this.coinName, data.amount * data.rangeHighPrice, this.moneyName),
+                                text: EXX.L("<%= LANG('成功批量委托m笔，一共na，总金额va') %>", 1, data.amount, this.coinName, data.amount * data.rangeHighPrice, this.moneyName),
                                 icon: 'success',
                                 loader: true,
                                 loaderBg: '#9EC600'
@@ -419,7 +447,7 @@
                         }.bind(this)
                     });
                 },
-                clearEntrustInput : function () {
+                clearEntrustInput: function () {
                     this.inputPrice = '';
                     this.inputMaxPrice = '';
                     this.inputMinPrice = '';
@@ -428,13 +456,13 @@
                     this.inputMinPriceConvert = '';
                     this.inputNumber = '';
                 },
-                changeTradeMode : function (type) {
+                changeTradeMode: function (type) {
                     this.tradeMode = type;
                 },
-                initSlider : function () {
+                initSlider: function () {
                     var _this = this;
                     var rangeId = "#rangeSlider_" + _this.tradeType;
-                    if($(rangeId).length == 0){
+                    if ($(rangeId).length == 0) {
                         return false;
                     }
                     this.rangeSlider = new BitRange({
@@ -442,11 +470,11 @@
                         step: 0.01,
                         point: 5,
                         delay: 15,
-                        slide: function(value, obj) {
-                            if(_this.checkSlider()){
+                        slide: function (value, obj) {
+                            if (_this.checkSlider()) {
                                 _this.rangeSlider.Update(value);
                                 _this.rangePercent = value;
-                            }else{
+                            } else {
                                 _this.rangeSlider.Update(0);
                                 _this.rangePercent = 0;
                                 return false;
@@ -455,112 +483,112 @@
                     });
                 },
                 //判断当前滑动杆是否可用
-                checkSlider : function () {
-                    if(!this.isLogin){
+                checkSlider: function () {
+                    if (!this.isLogin) {
                         return false;
                     }
-                    if(this.tradeType == 0 && this.canUseCoin == 0){
+                    if (this.tradeType == 0 && this.canUseCoin == 0) {
                         return false;
                     }
-                    if(this.tradeType == 1 && (this.canUseMoney == 0 || this.inputPrice == '' || this.inputPrice == 0)){
+                    if (this.tradeType == 1 && (this.canUseMoney == 0 || this.inputPrice == '' || this.inputPrice == 0)) {
                         return false;
                     }
                     return true;
                 },
-                checkNumberByPercent : function () {
-                    if(this.isLogin){
+                checkNumberByPercent: function () {
+                    if (this.isLogin) {
                         var percent = parseFloat(this.showPercent);
                         //若超过100%则按100%计算
-                        if(percent > 100){
+                        if (percent > 100) {
                             percent = 100;
-                            if(this.tradeType == 1 && this.inputPrice != '' && this.inputPrice != 0){
+                            if (this.tradeType == 1 && this.inputPrice != '' && this.inputPrice != 0) {
                                 this.inputNumber = this.canUseMoney / this.inputPrice;
                             }
-                            if(this.tradeType == 0){
+                            if (this.tradeType == 0) {
                                 this.inputNumber = this.canUseCoin;
                             }
                         }
                         //console.log('监视数量：',percent);
-                        if(this.rangeSlider){
+                        if (this.rangeSlider) {
                             this.rangeSlider.Update(percent);
                         }
                     }
                 },
                 //切换输入框上的label
-                toggleLabel : function () {
-                    if(this.$parent.theme == 'light'){
+                toggleLabel: function () {
+                    if (this.$parent.theme == 'light') {
                         return false;
                     }
-                    $('.box input').on('focus',function () {
+                    $('.box input').on('focus', function () {
                         $(this).parent().addClass('focus');
                     });
-                    $('.box input').on('blur',function () {
+                    $('.box input').on('blur', function () {
                         $(this).parent().removeClass('focus');
                     });
                 },
                 //增加或减少数量、价格
-                UpDownNumber : function (type, flag) {
+                UpDownNumber: function (type, flag) {
                     //flag 0- 1+
                     //type:
                     //0:inputPrice
                     //1:inputNumber
                     //2:inputMaxPrice
                     //3:inputMinPrice
-                    if(!this.isLogin){
+                    if (!this.isLogin) {
                         return false;
                     }
                     var _this = this;
                     var step = 0.01;
 
-                    switch(type){
+                    switch (type) {
                         case 0:
-                            if(this.inputPrice == '' || this.inputPrice == 0){
-                                if(this.tradeType == 0){
+                            if (this.inputPrice == '' || this.inputPrice == 0) {
+                                if (this.tradeType == 0) {
                                     this.inputPrice = this.$parent.buyOne;
                                     this.inputPriceConvert = this.$parent.getPriceByAssist(this.$parent.buyOne);
-                                }else{
+                                } else {
                                     this.inputPrice = this.$parent.sellOne;
                                     this.inputPriceConvert = this.$parent.getPriceByAssist(this.$parent.sellOne);
                                 }
-                            }else{
-                                if(flag == 0){
+                            } else {
+                                if (flag == 0) {
                                     this.inputPrice = this.inputPrice * (1 - step);
                                     this.inputPriceConvert = this.inputPriceConvert * (1 - step);
-                                }else{
+                                } else {
                                     this.inputPrice = this.inputPrice * (1 + step);
                                     this.inputPriceConvert = this.inputPriceConvert * (1 + step);
                                 }
                             }
                             break;
                         case 1:
-                            if(this.inputNumber == '' || this.inputNumber == 0){
-                                if(this.tradeType == 0){
-                                    this.inputNumber = this.canUseCoin *  step;
-                                }else{
+                            if (this.inputNumber == '' || this.inputNumber == 0) {
+                                if (this.tradeType == 0) {
+                                    this.inputNumber = this.canUseCoin * step;
+                                } else {
                                     this.inputNumber = this.$parent.canBuyCoin * step;
                                 }
-                            }else{
-                                if(flag == 0){
+                            } else {
+                                if (flag == 0) {
                                     this.inputNumber = this.inputNumber * (1 - step);
-                                }else{
+                                } else {
                                     this.inputNumber = this.inputNumber * (1 + step);
                                 }
                             }
                             break;
                         case 2:
-                            if(this.inputMaxPrice == '' || this.inputMaxPrice == 0){
-                                if(this.tradeType == 0){
+                            if (this.inputMaxPrice == '' || this.inputMaxPrice == 0) {
+                                if (this.tradeType == 0) {
                                     this.inputMaxPrice = this.$parent.buyOne;
                                     this.inputMaxPriceConvert = this.$parent.getPriceByAssist(this.$parent.buyOne);
-                                }else{
+                                } else {
                                     this.inputMaxPrice = this.$parent.sellOne;
                                     this.inputMaxPriceConvert = this.$parent.getPriceByAssist(this.$parent.sellOne);
                                 }
-                            }else{
-                                if(flag == 0){
+                            } else {
+                                if (flag == 0) {
                                     this.inputMaxPrice = this.inputMaxPrice * (1 - step);
                                     this.inputMaxPriceConvert = this.inputMaxPriceConvert * (1 - step);
-                                }else{
+                                } else {
                                     this.inputMaxPrice = this.inputMaxPrice * (1 + step);
                                     this.inputMaxPriceConvert = this.inputMaxPriceConvert * (1 + step);
                                 }
@@ -569,19 +597,19 @@
                             this.inputMaxPriceConvert = Methods.fixFloat(this.inputMaxPriceConvert, this.$parent.assistList[this.$parent.assistCoin].decimal);
                             break;
                         case 3:
-                            if(this.inputMinPrice == '' || this.inputMinPrice == 0){
-                                if(this.tradeType == 0){
+                            if (this.inputMinPrice == '' || this.inputMinPrice == 0) {
+                                if (this.tradeType == 0) {
                                     this.inputMinPrice = this.$parent.buyOne;
                                     this.inputMinPriceConvert = this.$parent.getPriceByAssist(this.$parent.buyOne);
-                                }else{
+                                } else {
                                     this.inputMinPrice = this.$parent.sellOne;
                                     this.inputMinPriceConvert = this.$parent.getPriceByAssist(this.$parent.sellOne);
                                 }
-                            }else{
-                                if(flag == 0){
+                            } else {
+                                if (flag == 0) {
                                     this.inputMinPrice = this.inputMinPrice * (1 - step);
                                     this.inputMinPriceConvert = this.inputMinPriceConvert * (1 - step);
-                                }else{
+                                } else {
                                     this.inputMinPrice = this.inputMinPrice * (1 + step);
                                     this.inputMinPriceConvert = this.inputMinPriceConvert * (1 + step);
                                 }
@@ -594,14 +622,14 @@
                     }
                 },
                 //转换输入的价格（使用事件触发）
-                convertPrice : function (e, type) {
+                convertPrice: function (e, type) {
                     var price = e.target.value || e;
                     /*if(price == '' || isNaN(price)){
                         return '--';
                     }*/
                     var aPrice = this.$parent.getPriceByAssist(price);
                     var cPrice = this.$parent.getPriceByPrice(price);
-                    switch(type) {
+                    switch (type) {
                         case 0:
                             this.inputPriceConvert = aPrice;
                             break;
@@ -625,15 +653,26 @@
                     }
                 },
                 //点选价格后闪烁2秒
-                flashInput : function () {
+                flashInput: function () {
                     this.flashForm = true;
                     setTimeout(function () {
                         this.flashForm = false;
                     }.bind(this), 1000)
                 },
                 //点选百分百买卖
-                setPercent : function (val) {
+                setPercent: function (val) {
                     this.rangePercent = parseFloat(val) * 100;
+                },
+                verification: function (res) {
+                    var encryptionPwd = Methods.encryptPwd(res, this.pubKey);
+                    this.entrustParams.rsaKeyId = this.rsaKeyId
+                    this.entrustParams.securityPassword = encryptionPwd
+                    this.doSubmitEntrust(true)
+                },
+                cancelVerification: function () {
+                    this.showModal = false;
+                    this.requestLocked = false;
+                    this.entrustParams = {};
                 }
             },
             watch: {
@@ -641,7 +680,7 @@
                 //inputMaxPrice && inputMaxPriceConvert，
                 //inputMinPrice && inputMinPriceConvert
                 //这三对属性无法在监视属性中相互触发，否则会陷入死循环，已改为事件单独触发同步，待优化解决
-                inputPrice : function (newVal, oldVal) {
+                inputPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
                         this.inputPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
@@ -649,27 +688,27 @@
                     this.checkNumberByPercent();
                     //this.inputPriceConvert = this.$parent.getPriceByAssist(newVal);
                 },
-                inputMaxPrice : function (newVal, oldVal) {
+                inputMaxPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
                         this.inputMaxPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
                     }
                     //this.inputMaxPriceConvert = this.$parent.getPriceByAssist(newVal);
                 },
-                inputMinPrice : function (newVal, oldVal) {
+                inputMinPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
                         this.inputMinPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
                     }
                     //this.inputMinPriceConvert = this.$parent.getPriceByAssist(newVal);
                 },
-                inputNumber : function (newVal, oldVal) {
+                inputNumber: function (newVal, oldVal) {
                     //监视数据不合格则先转换
-                    if(this.isLogin && this.tradeType == 1 && this.canUseMoney == 0){
+                    if (this.isLogin && this.tradeType == 1 && this.canUseMoney == 0) {
                         //登陆后若没有资金则不赋值
                         this.inputNumber = 0;
                     }
-                    if(this.isLogin && this.tradeType == 0 && this.canUseCoin == 0){
+                    if (this.isLogin && this.tradeType == 0 && this.canUseCoin == 0) {
                         //登陆后若没有资金则不赋值
                         this.inputNumber = 0;
                     }
@@ -678,39 +717,39 @@
                     }
                     this.checkNumberByPercent();
                 },
-                inputPriceConvert : function (newVal, oldVal) {
+                inputPriceConvert: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.assistRegEx.test(newVal) && newVal != '') {
                         this.inputPriceConvert = Methods.checkDecimal(newVal, this.$parent.assistList[this.$parent.assistCoin].decimal);
                     }
                 },
-                inputMaxPriceConvert : function (newVal, oldVal) {
+                inputMaxPriceConvert: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.assistRegEx.test(newVal) && newVal != '') {
                         this.inputMaxPriceConvert = Methods.checkDecimal(newVal, this.$parent.assistList[this.$parent.assistCoin].decimal);
                     }
                 },
-                inputMinPriceConvert : function (newVal, oldVal) {
+                inputMinPriceConvert: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.assistRegEx.test(newVal) && newVal != '') {
                         this.inputMinPriceConvert = Methods.checkDecimal(newVal, this.$parent.assistList[this.$parent.assistCoin].decimal);
                     }
                 },
-                rangePercent : function (newVal, oldVal) {
-                    if(newVal > 0){
-                        if(this.tradeType == 0){
+                rangePercent: function (newVal, oldVal) {
+                    if (newVal > 0) {
+                        if (this.tradeType == 0) {
                             this.inputNumber = this.canUseCoin * newVal * 0.01;
-                        }else{
-                            this.inputNumber = this.canUseMoney / this.inputPrice  * newVal * 0.01;
+                        } else {
+                            this.inputNumber = this.canUseMoney / this.inputPrice * newVal * 0.01;
                         }
-                    }else{
+                    } else {
                         this.inputNumber = '';
                     }
                 },
-                tradeMode : function () {
+                tradeMode: function () {
                     setTimeout(this.toggleLabel, 300);
                 },
-                inputPriceMode : function () {
+                inputPriceMode: function () {
                     setTimeout(this.toggleLabel, 300);
                 }
             },
@@ -718,6 +757,7 @@
 
             },
             mounted: function () {
+                this.getPubKey();
                 //this.initSlider();
                 this.toggleLabel();
                 //解决有时候不显示
