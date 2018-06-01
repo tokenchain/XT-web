@@ -8842,3 +8842,64 @@ body.notice-open .sidebar-area {
   display: block !important;
   text-align: center !important;
 }
+.trade-form-modal{
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.3);
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  .trade-form-verification{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    //align-items: center;
+    justify-content: center;
+    width: 300px;
+    //height: 160px;
+    padding: 20px 25px;
+    background: #fff;
+    border-radius: 5px;
+    .verification-title{
+      font-size: 16px;
+      color: #000;
+      margin-bottom: 15px;
+    }
+    #verification-input,#verification-input-2{
+      border: 1px solid #e7e9ee;
+      border-radius: 3px;
+      height: 42px;
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: black;
+    }
+    .verification-button{
+      cursor: pointer;
+      font-size: 14px;
+      height: 40px;
+      background: #ff9d11;
+      color: #fff;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 3px;
+    }
+    .verification-close{
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      padding: 10px;
+      font-size: 20px;
+      color: #e7e9ee;
+      cursor: pointer;
+      &:hover{
+        color: #8d8f94;
+      }
+    }
+  }
+}

@@ -84,9 +84,17 @@
             <button type="button" class="trading-greenbg" v-html="showButton"
                     :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
         </div>
-        <modal v-cloak :open="showModal" @close="cancelVerification">
-            <transaction-verification theme="light" @verification="verification"/>
-        </modal>
+        <div class="trade-form-modal" v-if="tradeFormModal">
+            <div class="trade-form-verification">
+                <span class="verification-close" @click="cancelVerification">X</span>
+                <div class="verification-title"><%= LANG('交易校验')%></div>
+                <input id="verification-input" type="password" placeholder="<%= LANG('资金密码') %>" v-model="verificationPwd">
+                <button class="verification-button" @click="verification(verificationPwd)"><%= LANG('确定')%></button>
+            </div>
+        </div>
+        <!--<modal v-cloak :open="showModal" @close="cancelVerification">-->
+            <!--<transaction-verification theme="light" @verification="verification"/>-->
+        <!--</modal>-->
     </div>
     <!--买入表单开始-->
     <div class="box trading-buy" :class="{'flash' : flashForm}" v-else="">
@@ -173,15 +181,23 @@
             <button type="button" class="trading-redbg" v-html="showButton"
                     :class="{'disabled' : requestLocked || !isLogin}" @click="doCheckEntrust" role="button"></button>
         </div>
-        <modal v-cloak :open="showModal" @close="cancelVerification">
-            <transaction-verification theme="light" @verification="verification"/>
-        </modal>
+        <div class="trade-form-modal" v-if="tradeFormModal">
+            <div class="trade-form-verification">
+                <span class="verification-close" @click="cancelVerification">X</span>
+                <div class="verification-title"><%= LANG('交易校验')%></div>
+                <input id="verification-input-2" type="password" placeholder="<%= LANG('资金密码') %>" v-model="verificationPwd">
+                <button class="verification-button" @click="verification(verificationPwd)"><%= LANG('确定')%></button>
+            </div>
+        </div>
+        <!--<modal v-cloak :open="showModal" @close="cancelVerification">-->
+            <!--<transaction-verification theme="light" @verification="verification"/>-->
+        <!--</modal>-->
     </div>
 
 </template>
 
-<%-include("../../component/modal.html")%>
-<%-include("../../u/model/transactionVerification.html")%>
+<!--<%-include("../../component/modal.html")%>-->
+<!--<%-include("../../u/model/transactionVerification.html")%>-->
 
 <!--引入交易表单app-->
 <%-include("../app.tradeForm.html")%>
