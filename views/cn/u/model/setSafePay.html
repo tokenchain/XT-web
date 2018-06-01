@@ -31,7 +31,7 @@
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
                                        type="text">
                                 <send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"
-                                           :bus-type="13" @type="editSendCodeType"/>
+                                           :bus-type="13" v-on:type="editSendCodeType"/>
                             </div>
                         </div>
                         <div v-if="safeWayinfo.way==5 || safeWayinfo.way==7" class="form-group">
@@ -150,6 +150,7 @@
                 },
                 //提交
                 handleSubmit: function () {
+                    this.sendCodeType=sessionStorage.getItem("smsOremail");
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
@@ -224,7 +225,6 @@
                         url = "dosetwithdrawauth";
                     }
                     //通过headers传参，使用ajax原生方法
-                    console.log(data);
                     Methods.ajax({
                         type: "POST",
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + url,
@@ -238,6 +238,7 @@
                             this.newPassword = '';
                             this.passwordConfirmation = '';
                             this.dynamicCode = '';
+                            sessionStorage.smsOremail='';
                             Vue.set(EXX.userIndex.loginUser, keyStr, this.safeWayinfo.way);//更新Vue用户信息
                             Methods.setLocalUserInfo(EXX.userIndex.loginUser);//更新localStroage本地用户信息
                         }.bind(this),
