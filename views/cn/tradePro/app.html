@@ -52,6 +52,7 @@
                     priceClass: 'text-primary trading-redcolor',
                     arrowClass: 'icon-arrowup',
                     entrustingRecord: [],
+                    entrustingRecordTime: 0,
                     entrustRecord: [],
                     entrustTab: [
                         ['doing', "<%= LANG('正在进行的委托')%>"],
@@ -617,14 +618,15 @@
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
-                            _this.entrustingRecord = res.datas.reverse();
-                            if (res.datas.length > 0) {
-                                /**
-                                 *作者: GongQi
-                                 *时间: 2018/5/31
-                                 *功能: 委托后刷新 可用余额-暂时处理方案
-                                 */
-                                EXX.userNav.getAccountAssets()
+                            _this.entrustingRecord = res.datas;
+                            var resLength = res.datas.length
+                            if (resLength > 0 && _this.entrustingRecordTime < res.datas[0].createTime) {
+                                _this.entrustingRecordTime = res.datas[0].createTime;
+                                EXX.userNav.getAccountAssets();
+                            }
+                            else if (resLength == 0 && _this.entrustingRecordTime != 0) {
+                                _this.entrustingRecordTime = 0;
+                                EXX.userNav.getAccountAssets();
                             }
                             callback && callback(res.datas)
                         }
@@ -895,20 +897,10 @@
                     var result = [];
                     switch (group){
                         case "doing":
-                            this.entrustingRecord.forEach(function (item) {
-                                if (group == 'doing' && (item.status == 3 || item.status == 0)) {
-                                    result.push(item);
-                                }
-                            })
+                            result = this.entrustingRecord
                             break;
                         case "history":
                             this.entrustRecord.forEach(function (item) {
-                                // if(group == 'doing' && (item[7] == 3 || item[7] == 0)){
-                                //     result.push(item);
-                                // }
-                                // if(group == 'history' && (item[7] == 1 || item[7] == 2)){
-                                //     result.push(item);
-                                // }
                                 if (group == 'history' && (item.status == 1 || item.status == 2)) {
                                     result.push(item);
                                 }
