@@ -122,10 +122,12 @@
                                 switch (res.datas) {
                                     case 'sms':
                                         _this.$emit('type','sms');
+                                        sessionStorage.setItem('smsOremail', 'sms');
                                         JuaBox.sure('<%= LANG("验证码已发送至手机") %>');
                                         break;
                                     case 'email':
                                         _this.$emit('type','email');
+                                        sessionStorage.setItem('smsOremail', 'email');
                                         JuaBox.sure('<%= LANG("验证码已发送至邮箱") %>');
                                         break;
                                 }
