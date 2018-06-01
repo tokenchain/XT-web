@@ -2202,11 +2202,11 @@
     "kr": "만약 계정 아직 실명 인증 이 일을 안 써"
   },
   "超出提币单笔限额，请检查。": {
-  "cn": "",
-  "en": "",
-  "jp": "",
-  "kr": ""
-},
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
   "当前密码格式不正确": {
     "cn": "当前密码格式不正确",
     "en": "Current password format is incorrect",
@@ -2251,7 +2251,43 @@
   },
   "资金密码": {
     "cn": "资金密码",
-    "en": "Withdrawal password",
+    "en": "fund password",
+    "jp": "",
+    "kr": ""
+  },
+  "新的资金密码": {
+    "cn": "新的资金密码",
+    "en": "new fund password",
+    "jp": "",
+    "kr": ""
+  },
+  "确认新的资金密码": {
+    "cn": "确认新的资金密码",
+    "en": "confirm new fund password",
+    "jp": "",
+    "kr": ""
+  },
+  "我忘记资金密码了": {
+    "cn": "我忘记资金密码了",
+    "en": "I forgot money password",
+    "jp": "",
+    "kr": ""
+  },
+  "您正在使用 '验证短信+身份信息+绑定银行卡信息' 进行校验。": {
+    "cn": "您正在使用 '验证短信+身份信息+绑定银行卡信息' 进行校验。",
+    "en": "You are using a 'validation sms + identity info + binding card information' check.",
+    "jp": "",
+    "kr": ""
+  },
+  "您正在使用 '验证支付密码' 进行校验。": {
+    "cn": "您正在使用 '验证支付密码' 进行校验。",
+    "en": "You are using 'verify payment password' for verification.",
+    "jp": "",
+    "kr": ""
+  },
+  "通过'验证短信'+'身份信息'+'提现银行卡信息'": {
+    "cn": "通过'验证短信'+'身份信息'+'提现银行卡信息'",
+    "en": "Pass 'Verify SMS' + 'Identity Info' + 'Withdraw Bank Card Info'",
     "jp": "",
     "kr": ""
   },
@@ -2299,6 +2335,180 @@
   },
   "提现验证设置": {
     "cn": "提现验证设置",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "安全策略": {
+    "cn": "安全策略",
+    "en": "security policy",
+    "jp": "",
+    "kr": ""
+  },
+  "已实名认证": {
+    "cn": "已实名认证",
+    "en": "have real name",
+    "jp": "",
+    "kr": ""
+  },
+  "交易验证": {
+    "cn": "交易验证",
+    "en": "trade verify",
+    "jp": "",
+    "kr": ""
+  },
+  "交易验证设置": {
+    "cn": "交易验证设置",
+    "en": "trade verify set",
+    "jp": "",
+    "kr": ""
+  },
+  "登录验证设置": {
+    "cn": "登录验证设置",
+    "en": "login verify set",
+    "jp": "",
+    "kr": ""
+  },
+  "提现验证设置": {
+    "cn": "提现验证设置",
+    "en": "withdrawal verify set",
+    "jp": "",
+    "kr": ""
+  },
+  "免输入资金密码": {
+    "cn": "免输入资金密码",
+    "en": "Free password input",
+    "jp": "",
+    "kr": ""
+  },
+  "6小时内免输入资金密码": {
+    "cn": "6小时内免输入资金密码",
+    "en": "6 hours password input",
+    "jp": "",
+    "kr": ""
+  },
+  "每次交易输入资金密码": {
+    "cn": "每次交易输入资金密码",
+    "en": "Every time password input",
+    "jp": "",
+    "kr": ""
+  },
+  "资金密码+短信/邮件验证码": {
+    "cn": "资金密码+短信/邮件验证码",
+    "en": "fund password + sms/email code",
+    "jp": "",
+    "kr": ""
+  },
+  "资金密码+Google验证码": {
+    "cn": "资金密码+Google验证码",
+    "en": "fund password + google code",
+    "jp": "",
+    "kr": ""
+  },
+  "资金密码+Google验证码+短信/邮件验证码": {
+    "cn": "资金密码+Google验证码+短信/邮件验证码",
+    "en": "fund password+google code+sms/email code",
+    "jp": "",
+    "kr": ""
+  },
+  "登录密码+异地登录": {
+    "cn": "登录密码+异地登录",
+    "en": "Login password + log off",
+    "jp": "",
+    "kr": ""
+  },
+  "登录密码+Google验证码": {
+    "cn": "登录密码+Google验证码",
+    "en": "Login password + google code",
+    "jp": "",
+    "kr": ""
+  },
+  "登录密码+Google验证码+异地登录": {
+    "cn": "登录密码+Google验证码+异地登录",
+    "en": "Login password + google code + log off",
+    "jp": "",
+    "kr": ""
+  },
+  "重置资金密码": {
+    "cn": "重置资金密码",
+    "en": "reset fund password",
+    "jp": "",
+    "kr": ""
+  },
+  "我记得原资金密码": {
+    "cn": "我记得原资金密码",
+    "en": "I remember the original fund password",
+    "jp": "",
+    "kr": ""
+  },
+  "通过验证支付密码": {
+    "cn": "通过验证支付密码",
+    "en": "Pass payment verification password",
+    "jp": "",
+    "kr": ""
+  },
+  "重置成功": {
+    "cn": "重置成功",
+    "en": "reset success",
+    "jp": "",
+    "kr": ""
+  },
+  "您正在使用 “验证支付密码” 进行校验。": {
+    "cn": "您正在使用 “验证支付密码” 进行校验。",
+    "en": "You are using Verification Payment Password for verification.",
+    "jp": "",
+    "kr": ""
+  },
+  "完成": {
+    "cn": "完成",
+    "en": "complete",
+    "jp": "",
+    "kr": ""
+  },
+  "最近记录": {
+    "cn": "最近记录",
+    "en": "Recent record",
+    "jp": "",
+    "kr": ""
+  },
+  "历史记录": {
+    "cn": "历史记录",
+    "en": "history record",
+    "jp": "",
+    "kr": ""
+  },
+  "交易买": {
+    "cn": "交易买",
+    "en": "Trading buy",
+    "jp": "",
+    "kr": ""
+  },
+  "交易卖": {
+    "cn": "交易卖",
+    "en": "Trading sell",
+    "jp": "",
+    "kr": ""
+  },
+  "系统充值": {
+    "cn": "系统充值",
+    "en": "system recharge",
+    "jp": "",
+    "kr": ""
+  },
+  "系统扣款": {
+    "cn": "系统扣款",
+    "en": "system deduction",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
     "en": "",
     "jp": "",
     "kr": ""
