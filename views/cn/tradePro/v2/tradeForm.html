@@ -87,9 +87,9 @@
         <div class="trade-form-modal" v-if="tradeFormModal">
             <div class="trade-form-verification">
                 <span class="verification-close" @click="cancelVerification">X</span>
-                <div class="verification-title">交易校验</div>
-                <input id="verification-input" type="password" placeholder="资金密码" v-model="verificationPwd">
-                <button class="verification-button" @click="verification(verificationPwd)">确定</button>
+                <div class="verification-title"><%= LANG('交易校验')%></div>
+                <input id="verification-input" type="password" placeholder="<%= LANG('资金密码') %>" v-model="verificationPwd">
+                <button class="verification-button" @click="verification(verificationPwd)"><%= LANG('确定')%></button>
             </div>
         </div>
         <!--<modal v-cloak :open="showModal" @close="cancelVerification">-->
@@ -184,9 +184,9 @@
         <div class="trade-form-modal" v-if="tradeFormModal">
             <div class="trade-form-verification">
                 <span class="verification-close" @click="cancelVerification">X</span>
-                <div class="verification-title">交易校验</div>
-                <input id="verification-input-2" type="password" placeholder="资金密码" v-model="verificationPwd">
-                <button class="verification-button" @click="verification(verificationPwd)">确定</button>
+                <div class="verification-title"><%= LANG('交易校验')%></div>
+                <input id="verification-input-2" type="password" placeholder="<%= LANG('资金密码') %>" v-model="verificationPwd">
+                <button class="verification-button" @click="verification(verificationPwd)"><%= LANG('确定')%></button>
             </div>
         </div>
         <!--<modal v-cloak :open="showModal" @close="cancelVerification">-->
