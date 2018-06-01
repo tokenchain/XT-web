@@ -28,7 +28,7 @@
                     <img class="type-icon" src="<%= STATIC %>/images/icon/phone.png" alt="">
                     <div class="type-text">
                         <div class="type-title"><%= LANG('我忘记资金密码了')%></div>
-                        <%= LANG('通过“验证短信”+“身份信息”+“提现银行卡信息”')%>
+                        <%= LANG("通过'验证短信'+'身份信息'+'提现银行卡信息'")%>
                     </div>
                 </li>
                 <li class="type-button flex-double-center" @click="selectResetType(1)">
@@ -43,8 +43,8 @@
 
         <div class="flex-double-center" v-if="resetType != -1">
             <div class="container-input" v-cloak="" v-if="resetType == 0 || resetType == 1">
-                <div class="input-title" v-if="resetType == 0"><%= LANG('您正在使用 “验证短信+身份信息+绑定银行卡信息” 进行校验。')%></div>
-                <div class="input-title" v-if="resetType == 1"><%= LANG('您正在使用 “验证支付密码” 进行校验。')%></div>
+                <div class="input-title" v-if="resetType == 0"><%= LANG("您正在使用 '验证短信+身份信息+绑定银行卡信息' 进行校验。")%></div>
+                <div class="input-title" v-if="resetType == 1"><%= LANG("您正在使用 '验证支付密码' 进行校验。")%></div>
                 <div v-if="resetType == 0">
                     <div class="input-box">
                         <div class="input-left-title">
@@ -86,7 +86,7 @@
                         <input class='input-right' type="password" v-model="fundsInput.samePassword">
                     </div>
                     <div class="input-box">
-                        <button class="button-big" @click="retrieveFundsPwd()">完成</button>
+                        <button class="button-big" @click="retrieveFundsPwd()"><%= LANG('完成')%></button>
                     </div>
                 </div>
 
@@ -110,7 +110,7 @@
                         <input class='input-right' type="password" v-model="fundsInput.newPassword">
                     </div>
                     <div class="input-box">
-                        <button class="button-big" @click="editFundsPwd()">完成</button>
+                        <button class="button-big" @click="editFundsPwd()"><%= LANG('完成')%></button>
                     </div>
                 </div>
 
