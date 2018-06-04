@@ -20,9 +20,9 @@
               <input autocomplete="off" placeholder="<%= LANG('原手机验证码') %>" v-model="oldMobileCode" type="text">
               <send-code :code-type="2"
                          :country-code="userInfo.countryCode"
-                         :user-name="userInfo.loginName"
+                         :user-name="userInfo.mobile.split(' ')[1]"
                          :user-id="userInfo.userId"
-                         bus-type="9"/>
+                         :bus-type="9"/>
             </div>
             </div>
 
@@ -254,7 +254,9 @@
                             data: data,
                             success: function (res) {
                                 _this.locked = false;
-
+                                Methods.getUserInfo(function (datas) {//重新获取用户信息并保存到本地用户信息
+                                    Vue.set(EXX.userIndex.$data, "loginUser", datas);//更新用户中心Vue实例
+                                });
                                 JuaBox.info(EXX.L(res.resMsg.message), function () {
                                     top.location.reload();
                                 });

@@ -65,7 +65,7 @@
                 </a>
                 <div class="account-menu-dropdown">
                     <ul>
-                        <li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>
+                        <!--<li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>-->
                         <li v-if="userInfo.userType != 3" v-cloak><a style="padding-left: 20px;" role="button" href="/u/api">API<%= LANG('设置') %></a></li>
                         <li><a style="padding-left: 20px;" role="button" href="javascript:;" @click="logout"><%= LANG('退出登录') %></a></li>
                     </ul>
