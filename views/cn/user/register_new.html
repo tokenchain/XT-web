@@ -88,7 +88,7 @@
                     pubKey: '',
                     rsaKeyId:'',
                     pwdStrength: 0,
-                    userType: 1,
+                    userType: 1,//注册类型，1为手机，2为邮箱
                     showCountry: false,
                     preUserName: '',
                     userName: '',
@@ -223,8 +223,9 @@
                 handleRegister: function () {
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
-                        // userType: this.userType,
-                        email: this.userName,
+                        userType: this.userType,
+                        // email: this.userName,
+                        userName: this.userName,
                         password: encryptionPwd,
                         rsaKeyId: this.rsaKeyId,
                         imgCode: this.imgCode,
