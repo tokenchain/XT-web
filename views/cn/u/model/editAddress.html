@@ -36,13 +36,15 @@
                             <!--<%= LANG('登录密码') %>-->
                             <!--</template>-->
                             <!--<template v-else>-->
-                                <!--<%= LANG('资金密码') %>-->
+                            <!--<%= LANG('资金密码') %>-->
                             <!--</template>-->
-                        <!--</label>-->
-                        <div class="form-control">
-                            <input autocomplete="newpassword" :placeholder="loginUser.safePwdAuth == 0 ? '<%= LANG('登录密码') %>' : '<%= LANG('资金密码') %>'" v-model="safePwd" type="password" />
+                            <!--</label>-->
+                            <div class="form-control">
+                                <input autocomplete="newpassword"
+                                       :placeholder="loginUser.safePwdAuth == 0 ? '<%= LANG('登录密码') %>' : '<%= LANG('资金密码') %>'"
+                                       v-model="safePwd" type="password"/>
+                            </div>
                         </div>
-
                         <div v-if="type != 'dele'" class="form-group">
                             <div class="form-control">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
@@ -55,7 +57,6 @@
                                            @type="codeType"/>
                             </div>
                         </div>
-
                         <div v-if="(loginUser.googleAuth == 1 || loginUser.googleAuth == -1) && type != 'dele'"
                              class="form-group">
                             <div class="form-control">
@@ -66,14 +67,13 @@
                         <div class="form-button">
                             <button v-if="!requestLocked" type="button" @click="doSubmit" class="button"><span><%= LANG('确认') %></span>
                             </button>
-                            <button v-if="requestLocked" type="button" class="button"><span><%= LANG('正在处理') %></span>
+                            <button v-if="requestLocked" type="button" class="button">
+                                <span><%= LANG('正在处理') %></span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </script>
