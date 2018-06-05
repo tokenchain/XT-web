@@ -99,7 +99,8 @@
                                :country-code="loginUser.countryCode"
                                :user-name="loginUser.loginName"
                                :user-id="loginUser.userId"
-                               :bus-type="22"/>
+                               :bus-type="22"
+                               @type="codeType"/>
                 </div>
                 <div class="payout-code" v-if="loginUser.withdrawAuth == 5 || loginUser.withdrawAuth == 7">
                     <input class="code-input" autocomplete="off" placeholder="<%= LANG('谷歌验证码') %>" v-model="googleCode"
@@ -148,7 +149,8 @@
                                        :country-code="loginUser.countryCode"
                                        :user-name="loginUser.loginName"
                                        :user-id="loginUser.userId"
-                                       :bus-type="22"/>
+                                       :bus-type="22"
+                                       @type="codeType"/>
                         </div>
                     </div>
                     <div v-if="loginUser.withdrawAuth == 5 || loginUser.withdrawAuth == 7" class="form-group">
@@ -259,7 +261,8 @@
                     loginUser: Methods.getLocalUserInfo(),
                     userName: Methods.getCookie(ENV + 'uname'),
                     keyWord: '',
-                    bankInfo: {}
+                    bankInfo: {},
+                    sendCodeType: ''
                 }
             },
             computed: {
@@ -502,16 +505,19 @@
                         currencyId: this.currencyId,
                         coint: this.currentCoin,
                         amount: this.payoutAmount,
-                        dynamicCode: this.payoutDynamicCode,
                         googleCode: this.googleCode,
                         rsaKeyId: this.rsaKeyId,
                         fees: this.currentMinFees, //手续费
                         actuallyAmount: this.actualPayout //实到金额
                     };
+                    if (this.sendCodeType == "sms") {
+                        data.dynamicCode = this.payoutDynamicCode;
+                    } else if (this.sendCodeType == "email") {
+                        data.emailCode = this.payoutDynamicCode;
+                    }
                     this.requestLocked = true;
                     Methods.ajax({
                         type: 'POST',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -545,14 +551,17 @@
                         coint: this.currentCoin,
                         amount: this.payoutAmount,
                         safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
-                        dynamicCode: this.payoutDynamicCode,
                         addressId: this.bankInfo.withdrawBankAccount,
                         googleCode: this.googleCode,
                         rsaKeyId: this.rsaKeyId,
                     };
+                    if (this.sendCodeType == "sms") {
+                        data.dynamicCode = this.payoutDynamicCode;
+                    } else if (this.sendCodeType == "email") {
+                        data.emailCode = this.payoutDynamicCode;
+                    }
                     Methods.ajax({
                         type: 'POST',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'doPayoutCoin',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -659,6 +668,9 @@
                             this.bankInfo = res.datas
                         }.bind(this)
                     });
+                },
+                codeType: function (type) {
+                    this.sendCodeType = type
                 }
             },
             created: function () {
