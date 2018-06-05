@@ -15,14 +15,24 @@
                             <span class="name">{{loginUser.loginName}}</span>
                             <!--<span class="name">{{loginUser.nickName != '' ? loginUser.nickName : loginUser.userName}}</span>-->
                         </div>
-                        <div class="auth_bg">
-                            <img v-if="loginUser.status == 3" src="/src/images/u/certified.png">
+                        <div class="auth_bg" @click="approveHanlder(1)">
+                            <img v-if="loginUser.status/1%2 == 1" src="/src/images/u/certified.png">
                             <img v-else src="/src/images/u/uncertified.png">
-                            <span class="auth" v-if="loginUser.status == 3">
+                            <span class="auth" v-if="loginUser.status/1%2 == 1">
                                 <%= LANG('已实名认证') %>
                             </span>
                             <span class="not-auth" v-else>
                                 <%= LANG('未实名认证') %>
+                            </span>
+                        </div>
+                        <div class="auth_bg"  @click="approveHanlder(1)">
+                            <img v-if="parseInt(loginUser.status/2)%2 == 1" src="/src/images/u/certified.png">
+                            <img v-else src="/src/images/u/uncertified.png">
+                            <span class="auth" v-if="parseInt(loginUser.status/2)%2 == 1">
+                                <%= LANG('已绑定银行卡') %>
+                            </span>
+                            <span class="not-auth" v-else>
+                                <%= LANG('未绑定银行卡') %>
                             </span>
                         </div>
                         <!--<div class="onffflist" v-if="loginUser.emailAuth == 1">-->
@@ -263,13 +273,27 @@
                         <h3><%= LANG('实名认证') %><span class=""></span></h3>
                         <p>
                             <!--<img v-if="loginUser.status == 3" src="/src/images/u/certified.png">-->
-                            <img v-if="loginUser.status != 3" src="/src/images/u/uncertified.png">
-                            <span class="auth" v-if="loginUser.status == 3"><%= LANG('已认证') %></span>
+                            <img v-if="loginUser.status/1%2 ==0" src="/src/images/u/uncertified.png">
+                            <span class="auth" v-if="loginUser.status/1%2 ==1"><%= LANG('已认证') %></span>
                             <span class="not-auth" v-else><%= LANG('未认证') %></span>
                         </p>
                     </div>
                     <div class="r">
                         <a @click="approveHanlder(1)" v-if="loginUser.status != 3"><%= LANG('认证') %></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="l">
+                        <h3><%= LANG('银行卡绑定') %><span class=""></span></h3>
+                        <p>
+                            <!--<img v-if="loginUser.status == 3" src="/src/images/u/certified.png">-->
+                            <img v-if="parseInt(loginUser.status/2)%2 == 0" src="/src/images/u/uncertified.png">
+                            <span class="auth" v-if="parseInt(loginUser.status/2)%2 == 1"><%= LANG('已绑定') %></span>
+                            <span class="not-auth" v-else><%= LANG('未绑定') %></span>
+                        </p>
+                    </div>
+                    <div class="r">
+                        <a @click="approveHanlder(1)" v-if="parseInt(loginUser.status/2)%2 == 0"><%= LANG('绑定') %></a>
                     </div>
                 </li>
                 <li>
@@ -294,6 +318,7 @@
                     </div>
 
                 </li>
+
             </ul>
 
         </div>
@@ -657,6 +682,7 @@
                         window.location.href = "/u/account/verified"
                     } else if (index == 2) {
                         //支付页面
+                        window.location.href = "/u/account/payment_information"
                     } else if (index == 3) {
                         //充值页面
                     }
