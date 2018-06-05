@@ -633,7 +633,7 @@
                     });
                 },
                 //获取用户委托记录
-                getEntrustRecord: function (callback) {
+                getUserEntrustList: function (callback) {
                     var _this = this;
                     var data = {
                         //status: 0,
@@ -642,12 +642,12 @@
                         //pageSize: 30
                     };
                     Methods.ajax({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getOpenEntrustRecord',
-                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getEntrustRecord',
+                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
-                            _this.entrustRecord = res.datas.reverse();
+                            // _this.entrustRecord = res.datas.entrustList.reverse();
+                            _this.entrustRecord = res.datas.entrustList;
 
                             callback && callback(res.datas)
                         }
@@ -900,11 +900,7 @@
                             result = this.entrustingRecord
                             break;
                         case "history":
-                            this.entrustRecord.forEach(function (item) {
-                                if (group == 'history' && (item.status == 1 || item.status == 2)) {
-                                    result.push(item);
-                                }
-                            })
+                            result = this.entrustRecord
                             break;
                     }
                     return result;
@@ -1282,9 +1278,9 @@
                         //登录后的数据获取
                         if (_this.isLogin) {
                             //获取委托记录定时器
-                            _this.getEntrustRecord(function () {
+                            _this.getUserEntrustList(function () {
                                 _this.initEntrustScroll();
-                                setInterval(_this.getEntrustRecord, 3000);
+                                setInterval(_this.getUserEntrustList, 3000);
 
                             });
                             _this.getUserEntrustRecordFromCache(function () {

@@ -1,29 +1,32 @@
 <div class="entrust-bill-panel" id="app-entrust">
     <div class="bill-panel-head">
         <h3><%= LANG('委托记录') %></h3>
-
-
-
         <div class="dropdown" v-cloak="">
             <p role="button" data-toggle="dropdown"><%= LANG('市场') %>：<em>{{coinName}}</em><i>/</i>{{moneyName}}</p>
             <div class="dropdown-menu">
                 <div class="group-list">
                     <ul class="group-tab">
-                        <li role="button" :class="{'active' : -1 == curIndex}" v-on:mouseover="curIndex = -1" @click="changeMarket('all_all')"><%= LANG('所有当前委托')%></li>
-                        <li role="button" :class="{'active' : index == curIndex}" v-for="tab,index in marketGroupTab" v-on:mouseover="curIndex = index">{{tab}} <%= LANG('区')%></li>
+                        <!--<li role="button" :class="{'active' : -1 == curIndex}" v-on:mouseover="curIndex = -1" @click="changeMarket('all_all')"><%= LANG('所有当前委托')%></li>-->
+                        <li role="button" :class="{'active' : index == curIndex}" v-for="tab,index in marketGroupTab"
+                            v-on:mouseover="curIndex = index">{{tab}} <%= LANG('区')%>
+                        </li>
                     </ul>
                     <div class="group-box">
-                        <ul :class="{'block' : -1 == curIndex}">
-                            <li :class="{'active': 'all_all' == currentMarket}">
-                                <a @click="changeMarket('all_all')" role="button" target="_self">
-                                    <span class="coinimg">ALL/ALL</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <!--<ul :class="{'block' : -1 == curIndex}">-->
+                        <!--<li :class="{'active': 'all_all' == currentMarket}">-->
+                        <!--<a @click="changeMarket('all_all')" role="button" target="_self">-->
+                        <!--<span class="coinimg">ALL/ALL</span>-->
+                        <!--</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
                         <ul v-for="tab,index in marketGroupTab" :class="{'block' : index == curIndex}">
-                            <li v-for="market,key in getGroupMarket(tab)" :class="{'active': market.name == currentMarket}">
+                            <li v-for="market,key in getGroupMarket(tab)"
+                                :class="{'active': market.name == currentMarket}">
                                 <a @click="changeMarket(market.name)" role="button" target="_self">
-                                    <span class="coinimg"><img :src="'/src/images/icon/market-icon/market-'+ market.name.split('_')[0] +'.png?<%= VERSION%>'"></span>{{market.name.replace('_', '/').toUpperCase()}}
+                                    <span class="coinimg">
+                                        <img :src="'/src/images/icon/market-icon/market-'+ market.name.split('_')[0] +'.png?<%= VERSION%>'">
+                                    </span>
+                                    {{market.name.replace('_', '/').toUpperCase()}}
                                 </a>
                             </li>
                         </ul>
@@ -37,7 +40,9 @@
             <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{tradeTypeObj[tradeType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li :class="{'active': tradeType == key}" v-for="item, key in tradeTypeObj"><a role="button" @click="changeTradeType(key)">{{item}}</a></li>
+                    <li :class="{'active': tradeType == key}" v-for="item, key in tradeTypeObj"><a role="button"
+                                                                                                   @click="changeTradeType(key)">{{item}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -46,7 +51,9 @@
             <p role="button" data-toggle="dropdown"><%= LANG('状态') %>：<em>{{tradeStatusObj[tradeStatus]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li :class="{'active': tradeStatus == key}" v-for="item, key in tradeStatusObj"><a role="button" @click="changeTradeStatus(key)">{{item}}</a></li>
+                    <li :class="{'active': tradeStatus == key}" v-for="item, key in tradeStatusObj"><a role="button"
+                                                                                                       @click="changeTradeStatus(key)">{{item}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -56,11 +63,12 @@
             <p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>
             <div class="dropdown-menu">
                 <ul class="dropdown-list">
-                    <li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>
+                    <li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button"
+                                                                                                 @click="changeTimeType(key)">{{item}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
-
 
 
     </div>
@@ -70,7 +78,7 @@
             <div class="cell market"><%= LANG('市场') %></div>
             <div class="cell price"><%= LANG('委托价') %>/<%= LANG('成交均价') %></div>
             <div class="cell amount"><%= LANG('委托量') %>/<%= LANG('成交量') %></div>
-            <div class="cell num"><%= LANG('成交额') %> </div>
+            <div class="cell num"><%= LANG('成交额') %></div>
             <div class="cell source"><%= LANG('来源') %></div>
             <div class="cell type"><%= LANG('状态') %>/<%= LANG('操作') %></div>
         </div>
@@ -79,14 +87,19 @@
             <div class="cell time"><i :class="[item.type == 1 ? 'buyBgColor' : 'sellBgColor']">
                 <template v-if="item.type == 1"><%= LANG('买') %></template>
                 <template v-if="item.type == 0"><%= LANG('卖') %></template>
-            </i>{{showTime(item.createTime)}}</div>
+            </i>{{showTime(item.createTime)}}
+            </div>
             <div class="cell market">{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</div>
             <!--委托记录-->
             <div class="cell price">
-                <b class="buyColor hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price, switchIds[item.marketId])}}</b> /
-                <span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])}}</span>
+                <b class="buyColor hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price,
+                    switchIds[item.marketId])}}</b> /
+                <span class="hint--top"
+                      :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])}}</span>
             </div>
-            <div class="cell amount"><b :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</b> / {{showCoin(item.completeAmount,switchIds[item.marketId])}}</div>
+            <div class="cell amount"><b :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</b>
+                / {{showCoin(item.completeAmount,switchIds[item.marketId])}}
+            </div>
             <div class="cell num">
                 <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney,switchIds[item.marketId])">{{showAmount(item.completeTotalMoney,switchIds[item.marketId])}}</span>
             </div>
@@ -94,68 +107,79 @@
                 <!--<span>{{showSource(item[10])}}</span>-->
                 <span>WEB</span>
             </div>
-            <div class="cell type" v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span> | <a role="button" @click="doCancelEntrust(item.entrustId, item.marketId)"><%= LANG('取消') %></a></div>
-            <div class="cell type" v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></div>
+            <div class="cell type" v-if="item.status == 3 || item.status == 0"><span
+                    v-html="showStatus(item.status)"></span> | <a role="button"
+                                                                  @click="doCancelEntrust(item.entrustId, item.marketId)"><%=
+                LANG('取消') %></a></div>
+            <div class="cell type" v-if="item.status != 3 && item.status != 0"><span
+                    v-html="showStatus(item.status)"></span></div>
         </div>
         <div class="table no-data" v-if="records.length == 0">
             <%= LANG('暂无记录')%>
         </div>
     </div>
-    <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getEntrustRecord" v-if="records.length > 0 && !isAll"></page-lite>-->
+    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+               v-if="records.length > 0 && !isAll"></page-lite>
 </div>
 
 <%-include("../../component/page_lite.html")%>
 
 <script>
-    require(['vue','common/methods'], function (Vue, Methods) {
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         EXX.appEntrust = new Vue({
             el: "#app-entrust",
             data: function () {
                 return {
-                    isLogin : ISLOGIN,
-                    pageIndex : 1,
-                    pageSize : 10,
+                    isLogin: ISLOGIN,
+                    pageIndex: 1,
+                    pageSize: 20,
                     pageCount: 0,
-                    requestLocked : false,
-                    marketConfig : [],
-                    records : [],
-                    curIndex : 1,
-                    currentMarket : "<%= market || 'all_all' %>",
+                    requestLocked: false,
+                    marketConfig: [],
+                    records: [],
+                    curIndex: 0,
+                    currentMarket: "<%= market || 'all_all' %>",
                     coin: '<%= market.split("_")[0] %>',
                     money: '<%= market.split("_")[1] %>',
                     coinName: '<%= market.split("_")[0].toUpperCase() %>',
                     moneyName: '<%= market.split("_")[1].toUpperCase() %>',
-                    assistPrice : null,
-                    assistCoin : MONEY,
-                    tradeStatus : '-2',
-                    tradeStatusObj : {
-                        '-2' : "<%= LANG('全部') %>",
-                        '3' : "<%= LANG('交易中') %>",
-                        '2' : "<%= LANG('已完成') %>",
-                        '1' : "<%= LANG('已取消') %>"
+                    assistPrice: null,
+                    assistCoin: MONEY,
+                    tradeStatus: '-2',
+                    tradeStatusObj: {
+                        '-2': "<%= LANG('全部') %>",
+                        '3': "<%= LANG('交易中') %>",
+                        '2': "<%= LANG('已完成') %>",
+                        '1': "<%= LANG('已取消') %>"
                     },
-                    tradeType : '-1',
-                    tradeTypeObj : {
-                        '-1' : "<%= LANG('全部') %>",
-                        '0' : "<%= LANG('卖单') %>",
-                        '1' : "<%= LANG('买单') %>"
+                    tradeType: '-1',
+                    tradeTypeObj: {
+                        '-1': "<%= LANG('全部') %>",
+                        '0': "<%= LANG('卖单') %>",
+                        '1': "<%= LANG('买单') %>"
                     },
-                    timeType : '0',
-                    timeTypeObj : {
-                        '0' : "<%= LANG('最近委托') %>",
-                        '1' : "<%= LANG('历史委托') %>"
+                    timeType: '0',
+                    timeTypeObj: {
+                        '0': "<%= LANG('最近委托') %>",
+                        '1': "<%= LANG('历史委托') %>"
                     },
-                    assistList : {
-                        'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
+                    assistList: {
+                        'none': {key: 'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿', decimal: 6},
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
-                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
-                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
+                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$', decimal: 3},
+                        '<%= UNIT %>': {
+                            key: '<%= UNIT %>',
+                            name: '<%= LEGAL[UNIT].unit %>',
+                            icon: '',
+                            symbol: '<%= LEGAL[UNIT].note %>',
+                            decimal: '<%= LEGAL[UNIT].decimal %>'
+                        }
                     },
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     openMarkets: [] //开放的市场
                 }
             },
-            computed : {
+            computed: {
                 //转换市场id
                 switchMarkets: function () {
                     var _this = this;
@@ -180,10 +204,10 @@
                     }
                     return marketAndId;
                 },
-                isAll : function () {
+                isAll: function () {
                     return this.currentMarket == 'all_all' ? true : false;
                 },
-                currentUserAsset : function () {
+                currentUserAsset: function () {
                     return EXX.userNav.currentUserAsset;
                 },
                 currentAccountId: function () {
@@ -191,8 +215,8 @@
                         return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
                     }
                 },
-                currentMarketConfig : function () {
-                    if(this.marketConfig){
+                currentMarketConfig: function () {
+                    if (this.marketConfig) {
                         var config = this.marketConfig[this.currentMarket];
                         //处理模拟盘的币种名称
                         /*if(config.demoMode) {
@@ -202,15 +226,15 @@
                             this.moneyName = config.moneyName;
                         }*/
                         return config;
-                    }else{
+                    } else {
                         return ''
                     }
                 },
                 //按市场分组
-                marketGroupTab : function () {
+                marketGroupTab: function () {
                     var tab = [];
                     var marketConfig = this.marketConfig;
-                    if(marketConfig){
+                    if (marketConfig) {
                         /*for(var key in marketConfig){
                             if(this.currentUserAsset && this.currentUserAsset.userType == 3){
                                 //模拟市场
@@ -260,7 +284,7 @@
                     });
                 },
                 //获取用户委托记录 暂无分页
-                getEntrustRecord: function(marketid) {
+                getUserEntrustList: function (marketid) {
                     var _this = this;
                     var data = {
                         // type: _this.tradeType,
@@ -268,27 +292,29 @@
                         // isBackup: _this.timeType,
                         // market: _this.currentMarket,
                         // userId: _this.currentAccountId,
-                        // pageIndex: _this.pageIndex,
-                        // pageSize: _this.pageSize
+                        pageIndex: _this.pageIndex,
+                        pageSize: _this.pageSize,
                         userId: this.loginUser.userId,
                         marketId: marketid || _this.switchMarkets[_this.currentMarket]
                     };
                     _this.requestLocked = true;
-                    _this.records=[]
+                    _this.records = []
                     Methods.ajax({
-                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getEntrustRecord',
+                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getUserEntrustList',
                         data: data,
                         success: function (res) {
-                            //数组更新
-                            if (marketid) {
-                                _this.records = _this.records.concat(_this.filterRecord(res.datas));
-                            } else {
-                                _this.records = _this.filterRecord(res.datas);
-                            }
+                            //数组更新（取消轮询）
+                            // if (marketid) {
+                            //     _this.records = _this.records.concat(_this.filterRecord(res.datas.entrustList));
+                            // } else {
+                            //     _this.records = _this.filterRecord(res.datas.entrustList);
+                            // }
 
+                            _this.records = _this.filterRecord(res.datas.entrustList);
+                            _this.pageCount = res.datas.entrustList.totalPage;
                             _this.requestLocked = false;
                         },
-                        error : function (res) {
+                        error: function (res) {
                             _this.requestLocked = false;
                             JuaBox.info(EXX.L(res.resMsg.message));
                         }
@@ -309,12 +335,12 @@
                     }, this);
                 },
                 //封装选择请求方法
-                getRecord : function () {
-                    if(this.isAll){
+                getRecord: function () {
+                    if (this.isAll) {
                         //轮询获取所有委托记录
-                        this.getOpenMarketByWebId(this.getEntrustRecord);
-                    }else{
-                        this.getEntrustRecord();
+                        this.getOpenMarketByWebId(this.getUserEntrustList);
+                    } else {
+                        this.getUserEntrustList();
                     }
                 },
                 // 获取所有开放的marketId
@@ -343,7 +369,7 @@
                     })
                 },
                 //取消委托
-                doCancelEntrust: function(id, marketid, isReal) {
+                doCancelEntrust: function (id, marketid, isReal) {
                     var _this = this;
                     var data = {
                         // isReal: 0,
@@ -375,7 +401,7 @@
                     /*this.pageIndex = 1;
                     this.pageCount = 0;
                     this.currentMarket = type;
-                    this.getEntrustRecord();*/
+                    this.getUserEntrustList();*/
                 },
                 changeTradeStatus: function (type) {
                     this.pageIndex = 1;
@@ -397,7 +423,7 @@
                 },
                 //获取指定辅助货币的价格
                 getPriceByAssist: function (price, market) {
-                    if(!price || price == '' || this.assistPrice == null){
+                    if (!price || price == '' || this.assistPrice == null) {
                         return ''
                     }
                     var money = this.getMoney(market || this.currentMarket);
@@ -409,7 +435,7 @@
                     }
                 },
                 //获取指定分组的市场列表
-                getGroupMarket : function (tab) {
+                getGroupMarket: function (tab) {
                     var result = [];
                     var marketConfig = this.marketConfig;
 
@@ -430,102 +456,102 @@
 
                     return result;
                 },
-                showStatus : function (status) {
+                showStatus: function (status) {
                     var obj = {
-                        "-1" : "<%= LANG('计划中')%>",
-                        "0" : "<span class='text-second'><%= LANG('交易中')%></span>",
-                        "1" : "<%= LANG('已取消')%>",
-                        "2" : "<span class='text-primary'><%= LANG('已完成')%></span>",
-                        "3" : "<span class='text-second'><%= LANG('交易中')%></span>"
+                        "-1": "<%= LANG('计划中')%>",
+                        "0": "<span class='text-second'><%= LANG('交易中')%></span>",
+                        "1": "<%= LANG('已取消')%>",
+                        "2": "<span class='text-primary'><%= LANG('已完成')%></span>",
+                        "3": "<span class='text-second'><%= LANG('交易中')%></span>"
                     }
                     return obj[status];
                 },
-                showSource : function (source) {
+                showSource: function (source) {
                     var obj = {
-                        "6" : "API",
-                        "8" : "WEB",
-                        "5" : "APP"
+                        "6": "API",
+                        "8": "WEB",
+                        "5": "APP"
                     }
                     return obj[source];
                 },
-                showTime : function (time) {
+                showTime: function (time) {
                     return Methods.getDateTime(time, "MM-DD HH:MM:SS");
                 },
-                showCoin : function (val, market) {
-                    if(isNaN(val)){
+                showCoin: function (val, market) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, 4)
                     }
                 },
-                showMoney : function (val, market) {
-                    if(isNaN(val)){
+                showMoney: function (val, market) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, 4)
                     }
                 },
-                showAmount : function (val, market) {
-                    if(isNaN(val)){
+                showAmount: function (val, market) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
+                    } else {
                         return Methods.fixNumber(val, 4)
                     }
                 },
-                showRate : function (val) {
-                    if(isNaN(val)){
+                showRate: function (val) {
+                    if (isNaN(val)) {
                         return '--'
-                    }else{
-                        if(parseFloat(val) >= 0){
+                    } else {
+                        if (parseFloat(val) >= 0) {
                             return "+" + Methods.fixNumber(val, 2)
-                        }else{
+                        } else {
                             return Methods.fixNumber(val, 2)
                         }
                     }
                 },
-                showAssistCoin : function (market) {
+                showAssistCoin: function (market) {
                     //显示辅助货币名字，不显示默认
-                    if(this.assistCoin == 'none'){
+                    if (this.assistCoin == 'none') {
                         return this.getMoneyName(market);
-                    }else{
+                    } else {
                         return this.assistList[this.assistCoin].name || this.getMoneyName(market);
                     }
                 },
-                showAssistName : function (market) {
+                showAssistName: function (market) {
                     //显示辅助货币名字，有默认显示
                     return this.assistList[this.assistCoin].name || this.getMoneyName(market);
                 },
                 //价格折合的提示内容
-                showAssistHint : function (price, market) {
+                showAssistHint: function (price, market) {
                     return "<%= LANG('折合')%>:" + this.getPriceByAssist(price, market) + " " + this.showAssistCoin(market);
                 },
-                getCoin : function (market) {
+                getCoin: function (market) {
                     return market.split('_')[0];
                 },
-                getMoney : function (market) {
+                getMoney: function (market) {
                     return market.split('_')[1];
                 },
-                getCoinName : function (market) {
+                getCoinName: function (market) {
                     return market.split('_')[0].toUpperCase();
                 },
-                getMoneyName : function (market) {
+                getMoneyName: function (market) {
                     return market.split('_')[1].toUpperCase();
                 },
-                getMarket : function (market) {
-                    if(market){
+                getMarket: function (market) {
+                    if (market) {
                         return market.replace('_', '/').toUpperCase();
-                    }else{
+                    } else {
                         return this.currentMarket.replace('_', '/').toUpperCase();
                     }
                 }
             },
-            created: function() {
+            created: function () {
                 this.getMarketConfig(function () {
                     this.getAssistPrice();
                     this.getRecord();
                 }.bind(this));
             },
-            mounted : function () {
+            mounted: function () {
 
             }
         })

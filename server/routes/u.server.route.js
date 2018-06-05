@@ -82,7 +82,7 @@ router.get(['/bill','/bill/:coin'], function(req, res, next) {
 router.get(['/entrust','/entrust/:market'], function(req, res, next) {
     var market = req.params.market;
     if(!market){
-        res.redirect('/u/entrust/all_all');
+        res.redirect('/u/entrust/btc_krw');
     }else{
         res.render(TEMP_MANAGE,{
             templateMain:'u/asset/entrust.html',
