@@ -272,27 +272,27 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
 
-                // switch (resMsg.code) {
-                //     case '999':
-                //         JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
-                //         // this.deleCookie(ENV + 'currentAccountId');
-                //         // this.setCookie(ENV + 'ExchangeMode', 1);
-                //         // this.setCookie(ENV + 'TradeTheme', 'dark');
-                //         // this.setCookie(ENV + 'inputPriceMode', 0);
-                //         // this.setCookie(ENV + 'mname', 'none');
-                //         //
-                //         // this.setCookie(ENV + 'uname', 'none');
-                //         // this.setCookie(ENV + 'uid', 'none');
-                //         // this.setCookie(ENV + 'uon', 'none');
-                //         //
-                //         // window.localStorage.clear();
-                //         // setTimeout(function () {
-                //         //     window.location.replace('/login');
-                //         // }, 1500);
-                //         break;
-                //     default:
-                //         JuaBox.showWrong(EXX.Err(resMsg));
-                // }
+                switch (resMsg.code) {
+                    case '999':
+                        JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
+                        // this.deleCookie(ENV + 'currentAccountId');
+                        // this.setCookie(ENV + 'ExchangeMode', 1);
+                        // this.setCookie(ENV + 'TradeTheme', 'dark');
+                        // this.setCookie(ENV + 'inputPriceMode', 0);
+                        // this.setCookie(ENV + 'mname', 'none');
+                        //
+                        // this.setCookie(ENV + 'uname', 'none');
+                        // this.setCookie(ENV + 'uid', 'none');
+                        // this.setCookie(ENV + 'uon', 'none');
+                        //
+                        // window.localStorage.clear();
+                        // setTimeout(function () {
+                        //     window.location.replace('/login');
+                        // }, 1500);
+                        break;
+                    default:
+                        JuaBox.showWrong(EXX.Err(resMsg));
+                }
             }.bind(this);
 
             $.ajaxSetup({
