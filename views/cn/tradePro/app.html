@@ -638,8 +638,9 @@
                     var data = {
                         //status: 0,
                         marketId: _this.currentMarketId,
-                        userId: _this.currentAccountId
-                        //pageSize: 30
+                        userId: _this.currentAccountId,
+                        pageSize: 999999,
+                        pageIndex:1
                     };
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
