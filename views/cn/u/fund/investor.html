@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="form-group">
-            <span class="name"><%= LANG('二级密码') %>：</span>
+            <span class="name"><%= LANG('资金密码') %>：</span>
             <div class="control">
               <input v-model="safePwd"  placeholder="" type="password" />
             </div>
@@ -332,7 +332,7 @@
           if (data.amount === "") {
             JuaBox.info("<%= LANG('请输入投资总额') %>");
           } else if (data.password.length < 6) {
-            JuaBox.info("<%= LANG('请输入二级密码') %>");
+            JuaBox.info("<%= LANG('请输入资金密码') %>");
           } else if (!this.agree) {
             JuaBox.info("<%= LANG('需要同意 《融资融币交易风险申明》') %>");
           } else {

@@ -100,12 +100,12 @@
                 <!--<%= LANG('登录密码') %>-->
               <!--</template>-->
               <!--<template v-else>-->
-                <!--<%= LANG('二级密码') %>-->
+                <!--<%= LANG('资金密码') %>-->
               <!--</template>-->
             </label>
             <div class="form-control">
-              <!--<input autocomplete="new-password" :placeholder="userInfo.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('二级密码') %>' " v-model="safePwd" type="password">-->
-            <!--<a  v-if="userInfo.safePwdAuth == 1" class="label-a" href="/u/safe/resetSafePwd" target="_blank"><%= LANG('忘记二级密码？') %></a>-->
+              <!--<input autocomplete="new-password" :placeholder="userInfo.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('资金密码') %>' " v-model="safePwd" type="password">-->
+            <!--<a  v-if="userInfo.safePwdAuth == 1" class="label-a" href="/u/safe/resetSafePwd" target="_blank"><%= LANG('忘记资金密码？') %></a>-->
               <input autocomplete="new-password" :placeholder="'<%= LANG('登录密码') %>'" v-model="safePwd" type="password">
               <a class="label-a" href="/u/safe/resetSafePwd" target="_blank"><%= LANG('忘记登录密码？') %></a>
           </div>
