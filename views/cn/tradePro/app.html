@@ -45,6 +45,7 @@
                         maxbBids: "0",
                         maxbAsks: "0"
                     },
+                    dishFull: false,
                     dealRecord: [],
                     tradesLimit: 100,
                     last_trade_tid: 0,
@@ -795,10 +796,11 @@
                     //合并盘口数据
                     var data = result.datas;
 
-                    if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0) {
+                    if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0 && !_this.dishFull) {
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks)
                         Vue.set(_this.lastDepth, 'bids', data.bids)
+                        _this.dishFull = true
                     } else {
                         //处理增量推送
                         var resultAsksArray, resultBidsArray;
