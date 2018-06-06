@@ -45,6 +45,7 @@
                         maxbBids: "0",
                         maxbAsks: "0"
                     },
+                    dishFull: false,
                     dealRecord: [],
                     tradesLimit: 100,
                     last_trade_tid: 0,
@@ -733,6 +734,7 @@
                 //[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]
                 //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
+                    console.log(res)
                     var _this = this;
                     //增量更新的合并盘口方法
                     var mixArray = function (oldArray, newArray) {
@@ -795,10 +797,11 @@
                     //合并盘口数据
                     var data = result.datas;
 
-                    if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0) {
+                    if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0 && !_this.dishFull) {
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks)
                         Vue.set(_this.lastDepth, 'bids', data.bids)
+                        _this.dishFull = true
                     } else {
                         //处理增量推送
                         var resultAsksArray, resultBidsArray;
