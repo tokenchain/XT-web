@@ -99,7 +99,7 @@
                     <div class="r-area oper" v-if="isLogin">
                         <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
                         <a :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
-                        <a @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>
+                        <!--<a @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>-->
                     </div>
                 </div>
                 <div class="entrust-box-body">
@@ -317,9 +317,9 @@
         <toggle-user-action :params="userParams" :done="userActionSuccess()" theme="light"/>
     </modal>
     <!-- 批量取消委托 -->
-    <modal v-cloak :open= "showModal == 'batchCancel'" @close="showModal = false">
-        <batch-cancel :market-config="currentMarketConfig" theme="light"/>
-    </modal>
+    <!--<modal v-cloak :open= "showModal == 'batchCancel'" @close="showModal = false">-->
+        <!--<batch-cancel :market-config="currentMarketConfig" theme="light"/>-->
+    <!--</modal>-->
     <!--还款-->
     <modal v-cloak :open= "showModal == 'refund'" @close="showModal = false">
         <modal-refund :params="refundParams" :user-asset="currentUserAsset" />
