@@ -189,7 +189,8 @@
                         }.bind(this),
                         error: function (res) {
                             this.locked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message))
                         }.bind(this)
                     });
                 }

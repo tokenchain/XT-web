@@ -268,7 +268,8 @@
                             },
                             error: function (res) {
                                 this.requestLocked = false;
-                                JuaBox.info(EXX.L(res.resMsg.message));
+                                JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                // JuaBox.info(EXX.L(res.resMsg.message));
                                 this.timestramp = '-' + new Date().getTime();
 
                                 this.getImageCode();

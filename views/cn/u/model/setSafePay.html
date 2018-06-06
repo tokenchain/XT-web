@@ -244,7 +244,7 @@
                         }.bind(this),
                         error: function (res) {
                             this.locked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.wrong(EXX.L(res.resMsg.code));
                         }.bind(this)
                     });
                     return;

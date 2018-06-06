@@ -195,7 +195,8 @@
                             }
                         }.bind(this),
                         error: function (res) {
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message))
                         }.bind(this)
                     });
                 },
@@ -218,7 +219,8 @@
                             console.log(res)
                         }.bind(this),
                         error: function (res) {
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message))
                         }.bind(this)
                     });
                 },
@@ -242,7 +244,8 @@
                             }
                         }.bind(this),
                         error: function (res) {
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message))
                         }.bind(this)
                     });
                 }

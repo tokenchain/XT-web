@@ -218,7 +218,8 @@
                         }.bind(this),
                         error: function (res) {
                             this.requestLocked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message))
                         }.bind(this)
                     });
                 },
