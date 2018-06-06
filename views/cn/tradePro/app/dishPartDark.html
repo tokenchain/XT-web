@@ -122,11 +122,11 @@
                 },
                 showPrice : function (price,type) {
                     //格式化盘口价格
-                    return Methods.fixNumber(price, this.marketConfig.buyDecimal);
+                    return Methods.fixNumber(price, this.marketConfig.priceDecimal);
                 },
                 showDepth : function (depth,type) {
                     //格式化盘口深度
-                    return Methods.fixNumber(depth, this.marketConfig.sellDecimal);
+                    return Methods.fixNumber(depth, this.marketConfig.amountDecimal);
                 },
                 changeLength : function (len) {
                     this.dishLength = len;
@@ -316,7 +316,7 @@
                 },
                 getPrice:function(val){
                     var price = this.$parent.showMoney(val) + '';
-                    if(this.marketConfig.sellDecimal == 0){
+                    if(this.marketConfig.amountDecimal == 0){
                         return [price, 0] ;
                     }else{
                         return price.split('.');
@@ -340,7 +340,7 @@
                     var html = '';
                     html += "<div class=\"tr body " +style+ "\">";
                     html += "   <div class=\"td type\"></div>";
-                    if(this.marketConfig.sellDecimal == 0){
+                    if(this.marketConfig.amountDecimal == 0){
                         html += "   <div class=\"td price\"><span class=\"cor1\">"+ price[0] +"</span></div>";
                     }else{
                         html += "   <div class=\"td price\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></div>";

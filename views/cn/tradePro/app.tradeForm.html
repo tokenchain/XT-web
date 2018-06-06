@@ -80,14 +80,14 @@
                 },
                 realCanBuyCoin: function () {
                     if (this.inputPrice != '') {
-                        return Methods.fixDecimal(this.canUseMoney / this.inputPrice, this.marketConfig.sellDecimal);
+                        return Methods.fixDecimal(this.canUseMoney / this.inputPrice, this.marketConfig.amountDecimal);
                     } else {
                         return this.$parent.canBuyCoin;
                     }
                 },
                 realCanSellMoney: function () {
                     if (this.inputPrice != '') {
-                        return Methods.fixDecimal(this.canUseCoin * this.inputPrice, this.marketConfig.buyDecimal);
+                        return Methods.fixDecimal(this.canUseCoin * this.inputPrice, this.marketConfig.priceDecimal);
                     } else {
                         return this.$parent.canSellMoney;
                     }
@@ -123,14 +123,14 @@
                     return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.$parent.assistList[this.$parent.assistCoin].decimal + "})?$");
                 },
                 moneyRegEx: function () {
-                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.buyDecimal + "})?$");
+                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.priceDecimal + "})?$");
                 },
                 coinRegEx: function () {
-                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.sellDecimal + "})?$");
+                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.marketConfig.amountDecimal + "})?$");
                 },
                 totalAmount: function () {
                     if (this.inputPrice && this.inputNumber && this.tradeMode == 0) {
-                        return Methods.fixDecimal(Methods.numMultiply(this.inputPrice, this.inputNumber), this.marketConfig.sellDecimal);
+                        return Methods.fixDecimal(Methods.numMultiply(this.inputPrice, this.inputNumber), this.marketConfig.amountDecimal);
                     } else {
                         return '--';
                     }
@@ -146,11 +146,11 @@
                     if (this.$parent.currentMarketLever && this.isLogin) {
                         if (this.tradeType == 0 && this.inputNumber > 0) {
                             result = this.inputNumber - this.$parent.getUseable(this.coin);
-                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.sellDecimal);
+                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.amountDecimal);
                         }
                         if (this.tradeType == 1 && this.totalAmount > 0) {
                             result = this.totalAmount - this.$parent.getUseable(this.money);
-                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.buyDecimal);
+                            return Methods.fixDecimal(Math.max(result, 0), this.marketConfig.priceDecimal);
                         }
                     }
                     return result;
@@ -594,7 +594,7 @@
                                     this.inputMaxPriceConvert = this.inputMaxPriceConvert * (1 + step);
                                 }
                             }
-                            this.inputMaxPrice = Methods.fixFloat(this.inputMaxPrice, this.marketConfig.buyDecimal);
+                            this.inputMaxPrice = Methods.fixFloat(this.inputMaxPrice, this.marketConfig.priceDecimal);
                             this.inputMaxPriceConvert = Methods.fixFloat(this.inputMaxPriceConvert, this.$parent.assistList[this.$parent.assistCoin].decimal);
                             break;
                         case 3:
@@ -615,7 +615,7 @@
                                     this.inputMinPriceConvert = this.inputMinPriceConvert * (1 + step);
                                 }
                             }
-                            this.inputMinPrice = Methods.fixFloat(this.inputMinPrice, this.marketConfig.buyDecimal);
+                            this.inputMinPrice = Methods.fixFloat(this.inputMinPrice, this.marketConfig.priceDecimal);
                             this.inputMinPriceConvert = Methods.fixFloat(this.inputMinPriceConvert, this.$parent.assistList[this.$parent.assistCoin].decimal);
                             break;
                         default:
@@ -685,7 +685,7 @@
                 inputPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
-                        this.inputPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
+                        this.inputPrice = Methods.checkDecimal(newVal, this.marketConfig.priceDecimal);
                     }
                     this.checkNumberByPercent();
                     //this.inputPriceConvert = this.$parent.getPriceByAssist(newVal);
@@ -693,14 +693,14 @@
                 inputMaxPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
-                        this.inputMaxPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
+                        this.inputMaxPrice = Methods.checkDecimal(newVal, this.marketConfig.priceDecimal);
                     }
                     //this.inputMaxPriceConvert = this.$parent.getPriceByAssist(newVal);
                 },
                 inputMinPrice: function (newVal, oldVal) {
                     //监视数据不合格则先转换
                     if (!this.moneyRegEx.test(newVal) && newVal != '') {
-                        this.inputMinPrice = Methods.checkDecimal(newVal, this.marketConfig.buyDecimal);
+                        this.inputMinPrice = Methods.checkDecimal(newVal, this.marketConfig.priceDecimal);
                     }
                     //this.inputMinPriceConvert = this.$parent.getPriceByAssist(newVal);
                 },
@@ -715,7 +715,7 @@
                         this.inputNumber = 0;
                     }
                     if (!this.coinRegEx.test(newVal) && newVal != '') {
-                        this.inputNumber = Methods.checkDecimal(newVal, this.marketConfig.sellDecimal);
+                        this.inputNumber = Methods.checkDecimal(newVal, this.marketConfig.amountDecimal);
                     }
                     this.checkNumberByPercent();
                 },

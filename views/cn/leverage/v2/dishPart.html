@@ -137,11 +137,11 @@
                 },
                 showPrice : function (price,type) {
                     //格式化盘口价格
-                    return Methods.fixNumber(price, this.marketConfig.buyDecimal);
+                    return Methods.fixNumber(price, this.marketConfig.priceDecimal);
                 },
                 showDepth : function (depth,type) {
                     //格式化盘口深度
-                    return Methods.fixNumber(depth, this.marketConfig.sellDecimal);
+                    return Methods.fixNumber(depth, this.marketConfig.amountDecimal);
                 },
                 changeLength : function (len) {
                     this.dishLength = len;

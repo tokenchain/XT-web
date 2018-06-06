@@ -875,7 +875,7 @@
                     var money = this.money;
                     var assistCoin = this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.currentMarketConfig.buyDecimal);
+                        return Methods.fixNumber(price, this.currentMarketConfig.priceDecimal);
                     } else {
                         return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
                     }
@@ -888,9 +888,9 @@
                     var money = this.money;
                     var assistCoin = this.assistCoin;
                     if (assistCoin == 'none' || assistCoin == '') {
-                        return Methods.fixNumber(price, this.currentMarketConfig.buyDecimal);
+                        return Methods.fixNumber(price, this.currentMarketConfig.priceDecimal);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) / parseFloat(this.assistPrice[assistCoin][money]), this.currentMarketConfig.buyDecimal) || '--';
+                        return Methods.fixNumber(parseFloat(price) / parseFloat(this.assistPrice[assistCoin][money]), this.currentMarketConfig.priceDecimal) || '--';
                     }
                 },
                 //过滤指定的委托
@@ -960,28 +960,28 @@
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.amountDecimal)
                     }
                 },
                 showMoney: function (val) {
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return Methods.fixNumber(val, this.currentMarketConfig.buyDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.priceDecimal)
                     }
                 },
                 showPrice: function (val) {
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return Methods.fixDecimal(val, this.currentMarketConfig.buyDecimal)
+                        return Methods.fixDecimal(val, this.currentMarketConfig.priceDecimal)
                     }
                 },
                 showAmount: function (val) {
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return Methods.fixNumber(val, this.currentMarketConfig.sellDecimal)
+                        return Methods.fixNumber(val, this.currentMarketConfig.amountDecimal)
                     }
                 },
                 showRate: function (val) {
