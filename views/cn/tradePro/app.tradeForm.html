@@ -55,7 +55,7 @@
                     rsaKeyId: '',
                     entrustParams: {},
                     tradeFormModal: false,
-                    verificationPwd:''
+                    verificationPwd: ''
                 }
             },
             computed: {
@@ -266,7 +266,11 @@
                         if (!this.coinRegEx.test(this.inputNumber) || this.inputNumber == 0 || this.inputNumber == '') {
                             return showError("<%= LANG('请输入正确的委托数量') %>");
                         }
-                        //判断是否低于市场价
+                        if (this.inputNumber < parseFloat(this.marketConfig.minAmount)) {
+                            return showError("<%= LANG('请输入正确的委托数量') %>");
+                        }
+
+                            //判断是否低于市场价
                         /*if(this.tradeType == 0 && (_sellOne / parseFloat(this.inputPrice) > parseFloat(_priceProtect))){
                             return JuaBox.confirm(EXX.L('卖单价格低于市场价n%',this.inputPrice,_sellOne, _percentProtect),this.doSubmitEntrust);
                         }*/
@@ -290,6 +294,9 @@
                             if (!this.coinRegEx.test(this.inputNumber) || this.inputNumber == 0 || this.inputNumber == '') {
                                 return showError("<%= LANG('请输入正确的委托数量') %>");
                             }
+                            if (this.inputNumber < parseFloat(this.marketConfig.minAmount)) {
+                                return showError("<%= LANG('请输入正确的委托数量') %>");
+                            }
                             //判断是否低于市场价
                             /*if(_sellOne / parseFloat(this.inputPrice) > parseFloat(_priceProtect)){
                                 return JuaBox.confirm(EXX.L('卖单价格低于市场价n%',this.inputPrice,_sellOne, _percentProtect),this.doBatchEntrust);
@@ -305,6 +312,9 @@
                                 return showError(EXX.L("<%= LANG('批量分散买入的最高限定价格m应高于最低限定价格n，请重设价格。') %>", this.inputPrice, this.inputMinPrice));
                             }
                             if (!this.coinRegEx.test(this.inputNumber) || this.inputNumber == 0 || this.inputNumber == '') {
+                                return showError("<%= LANG('请输入正确的委托数量') %>");
+                            }
+                            if (this.inputNumber < parseFloat(this.marketConfig.minAmount)) {
                                 return showError("<%= LANG('请输入正确的委托数量') %>");
                             }
                             //判断是否高于市场价
