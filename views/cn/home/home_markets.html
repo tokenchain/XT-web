@@ -1,15 +1,16 @@
 <div id="home-market" class="home-market">
     <div class="container">
         <div class="market-content">
-            <div class="market-head">
+            <div class="market-head" v-cloak="">
                 <ul class="market-tab">
                     <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
-                    <li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>
-                    <li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>
-                    <li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>
-                    <li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>
-                    <li class="item" :class="{active: marketsTab == 'qtum' && keyWord == ''}"  @click="changeMarketsTab('qtum')">QTUM<%= LANG('市场')%></li>
-                    <li class="item" :class="{active: marketsTab == 'hsr' && keyWord == ''}" @click="changeMarketsTab('hsr')">HSR<%= LANG('市场')%></li>
+                    <!--<li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>-->
+                    <li v-for='item in marketAreaList' class="item" :class="{active: marketsTab == item && keyWord == ''}" @click="changeMarketsTab(item.name)">{{item.name.toUpperCase()}}<%= LANG('市场')%></li>
+                    <!--<li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'qtum' && keyWord == ''}"  @click="changeMarketsTab('qtum')">QTUM<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'hsr' && keyWord == ''}" @click="changeMarketsTab('hsr')">HSR<%= LANG('市场')%></li>-->
                 </ul>
                 <div class="market-search">
                     <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord" autocomplete="off" name="search_<%= VERSION%>">
@@ -95,7 +96,8 @@
                         'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
                         '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
                     },
-                    websocket: '' //websocket服务,
+                    websocket: '', //websocket服务,
+                    marketAreaList: []
                 }
             },
             computed: {
@@ -521,16 +523,25 @@
                     }else{
                         return Methods.fixDecimal(val, 4)
                     }
-                }
+                },
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
             },
             updated : function () {
 
             },
             created: function(){
                 this.getPriceRate();
+                this.getMarketAreaListByWebId();
                 this.getMarketConfig(function () {
                     this.getHomeMarket();
-                    setInterval(this.getPriceRate, 5000);
+                    setInterval(this.getPriceRate, 55000);
                     // setInterval(this.getHomeMarket, 5000);
                 }.bind(this));
             },

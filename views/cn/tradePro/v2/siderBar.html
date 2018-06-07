@@ -14,34 +14,18 @@
     </div>
     <div class="trading-market">
         <div class="trading-tab">
-            <ul>
+            <ul v-cloak="">
                 <li role="button" @click="changeTab('user')" :class="{'active' : currentTab == 'user' && keyWord == ''}" v-if="isLogin">
                     <img v-if="currentUserAsset.photo" :src="'/src/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
                     <p><%- LANG('自选')%></p>
                 </li>
-                <li role="button" @click="changeTab('_<%= LEGAL[UNIT].alias %>')" :class="{'active' : currentTab == '_<%= LEGAL[UNIT].alias %>' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-<%= LEGAL[UNIT].alias %>.png">
-                    <p><%= LEGAL[UNIT].alias.toUpperCase() %></p>
-                </li>
-                <li role="button" @click="changeTab('_usdt')" :class="{'active' : currentTab == '_usdt' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-usdt.png">
-                    <p>USDT</p>
-                </li>
-                <li role="button" @click="changeTab('_btc')" :class="{'active' : currentTab == '_btc' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-btc.png">
-                    <p>BTC</p>
-                </li>
-                <li role="button" @click="changeTab('_eth')" :class="{'active' : currentTab == '_eth' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-eth.png">
-                    <p>ETH</p>
-                </li>
-                <li role="button" @click="changeTab('_qtum')" :class="{'active' : currentTab == '_qtum' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-qtum.png">
-                    <p>QTUM</p>
-                </li>
-                <li role="button" @click="changeTab('_hsr')" :class="{'active' : currentTab == '_hsr' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-hsr.png">
-                    <p>HSR</p>
+                <!--<li role="button" @click="changeTab('_<%= LEGAL[UNIT].alias %>')" :class="{'active' : currentTab == '_<%= LEGAL[UNIT].alias %>' && keyWord == ''}">-->
+                    <!--<img src="/src/images/icon/market-icon/market-<%= LEGAL[UNIT].alias %>.png">-->
+                    <!--<p><%= LEGAL[UNIT].alias.toUpperCase() %></p>-->
+                <!--</li>-->
+                <li v-for="item in marketAreaList" role="button" @click="changeTab('_' + item.name)" :class="{'active' : currentTab == '_' + item && keyWord == ''}">
+                    <img :src="'/src/images/icon/market-icon/' + item.logo">
+                    <p>{{item.name.toUpperCase()}}</p>
                 </li>
             </ul>
         </div>

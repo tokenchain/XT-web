@@ -44,7 +44,8 @@
                     siderScroll: '',
                     lightShowsider: true,
 
-                    websocket: '' //websocket服务
+                    websocket: '', //websocket服务，
+                    marketAreaList: []
                 }
             },
             computed: {
@@ -697,7 +698,20 @@
                             });
                         }.bind(this)
                     });
-                }
+                },
+                /**
+                 *作者: GongQi
+                 *时间: 2018/6/7
+                 *功能: 获取交易区
+                 */
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
             },
             created: function () {
                 var _this = this;
@@ -705,7 +719,7 @@
                 _this.getMarketConfig(function () {
                     // setInterval(_this.getAllMarket, 5000);
                     // _this.getAllMarket();
-                    setInterval(_this.getAssistPrice, 5000);
+                    setInterval(_this.getAssistPrice, 30000);
                 });
 
                 if (_this.theme == 'light') {
@@ -716,6 +730,7 @@
                 this.initChatScroll();
             },
             mounted: function () {
+                this.getMarketAreaListByWebId()
                 var _this = this;
                 if (_this.isLogin) {
                     _this.getUserMarket();
