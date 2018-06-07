@@ -2016,7 +2016,18 @@ EXX.pack = {
         "jp": "タイムアウトを後にしてください、リトライ",
         "kr": "요청, 좀 이따 다시 시도"
     },
-    '6001': {cn: '一般错误提示', en: 'General Error', jp: '', kr: ''},
+    "6000": {
+        "cn": "参数缺失",
+        "en": "",
+        "jp": "",
+        "kr": ""
+    },
+    '6001': {
+        cn: '一般错误提示',
+        en: 'General Error',
+        jp: '',
+        kr: ''
+    },
     '6002':
         {
             cn: '授权失效，需要重新登录',
@@ -2038,7 +2049,12 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6005': {cn: '登录密码错误', en: 'Login password mistake!', jp: '', kr: ''},
+    '6005': {
+        cn: '登录密码错误',
+        en: 'Login password mistake!',
+        jp: '',
+        kr: ''
+    },
     '6010':
         {
             cn: '找不到市场',
@@ -2053,7 +2069,12 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6012': {cn: '未知操作类型!', en: 'Unknown operation type!', jp: '', kr: ''},
+    '6012': {
+        cn: '未知操作类型!',
+        en: 'Unknown operation type!',
+        jp: '',
+        kr: ''
+    },
     '6013':
         {
             cn: '您没有进行手机认证和Google认证，暂时不能进行充值/提现业务，为了您的账号安全，请进行手机认证或Google认证。',
@@ -2082,7 +2103,12 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6017': {cn: '登录密码已锁定', en: 'Login Password Locked', jp: '', kr: ''},
+    '6017': {
+        cn: '登录密码已锁定',
+        en: 'Login Password Locked',
+        jp: '',
+        kr: ''
+    },
     '6019':
         {
             cn: '您的地址请求频繁，请一小时后重试',
@@ -2139,8 +2165,18 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6027': {cn: '用户名已经存在', en: 'userName exists', jp: '', kr: ''},
-    '6028': {cn: '请输入验证码', en: 'please input verifycode', jp: '', kr: ''},
+    '6027': {
+        cn: '用户名已经存在',
+        en: 'userName exists',
+        jp: '',
+        kr: ''
+    },
+    '6028': {
+        cn: '请输入验证码',
+        en: 'please input verifycode',
+        jp: '',
+        kr: ''
+    },
     '6029':
         {
             cn: '请输入正确的动态验证码',
@@ -2260,12 +2296,41 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6046': {cn: '推荐人不存在', en: 'The referrer is not exists', jp: '', kr: ''},
-    '6047': {cn: '原密码错误', en: 'old password mistake!', jp: '', kr: ''},
-    '6048': {cn: '邮箱已经存在', en: 'email exists!', jp: '', kr: ''},
-    '6049': {cn: '手机已经存在', en: 'phone exists!', jp: '', kr: ''},
-    '6050': {cn: '用户没有权限', en: 'sorry,you have no limits', jp: '', kr: ''},
-    '6051': {cn: '该菜单不存在', en: 'The menu is not exists', jp: '', kr: ''},
+    '6046': {
+        cn: '推荐人不存在',
+        en: 'The referrer is not exists',
+        jp: '',
+        kr: ''
+    },
+    '6047': {
+        cn: '原密码错误',
+        en: 'old password mistake!',
+        jp: '',
+        kr: ''
+    },
+    '6048': {
+        cn: '邮箱已经存在',
+        en: 'email exists!',
+        jp: '', kr: ''
+    },
+    '6049': {
+        cn: '手机已经存在',
+        en: 'phone exists!',
+        jp: '',
+        kr: ''
+    },
+    '6050': {
+        cn: '用户没有权限',
+        en: 'sorry,you have no limits',
+        jp: '',
+        kr: ''
+    },
+    '6051': {
+        cn: '该菜单不存在',
+        en: 'The menu is not exists',
+        jp: '',
+        kr: ''
+    },
     '6052':
         {
             cn: '该菜单不是叶子节点菜单',
@@ -2273,9 +2338,24 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6053': {cn: '该api不存在', en: 'The api is not exists', jp: '', kr: ''},
-    '6054': {cn: '该角色不存在', en: 'The role is not exists', jp: '', kr: ''},
-    '6055': {cn: '该角色名已经存在', en: 'The role name is exists', jp: '', kr: ''},
+    '6053': {
+        cn: '该api不存在',
+        en: 'The api is not exists',
+        jp: '',
+        kr: ''
+    },
+    '6054': {
+        cn: '该角色不存在',
+        en: 'The role is not exists',
+        jp: '',
+        kr: ''
+    },
+    '6055': {
+        cn: '该角色名已经存在',
+        en: 'The role name is exists',
+        jp: '',
+        kr: ''
+    },
     '6056':
         {
             cn: '父菜单不存在',
@@ -2313,6 +2393,36 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
+    "6065": {
+        "cn": "你已开启谷歌，异地登录验证，请输入谷歌验证码和邮箱/短信验证码",
+        "en": "You have enable Google,Offsite + verification for account login, please enter  Google,Email/SMS verification code",
+        "jp": "",
+        "kr": ""
+    },
+    "6066": {
+        "cn": "你已开启异地登录验证，本次登录需要您的短信/邮箱验证码",
+        "en": "You have enable Offsite verification for account login, please enter email/sms verification code",
+        "jp": "",
+        "kr": ""
+    },
+    "6067": {
+        "cn": "设置的验证类型的值不正确",
+        "en": "the verify type value error",
+        "jp": "",
+        "kr": ""
+    },
+    "6068": {
+        "cn": "你已开启资金密码+短信/邮箱验证码+Google验证码，本次登录需要您的短信/邮箱验证码,Google验证码",
+        "en": "You have enable securityPassword and sms/email and google verification for account login, please enter email/sms and google verification code",
+        "jp": "",
+        "kr": ""
+    },
+    "6069": {
+        "cn": "你尚未开启谷歌验证",
+        "en": "You not yet open google auth",
+        "jp": "",
+        "kr": ""
+    },
     '6070':
         {
             cn: '管理用户登录必须先打开谷歌登录验证',
@@ -2320,9 +2430,72 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6095': {cn: '用户不存在', en: 'Users does not exist', jp: '', kr: ''},
-    '6096': {cn: '无效的参数', en: 'Invalid parameter', jp: '', kr: ''},
-    '6097': {cn: '请求过于频繁', en: 'Request too frequently', jp: '', kr: ''},
+    "6071": {
+        "cn": "参数不合法",
+        "en": "Invalid param",
+        "jp": "",
+        "kr": ""
+    },
+    "6072": {
+        "cn": "该用户已经实名认证",
+        "en": "The user has already been real name identified",
+        "jp": "",
+        "kr": ""
+    },
+    "6073": {
+        "cn": "该用户已经实银行认证",
+        "en": "The user has already been bank identified",
+        "jp": "",
+        "kr": ""
+    },
+    "6074": {
+        "cn": "该用户未实名认证",
+        "en": "The user is not identified",
+        "jp": "",
+        "kr": ""
+    },
+    "6075": {
+        "cn": "该用户未银行认证",
+        "en": "This user has not bank identified",
+        "jp": "",
+        "kr": ""
+    },
+    "6076": {
+        "cn": "安全密码错误，请重新输入",
+        "en": "Security password error, please enter again",
+        "jp": "",
+        "kr": ""
+    },
+    "6077": {
+        "cn": "请输入安全密码",
+        "en": "please input Security password",
+        "jp": "",
+        "kr": ""
+    },
+    "6078": {
+        "cn": "您尚未设置资金密码",
+        "en": "please set Security password first",
+        "jp": "",
+        "kr": ""
+    },
+    '6095': {
+        cn: '用户不存在',
+        en: 'Users does not exist',
+        jp: '',
+        kr: ''
+    },
+    '6096': {
+        cn: '无效的参数',
+        en: 'Invalid parameter',
+        jp: '',
+        kr: ''
+    },
+    '6097': {
+        cn: '请求过于频繁',
+        en: 'Request too frequently',
+        jp: '',
+        kr: ''
+    },
     '6098':
         {
             cn: '用户已经被列入交易黑名单不能进行交易',
@@ -2337,7 +2510,7 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
-    '6100': {cn: '秒之后再重新获取！', en: ' seconds later again!', jp: '', kr: ''},
+    '6100': {cn: '再重新获取！', en: ' get again!', jp: '', kr: ''},
     '6102':
         {
             cn: '验证码发送成功，10分钟内有效!',
@@ -2554,6 +2727,60 @@ EXX.pack = {
             jp: '',
             kr: ''
         },
+    "6139": {
+        "cn": "请刷新页面重试",
+        "en": "Please refresh the page and try again",
+        "jp": "",
+        "kr": ""
+    },
+    "6205": {
+        "cn": "返回的storeSeq不一致",
+        "en": "inconsistent message id",
+        "jp": "",
+        "kr": ""
+    },
+    "6206": {
+        "cn": "法币提现失败",
+        "en": "Fiat money withdrawal failure",
+        "jp": "",
+        "kr": ""
+    },
+    "6999": {
+        "cn": "拒绝访问",
+        "en": "access forbidden",
+        "jp": "",
+        "kr": ""
+    },
+    "7000": {
+        "cn": "服务限流超出",
+        "en": "out of server rate limit",
+        "jp": "",
+        "kr": ""
+    },
+    "7001": {
+        "cn": "当前ip一分钟内访问次数超出上限",
+        "en": "current ip address visit counts out of limit",
+        "jp": "",
+        "kr": ""
+    },
+    "7002": {
+        "cn": "服务熔断",
+        "en": "CircuitBreaker fallback",
+        "jp": "",
+        "kr": ""
+    },
+    "7003": {
+        "cn": "系统繁忙",
+        "en": "server is busy",
+        "jp": "",
+        "kr": ""
+    },
+    "7004": {
+        "cn": "地址错误",
+        "en": "path error",
+        "jp": "",
+        "kr": ""
+    },
     "": {
         "cn": "",
         "en": ""
