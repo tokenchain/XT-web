@@ -82,7 +82,7 @@ router.get(['/bill','/bill/:coin'], function(req, res, next) {
 router.get(['/entrust','/entrust/:market'], function(req, res, next) {
     var market = req.params.market;
     if(!market){
-        res.redirect('/u/entrust/btc_krw');
+        res.redirect(ROUTER.entrustRouter);
     }else{
         res.render(TEMP_MANAGE,{
             templateMain:'u/asset/entrust.html',
@@ -109,10 +109,10 @@ router.get(['/payin','/payin/:coin'], function(req, res, next) {
 router.get(['/payin/legaltender','/payin/legaltender/:coin'], function(req, res, next) {
     var coin = req.params.coin;
     if(!coin){
-        res.redirect('/u/payin/btc');
+        // res.redirect('/u/payin/legaltender/btc');
     }else{
         res.render(TEMP_MANAGE,{
-            templateMain:'u/asset/payin.html',
+            templateMain:ROUTER.legalRouter,
             coin : coin.toLowerCase(),
             column : 0,
             isLayerCoin: 1
