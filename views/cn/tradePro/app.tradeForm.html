@@ -391,7 +391,8 @@
                                 default:
                                     //解除请求锁定
                                     this.requestLocked = false;
-                                    JuaBox.info(EXX.L(res.resMsg.message));
+                                    JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                    // JuaBox.info(EXX.L(res.resMsg.message));
                             }
                         }.bind(this)
                     });
@@ -454,7 +455,8 @@
                         error: function (res) {
                             //解除请求锁定
                             this.requestLocked = false;
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.showWrong(EXX.L(res.resMsg.code));
+                            // JuaBox.info(EXX.L(res.resMsg.message));
                         }.bind(this)
                     });
                 },

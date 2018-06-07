@@ -75,8 +75,8 @@
                     <div class="r">
                         <a @click="openModal('setMobile')" v-if="loginUser.mobileAuth == 0"><%= LANG('认证') %></a>
                         <a class="auth" @click="openModal('setMobile')"
-                           v-if="loginUser.mobileAuth == 1 && loginUser.mobileStatus != 1"><%= LANG('修改') %></a>
-                        <a v-if="loginUser.mobileStatus == 1"><%= LANG('审核中') %></a>
+                           v-if="loginUser.mobileAuth == 1 && loginUser.mobileStatus != -1"><%= LANG('修改') %></a>
+                        <a v-if="loginUser.mobileStatus == -1"><%= LANG('审核中') %></a>
                     </div>
                 </li>
             </ul>

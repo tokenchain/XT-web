@@ -105,7 +105,8 @@
                             url: DOMAIN_MAIN + API_PREFIX + 'saveUserInfo',
                             data: data,
                             success: function (res) {
-                                JuaBox.info(EXX.L(res.resMsg.message));
+                                JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                // JuaBox.info(EXX.L(res.resMsg.message));
                                 Methods.getUserList(function (data) {
                                     try{
                                         EXX.userNav.mainUserAsset = data;
