@@ -21,6 +21,7 @@ global.WEB = function (LAN) {
 global.USER = require('../configs/user.server.config');
 global.MARKET = require('../configs/market.server.config');
 global.LEGAL = require('../configs/legal.server.config');
+global.ROUTER = require('../configs/router.server.config');
 //设置主模板文件变量
 global.TEMP_BASIC = 'cn/basic-page';
 global.TEMP_HOME = 'cn/homePage';
