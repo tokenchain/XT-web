@@ -49,7 +49,12 @@
                     return this.pageIndex <= 1;
                 },
                 isLastPage : function () {
-                    return this.pageSize > this.pageCount;
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/6/7
+                     *功能: 分页组件-最后一页逻辑更改
+                     */
+                    return (this.pageSize *  this.pageIndex) >= this.pageCount;
                 }
             },
             methods: {

@@ -585,8 +585,11 @@ body.trading-dark {
 
 .plate-box .box {
     height: calc(50% - 17px);
-    overflow: hidden;
+    overflow: auto;
     position: relative;
+}
+.plate-box .box::-webkit-scrollbar{
+    display: none;
 }
 
 .plate-box .box .common-type {
