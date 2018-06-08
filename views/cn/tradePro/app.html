@@ -54,6 +54,7 @@
                     arrowClass: 'icon-arrowup',
                     entrustingRecord: [],
                     entrustingRecordTime: 0,
+                    entrustingRecordLenght: 0,
                     entrustRecord: [],
                     entrustTab: [
                         ['doing', "<%= LANG('正在进行的委托')%>"],
@@ -628,7 +629,10 @@
                             else if (resLength == 0 && _this.entrustingRecordTime != 0) {
                                 _this.entrustingRecordTime = 0;
                                 EXX.userNav.getAccountAssets();
+                            } else if (this.entrustingRecordLenght != resLength){
+                                EXX.userNav.getAccountAssets();
                             }
+                            this.entrustingRecordLenght = resLength;
                             callback && callback(res.datas)
                         }
                     });
