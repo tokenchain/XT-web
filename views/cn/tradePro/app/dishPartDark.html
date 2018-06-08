@@ -7,8 +7,8 @@
                         <div class="item num"><span>{{$parent.coinName}}<%= LANG('委托量')%></span></div>
             </div>
             <div class="plate-box-body" id="dishWrap">
-                <div class="box direction-down" id="asksWrap">
-                    <div class="common-type" style="bottom: 0;">
+                <div class="box direction-downs" id="asksWrap">
+                    <div class="common-type">
                         <p v-for="n in 50"><%= LANG('卖')%>{{ 51 - n }}</p>
                     </div>
                     <div class="tradeNew-table">
@@ -358,6 +358,10 @@
             mounted: function() {
                 this.bindSetPrice();
                 this.quickInitTen();
+                this.$nextTick(function(){
+                $('#asksWrap').scrollTop(1600);
+                })
+
             },
             updated : function () {
 
