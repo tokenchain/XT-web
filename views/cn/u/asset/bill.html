@@ -250,7 +250,7 @@
                             // this.pageCount = res.datas.results.length;
 
                             this.billRecords = res.datas.list;
-                            this.pageCount = res.datas.list.length;
+                            this.pageCount = res.datas.totalRow;
                         }.bind(this)
                     });
                 },
