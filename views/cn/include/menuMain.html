@@ -134,7 +134,8 @@
                     userInfo: '',
                     userAssets: [],
                     coinConfig: '',
-                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息,
+                    marketAreaList: []
                 }
             },
             watch : {
@@ -424,9 +425,28 @@
                             _this.marketConfig = res.datas;
                         }
                     });
+                },
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
+                getMarketClass:function (item,index) {
+                    var index = index
+                    if (index == 0) {
+                        console.log(item)
+                        return item.name +' block'
+                    } else {
+                        return 'block'
+                    }
                 }
             },
             mounted: function () {
+                this.getMarketAreaListByWebId();
+
                 if (this.isLogin) {
                     //获取用户信息
                     this.getUserInfo();
