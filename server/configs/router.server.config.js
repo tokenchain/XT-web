@@ -5,6 +5,6 @@
 module.exports = {
     //委托记录默认路径
     entrustRouter: '/u/entrust/btc_krw',
-    //充值法币跳转路径
-    legalRouter: 'u/asset/payin_legal.html'
+    //充值法币跳转页面
+    legalRouter: 'u/asset/payin.html'
 }

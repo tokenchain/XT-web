@@ -208,12 +208,10 @@ router.get('/account/basic_information', function(req, res, next) {
         STEP : 'STEP 1'
     });
 });
-router.get('/account/verified', function(req, res, next) {
+router.get('/realAuth', function(req, res, next) {
     res.render(TEMP_MANAGE,{
         templateMain:'u/certified/verified.html',
-        column : 2,
-        STEP : 'STEP 2'
-
+        column : 1
     });
 });
 router.get('/account/payment_information', function(req, res, next) {
