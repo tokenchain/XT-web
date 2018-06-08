@@ -207,6 +207,8 @@ ExxWebSocket.init = function () {
         _this.openWebSocket = false;
         _this.onClose && _this.onClose(event);
         console.log('websocket closed.')
+        //后期优化
+        _this.init()
     };
 }
 //处理二进制数据
