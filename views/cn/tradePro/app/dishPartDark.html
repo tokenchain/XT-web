@@ -7,11 +7,14 @@
                         <div class="item num"><span>{{$parent.coinName}}<%= LANG('委托量')%></span></div>
             </div>
             <div class="plate-box-body" id="dishWrap">
-                <div class="box direction-downs" id="asksWrap">
+                <div class="box direction-downs" id="asksWrap" style="display: flex;
+    flex-direction: column-reverse;">
                     <div class="common-type">
                         <p v-for="n in 50"><%= LANG('卖')%>{{ 51 - n }}</p>
                     </div>
-                    <div class="tradeNew-table">
+                    <div >
+                        <div class="tradeNew-table">
+                        </div>
                     </div>
                 </div>
                 <div class="current-price">
