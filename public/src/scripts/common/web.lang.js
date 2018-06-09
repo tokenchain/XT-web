@@ -2782,8 +2782,8 @@ EXX.pack = {
         "kr": ""
     },
     "1000": {
-        "cn": "系统错误",
-        "en": "System error"
+        "cn": "请刷新界面或检查网络",
+        "en": "Please refresh or check the network interface"
     },
     "": {
         "cn": "",
