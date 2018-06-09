@@ -588,6 +588,80 @@ body.trading-dark {
     overflow: auto;
     position: relative;
 }
+#asksWrap{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+
+/*firefox*/
+.parent_direction-downs .amountColor {
+    color: #41986c;
+}
+.parent_direction-downs .tradeNew-table1 .td {
+    float: left;
+    padding: 2px 0;
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+}
+.parent_direction-downs .tradeNew-table1 .td.price{
+    width: 32%;
+}
+.parent_direction-downs .tradeNew-table1 .body {
+
+    cursor: pointer;
+}
+
+.parent_direction-downs .tradeNew-table1 .tr {
+    overflow: hidden;
+}
+.plate-box1 .tradeNew-table1 .td.foldPrice {
+    width: 70px;
+}
+.plate-box1 .tradeNew-table1 .td.type {
+    width: 40px;
+}
+.plate-box1 .tradeNew-table1 .td.num {
+    width: 72px;
+}
+.plate-box .tradeNew-table1 .body {
+
+    cursor: pointer;
+
+}
+.plate-box .tradeNew-table1 .tr {
+
+    overflow: hidden;
+
+}
+.plate-box .tradeNew-table1 .td.num {
+    padding-right: 5px;
+    text-align: right;
+}
+.parent_direction-downs{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+.parent_direction-downs .direction-downss{
+     display: flex;
+     flex-direction: column-reverse;
+     flex-grow: 1;
+ }
+.parent_direction-downs .direction-downss .common-type p{
+    /*flex:1;*/
+}
+.plate-box .tradeNew-table1 .body:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+
+/*firefox end*/
+
+
+
+
 .plate-box .box::-webkit-scrollbar{
     display: none;
 }
@@ -671,7 +745,7 @@ body.trading-dark {
 }
 
 .plate-box1 .tradeNew-table .td.price {
-    width: 102px;
+    width: 32%;
 }
 
 .plate-box1 .tradeNew-table .td.foldPrice {

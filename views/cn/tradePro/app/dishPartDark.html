@@ -2,24 +2,40 @@
     <div class="plateInside-area">
         <div class="common-box plate-box plate-box1">
             <div class="plate-box-head">
-                        <div class="item price"><span>{{$parent.coinName}}<%= LANG('价')%>({{$parent.moneyName}})</span></div>
-                        <div class="item foldPrice"><span><%= LANG('折合价')%>({{$parent.showAssistCoin()}})</span></div>
-                        <div class="item num"><span>{{$parent.coinName}}<%= LANG('委托量')%></span></div>
+                <div class="item price"><span>{{$parent.coinName}}<%= LANG('价')%>({{$parent.moneyName}})</span></div>
+                <div class="item foldPrice"><span><%= LANG('折合价')%>({{$parent.showAssistCoin()}})</span></div>
+                <div class="item num"><span>{{$parent.coinName}}<%= LANG('委托量')%></span></div>
             </div>
+
             <div class="plate-box-body" id="dishWrap">
-                <div class="box direction-downs" id="asksWrap" style="display: flex;
-    flex-direction: column-reverse;">
+                <div class=" direction-downs box" id="asksWrap" v-if="BrowserType!='FF'">
                     <div class="common-type">
                         <p v-for="n in 50"><%= LANG('卖')%>{{ 51 - n }}</p>
                     </div>
-                    <div >
+                    <div>
                         <div class="tradeNew-table">
                         </div>
                     </div>
                 </div>
+
+
+                <div v-if="BrowserType=='FF'" class="box parent_direction-downs" id="parent_direction-downs">
+                    <div class=" direction-downss">
+                        <div class="common-type">
+                            <p v-for="n in 50"><%= LANG('卖')%>{{ 51 - n }}</p>
+                        </div>
+                        <div>
+                            <div class="tradeNew-table1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="current-price">
-                    <template  v-if="!isNaN(assistPrice)">
-                        <span class="buyColor">{{currentPrice}}<em>{{$parent.moneyName}}</em></span><span style="margin: 0 5px;">≈</span><span>{{assistPrice}}<em>{{$parent.showAssistCoin()}}</em></span>
+                    <template v-if="!isNaN(assistPrice)">
+                        <span class="buyColor">{{currentPrice}}<em>{{$parent.moneyName}}</em></span><span
+                            style="margin: 0 5px;">≈</span><span>{{assistPrice}}<em>{{$parent.showAssistCoin()}}</em></span>
                     </template>
                 </div>
                 <div class="box" id="bidsWrap">
@@ -37,7 +53,7 @@
 </script>
 
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods){
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         return Vue.component('dish-part', {
             template: "#dish-part",
             props: {
@@ -53,93 +69,117 @@
                         return {}
                     }
                 },
-                currentMarket : {
+                currentMarket: {
                     type: String,
                     default: ''
                 }
             },
             data: function () {
                 return {
-                    dishLength : 50,
-                    assistList : this.$parent.assistList,
-                    lastDepth : ''
+                    dishLength: 50,
+                    assistList: this.$parent.assistList,
+                    lastDepth: '',
                 }
             },
             computed: {
-                currentPrice : function () {
+                currentPrice: function () {
                     return this.$parent.showMoney(this.$parent.currentPrice);
                 },
-                assistPrice : function () {
+                assistPrice: function () {
                     return this.$parent.getPriceByAssist(this.currentPrice);
                 },
-                bids : function () {
+                bids: function () {
                     var oArray = this.dishData.bids;
                     var nArray = [];
                     //获取恰当的买单档位
-                    if(oArray && oArray.length > 0){
+                    if (oArray && oArray.length > 0) {
                         var ilength = oArray.length;
                         //重新循环赋值才能深复制过来
-                        oArray.forEach(function (item,index) {
-                            if(ilength > this.dishLength){
-                                if(index < this.dishLength){
+                        oArray.forEach(function (item, index) {
+                            if (ilength > this.dishLength) {
+                                if (index < this.dishLength) {
                                     nArray[index] = item;
                                 }
-                            }else{
+                            } else {
                                 nArray[index] = item;
                             }
                         }.bind(this));
                     }
                     return nArray;
                 },
-                asks : function () {
+                asks: function () {
                     var oArray = this.dishData.asks;
                     var nArray = [];
                     //获取恰当的卖单档位(取最后的this.length档)
-                    if(oArray && oArray.length > 0){
-                        if(oArray.length > this.dishLength){
-                            for(var i = 0; i < this.dishLength; i++){
+                    if (oArray && oArray.length > 0) {
+                        if (oArray.length > this.dishLength) {
+                            for (var i = 0; i < this.dishLength; i++) {
                                 nArray[i] = oArray[oArray.length - this.dishLength + i]
                             }
-                        }else{
-                            for(var i = 0; i < oArray.length; i++){
+                        } else {
+                            for (var i = 0; i < oArray.length; i++) {
                                 nArray[i] = oArray[i]
                             }
                         }
                     }
                     return nArray;
+                },
+                BrowserType: function () {
+                    return this.myBrowser()
                 }
             },
             methods: {
-                getMaxDepth : function (depth) {
-                    var maxNum = 0 ;
+                myBrowser() {
+                    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                    var isOpera = userAgent.indexOf('Opera') > -1;
+                    if (isOpera) {
+                        return 'Opera';
+                    }
+                    ; //判断是否Opera浏览器
+                    if (userAgent.indexOf('Firefox') > -1) {
+                        return 'FF';
+                    } //判断是否Firefox浏览器
+                    if (userAgent.indexOf('Chrome') > -1) {
+                        return 'Chrome';
+                    }
+                    if (userAgent.indexOf('Safari') > -1) {
+                        return 'Safari';
+                    } //判断是否Safari浏览器
+                    if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera) {
+                        return 'IE';
+                    }
+                    ; //判断是否IE浏览器
+                },
+                getMaxDepth: function (depth) {
+                    var maxNum = 0;
                     //求卖单最大深度值
-                    for(var i = 0;i < depth.length; i++){
-                        if(parseFloat(depth[i][1]) > maxNum){
+                    for (var i = 0; i < depth.length; i++) {
+                        if (parseFloat(depth[i][1]) > maxNum) {
                             maxNum = parseFloat(depth[i][1]);
                         }
                     }
                     return maxNum;
                 },
-                getDepthPencent : function (number, maxNumber) {
+                getDepthPencent: function (number, maxNumber) {
                     return Methods.fixNumber(number / maxNumber * 100, 2);
                 },
-                showPrice : function (price,type) {
+                showPrice: function (price, type) {
                     //格式化盘口价格
                     return Methods.fixNumber(price, this.marketConfig.priceDecimal);
                 },
-                showDepth : function (depth,type) {
+                showDepth: function (depth, type) {
                     //格式化盘口深度
                     return Methods.fixNumber(depth, this.marketConfig.amountDecimal);
                 },
-                changeLength : function (len) {
+                changeLength: function (len) {
                     this.dishLength = len;
                     this.$parent.dishLength = len;
                 },
-                clickAsksRow : function (price,index) {
+                clickAsksRow: function (price, index) {
                     var depth = 0,
                         _this = this,
                         len = Math.min(_this.dishLength, _this.asks.length);
-                    for(var i = index; i < len; i++ ){
+                    for (var i = index; i < len; i++) {
                         depth += parseFloat(_this.asks[i][1]);
                     }
 
@@ -153,10 +193,10 @@
                     this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
                     this.$parent.$refs.tradeFormSell.inputNumber = depth;
                 },
-                clickBidsRow : function (price,index) {
+                clickBidsRow: function (price, index) {
                     var depth = 0,
                         _this = this;
-                    for(var i = 0; i <= index; i++ ){
+                    for (var i = 0; i <= index; i++) {
                         depth += parseFloat(_this.bids[i][1]);
                     }
                     this.$parent.$refs.tradeFormSell.flashInput();
@@ -176,6 +216,11 @@
                         var index = $(this).index();
                         _this.clickAsksRow(price, index);
                     });
+                    $("#parent_direction-downs").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+                        var index = $(this).index();
+                        _this.clickAsksRow(price, index);
+                    });
                     $("#bidsWrap").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
@@ -184,14 +229,18 @@
                 },
                 //盘口处理方法
                 updateDepth: function (data, callback) {
-                    if (!data){
+                    if (!data) {
                         return false;
                     }
-                    var parentAsks = $("#asksWrap .tradeNew-table");
+                    if (this.BrowserType != 'FF') {
+                        var parentAsks = $("#asksWrap .tradeNew-table");
+                    } else {
+                        var parentAsks = $(".tradeNew-table1");
+                    }
+
                     var parentBids = $("#bidsWrap .tradeNew-table");
                     var asks = data.asks.slice(0);
                     var bids = data.bids.slice(0);
-
                     if (this.lastDepth == '') {
                         this.lastDepth = {};
                         this.depthInit(asks, parentAsks);
@@ -211,9 +260,19 @@
                     Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
                     Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
 
+
+
                     //刷新辅助货币的价格
                     this.flushAssistPrice();
+
+                    if(this.BrowserType=='FF'){
+
+                        Vue.nextTick(function(){
+                            $("#parent_direction-downs").scrollTop(1000)
+                        })
+                    }
                     callback && callback();
+
                 },
                 //初始化盘口
                 depthInit: function (data, $obj) {
@@ -226,10 +285,13 @@
                             view += this.getRowHtml(data[i], data);
                         }
                         $obj.append(view);
+
                         view = null;
                         //绑定盘口点击事件
                         this.bindSetPrice();
                     }
+
+
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
@@ -247,7 +309,7 @@
                                     var amount = this.getAmount(addasks[j][1]);
                                     var assist = this.getAssistPrice(addasks[j][0]);
                                     //var depth = this.getDepth(addasks[j], addasks) + '%';
-                                    $amount.html("<span class=\"amountColor\">"+ amount +"</span>");
+                                    $amount.html("<span class=\"amountColor\">" + amount + "</span>");
                                     $assist.html(assist);
                                 }
                                 addasks.splice(j, 1);
@@ -264,7 +326,7 @@
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
                             if (parseFloat(addasks[i][0]) > parseFloat(oldasks[j][0])) {
-                                var html = this.getRowHtml(addasks[i],addasks,"add");
+                                var html = this.getRowHtml(addasks[i], addasks, "add");
                                 tbDiv.find(".body:eq(" + j + ")").before(html);
                                 oldasks.splice(j, 0, addasks[i]);
                                 addasks.splice(i, 1);
@@ -276,7 +338,7 @@
                     var totalDiv = "";
                     for (var i = 0; i < addasks.length; i++) {
                         oldasks.push(addasks[i]);
-                        totalDiv += this.getRowHtml(addasks[i],addasks,'add')
+                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add')
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
@@ -293,7 +355,7 @@
                     })(tbDiv.find(".body.remove"), tbDiv.find(".body.add")), 1000);
                 },
                 //快速刷新盘口
-                quickInitTen : function () {
+                quickInitTen: function () {
                     var _this = this;
                     //为了加快盘口显示速度连续刷10秒，后面数据更新在获取数据的接口回调中
                     this.updateDepth(this.dishData, function () {
@@ -301,78 +363,73 @@
                         var dishInterval = setInterval(function () {
                             _this.updateDepth(_this.dishData);
                             timeOut += 1;
-                            if(timeOut > 10){
+                            if (timeOut > 10) {
                                 window.clearInterval(dishInterval);
                             }
-                        },1000)
+                        }, 1000)
                     });
+
                 },
                 //刷新盘口和当前价格的辅助货币价格
-                flushAssistPrice : function () {
+                flushAssistPrice: function () {
                     var _this = this;
                     $("#dishWrap .tradeNew-table .tr").each(function (i) {
                         var price = $(this).find('.price').text();
                         var assistPrice = _this.$parent.getPriceByAssist(price);
                         $(this).find('.foldPrice').text(assistPrice);
-                        //console.log(assistPrice);
                     });
                 },
-                getPrice:function(val){
+                getPrice: function (val) {
                     var price = this.$parent.showMoney(val) + '';
-                    if(this.marketConfig.amountDecimal == 0){
-                        return [price, 0] ;
-                    }else{
+                    if (this.marketConfig.amountDecimal == 0) {
+                        return [price, 0];
+                    } else {
                         return price.split('.');
                     }
                 },
-                getAssistPrice:function(val){
+                getAssistPrice: function (val) {
                     return this.$parent.getPriceByAssist(val);
                 },
-                getAmount:function(val){
+                getAmount: function (val) {
                     return this.$parent.showCoin(val);
                 },
-                getDepth:function(val,data){
+                getDepth: function (val, data) {
                     return parseFloat(val) / parseFloat(this.getMaxDepth(data)) * 100;
                 },
-                getRowHtml : function (arr, data, style) {
+                getRowHtml: function (arr, data, style) {
                     var price = this.getPrice(arr[0]);
                     var amount = this.getAmount(arr[1]);
                     var assist = this.getAssistPrice(arr[0]);
                     //var depth = this.getDepth(arr[1], data);
                     var style = style || '';
                     var html = '';
-                    html += "<div class=\"tr body " +style+ "\">";
+                    html += "<div class=\"tr body " + style + "\">";
                     html += "   <div class=\"td type\"></div>";
-                    if(this.marketConfig.amountDecimal == 0){
-                        html += "   <div class=\"td price\"><span class=\"cor1\">"+ price[0] +"</span></div>";
-                    }else{
-                        html += "   <div class=\"td price\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></div>";
+                    if (this.marketConfig.amountDecimal == 0) {
+                        html += "   <div class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></div>";
+                    } else {
+                        html += "   <div class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></div>";
                     }
-                    html += "   <div class=\"td foldPrice\">"+ assist +"</div>";
-                    html += "   <div class=\"td num\"><span class=\"amountColor\">"+ amount +"</span></div>";
+                    html += "   <div class=\"td foldPrice\">" + assist + "</div>";
+                    html += "   <div class=\"td num\"><span class=\"amountColor\">" + amount + "</span></div>";
                     html += "</div>";
 
                     return html;
-                }
+                },
             },
-            watch: {
-
-            },
-            mounted: function() {
+            watch: {},
+            mounted: function () {
                 this.bindSetPrice();
                 this.quickInitTen();
-                this.$nextTick(function(){
-                $('#asksWrap').scrollTop(1600);
-                })
 
             },
-            updated : function () {
+            updated: function () {
 
             },
-            beforeUpdate: function() {
+            beforeUpdate: function () {
 
             },
-            beforeDestroy: function() {
+            beforeDestroy: function () {
 
             }
         });
