@@ -4,7 +4,7 @@
     </p>
     <div class="trading-menu-dropdown">
         <div class="group-list l1">
-            <ul class="group-tab">
+            <ul class="group-tab" v-cloak="">
                 <li role="button" v-for="item,index in marketAreaList" :class="{'active': index == 0}">{{item.name.toUpperCase()}}<%= LANG('区')%></li>
             </ul>
             <div class="group-box" v-cloak="">
