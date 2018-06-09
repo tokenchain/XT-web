@@ -59,7 +59,7 @@
                         <img v-else :src="'/src/images/userhead/default.jpg'">
                     </div>
                     <div class="info">
-                        <h3 v-text="userInfo.nickName"></h3>
+                        <h3 v-text="userInfo.nickName || userInfo.loginName"></h3>
                         <!--<p v-text="userInfo.userName"></p>-->
                     </div>
                 </a>

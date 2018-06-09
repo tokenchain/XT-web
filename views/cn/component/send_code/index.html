@@ -95,7 +95,7 @@
                     var _this = this;
                     var data = {
                         userName: this.userName,
-                        countryCode: this.countryCode,
+                        countryCode: encodeURIComponent(this.countryCode),
                         codeType: this.codeType, //1-注册，23-邮箱，24-手机
                         imgCode: this.imgCode,
                         imgCodeId: this.imgCodeId,
@@ -137,7 +137,7 @@
                                 _this.requestLocked = false;
                                 _this.errorFun(res);
                                 _this.timeout = 0;
-                                JuaBox.showWrong(EXX.L(res.resMsg.message));
+                                JuaBox.showWrong(EXX.L(res.resMsg.code));
                             }
                         });
                     }
