@@ -249,8 +249,11 @@
                                                  :aria-label="showAssistHint(item.completeTotalMoney)">
                                 {{showAmount(item.completeTotalMoney)}}</p></div>
                             <div class="item last" v-if="item.status == 3 || item.status == 0">
-                                <p><a role="button" @click="doCancelEntrust(item.entrustId)"><i
-                                        class="trading-icon trading-icon-cancel"></i></a></p>
+                                <p>
+                                    <a role="button" @click="doCancelEntrust(item.entrustId)">
+                                        <i class="trading-icon trading-icon-cancel"></i>
+                                    </a>
+                                </p>
                             </div>
                             <div class="item last" v-if="item.status != 3 && item.status != 0">
                                 <p v-html="showStatus(item.status)"></p>
@@ -281,7 +284,7 @@
     </modal>
     <!-- 批量取消委托 -->
     <!--<modal v-cloak :open="showModal == 'batchCancel'" @close="showModal = false">-->
-        <!--<batch-cancel :market-config="currentMarketConfig" theme="light"/>-->
+    <!--<batch-cancel :market-config="currentMarketConfig" theme="light"/>-->
     <!--</modal>-->
     <!--还款-->
     <modal v-cloak :open="showModal == 'refund'" @close="showModal = false">
