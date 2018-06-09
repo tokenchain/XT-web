@@ -97,7 +97,8 @@
                     marketStartTime: '--',
                     entrustScroll: '',
                     localCoin: '<%= UNIT %>', // 当地法币
-                    allFlag: true //默认true获取全量数据, K线价格切换时,必须接收全量数据显示.
+                    allFlag: true, //默认true获取全量数据, K线价格切换时,必须接收全量数据显示.
+                    cancelEntrustList: []
 
                     //websocket消息 计算属性
                     // klineData: '',
@@ -629,7 +630,7 @@
                             else if (resLength == 0 && _this.entrustingRecordTime != 0) {
                                 _this.entrustingRecordTime = 0;
                                 EXX.userNav.getAccountAssets();
-                            } else if (this.entrustingRecordLenght != resLength){
+                            } else if (this.entrustingRecordLenght != resLength) {
                                 EXX.userNav.getAccountAssets();
                             }
                             this.entrustingRecordLenght = resLength;
@@ -645,7 +646,7 @@
                         marketId: _this.currentMarketId,
                         userId: _this.currentAccountId,
                         pageSize: 999999,
-                        pageIndex:1
+                        pageIndex: 1
                     };
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
@@ -661,29 +662,48 @@
                 },
                 //取消委托
                 doCancelEntrust: function (id, isReal) {
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/6/9
+                     *功能: 新增请求节流
+                     */
                     var _this = this;
-                    var data = {
-                        // isReal: 0,
-                        // market: _this.currentMarketId,
-                        // userId: _this.currentAccountId,
-                        // entrustId: id
-                        marketId: _this.currentMarketId, //此处marketId为空
-                        entrustId: id
-                    };
-                    Methods.ajax({
-                        //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'cancelEntrust',
-                        // url: DOMAIN_DEV + '/entrust/entrustController/cancelEntrust',
-                        data: JSON.stringify(data),
-                        success: function (res) {
-                            $.toast({
-                                heading: 'Success',
-                                text: '<%= LANG("取消委托成功") %>',
-                                showHideTransition: 'plain',
-                                icon: 'success'
-                            });
+                    var cancelEntrustList = _this.cancelEntrustList
+                    var cancelEntrustIndex;
+                    var idIsNull = true;
+                    for (var i = 0; i < cancelEntrustList.length; i++) {
+                        console.log(cancelEntrustList[i] == id)
+                        if (cancelEntrustList[i] == id) {
+                            idIsNull = false;
+                            break;
                         }
-                    });
+                    }
+                    if (idIsNull) {
+                        cancelEntrustIndex = cancelEntrustList.push(id) - 1
+                        var data = {
+                            // isReal: 0,
+                            // market: _this.currentMarketId,
+                            // userId: _this.currentAccountId,
+                            // entrustId: id
+                            marketId: _this.currentMarketId, //此处marketId为空
+                            entrustId: id
+                        };
+                        Methods.ajax({
+                            //url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+                            url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'cancelEntrust',
+                            // url: DOMAIN_DEV + '/entrust/entrustController/cancelEntrust',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                $.toast({
+                                    heading: 'Success',
+                                    text: '<%= LANG("取消委托成功") %>',
+                                    showHideTransition: 'plain',
+                                    icon: 'success'
+                                });
+                                cancelEntrustList.splice(cancelEntrustIndex, 1)
+                            }
+                        });
+                    }
                 },
                 //全部还款
                 doRepayAll: function (coin) {
@@ -902,7 +922,7 @@
                 //过滤指定的委托
                 getGroupEntrust: function (group) {
                     var result = [];
-                    switch (group){
+                    switch (group) {
                         case "doing":
                             result = this.entrustingRecord
                             break;
