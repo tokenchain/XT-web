@@ -30,17 +30,17 @@
           <send-code :code-type="1"
                      :user-name="email"
                      :user-id="userInfo.userId"
-                     :busType="10" />
+                     :busType="8" />
       </div>
       </div>
 
       <div class="form-group">
         <div class="form-control">
           <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>" type="text">
-          <send-code :code-type="1"
+          <send-code :code-type="2"
                      :user-name="userInfo.loginName"
                      :user-id="userInfo.userId"
-                     :busType="11"/>
+                     :busType="8"/>
       </div>
       </div>
 
