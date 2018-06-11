@@ -279,7 +279,7 @@
                         </p>
                     </div>
                     <div class="r">
-                        <a @click="approveHanlder(1)" v-if="loginUser.status != 3"><%= LANG('认证') %></a>
+                        <a @click="approveHanlder(1)" v-if="loginUser.status/1%2 ==0"><%= LANG('认证') %></a>
                     </div>
                 </li>
                 <li>
