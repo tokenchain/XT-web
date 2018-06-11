@@ -1261,7 +1261,9 @@
                       if(typeof callback == 'function'){
                           callback();
                       }
-                  }.bind(this)
+                  }.bind(this),
+                  error : function(){
+                  }
               });
           },
         // 获取币价汇率(作废了)

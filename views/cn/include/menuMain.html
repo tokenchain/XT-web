@@ -317,7 +317,9 @@
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
-                        }.bind(this)
+                        }.bind(this),
+                        error : function(){
+                        }
                     });
                 },
                 //获取用户信息-ok
