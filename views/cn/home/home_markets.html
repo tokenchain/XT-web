@@ -5,7 +5,7 @@
                 <ul class="market-tab">
                     <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
                     <!--<li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>-->
-                    <li v-for='item in marketAreaList' class="item" :class="{active: marketsTab == item && keyWord == ''}" @click="changeMarketsTab(item.name)">{{item.name.toUpperCase()}}<%= LANG('市场')%></li>
+                    <li v-for='item in marketAreaList' class="item" :class="{active: marketsTab == item.name && keyWord == ''}" @click="changeMarketsTab(item.name)">{{item.name.toUpperCase()}}<%= LANG('市场')%></li>
                     <!--<li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>-->
                     <!--<li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>-->
                     <!--<li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>-->
