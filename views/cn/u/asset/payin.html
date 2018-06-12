@@ -11,12 +11,12 @@
                 <li v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin}"
                     class="coin-item">
                     <!--默认都能充值-->
-                    <a :href="'/u/payin/' + item.name" v-if="item.isLayerCoin!=1">
+                    <a :href="'/u/payin/' + item.name" v-if="item.isLegalCoin!=1">
                         <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
                              class="market-icon">
                         {{item.name.toUpperCase()}}
                     </a>
-                    <a :href="'/u/payin/legaltender/' + item.name" v-if="item.isLayerCoin==1">
+                    <a :href="'/u/payin/legaltender/' + item.name" v-if="item.isLegalCoin==1">
                         <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
                              class="market-icon">
                         {{item.name.toUpperCase()}}
@@ -26,12 +26,12 @@
                              class="market-icon">
                         {{item.name.toUpperCase()}}
                     </a>
-                    <span class="is-layer-coin" v-if="item.isLayerCoin"><%= LANG('法币')%></span>
+                    <span class="is-layer-coin" v-if="item.isLegalCoin"><%= LANG('法币')%></span>
                 </li>
             </ul>
         </div>
 
-        <div v-if="isLayerCoin == 0" v-cloak="">
+        <div v-if="isLegalCoin == 0" v-cloak="">
             <div class="payin-address" v-if="currentCoin == 'bts' || currentCoin == 'tv' || currentCoin == 'bds'"
                  v-cloak="">
                 <div class="code">
@@ -106,7 +106,7 @@
                            v-if="payinRecords.length > 0 || pageIndex > 1"></page-lite>
             </div>
         </div>
-        <div v-if="isLayerCoin == 1" class="layer-coin-box" v-cloak="">
+        <div v-if="isLegalCoin == 1" class="layer-coin-box" v-cloak="">
             <div class="bank-card">
                 <h2 class="bank-card-title"><%= LANG('银行账号')%></h2>
                 <span class="bank-card-num">{{formatBank(bankInfo.depositBankAccount)}}</span>
@@ -142,7 +142,7 @@
                     currentCoin: "<%= coin%>",
                     keyWord: '',
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    isLayerCoin: "<%= isLayerCoin %>",
+                    isLegalCoin: "<%= isLegalCoin %>",
                     bankInfo: {}
                 }
             },
