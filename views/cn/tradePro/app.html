@@ -495,7 +495,7 @@
                             }
                             callback && callback(res.datas);
                         },
-                        error : function(){
+                        error: function () {
                         }
                     });
                 },
@@ -1270,6 +1270,25 @@
                         this.switchIndic('off');
                         this.switchTool('off');
                     }
+                },
+                /**
+                 *作者: GongQi
+                 *时间: 2018/6/12
+                 *功能: 检测是否存在此交易对
+                 */
+                marketIsExist: function () {
+                    var marketConfig = this.marketConfig;
+                    var currentMarket = this.currentMarket;
+                    var marketIsExist = false;
+                    for (var i = 0; i < marketConfig.length; i++) {
+                        if (currentMarket == marketConfig[i].name) {
+                            marketIsExist = true;
+                            break;
+                        }
+                    }
+                    if (!marketIsExist) {
+                        window.location.href = '/'
+                    }
                 }
             },
             created: function () {
@@ -1286,6 +1305,7 @@
                         return false;
                     }*/
 
+                    _this.marketIsExist()
                     //开盘时间处理
                     _this.getServerTime(function (serverTime) {
                         var openTime = parseFloat(_this.currentMarketConfig.openTime) * 1000;
