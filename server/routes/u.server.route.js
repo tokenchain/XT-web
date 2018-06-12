@@ -101,7 +101,7 @@ router.get(['/payin','/payin/:coin'], function(req, res, next) {
             templateMain:'u/asset/payin.html',
             coin : coin.toLowerCase(),
             column : 0,
-            isLayerCoin: 0
+            isLegalCoin: 0
         });
     }
 });
@@ -115,7 +115,7 @@ router.get(['/payin/legaltender','/payin/legaltender/:coin'], function(req, res,
             templateMain:ROUTER.legalRouter,
             coin : coin.toLowerCase(),
             column : 0,
-            isLayerCoin: 1
+            isLegalCoin: 1
         });
     }
 });
@@ -129,7 +129,7 @@ router.get(['/payout','/payout/:coin'], function(req, res, next) {
             templateMain:'u/asset/payout.html',
             coin : coin.toLowerCase(),
             column : 0,
-            isLayerCoin: 0
+            isLegalCoin: 0
         });
     }
 });
@@ -143,7 +143,7 @@ router.get(['/payout/legaltender','/payout/legaltender/:coin'], function(req, re
             templateMain:'u/asset/payout.html',
             coin : coin.toLowerCase(),
             column : 0,
-            isLayerCoin: 1
+            isLegalCoin: 1
         });
     }
 });

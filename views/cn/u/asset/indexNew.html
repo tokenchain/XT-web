@@ -56,7 +56,7 @@
                                 <div class="td cointTag">
                                     <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + item.name.toLowerCase() + '.png?<%= VERSION%>'"/>
                                     <p>{{getRealCoinName(item.name).toUpperCase()}}</p>
-                                    <span v-if='item.isLayerCoin' class="is-layer-coin"><%= LANG('法币') %></span>
+                                    <span v-if='item.isLegalCoin' class="is-layer-coin"><%= LANG('法币') %></span>
                                 </div>
                                 <div class="td total">
                                         <span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8)}}</span>
@@ -80,12 +80,12 @@
                                 <div class="oper">
                                     <template v-if="loginUser.userType == 1">
                                         <!--判断能否充值,默认能充值-->
-                                        <a v-if="item && item.isLayerCoin == 0" :href="'/u/payin/' + item.name" target="_self" class="f"><%= LANG('充值') %></a>
-                                        <a v-else-if="item && item.isLayerCoin == 1" :href="'/u/payin/legaltender/' + item.name" target="_self" class="f"><%= LANG('充值') %></a>
+                                        <a v-if="item && item.isLegalCoin == 0" :href="'/u/payin/' + item.name" target="_self" class="f"><%= LANG('充值') %></a>
+                                        <a v-else-if="item && item.isLegalCoin == 1" :href="'/u/payin/legaltender/' + item.name" target="_self" class="f"><%= LANG('充值') %></a>
                                         <a v-else onclick="JuaBox.info('Not open yet...')" class="f disabled"><%= LANG('充值') %></a>
 
-                                        <a v-if="item.drawFlag == 1 && item.isLayerCoin == 0" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币') %></a>
-                                        <a v-else-if="item.drawFlag == 1 && item.isLayerCoin == 1" :href="'/u/payout/legaltender/' + item.name" target="_self"><%= LANG('提币') %></a>
+                                        <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币') %></a>
+                                        <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name" target="_self"><%= LANG('提币') %></a>
                                         <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled"><%= LANG('提币') %></a>
                                     </template>
                                     <a :href="'/u/bill/' + item.name" target="_self"><%= LANG('账单') %></a>
