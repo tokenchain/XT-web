@@ -375,7 +375,9 @@
                             if(typeof callback == 'function'){
                                 callback();
                             }
-                        }.bind(this)
+                        }.bind(this),
+                        error : function(){
+                        }
                     });
                 },
                 getHomeMarket : function () {

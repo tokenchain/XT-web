@@ -923,7 +923,9 @@
                             if (typeof callback == 'function') {
                                 callback();
                             }
-                        }.bind(this)
+                        }.bind(this),
+                        error : function(){
+                        }
                     });
                 },
                 editMainUserCoin: function (act, coin, userId) {
