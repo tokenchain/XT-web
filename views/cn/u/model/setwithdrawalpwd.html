@@ -1,23 +1,23 @@
 <script type="text/x-template" id="setwithdrawalpwd">
     <div class="exx-modal-container">
-        <div class="exx-modal-header"><h3><%= LANG('提现密码设置') %></h3></div>
+        <div class="exx-modal-header"><h3><%= LANG('资金密码设置') %></h3></div>
         <div class="exx-modal-body">
             <div class="exx-form-box">
                 <div class="form-box">
-                    <template v-if="safePwdAuth">
-                        <div class="form-group">
-                            <div class="form-control" id="nikeForm">
-                                <input autocomplete="new-password" placeholder="<%= LANG('当前提现密码') %>" v-model="oldPassword" type="password">
-                                <!--<span style="position: relative;left: 320px;top: -28px;"><%= LANG('忘记密码') %></span>-->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-control">
-                                <input autocomplete="new-password" placeholder="<%= LANG('新提现密码') %>" v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
-                            </div>
-                        </div>
-                    </template>
-                    <template v-if="safePwdAuth == 0">
+                    <!--<template v-if="safePwdAuth">-->
+                    <!--<div class="form-group">-->
+                    <!--<div class="form-control" id="nikeForm">-->
+                    <!--<input autocomplete="new-password" placeholder="<%= LANG('当前提现密码') %>" v-model="oldPassword" type="password">-->
+                    <!--&lt;!&ndash;<span style="position: relative;left: 320px;top: -28px;"><%= LANG('忘记密码') %></span>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                    <!--<div class="form-control">-->
+                    <!--<input autocomplete="new-password" placeholder="<%= LANG('新提现密码') %>" v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</template>-->
+                    <template>
                         <div class="form-group">
                             <div class="form-control">
                                 <input autocomplete="new-password" placeholder="<%= LANG('提现密码') %>" v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
@@ -26,20 +26,20 @@
                     </template>
                     <div class="form-group">
                         <div class="form-control">
-                            <input autocomplete="new-password" placeholder="<%= LANG('确认新提现密码') %>" v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
+                            <input autocomplete="new-password" placeholder="<%= LANG('确认提现密码') %>" v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-control">
-                            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-                            <send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"  :bus-type="5"/>
-                        </div>
-                    </div>
-                    <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">
-                        <div class="form-control">
-                            <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">
-                        </div>
-                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<div class="form-control">-->
+                    <!--<input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">-->
+                    <!--<send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"  :bus-type="5"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">-->
+                    <!--<div class="form-control">-->
+                    <!--<input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">-->
+                    <!--</div>-->
+                    <!--</div>-->
 
                     <div class="form-button">
                         <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button"><span><%= LANG('提交') %></span></button>
@@ -66,6 +66,7 @@
             },
             data: function () {
                 return {
+                    rsaKeyId:'',
                     locked: false,
                     pubKey: '',
                     oldPassword: '',
@@ -87,6 +88,17 @@
                 }
             },
             methods: {
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
                 handleComparedPwd: function () {
                     this.passwordIdentical = this.newPassword === this.passwordConfirmation
                 },
@@ -102,27 +114,30 @@
                     var data = {
                         // type: 1,
                         // userId: this.userInfo.userId,
-                        oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
+                        // oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
-                        smsCode: this.dynamicCode,
-                        googleCode: this.googleCode,
+                        rsaKeyId:this.rsaKeyId
+                        // smsCode: this.dynamicCode,
+                        // googleCode: this.googleCode,
                     };
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");
                     } else if (!this.passwordIdentical) {
                         JuaBox.sure("<%= LANG('两次输入的密码不一致') %>");
-                    } else if (this.dynamicCode == '') {
-                        JuaBox.sure("<%= LANG('请输入验证码') %>");
-                    } else {
+                    }
+                    // else if (this.dynamicCode == '') {
+                    //     JuaBox.sure("<%= LANG('请输入验证码') %>");
+                    // }
+                    else {
                         // 校验密码强度
-                        if (Methods.checkPwdStrength(this.oldPassword) < 2) {
-                            JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
-                            return;
-                        }
-                        if (Methods.checkPwdStrength(this.newPassword) < 2) {
-                            JuaBox.sure("<%= LANG('新登录密码格式不正确') %>");
-                            return;
-                        }
+                        // if (Methods.checkPwdStrength(this.oldPassword) < 2) {
+                        //     JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
+                        //     return;
+                        // }
+                        // if (Methods.checkPwdStrength(this.newPassword) < 2) {
+                        //     JuaBox.sure("<%= LANG('新登录密码格式不正确') %>");
+                        //     return;
+                        // }
 
                         this.locked = true;
                         //通过headers传参，使用ajax原生方法
@@ -133,12 +148,17 @@
                             success: function (res) {
                                 //密码修改成功，返回空
                                 this.locked = false;
-                                EXX.userIndex.closeModal();
-                                JuaBox.sure("<%= LANG('登录密码修改成功') %>");
-                                this.oldPassword = '';
+                                JuaBox.success(EXX.L("设置成功"),function () {
+                                    Methods.getUserInfo(function (datas) {
+                                        Vue.set(EXX.userIndex.$data, "loginUser", datas);//更新用户中心Vue实例
+                                    });
+                                    EXX.userIndex.closeModal();
+                                });
+
+                                // this.oldPassword = '';
                                 this.newPassword = '';
                                 this.passwordConfirmation = '';
-                                this.dynamicCode = '';
+                                // this.dynamicCode = '';
 
                                 // Methods.setLocalUserInfo(res.datas);
                                 // for(var key in res.datas){
