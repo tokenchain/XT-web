@@ -225,7 +225,7 @@
                         </p>
                     </div>
                     <div class="r">
-                        <a v-if="loginUser.safePwdAuth == 0" @click="approveHanlder(1)"><%= LANG('实名认证') %></a>
+                        <a v-if="loginUser.safePwdAuth == 0" @click="openModal('setwithdrawalpwd')"><%= LANG('设置') %></a>
                         <a class="auth" v-if="loginUser.safePwdAuth == 1" @click="gowithdrawalpwd"><%= LANG('修改') %></a>
                     </div>
                 </li>
