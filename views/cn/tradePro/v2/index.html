@@ -164,9 +164,7 @@
                     <li @click="changeTradeMode(0)" :class="{'active' : currentTradeMode == 0 && !showLeverInfo}"><%=
                         LANG('限价委托')%>
                     </li>
-                    <li @click="changeTradeMode(1)" :class="{'active' : currentTradeMode == 1 && !showLeverInfo}"><%=
-                        LANG('批量委托')%>
-                    </li>
+                    <!--<li @click="changeTradeMode(1)" :class="{'active' : currentTradeMode == 1 && !showLeverInfo}"><%= LANG('批量委托')%></li>-->
                     <li @click="showLeverInfo = true" :class="{'active' : showLeverInfo}"
                         v-if="isLogin && currentMarketConfig && currentMarketConfig.leverRate > 0 && currentUserAsset.userType != 1 ">
                         {{currentMarketConfig.leverType == 0 ? "<%= LANG('现货杠杆')%>" : "<%= LANG('期货杠杆')%>"}}
