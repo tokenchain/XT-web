@@ -29,12 +29,12 @@
                             <input autocomplete="new-password" placeholder="<%= LANG('确认提现密码') %>" v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
                         </div>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<div class="form-control">-->
-                            <!--<input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">-->
-                            <!--<send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"  :bus-type="5"/>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+                            <send-code :code-type="3" :user-name="userInfo.loginName" :user-id="userInfo.userId"  :bus-type="5"/>
+                        </div>
+                    </div>
                     <!--<div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1"  class="form-group">-->
                         <!--<div class="form-control">-->
                             <!--<input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" name="googleCode" type="text">-->
@@ -66,6 +66,7 @@
             },
             data: function () {
                 return {
+                    sendCodeType:"",//发送验证类型
                     rsaKeyId:'',
                     locked: false,
                     pubKey: '',
@@ -107,6 +108,7 @@
                     this.pwdStrength = Methods.checkPwdStrength(this.newPassword);
                 },
                 handleSubmit: function () {
+                    this.sendCodeType=sessionStorage.getItem("smsOremail");
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
@@ -120,15 +122,18 @@
                         // smsCode: this.dynamicCode,
                         // googleCode: this.googleCode,
                     };
+                    if(this.sendCodeType=="sms"){
+                        data.smsCode= this.dynamicCode;
+                    }else if(this.sendCodeType=="email"){
+                        data.emailCode= this.dynamicCode;
+                    }
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");
                     } else if (!this.passwordIdentical) {
                         JuaBox.sure("<%= LANG('两次输入的密码不一致') %>");
-                    }
-                    // else if (this.dynamicCode == '') {
-                    //     JuaBox.sure("<%= LANG('请输入验证码') %>");
-                    // }
-                    else {
+                    } else if (this.dynamicCode == '') {
+                        JuaBox.sure("<%= LANG('请输入验证码') %>");
+                    } else {
                         // 校验密码强度
                         // if (Methods.checkPwdStrength(this.oldPassword) < 2) {
                         //     JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
@@ -146,6 +151,7 @@
                             url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
                             data: JSON.stringify(data),
                             success: function (res) {
+                                sessionStorage.smsOremail='';
                                 //密码修改成功，返回空
                                 this.locked = false;
                                 JuaBox.success(EXX.L("设置成功"),function () {
