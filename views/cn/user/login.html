@@ -14,7 +14,8 @@
           </div>
           <div class="form-group">
               <div class="form-control" id="passwordForm">
-              <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearPwdInputError($event)" >
+              <!--<input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearPwdInputError($event)" >-->
+              <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:focus="clearPwdInputError($event)" >
               <a class="label-a" href="/findLoginPwd"><%= LANG('忘记密码?') %></a>
               </div>
           </div>
@@ -183,7 +184,7 @@
                         imgCode: this.imgCode,
                         imgCodeId: this.imgCodeId,
                         //暂无该参数
-                        countryCode: encodeURIComponent(this.countryCode)
+                        countryCode: this.countryCode
                     };
                     var _this = this;
                     if (this.userName === '') {
@@ -260,7 +261,7 @@
                                     loginErrorUi(EXX.L(resMsg.message));
                                 } else {
                                     //有错误,需重新获取pubkey
-                                    loginErrorUi(EXX.L(resMsg.message));
+                                    loginErrorUi(EXX.L(resMsg.code));
                                     // _this.getPubKey();
 
                                     _this.getImageCode();
