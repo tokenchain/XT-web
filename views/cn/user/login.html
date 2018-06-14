@@ -183,7 +183,7 @@
                         imgCode: this.imgCode,
                         imgCodeId: this.imgCodeId,
                         //暂无该参数
-                        countryCode: this.countryCode
+                        countryCode: encodeURIComponent(this.countryCode)
                     };
                     var _this = this;
                     if (this.userName === '') {
