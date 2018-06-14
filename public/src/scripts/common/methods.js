@@ -238,8 +238,23 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             options.url = options.url || '';
             options.type = options.type || 'POST';
             options.data = options.data || {};
-            if (typeof options.data == 'object') {
+            if (typeof options.data == 'object') { 
                 // form data或get传参
+                /**
+                 *作者: GongQi
+                 *时间: 2018/6/14
+                 *功能: 针对null值的处理
+                 */
+                var data = options.data
+                // console.log(data)
+                for (key in data){
+                    // console.log(key + ':' + data[key])
+                    if(!data[key] && typeof data[key]!="undefined" && data[key]!=0){
+                        data[key] = ''
+                    }
+                }
+                // console.log('-------处理后-------')
+                // console.log(data)
                 parametersContent = this.enryptData(options.data);
             } else {
                 // body json字符串传参
