@@ -53,6 +53,7 @@
             template: "#setloginpwd",
             data: function () {
                 return {
+                    sendCodeType:"",//发送验证类型
                     locked: false,
                     pubKey: '',
                     rsaKeyId:'',
@@ -93,6 +94,7 @@
                     this.pwdStrength = Methods.checkPwdStrength(this.password);
                 },
                 handleSubmit: function () {
+                    this.sendCodeType=sessionStorage.getItem("smsOremail");
                     if (this.locked) {
                         JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
                         return
@@ -102,11 +104,16 @@
                         // userId: this.userInfo.userId,
                         oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
                         newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
-                        smsCode: this.dynamicCode,
+                        // smsCode: this.dynamicCode,
                         googleCode: this.googleCode,
                         pwdLevel: this.pwdStrength,
                         rsaKeyId:this.rsaKeyId
                     };
+                    if(this.sendCodeType=="sms"){
+                        data.smsCode= this.dynamicCode;
+                    }else if(this.sendCodeType=="email"){
+                        data.emailCode= this.dynamicCode;
+                    }
                     if (this.newPassword == '') {
                         JuaBox.sure("<%= LANG('请输入新密码') %>");
                     } else if (!this.passwordIdentical) {
