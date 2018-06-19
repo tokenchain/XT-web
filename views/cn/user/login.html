@@ -96,7 +96,8 @@
                     imgCodeId: '',
                     imageCodeUrl: '',
                     phoneState: true,
-                    pwdState: true
+                    pwdState: true,
+                    getPubkeyNum:0
                 }
             },
             methods: {
@@ -151,6 +152,17 @@
                 selectCountry: function (country) {
                     this.countryCode = country.code
                 },
+                //重新获取公钥
+                againgetPubkey: function () {
+                    if(this.pubKey=="" || this.rsaKeyId==""){
+                        this.getPubkeyNum++;
+                        if(this.getPubkeyNum<=3){
+                            this.getPubKey();
+                        }else{
+                            window.location.reload();
+                        }
+                    }
+                },
                 //获取公钥-ok
                 getPubKey: function () {
                     Methods.ajax({
@@ -159,7 +171,11 @@
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
-                        }.bind(this)
+                            this.againgetPubkey();
+                        }.bind(this),
+                        error:function () {
+                            this.againgetPubkey();
+                        }
                     });
                 },
                 //刷新图形验证码-ok
@@ -169,6 +185,9 @@
                 },
                 //登录方法
                 handleLogin: function () {
+                    if(this.pubKey=="" || this.rsaKeyId==""){
+                      this.getPubKey();
+                    }
                     if (this.requestLocked) {
                         return false;
                     }
@@ -262,7 +281,7 @@
                                 } else {
                                     //有错误,需重新获取pubkey
                                     loginErrorUi(EXX.L(resMsg.code));
-                                    // _this.getPubKey();
+                                    _this.getPubKey();
 
                                     _this.getImageCode();
                                     _this.timestramp = '-' + new Date().getTime();

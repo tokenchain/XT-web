@@ -2785,13 +2785,13 @@ EXX.pack = {
         "cn": "请刷新界面或检查网络",
         "en": "Please refresh or check the network interface"
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "6140": {
+        "cn": "未认证手机或邮箱",
+        "en": "Unauthorized cell phone or email"
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "6141": {
+        "cn": "发送验证码失败，请重新获取",
+        "en": "Send verification code fails, please get it again"
     },
     "": {
         "cn": "",
