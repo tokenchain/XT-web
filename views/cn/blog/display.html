@@ -3,12 +3,13 @@
         <h2 v-cloak="">
             {{newsContent.articleTitle}}
             <p class="time">
-                <%= LANG('发布时间：')
-                %>{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}
-                {{getDateTime(newsContent.createTime)[3]}}:{{getDateTime(newsContent.createTime)[4]}}
+                <%= LANG('发布时间：') %>
+                <!--{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}-->
+                <!--{{getDateTime(newsContent.createTime)[3]}}:{{getDateTime(newsContent.createTime)[4]}}-->
+                {{getDateTime(newsContent.article.createTime)}}
             </p>
         </h2>
-        <div v-cloak="" class="blog-info" v-html="decodeURI(newsContent.content)"></div>
+        <div v-cloak="" class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
     </div>
 
 
@@ -65,7 +66,7 @@
             computed: {},
             methods: {
                 getDateTime: function (datetime) {
-                    var date = Methods.getDateTime(datetime, 'array');
+                    var date = Methods.getDateTime(datetime,"YYYY-MM-DD HH:MM:SS");
                     return date;
                 },
                 getCategory: function () {
