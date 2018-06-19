@@ -204,7 +204,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                     this.setCookie(ENV + 'uname', 'none');
                     this.setCookie(ENV + 'uid', 'none');
                     this.setCookie(ENV + 'uon', 'none');
-                    window.localStorage.clear();
+                    // window.localStorage.clear();
+                    window.localStorage.removeItem(ENV+"userInfo");
                     window.location.href = '/';
                 }.bind(this)
             });
@@ -300,7 +301,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                         this.setCookie(ENV + 'uid', 'none');
                         this.setCookie(ENV + 'uon', 'none');
 
-                        window.localStorage.clear();
+                        // window.localStorage.clear();
+                        window.localStorage.removeItem(ENV+"userInfo");
                         setTimeout(function () {
                             window.location.replace('/login');
                         }, 1500);
@@ -493,7 +495,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 this.setCookie(ENV + 'uname', 'none');
                 this.setCookie(ENV + 'uid', 'none');
                 this.setCookie(ENV + 'uon', 'none');
-                window.localStorage.clear();
+                // window.localStorage.clear();
+                window.localStorage.removeItem(ENV+"userInfo");
                 window.location.href = '/login';
             }else{
                 return userInfo;
