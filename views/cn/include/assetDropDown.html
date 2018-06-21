@@ -33,8 +33,11 @@
                     <div class="td"><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)}}</span></div>
                     <div class="td"><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8)}}</span></div>
                     <div class="td" v-if="loginUser.userType == 1">
-                        <!--判断能否充值,默认能充值-->
-                        <a v-if="item" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
+                        <!--rechargeFlag==1 为可以充值-->
+                        <template v-if="item.rechargeFlag == 1">
+                            <a v-if="item.isLegalCoin!=1" role="button" :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值')%></a>
+                            <a v-else role="button" :href="'/u/payin/legaltender/' + item.name" target="_self"><%= LANG('充值')%></a>
+                        </template>
                         <a v-else="" class="disabled" role="button" onclick="JuaBox.info('Not open yet...')"><%= LANG('充值')%></a>
 
                         <a v-if="item.drawFlag == 1" role="button" :href="'/u/payout/' + item.name" target="_self"><%= LANG('提币')%></a>

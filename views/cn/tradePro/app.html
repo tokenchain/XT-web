@@ -940,7 +940,7 @@
                     var _this = this;
                     if (_this.coinConfig) {
                         for (var i = 0; i < _this.coinConfig.length; i++) {
-                            if (_this.coinConfig[i].name == coin) {
+                            if (_this.coinConfig[i].name == coin && _this.coinConfig[i].rechargeFlag == 1) {
                                 //默认都能充值，返回true
                                 return _this.coinConfig[i];
                             }

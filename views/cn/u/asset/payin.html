@@ -8,20 +8,22 @@
         </div>
         <div class="pay-tab">
             <ul class="coin-type" v-cloak>
+                <!--rechargeFlag==1 为可以充值-->
                 <li v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin}"
                     class="coin-item">
-                    <!--默认都能充值-->
-                    <a :href="'/u/payin/' + item.name" v-if="item.isLegalCoin!=1">
-                        <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
-                             class="market-icon">
-                        {{item.name.toUpperCase()}}
-                    </a>
-                    <a :href="'/u/payin/legaltender/' + item.name" v-if="item.isLegalCoin==1">
-                        <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
-                             class="market-icon">
-                        {{item.name.toUpperCase()}}
-                    </a>
-                    <a onclick="JuaBox.sure('Not open yet...')" v-if="!item">
+                    <template v-if="item.rechargeFlag == 1">
+                        <a :href="'/u/payin/' + item.name" v-if="item.isLegalCoin!=1">
+                            <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
+                                 class="market-icon">
+                            {{item.name.toUpperCase()}}
+                        </a>
+                        <a :href="'/u/payin/legaltender/' + item.name" v-else>
+                            <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
+                                 class="market-icon">
+                            {{item.name.toUpperCase()}}
+                        </a>
+                    </template>
+                    <a onclick="JuaBox.sure('Not open yet...')" v-else>
                         <img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'"
                              class="market-icon">
                         {{item.name.toUpperCase()}}
