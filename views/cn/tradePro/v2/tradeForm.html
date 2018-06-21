@@ -6,9 +6,15 @@
             <%= LANG('可用') %>{{coinName}}：<span class="trading-greencolor hint--top"
                                                 :aria-label="'<%- LANG('可卖')%>：' + $parent.canSellMoneyReal + ' ' + moneyName">{{canUseCoinReal}}</span>
             <template v-if="isLogin && $parent.loginUser.userType == 1">
-                <a :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/'+coin" target="_blank"><%=
+
+                <a v-if='isLegalCoin(coin) == 1' :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/legaltender/'+coin" target="_blank"><%=
                     LANG('充值') %></a>
-                <a :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/'+coin" target="_blank"><%=
+                <a v-else :class="{'disabled' : !$parent.getIsPayIn(coin)}" :href="'/u/payin/'+coin" target="_blank"><%=
+                    LANG('充值') %></a>
+
+                <a v-if='isLegalCoin(coin) == 1' :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/legaltender/'+coin" target="_blank"><%=
+                    LANG('提币') %></a>
+                <a v-else :class="{'disabled' : !$parent.getIsPayOut(coin)}" :href="'/u/payout/'+coin" target="_blank"><%=
                     LANG('提币') %></a>
             </template>
         </p>
@@ -103,9 +109,14 @@
             <%= LANG('可用') %>{{moneyName}}：<span class="trading-redcolor hint--top"
                                                  :aria-label="'<%- LANG('可买')%>：' + $parent.canBuyCoinReal + ' ' + coinName">{{canUseMoneyReal}}</span>
             <template v-if="isLogin && $parent.loginUser.userType == 1">
-                <a :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/'+money" target="_blank"><%=
+                <a v-if='isLegalCoin(coin) == 1' :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/legaltender/'+money" target="_blank"><%=
                     LANG('充值') %></a>
-                <a :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/'+money" target="_blank"><%=
+                <a v-else :class="{'disabled' : !$parent.getIsPayIn(money)}" :href="'/u/payin/'+money" target="_blank"><%=
+                    LANG('充值') %></a>
+
+                <a v-if='isLegalCoin(coin) == 1' :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/legaltender/'+money" target="_blank"><%=
+                    LANG('提币') %></a>
+                <a v-else :class="{'disabled' : !$parent.getIsPayOut(money)}" :href="'/u/payout/'+money" target="_blank"><%=
                     LANG('提币') %></a>
             </template>
         </p>

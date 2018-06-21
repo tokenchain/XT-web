@@ -687,6 +687,14 @@
                     this.requestLocked = false;
                     this.entrustParams = {};
                     this.verificationPwd = ''
+                },
+                isLegalCoin: function (name) {
+                    var coinConfig = this.$parent.coinConfig
+                    for(var i = 0;i< coinConfig.length; i++){
+                        if(coinConfig[i].name == name) {
+                            return coinConfig[i].isLegalCoin
+                        }
+                    }
                 }
             },
             watch: {
