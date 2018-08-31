@@ -1,0 +1,62 @@
+<script>
+  require(['vue'], function (Vue){
+    return Vue.component('animated-number', {
+      template: `<span>{{displayInteger}}<template v-if="hasDecimal">.{{decZerofix}}{{displayDecimal}}</template></span>`,
+
+      props: {
+        'number': {default: 0}
+      },
+      data: function() {
+        return {
+          oriNumber: 0,
+          displayInteger: 0,
+          displayDecimal: 0,
+          decZerofix: '',
+          interval:false
+        }
+      },
+      computed: {
+        hasDecimal: function() {
+          return this.oriNumber.toString().indexOf(".") == -1;
+        }
+      },
+      methods: {
+      },
+      ready: function() {
+        this.oriNumber = this.number ? this.number : 0;
+      },
+      created: function() {
+        var intNumber = this.number.toString().split('.')[0];
+        var decNumber = this.number.toString().split('.')[1];
+      },
+      mounted: function() {
+      },
+      watch: {
+        number: function() {
+          clearInterval(this.interval);
+          if(this.number == this.oriNumber){
+            return;
+          }
+          this.interval = window.setInterval(function(){
+            if(this.oriNumber != this.number){
+              var intNumber = this.number.toString().split('.')[0];
+              var decNumber = this.number.toString().split('.')[1];
+              if (intNumber != this.displayInteger) {
+                var intChange = (intNumber - this.displayInteger) / 10;
+                intChange = intChange >= 0 ? Math.ceil(intChange) : Math.floor(intChange);
+                this.displayInteger = this.displayInteger + intChange;
+              }
+              if (decNumber && decNumber != this.displayDecimal) {
+                var decZeroFix = decNumber.match(/^0+/);
+                this.decZerofix = decZeroFix ? decZeroFix[0] : '';
+                var decChange = (decNumber - this.displayDecimal) / 10;
+                decChange = decChange >= 0 ? Math.ceil(decChange) : Math.floor(decChange);
+                this.displayDecimal = this.displayDecimal + decChange;
+              }
+            }
+          }.bind(this), 10);
+        }
+      }
+    });
+  })
+</script>

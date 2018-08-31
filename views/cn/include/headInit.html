@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+        DISH_API        = GLOBAL['DISH_API']       = '<%= DISH_API %>';
+
+    document.domain = DOMAIN_BASE;
+</script>

@@ -1,0 +1,149 @@
+#JuaMask_1{
+    height: 100%;
+    background: black;
+    position: fixed;
+    top: 0;
+    opacity: .5;
+}
+.Jua-table-main {
+    left: 0;
+    top: 0;
+    position: absolute;
+    display: none;
+    box-shadow: 0 0 20px 6px rgba(78, 76, 76, 0.46);
+    border-radius: 3px;
+    background-color: #fff
+}
+
+.Jua-table-inner {
+    height: 100%
+}
+
+.Jua-table-main .head {
+    padding: 10px 20px;
+    text-align: left;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    overflow: hidden
+}
+
+.Jua-table-main .head h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    line-height: 100%;
+    margin: 0;
+    text-transform: capitalize;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 1)
+}
+
+.Jua-table-main .body {
+    padding: 20px 20px 20px;
+    font-size: 16px;
+    text-align: left;
+    line-height: 180%;
+    color: #666;
+    min-height: 150px;
+    word-wrap: break-word
+}
+
+.Jua-table-main .foot {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 80px;
+    padding-top: 20px;
+    clear: both;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: hidden
+}
+
+.Jua-table-main .foot .btn {
+    min-width: 150px;
+    font-size: 16px
+}
+
+.Jua-table-main .foot .btn + .btn {
+    margin-left: 15px
+}
+
+.Jua-table-main .foot .btn.btn-default {
+    background-color: #5e54ff;
+}
+
+.Jua-table-main .foot .btn.btn-default:hover {
+    background-color: #ecf9fd;
+    border-color: #d1f0fc;
+    color: #333
+}
+
+.Jua-table-main .zoom {
+    width: 50px;
+    height: 50px;
+    text-align: right;
+    position: absolute;
+    top: -15px;
+    right: -15px
+}
+
+.Jua-table-main .zoom .win-btn {
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -ms-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    transition: all .2s ease-in
+}
+
+.Jua-table-main .zoom .win-btn.win-btn-close {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    position: relative;
+    background-color: #fff
+}
+
+.Jua-table-main .zoom .win-btn.win-btn-close .fa {
+    font-size: 24px;
+    font-wight: normal;
+    color: #999;
+    display: none
+}
+
+.Jua-table-main .zoom .win-btn.win-btn-close:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #fdc4bd;
+    background: url(/statics/img/v2/common/jua-close-btn.png) no-repeat center center #fdf2f1;
+    background-size: 50% 50%
+}
+
+.Jua-table-main .zoom .win-btn:active, .Jua-table-main .zoom .win-btn:focus {
+    outline: 0
+}
+
+.Jua-table-main .zoom .win-btn.win-btn-close:after:hover {
+    background-color: #eee
+}
+
+.Jua-table-main .zoom .win-btn:hover {
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -moz-transform: rotate(90deg)
+}

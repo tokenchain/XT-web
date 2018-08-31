@@ -1,0 +1,416 @@
+<style>
+
+
+    .commom-panel .banner {
+        background: #fff url("/src/images/home/ink/ink-bg.jpg") no-repeat center center / cover;
+        padding: 120px 0;
+        position: relative;
+        text-align: center;
+        color: #f39806;
+    }
+
+    .commom-panel .banner .info {
+        position: relative;
+    }
+
+    .commom-panel .banner .logo {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner h2 {
+        font-size: 30px;
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner span {
+        color: #df1a14;
+    }
+
+    .commom-panel .banner .subtitle {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .subtitle p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .commom-panel .content .box {
+        padding: 100px 0;
+    }
+
+    .commom-panel .content .box .info {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .commom-panel .content .info > h3 {
+        font-size: 26px;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .commom-panel .content .info > h3.after:after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: #df1a14;
+    }
+
+    .commom-panel .content .info > h3.after.w:after {
+        background: #fff;
+    }
+
+    .commom-panel .content .info > h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 24px;
+    }
+
+    .commom-panel .content .info > p {
+        line-height: 26px;
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .content .item {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .content .item p {
+        display: inline-block;
+    }
+
+    .commom-panel .content .item p.time {
+        color: #df1a14;
+        width: 100px;
+    }
+
+    .commom-panel .content ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .commom-panel .content ul li {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc((100% - 90px) / 4);
+        flex: 0 0 calc((100% - 90px) / 4);
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .commom-panel .content ul li img {
+        border-radius: 50%;
+    }
+
+    .commom-panel .content ul li h3 {
+        font-size: 16px;
+        margin: 20px 0 10px;
+        color: #000;
+    }
+
+    .commom-panel .content ul li p.t {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .commom-panel .content ul li p.b {
+        margin-top: 20px;
+        color: #888;
+        line-height: 20px;
+    }
+
+    .commom-panel .btn {
+        margin-top: 40px;
+    }
+
+    .commom-panel .btn a {
+        display: inline-block;
+        padding: 13px 50px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 14px;
+        background: #df1a14;
+    }
+
+    .commom-panel .lingqu {
+        background: #000;
+        padding: 80px 0;
+    }
+
+    .winning {
+        display: none;
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(19, 19, 28, 0.95);
+        z-index: 9999;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .winning-box {
+        width: 700px;
+        position: relative;
+    }
+
+    .winning-box .close {
+        position: absolute;
+        background: #ffb400;
+        color: #fff;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 30px;
+        right: 0;
+        top: 0;
+        font-weight: bold;
+    }
+
+    .winning-box .info {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 150px;
+        text-align: center;
+    }
+
+    .winning-box .info p {
+        color: #ffb400;
+        font-size: 130px;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, .2);
+    }
+
+    .winning-box .info a {
+        display: inline-block;
+        padding: 15px 80px;
+        border-radius: 50px;
+        font-size: 18px;
+        color: #fff;
+        margin-top: 80px;
+        background-image: -moz-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -ms-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+
+    }
+</style>
+<div class="commom-panel" id="giftCoin">
+    <div class="banner">
+        <img src="/src/images/home/ink/ink-bg2.png"
+             style="position:absolute;left:0; right:0; top: 0; margin: 0 auto;height: 90%;"/>
+        <div class="info">
+            <div class="logo"><img src="/src/images/home/ink/ink-logo.png" style="width: 200px;"/></div>
+            <h2><span>INK</span> 基于QTUM建设文化资产交易平台</h2>
+            <div class="subtitle" style="margin-bottom: 15px;">INK空投福利 <span>壕送300万INK</span> 随机获得<span>10-50INK</span>
+            </div>
+            <p v-cloak="" v-if="isLogin && (loginUser.emailAuth == 0 || loginUser.mobileAuth == 0)">（需完成手机和邮箱认证）</p>
+            <div class="btn" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('立即领取')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%=
+                    LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button"
+                   v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin"><%= LANG('领取成功')%></a>
+                <a @click="applyGift" role="button"
+                   v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin"><%=
+                    LANG('立即领取')%></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="box" style="color: #fff;font-size: 14px; background: #000;">
+            <div class="info">
+                <h3 class="after">INK简介</h3>
+                <p>Ink，是面向世界不同文化圈原创内容产业，涉及主权联盟链、可信公链，以及跨链互联的去中心化解决方案。</p>
+                <p>
+                    Ink的蓝图是：面向特定文化圈提供主权联盟链，搭建内容产业的去中心化基础设置，使得基于此可以生成各式内容应用平台；基于可信稳定的公链，建设文化资产交易平台，为内容交易变现提供新的通道，并发行Token，使之成为一个经济体系；同时，定义和开发Ink跨链交互协议，使得价值和信息可以在公链和联盟链、联盟链和联盟链之间有效流动。</p>
+                <p>INK 总量为10亿，按如下方式分配：内容生态激15%，社区建设15%，代币发行50%，创始团队及早期贡献者20% 。</p>
+                <a href="https://ink.plus" target="_blank" style="color: #df1a14;">官方网址：https://ink.plus/</a>
+            </div>
+        </div>
+        <div class="box" style="background: #cd3427; color: #fff;">
+            <div class="info">
+                <h3 class="after w">Ink的解决方案</h3>
+                <h4>面向特定文化圈的可信主权联盟链</h4>
+                <p>
+                    Ink提出了“面向特定文化圈的主权联盟链”的概念，它本质上是一个运行在特定主权范围内的联盟链，更容易地应对来自不同法律框架和文化背景的问题。建立在主权联盟链上的“内容产业基础设施”是一套基于区块链的行业基础设施，人们可以基于其搭建能力强大的各类去中心化内容应用。</p>
+                <h4>文化资产交易平台</h4>
+                <p>Ink将基于Qtum建设文化资产交易平台，帮助IP通过ICO获得早期收益，与现有的孵化变现模式相结合，实现IP资产的证券化交易，为艺术家和创造者的内容交易变现提供更加多元化的通道。</p>
+                <h4>INK跨链交互协议</h4>
+                <p>对于主权联盟链，跨链交互能力是实现价值网络的关键，而处于Ink生态中心的公有链（Qtum）天然需要成为价值和信息传递的桥梁，因此Ink跨链交互协议将首先在主权联盟链和Qtum之间落地。
+                    该协议将实现链与链资产的可靠转移，后期也将包括跨链预言机和合约互操作等。</p>
+            </div>
+        </div>
+        <div class="box" style="background: #000; color: #fff; font-size: 14px;">
+            <div class="info">
+                <h3 class="after">Ink发展历程</h3>
+                <div class="item"><p class="time">2016 年 4 月</p>
+                    <p>INK 理事会成员纸贵科技获得种子轮融资，并开始深耕于 IP 领域</p></div>
+                <div class="item"><p class="time">2016 年 10 月</p>
+                    <p>INK 理事会成员纸贵科技的区块链版权资产管理平台上线（ziggurat.cn）</p></div>
+                <div class="item"><p class="time">2016 年 12 月</p>
+                    <p>Ziggurat.cn 上登记的作品突破 6000 件，合作方达十余家</p></div>
+                <div class="item"><p class="time">2017 年 3 月</p>
+                    <p>INK 早期团队确定 INK 的核心使命和功能，并完成架构规划</p></div>
+                <div class="item"><p class="time">2017 年 4 月</p>
+                    <p>INK 早期团队获得百万级美元顶级天使轮融资，项目进入崭新阶段</p></div>
+                <div class="item"><p class="time">2017 年 5 月</p>
+                    <p>INK 早期团队受邀参加数博会，与中国贵阳签署版权区块链项目共建协议</p></div>
+                <div class="item"><p class="time">2017 年 6 月</p>
+                    <p>INK 正式团队成立，横跨底层技术、IP 发掘、管理、运维各领域尖端人才</p></div>
+                <div class="item"><p class="time">2017 年 7 月</p>
+                    <p>INK 硅谷区块链实验室成立</p></div>
+                <div class="item"><p class="time">2017 年 9 月</p>
+                    <p>INK 主权联盟链进入测试阶段</p></div>
+                <div class="item"><p class="time">2017 年 10 月</p>
+                    <p>INK 白皮书正式发布</p></div>
+                <div class="item"><p class="time">2017 年 11 月</p>
+                    <p>INK 完成全球路演及令牌售卖</p></div>
+                <div class="item"><p class="time">2017 年 12 月</p>
+                    <p>INK 推出内容 Dapp 开发开放平台</p></div>
+                <div class="item"><p class="time">2018 年 1 月</p>
+                    <p>INK 主权联盟链与 Qtum 首次进行跨链价值与数据互联</p></div>
+                <div class="item"><p class="time">2018 年 2 月</p>
+                    <p>INK 推出首批进行链上交易的国际 IP</p></div>
+                <div class="item"><p class="time">2018 年 3 月</p>
+                    <p>INK 的文化数字资产交易平台测试版上线</p></div>
+                <div class="item"><p class="time">2018 年 5 月</p>
+                    <p>INK 初步建立跨国 IP 价值交互网络</p></div>
+                <div class="item"><p class="time">未来</p>
+                    <p>全世界文化行业价值与数据交互体系</p></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3 class="after">Ink团队介绍</h3>
+                <ul>
+                    <li>
+                        <img src="/src/images/home/ink/p1.png"/>
+                        <h3>唐凌</h3>
+                        <p class="t">中国联合发起人</p>
+                        <p class="b">纸贵科技创始人&CEO 西安交通大学保送生, 墨链（Inkchain）发起人、中国最早期的区块链参与者之一</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p2.png"/>
+                        <h3>Ismail Malik</h3>
+                        <p class="t">英国联合发起人</p>
+                        <p class="b">ICO CROWD & BlockchainLab CEO<br>欧洲最顶尖的区块链及数字货币专家</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p3.png"/>
+                        <h3>Tsukikawa Yuu</h3>
+                        <p class="t">日本联合发起人</p>
+                        <p class="b">日本区块链发展推动者<br>早期比特币投资人</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p4.png"/>
+                        <h3>Walter Komarek</h3>
+                        <p class="t">欧洲联合发起人</p>
+                        <p class="b">马耳他最大的通讯公司Forbesfone的CEO、主席和管理合伙人</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="box" style="background: #cd3427;color: #fff;">
+            <div class="info">
+                <h3 class="after w">Ink核心开发者</h3>
+                <ul>
+                    <li>
+                        <img src="/src/images/home/ink/p5.png"/>
+                        <h3 style="color: #fff;">陈昌</h3>
+                        <p style="color: #fff;" class="t">核心开发者 中国</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p6.png"/>
+                        <h3 style="color: #fff;">王昊</h3>
+                        <p style="color: #fff;" class="t">核心开发者 中国</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p7.png"/>
+                        <h3 style="color: #fff;">郜振峰</h3>
+                        <p style="color: #fff;" class="t">核心开发者 中国</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p8.png"/>
+                        <h3 style="color: #fff;">Dr Frank Wang</h3>
+                        <p style="color: #fff;" class="t">核心开发者 美国</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Alexey Kalina</h3>
+                        <p style="color: #fff;" class="t">核心开发者 俄罗斯</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Paul Sokolov</h3>
+                        <p style="color: #fff;" class="t">核心开发者 俄罗斯</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Alexandr Dorozhkin</h3>
+                        <p style="color: #fff;" class="t">核心开发者 俄罗斯</p>
+                    </li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class="lingqu">
+            <div class="btn" style="margin-top: 0; text-align: center;" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('立即领取')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%=
+                    LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button"
+                   v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin"><%= LANG('领取成功')%></a>
+                <a @click="applyGift" role="button"
+                   v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin"><%=
+                    LANG('立即领取')%></a>
+            </div>
+        </div>
+    </div>
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winning.png"/>
+                <div class="info">
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                    <a href="/u/asset" target="_self">立即查看</a>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <modal v-cloak :open="showModal == 'setMobile'" @close="showModal = false">
+        <set-mobile/>
+    </modal>
+
+    <modal v-cloak :open="showModal == 'setEmail'" @close="showModal = false">
+        <set-email/>
+    </modal>
+</div>
+<%-include("app.getCoin.html" ,{giftCoin: 'ink'})%>

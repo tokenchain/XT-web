@@ -1,0 +1,260 @@
+<script type="text/x-template" id="circular-progress">
+    <div class="circular-progress-container" :style="containerStyle">
+        <div class="circular-progress-inner" :style="innerCircleStyle">
+            <slot></slot>
+        </div>
+        <svg class="circular-progress-bar"
+             :width="diameter"
+             :height="diameter"
+             version="1.1"
+             xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient :id="'circular-gradient' + _uid"
+                                :fx="gradient.fx"
+                                :fy="gradient.fy"
+                                :cx="gradient.cx"
+                                :cy="gradient.cy"
+                                :r="gradient.r">
+                    <stop offset="30%" :stop-color="startColor"/>
+                    <stop offset="100%" :stop-color="stopColor"/>
+                </radialGradient>
+            </defs>
+            <circle :r="innerCircleRadius"
+                    :cx="radius"
+                    :cy="radius"
+                    fill="transparent"
+                    :stroke="innerStrokeColor"
+                    :stroke-dasharray="circumference"
+                    stroke-dashoffset="0"
+                    stroke-linecap="round"
+                    :style="strokeStyle"></circle>
+            <circle :transform="'rotate(270, ' + radius + ',' + radius + ')'"
+                    :r="innerCircleRadius"
+                    :cx="radius"
+                    :cy="radius"
+                    fill="transparent"
+                    :stroke="'url(#circular-gradient' + _uid + ')'"
+                    :stroke-dasharray="circumference"
+                    :stroke-dashoffset="circumference"
+                    stroke-linecap="round"
+                    :style="progressStyle"></circle>
+        </svg>
+    </div>
+</script>
+
+<script>
+  /***********
+   **圆形进度条组件
+   ************/
+  require(['vue'], function (Vue){
+    return Vue.component('circular-progress', {
+      template: "#circular-progress",
+      props: {
+          diameter: {
+              type: Number,
+              required: false,
+              default: 200
+          },
+          totalSteps: {
+              type: Number,
+              required: true,
+              default: 10
+          },
+          completedSteps: {
+              type: Number,
+              required: true,
+              default: 0
+          },
+          startColor: {
+              type: String,
+              required: false,
+              default: '#bbff42'
+          },
+          stopColor: {
+              type: String,
+              required: false,
+              default: '#429321'
+          },
+          strokeWidth: {
+              type: Number,
+              required: false,
+              default: 10
+          },
+          animateSpeed: {
+              type: Number,
+              required: false,
+              default: 1000
+          },
+          innerStrokeColor: {
+              type: String,
+              required: false,
+              default: '#323232'
+          },
+          fps: {
+              type: Number,
+              required: false,
+              default: 60
+          },
+          timingFunc: {
+              type: String,
+              required: false,
+              default: 'linear'
+          }
+      },
+      data: function () {
+        return {
+            gradient: {
+                fx: 0.99,
+                fy: 0.5,
+                cx: 0.5,
+                cy: 0.5,
+                r: 0.65
+            },
+            gradientAnimation: null,
+            currentAngle: 0,
+            strokeDashoffset: 0
+        }
+      },
+      computed: {
+          radius: function() {
+              return this.diameter / 2
+          },
+          circumference: function () {
+              return Math.PI * this.innerCircleDiameter
+          },
+          stepSize: function () {
+              if (this.totalSteps === 0) {
+                  return 0
+              }
+              return 100 / this.totalSteps
+          },
+          finishedPercentage: function () {
+              return this.stepSize * this.completedSteps
+          },
+          circleSlice : function() {
+              return 2 * Math.PI / this.totalSteps
+          },
+          animateSlice: function () {
+              return this.circleSlice / this.totalPoints
+          },
+          innerCircleDiameter: function () {
+              return this.diameter - (this.strokeWidth * 2)
+          },
+          innerCircleRadius: function () {
+              return this.innerCircleDiameter / 2
+          },
+          totalPoints: function () {
+              return this.animateSpeed / this.animationIncrements
+          },
+          animationIncrements: function () {
+              return 1000 / this.fps
+          },
+          hasGradient: function () {
+              return this.startColor !== this.stopColor
+          },
+          containerStyle: function () {
+              return {
+                  height: `${this.diameter}px`,
+                  width: `${this.diameter}px`
+              }
+          },
+          progressStyle: function () {
+              return {
+                  height: `${this.diameter}px`,
+                  width: `${this.diameter}px`,
+                  strokeWidth: `${this.strokeWidth}px`,
+                  strokeDashoffset: this.strokeDashoffset,
+                  transition: `stroke-dashoffset ${this.animateSpeed}ms ${this.timingFunc}`
+              }
+          },
+          strokeStyle: function () {
+              return {
+                  height: `${this.diameter}px`,
+                  width: `${this.diameter}px`,
+                  strokeWidth: `${this.strokeWidth}px`
+              }
+          },
+          innerCircleStyle: function () {
+              return {
+                  width: `${this.innerCircleDiameter}px`
+              }
+          }
+      },
+      methods: {
+          getStopPointsOfCircle: function (steps) {
+              const points = []
+              for (let i = 0; i < steps; i++) {
+                  const angle = this.circleSlice * i
+                  points.push(this.getPointOfCircle(angle))
+              }
+              return points
+          },
+          getPointOfCircle: function (angle) {
+              const radius = 0.5
+              const x = radius + (radius * Math.cos(angle));
+              const y = radius + (radius * Math.sin(angle));
+              return { x, y }
+          },
+          gotoPoint: function () {
+              const point = this.getPointOfCircle(this.currentAngle)
+              this.gradient.fx = point.x
+              this.gradient.fy = point.y
+          },
+          changeProgress: function ({ isAnimate = true }) {
+              this.strokeDashoffset = ((100 - this.finishedPercentage) / 100) * this.circumference
+              if (this.gradientAnimation) {
+                  clearInterval(this.gradientAnimation)
+              }
+              if (!isAnimate) {
+                  this.gotoNextStep()
+                  return
+              }
+              const angleOffset = (this.completedSteps - 1) * this.circleSlice
+              let i = (this.currentAngle - angleOffset) / this.animateSlice
+              const incrementer = Math.abs(i - this.totalPoints) / this.totalPoints
+              const isMoveForward = i < this.totalPoints
+              this.gradientAnimation = setInterval(() => {
+                      if (isMoveForward && i >= this.totalPoints ||
+                  !isMoveForward && i < this.totalPoints) {
+                  clearInterval(this.gradientAnimation)
+                  return
+              }
+              this.currentAngle = angleOffset + (this.animateSlice * i)
+              this.gotoPoint()
+              i += isMoveForward ? incrementer : -incrementer
+          }, this.animationIncrements)
+          },
+          gotoNextStep: function () {
+              this.currentAngle = this.completedSteps * this.circleSlice
+              this.gotoPoint()
+          }
+      },
+      watch: {
+          totalSteps: function () {
+              this.changeProgress({ isAnimate: true })
+          },
+          completedSteps: function () {
+              this.changeProgress({ isAnimate: true })
+          },
+          diameter: function () {
+              this.changeProgress({ isAnimate: true })
+          },
+          strokeWidth: function () {
+              this.changeProgress({ isAnimate: true })
+          }
+      },
+        created: function() {
+            this.changeProgress({ isAnimate: false })
+        },
+      mounted: function() {
+
+      },
+      beforeUpdate: function() {
+
+      },
+      beforeDestroy: function() {
+      }
+    });
+  })
+
+</script>

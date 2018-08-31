@@ -1,0 +1,14 @@
+.button-disabled{
+  color: rgb(192, 193, 233);
+  text-decoration: line-through;
+  a{
+    cursor: default;
+  }
+}
+.button-hover-active{
+  color: #fff;
+  &:hover,&:active{
+    background: #5f55ff;
+    color: #fff;
+  }
+}

@@ -1,0 +1,557 @@
+<!doctype html>
+<html>
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+    document.domain = DOMAIN_BASE;
+</script>
+<head>
+<meta charset="UTF-8">
+<title>  <%= LANG('推荐用户免费赚ZT') %>  </title>
+	<script src="/src/js/TweenMax.min.js"/></script>
+    <script src="/src/js/noframework.waypoints.min.js"></script>
+	<script src="/src/js/dxcicons.js" type="text/javascript"/></script>
+    <script src="/src/js/dxcseoicons.js" type="text/javascript"/></script>
+	<script src="/src/js/snap.svg.js" type="text/javascript"></script>
+	<script src="/src/js/jquery-latest.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="/src/styles/xuleipro.css">
+	<link rel="stylesheet" type="text/css" href="/src/js/zt.css">
+	<link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+
+	<style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<%-include("../include/head.html")%>
+<div class="radial-bg"></div>
+
+<section class="banner">
+	<div class="container">
+		<div class="banner-wrapper">
+			<div class="banner-txt">
+                <h1> <%= LANG('推荐大赛一周打造50位百万富翁') %> </h1>
+                <p class="slogan"> <%= LANG('1、获得10%推荐人交易手续费Z；') %> <br/><%= LANG('2、推荐人注册Z') %><a
+                        href="/help/rule" style="color: #0a8fc7;"><%= LANG('查看规则') %></a>。
+
+				</p>
+			</div>
+			<div class="img-container" onclick="restartIcons([0])"><div id="affiliateIcon" class="seoicon socialNetworkIcon"></div></div>
+		</div>
+	</div>
+</section>
+<section class="section" id="ztuserContent">
+	<div class="container">
+		<div class="tab">
+			<ul>
+                <li><a href="/zt"> <%= LANG('概述') %> </a></li>
+                <!--<li><a href="/zb_zt"><%= LANG('ZB换码ZT') %></a></li>-->
+                <li><a href="/ztfee"> <%= LANG('网站收益') %> </a></li>
+                <li><a href="/ztminer"> <%= LANG('交易挖矿') %></a></li>
+                <!--<li class="active"><a href="/ztuser"><%= LANG('推荐人获10%ZT') %></a></li>-->
+			</ul>
+		</div>
+
+
+
+
+		<div class="share">
+			<div class="share-head">
+                <!--<ul>-->
+                <!--<li class="wechat">-->
+                <!--<a href="#">-->
+                <!--<svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M1024 636.032c0-141.888-141.866667-257.429333-301.461333-257.429333-169.088 0-301.866667 115.541333-301.866667 257.429333 0 142.250667 132.778667 257.386667 301.866667 257.386667 35.370667 0 71.146667-9.024 106.496-17.642667l97.450667 53.418667-26.666667-88.789333C970.922667 786.965333 1024 715.84 1024 636.032zM624.618667 591.616c-17.642667 0-35.328-17.664-35.328-35.392 0-17.621333 17.685333-35.328 35.328-35.328 26.752 0 44.458667 17.706667 44.458667 35.328C669.077333 573.952 651.370667 591.616 624.618667 591.616zM820.010667 591.616c-17.664 0-35.306667-17.664-35.306667-35.392 0-17.621333 17.642667-35.328 35.306667-35.328 26.709333 0 44.416 17.706667 44.416 35.328C864.426667 573.952 846.293333 591.616 820.010667 591.616zM693.248 347.242667c11.626667 0 23.296 0.810667 34.901333 2.005333-31.274667-146.133333-187.392-254.464-365.674667-254.464C163.370667 94.784 0 230.442667 0 403.029333c0 99.562667 54.208 181.418667 144.917333 244.864L108.8 757.034667l126.826667-63.786667c45.354667 8.810667 81.877333 18.069333 126.848 18.069333 11.221333 0 22.506667-0.405333 33.749333-1.557333-7.232-24.128-11.242667-49.749333-11.242667-75.882667C384.96 475.690667 521.066667 347.242667 693.248 347.242667zM498.133333 248.896c27.285333 0 45.333333 18.069333 45.333333 45.376 0 27.264-18.069333 45.333333-45.333333 45.333333-27.306667 0-54.570667-18.069333-54.570667-45.333333C443.968 266.944 471.210667 248.896 498.133333 248.896zM244.458667 339.562667c-27.306667 0-54.570667-18.048-54.570667-45.333333 0-27.306667 27.285333-45.354667 54.570667-45.354667 27.328 0 45.397333 18.069333 45.397333 45.354667C289.834667 321.130667 271.786667 339.562667 244.458667 339.562667z"></path></svg>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li class="weibo">-->
+                <!--<a href="#">-->
+                <!--<svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M726.64 470.78c-34.78-6.72-17.845-25.088-17.845-25.088s34.023-55.406-6.805-95.73c-50.5-49.878-173.429 6.276-173.429 6.276-46.877 14.333-34.478-6.572-27.824-42.116 0-41.965-14.518-112.899-139.563-71.084-124.894 42.263-232.1 189.958-232.1 189.958-74.54 98.118-64.713 173.983-64.713 173.983 18.596 167.562 198.984 213.557 339.303 224.462C551.24 842.79 750.53 781.259 810.857 654.619c60.486-126.791-49.29-176.97-84.217-183.838zM414.55 784.249c-146.518 6.718-265.061-65.71-265.061-162.184 0-96.624 118.543-173.984 265.061-180.706 146.669-6.718 265.364 53.018 265.364 149.342 0 96.327-118.695 186.976-265.364 193.548zM385.367 504.83c-147.425 17.023-130.338 153.224-130.338 153.224s-1.51 43.16 39.467 65.114c86.183 46.145 175.093 18.216 219.849-38.98 44.907-57.047 18.6-196.235-128.978-179.358zM348.17 696.138c-27.516 3.135-49.743-12.547-49.743-35.248 0-22.55 19.654-46.296 47.173-49.13 31.604-2.99 52.167 14.934 52.167 37.782 0.151 22.55-22.228 43.46-49.597 46.596z m86.946-73.03c-9.377 6.87-20.866 5.975-25.707-2.388-5.141-8.067-3.175-20.91 6.2-27.628 10.886-8.067 22.228-5.674 27.217 2.388 4.841 8.067 1.36 20.458-7.71 27.628zM798.459 411.79c11.946 0 21.927-8.66 23.74-20.008 0.153-0.897 0.3-1.645 0.3-2.542 17.997-159.646-132.605-132.165-132.605-132.165-13.306 0-24.04 10.6-24.04 24.042 0 13.144 10.734 23.748 24.04 23.748 108.112-23.598 84.375 83.18 84.375 83.18-0.152 13.144 10.733 23.745 24.19 23.745z m-17.54-278.671c-52.013-12.096-105.693-1.64-120.662 1.195-1.21 0.15-2.266 1.198-3.323 1.344-0.457 0.151-0.908 0.597-0.908 0.597-14.818 4.185-25.555 17.624-25.555 33.603 0 18.968 15.573 34.646 35.078 34.646 0 0 18.9-2.538 31.756-7.466 12.699-5.076 120.657-3.732 174.185 84.976 29.186 64.813 12.856 108.123 10.737 115.141 0 0-6.954 16.877-6.954 33.452 0 19.115 15.574 31.215 35.078 31.215 16.18 0 29.786-2.243 33.718-29.273h0.152c57.761-189.215-70.16-278.072-163.302-299.43z m0 0"></path></svg>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li class="facebook">-->
+                <!--<a href="#">-->
+                <!--<svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M589.572 80.31c-27.149 0-52.789 3.018-82.955 15.084-61.839 25.639-92.003 82.955-92.003 174.957v88.987h-85.969v147.808h85.969v426.833h174.957v-426.833h119.152l16.59-147.808h-135.744v-66.363c0-21.115 1.508-36.197 7.54-43.741 7.54-13.573 22.624-19.607 46.755-19.607h79.937v-147.808h-134.235z"></path></svg>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li class="twitter">-->
+                <!--<a href="#">-->
+                <!--<svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M962.267429 233.179429q-38.253714 56.027429-92.598857 95.451429 0.585143 7.972571 0.585143 23.990857 0 74.313143-21.723429 148.260571t-65.974857 141.970286-105.398857 120.32-147.456 83.456-184.539429 31.158857q-154.843429 0-283.428571-82.870857 19.968 2.267429 44.544 2.267429 128.585143 0 229.156571-78.848-59.977143-1.170286-107.446857-36.864t-65.170286-91.136q18.870857 2.852571 34.889143 2.852571 24.576 0 48.566857-6.290286-64-13.165714-105.984-63.707429t-41.984-117.394286l0-2.267429q38.838857 21.723429 83.456 23.405714-37.741714-25.161143-59.977143-65.682286t-22.308571-87.990857q0-50.322286 25.161143-93.110857 69.12 85.138286 168.301714 136.265143t212.260571 56.832q-4.534857-21.723429-4.534857-42.276571 0-76.580571 53.979429-130.56t130.56-53.979429q80.018286 0 134.875429 58.294857 62.317714-11.995429 117.174857-44.544-21.138286 65.682286-81.115429 101.741714 53.174857-5.705143 106.276571-28.598857z"></path></svg>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+			</div>
+
+            <div class="share-body" v-if="isLogin" v-cloak="">
+            <h2> <%= LANG('您的推荐地址如下') %> <a href="/u/recommend"> <%= LANG('查看推荐详情') %> </a></h2>
+                <!--<p> <%= LANG('') %> </p>-->
+                <p> 推荐人将获得被推荐的用户的交易手续费10%的分红，长期有效 </p>
+            <div class="info">
+            <div class="code">
+            <canvas class="codeimg" id="canvas"></canvas>
+            </div>
+            <div class="input">
+                <input readonly type="text" :value="reommendUrl" id="commendInput" v-cloak="">
+            <a href="javascript:void(0)" @click="copyUrl()"> <%= LANG('复制链接地址') %> </a>
+            </div>
+            </div>
+            </div>
+			<div class="statistics" v-cloak="">
+
+                <div class="statistics-body">
+                    <h2> <%= LANG('推荐大赛排名（已结束）') %>【<a href="/help/rule" style="color: #8256ff;"><%= LANG('规则') %> </a>】
+                    </h2>
+                    <ul class="title">
+                        <li>
+
+                            <p><%= LANG('名次/用户ID') %> </p>
+                            <p> <%= LANG('推荐数量/有效') %> </p>
+                            <p> <%= LANG('可买额度/价格') %> </p>
+                        </li>
+                    </ul>
+                    <!--<ul class="list" v-if="List.length!=0">-->
+                    <!--<li v-for="(item,index) in List">-->
+                    <!--<p>{{item.userId}}</p>-->
+                    <!--<p>{{item.recommendNum}}/{{item.activateNum}}</p>-->
+                    <!--<p>{{item.numAndPrice}} *<%= LANG('ZT初始发行价') %>  </p>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <ul class="list">
+                        <li><p>yo*******en@outlook.com</p>
+                            <p>8534/5326</p>
+                            <p>50000ZT/0.001 *ZT初始发行价 </p></li>
+                        <li><p>51*****22@qq.com</p>
+                            <p>5695/3071</p>
+                            <p>40000ZT/0.002 *ZT初始发行价 </p></li>
+                        <li><p>151****3628</p>
+                            <p>8057/2332</p>
+                            <p>30000ZT/0.003 *ZT初始发行价 </p></li>
+                        <li><p>88****09@qq.com</p>
+                            <p>3832/2107</p>
+                            <p>20000ZT/0.004 *ZT初始发行价 </p></li>
+                        <li><p>15******65@qq.com</p>
+                            <p>2479/2046</p>
+                            <p>19800ZT/0.005 *ZT初始发行价 </p></li>
+                        <li><p>151****2345</p>
+                            <p>4501/1809</p>
+                            <p>19600ZT/0.006 *ZT初始发行价 </p></li>
+                        <li><p>me*******22@163.com</p>
+                            <p>4099/1625</p>
+                            <p>19400ZT/0.007 *ZT初始发行价 </p></li>
+                        <li><p>83*****11@qq.com</p>
+                            <p>5291/1615</p>
+                            <p>19200ZT/0.008 *ZT初始发行价 </p></li>
+                        <li><p>132****0954</p>
+                            <p>1568/1536</p>
+                            <p>19000ZT/0.009 *ZT初始发行价 </p></li>
+                        <li><p>ru*****15@163.com</p>
+                            <p>2401/1480</p>
+                            <p>18800ZT/0.01 *ZT初始发行价 </p></li>
+                        <li><p>137****7221</p>
+                            <p>1846/1453</p>
+                            <p>18600ZT/0.011 *ZT初始发行价 </p></li>
+                        <li><p>af******du@163.com</p>
+                            <p>2335/1424</p>
+                            <p>18400ZT/0.012 *ZT初始发行价 </p></li>
+                        <li><p>185****3669</p>
+                            <p>2414/1398</p>
+                            <p>18200ZT/0.013 *ZT初始发行价 </p></li>
+                        <li><p>xi*********01@163.com</p>
+                            <p>2006/1387</p>
+                            <p>18000ZT/0.014 *ZT初始发行价 </p></li>
+                        <li><p>132****8789</p>
+                            <p>1446/1318</p>
+                            <p>17800ZT/0.015 *ZT初始发行价 </p></li>
+                        <li><p>40*****42@qq.com</p>
+                            <p>1735/1311</p>
+                            <p>17600ZT/0.016 *ZT初始发行价 </p></li>
+                        <li><p>zj****rn@icloud.com</p>
+                            <p>7119/1290</p>
+                            <p>17400ZT/0.017 *ZT初始发行价 </p></li>
+                        <li><p>176****0615</p>
+                            <p>3581/1234</p>
+                            <p>17200ZT/0.018 *ZT初始发行价 </p></li>
+                        <li><p>77****33@qq.com</p>
+                            <p>2133/1203</p>
+                            <p>17000ZT/0.019 *ZT初始发行价 </p></li>
+                        <li><p>18****36@QQ.COM</p>
+                            <p>2131/1202</p>
+                            <p>16800ZT/0.02 *ZT初始发行价 </p></li>
+                        <li><p>32******90@qq.com</p>
+                            <p>1206/1163</p>
+                            <p>16600ZT/0.021 *ZT初始发行价 </p></li>
+                        <li><p>135****8656</p>
+                            <p>1629/1078</p>
+                            <p>16400ZT/0.022 *ZT初始发行价 </p></li>
+                        <li><p>69*****43@qq.com</p>
+                            <p>2644/1015</p>
+                            <p>16200ZT/0.023 *ZT初始发行价 </p></li>
+                        <li><p>189****2381</p>
+                            <p>2407/1000</p>
+                            <p>16000ZT/0.024 *ZT初始发行价 </p></li>
+                        <li><p>Ke********07@qq.com</p>
+                            <p>1057/999</p>
+                            <p>15800ZT/0.025 *ZT初始发行价 </p></li>
+                        <li><p>12*****34@qq.com</p>
+                            <p>1033/942</p>
+                            <p>15600ZT/0.026 *ZT初始发行价 </p></li>
+                        <li><p>hg***26@163.com</p>
+                            <p>1556/931</p>
+                            <p>15400ZT/0.027 *ZT初始发行价 </p></li>
+                        <li><p>130****9441</p>
+                            <p>1735/929</p>
+                            <p>15200ZT/0.028 *ZT初始发行价 </p></li>
+                        <li><p>130****3520</p>
+                            <p>1079/928</p>
+                            <p>15000ZT/0.029 *ZT初始发行价 </p></li>
+                        <li><p>137****3927</p>
+                            <p>1420/892</p>
+                            <p>14800ZT/0.03 *ZT初始发行价 </p></li>
+                        <li><p>jy***08@163.com</p>
+                            <p>1057/888</p>
+                            <p>14600ZT/0.031 *ZT初始发行价 </p></li>
+                        <li><p>130****0865</p>
+                            <p>1166/836</p>
+                            <p>14400ZT/0.032 *ZT初始发行价 </p></li>
+                        <li><p>yu*****52@outlook.com</p>
+                            <p>2069/828</p>
+                            <p>14200ZT/0.033 *ZT初始发行价 </p></li>
+                        <li><p>156****5093</p>
+                            <p>790/750</p>
+                            <p>14000ZT/0.034 *ZT初始发行价 </p></li>
+                        <li><p>23******69@qq.com</p>
+                            <p>1560/698</p>
+                            <p>13800ZT/0.035 *ZT初始发行价 </p></li>
+                        <li><p>ou*******md@sina.cn</p>
+                            <p>706/692</p>
+                            <p>13600ZT/0.036 *ZT初始发行价 </p></li>
+                        <li><p>199****5417</p>
+                            <p>1001/662</p>
+                            <p>13400ZT/0.037 *ZT初始发行价 </p></li>
+                        <li><p>ip******61@163.com</p>
+                            <p>1059/617</p>
+                            <p>13200ZT/0.038 *ZT初始发行价 </p></li>
+                        <li><p>186****5317</p>
+                            <p>1651/611</p>
+                            <p>13000ZT/0.039 *ZT初始发行价 </p></li>
+                        <li><p>135****2812</p>
+                            <p>1073/581</p>
+                            <p>12800ZT/0.04 *ZT初始发行价 </p></li>
+                        <li><p>80****06@qq.com</p>
+                            <p>862/572</p>
+                            <p>12600ZT/0.041 *ZT初始发行价 </p></li>
+                        <li><p>22******19@qq.com</p>
+                            <p>1465/541</p>
+                            <p>12400ZT/0.042 *ZT初始发行价 </p></li>
+                        <li><p>156****5221</p>
+                            <p>1351/537</p>
+                            <p>12200ZT/0.043 *ZT初始发行价 </p></li>
+                        <li><p>153****7797</p>
+                            <p>715/536</p>
+                            <p>12000ZT/0.044 *ZT初始发行价 </p></li>
+                        <li><p>189****3927</p>
+                            <p>1640/529</p>
+                            <p>11800ZT/0.045 *ZT初始发行价 </p></li>
+                        <li><p>84****56@qq.com</p>
+                            <p>633/517</p>
+                            <p>11600ZT/0.046 *ZT初始发行价 </p></li>
+                        <li><p>19****12@qq.com</p>
+                            <p>610/513</p>
+                            <p>11400ZT/0.047 *ZT初始发行价 </p></li>
+                        <li><p>137****4523</p>
+                            <p>616/510</p>
+                            <p>11200ZT/0.048 *ZT初始发行价 </p></li>
+                        <li><p>130****9441</p>
+                            <p>1151/507</p>
+                            <p>11000ZT/0.049 *ZT初始发行价 </p></li>
+                        <li><p>13******67@qq.com</p>
+                            <p>2567/495</p>
+                            <p>10800ZT/0.05 *ZT初始发行价 </p></li>
+                        <li><p>20****75@qq.com</p>
+                            <p>5809/483</p>
+                            <p>10600ZT/0.051 *ZT初始发行价 </p></li>
+                        <li><p>189****6778</p>
+                            <p>654/461</p>
+                            <p>10400ZT/0.052 *ZT初始发行价 </p></li>
+                        <li><p>158****5062</p>
+                            <p>697/448</p>
+                            <p>10200ZT/0.053 *ZT初始发行价 </p></li>
+                        <li><p>bi********41@163.com</p>
+                            <p>1013/430</p>
+                            <p>10000ZT/0.054 *ZT初始发行价 </p></li>
+                        <li><p>bi*********93@163.com</p>
+                            <p>795/430</p>
+                            <p>9800ZT/0.055 *ZT初始发行价 </p></li>
+                        <li><p>28*****64@qq.com</p>
+                            <p>597/427</p>
+                            <p>9600ZT/0.056 *ZT初始发行价 </p></li>
+                        <li><p>18******50@qq.com</p>
+                            <p>489/427</p>
+                            <p>9400ZT/0.057 *ZT初始发行价 </p></li>
+                        <li><p>158****4021</p>
+                            <p>713/424</p>
+                            <p>9200ZT/0.058 *ZT初始发行价 </p></li>
+                        <li><p>do********12@163.com</p>
+                            <p>426/421</p>
+                            <p>9000ZT/0.059 *ZT初始发行价 </p></li>
+                        <li><p>24*****92@qq.com</p>
+                            <p>714/409</p>
+                            <p>8800ZT/0.06 *ZT初始发行价 </p></li>
+                        <li><p>dy*****h1@gmail.com</p>
+                            <p>661/409</p>
+                            <p>8600ZT/0.061 *ZT初始发行价 </p></li>
+                        <li><p>ad***ad@ftwflyy.uu.me</p>
+                            <p>1324/408</p>
+                            <p>8400ZT/0.062 *ZT初始发行价 </p></li>
+                        <li><p>ab*****ua@163.com</p>
+                            <p>407/406</p>
+                            <p>8200ZT/0.063 *ZT初始发行价 </p></li>
+                        <li><p>36*****35@QQ.COM</p>
+                            <p>1496/405</p>
+                            <p>8000ZT/0.064 *ZT初始发行价 </p></li>
+                        <li><p>31******09@qq.com</p>
+                            <p>726/399</p>
+                            <p>7800ZT/0.065 *ZT初始发行价 </p></li>
+                        <li><p>25******88@qq.com</p>
+                            <p>486/392</p>
+                            <p>7600ZT/0.066 *ZT初始发行价 </p></li>
+                        <li><p>79*****61@qq.com</p>
+                            <p>393/390</p>
+                            <p>7400ZT/0.067 *ZT初始发行价 </p></li>
+                        <li><p>xx*****00@outlook.com</p>
+                            <p>470/373</p>
+                            <p>7200ZT/0.068 *ZT初始发行价 </p></li>
+                        <li><p>176****5419</p>
+                            <p>819/370</p>
+                            <p>7000ZT/0.069 *ZT初始发行价 </p></li>
+                        <li><p>li******88@163.com</p>
+                            <p>754/352</p>
+                            <p>6800ZT/0.07 *ZT初始发行价 </p></li>
+                        <li><p>10******16@qq.com</p>
+                            <p>370/347</p>
+                            <p>6600ZT/0.071 *ZT初始发行价 </p></li>
+                        <li><p>159****9523</p>
+                            <p>472/339</p>
+                            <p>6400ZT/0.072 *ZT初始发行价 </p></li>
+                        <li><p>ma*********ao@gmail.com</p>
+                            <p>816/327</p>
+                            <p>6200ZT/0.073 *ZT初始发行价 </p></li>
+                        <li><p>150****7865</p>
+                            <p>409/324</p>
+                            <p>6000ZT/0.074 *ZT初始发行价 </p></li>
+                        <li><p>158****4041</p>
+                            <p>625/320</p>
+                            <p>5800ZT/0.075 *ZT初始发行价 </p></li>
+                        <li><p>27******78@qq.com</p>
+                            <p>450/308</p>
+                            <p>5600ZT/0.076 *ZT初始发行价 </p></li>
+                        <li><p>132****8762</p>
+                            <p>302/302</p>
+                            <p>5400ZT/0.077 *ZT初始发行价 </p></li>
+                        <li><p>st**tw@163.com</p>
+                            <p>1369/301</p>
+                            <p>5200ZT/0.078 *ZT初始发行价 </p></li>
+                        <li><p>bi******58@163.com</p>
+                            <p>301/301</p>
+                            <p>5000ZT/0.079 *ZT初始发行价 </p></li>
+                        <li><p>sh********58@163.com</p>
+                            <p>301/300</p>
+                            <p>4800ZT/0.08 *ZT初始发行价 </p></li>
+                        <li><p>fe*******82@163.com</p>
+                            <p>296/295</p>
+                            <p>4600ZT/0.081 *ZT初始发行价 </p></li>
+                        <li><p>136****1331</p>
+                            <p>612/293</p>
+                            <p>4400ZT/0.082 *ZT初始发行价 </p></li>
+                        <li><p>li*******41@163.com</p>
+                            <p>681/279</p>
+                            <p>4200ZT/0.083 *ZT初始发行价 </p></li>
+                        <li><p>me*******89@163.com</p>
+                            <p>680/275</p>
+                            <p>4000ZT/0.084 *ZT初始发行价 </p></li>
+                        <li><p>185****2535</p>
+                            <p>1155/266</p>
+                            <p>3800ZT/0.085 *ZT初始发行价 </p></li>
+                        <li><p>a1********63@yeah.net</p>
+                            <p>642/264</p>
+                            <p>3600ZT/0.086 *ZT初始发行价 </p></li>
+                        <li><p>181****8858</p>
+                            <p>849/263</p>
+                            <p>3400ZT/0.087 *ZT初始发行价 </p></li>
+                        <li><p>su******18@163.com</p>
+                            <p>678/262</p>
+                            <p>3200ZT/0.088 *ZT初始发行价 </p></li>
+                        <li><p>ha***66@163.com</p>
+                            <p>668/260</p>
+                            <p>3000ZT/0.089 *ZT初始发行价 </p></li>
+                        <li><p>137****7217</p>
+                            <p>1342/253</p>
+                            <p>2800ZT/0.09 *ZT初始发行价 </p></li>
+                        <li><p>137****6388</p>
+                            <p>252/249</p>
+                            <p>2600ZT/0.091 *ZT初始发行价 </p></li>
+                        <li><p>181****0773</p>
+                            <p>573/234</p>
+                            <p>2400ZT/0.092 *ZT初始发行价 </p></li>
+                        <li><p>di******41@163.com</p>
+                            <p>635/231</p>
+                            <p>2200ZT/0.093 *ZT初始发行价 </p></li>
+                        <li><p>13*******58@139.com</p>
+                            <p>282/228</p>
+                            <p>2000ZT/0.094 *ZT初始发行价 </p></li>
+                        <li><p>27*****08@qq.com</p>
+                            <p>247/225</p>
+                            <p>1800ZT/0.095 *ZT初始发行价 </p></li>
+                        <li><p>186****1729</p>
+                            <p>394/223</p>
+                            <p>1600ZT/0.096 *ZT初始发行价 </p></li>
+                        <li><p>71*****04@qq.com</p>
+                            <p>1352/222</p>
+                            <p>1400ZT/0.097 *ZT初始发行价 </p></li>
+                        <li><p>159****2133</p>
+                            <p>915/221</p>
+                            <p>1200ZT/0.098 *ZT初始发行价 </p></li>
+                        <li><p>16******60@qq.com</p>
+                            <p>247/213</p>
+                            <p>1000ZT/0.099 *ZT初始发行价 </p></li>
+                        <li><p>32*****16@qq.com</p>
+                            <p>229/213</p>
+                            <p>800ZT/0.1 *ZT初始发行价 </p></li>
+                    </ul>
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+<script>
+    function copyUrl() {
+        var Url = document.getElementById("ztuserInput");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        alert("复制成功！")
+    }
+</script>
+<link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/jqueryToast/jquery.toast.min.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+<script src="/lib/others/jquery.nicescroll.min.js" type="text/javascript"></script>
+<script src="/lib/iscroll/iscroll.min.js" type="text/javascript"></script>
+<link href="/lib/jqueryToast/jquery.toast.min.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+<script src="/lib/bootstrap/dist/js/bootstrap.min.js?<%= VERSION %>" charset="utf-8"></script>
+<!--<script src="/src/scripts/jquery-ui.min.js"></script>-->
+<script src="/src/scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/src/scripts/login/jquery.drawsvg.min.js"></script>
+
+<!-- jQuery -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+<!-- Bootstrap js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- font awesome -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+<!-- jQuery Countdown plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+<!-- jQuery Easing Plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+<!-- jQuery progressbar plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+<!-- Bootstrap Progressbar -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+<!-- ImagesLoaded js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+<!-- Slick carousel js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
+<!-- Magnific popup -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+<!--2018年06月26日16:18:09-->
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+<script>
+    require(['vue', 'common/methods','common/juabox', 'clipboadrd', 'qrcode'], function(Vue, Methods,JuaBox, Clipboard, QRCode) {
+        new Vue({
+            el: '#ztuserContent',
+            data: function () {
+                return{
+                    List:[],
+                    reommendUrl: location.protocol + '//' + location.host + '/r/',
+                    myRecommend: [],
+                    pageIndex: 1,
+                    pageSize: 20,
+                    pageCount: 0,
+                    isLogin: ISLOGIN,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo') //用户信息
+                }
+            },
+            methods:{
+                //用户投资换币总额
+                toprecommends:function(){
+                    var that=this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +"/exchange/fund/controller/website/fundminerstatcontroller/toprecommends",
+                        success: function (res) {
+                            that.List=res.datas
+                        }.bind(this)
+                    });
+                },
+                copyUrl:function () {
+                    var Url = document.getElementById("commendInput");
+                    Url.select(); // 选择对象
+                    document.execCommand("Copy"); // 执行浏览器复制命令
+                    JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
+                },
+                // getmyRecommend: function () {
+                //     if (!this.isLogin) {
+                //         return false;
+                //     }
+                //     var data = {
+                //         pageIndex: this.pageIndex,
+                //         pageSize: this.pageSize,
+                //         userId: this.loginUser.userId
+                //     };
+                //
+                //     Methods.ajax({
+                //         url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'myRecommendList',
+                //         data: JSON.stringify(data),
+                //         success: function (res) {
+                //             this.myRecommend = res.datas.results;
+                //             this.pageCount = res.datas.results.length;
+                //         }.bind(this)
+                //     });
+                // },
+            },
+            mounted:function(){
+                // this.toprecommends();
+                // this.getmyRecommend();
+                if(this.isLogin){
+                    this.reommendUrl+=this.loginUser.recommendCode;
+                   QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
+                       width: 200,
+                       height: 200
+                   }, function (error) {
+                   });
+                }
+
+            }
+        })
+
+    })
+
+</script>
+

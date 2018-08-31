@@ -1,0 +1,292 @@
+<style>
+    .commom-panel {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .commom-panel .banner {
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        background-color: #0b2645;
+        background-image: linear-gradient(45deg, #0b2645, #114f7e);
+        background-repeat: repeat-x;
+        position: relative;
+        padding: 120px 0 50px;
+        text-align: center;
+
+    }
+
+    .commom-panel .banner .info {
+        position: relative;
+    }
+
+    .commom-panel .banner .logo {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner h2 {
+        font-size: 30px;
+        color: #fff;
+    }
+
+    .commom-panel .content {
+        padding-top: 50px;
+    }
+
+    .commom-panel .content .box {
+        padding-bottom: 30px;
+        color: #666;
+    }
+
+    .commom-panel .content .box .info {
+        width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .commom-panel .content .box .info > h3 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #000;
+    }
+
+    .commom-panel .content .box .info > h4 {
+        font-size: 16px;
+        margin: 30px 0 20px 0;
+        color: #333;
+    }
+
+    .commom-panel .content .box .info > p {
+        line-height: 30px;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+
+    .commom-panel .content .box .info ul {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 80px;
+    }
+
+    .commom-panel .content .box .info ul li {
+        flex: none;
+        width: 20%;
+        text-align: center;
+        line-height: 28px;
+    }
+
+    .commom-panel .banner .subtitle {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .subtitle p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .commom-panel .btn {
+        margin-top: 40px;
+    }
+
+    .commom-panel .btn a {
+        display: inline-block;
+        padding: 13px 50px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 14px;
+        background: #df1a14;
+    }
+
+    .winning {
+        display: none;
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(19, 19, 28, 0.95);
+        z-index: 9999;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .winning-box {
+        width: 700px;
+        position: relative;
+    }
+
+    .winning-box .close {
+        position: absolute;
+        background: #ffb400;
+        color: #fff;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 30px;
+        right: 0;
+        top: 0;
+        font-weight: bold;
+    }
+
+    .winning-box .info {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 150px;
+        text-align: center;
+    }
+
+    .winning-box .info p {
+        color: #ffb400;
+        font-size: 130px;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, .2);
+    }
+
+    .winning-box .info a {
+        display: inline-block;
+        padding: 15px 80px;
+        border-radius: 50px;
+        font-size: 18px;
+        color: #fff;
+        margin-top: 80px;
+        background-image: -moz-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -ms-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+
+    }
+</style>
+<div class="commom-panel" id="giftCoin">
+    <div class="banner">
+
+        <div class="info">
+            <div class="logo"><img src="/src/images/home/mco/logo.svg" style="width: 100px;"/></div>
+            <h2>MCO</h2>
+            <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;"><%= LANG('EXX注册用户可随机领取0.1~1 MCO')%>
+            </div>
+            <p v-cloak="" v-if="isLogin && (loginUser.emailAuth == 0 || loginUser.mobileAuth == 0)">（<%=
+                LANG('需完成手机和邮箱认证')%>）</p>
+            <div class="btn">
+                <a role="button" target="_self" style="background-color: #666;"><%= LANG('活动已结束')%></a>
+            </div>
+            <!--<div class="btn" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('立即领取')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%= LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button" v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin"><%= LANG('领取成功')%></a>
+                <a @click="applyGift" role="button" v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin"><%= LANG('立即领取')%></a>
+            </div>-->
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="box">
+            <div class="info">
+                <h3>Monaco（MCO）简介:</h3>
+                <p>全称：Monaco</p>
+                <p>缩写：MCO</p>
+                <p>官网：mona.co</p>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3>关于 Monaco</h3>
+                <p>作为开创性的加密货币支付平台，MONACO 科技公司旨在让用户能够以最佳的银行中间汇率购买、转换并使用比特币、以太币等加密货币。用户能以最佳的银行中间汇率使用货币与汇款，每花费 500 美元即可节省
+                    30-40 美元。Monaco 白金卡以精美的金属复合材料制造，是替代所有常用卡的最佳选择。Monaco 总部设于瑞士，香港及新加坡均设有办事处。</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="info">
+                <h3>Monaco 手机应用程序</h3>
+                <p>通过 Monaco 手机应用程序，用户能够购买及兑换加密货币，用户间更可以实现免费、即时的转账。收款人可立即收到款项，并通过 Monaco Visa 预付卡使用。</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="info">
+                <h3>Monaco VISA 预付卡</h3>
+                <h4>Monaco 白金卡以精美的金属复合材料制造，用户每次刷卡都能获得以下三个待遇：</h4>
+                <p>最佳的银行中间汇率，大量节省手续费及额外费用，没有月费及年费</p>
+                <p>每次购物都能获得高达 2%的数字货币回赠</p>
+                <p>亮点－这是每个人都会感到好奇及渴望得到的卡</p>
+                <div style="width: 500px;margin-top: 50px;"><img src="/src/images/home/mco/banner.png"/></div>
+            </div>
+        </div>
+
+
+        <div class="box">
+            <div class="info">
+                <h3>产品系列</h3>
+                <p>（从左至右）深蓝色（经典版塑料材质卡）、红钻、玫瑰金、太空灰（白金级金属卡）、以及黑钻（限量版白金卡），如欲查询更多 Monaco Visa 预付卡资料，请访问 mona.co。</p>
+                <div style="width: 800px;margin-top: 50px;"><img src="/src/images/home/mco/visa.png"/></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3>融资情况</h3>
+                <p>Monaco 现已筹得 2,670 万美元</p>
+            </div>
+        </div>
+
+
+        <div class="box">
+            <div class="info">
+                <h3>公司发展里程碑</h3>
+                <h4>2016年</h4>
+                <p>6 月 - Monaco 公司成立</p>
+                <p>9 月 - 取得发卡许可</p>
+                <p>10 月 - 完成产品雏型</p>
+                <p>11 月 - 参与亚洲领先的金融科技加速器“SuperCharger” </p>
+                <h4>2017年</h4>
+                <p>2 月 - 加入香港政府数码港孵化器</p>
+                <p>4 月 - 完成 SuperCharger，并在香港交易所举行的“演示日”展示其理念</p>
+                <p>5 月 - 推出代币销售</p>
+                <p>6 月 - 筹得 2,670 万美元，并位列 2017 年全球十大代币销售交易之一</p>
+                <p>7 月 - 在全球交易量最高的数字资产交易所 Bittrex 上市</p>
+                <p>8 月 23 日 - 在中国增速最快的区块链交易所“币安”Binance 上市</p>
+                <p>8 月 31 日 - 推出 Monaco iOS 及安卓手机应用程序</p>
+                <p>10 月 11 日 – Brent Diehl 出任 Monaco 全球业务拓展高级副总裁</p>
+                <p>10 月 31 日 – Monaco 卡项目获批</p>
+                <p>11 月 14 日 – Monaco 向金雅拓定制 500,000 创新型金属材质卡片</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="info">
+                <h3>公司使命</h3>
+                <p>Monaco 的愿景是让每个人的钱包里都拥有加密货币。合规性是我们的核心，Monaco 利用区块链技术建立创新服务并将加密货币带给大众。透过提供具高影响力和直观的金融产品，Monaco
+                    让每个人都可以轻松地节省资金，同时在全球各地使用加密货币。</p>
+            </div>
+        </div>
+    </div>
+
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winning.png"/>
+                <div class="info">
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                    <a href="/u/asset" target="_self"><%- LANG('立即查看') %></a>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <modal v-cloak :open="showModal == 'setMobile'" @close="showModal = false">
+        <set-mobile/>
+    </modal>
+
+    <modal v-cloak :open="showModal == 'setEmail'" @close="showModal = false">
+        <set-email/>
+    </modal>
+</div>
+<%-include("app.getCoin.html" ,{giftCoin: 'mco'})%>

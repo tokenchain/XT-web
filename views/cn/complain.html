@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+
+<head>
+    <%-include("include/headInit.html")%>
+        <%-include("include/headMeta.html")%>
+</head>
+
+<body>
+    <header class="complainheader header">
+        <div class="logo">
+            <a href="/">
+                <img src="/src/images/zbgLogo.png" alt="徽标">
+            </a>
+        </div>
+    </header>
+    <section class="complain-center">
+        <% try{ %>
+            <%-include(templateMain)%>
+                <% }catch(err){ %>
+                    <%- err%>
+                        <%-include("include/error.html")%>
+                            <% } %>
+    </section>
+    <%-include("chat/chat_new.html")%>
+        <%-include("include/footInit.html")%>
+</body>
+
+</html>
+<!--投诉模板-->
+<style>
+    .complainheader {
+        background-color: #ffffff;
+        border-bottom: 1px solid #ccc
+    }
+
+    .complain-center {
+        min-height: calc(100vh - 60px);
+        padding: 50px 0;
+        background-color: #ffffff;
+    }
+</style>

@@ -1,0 +1,140 @@
+<div id="app-apply">
+    <div class="exx-title">
+        <h2><%= LANG('申请成为认证商家') %></h2>
+    </div>
+    <div class="seller-loading">
+        <ul>
+            <li>
+                <span class="circle">1</span>
+                <p><%= LANG('准备资料') %></p>
+            </li>
+            <li>
+                <span class="circle">2</span>
+                <p><%= LANG('提交申请') %></p>
+            </li>
+            <li>
+                <span class="circle">3</span>
+                <p><%= LANG('发送邮件') %></p>
+            </li>
+            <li>
+                <span class="circle">4</span>
+                <p><%= LANG('审核通过') %></p>
+            </li>
+        </ul>
+    </div>
+    <div class="seller-content" v-cloak="">
+        <!--<div class="seller-img-group">
+            <div class="seller-img-item">
+                <img src=""/>
+                <h5><%= LANG('一对一服务') %></h5>
+            </div>
+            <div class="seller-img-item">
+                <img src=""/>
+                <h5><%= LANG('赚取差价') %></h5>
+            </div>
+        </div>-->
+        <div class="seller-tip-box" v-if="statusInfo">
+            <p><%= LANG('认证商家状态') %>：<span style="color:#ff9d11; ">{{putStatus}}</span></p>
+        </div>
+
+        <div class="seller-tip-box">
+            <p><%- LANG('请将如下材料用邮件发送至 jin@exx.com ，我们将尽快对您的申请进行审核。') %></p>
+            <div class="seller-info-group">
+                <p><%= LANG('EXX账户名') %></p>
+                <p><%= LANG('联系电话') %></p>
+                <p><%= LANG('个人QQ') %></p>
+                <p><%= LANG('个人微信') %></p>
+                <p><%= LANG('是否有相应的风控策略') %></p>
+                <p><%= LANG('是否从事过数字资产的场外交易') %></p>
+                <p><%= LANG('个人资产(数字资产情况，近一个月银行流水情况)') %></p>
+            </div>
+        </div>
+        <template v-if="!statusInfo || statusInfo.merchantApply == 0 || statusInfo.merchantApply == 4">
+            <div class="exx-form-box" style="margin-top: 60px">
+                <div class="exx-form-group" style="text-align: center" >
+                    <div>
+                        <label style="display: inline-block">
+                            <input type="checkbox" v-model="btnClick">&nbsp;<%= LANG('我已同意') %>
+                        </label>
+                        <a style="color:#ff9d11;" href="https://www.exx.com/help/display?id=364&cid=6002&fid=6" target="_blank"><%= LANG('《商家认证服务协议》') %></a>
+                    </div>
+
+
+                </div>
+                <div class="exx-form-group" style="text-align: center" v-cloak="">
+                    <button type="button" v-if="!locked" @click="doSubmit" class="exxbtn btn-ok" style="width: 300px" :disabled="!btnClick" :style="{background:btnClick?'':'#cecece'}"><span><%= LANG('提交') %></span></button>
+                    <button type="button" v-if="locked" class="exxbtn btn-ok" style="width: 300px" :style="{background:locked?'#cecece':''}"><span><%= LANG('正在处理') %></span></button>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        new Vue({
+            el: "#app-apply",
+            data: function() {
+                return {
+                    locked : false,
+                    btnClick:false,
+                    statusInfo:''
+                }
+            },
+            computed : {
+                putStatus:function(){
+                    if(this.statusInfo){
+                        switch(this.statusInfo.merchantApply){
+                            case 0:
+                                return "<%= LANG('普通用户') %>"
+                            case 1:
+                                return "<%= LANG('已申请，请耐心等候审核结果') %>"
+                            case 2:
+                                return "<%= LANG('资质商户') %>"
+                            case 3:
+                                return "<%= LANG('您的商户权限被冻结，请联系客服') %>"
+                            case 4:
+                                return "<%= LANG('申请失败') %>"
+                        }
+                    }
+                }
+            },
+            methods: {
+                doSubmit : function (id) {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    this.locked = true
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'registerMerchant',
+                        success: function(res) {
+                            this.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                window.location.reload();
+                            })
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                getMerchantInfo:function(){
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'userinfo',
+                        success: function(res) {
+                            this.statusInfo = res.datas
+                        }.bind(this)
+                    });
+                }
+            },
+            created: function(){
+            },
+            mounted:function(){
+                this.getMerchantInfo()
+            }
+        });
+    })
+</script>

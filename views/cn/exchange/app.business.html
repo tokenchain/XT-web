@@ -1,0 +1,82 @@
+<script>
+    require(['vue','common/methods'], function (Vue, Methods) {
+        new Vue({
+            el: "#ex-business",
+            data: function () {
+                return {
+                    loaded:false,
+                    uid:Methods.getUrlparm('userId') || '',
+                    uInfo:'',
+                    payment : {
+                        '1' : "<%- LANG('微信')%>",
+                        '2' : "<%- LANG('支付宝')%>",
+                        '3' : "<%- LANG('银行转账')%>"
+                    }
+                }
+            },
+            computed : {
+                putFirstTime:function(){
+                    if(this.uInfo.firstTradeTime){
+                        return  Methods.getDateTime(this.uInfo.firstTradeTime,'YYYY-MM-DD HH:MM')
+                    }else{
+                        return "<%- LANG('尚未交易')%>"
+                    }
+                }
+            },
+            methods: {
+                getPayment : function (val) {
+                    if(!val){
+                        return ''
+                    }
+                    var arr = (val + '').split('|');
+                    var result = [];
+                    for(var i = 0, ilen = arr.length; i < ilen; i ++){
+                        result.push(this.payment[arr[i] + '']);
+                    }
+                    return result.join(',');
+                },
+                getCoin:function(market){
+                    return !market ? '' : market.split('_')[0];
+                },
+                getMoney:function(market){
+                    return !market ? '' : market.split('_')[1];
+                },
+                getCoinName:function(market){
+                    return !market ? '' : market.split('_')[0].toUpperCase();
+                },
+                getMoneyName:function(market){
+                    return !market ? '' : market.split('_')[1].toUpperCase();
+                },
+                getOtherInfo:function(uid){
+                    if(!this.uid){
+                        return JuaBox.info('error user id.')
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        data : {
+                            userId:this.uid
+                        },
+                        url: DOMAIN_MAIN + API_PREFIX + 'getOtherInfo',
+                        success: function(res) {
+                            this.uInfo = res.datas;
+                        }.bind(this),
+                    });
+                },
+                setOtherInfo:function(){
+                    this.loaded = true;
+                }
+            },
+            created: function() {
+
+            },
+            mounted : function () {
+                this.getOtherInfo();
+            },
+            watch:{
+                uInfo:function(){
+                    this.setOtherInfo();
+                }
+            }
+        })
+    })
+</script>

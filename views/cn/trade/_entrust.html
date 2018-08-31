@@ -1,0 +1,402 @@
+<script type="text/x-template" id="modal-entrust">
+  <div class="mobile" v-if="isMobile">
+    <div class="mobile_bill dark">
+      <div class="mobile_bill_head" :class="{open: showMobileRecordSelect}">
+        <h3>{{marketDisplay}}<%= LANG('委托记录') %></h3>
+        <div class="tab">
+          <p @click="showMobileRecordSelect = !showMobileRecordSelect">
+              <template v-if="showTab == 'going'"><%= LANG('进行中的委托') %></template>
+              <template v-if="showTab == 'history'"><%= LANG('历史委托') %></template>
+          </p>
+          <ul>
+              <li @click="swiftTab('going')" :class="{on: showTab == 'going'}"><a><%= LANG('进行中的委托') %></a></li>
+              <li @click="swiftTab('history')" :class="{on: showTab == 'history'}"><a><%= LANG('历史委托') %></a></li>
+          </ul>
+        </div>
+      </div>
+
+        <div v-cloak v-if="showTab == 'going'" class="mobile_bill_body">
+            <div class="mobile_bill_list">
+                <div class="mobile_entrust_hd">
+                    <p>委托记录/时间</p>
+                    <p>成交量/状态</p>
+                </div>
+                <div class="mobile_entrust_item" :class="item[5] == 1 ? 'buy' : 'sell'" v-for="item in entrustProcessingRecord" >
+                    <div class="hd">
+                        <div class="line">
+                            <div class="info">
+                                <div class="number">{{item[1]}}<em>{{getRealCoinName(moneyType).toUpperCase()}}</em></div>
+                                <div class="type"  :class="item[5] == 1 ? 'red' : 'green'">{{item[5] == 1 ? "<%= LANG('买')%>" : "<%= LANG('卖')%>"}}</div>
+                                <div class="number">{{item[2]}}<em>{{getRealCoinName(coinType).toUpperCase()}}</em></div>
+                            </div>
+                            <div class="number">{{item[3]}} {{getRealCoinName(coinType).toUpperCase()}}</div>
+                        </div>
+                        <div class="line">
+                            <div class="time">{{getDataTime(item[6])}}</div>
+                            <div class="state in">
+                                <template v-if="item[7] == 0"><a @click="handleEntrustCancel(item[0],0)"><%= LANG('取消') %></a></template>
+                                <template v-if="item[7] == 3"><%= LANG('交易中') %><a @click="handleEntrustCancel(item[0],0)"><%= LANG('取消') %></a></template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bd" v-if="marketConfig[market]">
+                        <div class="number">
+                          <span>均价</span>{{fixNumber(item[4]/item[3] || 0 ,marketConfig[market].moneyDecimal)}}<em>{{getRealCoinName(moneyType).toUpperCase()}}</em>
+                        </div>
+                        <div class="number">
+                          <span>成交额</span>{{fixNumber(item[4],marketConfig[market].amountDecimal)}}<em>{{getRealCoinName(moneyType).toUpperCase()}}</em>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="entrustProcessingRecord == 0" class="no-items" v-cloak=""><%= LANG('暂无记录')%></div>
+                <page-lite v-else :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getEntrustRecord('3')"></page-lite>
+            </div>
+        </div>
+
+        <div v-if="showTab == 'history'" class="mobile_bill_body">
+            <div class="mobile_bill_list">
+                <div class="mobile_entrust_hd">
+                    <p>委托记录/时间</p>
+                    <p>成交量/状态</p>
+                </div>
+                <div class="mobile_entrust_item" :class="item[5] == 1 ? 'buy' : 'sell'" v-for="item in entrustRecord" >
+                    <div class="hd">
+                        <div class="line">
+                            <div class="info">
+                                <div class="number">{{item[1]}} {{getRealCoinName(moneyType).toUpperCase()}}</div>
+                                <div class="type"  :class="item[5] == 1 ? 'red' : 'green'">{{item[5] == 1 ? "<%= LANG('买')%>" : "<%= LANG('卖')%>"}}</div>
+                                <div class="number">{{item[2]}} {{getRealCoinName(coinType).toUpperCase()}}</div>
+                            </div>
+                            <div class="number">{{item[3]}} {{getRealCoinName(coinType).toUpperCase()}}</div>
+                        </div>
+                        <div class="line">
+                            <div class="time">{{getDataTime(item[6])}}</div>
+                            <div class="state in">
+                                <template v-if="item[7] == 1"><%= LANG('已取消')%></template>
+                                <template v-if="item[7] == 2"><%= LANG('已成交')%></template>
+                                <template v-if="item[7] == 3"><%= LANG('交易中') %><a @click="handleEntrustCancel(item[0],0)"><%= LANG('取消') %></a></template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bd" v-if="marketConfig[market]">
+                        <div class="number">
+                            <span>均价</span>{{fixNumber(item[4]/item[3] || 0 ,marketConfig[market].moneyDecimal)}} {{getRealCoinName(moneyType).toUpperCase()}}
+                        </div>
+                        <div class="number">
+                            <span>成交额</span>{{fixNumber(item[4],marketConfig[market].amountDecimal)}} {{getRealCoinName(moneyType).toUpperCase()}}
+                        </div>
+                    </div>
+                </div>
+                <div v-if="entrustRecord.length == 0" class="no-items" v-cloak=""><%= LANG('暂无记录')%></div>
+                <page-lite v-if="entrustRecord.length" :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getEntrustRecord('1,2')"></page-lite>
+            </div>
+        </div>
+
+    </div>
+
+  </div>
+
+
+  <div v-else class="exx-modal-container exx-light" style="width: 800px;" >
+
+    <div class="exx-modal-header"><h3>{{marketDisplay}}<%= LANG('委托记录') %></h3></div>
+    <div class="exx-modal-body">
+      <div class="vue-main">
+        <div class="exx-tab">
+          <ul>
+          <li @click="swiftTab('going')" :class="{active: showTab == 'going'}"><span><%= LANG('正在进行的委托') %></span></li>
+          <li @click="swiftTab('history')" :class="{active: showTab == 'history'}"><span><%= LANG('历史委托') %></span></li>
+          </ul>
+        </div>
+        <div v-if="showTab == 'going'" class="entrust-record">
+          <div class="exx-table">
+            <table>
+              <thead>
+              <tr>
+                <th class="type"></th>
+                  <th class="date"><%= LANG('时间/序号') %></th>
+                  <th class="num_price"><%= LANG('委托量') %>({{getRealCoinName(coinType).toUpperCase()}})/<%= LANG('价格') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                  <th class="deal_price"><%= LANG('成交量') %>({{getRealCoinName(coinType).toUpperCase()}})/<%= LANG('均价') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                  <th class="totalMoney"><%= LANG('成交额') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                  <th class="actions"><%= LANG('状态/操作') %> </th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr v-if="entrustProcessingRows == 0" class="no-items">
+                  <td colspan="6"><span><%= LANG('暂无记录') %></span></td>
+                </tr>
+                <tr v-for="item in entrustProcessingRows" class="sell">
+                  <td class="type ">
+                    <span class="buy" v-if="item.type ==1"><%= LANG('买') %></span>
+                    <span class="sell" v-if="item.type ==0"><%= LANG('卖') %></span>
+                  </td>
+                  <td class="date ">{{displayDateTime(item.date)}}</td>
+                  <td class="num_price">
+                    <div v-html="displayNumberPrice(item)" ></div>
+                  </td>
+                  <td class="deal_price ">
+                    <div v-html="displayAvgPrice(item)" ></div>
+                  </td>
+                  <td class="totalMoney ">
+                    <div v-html="displayCostPrice(item)" ></div>
+                  </td>
+                  <td class="actions ">
+                    <a @click="handleEntrustCancel(item.id, item.isReal)"><%= LANG('取消') %></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getEntrustRecord('3')"></page-lite>
+            <!--
+            <json-table :settings="entrustTableSettings" class="sell" :columns="entrustCols" :rows="entrustProcessingRows" ></json-table>
+            -->
+          </div>
+        </div>
+
+        <div v-if="showTab == 'history'" class="entrust-record">
+          <div class="exx-table">
+            <table>
+              <thead>
+              <tr>
+                <th class="type"></th>
+                <th class="date"><%= LANG('时间/序号') %></th>
+                <th class="num_price"><%= LANG('委托量') %>({{getRealCoinName(coinType).toUpperCase()}})/<%= LANG('价格') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                <th class="deal_price"><%= LANG('成交量') %>({{getRealCoinName(coinType).toUpperCase()}})/<%= LANG('均价') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                <th class="totalMoney"><%= LANG('成交额') %>({{getRealCoinName(moneyType).toUpperCase()}}) </th>
+                <th class="actions"><%= LANG('状态/操作') %> </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-if="entrustRows == 0" class="no-items">
+                <td colspan="6"><span><%= LANG('暂无记录') %></span></td>
+              </tr>
+              <tr v-for="item in entrustRows">
+                <td class="type ">
+                  <span class="buy" v-if="item.type ==1"><%= LANG('买') %></span>
+                  <span class="sell" v-if="item.type ==0"><%= LANG('卖') %></span>
+                </td>
+                <td class="date ">{{displayDateTime(item.date)}}</td>
+                <td class="num_price">
+                  <div v-html="displayNumberPrice(item)" ></div>
+                </td>
+                <td class="deal_price ">
+                  <div v-html="displayAvgPrice(item)" ></div>
+                </td>
+                <td class="totalMoney ">
+                  <div v-html="displayCostPrice(item)" ></div>
+                </td>
+                <td class="actions ">
+                  <a class="act-cancel" v-if="item.status == 0 || item.status == 3" @click="handleEntrustCancel(item.id, item.isReal)"><%= LANG('取消') %></a>
+                  <span v-if="item.status == 1" class='canceled'><%= LANG('已取消') %></span>
+                  <span v-if="item.status == 2" class='success'><%= LANG('已成交') %></span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" v-on:turnPage="getEntrustRecord('1,2')"></page-lite>
+            <!--
+            <json-table :settings="entrustTableSettings" class="sell" :columns="entrustCols" :rows="entrustRows" ></json-table>
+            -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('modal-entrust', {
+            template: "#modal-entrust",
+            props: {
+                params: {
+                    type: Object,
+                    default: {}
+                }
+            },
+            data: function () {
+                return {
+                    /*sharedState: store.state,*/
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageCount: 0,
+                    market: '<%= market %>',
+                    marketConfig: {},
+                    isMobile: Methods.isMobile(),
+                    coinType: '<%= market.split("_")[0] %>',
+                    moneyType: '<%= market.split("_")[1] %>',
+                    showMobileRecordSelect: false,
+                    showTab: 'going',
+                    entrustRecord: [],
+                    entrustProcessingRecord: [],
+                    dealRecordCols: [
+                        {
+                            label: "<%= LANG('成交时间') %>", key: 'date', cell: function (item) {
+                            return Methods.getDateTime(parseInt(item.date * 1000), 'HH:MM');
+                        }
+                        },
+                        {label: "<%= LANG('价格') %>", key: 'price'},
+                        {label: "<%= LANG('数量') %>", key: 'amount'}
+                    ]
+                }
+            },
+            computed: {
+                entrustRows: function () {
+                    return this.formatRecord(this.entrustRecord);
+                },
+                entrustProcessingRows: function () {
+                    return this.formatRecord(this.entrustProcessingRecord);
+                },
+                marketDisplay: function () {
+                    return this.params.market.split('_').join('/').toUpperCase();
+                },
+                moneyPrice: function () {
+                    return EXX.tradeMain ? EXX.tradeMain.moneyPrice : this.$parent.$parent.assistPrice[this.$parent.$parent.showAssistCoin().toLowerCase()][this.$parent.$parent.coin];
+                },
+                currentPriceType: function () {
+                    return EXX.tradeMain.currentPriceType;
+                }
+            },
+            methods: {
+                fixNumber: function (value, unit) {
+                    return Methods.fixNumber(value, unit);
+                },
+                swiftTab: function (type) {
+                    this.showTab = type;
+                    this.pageIndex = 1;
+                    this.pageSize = 10;
+                    this.showMobileRecordSelect = false
+                    if(type == 'going'){
+                        this.getEntrustRecord('3');
+                    }else{
+                        this.getEntrustRecord('1,2');
+                    }
+                },
+                //去掉虚拟市场货币的D字符
+                getRealCoinName: function (coin) {
+                    if (coin.length > 3 && coin.substring(0, 1) == 'd') {
+                        return coin.substring(1);
+                    } else {
+                        return coin;
+                    }
+                },
+                getDataTime: function (data) {
+                    return Methods.getDateTime(data)
+                },
+                displayDateTime: function (date) {
+                    return Methods.getDateTime(date);
+                },
+                getCoinPrice: function (date) {
+
+                },
+                /*getMoneyDisplay: function(num, coin) {
+                  var allPriceRate = this.sharedState.allPriceRate;
+                  var price = allPriceRate[this.currentPriceType][coin];
+                  return price && num ? Methods.numMultiply(num, price) : 0;
+                },*/
+                displayNumberPrice: function (item) {
+                    var price = Methods.numSqxsw((Number(item.num_price[1]) * this.moneyPrice), 3);
+                    return "<span>" + Methods.numSqxsw(item.num_price[0], this.marketConfig[this.market].coinDecimal) + "</span>&nbsp;/&nbsp;<span data-toggle='tooltip' data-placement='top' title='<%= LANG('当前价') %><%= LANG('折合') %>" + price + "'>" + Methods.numSqxsw(item.num_price[1], this.marketConfig[this.market].moneyDecimal) + "</span>"
+                },
+                displayAvgPrice: function (item) {
+                    var avgPrice = Methods.numSqxsw((Number(item.deal_price[1]) * this.moneyPrice), 3);
+                    return "<span>" + Methods.numSqxsw(item.deal_price[0], this.marketConfig[this.market].coinDecimal) + "</span>&nbsp;/&nbsp;<span data-toggle='tooltip' data-placement='top' title='<%= LANG('当前价') %><%= LANG('折合') %>" + avgPrice + "'>" + Methods.numSqxsw(item.deal_price[1], this.marketConfig[this.market].moneyDecimal) + "</span>"
+                },
+                displayCostPrice: function (item) {
+                    var sum = Methods.numSqxsw((Number(item.totalMoney[0]) * this.moneyPrice), this.marketConfig[this.market].amountDecimal);
+                    var cost = Methods.numSqxsw((Number(item.totalMoney[1]) * this.moneyPrice), this.marketConfig[this.market].amountDecimal);
+                    return "<span data-toggle='tooltip' data-placement='top' title='<%= LANG('当前价折合') %>" + sum + "'>" + item.totalMoney[0] + "</span>"
+
+                },
+                formatRecord: function (record) {
+                    var rows = [];
+                    var entrust = record || [];
+                    entrust.forEach(function (b) {
+                        var item = {};
+                        item.isReal = b.length >= 16 ? true : false;
+                        item.id = b[0];
+                        item.num_price = [b[2], b[1]];
+                        item.deal_price = [b[3], (Number(b[3] == 0 ? 0 : b[4] / b[3]))];
+                        item.totalMoney = [b[4], b[8]];
+                        item.type = b[5];
+                        item.date = b[6];
+                        item.status = b[7];
+                        rows.push(item);
+                    });
+                    return rows;
+                },
+                // 获取市场配置
+                getMarketConfig: function (callback) {
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        success: function (res) {
+                            this.marketConfig = res.datas;
+                            if (typeof callback == 'function') {
+                                callback();
+                            }
+                        }.bind(this)
+                    });
+                },
+                //获取用户委托记录
+                getEntrustRecord: function (status) {
+                    // status 0不限制 1 已取消成功 2 交易成功 3 交易中
+                    var status = status || '0';
+                    var data = {
+                        // status: status,
+                        // market: this.params.market,
+                        // userId: this.params.userId,
+                        // pageIndex: this.pageIndex,
+                        // pageSize: this.pageSize
+                        marketId: this.params.market,
+                        userId: this.params.userId
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_TRADE + API_PREFIX + 'getEntrustRecord',
+                        data: data,
+                        success: function (res) {
+                            this.pageCount = res.datas.record.length;
+                            if (status == 3) {
+                                this.entrustProcessingRecord = res.datas.record;
+                            } else {
+                                this.entrustRecord = res.datas.record;
+                            }
+                        }.bind(this)
+                    });
+                },
+                handleEntrustCancel: function (id, isReal) {
+                    var data = {
+                        // isReal: isReal,
+                        marketId: this.params.market,
+                        // userId: this.params.userId,
+                        entrustId: id
+                    };
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
+                        url: DOMAIN_DEV + '/entrust/entrustController/' + 'cancelEntrust',
+                        data: data,
+                        success: function (res) {
+                            $.toast({
+                                heading: 'Success',
+                                text: '<%= LANG("取消委托成功") %>',
+                                showHideTransition: 'plain',
+                                icon: 'success'
+                            });
+                            if(this.showTab == 'going'){
+                                this.getEntrustRecord('3');
+                            }else{
+                                this.getEntrustRecord('1,2');
+                            }
+                        }.bind(this)
+                    });
+                }
+            },
+            created: function () {
+                this.getMarketConfig();
+                //this.getEntrustRecord('1,2');
+                this.getEntrustRecord('3');
+            }
+        });
+    })
+</script>

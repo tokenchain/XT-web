@@ -1,0 +1,239 @@
+  <div class="content" :class="{'loaded': loaded}" id="safe-index">
+
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li class="dashboard">Dashboard</li>
+        <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+        <li><a href="/u"><%= LANG('账户面板') %></a></li>
+        <li class="is-active"><a href="/u/safe"><%= LANG('基本信息') %></a></li>
+      </ul>
+    </nav>
+
+    <h2 class="mt0"><%= LANG('基本信息') %></h2>
+    <ul class="pd-fff list-settings">																														                                                      <!--yyyy年MM月dd日  -->
+      <li>
+        <div class="row">
+          <div class="col-md-6">
+            <%= LANG('上次登录IP') %>：<span class="vue-init">{{lastLogin.ip}}</span>
+          </div>
+          <div class="col-md-6 text-right">
+            <%= LANG('上次登录时间') %>：<span class="vue-init">{{lastLogin.time}}</span>
+          </div>
+        </div>
+      <li>
+        <div class="col-md-4">
+          <%= LANG('登录密码') %>：<span class="vue-init">{{userInfo.loginPwd != 0 ? "<%= LANG('已设置') %>" : "<%= LANG('未设置') %>"}}</span>
+        </div>
+        <div class="col-md-4 vue-init">
+          <%= LANG('安全性') %>：
+          <span v-if="userInfo.loginPwdLevel <= 2" class="di"><%= LANG('弱') %></span>
+          <span v-if="userInfo.loginPwdLevel > 2 && userInfo.loginPwdLevel <= 3" class="di"><%= LANG('中') %></span>
+          <span v-if="userInfo.loginPwdLefel > 3" class="gao"><%= LANG('高') %></span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm" href="/u/safe/setLoginPwd"><%= LANG('修改') %></a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          <%= LANG('资金密码') %>：<span class="vue-init">{{userInfo.safePwd != 0 ? "<%= LANG('已设置') %>" : "<%= LANG('未设置') %>"}}</span>
+        </div>
+        <div class="col-md-4 vue-init">
+          <%= LANG('安全性') %>：
+          <span v-if="userInfo.safePwdLevel <= 40" class="di"><%= LANG('弱') %></span>
+          <span v-if="userInfo.safePwdLevel > 40 && userInfo.safePwdLevel <= 60" class="di"><%= LANG('中') %></span>
+          <span v-if="userInfo.safePwdLevel > 60" class="gao"><%= LANG('高') %></span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm" href="/u/safe/setSafePwd"><%= LANG('修改') %></a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          <%= LANG('邮箱') %>：<span class="vue-init">{{userInfo.email}}</span>
+        </div>
+        <div class="col-md-4 vue-init">
+          <span class="not-auth" v-if="userInfo.emailAuth == 0"><%= LANG('未认证') %></span>
+          <span class="auth" v-if="userInfo.emailAuth == 1"><%= LANG('已认证') %></span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm" href="/u/safe/setEmail"><%= LANG('认证') %></a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          <%= LANG('手机') %>：<span class="vue-init">{{coverPhone}}</span>
+        </div>
+        <div class="col-md-4 vue-init">
+          <span class="not-auth" v-if="userInfo.mobileAuth == 0"><%= LANG('未认证') %></span>
+          <span class="auth" v-if="userInfo.mobileAuth == 1"><%= LANG('已认证') %></span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm" href="/u/safe/setMobile"><%= LANG('修改') %></a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          <%= LANG('Google验证') %>
+        </div>
+        <div class="col-md-4 vue-init">
+          <span class="not-auth" v-if="userInfo.googleAuth == 0"><%= LANG('未认证') %></span>
+          <span class="auth" v-if="userInfo.googleAuth == 1"><%= LANG('已认证') %></span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a v-if="userInfo.googleAuth == 0" class="btn btn-primary btn-sm" href="/u/safe/setGoogle"><%= LANG('认证') %></a>
+          <template v-else>
+            <a class="btn btn-primary btn-sm" href="/u/safe/setGoogle?type=2"><%= LANG('修改') %></a>
+            <a class="btn btn-primary btn-sm" href="/u/safe/setGoogle?type=0"><%= LANG('关闭') %></a>
+          </template>
+        </div>
+      </li>
+    </ul>
+    <!--
+    <h2>安全设置</h2>
+    <ul class="pd-fff list-settings">
+      <li>
+        <div class="col-md-4">
+          交易时使用二级密码
+        </div>
+        <div class="col-md-4 vue-init">
+          <span v-if="userInfo.tradeAuth == 0">未选择</span>
+          <span v-if="userInfo.tradeAuth == 1">永不输入二级密码</span>
+          <span v-if="userInfo.tradeAuth == 2">6小时内免输二级密码</span>
+          <span v-if="userInfo.tradeAuth == 3">每次交易均验证二级密码</span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm" href="#">开启</a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          异地登录验证
+        </div>
+        <div class="col-md-4">
+          <span v-if="userInfo.loginAuth > 2">已开启</span>
+          <span v-else>已关闭</span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a v-if="userInfo.loginAuth > 2" class="btn btn-primary btn-sm" v-on:click="setSafeStrategy(1,1)">关闭</a>
+          <a v-else class="btn btn-primary btn-sm" v-on:click="setSafeStrategy(1,3)">开启</a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          Google登录验证
+        </div>
+        <div class="col-md-4">
+          <span v-if="userInfo.loginAuth == 2 || userInfo.loginAuth == 4">已开启</span>
+          <span v-else>已关闭</span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm">开启</a>
+        </div>
+      </li>
+      <li>
+        <div class="col-md-4">
+          提现验证：Google验证码
+        </div>
+        <div class="col-md-4">
+          <span v-if="googlePayoutAuth">已开启</span>
+          <span v-else>已关闭</span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm">开启</a>
+        </div>
+      </li>
+
+      <li>
+        <div class="col-md-4">
+          提现验证：手机验证码
+        </div>
+        <div class="col-md-4">
+          <span v-if="mobilePayoutAuth">已开启</span>
+          <span v-else>已关闭</span>
+        </div>
+        <div class="col-md-4 text-right">
+          <a class="btn btn-primary btn-sm">关闭</a>
+        </div>
+      </li>
+
+    </ul>
+    -->
+  </div>
+
+<script>
+  require(['vue', 'common/methods', 'components/modal/index'], function(Vue, Methods) {
+    var safeIndex = new Vue({
+      el: "#safe-index",
+      data: function () {
+        return {
+          loaded: true,
+          googleCode: '',
+          safePwd: '',
+          dynamicCode: '',
+          lastLogin: {}
+        }
+      },
+      computed: {
+        userInfo: function () {
+          return Methods.getLocalUserInfo();
+        },
+        coverPhone: function () {
+          return Methods.coverPhone(this.userInfo.mobile);
+        },
+        diffIpLoginAuth: function () {
+          return this.userInfo.loginAuth > 2;
+        },
+        googleLoginAuth: function () {
+          return this.userInfo.loginAuth == 2 || this.userInfo.loginAuth == 4;
+        },
+        mobilePayoutAuth: function () {
+          return this.userInfo.payoutAuth == 1 || this.userInfo.payoutAuth == 3;
+        },
+        googlePayoutAuth: function () {
+          return this.userInfo.payoutAuth == 2 || this.userInfo.payoutAuth == 3;
+        },
+        googleAction: function () {
+          return this.userInfo.googleAuth;
+        }
+      },
+      methods: {
+        getLoginLogs: function () {
+          var data = {
+            type: 1,
+            pageSize: 1
+          };
+          var _this = this;
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getsafeLog',
+            data: data,
+            success: function (res) {
+              _this.lastLogin = res.datas.safeLogs[0];
+            }
+          });
+        },
+        setSafeStrategy: function(type, key){
+          var data = {
+            type: type,
+            key: key,
+            safePwd: this.safePwd,
+            dynamicCode: this.dynamicCode,
+            googleCode: this.googleCode
+          };
+          Methods.ajax({
+            type: 'POST',
+            url: DOMAIN_MAIN + API_PREFIX + 'doSetSafeStrategy',
+            data: data,
+            success: function (res) {
+              console.log(res);
+            }
+          });
+        }
+      },
+      mounted: function () {
+        this.getLoginLogs();
+      }
+    });
+  });
+</script>

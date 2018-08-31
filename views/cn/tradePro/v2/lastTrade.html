@@ -1,0 +1,197 @@
+<script type="text/x-template" id="deal-record">
+    <div class="newest-record">
+        <div class="newest-top">
+            <h3><%= LANG('最新成交')%></h3>
+        </div>
+        <div class="newest-head">
+            <p class="time"><span><%= LANG('成交时间')%></span></p>
+            <p><span><%= LANG('成交价')%>({{$parent.moneyName}})</span></p>
+            <p><span><%= LANG('折价')%>({{$parent.showAssistCoin()}})</span></p>
+            <p class="last"><span><%= LANG('交易量')%>({{$parent.coinName}})</span></p>
+        </div>
+        <div class="newest-list" id="tradeRecord">
+            <div :class="{'loading loading-light-bg' : !initRecord}"></div>
+            <ul class="tradeNew-table"></ul>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('deal-record', {
+            template: "#deal-record",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                dealRecord: {
+                    type: Array,
+                    default: function () {
+                        return []
+                    }
+                },
+                currentMarket : {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    tradeDate:new Date(),
+                    showAssistPrice : false,
+                    tradesLimit : 20,
+                    initRecord : false
+                }
+            },
+            computed: {
+            },
+            methods: {
+                dateFormatTf: function (i) {
+                    return (i < 10 ? '0' : '') + i;
+                },
+                dateFormat: function (currentDate) {
+                    return currentDate.getFullYear()
+                        + "-" + this.dateFormatTf(currentDate.getMonth() + 1)
+                        + "-" + this.dateFormatTf(currentDate.getDate())
+                        + " " + this.dateFormatTf(currentDate.getHours())
+                        + ":" + this.dateFormatTf(currentDate.getMinutes())
+                        + ":" + this.dateFormatTf(currentDate.getSeconds());
+                },
+                //处理成交记录
+                setFirstRecord: function (item) {
+                    if (item != null && item.length > 0) {
+                        //深复制+倒序
+                        var array = item.slice(0).reverse();
+                        //初始化交易记录
+                        var totalUls = "";
+                        var limit = Math.min(array.length, this.tradesLimit);
+                        //for (var i = item.length - 1; i > limit; i--) {
+                        for (var i = 0; i < limit; i++) {
+                            totalUls += this.getRowHtml(array[i]);
+                        }
+                        $("#tradeRecord .tradeNew-table").html(totalUls);
+                    }
+                    this.initRecord = true;
+                },
+                /**
+                 *作者: GongQi
+                 *时间: 2018/4/28
+                 *功能: 专业交易->最新成交 刷新成交记录
+                 */
+                pushTrades: function (array) {
+                    var $this = this;
+                    var $trades = $("#tradeRecord .tradeNew-table");
+                    var totalUls = "";
+                    if (array == '' && array.length == 0) {
+                        return false;
+                    }
+                    //倒序处理
+                    for (var i = array.length - 1; i >= 0; i--) {
+                        var item = array[i];
+                        if (i >= array.length - $this.tradesLimit) {
+                            // if (item.tid <= $this.$parent.last_trade_tid) continue;
+
+                            // totalUls += $this.getRowHtml(item);
+                            /**
+                             *作者: GongQi
+                             *时间: 2018/4/28
+                             *功能: 取消动画效果
+                             */
+                            if (this.$parent.last_trade_tid != 0) {
+                                totalUls += $this.getRowHtml(item, 'add');
+                            } else {
+                                totalUls += $this.getRowHtml(item);
+                            }
+                        }
+                    }
+                    if ($this.$parent.last_trade_tid != 0) {
+                        $trades.prepend(totalUls);
+                    } else {
+                        $trades.append(totalUls);
+                    }
+                    totalUls = null;
+
+                    /**
+                     *作者: GongQi
+                     *时间: 2018/4/28
+                     *功能: 取消动画效果
+                     */
+                    $trades.find(".add").slideDown(500, function () {
+                        $(this).removeClass("add");
+                    });
+
+                    //删除大于100条的数据
+                    $trades.find(".tr:gt("+ ($this.tradesLimit - 1) +")").remove();
+                },
+                getRowHtml : function (item, style) {
+                    this.tradeDate.setTime(item.date * 1000);
+                    var dateStr = this.dateFormatTf(this.tradeDate.getHours())
+                        + ":" + this.dateFormatTf(this.tradeDate.getMinutes())
+                        + ":" + this.dateFormatTf(this.tradeDate.getSeconds());
+                    var price = this.$parent.showMoney(item.price);
+                    var assist = this.$parent.getPriceByAssist(item.price);
+                    var amount = this.$parent.showCoin(item.amount);
+                    var style = style || '';
+                    var amountClass = item.type == 'buy' ? 'trading-redcolor' : 'trading-greencolor';
+                    var html = "";
+                    html += "<li class=\"tr body "+ style +"\">";
+                    html += "   <p class=\"td time\">"+ dateStr +"</p>";
+                    html += "   <p class=\"td price "+amountClass+" \">"+ price +"</p>";
+                    html += "   <p class=\"td foldPrice\">"+ assist +"</p>";
+                    html += "   <p class=\"td num last\">"+ amount +"</p>";
+                    html += "</li>";
+                    return html;
+                },
+                clickRow : function (price) {
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                },
+                bindSetPrice: function () {
+                    var _this = this;
+                    $("#tradeRecord").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+                        _this.clickRow(price);
+                    });
+                },
+                //刷新交易记录的辅助货币价格
+                flushAssistPrice : function () {
+                    var _this = this;
+                    $("#tradeRecord .tradeNew-table .tr").each(function (i) {
+                        var price = $(this).find('.price').text();
+                        var assistPrice = _this.$parent.getPriceByAssist(price);
+                        $(this).find('.foldPrice').text(assistPrice);
+                        //console.log(assistPrice);
+                    });
+                }
+            },
+            watch: {
+
+            },
+            mounted: function() {
+                /*var _this = this;
+                this.updateRecord(this.dealRecord, function () {
+                    setInterval(function () {
+                        _this.updateRecord(_this.dealRecord);
+                    },1000)
+                });*/
+                this.bindSetPrice();
+            },
+            updated : function () {
+
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

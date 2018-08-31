@@ -1,0 +1,264 @@
+<script type="text/x-template" id="transfer">
+  <div class="exx-modal-container" style="width: 650px;">
+    <div class="exx-modal-header"><h3><%= LANG('内部划账') %><span v-if="filterAccounts.length">（<%= LANG('转入') %>{{info.coin.toUpperCase()}}）</span></h3></div>
+      <div :class="{'loading loading-light-bg' : !mainUserAsset || mainUserAsset.length == 0}"></div>
+    <div class="exx-modal-body" v-if="mainUserAsset.length > 0">
+
+      <div class="exx-account-transfer">
+
+    <div class="item" style="padding-right: 50px;">
+  <div class="item-box">
+            <div class="avatar">
+              <div v-if="outAccount.userType == 3" class="gray-mask"><%= LANG('模拟') %></div>
+              <img :src="userAvatar(outAccount)" />
+            </div>
+            <h3 v-if="info.type == 'out'">{{userName(outAccount)}}</h3>
+            <p class="num"><%= LANG('可用') %>{{info.coin.toUpperCase()}}：{{outAccountCanUse}}</p>
+            <dropdown v-if="info.type == 'in' && filterAccounts.length" class="select-account" :selected="selectAccount" :list="filterAccounts" :value="outAccount.userId" placeholder="<%= LANG('请选择账户') %>" />
+            </div>
+        </div>
+        <div class="item" style="padding-left: 50px;">
+          <div class="item-box">
+            <div class="avatar">
+              <div v-if="inAccount.userType == 3" class="gray-mask"><%= LANG('模拟') %></div>
+              <img :src="userAvatar(inAccount)" />
+            </div>
+            <h3 v-if="info.type == 'in'">{{userName(inAccount)}}</h3>
+              <p class="num"><%= LANG('可用') %>{{info.coin.toUpperCase()}}：{{inAccountCanUse}}</p>
+            <dropdown v-if="info.type == 'out' && filterAccounts.length" class="select-account" :selected="selectAccount" :list="filterAccounts" :value="inAccount.userId" placeholder="<%= LANG('请选择账户') %>"/>
+          </div>
+        </div>
+        <div class="text-arrow" v-if="filterAccounts.length"><%= LANG('转入') %>{{info.coin.toUpperCase()}}<%= LANG('到') %></div>
+        <div v-else class="text-arrow"><%= LANG('没有可以划账的对象') %></div>
+      </div>
+
+
+        <div class="exx-form-box">
+            <div class="form-box">
+            <template v-if="filterAccounts.length">
+        <div class="form-group">
+            <div class="form-control">
+            <input autocomplete="off" placeholder="<%= LANG('转入金额') %>" v-model.number="amount" type="text" id="inputAmount">
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label>-->
+                <!--<template v-if="userInfo.safePwdAuth == 0">-->
+                    <!--<%= LANG('登录密码') %>-->
+                <!--</template>-->
+                <!--<template v-else>-->
+                    <!--<%= LANG('资金密码') %>-->
+                <!--</template>-->
+            <!--</label>-->
+            <div class="form-control">
+            <input autocomplete="new-passwor" :placeholder="userInfo.safePwdAuth == '0' ? '<%= LANG('登录密码') %>' : '<%= LANG('资金密码') %>'" v-model="safePwd" type="password">
+            </div>
+        </div>
+      </template>
+            <div class="form-button">
+                <button v-if="filterAccounts.length" @click="handleSubmit" class="button"><span><%= LANG('确定') %></span></button>
+            </div>
+        </div>
+        </div>
+      </div>
+  </div>
+</script>
+
+<%-include("../../component/dropdown.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('transfer', {
+            template: "#transfer",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                },
+                info: {
+                    type: Object,
+                    required: true,
+                    default: {}
+                }
+                /*不需要传入资金列表，组件内获取
+                accounts: {
+                    type: Array,
+                    required: true,
+                    default: []
+                }*/
+            },
+            data: function () {
+                return {
+                    locked: false,
+                    avatarBasePath: '<%= STATIC %>/images/userhead/',
+                    inAccount: {},
+                    outAccount: {},
+                    mainUserAsset : [],
+                    userInfo: Methods.getLocalUserInfo(),
+                    amount: '',
+                    safePwd: '',
+                    dynamicCode: '',
+                    googleCode: ''
+                }
+            },
+            computed: {
+                filterAccounts: function () {
+                    var fAccounts = [];
+                    var accounts = this.accounts;
+                    var actUser = this.getUserInfo(this.info.userId);
+                    if (actUser.userType == 3) {
+                        //模拟用户只能选模拟用户
+                        return accounts.filter(function (el) {
+                            return el.userType == 3 && el.userId != actUser.userId
+                        })
+                    } else {
+                        //去掉操作的账户
+                        return accounts.filter(function (el) {
+                            return el.userType != 3 && el.userId != actUser.userId;
+                        })
+                    }
+                    //return fAccounts;
+                },
+                outAccountCanUse : function () {
+                    if(!this.outAccount.coinFundMap){
+                        return '--'
+                    }else{
+                        return parseFloat(this.outAccount.coinFundMap[this.info.coin].available);
+                    }
+                },
+                inAccountCanUse : function () {
+                    if(!this.inAccount.coinFundMap){
+                        return '--'
+                    }else{
+                        return parseFloat(this.inAccount.coinFundMap[this.info.coin].available);
+                    }
+                },
+                //此处封装对象仅用于划账的drapdown组件，其他使用的地方已去掉
+                accounts: function() {
+                    var accounts = [];
+                    if (this.mainUserAsset.length) {
+                        this.mainUserAsset.map(function(user){
+                            var label = user.nickName ? user.nickName : user.userName;
+                            var obj = {};
+                            obj.label = label;
+                            obj.value = user.userId;
+                            obj.userName = user.userName;
+                            obj.userId = user.userId;
+                            obj.nickName= user.nickName;
+                            obj.photo = user.photo;
+                            obj.userType = user.userType;
+                            obj.isVirtual = user.isVirtual;
+                            obj.isLever = user.isLever;
+                            obj.isChildLogin = user.isChildLogin;
+                            obj.assistCoin = user.assistCoin;
+                            obj.coinFundMap = user.coinFundMap;
+                            accounts.push(obj);
+                        });
+                    }
+                    return accounts;
+                }
+            },
+            methods: {
+                getUserInfo: function (id) {
+                    return this.mainUserAsset.getObject('userId', id);
+                },
+                userAvatar: function (user) {
+                    var avatar = user.photo ? user.photo : 'default.jpg';
+                    return this.avatarBasePath + avatar;
+                },
+                userName: function (user) {
+                    var name = user.nickName ? user.nickName : user.userName;
+                    return name;
+                },
+                selectAccount: function (item) {
+                    if (this.info.type == 'in') {
+                        this.outAccount = item;
+                    } else if (this.info.type == 'out') {
+                        this.inAccount = item;
+                    }
+                },
+                // 获取所有用户/资金
+                getMainUserAsset: function (callback) {
+                    // Methods.getJSONP({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getMainUserAsset',
+                    //     success: function (res) {
+                    //         this.mainUserAsset = res.datas.userFunds;
+                    //         callback && callback();
+                    //     }.bind(this)
+                    // });
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    var data = {
+                        outAccount: this.outAccount.userId,
+                        inAccount: this.inAccount.userId,
+                        coinType: this.info.coin,
+                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        amount: this.amount
+                    };
+                    if (data.outAccount == undefined || data.inAccount == undefined) {
+                        JuaBox.info("<%= LANG('请选择划账对象') %>");
+                    } else if (data.amount === "" || isNaN(data.amount)) {
+                        JuaBox.info("<%= LANG('请输入划账金额') %>");
+                    } else if (parseFloat(data.amount) > parseFloat(this.outAccountCanUse)) {
+                        JuaBox.info("<%= LANG('划入金额超过划出账户可用余额') %>");
+                    } else if (data.outAccount === data.inAccount) {
+                        JuaBox.info("<%= LANG('相同用户不需要划账') %>");
+                    } else if (this.safePwd === "") {
+                        JuaBox.info("<%= LANG('请输入二级密码') %>");
+                    } else {
+                        this.locked = true;
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_MAIN + API_PREFIX + 'doInOutSubmit',
+                            data: data,
+                            success: function (res) {
+                                this.locked = false;
+                                this.done();
+                                JuaBox.info("<%= LANG('内部划账成功') %>");
+                                this.$parent.close();
+                            }.bind(this),
+                            error: function (res) {
+                                this.locked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message))
+                            }.bind(this)
+                        })
+                    }
+                }
+            },
+            created: function () {
+                this.getPubKey();
+                this.getMainUserAsset(function () {
+                    if (this.info.type == 'in') {
+                        this.inAccount = this.getUserInfo(this.info.userId);
+                    } else {
+                        this.outAccount = this.getUserInfo(this.info.userId);
+                    }
+                }.bind(this));
+            },
+            mounted: function () {
+            }
+        })
+    })
+</script>

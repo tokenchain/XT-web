@@ -1,0 +1,164 @@
+<script type="text/x-template" id="trade-form">
+    <div v-cloak="">
+        <div v-if="tradeType == 0" class="bk-sell-form">
+            <div class="bk-length mb15">
+                <ul class="bk-table">
+                    <li @click="changeTradeMode(0)" role="button" class="bk-cell" :class="{'active' : tradeMode == 0}"><%= LANG('限价卖出')%></li>
+                    <!--<li role="button" class="bk-cell">
+			  	          <span class="bluepopover">计划卖出
+				              <div class="popover fade top in" role="tooltip" style="left: -60px;top:-74px">
+                                  <div class="arrow" style="left: 50%;"></div>
+                                  <div class="popover-content">
+                                      <p>批量分散卖出可以把指定数量的卖单一次性分散在指定的价格区间委托出去，形成不是特别集中的分散卖单。</p>
+                                  </div>
+                              </div>
+				          </span>
+                    </li>-->
+                    <li @click="changeTradeMode(1)" role="button" class="bk-cell" :class="{'active' : tradeMode == 1}">
+			  	          <span class="bluepopover"><%= LANG('批量卖出')%>
+				              <div class="popover fade top in" role="tooltip" style="left: -60px;top:-74px">
+                                  <div class="arrow" style="left: 50%;"></div>
+                                  <div class="popover-content">
+                                      <p><%= LANG('批量分散卖出可以把指定数量的卖单一次性分散在指定的价格区间委托出去，形成不是特别集中的分散卖单。')%></p>
+                                  </div>
+                              </div>
+				          </span>
+                    </li>
+                </ul>
+            </div>
+            <form role="form" id="sellForm" class="form-horizontal" method="post" action="" autocomplete="off">
+                <!-- 限价卖出委托开始 -->
+                <div id="sellDefaultForm">
+                    <div class="form-group has-feedback form-subline mb5">
+                        <label class="control-label">
+                            <span class="sellDefaultLabel" v-if="tradeMode != 1"><%= LANG('卖出价格')%></span>
+                            <span class="sellDefaultLabel" v-if="tradeMode == 1"><%= LANG('最低卖出价格')%></span>
+                            ({{moneyName}})
+                        </label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputPrice">
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label class="control-label"><%= LANG('价格折合')%>：<b class="text-second">{{$parent.getPriceByAssist(inputPrice)}}</b> {{$parent.showAssistCoin()}}</label>
+                    </div>
+                    <div class="form-group has-feedback form-subline mb5" v-if="tradeMode == 1">
+                        <label class="control-label">
+                            <span class="sellDefaultLabel"><%= LANG('最高卖出价格')%></span>
+                            ({{moneyName}})
+                        </label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputMaxPrice">
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" v-if="tradeMode == 1">
+                        <label class="control-label"><%= LANG('价格折合')%>：<b class="text-second">{{$parent.getPriceByAssist(inputMaxPrice)}}</b> {{$parent.showAssistCoin()}}</label>
+                    </div>
+                    <div class="form-group has-feedback form-subline">
+                        <label class="control-label"><%= LANG('卖出数量')%> ({{coinName}})</label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputNumber">
+                        </div>
+                    </div>
+
+                    <div :id="'rangeSlider_' + tradeType" class="range range_sell"><!-- 滑动杆 --><span class="sliderPercent">{{showPercent}}%</span></div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label"><%= LANG('预计成交额')%>：<b class="text-second">{{totalAmount}}</b> {{moneyName}}</label>
+                    </div>
+                    <div class="form-group has-feedback" v-if="$parent.currentMarketLever">
+                        <label class="control-label"><%= LANG('使用杠杆额度')%>：<b class="text-second">{{leverAmount}}</b> {{coinName}}</label>
+                    </div>
+                </div>
+                <!-- 委托结束 -->
+                <div class="form-group">
+                    <button @click="doCheckEntrust" id="sellBtn" type="button" class="btn btn-second btn-block ft16" :class="{'disabled' : requestLocked || !isLogin}">
+                        {{showButton}}
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div v-if="tradeType != 0" class="bk-buy-form">
+            <div class="bk-length mb15">
+                <ul class="bk-table">
+                    <li @click="changeTradeMode(0)" role="button" class="bk-cell" :class="{'active' : tradeMode == 0}"><%= LANG('限价买入')%></li>
+                    <!--<li role="button" class="bk-cell">
+			  	          <span class="bluepopover">计划买入
+				              <div class="popover fade top in" role="tooltip" style="left: -60px;top:-74px">
+                                  <div class="arrow" style="left: 50%;"></div>
+                                  <div class="popover-content">
+                                      <p>计划买入可同时进行追高买入和抄底买入，当行情到达触发价系统即以委托价挂出，一份资金即可进行追高和抄底。</p>
+                                  </div>
+                              </div>
+				          </span>
+                    </li>-->
+                    <li @click="changeTradeMode(1)" role="button" class="bk-cell" :class="{'active' : tradeMode == 1}">
+			  	          <span class="bluepopover"><%= LANG('批量买入')%>
+				              <div class="popover fade top in" role="tooltip" style="left: -60px;top:-74px">
+                                  <div class="arrow" style="left: 50%;"></div>
+                                  <div class="popover-content">
+                                      <p><%= LANG('批量分散买入可以把指定数量的买单一次性分散在指定的价格区间委托出去，形成不是特别集中的分散买单。')%></p>
+                                  </div>
+                              </div>
+				          </span>
+                    </li>
+                </ul>
+            </div>
+            <form role="form" id="buyForm" class="form-horizontal" method="post" action="" autocomplete="off">
+                <!-- 委托开始 -->
+                <div  id="buyDefaultForm">
+                    <div class="form-group has-feedback form-subline mb5" v-if="tradeMode == 1">
+                        <label class="control-label">
+                            <span class="sellDefaultLabel"><%= LANG('最低买入价格')%></span>
+                            ({{moneyName}})
+                        </label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputMinPrice">
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" v-if="tradeMode == 1">
+                        <label class="control-label"><%= LANG('价格折合')%>：<b class="text-primary">{{$parent.getPriceByAssist(inputMinPrice)}}</b> {{$parent.showAssistCoin()}}</label>
+                    </div>
+                    <div class="form-group has-feedback form-subline mb5">
+                        <label class="control-label">
+                            <span class="buyDefaultLabel" v-if="tradeMode != 1"><%= LANG('买入价格')%></span>
+                            <span class="buyDefaultLabel" v-if="tradeMode == 1"><%= LANG('最高买入价格')%></span>
+                            ({{moneyName}})
+                        </label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputPrice">
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label class="control-label"><%= LANG('价格折合')%>：<b class="text-primary">{{$parent.getPriceByAssist(inputPrice)}}</b> {{$parent.showAssistCoin()}}</label>
+                    </div>
+                    <div class="form-group has-feedback form-subline">
+                        <label class="control-label"><%= LANG('买入数量')%> ({{coinName}})</label>
+                        <div class="input-group">
+                            <input class="form-control form-second" type="text" v-model="inputNumber">
+                        </div>
+                    </div>
+
+                    <div :id="'rangeSlider_' + tradeType" class="range range_buy"><!-- 滑动杆 --><span class="sliderPercent">{{showPercent}}%</span></div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label"><%= LANG('预计成交额')%>：<b class="text-primary">{{totalAmount}}</b> {{moneyName}}</label>
+                    </div>
+                    <div class="form-group has-feedback" v-if="$parent.currentMarketLever">
+                        <label class="control-label"><%= LANG('使用杠杆额度')%>：<b class="text-primary">{{leverAmount}}</b> {{moneyName}}</label>
+                    </div>
+                </div>
+                <!-- 委托结束 -->
+                <div class="form-group">
+                    <button @click="doCheckEntrust" id="buyBtn" type="button" class="btn btn-primary btn-block ft16" :class="{'disabled' : requestLocked || !isLogin}">
+                        {{showButton}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+
+
+<!--引入交易表单app-->
+<%-include("../app.tradeForm.html")%>

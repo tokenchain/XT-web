@@ -1,0 +1,141 @@
+<style>
+    .exx-tech { background: url("<%= STATIC %>/images/activity/tech/tech-bodybg.jpg") top center repeat-y #F6AE27;  }
+    .exx-tech .exx-tech-banner { background: url("<%= STATIC %>/images/activity/tech/tech-banner-bg.jpg"); background-size: cover; color: #FFFFFF; height:340px; text-align: center; overflow: hidden; text-align: center; }
+    .exx-tech .exx-tech-banner h3 { font-size:48px; text-align: center; margin-top:160px; text-transform:uppercase; font-weight: bold;   }
+    .exx-tech .exx-tech-banner h4 { font-size:36px; text-align: center;  }
+
+    .exx-tech .exx-tech-piclsit { color: #222731; width:800px; margin: 0px auto; padding-top:80px; overflow: hidden; }
+    .exx-tech .exx-tech-piclsit .list { margin-bottom: 80px; }
+    .exx-tech .exx-tech-piclsit h3 { font-size: 36px; margin-bottom: 15px; font-weight: bold; }
+    .exx-tech .exx-tech-piclsit .note { font-size:18px; margin:20px 0px; line-height: 1.8;  }
+    .exx-tech .exx-tech-piclsit .note span { color: #ff0000; }
+    .exx-tech .exx-tech-piclsit .pic { overflow: hidden; }
+    .exx-tech .exx-tech-piclsit .pic img { display: block; margin: 10px 0; }
+</style>
+
+<div class="exx-tech">
+    <div class="exx-tech-banner">
+        <h3>杠杆操作引导</h3>
+        <h4></h4>
+    </div>
+
+    <div class="exx-tech-piclsit">
+        <div class="list">
+            <h3>第一</h3>
+            <div class="note">
+                由于exx只支持子账号开启杠杆，因此用户需要拥有至少一个子账号并将当前账号切换到需要开启杠杆的子账号。</span>
+            </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image1.png">
+            </div>
+        </div>
+
+
+        <div class="list">
+            <h3>第二</h3>
+            <div class="note">
+                将当前市场切换到需要开启杠杆的市场，切换后，可以看到委托下单区显示杠杆已关闭，点击右侧按钮，进行开启杠杆操作。
+            </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image2.png">
+            </div>
+        </div>
+
+
+        <div class="list">
+            <h3>第三</h3>
+            <div class="note">
+                在弹出的对话框中，选择杠杆的倍数（开启后不能修改），输入登录密码，点击确定按钮即可开启。开启杠杆后，该子账号只能在开启杠杆的市场进行交易。
+            </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image3.png">
+            </div>
+
+        </div>
+
+
+        <div class="list">
+            <h3>第四</h3>
+            <div class="note">
+                杠杆开启成功，可以点击“杠杆”标签，将委托下单区切换到杠杆显示，即可查看当前杠杆的详细情况，包括剩余额度、已借、已产生的利息等信息，用户还可以对借入进行还款：
+            </div>
+            <div class="smalltxt">
+            <div class="note">
+                剩余额度是账号里两个币种的资产乘以开启的杠杆倍数，额度是共有的，其中一个币种借入后，另外一个币种的额度也会根据价格相应减少，额度并不会产生利息，只有实际借入后方才计算利息；
+            </div>
+            <div class="note">
+                开启杠杆后，额度范围内既可以借入买方币做多，也可以借入卖方币做空，还可以同时借入；
+            </div>
+            <div class="note">
+                杠杆产生借入后，以借入时间点开始每满24小时为一个自然日计算到未结算利息中，当天借入会一次性产生一笔未结算的利息，利息在平仓或者还款时统一收取；
+            </div>
+            <div class="note">
+                当平仓风险到达提醒比例时，系统会进行提醒用户；当平仓风险到达平仓比例时（即市场价格到达平仓价格时），系统会冻结用户开启杠杆的子账号，并进行强制平仓处理。风险等级越高，说明越容易因价格波动而被平仓；
+            </div>
+            <div class="note">
+                平仓风险和平仓处理详细请看杠杆规则说明（交易页面右下角）。
+            </div>
+        </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image4.png">
+            </div>
+
+        </div>
+
+
+        <div class="list">
+            <h3>第五</h3>
+            <div class="note">
+                开启杠杆后，在委托下单区的限价委托下，可用资产会包含上杠杆的剩余额度，用户委托下单会优先使用当前子账号的可用资产，在可用资产不足时系统会自动帮助用户借入剩余的部分。用户买卖、市场价格波动、划入和还款，都会引起杠杆风险的变化，用户需对杠杆情况保持关注，避免因平仓带来的损失。
+            </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image5.png">
+            </div>
+
+        </div>
+
+
+        <div class="list">
+            <h3>第六</h3>
+            <div class="note">
+                杠杆的作用在于让用户利用较小的资金，获取较大的收益。
+            </div>
+            <div class="note">
+                例如，用户拥有0.001BTC，HSR价格从0.001 BTC涨到了0.002 BTC，不考虑利息情况下：
+            </div>
+            <div class="note">
+                <span style="color: #ff0000;">未开启杠杆情况下：</span>用户在0.001价格买入1 HSR，在0.002价格卖出1 HSR，获得0.002 BTC，则盈利0.001 BTC
+            </div>
+            <div class="note"><span style="color: #ff0000;">开启5倍杠杆情况下：</span>用户借入0.005 BTC，则可用金额为0.006 BTC，在0.001价格买入6 HSR，在0.002价格卖出6 HSR，获得0.012 BTC，归还借入的0.005 BTC，除去本金0.001 BTC，则盈利0.006 BTC
+            </div>
+            <div class="note">
+                反之，用户拥有1 HSR，HSR价格从0.002 BTC跌到了0.001 BTC，不考虑利息情况下：
+            </div>
+            <div class="note">
+                <span style="color: #ff0000;">未开启杠杆情况下：</span>用户在0.002价格卖出1 HSR，获得0.002 BTC，在0.001价格买入1 HSR，剩余0.001 BTC，在保持HSR数量不变的情况下盈利0.001 BTC
+            </div>
+            <div class="note">
+                <span style="color: #ff0000;">开启5倍杠杆情况下：</span>用户借入5 HSR，则HSR可用数量为6，在0.002价格卖出6 HSR，获得0.012 BTC，在0.001价格买入6 HSR，剩余0.006 BTC，归还借入的5 HSR，除去本金1 HSR，则盈利0.006 BTC
+            </div>
+
+
+        </div>
+
+
+        <div class="list">
+            <h3>第七</h3>
+            <div class="note">
+                杠杆带来高收益的同时，也伴随着较高的风险，当市场行情和判断走势相反时，会导致用户资产的缩水，当平仓风险达到平仓比例时系统会强制对该子账号进行平仓，而降低该风险的方法有两个，则是在系统强制平仓前：划入更多的资产，或者手动归还借入资产。
+            </div>
+            <div class="pic">
+                <img src="<%= STATIC %>/images/activity/tech/image6.png">
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+

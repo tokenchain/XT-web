@@ -1,0 +1,77 @@
+.certified {
+  box-sizing: border-box;
+  padding: 49px 102px;
+}
+
+.basic-information {
+  letter-spacing: 0;
+  font-size: 14px;
+  .information-box {
+    display: flex;
+    flex-direction: column;
+    width: 490px;
+    margin-bottom: 120px;
+    .item {
+      display: flex;
+      margin-bottom: 20px;
+      .item-title {
+        display: flex;
+        align-items: center;
+        color: #000333;
+        letter-spacing: 0;
+        text-align: right;
+        margin-right: 14px;
+      }
+      .item-title-2 {
+        align-items: normal;
+        padding-top: 10px;
+      }
+      .item-content, .item-input {
+        flex: 1;
+        text-align: left;
+      }
+      .item-content {
+        color: #96989A;
+      }
+      .item-input {
+        color: #000333;
+        padding: 0 19px;
+        height: 42px;
+        border: 1px solid #DDE2ED;
+        border-radius: 2px;
+      }
+      .item-input-2 {
+        height: 84px;
+        padding: 10px 19px;
+        resize: none;
+      }
+      .item-button {
+        cursor: pointer;
+        color: #EF9A1E;
+        letter-spacing: 0;
+        text-align: right;
+      }
+    }
+  }
+
+  .bottom-button {
+    display: flex;
+    justify-content: center;
+    .button-big {
+      cursor: pointer;
+      height: 42px;
+      width: 160px;
+      border-radius: 2px;
+      color: #FFFFFF;
+    }
+    .button-complete {
+      background: #FF9D10;
+    }
+    .button-cancel {
+      background: #D7D7D7;
+    }
+    .button-mr40{
+      margin-right: 40px;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+<div class="exx-modal-container" style="width: 500px;">
+
+    <div class="exx-modal-header">
+        <i class="iconfont icon-zhuceyaoqing"></i><h3><%= LANG('修改子账户') %></h3>
+    </div>
+    <div class="exx-modal-body">
+        <p class="exx-prompt exx-prompt-top exx-pd30"><%= LANG('子账户可以支持一个交易对的杠杆交易') %></p>
+
+
+        <div class="exx-account-avatar">
+            <div class="scrolllist" id="s2">
+                <a class="abtn aleft" href="#left" title="<%= LANG('左移') %>"><i></i></a>
+                <div class="imglist_w">
+                    <ul class="imglist">
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li class="active"><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                        <li><div class="avatar"><img src="/src/images/home/userheader.jpg" /></div></li>
+                    </ul>
+                </div>
+                <a class="abtn aright" href="#right" title="<%= LANG('右移') %>"><i></i></a>
+            </div>
+
+
+
+        </div>
+        <script>
+
+            $(function(){
+
+                $(".imglist li").click(function() {
+
+                    $(this).siblings('li').removeClass('active');  // 删除其他兄弟元素的样式
+
+                    $(this).addClass('active');                            // 添加当前元素的样式
+
+                });
+
+            });
+
+        </script>
+        <div class="exx-form-group">
+            <div class="exx-input-element">
+                <label for="zhanghu1"><%= LANG('账户昵称') %></label>
+                <input id="zhanghu1" value="<%= LANG('') %>子账户1" type="text">
+                <span class="exx-input-icon"><i class="iconfont icon-gerenzhongxin"></i></span>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <div class="exx-input-element">
+                <label for="yonghuming1"><%= LANG('登录用户名') %></label>
+                <input id="yonghuming1" value="13800138000" type="text">
+                <span class="exx-input-icon"><i class="iconfont icon-gerenzhongxin"></i></span>
+            </div>
+        </div>
+
+        <div class="exx-form-group">
+            <div class="exx-input-element">
+                <label for="mima1"><%= LANG('登录密码') %></label>
+                <input id="mima1" type="password">
+                <span class="exx-input-icon"><i class="iconfont icon-password"></i></span>
+            </div>
+        </div>
+
+        <div class="exx-form-group">
+            <div class="exx-input-element">
+                <label for="zhumima1"><%= LANG('主账户登录密码') %></label>
+                <input id="zhumima1" type="password">
+                <span class="exx-input-icon"><i class="iconfont icon-password"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="exx-modal-button">
+        <button class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+        <button class="exxbtn btn-ok"><span><%= LANG('确定') %></span></button>
+    </div>
+</div>
+
+
+
+<!--<script type="text/javascript" src="<%= STATIC %>/scripts/slider.js"></script>-->

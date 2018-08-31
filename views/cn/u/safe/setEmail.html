@@ -1,0 +1,102 @@
+<div class="content" id="mainForm">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li class="dashboard">Dashboard</li>
+      <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+      <li><a href="/u"><%= LANG('账户面板') %></a></li>
+      <li><a href="/u/safe"><%= LANG('基本信息') %></a></li>
+      <li class="is-active"><a href="/u/safe/setEmail"><%= LANG('邮箱认证') %></a></li>
+    </ul>
+  </nav>
+  <h2><%= LANG('邮箱认证') %></h2>
+  <p><%= LANG('请使用您常用的邮箱地址进行认证。') %></p>
+  <div class="fill-form">
+    <div class="fill-form-bd">
+      <div class="fill-group">
+        <em class="name"><%= LANG('邮箱地址') %>：</em>
+        <input class="fill-control" v-model="email" type="text">
+      </div>
+      <div class="fill-group">
+        <em class="name"><%= LANG('资金密码') %>：</em>
+        <input class="fill-control" v-model="safePwd" type="password">
+      </div>
+      <div v-if="authEmail && safePwd.length > 7" class="fill-group">
+        <em class="name"><%= LANG('邮箱验证码') %>：</em>
+        <input class="fill-control" v-model="emailCode" type="text">
+        <send-code class="hq btn-five btn-sm" :code-type="5" :safe-pwd="safePwd" :user-name="email" />
+      </div>
+      <div class="fill-group ">
+        <em class="name"><%= LANG('短信验证码') %>：</em>
+        <input class="fill-control" v-model="mobileCode" type="text">
+        <send-code class="hq btn-five btn-sm" :code-type="6" :user-name="userInfo.mobile.split(' ')[1]" />
+      </div>
+      <div v-if="userInfo.googleAuth == 1"  class="fill-group hide">
+        <em class="name"><%= LANG('Google验证码') %>：</em>
+        <input class="fill-control" id="googleCode" name="googleCode" type="text">
+      </div>
+      <div class="fill-form-fd text-center">
+        <a href="javascript:;" v-on:click="handleSubmit" class="btn btn-primary btn-lg btn-block">
+          <%= LANG('提交') %>
+        </a>
+        <a href="/u/safe/resetSafePwd" target="_blank" class="mt10" style="display: block;"><%= LANG('忘记二级密码') %></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%-include("../../component/send_code/index.html")%>
+<script>
+require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox) {
+  var mainForm = new Vue({
+    el: '#mainForm',
+    data: function() {
+      return {
+        email: '',
+        emailCode: '',
+        mobileCode: '',
+        safePwd: '',
+        googleCode: ''
+      }
+    },
+    computed: {
+      authEmail: function () {
+        return Methods.isEmail(this.email);
+      },
+      userInfo: function () {
+        return Methods.getLocalUserInfo();
+      }
+    },
+    methods: {
+      handleSubmit: function () {
+        var data = {
+          email: this.email,
+          emailCode: this.emailCode,
+          mobileCode: this.mobileCode,
+          safePwd: this.safePwd,
+          googleCode: this.googleCode
+        };
+        if (!this.authEmail) {
+          JuaBox.sure("<%= LANG('请输入有效的邮箱地址') %>");
+        } else if (Methods.checkPwdStrength(this.safePwd) < 2) {
+          JuaBox.sure("<%= LANG('请确认二级密码是否正确') %>");
+        } else if (this.emailCode.length < 6) {
+          JuaBox.sure("<%= LANG('请输入正确的邮箱验证码') %>");
+        } else if (this.mobileCode.length < 6) {
+          JuaBox.sure("<%= LANG('请输入正确的手机验证码') %>");
+        } else
+          Methods.ajax({
+            url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
+            data: data,
+            success: function (res) {
+              Methods.setLocalUserInfo(JSON.stringify(res.datas.userInfo));
+              JuaBox.info("<%= LANG('邮箱认证成功') %>");
+              setTimeout(function () {
+                window.location.replace('/u/safe');
+              }, 1000);
+            }
+          });
+        }
+      }
+  })
+})
+</script>

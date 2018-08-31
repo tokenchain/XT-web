@@ -1,0 +1,554 @@
+<div id="home-market" class="home-market">
+    <div class="container">
+        <div class="market-content">
+            <div class="market-head" v-cloak="">
+                <ul class="market-tab">
+                    <li class="item" :class="{active: marketsTab == 'hot' && keyWord == ''}" @click="changeMarketsTab('hot')"><%= LANG('推荐市场')%></li>
+                    <!--<li class="item" :class="{active: marketsTab == '<%= LEGAL[UNIT].alias %>' && keyWord == ''}" @click="changeMarketsTab('<%= LEGAL[UNIT].alias %>')"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('市场')%></li>-->
+                    <li v-for='item in marketAreaList' class="item" :class="{active: marketsTab == item.name && keyWord == ''}" @click="changeMarketsTab(item.name)">{{item.name.toUpperCase()}}<%= LANG('市场')%></li>
+                    <!--<li class="item" :class="{active: marketsTab == 'usdt' && keyWord == ''}" @click="changeMarketsTab('usdt')">USDT<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'btc' && keyWord == ''}" @click="changeMarketsTab('btc')">BTC<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'eth' && keyWord == ''}" @click="changeMarketsTab('eth')">ETH<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'qtum' && keyWord == ''}"  @click="changeMarketsTab('qtum')">QTUM<%= LANG('市场')%></li>-->
+                    <!--<li class="item" :class="{active: marketsTab == 'hsr' && keyWord == ''}" @click="changeMarketsTab('hsr')">HSR<%= LANG('市场')%></li>-->
+                </ul>
+                <div class="market-search">
+                    <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord" autocomplete="off" name="search_<%= VERSION%>">
+                    <i class="trading-icon trading-icon-search"></i>
+                </div>
+            </div>
+            <ul class="market-title">
+                <li class="item"><%= LANG('市场')%></li>
+                <li class="item state"><%= LANG('状态')%></li>
+                <li class="item"><%= LANG('价格')%></li>
+                <li class="item"><%= LANG('折合')%>(USD)</li>
+                <li class="item"><%= LANG('折合')%>(<%= LEGAL[UNIT].unit %>)</li>
+                <li class="item sort" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><span><%= LANG('涨跌幅')%></span></li>
+                <li class="item sort" @click="changeSort('volume')" :class="{'up' : sortBy == 'volumeUp', 'down' : sortBy == 'volumeDown'}"><span><%= LANG('交易量')%></span></li>
+                <li class="item trend"><%= LANG('6小时走势')%></li>
+            </ul>
+            <ul class="market-list" v-if="marketInit">
+                <li role="button"
+                    @click="goExchange(1, data.market.replace('/','_'))"
+                    v-for="(data, index) in displayMarkets"
+                    v-if="marketConfig && assistPrice" v-cloak>
+                    <div class="item currency">
+                        <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                        <em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}
+                        <!--<p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>-->
+                    </div>
+
+                    <div class="item state">
+                        <span class="green"><%= LANG('已开启')%></span>
+                        <!--<span v-if="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>-->
+                        <!--<span v-else class="gray"><%= LANG('未开启')%></span>-->
+                    </div>
+                    <div class="item">
+                        <span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}
+                    </div>
+                    <div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>
+                    <div class="item"><%= LEGAL[UNIT].note %>{{getPriceByAssist(data.lastPrice, data.market, '<%= UNIT %>')}}</div>
+                    <div class="item">
+                        <span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>
+                    </div>
+                    <div class="item"><span class="hint--top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>
+                    <div class="item trend">
+                        <inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>
+                    </div>
+                </li>
+            </ul>
+            <div class="loading loading-light-bg" v-else=""></div>
+        </div>
+    </div>
+</div>
+<%-include("../component/inline_chart.html")%>
+
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        var homeMarket = new Vue({
+            el: '#home-market',
+            data: function() {
+                return {
+                    isFirst : false,
+                    marketInit : false,
+                    keyWord : '',
+                    mLength : 0,
+                    //rateUp,rateDown,volumeUp,volumeDown
+                    sortBy : 'rateDown',
+                    assistPrice : null,
+                    dWidth : window.document.body.offsetWidth,
+                    markets: [],
+                    isMobile : Methods.isMobile(),
+                    currentExchangeMode : 1,
+                    marketsTab: 'hot',
+                    marketConfig: {},
+                    lineChartSettings: {
+                        fill: "",
+                        height: 18,
+                        stroke: "#cccccc",
+                        strokeWidth: 1.5,
+                        width: 61
+                    },
+                    assistList : {
+                        'none': {key:'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿',decimal : 6},
+                        /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
+                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$',decimal : 3},
+                        '<%= UNIT %>': {key: '<%= UNIT %>', name: '<%= LEGAL[UNIT].unit %>', icon: '', symbol: '<%= LEGAL[UNIT].note %>',decimal : '<%= LEGAL[UNIT].decimal %>'}
+                    },
+                    websocket: '', //websocket服务,
+                    marketAreaList: []
+                }
+            },
+            computed: {
+                // 将市场id转为 市场名字符串 返回对象
+                marketsIdSwitch: function () {
+                    var marketId = {};
+                    if (this.marketConfig) {
+                        for (var a = 0; a < this.markets.length; a++) {
+                            for (var b = 0; b < this.marketConfig.length; b++) {
+                                if (this.markets[a][0] == this.marketConfig[b].marketId){
+                                    // if ((this.markets[a][0] + 2) == this.marketConfig[b].marketId){
+                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name;  //格式: '1': btc/qtum
+                                }
+                            }
+                        }
+                    }
+                    return marketId;
+                },
+                //推荐市场,目前显示全部 (旧逻辑根据某个字段布尔值过滤) -ok
+                hotMarkets: function() {
+                    var _this = this;
+                    var markets = [];
+                    var oriMarkets = this.markets;
+
+                    oriMarkets.forEach(function (item, index) {
+                        var currMarketName = _this.marketsIdSwitch[item[0]];
+                        if (currMarketName) {
+                            //过滤后的数组
+                            markets.push(item);
+                        }
+                    });
+
+                    return this.doSortMarket(this.convertMarket(markets));
+                },
+                //暂弃用
+                mockMarkets: function() {
+                    var markets = {};
+                    var oriMarkets = this.markets;
+                    Object.keys(this.markets).map(function(market){
+                        if (oriMarkets[market]) {
+                            markets[market] = oriMarkets[market];
+                        }
+                    });
+                    return this.doSortMarket(this.convertMarket(markets));
+                },
+                //过滤要显示的市场
+                displayMarkets: function() {
+                    var type = this.marketsTab;
+                    var keyWord = this.keyWord;
+                    //优先搜索
+                    if(keyWord != ''){
+                        return this.marketsForKeyWord(keyWord.toLowerCase());
+                    }else{
+                        if (type === 'hot') {
+                            return this.hotMarkets
+                        } else if (type === 'mock') {
+                            // return this.mockMarkets
+                            return [];
+                        } else {
+                            return this.marketsForCoin(type);
+                        }
+                    }
+                }
+            },
+            methods: {
+                isLeverMarket: function(market) {
+                    var marketInfo = this.marketConfig[market];
+                    //console.log(this.marketConfig);
+                    return marketInfo ? marketInfo.leverType : '0'
+                },
+                moneyPrice: function(money, coin){
+                    if(money == 'btc' || money == 'usd' || money == '<%= UNIT %>'){
+                        return Number(this.assistPrice[money][coin] ? this.assistPrice[money][coin] : 1)
+                    }else{
+                        return 1;
+                    }
+                },
+                //获取指定辅助货币的价格
+                getPriceByAssist: function (price, market, assist) {
+                    if(!price || price == '' || !market || market == '' || this.assistPrice == null){
+                        return '--'
+                    }
+                    var money = market.split('_')[1];
+                    //优先取指定的assist
+                    var assistCoin = assist || MONEY;
+                    if (assistCoin == 'none' || assistCoin == '') {
+                        return Methods.fixNumber(price, 4);
+                    } else {
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
+                    }
+                },
+                getPriceByAssistNew: function (price, market, assist) {
+                    var price = price;
+                    var market = market.split('/')[1];
+                    var assist = assist;
+                    var assistPrice = this.assistPrice[assist]
+                    return assistPrice[market] * price
+                },
+                //去掉虚拟市场货币的D字符
+                getRealCoinName : function (coin) {
+                    if(coin && coin.length > 3 && coin.substring(0,1) == 'd'){
+                        return coin.substring(1);
+                    }else{
+                        return coin;
+                    }
+                },
+                goExchange: function(type, market) {
+                    Methods.setCookie(ENV + 'ExchangeMode' , type, 7);
+                    window.location.href = '/tradePro/' + market;
+                },
+                changeMarketsTab: function(type) {
+                    // $('html, body').animate({scrollTop: window.innerHeight - 150}, 400);
+                    this.keyWord = '';
+                    this.marketsTab = type;
+                },
+                // 获取市场配置
+                getMarketConfig: function (callback) {
+                    var _this = this;
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        success: function (res) {
+                            _this.marketConfig = res.datas;
+                            callback && callback(res.datas);
+                        }
+                    });
+                },
+                //按货币分类 -ok
+                marketsForCoin: function(coin) {
+                    var _this = this;
+                    var markets = [];
+                    var oriMarkets = this.markets;
+
+                    oriMarkets.forEach(function (item, index) {
+                        if (_this.marketsIdSwitch[item[0]]) {
+                            var coinName = _this.marketsIdSwitch[item[0]].split('_')[1];
+                            if (coinName == coin) {
+                                //过滤后的数组
+                                markets.push(item);
+                            }
+                        }
+                    });
+
+                    // Object.keys(this.marketsIdSwitch).map(function(market,index){
+                    //     console.log(market)
+                    //     if (market.split('/')[1] == coin) {
+                    //         markets[market] = oriMarkets[market];
+                    //     }
+                    // });
+
+                    return this.doSortMarket(this.convertMarket(markets));
+                },
+                // 搜索过滤-ok
+                marketsForKeyWord: function(keyword) {
+                    var _this = this;
+                    var markets = [];
+                    var oriMarkets = this.markets;
+                    /*Object.keys(this.markets).map(function(market){
+                        if (market.indexOf(keyword) != -1 && _this.markets[market][9] == false) {
+                            markets[market] = oriMarkets[market];
+                        }
+                    });*/
+
+                    oriMarkets.forEach(function (item, index) {
+                        var currMarketName = _this.marketsIdSwitch[item[0]];
+                        if (currMarketName.indexOf(keyword) != -1) {
+                            //过滤后的数组
+                            markets.push(item);
+                        }
+                    });
+
+                    return this.doSortMarket(this.convertMarket(markets));
+                },
+                //转换对象市场为数组市场(为了排序) -ok
+                convertMarket : function (result) {
+                    var _this = this;
+                    var resultArray = [];
+                    // console.log(result)
+                    result.forEach(function (item, index) {
+                        var lineData;
+                        try {
+                            lineData =  JSON.parse(item[6]);
+                        } catch (e) {
+                            lineData = '';
+                        }
+
+                        var obj = {
+                            market : _this.marketsIdSwitch[item[0]], //市场名
+                            // 价格
+                            lastPrice : item[1], //最新价
+
+                            // buyOne : item[4],
+                            // sellOne : item[2],
+                            highPrice : item[2], //最高价
+                            lowPrice : item[3], //最低价
+
+                            // 成交量
+                            volume : item[4],
+                            //折算交易量为USD排序
+                            convertVolume : _this.getVolumeByAssist(item[4], _this.marketsIdSwitch[item[0]], 'usd'),
+                            // 走势图
+                            lineData : lineData,
+                            //涨跌幅
+                            rate : item[5]
+                        }
+                        resultArray.push(obj);
+                    });
+
+                    return resultArray;
+                },
+                //排序的方法-ok
+                doSortMarket : function (markets) {
+                    var sortBy = this.sortBy;
+                    if(sortBy == '' || markets.length == 0){
+                        return markets;
+                    }
+                    // console.log('markets: ' + markets)
+                    markets.sort(function(x, y){
+                        if(sortBy == 'rateUp'){
+                            // return x.rate - y.rate;
+                            return x.rate - y.rate;
+                        }else if(sortBy == 'rateDown'){
+                            // return y.rate - x.rate;
+                            return y.rate - x.rate;
+                        }else if(sortBy == 'volumeUp'){
+                            // return x.convertVolume - y.convertVolume;
+                            return x.convertVolume - y.convertVolume;
+                        }else if(sortBy == 'volumeDown'){
+                            // return y.convertVolume - x.convertVolume;
+                            return y.convertVolume - x.convertVolume;
+                        }
+                    });
+                    return markets;
+                },
+                changeSort : function (name) {
+                    var sortBy = this.sortBy;
+                    var swift = function (name, sort) {
+                        if(sort == ''){
+                            return name + 'Down';
+                        }
+                        if(sort.indexOf(name) != -1){
+                            if(sort.indexOf('Down') != -1){
+                                return name + 'Up';
+                            }
+                            if(sort.indexOf('Up') != -1){
+                                return '';
+                            }
+                        }else{
+                            //递归
+                            return arguments.callee(name, '');
+                        }
+                    }
+                    this.sortBy = swift(name, sortBy);
+                },
+                //获取指定辅助货币的价格 -ok
+                getVolumeByAssist: function (price, market, assist) {
+                    if(!price || price == '' || !market || market == '' || this.assistPrice == null){
+                        return ''
+                    }
+                    var coin = market.split('_')[0];
+                    //优先取指定的assist 默认保留4位小数
+                    var assistCoin = assist || this.assistCoin;
+                    if (assistCoin == 'none' || assistCoin == '') {
+                        return Methods.fixNumber(price, 4);
+                    } else {
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin]), 4) || '--';
+                    }
+                },
+                // 获取币价汇率 -ok
+                getPriceRate: function(callback) {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        success: function (res) {
+                            this.assistPrice = res.datas;
+                            if(typeof callback == 'function'){
+                                callback();
+                            }
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                getHomeMarket : function () {
+                    var _this = this;
+                    /*Methods.getJSONP({
+                        url: DOMAIN_TRADE + API_PREFIX + 'getAllMarket',
+                        success: function (res) {
+                            //处理数据返回格式不统一的问题
+                            var result = res.datas ;
+                            for(var key in result){
+                                _this.mLength += 1;
+                                if(result[key].length < 7){
+                                    result[key][6] = 0;
+                                    result[key][7] = [];
+                                    result[key][7][0] = [];
+                                    result[key][8] = '0.00';
+                                }
+                            }
+                            _this.markets = result;
+                            _this.marketInit = true;
+                        }
+                    });*/
+                    var wsUrl = WEBSOCKET + '/websocket';
+                    // var wsUrl = 'ws://192.168.4.95:28080' + '/websocket';
+
+                    //建立握手
+                    if ('WebSocket' in window) {
+                        _this.websocket = new WebSocket(wsUrl);
+                    } else if ('MozWebSocket' in window) {
+                        _this.websocket = new MozWebSocket(wsUrl);
+                    } else {
+                        console.log('Your browser does not support websocket.')
+                        return false;
+                    }
+
+                    _this.websocket.onopen = function (event) {
+                        var marketParam = {
+                            dataType: "ALL_TRADE_STATISTIC_24H",
+                            dataSize: 1,
+                            action: "ADD"
+                        }
+                        _this.websocket.send(JSON.stringify(marketParam));
+                        // console.log('init websocket');
+
+                        //离开或者刷新当前页面时
+                        window.onbeforeunload =function() {
+                            _this.websocket && _this.websocket.close();
+                        }
+                    };
+                    _this.websocket.onmessage = function (event) {
+                        //修改状态
+                        if(!_this.marketInit){
+                            _this.marketInit = true;
+                        }
+                        // console.log('数据变化了：')
+                        // [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
+                        var res = JSON.parse(event.data);
+
+                        if (typeof res.trade_statistic == 'object') {
+                            _this.markets = res.trade_statistic;
+                        } else {
+                            _this.markets = [];
+                        }
+                        // console.log(event.data)
+                    };
+                    _this.websocket.onerror = function (event) {
+                        //
+                    };
+                },
+                getLineChartColor: function(index, isClose) {
+                    var colors = [
+                        ['#58A065', 'rgba(67,144,234,0.08)'],
+                        ['#4390EB', 'rgba(67,144,234,0.08)'],
+                        ['#F7931A', 'rgba(247, 147, 26, 0.08)'],
+                        ['#F5D525', 'rgba(244,213,37,0.08)'],
+                        ['#5B646F', 'rgba(91,100,111,0.09)'],
+                        ['#0ACC9F', 'rgba(10,204,159,0.08)'],
+                        ['#6CA4EF', 'rgba(88,160,101,0.08)']
+                    ];
+
+                    var colorsClosed = [
+                        ['#666', 'rgba(67,144,234,0.08)']
+                    ];
+
+                    if(index >= colors.length){
+                        index = index % colors.length;
+                    }
+                    var obj = {
+                        fill: "",
+                        height: 30,
+                        stroke: isClose ? colors[index][0] : colorsClosed[0][0],
+                        strokeWidth: 2,
+                        width: 100
+                    };
+                    return obj;
+                },
+                getLineData : function (array) {
+                    if(array.length > 0){
+                        var arr = [];
+                        //容错处理
+
+                        if(!array){
+                            array = []
+                        }
+                        arr = array.map(function(item){
+                            return item[1];
+                        });
+                        var min = arr[0];
+                        for(var i = 0;i < arr.length; i++){
+                            if (arr[i] < min) {
+                                min = arr[i]
+                            }
+                        }
+                        var arr2 = arr.map(function(item){
+                            return item - min;
+                        });
+                        return arr2.join(",");
+                    }else{
+                        return '';
+                    }
+                },
+                showRate : function (rate) {
+                    return Methods.fixNumber(rate, 2)
+                },
+                //交易量折合的提示内容
+                showVolumeHint : function (volume) {
+                    if(parseFloat(volume) > 10000 && parseFloat(volume) < 100000000 ){
+                        volume = Methods.fixNumber((parseFloat(volume) / 10000), 2) + "<%= LANG('万')%>";
+                    }
+                    if(parseFloat(volume) > 100000000 ){
+                        volume = Methods.fixNumber((parseFloat(volume) / 100000000), 4) + "<%= LANG('亿')%>";
+                    }
+                    return "<%= LANG('折合')%>:$ " + volume ;
+                },
+                showCoin : function (val,market) {
+                    if(isNaN(val)){
+                        return '--'
+                    }else{
+                        return Methods.fixDecimal(val, 4)
+                    }
+                },
+                showMoney : function (val,market) {
+                    if(isNaN(val)){
+                        return '--'
+                    }else{
+                        return Methods.fixDecimal(val, 4)
+                    }
+                },
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
+            },
+            updated : function () {
+
+            },
+            created: function(){
+                this.getPriceRate();
+                this.getMarketAreaListByWebId();
+                this.getMarketConfig(function () {
+                    this.getHomeMarket();
+                    setInterval(this.getPriceRate, 90000);
+                    // setInterval(this.getHomeMarket, 5000);
+                }.bind(this));
+            },
+            mounted : function () {
+
+            }
+        });
+    });
+</script>

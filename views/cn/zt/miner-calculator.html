@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Miner Calculator</title>
+    <script src="/src/js/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/src/scripts/jquery.range.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.single-slider').jRange({
+                from: 0,
+                to: 10000,
+                step: 1,
+                scale: [0, 25, 50, 75, 100],
+                format: '%s',
+                width: 300,
+                showLabels: true,
+                showScale: true
+            });
+
+            $('.range-slider').jRange({
+                from: 0,
+                to: 100,
+                step: 1,
+                scale: [0, 25, 50, 75, 100],
+                format: '%s',
+                width: 300,
+                showLabels: true,
+                isRange: true
+            });
+
+            $("#g1").click(function () {
+                var aa = $(".single-slider").val();
+                alert(aa);
+            });
+
+            $("#g2").click(function () {
+                var aa = $(".range-slider").val();
+                alert(aa);
+            });
+        });
+    </script>
+
+    <script src="/src/js/Chart.bundle.js" type="text/javascript"></script>
+    <script src="/src/js/utils.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="/src/styles/jquery.range.css">
+
+    <link rel="stylesheet" href="/src/styles/miner-calculator.css">
+
+    <script type="application/javascript">
+
+        function DataCount(feeUser,fastZtUser,feeTotal,fastZtTotal,lowerUserGet,highUserTotalCost){
+            var obj = new Object();   //原料
+            obj.feeUser = parseFloat(feeUser);
+            obj.fastZtUser = parseFloat(fastZtUser);
+            obj.feeTotal = parseFloat(feeTotal);
+            obj.fastZtTotal = parseFloat(fastZtTotal);
+            obj.lowerUserGet=parseFloat(lowerUserGet);
+            obj.highUserTotalCost=parseFloat(highUserTotalCost);
+            obj.lowUserZt=11000;
+            obj.percentZt=0;
+            obj.percentFee=0;
+            obj.result=0;
+            obj.percent=0;
+            obj.ReCount=function() {
+                obj.percentZt = obj.fastZtUser / obj.fastZtTotal;
+                obj.percentZt = obj.percentZt.toFixed(8)
+
+                obj.percentFee = obj.feeUser  / obj.feeTotal;
+                obj.percentFee = obj.percentFee.toFixed(8);
+
+                if (obj.percentZt < obj.percentFee) {
+
+                    obj.result = obj.feeTotal * obj.percentZt;
+                } else {
+                    obj.result = (obj.feeTotal - obj.lowerUserGet) * obj.feeUser/obj.highUserTotalCost;//
+                }
+
+                obj.result=obj.result.toFixed(4);
+                obj.percent=obj.result/obj.feeUser;
+                obj.percent=obj.percent.toFixed(3);
+            };
+            //dataCountBase 基本的DataCount
+            obj.Update=function(dataCountBase,feeUser,fastZtUser){
+                feeUser= parseFloat(feeUser);
+                fastZtUser=parseFloat(fastZtUser);
+                if(feeUser>=0)
+                {
+                    obj.feeUser = feeUser;
+                    obj.feeTotal=dataCountBase.feeTotal+feeUser-dataCountBase.feeUser;
+                }
+                if(fastZtUser>=0)
+                {
+                    obj.fastZtUser = fastZtUser;
+                    obj.fastZtTotal=dataCountBase.fastZtTotal+fastZtUser-dataCountBase.fastZtUser;
+                }
+                obj.ReCount();
+                //重新计算lowerUserGet以及highUserTotalCost，用户的行为对这两个值有影响
+                if(obj.percentZt<obj.percentFee){//当前在小分区
+                    if(dataCountBase.percentZt<dataCountBase.percentFee){
+                        //基准本身就小
+                        obj.lowerUserGet=dataCountBase.lowerUserGet+obj.feeTotal * obj.percentZt-parseFloat(dataCountBase.result);
+                        obj.highUserTotalCost=dataCountBase.highUserTotalCost
+
+                    }else {//跳分配区域了
+                        obj.lowerUserGet=dataCountBase.lowerUserGet+dataCountBase.result;
+                        obj.highUserTotalCost=dataCountBase.highUserTotalCost-dataCountBase.feeUser;
+                    }
+                }else {//当前在大分区
+                    if(dataCountBase.percentZt>=dataCountBase.percentFee){
+                        //基准本身就在大分区
+                        obj.lowerUserGet=dataCountBase.lowerUserGet;
+                        obj.highUserTotalCost=dataCountBase.highUserTotalCost+obj.feeUser-dataCountBase.feeUser;
+                    }else {//跳分配区域了，从小分区跳到现在的大分区
+                        obj.lowerUserGet=parseFloat(dataCountBase.lowerUserGet)-parseFloat(dataCountBase.result);
+
+                        obj.highUserTotalCost=dataCountBase.highUserTotalCost+obj.feeUser;
+                    }
+                }
+
+
+                obj.ReCount();
+            };
+            obj.print=function(){
+                return "<div><span>"+obj.feeUser+"</span>  <span>"+obj.fastZtUser+"</span>  <span>"+obj.feeTotal+"</span>  <span>"+obj.fastZtTotal +"</span>  <span>"+obj.lowerUserGet+"</span> <span>"+obj.highUserTotalCost+"</span>  <span>"+obj.percentZt+"</span>  <span>"+obj.percentFee+"</span>  <span>"+obj.result+"</span>  <span>"+obj.percent+"</span></div>";
+            };
+            obj.ReCount();
+            return obj;
+        }
+
+        var FeeTotal=20000;
+        var FastZtTotal=30000;
+        var LowUserGet=2500;
+        var HighUserCose=15000;
+        var UserZt=1000;
+        var UserFee=1000;
+
+        var systemData=DataCount(1000,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose);//0 默认系统的
+
+        var datas=[
+            DataCount(1000,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//0 开始等于系统，后面等于变化的主数据
+            DataCount(0,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//1
+            DataCount(100,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//2
+            DataCount(200,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//3
+            DataCount(300,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//4
+            DataCount(400,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//5
+            DataCount(500,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//6
+            DataCount(600,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//7
+            DataCount(700,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//8
+            DataCount(800,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//9
+            DataCount(900,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//10
+            DataCount(1000,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose)//11
+        ];
+
+        var datas2=[
+            DataCount(UserFee,UserZt,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//0 这样无用
+            DataCount(UserFee,0,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//1
+            DataCount(UserFee,100,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//2
+            DataCount(UserFee,200,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//3
+            DataCount(UserFee,300,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//4
+            DataCount(UserFee,400,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//5
+            DataCount(UserFee,500,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//6
+            DataCount(UserFee,600,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//7
+            DataCount(UserFee,700,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//8
+            DataCount(UserFee,800,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//9
+            DataCount(UserFee,900,FeeTotal,FastZtTotal,LowUserGet,HighUserCose),//10
+            DataCount(UserFee,1000,FeeTotal,FastZtTotal,LowUserGet,HighUserCose)//11
+
+        ];
+
+
+
+        function changeLabel(dataCount)
+        {
+            $("#feeUserInput").attr("value",dataCount.feeUser);
+            $("#fastZtUserInput").attr("value",dataCount.fastZtUser);
+            $("#feeTotalLabel").text(dataCount.feeTotal);
+            $("#fastZtTotalLabel").text(dataCount.fastZtTotal);
+            $("#pALabel").text(dataCount.percentZt);
+            $("#pBLabel").text(dataCount.percentFee);
+            $("#pMLabel").text(dataCount.lowerUserGet);
+            $("#pNLabel").text(dataCount.highUserTotalCost);
+            $("#finalLabel").text(dataCount.result);
+            $("#myFeeOld").text(UserFee);
+            $("#myZtOld").text(UserZt);
+
+        }
+
+
+        function changeInput(){
+            var feeUserInput=document.getElementById('feeUserInput').value;
+            var fastZtUserInput=document.getElementById('fastZtUserInput').value;
+
+            config.options.scales.xAxes[0].scaleLabel.labelString="你的手续费贡献(折合ZT假设投入加速池为"+fastZtUserInput+")";
+
+            datas[0].Update(systemData,feeUserInput,fastZtUserInput);
+            changeLabel(datas[0]);
+            datas[1].Update(systemData,0,fastZtUserInput);
+            datas2[1].Update(systemData,feeUserInput,0);
+            for(var i=2;i<12;i++){
+                var now=2*(i-1)*feeUserInput/10;
+
+                datas[i].Update(systemData,now,fastZtUserInput);
+                var now2= 2*(i-1)*fastZtUserInput/10;
+                datas2[i].Update(systemData,feeUserInput,now2);
+
+            }
+        }
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: [
+
+                ],
+                datasets: [{
+                    label: ' ',
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    data: [
+                    ],
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    fill: false,
+                    borderDash: [5, 5],
+                    pointRadius: 4,
+                    pointHoverRadius: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                },
+                title: {
+                    display: false,
+                    position: 'bottom',
+                    text: '挖矿产出（ZT）'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top:0,
+                        bottom: 0
+                    }
+                },
+
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '手续费贡献(折合ZT)'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '挖矿投入产出（ZT）'
+                        }
+                    }]
+                }
+            }
+        };
+
+        var config2 = {
+            type: 'line',
+            data: {
+                labels: [
+
+                ],
+                datasets: [{
+                    label: ' ',
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    data: [
+                    ],
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    fill: false,
+                    borderDash: [5, 5],
+                    pointRadius: 4,
+                    pointHoverRadius: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                },
+                title: {
+                    display: false,
+                    position: 'bottom',
+                    text: '挖矿产出（ZT）'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top:0,
+                        bottom: 0
+                    }
+                },
+
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '投入加速池的ZT'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '挖矿投入1000时的产出比（%）'
+                        }
+                    }]
+                }
+            }
+        };
+
+
+
+
+        window.onload = function() {
+            changeLabel(datas[0]);
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+            var ctx2 = document.getElementById('canvas2').getContext('2d');
+            window.myLine2 = new Chart(ctx2, config2);
+            // var print= "<div class='title'><span>FeeUser</span>  <span>FastZtUser</span>  <span>FeeTotal</span>  <span>FastZtTotal</span>  <span>LowerUserGet</span> <span>HighUserTotalCost</span>  <span>PercentZt</span>  <span>PercentFee</span>  <span>Result</span>  <span>Percent</span></div>";
+            // for(var i=0;i<12;i++){
+            //     print+=datas[i].print();
+            //}
+            // document.getElementById('content').innerHTML=print;
+            blurValue();
+        };
+
+        function blurValue(){
+            changeInput();
+            window.myLine.config.data.labels=[
+                datas[1].feeUser,
+                datas[2].feeUser,
+                datas[3].feeUser,
+                datas[4].feeUser,
+                datas[5].feeUser,
+                datas[6].feeUser,
+                datas[7].feeUser,
+                datas[8].feeUser,
+                datas[9].feeUser,
+                datas[10].feeUser,
+                datas[11].feeUser
+            ];
+
+            for(var k=1;k<12;k++) {
+                config.data.datasets[0].data[k-1] = datas[k].result;
+            }
+
+            window.myLine.update();
+
+            window.myLine2.config.data.labels=[
+                datas2[1].fastZtUser,
+                datas2[2].fastZtUser,
+                datas2[3].fastZtUser,
+                datas2[4].fastZtUser,
+                datas2[5].fastZtUser,
+                datas2[6].fastZtUser,
+                datas2[7].fastZtUser,
+                datas2[8].fastZtUser,
+                datas2[9].fastZtUser,
+                datas[10].fastZtUser,
+                datas2[11].fastZtUser
+            ];
+            for(var k=1;k<12;k++) {
+                config2.data.datasets[0].data[k-1] = datas2[k].result*100/datas[0].feeUser;
+
+            }
+
+            window.myLine2.update();
+
+            var print= "<div class='title'><span>FeeUser</span>  <span>FastZtUser</span>  <span>FeeTotal</span>  <span>FastZtTotal</span>  <span>LowerUserGet</span> <span>HighUserTotalCost</span>  <span>PercentZt</span>  <span>PercentFee</span>  <span>Result</span>  <span>Percent</span></div>";
+            for(var i=0;i<12;i++){
+                print+=datas[i].print();
+            }
+            document.getElementById('content').innerHTML=print;
+        }
+
+        function blurZt(){
+            blurValue();
+        }
+
+    </script>
+</head>
+<body>
+<div class="miner-calculator">
+    <div class="miner-calculator-banner">
+        <div class="container">
+            <div class="calculator-content grid">
+                <div class="calculator-form grid-column">
+                    <h2>收益计算器</h2>
+                    <div class="input-wrapper">
+                        <div class="form-group">
+                            <h4>您打算交易贡献多少手续费（折合ZT），<a href="#">立即交易</a></h4>
+                            <div class="btn-group">
+                                <input type="hidden" class="single-slider" value="0" />
+                                <input class="input" value="1000" onblur="blurValue()" id="feeUserInput" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4>您打算锁定多少ZT到加速池，没有ZT？<a href="#">立即购买</a></h4>
+                            <div class="btn-group">
+                                <input type="hidden" class="single-slider" value="3000" />
+                                <input class="input" placeholder="$Amount" value="3000" onblur="blurZt()" id="fastZtUserInput" />
+                            </div>
+                        </div>
+
+
+                        <div class="calculation"><h4>如果您的挖矿手续费占比小于锁仓ZT占比</h4><p>您的挖矿收益 = FeeTotal * (A * A / B)</p></div>
+
+                    </div>
+                </div>
+
+                <div class="grid-column">
+                    <div class="calculator-card">
+                        <div class="head"><h2>您的挖矿收益</h2><p id="finalLabel">-</p></div>
+                        <ul>
+                            <li>
+                                <h4></h4>
+                                <p style="color: rgb(255, 130, 173)">手续费 (<span id="pALabel"></span>%)</p>
+                                <p style="color: rgb(181, 100, 210)">锁仓ZT (<span id="pBLabel"></span>%)</p>
+                            </li>
+                            <li>
+                                <h4>我的</h4>
+                                <p id="myFeeOld">-</p>
+                                <p id="myZtOld">-</p>
+                            </li>
+                            <li>
+                                <h4>总和</h4>
+                                <p id="feeTotalLabel">-</p>
+                                <p  id="fastZtTotalLabel">-</p>
+                            </li>
+                        </ul>
+                        <div class="statistics"><p>POS减速区总分配<span id="pMLabel">-</span></p>
+                            <p>POS加速区总贡献<span id="pNLabel">-</span></p></div>
+                        <div class="charts">
+                            <canvas id="canvas"></canvas>
+                            <canvas id="canvas2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="miner-calculator-record">
+        <div class="container">
+            <h2>挖矿记录</h2>
+            <div class="record-content">
+                <ul class="title">
+                    <li>挖矿期数</li>
+                    <li>状态</li>
+                    <li>手续费折合</li>
+                    <li>手续费转化ZT数</li>
+                    <li>销毁数</li>
+                </ul>
+                <ul class="list-item">
+                    <li>2018/12/14</li>
+                    <li style="color: #50e3c2">进行中，剩时12时11分10秒</li>
+                    <li>12.12 <span>BTC</span></li>
+                    <li>23434343.12 <span>ZT</span></li>
+                    <li>-</li>
+                </ul>
+                <ul class="list-item">
+                    <li>2018/12/14</li>
+                    <li style="color: #65a9f7">已结束，未分配（预计剩时12时11分）</li>
+                    <li>12.12 <span>BTC</span></li>
+                    <li>23434343.12 <span>ZT</span></li>
+                    <li>-</li>
+                </ul>
+                <ul class="list-item">
+                    <li>2018/12/14</li>
+                    <li style="color: #adadbd">已结束，已分配</li>
+                    <li>12.12 <span>BTC</span></li>
+                    <li>23434343.12 <span>ZT</span></li>
+                    <li>2234345.23 <span>ZT</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="print"></div>
+
+</body>
+</html>

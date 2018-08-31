@@ -1,0 +1,325 @@
+<template type="text/x-template" id="setloginpwd">
+    <div class="exx-modal-container">
+        <div v-if="setLoginPwdType == 0" class="exx-modal-header"><h3><%= LANG('登录密码设置') %></h3></div>
+        <div v-if="setLoginPwdType == 1" class="exx-modal-header"><h3><%= LANG('登录密码修改') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <template v-if="setLoginPwdType == 1">
+                        <div class="form-group">
+                            <div class="form-control" id="nikeForm">
+                                <input autocomplete="new-password" placeholder="<%= LANG('当前登录密码') %>"
+                                       v-model="oldPassword"
+                                       type="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>"
+                                       v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
+
+                                <ul v-show="newPassword.length" class="exx-grade" v-cloak="">
+                                    <li :class="[{active: pwdStrength == 0 }]"><%= LANG('不合格') %></li>
+                                    <li :class="[{active: pwdStrength == 1 }]"><%= LANG('弱') %></li>
+                                    <li :class="[{active: pwdStrength == 2 }]"><%= LANG('中') %></li>
+                                    <li :class="[{active: pwdStrength > 2 }]"><%= LANG('强') %></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="new-password" placeholder="<%= LANG('确认新登录密码') %>"
+                                       v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control" style="display: block !important;">
+                                <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
+                                <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
+                                       type="text">
+                                <send-code :code-type="3"
+                                           :user-name="userInfo.loginName"
+                                           :user-id="userInfo.userId"
+                                           :bus-type="4"
+                                           :img-code="imgCode"
+                                           :img-code-id="imgCodeId"
+                                           :error-fun="handleRefreshImgcode"/>
+                            </div>
+                        </div>
+                        <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1" class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode"
+                                       name="googleCode" type="text">
+                            </div>
+                        </div>
+                    </template>
+                    <template v-if="setLoginPwdType == 0">
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>"
+                                       v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="new-password" placeholder="<%= LANG('确认登录密码') %>"
+                                       v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control" style="display: block !important;">
+                                <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
+                                <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control">
+                                <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
+                                       type="text">
+                                <send-code :code-type="3"
+                                           :user-name="userInfo.loginName"
+                                           :user-id="userInfo.userId"
+                                           :bus-type="15"
+                                           :img-code="imgCode"
+                                           :img-code-id="imgCodeId"
+                                           :error-fun="handleRefreshImgcode"/>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div class="form-button">
+                        <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button"><span><%= LANG('提交') %></span>
+                        </button>
+                        <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</template>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('setloginpwd', {
+            template: "#setloginpwd",
+            props: {
+                setLoginPwdType: {
+                    // 0: 设置密码 1：修改密码
+                    default: 1
+                }
+            },
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    sendCodeType: "",//发送验证类型
+                    locked: false,
+                    pubKey: '',
+                    rsaKeyId: '',
+                    oldPassword: '',
+                    newPassword: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    googleCode: '',
+                    pwdStrength: 0,
+                    userName: Methods.getCookie(ENV + 'uname'),
+                    imgCode: '',
+                    imgCodeId: '',
+                    imageCodeUrl: '',
+                    userInfo:Methods.getLocalUserInfo()
+                }
+            },
+            computed: {
+                hasLoginPwd: function () {
+                    return Methods.getLocalUserInfo.loginPwd != 0;
+                }
+            },
+            methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                handleComparedPwd: function () {
+                    this.passwordIdentical = this.newPassword === this.passwordConfirmation
+                },
+                //校验密码强度
+                handleCheckPwdStrength: function () {
+                    this.pwdStrength = Methods.checkPwdStrength(this.newPassword);
+                    this.handleComparedPwd()
+                },
+                clearInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                handleCheckLength: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if ($(target).val() == '') {
+                        Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                handleSubmit: function () {
+                    var that = this
+                    this.sendCodeType = sessionStorage.getItem("smsOremail");
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+
+                    switch (parseInt(this.setLoginPwdType)) {
+                        case 0:
+                            var data = {
+                                rsaEncodeLoginPwd: Methods.encryptPwd(this.newPassword, this.pubKey),
+                                rsaKeyId: this.rsaKeyId
+                            };
+                            if (this.sendCodeType == "sms") {
+                                data.smsCode = this.dynamicCode;
+                            } else if (this.sendCodeType == "email") {
+                                data.emailCode = this.dynamicCode;
+                            }
+                            Methods.ajax({
+                                type: "POST",
+                                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doCompleteLoginPassword',
+                                data: data,
+                                success: function (res) {
+                                    //密码修改成功，返回空
+                                    // console.log(Methods.getLocalStorage(ENV + 'userInfo'))
+                                    // var userInfo = Methods.getLocalStorage(ENV + 'userInfo')
+                                    that.getUserInfo()
+                                    this.locked = false;
+                                    EXX.userIndex.closeModal();
+                                    JuaBox.sure("<%= LANG('登录密码设置成功') %>");
+                                    this.oldPassword = '';
+                                    this.newPassword = '';
+                                    this.passwordConfirmation = '';
+                                    this.dynamicCode = '';
+
+                                    // Methods.setLocalUserInfo(res.datas);
+                                    // for(var key in res.datas){
+                                    //     Vue.set(EXX.userIndex.loginUser, key, res.datas[key])
+                                    // }
+                                }.bind(this),
+                                error: function (res) {
+                                    this.locked = false;
+                                    JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                    // JuaBox.info(EXX.L(res.resMsg.message))
+                                }.bind(this)
+                            });
+                            break;
+                        case 1:
+                            var data = {
+                                oldPassword: Methods.encryptPwd(this.oldPassword, this.pubKey),
+                                newPassword: Methods.encryptPwd(this.newPassword, this.pubKey),
+                                googleCode: this.googleCode,
+                                pwdLevel: this.pwdStrength,
+                                rsaKeyId: this.rsaKeyId
+                            };
+                            if (this.sendCodeType == "sms") {
+                                data.smsCode = this.dynamicCode;
+                            } else if (this.sendCodeType == "email") {
+                                data.emailCode = this.dynamicCode;
+                            }
+                            if (this.newPassword == '') {
+                                JuaBox.sure("<%= LANG('请输入新密码') %>");
+                            } else if (!this.passwordIdentical) {
+                                JuaBox.sure("<%= LANG('两次输入的密码不一致') %>");
+                            } else if (this.imgCode=='') {
+                                JuaBox.sure("<%= LANG('请输入图形验证码') %>");
+                            } else if (this.dynamicCode == '') {
+                                JuaBox.sure("<%= LANG('请输入验证码') %>");
+                            } else {
+                                // 校验密码强度
+                                // if (Methods.checkPwdStrength(this.oldPassword) < 2) {
+                                //     JuaBox.sure("<%= LANG('当前密码格式不正确') %>");
+                                //     return;
+                                // }
+                                if (Methods.checkPwdStrength(this.newPassword) < 2) {
+                                    JuaBox.sure("<%= LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %>");
+                                    return;
+                                }
+
+                                this.locked = true;
+                                //通过headers传参，使用ajax原生方法
+                                Methods.ajax({
+                                    // url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
+                                    type: "POST",
+                                    url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setLoginPassword',
+                                    data: JSON.stringify(data),
+                                    success: function (res) {
+                                        //密码修改成功，返回空
+                                        this.locked = false;
+                                        EXX.userIndex.closeModal();
+                                        JuaBox.sure("<%= LANG('登录密码修改成功') %>");
+                                        this.oldPassword = '';
+                                        this.newPassword = '';
+                                        this.passwordConfirmation = '';
+                                        this.dynamicCode = '';
+
+                                        // Methods.setLocalUserInfo(res.datas);
+                                        // for(var key in res.datas){
+                                        //     Vue.set(EXX.userIndex.loginUser, key, res.datas[key])
+                                        // }
+                                    }.bind(this),
+                                    error: function (res) {
+                                        this.locked = false;
+                                        JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                        // JuaBox.info(EXX.L(res.resMsg.message))
+                                    }.bind(this)
+                                });
+                            }
+                            break;
+                    }
+                },
+                getUserInfo: function () {
+                    var _this = this;
+                    Methods.ajax({
+                        type:'POST',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        success: function (res) {
+                            _this.userInfo = res.datas;
+                            //更新用户信息
+                            Methods.setLocalUserInfo(res.datas);
+                            Vue.set(EXX.userIndex.$data, "loginUser", res.datas);//更新用户中心Vue实例
+                        }
+                    });
+                },
+                handleRefreshImgcode: function () {
+                    this.getImageCode();
+                },
+
+            },
+            mounted: function () {
+                this.getUserInfo();
+                this.getPubKey();
+                this.getImageCode();
+
+            }
+        })
+    })
+</script>

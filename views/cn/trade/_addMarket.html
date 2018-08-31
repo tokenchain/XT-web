@@ -1,0 +1,72 @@
+<div class="exx-modal-container exx-light" style="width: 800px;">
+
+  <div class="exx-modal-header">
+    <i class="iconfont icon-coin"></i><h3><%= LANG('管理我的市场') %></h3>
+  </div>
+  <div class="exx-modal-body">
+    <div class="exx-account-info">
+      <h3>
+        <template v-if="currentAccountInfo.nickName != ''">{{currentAccountInfo.nickName}}</template>
+        <template v-else>{{currentAccountInfo.userName}}</template>
+      </h3>
+      <p><%= LANG('将下列交易对添加到此账户') %></p>
+      <div class="avatar">
+          <img v-if="currentAccountInfo.photo" :src="'<%= STATIC %>/images/userhead/' + currentAccountInfo.photo">
+          <img v-else src="<%= STATIC %>/images/userhead/default.jpg">
+      </div>
+    </div>
+    <div class="exx-coin-info">
+      <!--<ul class="exx-tab">
+        <li v-for="coin in Object.keys(marketCoin)" @click="selectedMainCoin = coin" :class="{active: selectedMainCoin == coin }"><span>{{coin.toUpperCase()}}</span></li>
+      </ul>-->
+      <div class="exx-table">
+        <div class="tab-panel">
+          <table >
+            <thead>
+            <tr>
+                <th><%= LANG('交易市场') %></th>
+                <th><%= LANG('24H交易量') %></th>
+                <th><%= LANG('24H涨跌幅') %></th>
+                <th><%= LANG('操作') %></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr v-for="(market,key) in allMarketsData" v-if="currentAccountInfo.userType == 3 && market[9]">
+              <td style="font-size: 14px"><img :src="'/src/images/icon/market-icon/market-' + key.split('_')[0] + '.png'" class="market-icon"><b>{{getRealCoinName(key.split("_")[0]).toUpperCase()}}</b> / {{getRealCoinName(key.split("_")[1]).toUpperCase()}}</td>
+              <td>{{market[5]}} {{getRealCoinName(key.split("_")[0]).toUpperCase()}}</td>
+              <td :class="market[8] > 0 ? 'txt-red' : 'txt-green'">{{market[8] > 0 ? ("+" + market[8]) : market[8] }}</td>
+              <td>
+                <a @click="editUserMarket('1', key, $event)" v-if="currentUserMarkets.indexOf(key) == -1" class="add"><%= LANG('添加') %></a>
+                <a v-else @click="editUserMarket('0', key, $event)" class="del"><%= LANG('移除') %></a>
+              </td>
+            </tr>
+
+            <tr v-for="(market,key) in allMarketsData" v-if="currentAccountInfo.userType != 3 && !market[9]">
+              <td style="font-size: 14px"><img :src="'/src/images/icon/market-icon/market-' + key.split('_')[0] + '.png'" class="market-icon"><b>{{getRealCoinName(key.split("_")[0]).toUpperCase()}}</b> / {{getRealCoinName(key.split("_")[1]).toUpperCase()}}</td>
+              <td>{{market[5]}} {{getRealCoinName(key.split("_")[0]).toUpperCase()}}</td>
+              <td :class="market[8] > 0 ? 'txt-red' : 'txt-green'">{{market[8] > 0 ? ("+" + market[8]) : market[8] }}</td>
+              <td>
+                <a @click="editUserMarket('1', key, $event)" v-if="currentUserMarkets.indexOf(key) == -1" class="add"><%= LANG('添加') %></a>
+                <a v-else @click="editUserMarket('0', key, $event)" class="del"><%= LANG('移除') %></a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--
+        <div class="more-coin">
+            更多<i class="iconfont icon-expand_more"></i>
+        </div>
+        -->
+    </div>
+
+
+
+
+  </div>
+
+
+</div>

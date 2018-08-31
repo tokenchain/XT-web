@@ -1,0 +1,74 @@
+<div class="trading-slider" id="app-sider">
+    <div class="trading-filter" v-if="lightShowsider">
+        <div class="search">
+            <i class="trading-icon trading-icon-search"></i>
+            <input placeholder="<%- LANG('搜索')%>" type="text" v-model="keyWord">
+        </div>
+        <div class="drop" v-cloak="">
+            <p><%- LANG('价格显示')%>:<span>{{showAssistName()}}</span></p>
+            <ul class="drop-box">
+                <li @click="assistCoin = 'usd'" :class="{'active' : assistCoin == 'usd'}">USD</li>
+                <li @click="assistCoin = '<%= UNIT %>'" :class="{'active' : assistCoin == '<%= UNIT %>'}"><%= LEGAL[UNIT].unit %></li>
+            </ul>
+        </div>
+    </div>
+    <div class="trading-market">
+        <div class="trading-tab">
+            <ul v-cloak="">
+                <li role="button" @click="changeTab('user')" :class="{'active' : currentTab == 'user' && keyWord == ''}" v-if="isLogin">
+                    <img v-if="currentUserAsset.photo" :src="'/src/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
+                    <p><%- LANG('自选')%></p>
+                </li>
+                <!--<li role="button" @click="changeTab('_<%= LEGAL[UNIT].alias %>')" :class="{'active' : currentTab == '_<%= LEGAL[UNIT].alias %>' && keyWord == ''}">-->
+                    <!--<img src="/src/images/icon/market-icon/market-<%= LEGAL[UNIT].alias %>.png">-->
+                    <!--<p><%= LEGAL[UNIT].alias.toUpperCase() %></p>-->
+                <!--</li>-->
+                <li v-for="item in marketAreaList" role="button" @click="changeTab('_' + item.name)" :class="{'active' : currentTab == '_' + item && keyWord == ''}">
+                    <img :src="'/src/images/icon/market-icon/' + item.logo">
+                    <p>{{item.name.toUpperCase()}}</p>
+                </li>
+            </ul>
+        </div>
+        <div class="market-list" v-if="lightShowsider">
+            <div :class="{'loading loading-light-bg' : !allMarket}"></div>
+            <ul v-if="allMarket" v-cloak="">
+                <li class="head">
+                    <p role="button" class="coin-name">
+                        <span class="filter" @click="changeSort('name')" :class="{'up' : sortBy == 'nameUp', 'down' : sortBy == 'nameDown'}"><%- LANG('市场')%></span>
+                    </p>
+                    <p role="button">
+                        <span class="filter" @click="changeSort('price')" :class="{'up' : sortBy == 'priceUp', 'down' : sortBy == 'priceDown'}"><%- LANG('最新价')%></span>
+                    </p>
+                    <p role="button" class="rose">
+                        <span class="filter" @click="changeSort('rate')" :class="{'up' : sortBy == 'rateUp', 'down' : sortBy == 'rateDown'}"><%- LANG('涨跌幅')%></span>
+                    </p>
+                </li>
+                <li v-if="currentTab == 'user' && userMarket.length == 0" style="padding: 0">
+                    <%- LANG('通用没有任何记录')%>
+                </li>
+                <li role="button" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" :class="{'active' : data.market == currentMarket}" >
+                    <p class="coin-name">
+                        <img :src="'/src/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
+                        <!--<span class="text-icon" v-if="data.leverRate > 0"><i>{{data.leverRate}}X</i></span>-->
+                    </p>
+                    <p class="hint--top" :aria-label="showAssistHint(data.lastPrice,data.market)">
+                        <b :class="data.rate >= 0 ? 'trading-redcolor' : 'trading-greencolor'">{{showPrice(data.lastPrice,data.market)}}</b>
+                    </p>
+                    <p class="rose" :class="data.rate >= 0 ? 'trading-redcolor' : 'trading-greencolor'">
+                        {{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%
+                    </p>
+                    <p style="width: 18px; flex:none;" v-if="isLogin && userMarket">
+                        <a v-if="checkUserMarket(data.marketId)" @click.stop="editUserMarket(0, data.marketId)" role="button" title="<%- LANG('取消自选')%>">
+                            <img src="/src/images/icon/star_active.png" style="width: 14px;" />
+                        </a>
+                        <a v-if="!checkUserMarket(data.marketId)" @click.stop="editUserMarket(1, data.marketId)" role="button" title="<%- LANG('添加自选')%>">
+                            <img src="/src/images/icon/star_gray.png" style="width: 14px;" />
+                        </a>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--引入侧边栏app-->
+<%-include("../app.sider.html", {theme : 'light'})%>

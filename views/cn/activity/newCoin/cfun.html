@@ -1,0 +1,563 @@
+<style>
+    .mvs {
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+    }
+
+    .mvs .banner {
+        height: 500px;
+        background: url(/src/images/home/cfun/banner.jpg) no-repeat center center / cover;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mvs .banner .mvs-video {
+        position: absolute;
+        min-width: 100vw;
+        min-height: 100vh;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+        left: 50%;
+        top: 50%;
+        opacity: 0.3;
+    }
+
+    .mvs .banner .mvs-info {
+        padding-top: 50px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        display: -webkit-flex;
+        display: -webkit-flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .mvs .banner .mvs-box {
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mvs .banner .mvs-box .mvs-logo {
+        width: 280px;
+    }
+
+    .mvs .banner .mvs-box .text {
+        font-size: 14px;
+        line-height: 24px;
+        color: #fff;
+        width: 800px;
+        margin: 30px 0 40px 0;
+    }
+
+    .mvs .banner .mvs-box .btn a {
+        display: block;
+        padding: 15px 80px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 16px;
+        background-image: -moz-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: -ms-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+    }
+
+    .mvs .banner .mvs-info .activity {
+        font-size: 30px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .mvs .banner .mvs-info .activity p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .container {
+        width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .mvs-content .tedian {
+        text-align: center;
+        padding: 80px 0;
+    }
+
+    .mvs-content .tedian h2 {
+        font-size: 26px;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 80px;
+    }
+
+    .mvs-content .tedian ul {
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .mvs-content .tedian ul li {
+        flex: none;
+        width: calc((100% - 120px) / 4);
+    }
+
+    .mvs-content .tedian ul li .icon {
+        height: 98px;
+        display: -webkit-flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .mvs-content .tedian ul li h3 {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+        margin: 20px 0;
+    }
+
+    .mvs-content .tedian ul li p {
+        font-size: 13px;
+        color: #888;
+        line-height: 20px;
+        margin-top: 20px;
+    }
+
+    .mvs-content .tedian .baipishu {
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 60px;
+    }
+
+    .mvs-content .tedian .baipishu a {
+        padding: 12px 0;
+        border-radius: 40px;
+        color: #0099FF;
+        border: 1px solid #0099FF;
+        font-size: 14px;
+        flex: none;
+        width: 300px;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .mvs-content .tedian .baipishu a:hover {
+        background: #0099FF;
+        color: #fff;
+    }
+
+    .mvs-content .jieshao {
+        padding: 80px 0;
+        color: #fff;
+        background-color: #089fff;
+    }
+
+    .mvs-content .jieshao .logo-img {
+        width: 100px;
+    }
+
+    .mvs-content .jieshao h2 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 30px 0;
+    }
+
+    .mvs-content .jieshao p {
+        font-size: 15px;
+        line-height: 24px;
+        margin-top: 20px;
+        width: 700px;
+    }
+
+    .mvs-content .jieshao .img {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 450px;
+    }
+
+    .mvs-content .tuandui {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .mvs-content .tuandui h2 {
+        font-size: 26px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .mvs-content .tuandui h3 {
+        font-size: 20px;
+        color: #000;
+        margin: 20px 0;
+        margin: 80px 0;
+    }
+
+    .mvs-content .tuandui ul {
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .mvs-content .tuandui ul li {
+        flex: none;
+        width: calc(100% / 3);
+        padding: 0 30px;
+        margin-bottom: 50px;
+    }
+
+    .mvs-content .tuandui.logo ul li {
+        width: calc(100% / 4);
+    }
+
+    .mvs-content .tuandui ul li .img img {
+        width: 120px;
+    }
+
+    .mvs-content .tuandui ul.jishu li .img img {
+        border-radius: 50%;
+    }
+
+    .mvs-content .tuandui ul li h4 {
+        font-weight: bold;
+        font-size: 20px;
+        color: #333;
+        margin: 20px 0 10px 0;
+    }
+
+    .mvs-content .tuandui ul li p.zhiwei {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .mvs-content .tuandui ul li p.text {
+        color: #888;
+        line-height: 20px;
+        margin-top: 20px;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    .mvs-content .lingqu {
+        background: #121c27;
+        padding: 80px 0;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+    }
+
+    .mvs-content .lingqu .box {
+        display: -webkit-flex;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .mvs-content .lingqu .mvs-logo {
+        width: 200px;
+    }
+
+    .mvs-content .lingqu a.btn {
+        display: block;
+        padding: 15px 80px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 16px;
+        margin-top: 50px;
+        background-image: -moz-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: -ms-linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+        background-image: linear-gradient(-25deg, rgb(254, 153, 0) 0%, rgb(254, 0, 0) 98%);
+    }
+
+    .mvs-content .fazhan {
+        padding: 50px 0;
+    }
+
+    .mvs-content .fazhan .info > h3 {
+        font-size: 26px;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .mvs-content .fazhan .info > h3.after.w:after {
+        background: #fff;
+    }
+
+    .mvs-content .fazhan .info > h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 24px;
+    }
+
+    .mvs-content .fazhan .info > p {
+        line-height: 26px;
+        margin-bottom: 30px;
+    }
+
+    .mvs-content .fazhan .item {
+        margin-bottom: 30px;
+    }
+
+    .mvs-content .fazhan .item p {
+        display: inline-block;
+    }
+
+    .mvs-content .fazhan .item p.time {
+        color: #df1a14;
+        width: 100px;
+    }
+
+</style>
+<div class="mvs" id="giftCoin">
+    <div class="banner">
+        <div class="mvs-info">
+            <div class="mvs-box">
+                <div class="mvs-logo"><img src="/src/images/home/cfun/logo.png"/></div>
+                <div class="text">
+                    CFun是一款搭建在量子链上的DAPP，旨在成为全球创作者聚集的创作辅助平台，通过自组织的协同创作，依靠区块链记录确权，基于专利算法预测IP市场价值、匹配需求方，计算创作贡献并结合智能合约完成IP定制、交易等机制，实现社交化的内容创作及个人数字资产的价值传递。
+                </div>
+                <div class="btn">
+                    <a role="button" href="https://www.cfunproject.com/" target="_blank"><%= LANG('官方网站')%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mvs-content">
+
+        <div class="tedian">
+            <div class="container">
+                <h2>发展规划</h2>
+                <ul>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/china_icon.png"/></div>
+                        <p>在中国通过“二次元语言Cosplay”测试、验证CoGC模式、算法和交易需求</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/world_icon.png"/></div>
+                        <p>在文字创作领域进行国际拓展（日本、韩国、美国、英国、法国）</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/film_icon.png"/></div>
+                        <p>在其他创作领域（漫画、音乐、电影等）做自组织协同创作拓展</p>
+                    </li>
+                </ul>
+                <div class="baipishu">
+                    <a href="https://www.cfunproject.com/cntwitter.html" target="_blank">漫画版白皮书</a>
+                    <a href="https://cfunproject.com/whitepaper/download/CFunWHITEPAPER_ZH.pdf"
+                       target="_blank">中文版白皮书</a>
+                </div>
+            </div>
+        </div>
+        <div class="jieshao">
+            <div class="container">
+                <h2 style="margin-top: 0">解决方案</h2>
+                <p>1.实现著作权的唯一性和不可篡改性，提供了确权方式</p>
+                <p>2.通过用户行为数据为原创、初创IP实时定价</p>
+                <p>3.为数据提供可信任机制</p>
+                <p>4.依靠用户数据准确、科学的告诉IP需求方：哪个IP更适合</p>
+                <p>5.极大提高了草根创作者在创作初期获得收入的可能性</p>
+                <div class="img"><img src="/src/images/home/cfun/cfun-adimg.png"/></div>
+            </div>
+        </div>
+
+        <div class="fazhan" style="background:#fff; color: #333; font-size: 14px;">
+            <div class="container">
+                <div class="info">
+                    <h3 class="after">发展历程</h3>
+                    <div class="item">
+                        <p class="time">2015年3月</p>
+                        <p>CFun对重度二次元领域语言COSPLAY做了深度调研后，决定启动社交化协同创作项目——CFun。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2015年5月</p>
+                        <p>CFun获得薛蛮子及娱乐工场数百万元Pre-A轮投资。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2015年9月</p>
+                        <p>CFun1.0版本上线，2个小时下载量超过5000人。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2016年5月</p>
+                        <p>CFun团队做了大量的内容需求调研，先后尝试互动内容直播，企业品牌IP孵化，中小企业的内容扶持等多个跨领域的内容合作。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2016年11月</p>
+                        <p>内容创作者超过10万，创作字数超过1亿字。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2017年4月</p>
+                        <p>CFun与京东图书达成互动评论内容共识，签署基于2000个SKU的内容生成合作协议。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2017年6月</p>
+                        <p>内容创作者超过15万，创作字数超过2亿字。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2017年6月</p>
+                        <p>CFun将现有业务与区块链技术集合，优化业务架构。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2017年12月</p>
+                        <p>启动CFun项目积分预售。</p>
+                    </div>
+                    <div class="item">
+                        <p class="time">2018年8月</p>
+                        <p>CFun版本开发完成并上线运营。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lingqu">
+            <div class="container">
+                <div class="box">
+                    <div class="img"><img src="/src/images/home/cfun/daishou_<%- LAN%>.png"
+                                          style="max-width: 100%; width:100%;"/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tuandui">
+            <div class="container">
+                <h2 style="margin-bottom: 50px;">CFUN团队</h2>
+                <ul>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/jia.png"/></div>
+                        <h4>贾裴军</h4>
+                        <p class="zhiwei">创始人</p>
+                        <p class="text">
+                            原DMG（数码媒体集团）创始人、董事长，丰富的内容领域经验，坚信UCG是互联网的本质。具有极其敏锐的商业嗅觉及洞察力，同时对业务模式及商业模型的建立有极深造诣。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/chushuai.jpg"/></div>
+                        <h4>帅初</h4>
+                        <p class="zhiwei">项目投资人及顾问</p>
+                        <p class="text">
+                            量子链及量子基金会创始人，2017年7月20日，入选2017福布斯中国30位30岁以下精英榜名单，是区块链社区活跃的布道者，是中国区块链应用落地的推动者。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/chenqingyue.png"/></div>
+                        <h4>陈青越</h4>
+                        <p class="zhiwei">项目顾问</p>
+                        <p class="text">臻之科技创始合伙人，特许金融分析师，风险投资人，区块链金融体系设计资深专家。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/zsy.png"/></div>
+                        <h4>张申义</h4>
+                        <p class="zhiwei">项目合伙人</p>
+                        <p class="text">日本早稻田大学毕业。曾任日本株式会社JOE
+                            国际市场负责人，在港澳台成功制作发行《养猪场》《欠债要靠赌博来还》系列手游并获得千万用户，对日本和大中华ACG文化有深刻理解。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/chenyonghu.png"/></div>
+                        <h4>陈永虎</h4>
+                        <p class="zhiwei">技术总监</p>
+                        <p class="text">
+                            原北京光芒星空信息技术有限公司研发经理，6年移动端开发经验，精通Android&iOS及Linux系统开发，对移动通信网络有深入研究，熟悉以太坊，精通solidity智能合约开发。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/chenzian.png"/></div>
+                        <h4>辰子安</h4>
+                        <p class="zhiwei">内容合伙人</p>
+                        <p class="text">二次元语C圈KOL，6千人语C家族——辰氏家族创始人、族长，QQ部落粉丝12万人，语C圈第一本戏文合集《玛维》主编。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/liuen.png"/></div>
+                        <h4>黒田宏人</h4>
+                        <p class="zhiwei">UI设计师</p>
+                        <p class="text">CFun第一版产品的UI设计师，目前在中央美术学院攻读研究生，研究方向为日本和中国设计中传统元素和传统工艺的对比。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/zhangchi.jpg"/></div>
+                        <h4>张弛</h4>
+                        <p class="zhiwei">项目顾问</p>
+                        <p class="text">英国爱丁堡大学数量遗传学硕士，清华大学生物科学技术学士。瑞丰银行资深开发专家，精通面向对象程式设计技巧，丰富的分析背景。</p>
+                    </li>
+                    <li>
+                        <div class="img"><img src="/src/images/home/cfun/sanqian.png"/></div>
+                        <h4>天水三千</h4>
+                        <p class="zhiwei">内容顾问</p>
+                        <p class="text">一位来自杭州的coser，因为长得很美，所以经常被大家误认为是女性。他的作品风格多样，擅长舞台表演，其cos的安碧成、狐仙、冲田总司等作品被广为流传。</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lingqu">
+            <div class="container">
+                <div class="box">
+                    <h2 style="margin-bottom: 50px; font-size: 24px; color: #fff;">CFun——一个社交化创作的DApp</h2>
+                    <p style="font-size: 14px; color:#fff; line-height: 1.5; margin-bottom: 30px; text-align: center">
+                        未来24个月，CFun将颠覆传统的内容产生方式，直到颠覆所有的社交方式！每个人都可以用CFun建立自己的社群，内容是身躯，token是血液，每个人每个公司每个产品都会在CFun社会里建立自己的家园，CFun将重塑价值化的线上社区，通过区块链技术重新定义内容社交，通过token，重新定义社群中的“人”的价值。</p>
+                    <div class="video-wrapper">
+                        <iframe frameborder="0" width="560" height="320"
+                                src="https://v.qq.com/iframe/player.html?vid=z0514u1rasp&tiny=0&auto=0"
+                                allowfullscreen></iframe>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tuandui logo">
+            <div class="container">
+                <h2 style="margin-bottom: 50px;">合作伙伴</h2>
+                <ul>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/zg.png"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/jd.png"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/yl.png"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/bitthai.jpg"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/fundv.png"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/lmostar.png"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/allcoin.jpg"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/EXX.jpg"/></div>
+                    </li>
+                </ul>
+                <h2 style="margin-bottom: 50px;">投资机构</h2>
+                <ul>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/liangan.jpg"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/ylgc.jpg"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/mzjj.jpg"/></div>
+                    </li>
+                    <li>
+                        <div class="img"><img src="https://www.cfunproject.com/img/preangle.jpg"/></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

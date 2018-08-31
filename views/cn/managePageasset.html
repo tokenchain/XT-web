@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+<head>
+    <%-include("include/headInit.html")%>
+    <%-include("include/headMetanew.html")%>
+</head>
+<body>
+<%-include("include/head.html")%>
+<section class="user-center">
+            <%-include("u/asset/menu.html")%>
+            <% try{ %>
+            <%-include(templateMain)%>
+            <% }catch(err){ %>
+            <%- err%>
+            <%-include("include/error.html")%>
+            <% } %>
+</section>
+
+</body>
+</html>
+<!--财务中心模板-->

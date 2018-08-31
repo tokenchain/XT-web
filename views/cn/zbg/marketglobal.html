@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zxx">
+<!--<![endif]-->
+
+<head>
+    <script type="text/javascript">
+        var GLOBAL             = {},
+            EXX = {},
+            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>市场</title>
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
+
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+
+
+    <style>
+        .totalcoin{
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px 15px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+        .totalcoin li{
+            margin: 5px;
+            background: rgba(255,255,255,.1);
+            padding: 10px 10px;
+            min-width: 80px;
+            text-align: center;
+            border-radius: 3px;
+        }
+        .totalcoin li:hover,.totalcoin li.active{
+            background: #5f55ff;
+            color: #fff;
+        }
+        .cd-nav-aux{
+            position: relative;
+        }
+        .market-search{
+            right: 100px;
+            bottom: 10px;
+            display: block;
+            position: absolute;
+        }
+        .market-search .icon{
+            position: absolute;
+            right: 12px;
+            top: 4px;
+        }
+        .market-search .icon:hover{
+            color: #4FD3D3;
+        }
+        .market-search input{
+            border: 2px solid rgba(255,255,255,0.15);
+            height: 28px;
+            width: 200px;
+            border-radius: 14px;
+            padding-left: 15px;
+            font-size: 14px;
+            line-height: 28px;
+            color: #c0c0ec;
+        }
+        .market-search input::placeholder{
+            color: #c0c0ec;
+        }
+        .market-search input::-moz-placeholder{
+            color: #c0c0ec;
+        }
+        .market-search input::-webkit-input-placeholder{
+            color: #c0c0ec;
+        }
+        .market-search input:-moz-placeholder{
+            color: #c0c0ec;
+        }
+        .market-search input:focus{
+            border-color: #5f55ff;
+        }
+    </style>
+</head>
+<body>
+<%-include("../include/head.html")%>
+    <section class="home-market" id="zbg_marketglobal">
+        <div class="cd-nav">
+                <ul>
+                    <li ><a href="/market">ZBG<%= LANG('市场')%></a></li>
+                    <li class="active"><a href="/marketglobal"><%= LANG('全球市场')%></a></li>
+                    <li><a href="/newmarket"><%= LANG('上币排行')%></a></li>
+                </ul>
+        </div>
+        <div class="cd-nav-aux">
+            <ul>
+                <li class="active"><a href="javascript:;"><%= LANG('全球主要交易市场行情')%> </a></li>
+            </ul>
+
+            <div class="market-search">
+                <input placeholder="<%= LANG('搜索')%>" type="text" autocomplete="off"  v-model="masInput" name="search_1530688781509">
+                <svg @click="searchmak" class="icon" style="width: 1.5em; height: 1.5em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1337"><path d="M830.486464 796.124515 672.790943 638.42797c44.959904-52.799318 72.109099-121.232412 72.109099-196.016087 0-167.084182-135.448007-302.533214-302.53219-302.533214s-302.533214 135.449031-302.533214 302.533214 135.449031 302.53219 302.533214 302.53219c74.782651 0 143.215745-27.149196 196.017111-72.109099L796.101988 830.531518c9.499249 9.499249 24.885227 9.499249 34.384476 0S839.986737 805.623764 830.486464 796.124515zM442.366829 698.401131c-141.380814 0-255.989248-114.631985-255.989248-255.989248 0-141.403341 114.608434-255.989248 255.989248-255.989248 141.37979 0 255.989248 114.585907 255.989248 255.989248C698.356077 583.769146 583.747643 698.401131 442.366829 698.401131z" p-id="1338"></path></svg>
+            </div>
+        </div>
+
+        <ul class="totalcoin">
+            <li role="button" v-for="(item,index) in glabalmarktsdata" :class="item.coinName=='BTC'?'active':'' "  @click="gomrkets(item.coinName)" v-cloak="">{{item.coinName}}</li>
+        </ul>
+
+
+            <div class="container-fluid">
+
+                <div class="cd-table">
+                    <div class="head">
+                        <ul>
+                            <li class="coin-name"> <%= LANG('交易平台')%></li>
+                            <li class="new-price"><%= LANG('最新价')%> </li>
+                            <li role="button" class="increase sort">24H <%= LANG('涨幅')%>  <em></em></li>
+                            <li class="high-price">24H <%= LANG('高')%>  /<%= LANG('低')%></li>
+                            <li role="button" class="amount sort down">24H <%= LANG('成交量')%><em></em></li>
+                        </ul>
+                    </div>
+                    <div v-if="!glabalexchangedataSwitch" class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                    <div v-else class="body">
+                            <ul v-for="(item,index) in glabalexchangedata " :key="index" role="button" v-cloak>
+                                <li class="coin-name"><b>{{item.cName}}</b></li>
+                                <li class="new-price">{{item.ticker.last |capitalize}}</li>
+                                <li class="increase"><span :class="item.ticker.riseRate && item.ticker.riseRate<0 ?'red':'green'">{{item.ticker.riseRate}}%</span></li>
+                                <li>{{item.ticker.high | capitalize}}  /  {{item.ticker.low  | capitalize}}</li>
+                                <li>{{item.ticker.vol |thousand}}万</li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+    </section>
+<!--<script src="/src/js/ribbons.js"></script>-->
+</body>
+</html>
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        var zbg_marketglobal = new Vue({
+            el: "#zbg_marketglobal",
+            data: function() {
+                return {
+                    glabalmarktsdata:[],
+                    glabalexchangedata:[],
+                    glabalexchangedataSwitch: false,
+                    masInput:'',//搜索数据
+                    currentColor:'#c0c0ec',
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                //请求全球市场
+                glabalmarkts(){
+                    var that=this;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "https://ticker.bitkk.com/getTickersByPlatform",
+                        data: {platform:"zb"},
+                        dataType: "jsonp",
+                        error: function () {
+                            // alert("error");
+                        },
+                        success: function (json) {
+                            if (json.isSuc) {
+                                var arr =  json.datas,
+                                    i,
+                                    j,
+                                    len = arr.length;
+                                for (i = 0; i < len; i++) {
+                                    for (j = i + 1; j < len; j++) {
+                                        if (arr[i].coinName === arr[j].coinName) {
+                                            j = ++i;
+                                        }
+                                    }
+                                    that.glabalmarktsdata.push(arr[i]);
+                                }
+                                // console.log(that.glabalmarktsdata)
+                            } else {
+
+                            }
+
+
+                        }
+                    });
+                },
+                glabalexchange(coin){
+                    var that=this;
+                    $.ajax({
+                        type: "POST",
+                        url: "https://ticker.bitkk.com/getTickers",
+                        data: {coin:coin},
+                        dataType: "jsonp",
+                        error: function () {
+                            // alert("error");
+                        },
+                        success: function (json) {
+                            if (json.isSuc){
+                                that.glabalexchangedata = json.datas;
+                                that.glabalexchangedataSwitch = true
+                            }else{
+
+                            }
+                        }
+                    });
+
+                },
+                gomrkets(coin){
+                    // console.log(coin)
+                    var coinname =coin.toLowerCase()
+                    this.glabalexchange(coinname)
+                },
+                //搜索市场
+                searchmak(){
+                    console.log(this.masInput)
+                    if (this.masInput != ''){
+                        this.gomrkets(this.masInput)
+                    }else{
+                        this.glabalexchange('btc')
+                    }
+
+                }
+            },
+            updated : function () {
+
+            },
+            created: function(){
+
+                this.glabalmarkts()
+                this.glabalexchange('btc')
+            },
+            mounted : function () {
+                $('.totalcoin').on('click','li',function () {
+                    $(this).addClass('active').siblings().removeClass('active')
+                })
+            },
+            filters: {
+                capitalize: function (value) {
+                    if (!value) return '--'
+                    return (Math.ceil(value*1000))/1000
+                },
+                thousand:function (value) {
+                    if (!value) return '--'
+                    return Math.ceil(value)/10000
+                }
+            }
+        });
+    });
+
+</script>
+

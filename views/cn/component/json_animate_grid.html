@@ -1,0 +1,209 @@
+<script type="text/x-template" id="json-animate-grid">
+  <div class="vue-grid">
+    <div v-if="getSetting('header')" class="theader">
+      <div class="th" :class="col.key" @click="onClickHeader(col)" v-for="col in cols">
+        <div class="cell">{{col.label}}</div>
+      </div>
+    </div>
+    <transition-group v-if="rows.length" name="grid-list" tag="div" class="tbody">
+      <div class="tr" :class="getRowClass(item)" v-on:click="onClickRow($event.target, item)" v-for="(item, index) in rowsList" :key="item" >
+        <div class="td" :class="getCellClass(item, col.key)" v-on:click="onClickCell(item, col.key)" v-for="col in cols">
+          <div class="cell" v-html="col.cell(item, col.key)"></div>
+        </div>
+      </div>
+    </transition-group>
+    <div class="tbody no-items" v-else>
+      <span class="no-items" >{{noDataMessage}}</span>
+    </div>
+  </div>
+</script>
+
+<script>
+  /***********
+   **Vue JSON 数据列表组件
+   ************/
+  require(['vue'], function (Vue){
+    return Vue.component('json-animate-grid', {
+      template: "#json-animate-grid",
+      props: {
+        rows: {
+          type: Array,
+          default: function (item) {
+            return [];
+          }
+        },
+        keyfield: {
+          type: String
+        },
+        noDataMessage: {
+          type: String,
+          default: 'No items'
+        },
+        columns: {
+          type: Array,
+          default: function () {
+            return [];
+          }
+        },
+        settings: {
+          type: Object,
+          default: function () {
+            return {}
+          }
+        },
+        onClickCell: {
+          type: Function,
+          default: function (rowData, columnName) {
+          }
+        },
+        onClickRow: {
+          type: Function,
+          default: function (el, rowData) {
+          }
+        },
+        onClickHeader: {
+          type: Function,
+          default: function (columnName) {
+          }
+        }
+      },
+      data: function () {
+        return {
+          defaultSettings: {
+            header: true,
+            rowClass: ''
+          },
+          rowsList: []
+        }
+      },
+      computed: {
+        cols: function () {
+          return this.normalizeColumns();
+        }
+      },
+      methods: {
+        getSetting: function (name) {
+          var settings = this.settings;
+          if(!settings || typeof settings[name] == 'undefined') {
+            return this.defaultSettings[name]
+          }
+          return settings[name]
+        },
+        getRowClass: function(item) {
+          var rowClass = this.getSetting('rowClass');
+          if (typeof rowClass == 'function') {
+            return rowClass(item);
+          } else {
+            return rowClass;
+          }
+        },
+        getCellClass: function(item, key) {
+          var cellClass = this.getSetting('cellClass');
+          if (typeof cellClass == 'function') {
+            return cellClass(item, key);
+          } else {
+            return [key, cellClass].join(' ');
+          }
+        },
+        getItemField: function (item, field) {
+          return item[field];
+        },
+        normalizeColumns: function () {
+          var cols = this.columns,
+              getItemField = this.getItemField,
+              items = this.rows,
+              rowClass = this.getSetting('rowClass');
+          if(!cols){
+            if(!items || !items.length) {
+              return [];
+            }
+            return Object.keys(items[0]).map(function(key) {
+              return {key: key, label: key, cell: getItemField}
+            });
+          }
+
+          return cols.map(function(col) {
+            var key;
+            if(typeof col == 'string') {
+              return {
+                key: col,
+                label: col,
+                cell: getItemField
+              }
+            }
+
+            if(typeof col == 'object') {
+              key = col.key || col.label;
+              //默认列数据，如果没key参数就用label作为key,没有label参数就用key当作label
+              return {
+                key: key,
+                label: col.label || key,
+                cell: col.cell || getItemField
+              }
+            }
+            return {
+              key: 'unknown',
+              name: 'unknown',
+              cell: 'unknown'
+            }
+          })
+        }
+      },
+      watch: {
+        rows: function(rows,oldrows) {
+          var assignRows = rows.map(function(item) {
+            return Object.assign({}, item);
+          });
+          var assignOldrows = oldrows.map(function(item) {
+            return Object.assign({}, item);
+          });
+          var vm = this;
+          var key = this.keyfield;
+          if(key) {
+            var addRows = [];
+            var delRows = [];
+            // 找出删除的行
+            assignOldrows.map(function(orow, index) {
+              var isExist = false;
+              assignRows.map(function(nrow) {
+                if (nrow[key] === orow[key]) {
+                  isExist = true;
+                }
+              });
+              if (!isExist) {
+                // 删除指定的行
+                //vm.rowsList.splice(index, 1);
+                //return vm.rowsList.filter(function(item){
+                  //console.log(item[key] != orow[key]);
+                //  return item[key] != orow[key];
+                //});
+                vm.rowsList.pop();
+              }
+            });
+            // 找出添加的行
+            assignRows.map(function(nrow) {
+              var isAdd = true;
+              assignOldrows.map(function(orow) {
+                if (nrow[key] === orow[key]) {
+                  isAdd = false;
+                }
+              });
+              if (isAdd) {
+                //addRows.push(nrow);
+                vm.rowsList.unshift(nrow);
+              }
+            });
+          }
+        }
+      },
+      mounted: function() {
+      },
+      beforeUpdate: function() {
+
+      },
+      beforeDestroy: function() {
+      }
+    });
+  })
+
+</script>

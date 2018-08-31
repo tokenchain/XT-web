@@ -1,0 +1,110 @@
+<!--发布广告、编辑广告页面-->
+<div id="app-entrust">
+    <div class="exx-title" v-cloak="">
+        <h2 v-if="!adId"><%= LANG('发布广告')%></h2>
+        <h2 v-if="!!adId"><%= LANG('编辑广告')%></h2>
+    </div>
+    <div class="exx-form-head">
+        <ul>
+            <li :class="{'active': ad.market == 'qc_cny' && ad.type == 1}" @click="changeTab('qc_cny',1)"><%= LANG('买入')%> QC</li>
+            <li :class="{'active': ad.market == 'qc_cny' && ad.type == 2}" @click="changeTab('qc_cny',2)"><%= LANG('卖出')%> QC</li>
+            <!--<li :class="{'active': ad.market == 'usdt_cny' && ad.type == 1}" @click="changeTab('usdt_cny',1)"><%= LANG('买入')%> USDT</li>
+            <li :class="{'active': ad.market == 'usdt_cny' && ad.type == 2}" @click="changeTab('usdt_cny',2)"><%= LANG('卖出')%> USDT</li>-->
+        </ul>
+    </div>
+    <div class="exx-form-box" v-cloak="">
+        <div class="exx-form-group hide">
+            <label><%= LANG('价格设置')%></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <ul class="exx-check">
+                        <li class="active"><%= LANG('固定价格')%></li>
+                        <li><%= LANG('浮动价格')%></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label v-if="ad.type == 2" @click="ad.amount = canUseCoin"><%= LANG('卖出数量') %>(<%= LANG('可用') %>：{{canUseCoin}} {{coinName}})</label>
+            <label v-if="ad.type == 1"><%= LANG('买入数量') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.number="ad.amount" :placeholder="amountPlaceholder"/>
+                    <a role="button" class="code-num"><span>{{coinName}}</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label><%= LANG('固定价格') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.number="ad.fixedPrice" placeholder="<%= LANG('固定价格不能少于') %>0"/>
+                    <a role="button" class="code-num"><span>{{moneyName}}</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label><%= LANG('付款方式') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <ul class="exx-check">
+                        <li v-if="!!accountInfo && accountInfo.wechat.chatName" :class="{'active': ad.payType.indexOf(1) != -1}" @click="changePay(1)"><%= LANG('微信支付') %></li>
+                        <li v-if="!!accountInfo && accountInfo.alipay.aliName" :class="{'active': ad.payType.indexOf(2) != -1}" @click="changePay(2)"><%= LANG('支付宝') %></li>
+                        <li v-if="!!accountInfo && accountInfo.bank.bank" :class="{'active': ad.payType.indexOf(3) != -1}" @click="changePay(3)"><%= LANG('银行卡') %></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label><%= LANG('最小交易额') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.number="ad.minAmount" :placeholder="minAmountPlaceholder"/>
+                    <a role="button" class="code-num"><span>{{coinName}}</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group">
+            <label><%= LANG('最大交易额') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.number="ad.maxAmount" :placeholder="maxAmountPlaceholder"/>
+                    <a role="button" class="code-num"><span>{{coinName}}</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="exx-form-group">
+            <label><%= LANG('备注信息') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.trim="ad.memo" placeholder="<%- LANG('请添加您对交易的要求')%>" />
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group" v-if="loginUser.googleAuth == 1">
+            <label>Google<%= LANG('验证码') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.trim="ad.code" />
+                </div>
+            </div>
+        </div>
+        <div class="exx-form-group" v-else="">
+            <label><%= LANG('动态验证码') %></label>
+            <div class="exx-form-content">
+                <div class="exx-form-input">
+                    <input type="text" v-model.trim="ad.code" />
+                    <send-code :code-type="20" :user-name="loginUser.userName"></send-code>
+                </div>
+            </div>
+            <p><%- LANG('由于第三方短信的限制，建议绑定并使用Google验证。') %></p>
+        </div>
+        <div class="exx-form-group" style="padding-bottom: 50px">
+            <button type="button" v-if="!locked" @click="doSubmit" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('提交') %></span></button>
+            <button type="button" v-if="locked" class="exxbtn btn-ok" style="width: 100%"><span><%= LANG('正在处理') %></span></button>
+        </div>
+    </div>
+</div>
+<%-include("../component/send_code/index.html")%>
+<%-include("app.entrust.html")%>

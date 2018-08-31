@@ -1,0 +1,180 @@
+<script type="text/x-template" id="market-list">
+    
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('market-list', {
+            template: "#market-list",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return null;
+                    }
+                },
+                allMarket: {
+                    type: Object,
+                    default: function () {
+                        return null;
+                    }
+                },
+                assistPrice: {
+                    type: Object,
+                    default: function () {
+                        return null;
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    isLogin : ISLOGIN,
+                    userMarket : null,
+                    exchangeMode : Methods.getCookie(ENV + 'ExchangeMode') ,
+                    assistMoney : Methods.getCookie(ENV + 'mname') || 'none'
+                }
+            },
+            computed: {
+                realMarketTab : function () {
+                    return this.getMarketTab(1);
+                },
+                demoMarketTab : function () {
+                    return this.getMarketTab(0);
+                },
+                currentAccountId : function () {
+                    if(this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') ||  Methods.getCookie(ENV + 'uid');
+                    }
+                }
+            },
+            methods: {
+                // 获取用户所有自选市场
+                getUserMarket: function (callback) {
+                    var data = {
+                        childId: this.currentAccountId
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'getUserMarket',
+                        data: data,
+                        success: function (res) {
+                            this.userMarket = res.datas.userMarket;
+                            callback && callback();
+                        }.bind(this)
+                    });
+                },
+                //获取市场分区tab（type0模拟市场，type1真实市场）
+                getMarketTab : function (type) {
+                    var marketTab = this.isLogin ? ['user'] : [];
+                    var marketConfig = this.marketConfig;
+                    if(marketConfig){
+                        for(var key in marketConfig){
+                            if(type == 0){
+                                //模拟市场
+                                if(marketConfig[key].demoMode){
+                                    marketTab.push(marketConfig[key].money);
+                                }
+                            }else{
+                                //真实市场
+                                if(!marketConfig[key].demoMode){
+                                    marketTab.push(marketConfig[key].money);
+                                }
+                            }
+                        }
+                        //数组去重
+                        return marketTab.unique();
+                    }
+                },
+                showMarketTab: function (name) {
+                    switch (name) {
+                        case 'user':
+                            return "<%= LANG('我的市场')%>";
+                        case 'demo':
+                            return "<%= LANG('模拟市场')%>";
+                        case 'hot':
+                            return "<%= LANG('推荐市场')%>";
+                        default:
+                            return name.toUpperCase();
+                    }
+                },
+                // 过滤指定币种的市场
+                getMarketsByTab: function (tab) {
+                    var _this = this;
+                    var allMarkets = Object.keys(this.allMarket);
+                    var filterMarkets = [];
+                    if (allMarkets.length) {
+                        allMarkets.forEach(function (market) {
+                            var money = market.split('_')[1];
+                            //过滤后的数据格式
+                            var arr = [market, _this.allMarket[market]];
+                            switch (tab) {
+                                case 'user':
+                                    _this.userMarket.forEach(function (uMarket) {
+                                        if (uMarket.market == market) {
+                                            //console.log(uMarket.market , market, uMarket.market == market)
+                                            filterMarkets.push(arr);
+                                        }
+                                    });
+                                    break;
+                                case 'demo':
+                                    if (arr[1][9]) {
+                                        filterMarkets.push(arr);
+                                    }
+                                    break;
+                                case 'hot':
+                                    //热门市场(区分实盘和模拟盘)
+                                    if (arr[1][11] && (Boolean(parseInt(_this.exchangeMode)) == !Boolean(arr[1][9]))) {
+                                        filterMarkets.push(arr);
+                                    }
+                                    break;
+                                default:
+                                    if (money == tab) {
+                                        filterMarkets.push(arr);
+                                    }
+                            }
+                        });
+                    }
+                    return filterMarkets;
+                },
+                //获取指定辅助货币的价格
+                getPriceByAssist : function (price, market) {
+                    var money = market.split('_')[1];
+                    var assistMoney = this.assistMoney;
+                    if(assistMoney == 'none' || assistMoney == ''){
+                        return Methods.fixNumber(price, this.marketConfig[market].moneyDecimal);
+                    }else{
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistMoney][money]), this.$parent.assistList[assistMoney].decimal);
+                    }
+                }
+
+
+            },
+            watch: {
+
+            },
+            created : function () {
+                if(this.isLogin){
+                    this.getUserMarket(function () {
+                        setInterval(this.getUserMarket, 10000);
+                    }.bind(this));
+                }
+            },
+            mounted: function() {
+
+                setTimeout(function () {
+                    //console.log('当前市场配置',this.getMarketConfig(this.currentMarket));
+                    //console.log('模拟市场',this.getMarketTab(0));
+                    console.log('真实市场',this.getMarketTab(1));
+                    console.log(this.getMarketsByTab('user'));
+                }.bind(this),1000)
+
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

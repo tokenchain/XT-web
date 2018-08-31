@@ -1,0 +1,78 @@
+<div class="cd-nav">
+        <ul id="user-menu" class="<%= column == 1 || column == 2? 'hide' : ''%>">
+            <li class="<%= PATH.indexOf('/u/asset') != -1 ? 'active' : ''%>">
+                <a href="/u/asset"><%= LANG('资金')%></a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
+                <a href="/u/payin"><%= LANG('充币')%></a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
+                <a href="/u/payout"><%= LANG('提币')%></a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/bill') != -1 ? 'active' : ''%>">
+                <a href="/u/bill"><%= LANG('综合账单')%></a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/entrust') != -1 ? 'active' : ''%>">
+                <a href="/u/entrust"><%= LANG('委托记录')%></a>
+            </li>
+        </ul>
+
+
+
+        <ul class="<%= column == 0 || column == 2? 'hide' : ''%>">
+            <li class="<%= PATH.indexOf('/u/account') != -1 ? 'active' : ''%>">
+                <a href="/u/account"><%= LANG('账号')%></a>
+            </li>
+            <li class="hide">
+                <a href="/u/safe">
+                    <svg class="icon" style="width: 2em; height: 2em;overflow: hidden;" viewBox="0 0 1024 1024"
+                         version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M512.000049 0l432.034707 185.475054V466.464208a550.636009 550.636009 0 0 1-32.763558 187.696313q-32.77744 91.085466-89.40564 164.373102a588.397397 588.397397 0 0 1-137.718004 129.9436 520.107592 520.107592 0 0 1-172.147505 75.522777 519.968764 519.968764 0 0 1-172.147506-75.522777A587.73102 587.73102 0 0 1 202.134539 818.533623q-56.642082-73.301518-89.40564-164.373102A550.233406 550.233406 0 0 1 79.965341 466.464208V185.475054L512.000049 0z m0 510.889371V101.067245L175.479441 246.559653V510.889371h336.520608v415.375271a393.343167 393.343167 0 0 0 124.390455-59.418655 481.499349 481.499349 0 0 0 99.956616-96.069414 517.039479 517.039479 0 0 0 73.301519-120.503254 522.828633 522.828633 0 0 0 38.872017-139.383948z"></path>
+                    </svg>
+                    <p><%= LANG('安全')%></p>
+                </a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/recommend') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
+                <a href="/u/recommend"><%= LANG('推荐人')%></a>
+            </li>
+            <li class="<%= PATH.indexOf('/u/api') != -1 ? 'active' : ''%>">
+                <a href="/u/api">API</a>
+            </li>
+        </ul>
+</div>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        EXX.userMenu = new Vue({
+            el: "#user-menu",
+            data: function () {
+                return {
+                    isLogin: ISLOGIN,
+                    loginUser: Methods.getLocalUserInfo(),
+                    currentUserAsset: Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
+                }
+            },
+            computed: {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                //暂弃用
+                entrustlink: function () {
+                    if (this.currentUserAsset && this.currentUserAsset.userType == 3) {
+                        return '/u/entrust/dhsr_dbtc'
+                    } else {
+                        return '/u/entrust/hsr_btc'
+                    }
+                }
+            },
+            methods: {
+                //
+            },
+            created: function () {
+                //
+            }
+        })
+    })
+</script>

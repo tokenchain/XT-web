@@ -1,0 +1,462 @@
+<script type="text/x-template" id="dish-part">
+    <div class="plateInside-area">
+            <ul class="title">
+                <li>
+                <p><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
+                <p><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
+                </li>
+            </ul>
+            <div class="body" id="dishWrap">
+                <div class="dishWrap_container">
+                    <div class="box sell-disc" id="asksWrap" v-if="BrowserType!='FF'">
+                        <ul class="tradeNew-table"></ul>
+                    </div>
+                    <div v-if="BrowserType=='FF'" class="box parent_direction-downs" id="parent_direction-downs">
+                        <div class="direction-downss">
+                            <ul class="tradeNew-table1"></ul>
+                        </div>
+                    </div>
+                    <div class="current-price">
+                        <template v-if="!isNaN(assistPrice)">{{currentPrice}} {{$parent.moneyName}}</template>
+                    </div>
+                    <div class="box buy-disc" id="bidsWrap">
+                        <ul class="tradeNew-table"></ul>
+                    </div>
+                </div>
+                <div class="more">
+                    <a href="javascript:;" @click="goinfo"> <%= LANG('更多')%> </a>
+                </div>
+
+            </div>
+    </div>
+
+
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('dish-part', {
+            template: "#dish-part",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                dishData: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                currentMarket: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    dishLength: 50,
+                    assistList: this.$parent.assistList,
+                    lastDepth: '',
+                    buyh:0,
+                    sellh:0,
+                }
+            },
+            computed: {
+                currentPrice: function () {
+                    return this.$parent.showMoney(this.$parent.currentPrice);
+                },
+                assistPrice: function () {
+                    return this.$parent.getPriceByAssist(this.currentPrice);
+                },
+                bids: function () {
+                    var oArray = this.dishData.bids;
+                    var nArray = [];
+                    //获取恰当的买单档位
+                    if (oArray && oArray.length > 0) {
+                        var ilength = oArray.length;
+                        //重新循环赋值才能深复制过来
+                        oArray.forEach(function (item, index) {
+                            if (ilength > this.dishLength) {
+                                if (index < this.dishLength) {
+                                    nArray[index] = item;
+                                }
+                            } else {
+                                nArray[index] = item;
+                            }
+                        }.bind(this));
+                    }
+                    return nArray;
+                },
+                asks: function () {
+                    var oArray = this.dishData.asks;
+                    var nArray = [];
+                    //获取恰当的卖单档位(取最后的this.length档)
+                    if (oArray && oArray.length > 0) {
+                        if (oArray.length > this.dishLength) {
+                            for (var i = 0; i < this.dishLength; i++) {
+                                nArray[i] = oArray[oArray.length - this.dishLength + i]
+                            }
+                        } else {
+                            for (var i = 0; i < oArray.length; i++) {
+                                nArray[i] = oArray[i]
+                            }
+                        }
+                    }
+                    return nArray;
+                },
+                BrowserType: function () {
+                    return this.myBrowser()
+                }
+            },
+            methods: {
+                myBrowser() {
+                    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                    var isOpera = userAgent.indexOf('Opera') > -1;
+                    if (isOpera) {
+                        return 'Opera';
+                    }
+                    ; //判断是否Opera浏览器
+                    if (userAgent.indexOf('Firefox') > -1) {
+                        return 'FF';
+                    } //判断是否Firefox浏览器
+                    if (userAgent.indexOf('Chrome') > -1) {
+                        return 'Chrome';
+                    }
+                    if (userAgent.indexOf('Safari') > -1) {
+                        return 'Safari';
+                    } //判断是否Safari浏览器
+                    if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera) {
+                        return 'IE';
+                    }
+                    ; //判断是否IE浏览器
+                },
+                getMaxDepth: function (depth) {
+                    var maxNum = 0;
+                    //求卖单最大深度值
+                    for (var i = 0; i < depth.length; i++) {
+                        if (parseFloat(depth[i][1]) > maxNum) {
+                            maxNum = parseFloat(depth[i][1]);
+                        }
+                    }
+                    return maxNum;
+                },
+                getDepthPencent: function (number, maxNumber) {
+                    return Methods.fixNumber(number / maxNumber * 100, 2);
+                },
+                showPrice: function (price, type) {
+                    //格式化盘口价格
+                    return Methods.fixNumber(price, this.marketConfig.priceDecimal);
+                },
+                showDepth: function (depth, type) {
+                    //格式化盘口深度
+                    return Methods.fixNumber(depth, this.marketConfig.amountDecimal);
+                },
+                changeLength: function (len) {
+                    this.dishLength = len;
+                    this.$parent.dishLength = len;
+                },
+                clickAsksRow: function (price, index) {
+                    console.log(index)
+                    var depth = 0,
+                        _this = this,
+                        len = Math.min(_this.dishLength, _this.asks.length);
+
+                    for (var i = index; i < len; i++) {
+                        depth += parseFloat(_this.asks[i][1]);
+
+                    }
+
+                    this.$parent.$refs.tradeFormBuy.flashInput();
+
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+
+                    if (depth == 0){
+                        this.$parent.$refs.tradeFormBuy.inputNumber  =''
+                    } else{
+                        this.$parent.$refs.tradeFormBuy.inputNumber = depth;
+                    }
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    if (depth == 0){
+                        this.$parent.$refs.tradeFormSell.inputNumber =''
+                    } else{
+                        this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                    }
+                },
+                clickBidsRow: function (price, index) {
+                    var depth = 0,
+                        _this = this;
+                    for (var i = 0; i <= index; i++) {
+                        depth += parseFloat(_this.bids[i][1]);
+                    }
+                    this.$parent.$refs.tradeFormSell.flashInput();
+
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+
+                    if (depth == 0){
+                        this.$parent.$refs.tradeFormBuy.inputNumber  =''
+                    } else{
+                        this.$parent.$refs.tradeFormBuy.inputNumber = depth;
+                    }
+
+
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+
+                    if (depth == 0){
+                        this.$parent.$refs.tradeFormSell.inputNumber =''
+                    } else{
+                        this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                    }
+                },
+                bindSetPrice: function () {
+                    var _this = this;
+                    $("#asksWrap").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+
+
+                        var index = $(this).index();
+
+                        _this.clickAsksRow(price, index);
+                        // console.log(price)
+                    });
+                    $("#parent_direction-downs").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+                        var index = $(this).index();
+                        _this.clickAsksRow(price, index);
+                    });
+                    $("#bidsWrap").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+                        var index = $(this).index();
+                        _this.clickBidsRow(price, index);
+                    });
+                },
+                //盘口处理方法
+                updateDepth: function (data, callback) {
+                    if (!data) {
+                        return false;
+                    }
+                    if (this.BrowserType != 'FF') {
+                        var parentAsks = $("#asksWrap .tradeNew-table");
+                    } else {
+                        var parentAsks = $(".tradeNew-table1");
+                    }
+
+                    var parentBids = $("#bidsWrap .tradeNew-table");
+                    var asks = data.asks.slice(0);
+                    var bids = data.bids.slice(0);
+                    if (this.lastDepth == '') {
+                        this.lastDepth = {};
+                        this.depthInit(asks, parentAsks);
+                        this.depthInit(bids, parentBids);
+                    } else {
+                        var oldasks = this.lastDepth.asks.slice(0);
+                        var oldbids = this.lastDepth.bids.slice(0);
+
+                        parentAsks.find(".body.remove").remove();
+                        parentAsks.find(".body.add").removeClass("add");
+                        this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
+
+                        parentBids.find(".body.remove").remove();
+                        parentBids.find(".body.add").removeClass("add");
+                        this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
+                    }
+                    Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
+                    Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
+
+
+
+                    //刷新辅助货币的价格
+                    this.flushAssistPrice();
+
+                    if(this.BrowserType=='FF'){
+
+                        Vue.nextTick(function(){
+                            $("#parent_direction-downs").scrollTop(1000)
+                        })
+                    }
+                    callback && callback();
+
+                },
+                //初始化盘口
+                depthInit: function (data, $obj) {
+                    $obj.empty();
+                    //console.log(data);
+                    if (data && data.length > 0) {
+                        var view = "";
+
+                        for (var i = 0; i < data.length; i++) {
+                            view += this.getRowHtml(data[i], data);
+                        }
+                        $obj.append(view);
+
+                        view = null;
+                        //绑定盘口点击事件
+                        this.bindSetPrice();
+
+                    }
+
+
+                },
+                //盘口动画效果
+                asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
+
+                    //第一步比对价格相等的行，对比数量
+                    for (var i = 0; i < oldasks.length; i++) {
+                        var isExist = false;
+                        for (var j = 0; j < addasks.length; j++) {
+                            if (parseFloat(oldasks[i][0]) == parseFloat(addasks[j][0])) {
+                                isExist = true;
+                                if (parseFloat(oldasks[i][1]) != parseFloat(addasks[j][1])) {
+                                    //逐行比对
+                                    var $amount = tbDiv.find(".body:eq(" + i + ") .num");
+                                    var $assist = tbDiv.find(".body:eq(" + i + ") .foldPrice");
+                                    //var $depth = tbDiv.find("div:eq(" + i + ") .depth i");
+                                    var amount = this.getAmount(addasks[j][1]);
+                                    var assist = this.getAssistPrice(addasks[j][0]);
+                                    //var depth = this.getDepth(addasks[j], addasks) + '%';
+                                    $amount.html("<span class=\"amountColor\">" + amount + "</span>");
+                                    $assist.html(assist);
+                                }
+                                addasks.splice(j, 1);
+                                break;
+                            }
+                        }
+                        //若价格不存在则标识要移除
+                        if (!isExist) {
+                            tbDiv.find(".body:eq(" + i + ")").addClass("remove");
+                            tbDiv.find(".body:eq(" + i + ")").slideUp(500,function () {
+                                oldasks[i][2] = -1;//标识该数据对应div被移除
+                            })
+                            // tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
+                            //
+                            // })
+                        }
+                    }
+                    //第二步将新价格插入
+                    for (var j = 0; j < oldasks.length; j++) {
+                        for (var i = 0; i < addasks.length; i++) {
+                            if (parseFloat(addasks[i][0]) > parseFloat(oldasks[j][0])) {
+                                var html = this.getRowHtml(addasks[i], addasks, "add");
+                                tbDiv.find(".body:eq(" + i + ")").slideDown(500)
+
+                                tbDiv.find(".body:eq(" + j + ")").before(html);
+                                oldasks.splice(j, 0, addasks[i]);
+                                addasks.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                    //剩下的按新行全部插入
+                    var totalDiv = "";
+                    for (var i = 0; i < addasks.length; i++) {
+                        oldasks.push(addasks[i]);
+                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add')
+                    }
+                    if (totalDiv != '') {
+                        tbDiv.append(totalDiv);
+                    }
+                    //执行动画效果
+                    tbDiv.find(".body.add").css({height:'0'});
+                    tbDiv.find(".body.add").stop().animate({height:'24'},500);
+                    setTimeout((function ($remove, $add) {
+
+                        return function () {
+                            $remove.slideUp(500, function () {
+                                $(this).remove();
+                            });
+                            $add.removeClass("add");
+                        };
+                    })(tbDiv.find(".body.remove"), tbDiv.find(".body.add")), 500);
+                },
+                //快速刷新盘口
+                quickInitTen: function () {
+                    var _this = this;
+                    //为了加快盘口显示速度连续刷10秒，后面数据更新在获取数据的接口回调中
+                    this.updateDepth(this.dishData, function () {
+                        var timeOut = 0;
+                        var dishInterval = setInterval(function () {
+                            _this.updateDepth(_this.dishData);
+                            timeOut += 1;
+                            if (timeOut > 10) {
+                                window.clearInterval(dishInterval);
+                            }
+                        }, 1000)
+                    });
+
+                },
+                //刷新盘口和当前价格的辅助货币价格
+                flushAssistPrice: function () {
+                    var _this = this;
+                    $("#dishWrap .tradeNew-table .tr").each(function (i) {
+                        var price = $(this).find('.price').text();
+                        var assistPrice = _this.$parent.getPriceByAssist(price);
+                        $(this).find('.foldPrice').text(assistPrice);
+                    });
+                },
+                getPrice: function (val) {
+                    var price = this.$parent.showMoney(val) + '';
+                    if (this.marketConfig.amountDecimal == 0) {
+                        return [price, 0];
+                    } else {
+                        return price.split('.');
+                    }
+                },
+                getAssistPrice: function (val) {
+                    return this.$parent.getPriceByAssist(val);
+                },
+                getAmount: function (val) {
+                    return this.$parent.showCoin(val);
+                },
+                getDepth: function (val, data) {
+                    return parseFloat(val) / parseFloat(this.getMaxDepth(data)) * 100;
+                },
+                getRowHtml: function (arr, data, style) {
+                    var price = this.getPrice(arr[0]);
+                    var amount = this.getAmount(arr[1]);
+                    var assist = this.getAssistPrice(arr[0]);
+                    //var depth = this.getDepth(arr[1], data);
+                    var style = style || '';
+                    var html = '';
+                    html += "<li class=\"tr body " + style + "\" style=\"display: flex;\">";
+                    if (this.marketConfig.amountDecimal == 0) {
+                        html += "   <p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
+                    } else {
+                        html += "   <p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
+                    }
+                    // html += "   <p class=\"td foldPrice\">" + assist + "</p>";
+                    html += "   <p class=\"td num\"><span>" + amount + "</span></p>";
+                    html += "</li>";
+
+                    return html;
+                },
+                goinfo(){
+                    window.location.href = `/info?marketId=${this.marketConfig.marketId}`
+                },
+
+            },
+            watch: {},
+            mounted: function () {
+                this.bindSetPrice();
+                this.quickInitTen();
+            },
+            updated: function () {
+
+            },
+            beforeUpdate: function () {
+
+            },
+            beforeDestroy: function () {
+
+            }
+        });
+    })
+
+</script>

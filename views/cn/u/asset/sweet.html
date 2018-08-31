@@ -1,0 +1,213 @@
+<div class="pay-panel payin-panel" id="app-payin">
+    <div class="payin-panel-head">
+        <h2><%= LANG('领取糖果')%>（<%= coin.toUpperCase()%>） <a role="button" @click="showModal = 'sweetRuler'" style="font-size:12px;color: #f00;"><%= LANG('领取规则')%></a></h2>
+        <div class="payin-tab">
+            <ul class="coin-type hide" v-cloak="">
+                <li v-for="(item,coin) in currentUserAsset.coinFundMap" :class="{'active': coin == currentCoin}"  v-if="item.showCoin && coinConfig && !coinConfig[coin].isVirtual">
+                    <a :href="'/u/payin/' + coin" v-if="coinConfig[coin].isPayIn">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'" class="market-icon">
+                        {{coin.toUpperCase()}}
+                    </a>
+                    <a onclick="JuaBox.sure('Not open yet...')" v-if="!coinConfig[coin].isPayIn">
+                        <img :src="'/src/images/icon/market-icon/market-' + coin + '.png?<%= VERSION%>'" class="market-icon">
+                        {{coin.toUpperCase()}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <div class="sweet-list" v-cloak="">
+            <div class="item" v-for="sweet, key in sweets" :class="{'disable' : sweet.status != 1 || sweet.candyAmountLeft == 0}">
+                <div class="item-box">
+                <div class="coin-name">{{toUpper(key)}}</div>
+                    <div class="info">
+                        <p><span><%= LANG('发放比例')%>：</span>{{sweet.baseRateAmount}}{{toUpper(sweet.baseCoin)}} : {{sweet.candyRateAmount}}{{toUpper(key)}}</p>
+                        <p><span><%= LANG('区块高度')%>：</span> #{{sweet.candyHeight}}</p>
+                        <p><span><%= LANG('截止时间')%>：</span> {{showDate(sweet.endTime)}}</p>
+                        <p><span><%= LANG('可领')%>{{toUpper(key)}}：</span> {{fixDecimal(sweet.candyAmountLeft)}}</p>
+                        <p><span><%= LANG('已领')%>{{toUpper(key)}}：</span> {{fixDecimal(sweet.totalSendCandy)}}</p>
+                    </div>
+                <div class="sweet-button">
+                    <a v-if="sweet.status == 0" role="button"><%= LANG('未开始')%></a>
+                    <a v-else-if="sweet.status == 2" role="button"><%= LANG('已结束')%></a>
+                    <a v-else-if="sweet.candyAmountLeft == 0" role="button"><%= LANG('额度不足')%></a>
+                    <a v-else="" role="button" @click="getSweet(key)"><%= LANG('立即领取')%></a>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="payin-record" v-cloak="">
+        <h2><%= LANG('领取糖果记录')%></h2>
+        <div class="exx-record">
+        <div class="table">
+            <div class="tr head">
+                <div class="td time"><%= LANG('领取时间')%></div>
+                <div class="td amount"><%= LANG('糖果类型')%></div>
+                <div class="td amount"><%= LANG('领取金额')%></div>
+            </div>
+            <div class="tr" v-for="record in sweetRecords" v-if="sweetRecords.length > 0">
+                <div class="td time"><span>{{showDate(record.sendTime)}}</span></div>
+                <div class="td amount">{{toUpper(record.candyCoin)}}</div>
+                <div class="td amount">+ {{fixNumber(record.sendAmount)}}</div>
+            </div>
+            <div class="tr" v-if="sweetRecords.length == 0">
+                <p class="norecord"><%= LANG('暂无记录')%></p>
+            </div>
+        </div>
+    </div>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getSweetRecord" v-if="sweetRecords.length > 0"></page-lite>
+    </div>
+
+    <modal :open= "showModal == 'sweet'" @close="showModal = false">
+        <getsweet :base-coin="currentCoin" :sweet-coin="sweetCoin" :done="getCandyCallback" />
+    </modal>
+    <modal :open= "showModal == 'sweetRuler'" @close="showModal = false">
+        <sweet-ruler />
+    </modal>
+
+</div>
+
+<%-include("../../component/page_lite.html")%>
+<%-include("../../component/modal.html")%>
+
+<%-include("../model/getSweet.html")%>
+<%-include("../model/sweetRuler.html")%>
+<script>
+    require(['vue','common/methods', 'clipboadrd'], function (Vue, Methods, Clipboard) {
+        EXX.appPayin = new Vue({
+            el: "#app-payin",
+            data: function () {
+                return {
+                    isLogin : ISLOGIN,
+                    pageIndex : 1,
+                    pageSize : 10,
+                    pageCount: 0,
+                    requestLocked : false,
+                    coinConfig : '',
+                    sweets : '',
+                    sweetRecords : '',
+                    currentUserAsset : '',
+                    currentCoin : "<%= coin%>",
+                    sweetCoin : '',
+                    showModal : Methods.getCookie(ENV + 'hasRead') == 1 ? false : 'sweetRuler'
+                }
+            },
+            computed : {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                }
+            },
+            methods: {
+                LANG : function (key) {
+                    return EXX.L(key);
+                },
+                fixNumber : function (val) {
+                    return Methods.fixNumber(val, 8)
+                },
+                fixDecimal : function (val) {
+                    return Methods.fixDecimal(val, 8)
+                },
+                showDate: function(date) {
+                    if(isNaN(date) || Number(date) < 0){
+                        return '--'
+                    }else{
+                        return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                    }
+                },
+                showTime: function(date) {
+                    if(isNaN(date) || Number(date) < 0){
+                        return '--'
+                    }else{
+                        return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                    }
+                },
+                toUpper : function (coin) {
+                    return coin.toUpperCase();
+                },
+                getCoinConfig: function() {
+                    var data = {
+                        // webId: 100
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : 0
+                    };
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         if(res.datas.userFund){
+                    //             this.currentUserAsset = res.datas.userFund;
+                    //             callback && callback();
+                    //         }
+                    //     }.bind(this)
+                    // });
+                },
+                getSweetList: function () {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        baseCoin: this.currentCoin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getUserCandy',
+                        data: data,
+                        success: function (res) {
+                            this.sweets = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getSweetRecord: function () {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        baseCoin: this.currentCoin,
+                        pageIndex: this.pageIndex,
+                        pageSize: this.pageSize
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getUserCandyRecords',
+                        data: data,
+                        success: function (res) {
+                            this.sweetRecords = res.datas.candys;
+                            this.pageCount = res.datas.candys.length;
+                        }.bind(this)
+                    });
+                },
+                getSweet : function (sweetCoin) {
+                    this.sweetCoin = sweetCoin;
+                    this.showModal = "sweet"
+                },
+                getCandyCallback : function () {
+                    this.getSweetList();
+                    this.getSweetRecord();
+                }
+            },
+            created: function() {
+                this.getCoinConfig();
+                this.getSweetList();
+                this.getTargetUserAsset();
+                this.getSweetRecord();
+            },
+            mounted : function () {
+
+
+            }
+        })
+    })
+</script>

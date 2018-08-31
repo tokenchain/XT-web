@@ -1,0 +1,171 @@
+<script type="text/x-template" id="deal-record">
+    <div class="plateInside-area">
+            <ul class="title">
+                <li>
+                    <p class="item price"><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
+                    <p class="item num"><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
+                    <p class="item time"><span><%= LANG('时间')%></span></p>
+                </li>
+            </ul>
+            <div class="body" id="tradeRecord">
+                <ul class="tradeNew-table" :class="{'showAssistPrice' : showAssistPrice}"></ul>
+            </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('deal-record', {
+            template: "#deal-record",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                dealRecord: {
+                    type: Array,
+                    default: function () {
+                        return []
+                    }
+                },
+                currentMarket : {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    tradeDate:new Date(),
+                    showAssistPrice : false
+                }
+            },
+            computed: {
+            },
+            methods: {
+                dateFormatTf: function (i) {
+                    return (i < 10 ? '0' : '') + i;
+                },
+                dateFormat: function (currentDate) {
+                    return currentDate.getFullYear()
+                        + "-" + this.dateFormatTf(currentDate.getMonth() + 1)
+                        + "-" + this.dateFormatTf(currentDate.getDate())
+                        + " " + this.dateFormatTf(currentDate.getHours())
+                        + ":" + this.dateFormatTf(currentDate.getMinutes())
+                        + ":" + this.dateFormatTf(currentDate.getSeconds());
+                },
+                //处理成交记录
+                setFirstRecord: function (item) {
+                    if (item != null && item.length > 0) {
+                        //初始化50条交易记录
+                        var totalUls = "";
+                        for (var i = item.length - 1; i >= 0; i--) {
+                            totalUls += this.getRowHtml(item[i]);
+                        }
+                        $("#tradeRecord .tradeNew-table").html(totalUls);
+                    }
+                },
+                pushTrades: function (array) {
+                    // console.log(array)
+                    var $this = this;
+                    var $trades = $("#tradeRecord .tradeNew-table");
+                    var totalUls = "";
+                    if (array == '' && array.length == 0) {
+                        return false;
+                    }
+                    for (var i = array.length - 1; i >= 0; i--) {
+                        var item = array[i];
+                        if (i >= array.length - $this.$parent.tradesLimit) {
+                            if (item.tid < $this.$parent.last_trade_tid) continue; //判断时间
+
+                            if (this.$parent.last_trade_tid != 0) {
+                                totalUls += $this.getRowHtml(item, 'newclass');
+                            } else {
+                                totalUls += $this.getRowHtml(item);
+                            }
+                        }
+                    }
+                    if ($this.$parent.last_trade_tid != 0) {
+
+                        $trades.prepend(totalUls);//插入在最开始位置
+                        $trades.find(".newclass").css({height:'0'})
+                    } else {
+                        $trades.append(totalUls);
+                    }
+                    totalUls = null;
+                    $trades.find(".newclass").stop().animate({height:'24'},500, function () {
+                        $(this).removeClass("newclass");
+
+                    });
+                    //删除大于100条的数据
+                    $trades.find(".tr:gt(" + (this.$parent.tradesLimit - 1) + ")").remove();
+                },
+                getRowHtml : function (item, newclass) {
+                    this.tradeDate.setTime(item.date * 1000);
+                    var dateStr = this.dateFormatTf(this.tradeDate.getHours())
+                        + ":" + this.dateFormatTf(this.tradeDate.getMinutes())
+                        + ":" + this.dateFormatTf(this.tradeDate.getSeconds());
+                    var price = this.$parent.showMoney(item.price).split(".");
+                    var assist = this.$parent.getPriceByAssist(item.price).split(".");
+                    var amount = this.$parent.showCoin(item.amount);
+                    var newclass = newclass||''
+                    var amountClass = item.type == 'buy' ? 'buyColor' : 'sellColor';
+                    var html = "";
+                    html += "<li class='tr body "+ newclass +"'>";
+                    html += "   <p class=\"td price " + amountClass +"\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></p>";
+                    html += "   <p class=\"td num\"><span>"+ amount +"</span></p>";
+                    html += "   <p class=\"td time\">"+ dateStr +"</p>";
+                    html += "</li>";
+                    return html;
+                },
+                clickRow : function (price) {
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                },
+                bindSetPrice: function () {
+                    var _this = this;
+                    $("#tradeRecord").on('click', '.body', function () {
+                        var price = $(this).find(".price").text();
+                        _this.clickRow(price);
+                    });
+                },
+                //刷新交易记录的辅助货币价格
+                flushAssistPrice : function () {
+                    var _this = this;
+                    $("#tradeRecord .tradeNew-table .tr").each(function (i) {
+                        var price = $(this).find('.price').text();
+                        var assistPrice = _this.$parent.getPriceByAssist(price);
+                        $(this).find('.foldPrice').text(assistPrice);
+                        //console.log(assistPrice);
+                    });
+                }
+            },
+            watch: {
+
+            },
+            mounted: function() {
+                /*var _this = this;
+                this.updateRecord(this.dealRecord, function () {
+                    setInterval(function () {
+                        _this.updateRecord(_this.dealRecord);
+                    },1000)
+                });*/
+                this.bindSetPrice();
+            },
+            updated : function () {
+
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

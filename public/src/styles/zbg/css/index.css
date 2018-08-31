@@ -1,0 +1,18 @@
+.k-line-custom{
+    position: absolute;
+    top: -65px;
+    left: 0px;
+
+}
+.k-line-box{
+    overflow: hidden;
+}
+.k-line-up{
+    color: #e1033d;
+}
+.k-line-down{
+    color: #65ceb6;
+}
+[v-cloak] {
+    display:none !important;
+}

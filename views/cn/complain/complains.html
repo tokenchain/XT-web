@@ -1,0 +1,249 @@
+<div id="complains">
+    <nav class="comNav">
+        <span class="nav1">
+            <a href="/">ZBG.COM</a>
+        </span> >
+        <span class="nav2">
+            <a href="/newmarket"><%= LANG('上线前公示') %></a>
+        </span> >
+        <span>
+            <a href="javascript:void(0)">{{myTitle}}<span><%= LANG('投诉建议') %></span></a>
+        </span>
+    </nav>
+    <header>
+        <div class="complaincenter title" v-cloak>
+            {{myTitle}}<span><%= LANG('投诉建议') %></span>
+        </div>
+        <div class="goComplainDIv">
+            <button class="goComplain" @click="goComplain">
+                  <%= LANG('我要投诉') %>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="complainBtn">
+            <span v-show="!totalRowAll" @click="getAll" :class="{active:isAll}">
+                <i><%= LANG('全部投诉') %></i>
+            </span>
+            <span v-show="totalRowAll" @click="getAll" :class="{active:isAll}">
+                <i><%= LANG('全部投诉') %></i> (
+                <i>{{totalRowAll}}</i> )
+            </span>
+            <span v-show="!totalRowMine" @click="getMine" :class="{active:!isAll}">
+                <i><%= LANG('我的投诉') %></i>
+            </span>
+            <span v-show="totalRowMine" @click="getMine" :class="{active:!isAll}">
+                <i><%= LANG('我的投诉') %></i> (
+                <i>{{totalRowMine}}</i> )
+            </span>
+        </div>
+        <div>
+            <ul class="complainUl" v-for="item in dataList" :key="item.complainId">
+                <li class="complainLi top" v-cloak>
+                    <img class="avtar" src="/src/images/user.svg" alt="">
+                    <span class="complainFl">{{item.userName}}</span>
+                    <span class="complainFr">{{item.createTime}}</span>
+                </li>
+                <li class="complainLi content" v-cloak>{{item.content}}</li>
+            </ul>
+        </div>
+    </main>
+    <page-lite v-show="totalRow/pageSize>1" :page-index="pageIndex" :page-size="pageSize" :page-count="totalRow" :turn-page="turnPage"></page-lite>
+    <div v-show="totalRow/pageSize>1" class="comPage">共{{totalPages}}页</div>
+</div>
+<%-include("../component/page_lite.html")%>
+    <style>
+        .complaincenter {
+            display: flex;
+            justify-content: center;
+            color: #000
+        }
+
+        .complaincenter.title {
+            font-size: 32px;
+            margin-bottom: 50px
+        }
+
+        .complainBtn {
+            margin-top: 60px
+        }
+
+        .complainBtn span {
+            display: inline-block;
+            width: 180px;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            margin-right: 20px;
+            font-weight: 500
+        }
+
+        .complainBtn .active {
+            border-bottom: 2px solid #6a6ada;
+            color: #6a6ada
+        }
+
+        #complains main {
+            width: 800px;
+            margin: 0 auto;
+            color: #000
+        }
+
+        #complains header {
+            width: 800px;
+            margin: 0 auto;
+            color: #000
+        }
+
+        .complainFr {
+            float: right;
+            color: #999;
+            font-size: 14px
+        }
+
+        .complainFl {
+            color: #666
+        }
+
+        .complainLi {
+            font-size: 16px
+        }
+
+        .complainLi.top {
+            margin: 20px 0 30px 0
+        }
+
+        .complainLi.content {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-left: 32px
+        }
+
+        .goComplainDIv {
+            display: flex;
+            justify-content: center
+        }
+
+        .goComplain {
+            width: 150px;
+            margin-top: -10px;
+            border-radius: 20px;
+            border: 1px solid #6a6ada;
+            color: #6a6ada;
+            background-color: #fff
+        }
+
+        .avtar {
+            width: 26px
+        }
+
+        .comNav {
+            width: 800px;
+            margin: 0 auto;
+            margin-bottom: 30px
+        }
+
+        .nav1 {
+            color: #999;
+            cursor: pointer;
+        }
+
+        .nav2 {
+            color: #999;
+            cursor: pointer;
+
+        }
+        .comPage{
+            display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: -20px;
+        }
+    </style>
+    <script>
+        require(['vue', 'common/methods', 'common/juabox', 'mathjs/dist/math.min'], function (Vue, Methods, JuaBox) {
+            EXX.complains = new Vue({
+                el: "#complains",
+                data: function () {
+                    return {
+                        test: 'hello',
+                        website: '<%= website %>',
+                        applyCurrencyId: '<%= id %>',
+                        pageIndex: 1,
+                        pageSize: 20,
+                        totalRowAll: 0,
+                        totalRowMine: 0,
+                        dataList: [],
+                        userId: Methods.getCookie(ENV + "uid"),
+                        isAll: true
+                    }
+                },
+                methods: {
+                    getComlains(isAll) {
+                        var data = isAll ? {
+                            applyCurrencyId: this.applyCurrencyId,
+                            pageIndex: this.pageIndex,
+                            pageSize: this.pageSize
+                        } : {
+                            applyCurrencyId: this.applyCurrencyId,
+                            userId: this.userId,
+                            pageIndex: this.pageIndex,
+                            pageSize: this.pageSize
+                        }
+                        Methods.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            url: DOMAIN_DEV +
+                                "/exchange/activity/controller/CoinComplainController/complainListByPage",
+                            success: function (res) {
+                                if (isAll) {
+                                    this.totalRowAll = res.datas.totalRow
+                                } else {
+                                    this.totalRowMine = res.datas.totalRow
+                                }
+                                this.dataList = res.datas.results
+                            }.bind(this)
+                        });
+                    },
+                    goComplain() {
+                        var _this = this
+                        top.location.href =
+                            `/complain/addComplain?id=${_this.applyCurrencyId}&website=${_this.website}`
+                    },
+                    getAll() {
+                        this.pageIndex = 1
+                        this.isAll = true
+                        this.getComlains(true)
+                    },
+                    getMine() {
+                        this.pageIndex = 1
+                        this.isAll = false
+                        this.getComlains()
+                    },
+                    turnPage() {
+                        this.getComlains(true)
+                    }
+                },
+                created() {
+                    this.getComlains(true)
+                },
+                computed: {
+                    totalRow() {
+                        return this.isAll ? this.totalRowAll : this.totalRowMine
+                    },
+                    myTitle() {
+                        return this.website.substring(0, this.website.indexOf('（'))
+                    },
+                    totalPages(){
+                        var _this = this
+                        return Math.ceil(_this.totalRow/_this.pageSize)
+                    }
+                }
+            })
+        });
+    </script>

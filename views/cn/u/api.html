@@ -1,0 +1,282 @@
+
+<div id="user-api" class="api_panel user_api">
+    <div class="container">
+        <div class="first_open" v-cloak>
+            <h2><%= LANG('API私有交易设置') %></h2>
+            <a href="/help/restApi" target="_blank"><%= LANG('查看【API文档】') %></a>
+            <p class="tip" v-if="!apiStatusisOpen"><%= LANG('通过验证后,开启API') %></p>
+            <p class="tip" v-if="apiStatusisOpen"><%= LANG('私有密钥允许您通过ZBG开放协议提供API访问您的账户并执行交易指令，我们为您提供的密钥非常重要，请妥善保管。') %></p>
+            <a class="api_btn" v-if="!apiStatusisOpen && !showForm" @click="handleShowForm('open')" href="#"><%= LANG('开启API') %></a>
+            <div v-if="showForm" v-cloak class="api_input">
+                <div class="form-group">
+                    <div class="form-control" style="display: block !important;">
+                        <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
+                        <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control">
+                    <input placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+                    <send-code class="hq btn-five btn-sm" :code-type="3" :user-name="loginUser.loginName"  :bus-type="31"  :img-code="imgCode" :img-code-id="imgCodeId" :error-fun="handleRefreshImgcode"></send-code>
+                    </div>
+                </div>
+                <p v-if="loginUser.userType == 2"><%= LANG('温馨提示：验证码将发送至主账号的手机或邮箱，请联系主账号获取。') %></p>
+                <div class="form-group" v-if="loginUser.googleAuth != '0'">
+                    <div class="form-control">
+                        <input placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" type="text" maxlength="6" @keyup="googleCode=googleCode.replace(/[^\d]/g,'')">
+                    </div>
+                </div>
+                <div class="api_input_btn">
+                    <a class="cancel" @click="showForm = false" href="javascript:void(0);"><%= LANG('取消') %></a>
+                    <a class="sure" v-if="formType == 'open'" @click="apiOpenOrClose(true)" href="javascript:void(0);"><%= LANG('开启') %></a>
+                    <a class="sure" v-if="formType == 'close'" @click="apiOpenOrClose(false)" href="javascript:void(0);"><%= LANG('关闭') %></a>
+                    <a class="sure" v-if="formType == 'create'" @click="apiOpenOrClose(true)" href="javascript:void(0);"><%= LANG('生成') %></a>
+                </div>
+            </div>
+
+            <div v-if="apiStatusisOpen && !showForm" v-cloak class="api_box">
+                <h3><%= LANG('当前API密钥') %></h3>
+                <div v-if="!showForm"><a href="javascript:void(0);" @click="handleShowForm('create')"><%= LANG('重新生成') %></a><a href="javascript:void(0);" @click="handleShowForm('close')"><%= LANG('关闭') %></a></div>
+                <p><%= LANG('API访问密钥') %>(Access Key)：<span>{{accessKey}}</span></p>
+                <p><%= LANG('API私有密钥') %>(Secret Key)：<span>{{secretKey || "####-####-####-####"}} [<%= LANG('仅显示一次，若遗忘请重新生成') %>]</span></p>
+                <div class="item" v-if="false">
+                    <div class="hd"><h4><%= LANG('当前密钥绑定IP') %><a href="#"><%= LANG('修改') %></a></h4></div>
+                    <div class="bd"><p class="txt-red">186.166.122.122</p>
+                        <p class="exx-font12"><%= LANG('只有绑定的IP才能够通过API进行访问，如果不希望限制则留空。变更IP五分钟后生效。') %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%-include("../component/send_code/index.html")%>
+<script>
+
+
+
+    require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox) {
+        var userApi = new Vue({
+            el: "#user-api",
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(),
+                    showForm: false,
+                    formType: 'open',
+                    ip: '',
+                    googleCode: '',
+                    dynamicCode: '',
+                    withDrawAuth: 0,
+                    withDrawPwd:'',
+                    withDrawPwdConf:'',
+                    submitText: "<%= LANG('开启') %>",
+                    accessKey: '',
+                    secretKey: '',
+                    apiStatusisOpen:false,
+                    imgCode: '',
+                    imgCodeId: '',
+                    imageCodeUrl: ''
+                }
+            },
+            computed : {
+                codeType : function () {
+                    if(this.loginUser.userType == 1){
+                        if(this.formType == 'create'){
+                            return 16;
+                        }else{
+                            return 15
+                        }
+                    }
+                    if(this.loginUser.userType == 2){
+                        if(this.formType == 'create'){
+                            return 26;
+                        }else{
+                            return 25
+                        }
+                    }
+                }
+            },
+            methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
+                handleRefreshImgcode: function () {
+                    // this.timestramp = '-' + new Date().getTime();
+                    this.getImageCode();
+                },
+                clearInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                handleCheckLength: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if ($(target).val() == '') {
+                        Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+
+                handleShowForm: function(type, status) {
+                    var status = status || true;
+                    this.formType = type;
+                    this.showForm = status;
+                },
+                createKey: function() {
+                    if(this.withDrawAuth && this.withDrawPwdConf != this.withDrawPwd && this.loginUser.userType == '1'){
+                        return JuaBox.info(EXX.L('两次输入的密码不一致'))
+                    }
+                    var data = {
+                        mobileCode: this.dynamicCode,
+                        googleCode: this.googleCode,
+                        withDrawAuth:this.withDrawAuth?1:0,
+                        withDrawPwd:this.withDrawPwd,
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'doCreateKey',
+                        data: data,
+                        success: function (res) {
+                            this.dynamicCode = '';
+                            this.googleCode = '';
+                            this.withDrawAuth = false;
+                            this.withDrawPwdConf = '';
+                            this.withDrawPwd = '';
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                            var userInfo = this.loginUser;
+                            userInfo.apiStatus = '1';
+                            this.loginUser = userInfo;
+                            this.showForm = false;
+                            Methods.setLocalUserInfo(userInfo);
+                            this.accessKey = res.datas.accessKey;
+                            this.secretKey = res.datas.secretKey;
+                        }.bind(this)
+                    })
+                },
+                refreshKey: function() {
+                    this.showForm = true;
+                    this.submitText = "<%= LANG('生成') %>";
+                },
+                openOrClose: function(isOpen) {
+                    if(this.withDrawAuth && this.withDrawPwdConf != this.withDrawPwd && this.loginUser.userType == '1'){
+                        return JuaBox.info(EXX.L('两次输入的密码不一致'))
+                    }
+                    var data = {
+                        oper: isOpen,
+                        mobileCode: this.dynamicCode,
+                        googleCode: this.googleCode,
+                        withDrawAuth:this.withDrawAuth?1:0,
+                        withDrawPwd:this.withDrawPwd,
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'openOrClose',
+                        data: data,
+                        success: function (res) {
+                            this.dynamicCode = '';
+                            this.googleCode = '';
+                            this.withDrawAuth = false;
+                            this.withDrawPwdConf = '';
+                            this.withDrawPwd = '';
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                            var userInfo = this.loginUser;
+                            userInfo.apiStatus = isOpen == 'open' ? '1' : '0';
+                            this.loginUser = userInfo;
+                            this.showForm = false;
+                            Methods.setLocalUserInfo(userInfo);
+                            if (isOpen == 'open') {
+                                this.accessKey = res.datas.accessKey;
+                                this.secretKey = res.datas.secretKey;
+                            }
+                        }.bind(this)
+                    })
+                },
+                getApiInfo: function() {
+                    Methods.ajax({
+                        url: DOMAIN_MAIN + API_PREFIX + 'apiKey',
+                        success: function (res) {
+                            this.accessKey = res.datas.accessKey;
+                            this.secretKey = res.datas.secretKey;
+                        }.bind(this)
+                    })
+                },
+                getApiOpenStatus:function () {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/"+"ApiAccessController/queryState",
+                        success: function (res) {
+                            this.accessKey = res.datas.apiId;
+                            this.apiStatusisOpen=res.datas.isOpen;
+                            // this.apiStatusisOpen=true;
+                        }.bind(this)
+                    })
+                },
+                apiOpenOrClose:function (isopen) {
+                    var apiUrl='';
+                    if(!this.dynamicCode){
+                        return JuaBox.info("<%= LANG('请输入验证码') %>");
+                    }
+                    if(isopen){
+                        apiUrl='openApiAccess';
+                    }else{
+                        apiUrl='closeApiAccess';
+                    }
+                    var data = {};
+                    if(sessionStorage.getItem("smsOremail")=="sms"){
+                        data.smsCode=this.dynamicCode;
+                    }else{
+                        data.emailCode=this.dynamicCode;
+                    }
+                    if(this.googleCode){
+                        data.googleCode=this.googleCode;
+                    }
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/ApiAccessController/"+apiUrl,
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            this.dynamicCode = '';
+                            this.googleCode = '';
+                            JuaBox.info(EXX.L(res.resMsg.message));
+                            this.showForm = false;
+                            this.apiStatusisOpen=!this.apiStatusisOpen;
+                            if(isopen){
+                                this.accessKey = res.datas.apiId;
+                                this.secretKey = res.datas.apiSecret;
+                                this.apiStatusisOpen=true;
+                            }
+                        }.bind(this)
+                    })
+                }
+
+            },
+            created: function() {
+                // if (this.loginUser.apiStatus == '1') {
+                //     this.getApiInfo();
+                // }
+                this.getApiOpenStatus();
+            },
+            mounted: function() {
+                this.getImageCode();
+            },
+            updated: function() {
+                $('.api_input input').focusin(function(){
+                    $(this).parent().addClass('active');
+                });
+                $('.api_input input').blur(function(){
+                    if($(this).val().length > 0) {
+                        $(this).parent().addClass('active');
+
+                    }else if($(this).val().length == 0) {
+                        $(this).parent().removeClass('active');
+                    }
+
+                });
+            }
+
+        });
+    })
+</script>

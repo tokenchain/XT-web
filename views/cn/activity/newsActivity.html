@@ -1,0 +1,406 @@
+<!doctype html>
+<html>
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+    document.domain = DOMAIN_BASE;
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            background: url("/src/images/activity/zbg/bg@2x.png") no-repeat center center, radial-gradient(circle at top, #4C9AF9, #05179E);
+            background: url("/src/images/activity/zbg/bg@2x.png") no-repeat center center, -webkit-radial-gradient(circle at top, #4C9AF9, #05179E);
+            background-size: cover;
+
+        }
+        #header_menu_he{
+            background-color: transparent;
+            padding: 0 23px ;
+        }
+        #zb_activity {
+            /*margin-top: 70px;*/
+        }
+
+        #zb_activity .zb_header {
+            padding: 50px 34px 0;
+        }
+
+        #zb_activity .zb_header h1 {
+            width: 122px;
+            height: 36px;
+
+        }
+
+        #zb_activity .zb_header h1 img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #zb_activity .num {
+            margin-top: 32px;
+            font-size: 60px;
+            font-weight: 500;
+            font-family: "PingFang SC";
+
+            color: #fff;
+        }
+
+        #zb_activity .titel {
+            font-size: 48px;
+            font-weight: 100;
+            color: #fff;
+            line-height: 60px;
+        }
+
+        #zb_activity .timer {
+            color: #fff;
+        }
+
+        #zb_activity .timer span {
+            font-size: 26px;
+        }
+
+        #zb_activity .timer em {
+            margin-right: 5px;
+        }
+
+        #zb_activity .message {
+            padding: 0 23px;
+            margin-top: 30px;
+        }
+
+        #zb_activity .message .message_con {
+            padding: 25px 15px;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        #zb_activity .message .message_con p {
+            font-size: 18px;
+            font-weight: 300;
+            color: #a4a4a4;
+            margin-bottom: 10px;
+        }
+
+        #zb_activity .message .message_con .zb_convert_into {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(52, 110, 218, 0.1);
+        }
+
+        #zb_activity .message .message_con .zb_convert_into p.price {
+            font-weight: 500;
+            color: #00E6FF;
+            font-size: 28px;
+        }
+
+        #zb_activity .message .message_con .zb_now p.total {
+            color: #3D7EE6;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        #zb_activity .message .message_con .button {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+        }
+
+        #zb_activity .message .message_con .button a {
+            height: 45px;
+            width: 140px;
+            background-image: radial-gradient(ellipse at left bottom, #4C9AF9, #0517C2);
+            -webkit-border-radius: 23px;
+            -moz-border-radius: 23px;
+            border-radius: 23px;
+            text-align: center;
+            line-height: 45px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: -100px;
+        }
+
+        #zb_activity .message .message_con .button a.resg {
+            background-image: radial-gradient(ellipse at left bottom, #43F0F9, #43F0F9);
+
+        }
+
+        #zb_activity .activity_time {
+
+            width: 100%;
+            display: -webkit-flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            font-size: 12px;
+            margin-top: 50px;
+        }
+
+        #zb_activity .activity_time p {
+            line-height: 20px;
+        }
+
+        @media (max-width: 320px) {
+
+            #zb_activity .num {
+                font-size: 30px;
+            }
+
+            #zb_activity .titel {
+                font-size: 25px;
+            }
+
+            #zb_activity .message .message_con .button a {
+                font-size: 12px;
+                width: 100px;
+                height: 30px;
+                line-height: 30px;
+            }
+
+            #zb_activity .zb_header h1 {
+                width: 80px;
+                height: 27px;
+            }
+
+            #zb_activity .zb_header h1 img {
+
+            }
+
+            #zb_activity .message .message_con .zb_convert_into p {
+                font-size: 16px;
+            }
+
+            #zb_activity .message .message_con .zb_convert_into p.price {
+                font-size: 20px;
+            }
+
+            #zb_activity .message .message_con .zb_now p.total {
+                font-size: 20px;
+            }
+
+            #zb_activity .message .message_con .zb_now p {
+                font-size: 16px;
+            }
+            #zb_activity .activity_time {
+                margin-top: 20px;
+            }
+            #zb_activity .timer span {
+                font-size: 20px;
+            }
+            #zb_activity .timer em{
+                font-size: 12px;
+            }
+            #zb_activity .message {
+                margin-top: 40px;
+            }
+        }
+    </style>
+
+</head>
+<body class="home" id="activity_a">
+<div id="zb_activity" class="">
+    <div class="zb_header">
+        <!--<h1>-->
+        <!--<img src="/src/images/activity/zbg/LOGO.png" alt="">-->
+        <!--</h1>-->
+        <p class="num">
+            3.5亿ZT
+        </p>
+        <p class="titel">
+            <%= LANG('创世发行') %>
+        </p>
+        <div class="timer" v-cloak="">
+            <span>{{day}}</span><em><%= LANG('天') %></em>
+            <span>{{hour}}</span><em><%= LANG('小时') %></em>
+            <span>{{min}}</span><em><%= LANG('分钟') %></em>
+            <span>{{sec}}</span><em><%= LANG('秒') %></em>
+        </div>
+    </div>
+    <div class="message" v-cloak="">
+        <div class="message_con">
+            <div class="zb_convert_into">
+                <p><%= LANG('每ZB动态折合') %> :</p>
+                <p class="price">{{amountTo |capitalize}} <span>ZT</span></p>
+            </div>
+            <div class="zb_now">
+                <p><%= LANG('当前换码池') %>：</p>
+                <p class="total">{{InvestTotal.totalAmount |capitalize}} <span>ZB</span></p>
+            </div>
+            <div class="button">
+                <a href="/zb_zt">
+                    < <%= LANG('了解更多') %>
+                </a>
+                <a class="resg" href="/register">
+                    <%= LANG('抢先注册') %> >
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="activity_time">
+        <p>* <%= LANG('活动时间') %>:</p>
+        <p>7/9 15：00 - 7/21 15:00</p>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        new Vue({
+            el: '#zb_activity',
+            data: function () {
+                return {
+                    amountTo: '--',
+                    InvestTotal: {
+                        totalAmount: '--'
+                    },
+                    addinvestData: {
+                        currencyTypeName: 'zb',
+                        investAmount: '',
+                        rsaKeyId: '',
+                        smsCode: '',
+                        emailCode: '',
+                    },
+                    day: 0,
+                    hour: 0,
+                    min: 0,
+                    sec: 0,
+                }
+            },
+            methods: {
+                //用户投资换币总额
+                getInvestTotal: function () {
+                    var that = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                        success: function (res) {
+                            that.InvestTotal = res.datas
+                            that.amountTo = 350000000 / that.InvestTotal.totalAmount
+                        }.bind(this)
+                    });
+                },
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                //获取自己的ZB 和换码 池中的ZB
+                getmyzb: function () {
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/getUserInvestInfo',
+                        data: {
+                            currencyTypeName: 'zb'
+                        },
+                        success: function (res) {
+                            this.balance = res.datas.balance
+                            this.escape = res.datas.userInvestAmount
+                        }.bind(this)
+                    });
+                },
+            },
+            created: function () {
+
+            },
+            mounted: function () {
+
+                var recommend = escape(Methods.parseQueryString().recommend)
+                Methods.setCookie(ENV + "recommendCode", recommend);
+                var _this = this
+                this.getInvestTotal()
+                this.getPubKey()
+
+                var timerID = setInterval(function () {
+                    var target = new Date('2018/7/21 15:00');
+                    var oldtimer = new Date('2018/7/9 15:00');
+
+                    // var now = new Date();
+                    var now = new Date();
+
+                    //计算总时间 / 当前时间距离结束时间的差
+                    _this.transitiongoal = 100 - Math.floor(((target - now) / (target - oldtimer)) * 100)
+                    var d = target - now;
+                    //把相差的时间转成秒
+                    d = Math.floor(d / 1000);
+                    var days = d / (24 * 60 * 60);
+
+                    if (days < 10) {
+                        _this.day = '0' + Math.floor(days)
+                    } else {
+                        _this.day = Math.floor(days);
+                    }
+
+                    //使用之前的时间和天数取余的结果(不是一天),转成小时
+                    var hours = d % (24 * 60 * 60) / 3600;
+
+
+                    if (hours < 10) {
+                        _this.hour = '0' + Math.floor(hours)
+                    } else {
+                        _this.hour = Math.floor(hours);
+                    }
+                    //获取分钟，直接和小时取余
+                    var minutes = d % (60 * 60) / 60;
+
+                    if (minutes < 10) {
+                        _this.min = '0' + Math.floor(minutes)
+                    } else {
+                        _this.min = Math.floor(minutes);
+                    }
+                    //获取秒钟，直接和60取余
+                    if (d % 60 < 10) {
+                        _this.sec = '0' + d % 60;
+                    } else {
+                        _this.sec = d % 60;
+                    }
+                    if (days <= 0 && hours <= 0 && minutes <= 0 && _this.sec <= 0) {
+                        _this.day = 0
+                        _this.hour = 0
+                        _this.min = 0
+                        _this.sec = 0
+                        clearInterval(timerID)
+                    }
+                }, 1000)
+            },
+            filters: {
+                capitalize: function (value) {
+                    if (!Number(value)) return '--'
+                    return Number(value).toFixed(6)
+                }
+            }
+        });
+    })
+
+</script>

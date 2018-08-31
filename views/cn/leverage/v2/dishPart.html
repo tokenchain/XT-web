@@ -1,0 +1,274 @@
+<script type="text/x-template" id="dish-part">
+    <div class="trading-disc">
+        <div class="disc-head">
+            <p class="stall"><span><%= LANG('档位')%></span></p>
+            <p><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
+            <p><span><%= LANG('折价')%>({{$parent.showAssistCoin()}})</span></p>
+            <p class="last"><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
+        </div>
+        <div class="disc-list" v-show="showAsks">
+            <div id="asksDish" class="sell-disc disc-inner">
+                <ul class="">
+                    <li role="button" @click="clickAsksRow(item[0],index)" v-for="item,index in asks" v-cloak="">
+                        <p class="stall trading-greencolor"><%= LANG('卖')%>{{asks.length - index}}</p>
+                        <p class="trading-greencolor">{{showPrice(item[0])}}</p>
+                        <p>{{$parent.getPriceByAssist(item[0])}}</p>
+                        <p class="last">{{showDepth(item[1])}}</p>
+                        <p class="progress" :style="'width:' + getDepthPencent(item[1], getMaxDepth(asks)) + '%'"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="disc-line"></div>
+        <div class="disc-price">
+            <div class="price">
+                <h3><span :class="$parent.priceClass">{{$parent.currentPrice}} <b style="font-size: 12px; vertical-align: middle">{{$parent.moneyName}}</b></span></h3>
+                ≈ {{$parent.getPriceByAssist($parent.currentPrice)}} {{$parent.showAssistCoin()}}
+            </div>
+            <div class="control">
+                <a role="button" @click="showAsksOrBids('asks')">
+                    <img :src="'/src/images/icon/show_bids' + (!showAsks ? '_on' : '') + '.jpg'" />
+                </a>
+                <a role="button" @click="showAsksOrBids('bids')">
+                    <img :src="'/src/images/icon/show_asks' + (!showBids ? '_on' : '') + '.jpg'" />
+                </a>
+            </div>
+        </div>
+        <div class="disc-line"></div>
+        <div class="disc-list" v-show="showBids">
+            <div id="bidsDish" class="buy-disc disc-inner">
+                <ul class="">
+                    <li role="button" @click="clickBidsRow(item[0],index)" v-for="item,index in bids" v-cloak="">
+                        <p class="stall trading-redcolor"><%= LANG('买')%>{{index + 1}}</p>
+                        <p class="trading-redcolor">{{showPrice(item[0])}}</p>
+                        <p>{{$parent.getPriceByAssist(item[0])}}</p>
+                        <p class="last">{{showDepth(item[1])}}</p>
+                        <p class="progress" :style="'width:' + getDepthPencent(item[1], getMaxDepth(bids)) + '%'"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('dish-part', {
+            template: "#dish-part",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                dishData: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                currentMarket : {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    dishLength : 50,
+                    assistList : this.$parent.assistList,
+                    showAsks : true,
+                    showBids : true,
+                    askScroll : '',
+                    bidScroll : ''
+                }
+            },
+            computed: {
+                bids : function () {
+                    var oArray = this.dishData.bids;
+                    var nArray = [];
+                    //获取恰当的买单档位
+                    if(oArray && oArray.length > 0){
+                        var ilength = oArray.length;
+                        //重新循环赋值才能深复制过来
+                        oArray.forEach(function (item,index) {
+                            if(ilength > this.dishLength){
+                                if(index < this.dishLength){
+                                    nArray[index] = item;
+                                }
+                            }else{
+                                nArray[index] = item;
+                            }
+                        }.bind(this));
+                    }
+                    return nArray;
+                },
+                asks : function () {
+                    var oArray = this.dishData.asks;
+                    var nArray = [];
+                    //获取恰当的卖单档位(取最后的this.length档)
+                    if(oArray && oArray.length > 0){
+                        if(oArray.length > this.dishLength){
+                            for(var i = 0; i < this.dishLength; i++){
+                                nArray[i] = oArray[oArray.length - this.dishLength + i]
+                            }
+                        }else{
+                            for(var i = 0; i < oArray.length; i++){
+                                nArray[i] = oArray[i]
+                            }
+                        }
+                    }
+                    return nArray;
+                }
+            },
+            methods: {
+                getMaxDepth : function (depth) {
+                    var maxNum = 0 ;
+                    //求卖单最大深度值
+                    for(var i = 0;i < depth.length; i++){
+                        if(parseFloat(depth[i][1]) > maxNum){
+                            maxNum = parseFloat(depth[i][1]);
+                        }
+                    }
+                    return maxNum;
+                },
+                getDepthPencent : function (number, maxNumber) {
+                    return Methods.fixNumber(number / maxNumber * 100, 2);
+                },
+                showPrice : function (price,type) {
+                    //格式化盘口价格
+                    return Methods.fixNumber(price, this.marketConfig.priceDecimal);
+                },
+                showDepth : function (depth,type) {
+                    //格式化盘口深度
+                    return Methods.fixNumber(depth, this.marketConfig.amountDecimal);
+                },
+                changeLength : function (len) {
+                    this.dishLength = len;
+                    this.$parent.dishLength = len;
+                },
+                clickAsksRow : function (price,index) {
+                    var depth = 0,
+                        _this = this,
+                        len = Math.min(_this.dishLength, _this.asks.length);
+                    for(var i = index; i < len; i++ ){
+                        depth += parseFloat(_this.asks[i][1]);
+                    }
+
+                    this.$parent.$refs.tradeFormBuy.flashInput();
+
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    this.$parent.$refs.tradeFormBuy.inputNumber = depth;
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                },
+                clickBidsRow : function (price,index) {
+                    var depth = 0,
+                        _this = this;
+                    for(var i = 0; i <= index; i++ ){
+                        depth += parseFloat(_this.bids[i][1]);
+                    }
+                    this.$parent.$refs.tradeFormSell.flashInput();
+
+                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    this.$parent.$refs.tradeFormBuy.inputNumber = depth;
+
+                    this.$parent.$refs.tradeFormSell.inputPrice = price;
+                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                },
+                showAsksOrBids : function (val) {
+                    if(val == 'asks'){
+                        this.showAsks = !this.showAsks;
+                        if(!this.showBids){
+                            this.showBids = true;
+                        }
+                    }else{
+                        this.showBids = !this.showBids;
+                        if(!this.showAsks){
+                            this.showAsks = true;
+                        }
+                    }
+                },
+                initAskScroll : function(){
+                    if(!this.askScroll && $('#asksDish').length > 0){
+                        this.askScroll = new IScroll('#asksDish',{
+                            mouseWheel: true,
+                            scrollbars: "custom",
+                            fadeScrollbars : false,
+                            bounceEasing : 'quadratic'
+                        });
+                    }
+                    if(this.askScroll){
+                        this.askScroll.refresh();
+                    }
+                },
+                initBidScroll : function(){
+                    if(!this.bidScroll && $('#bidsDish').length > 0){
+                        this.bidScroll = new IScroll('#bidsDish',{
+                            mouseWheel: true,
+                            scrollbars: "custom",
+                            fadeScrollbars : false,
+                            bounceEasing : 'quadratic'
+                        });
+                    }
+                    if(this.bidScroll){
+                        this.bidScroll.refresh();
+                    }
+                },
+                scrollToBottom: function() {
+                    setTimeout(function () {
+                        this.askScroll.scrollTo(0, this.askScroll.maxScrollY, 500);
+                    }.bind(this), 200)
+                },
+                scrollToTop: function() {
+                    setTimeout(function () {
+                        this.bidScroll.scrollTo(0, 0, 500);
+                    }.bind(this), 200)
+                },
+                updateDepth : function () {
+                    //防止报错
+                },
+                flushAssistPrice : function () {
+                    //防止报错
+                }
+
+            },
+            watch: {
+                asks : function () {
+                    if(this.asks.length > 0){
+                        this.scrollToBottom();
+                    }
+                },
+                showAsks : function (val) {
+                    this.scrollToTop();
+                    this.scrollToBottom();
+                },
+                showBids : function (val) {
+                    this.scrollToTop();
+                    this.scrollToBottom();
+                }
+            },
+            mounted: function() {
+                this.initAskScroll();
+                this.initBidScroll();
+
+            },
+            updated : function () {
+                this.initAskScroll();
+                this.initBidScroll();
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

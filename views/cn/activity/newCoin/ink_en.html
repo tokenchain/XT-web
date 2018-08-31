@@ -1,0 +1,437 @@
+<style>
+
+
+    .commom-panel .banner {
+        background: #fff url("/src/images/home/ink/ink-bg.jpg") no-repeat center center / cover;
+        padding: 120px 0;
+        position: relative;
+        text-align: center;
+        color: #f39806;
+    }
+
+    .commom-panel .banner .info {
+        position: relative;
+    }
+
+    .commom-panel .banner .logo {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner h2 {
+        font-size: 30px;
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner span {
+        color: #df1a14;
+    }
+
+    .commom-panel .banner .subtitle {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .subtitle p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .commom-panel .content .box {
+        padding: 100px 0;
+    }
+
+    .commom-panel .content .box .info {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .commom-panel .content .info > h3 {
+        font-size: 26px;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .commom-panel .content .info > h3.after:after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: #df1a14;
+    }
+
+    .commom-panel .content .info > h3.after.w:after {
+        background: #fff;
+    }
+
+    .commom-panel .content .info > h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 24px;
+    }
+
+    .commom-panel .content .info > p {
+        line-height: 26px;
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .content .item {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .content .item p {
+        display: inline-block;
+    }
+
+    .commom-panel .content .item p.time {
+        color: #df1a14;
+        width: 100px;
+    }
+
+    .commom-panel .content ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .commom-panel .content ul li {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc((100% - 90px) / 4);
+        flex: 0 0 calc((100% - 90px) / 4);
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .commom-panel .content ul li img {
+        border-radius: 50%;
+    }
+
+    .commom-panel .content ul li h3 {
+        font-size: 16px;
+        margin: 20px 0 10px;
+        color: #000;
+    }
+
+    .commom-panel .content ul li p.t {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .commom-panel .content ul li p.b {
+        margin-top: 20px;
+        color: #888;
+        line-height: 20px;
+    }
+
+    .commom-panel .btn {
+        margin-top: 40px;
+    }
+
+    .commom-panel .btn a {
+        display: inline-block;
+        padding: 13px 50px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 14px;
+        background: #df1a14;
+    }
+
+    .commom-panel .lingqu {
+        background: #000;
+        padding: 80px 0;
+    }
+
+    .winning {
+        display: none;
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(19, 19, 28, 0.95);
+        z-index: 9999;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .winning-box {
+        width: 700px;
+        position: relative;
+    }
+
+    .winning-box .close {
+        position: absolute;
+        background: #ffb400;
+        color: #fff;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 30px;
+        right: 0;
+        top: 0;
+        font-weight: bold;
+    }
+
+    .winning-box .info {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 150px;
+        text-align: center;
+    }
+
+    .winning-box .info p {
+        color: #ffb400;
+        font-size: 130px;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, .2);
+    }
+
+    .winning-box .info a {
+        display: inline-block;
+        padding: 15px 80px;
+        border-radius: 50px;
+        font-size: 18px;
+        color: #fff;
+        margin-top: 80px;
+        background-image: -moz-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -ms-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+
+    }
+</style>
+<div class="commom-panel" id="giftCoin">
+    <div class="banner">
+        <img src="/src/images/home/ink/ink-bg2.png"
+             style="position:absolute;left:0; right:0; top: 0; margin: 0 auto;height: 90%;"/>
+        <div class="info">
+            <div class="logo"><img src="/src/images/home/ink/ink-logo.png" style="width: 200px;"/></div>
+            <h2><span>INK</span> is building an Intellectual Property Assets Exchange on QTUM</h2>
+            <div class="subtitle" style="margin-bottom: 15px;"> Distributes <span>300 million INK,</span> randomly
+                receives <span>10-50INK</span></div>
+            <p v-cloak="" v-if="isLogin && (loginUser.emailAuth == 0 || loginUser.mobileAuth == 0)">（require to complete
+                phone number and email verification）</p>
+            <div class="btn" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('立即领取')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%=
+                    LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button"
+                   v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin"><%= LANG('领取成功')%></a>
+                <a @click="applyGift" role="button"
+                   v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin"><%=
+                    LANG('立即领取')%></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="box" style="color: #fff;font-size: 14px; background: #000;">
+            <div class="info">
+                <h3 class="after">What is INK?</h3>
+                <p>The vision of Ink is to provide Sovereign Consortium Blockchains to different use cases, to build a
+                    blockchain based infrastructure for the Creative Industry where various applications were possible
+                    and correlate to each other in one system. </p>
+                <p>Based on public blockchain (Qtum), an Intellectual Property Assets Exchange is built as a trusted
+                    corridor for cash generation and token issuance, making it an integrated ecosystem. At the same
+                    time, the cross-chain protocol enables value and information to flow freely between public
+                    blockchain and consortium blockchains.</p>
+                <a href="https://ink.plus" target="_blank" style="color: #df1a14;">Official
+                    website：https://ink.plus/</a>
+            </div>
+        </div>
+        <div class="box" style="background: #cd3427; color: #fff;">
+            <div class="info">
+                <h3 class="after w">INK Solutions</h3>
+                <h4>INK SOVEREIGN CONSORTIUM BLOCKCHAIN SOLUTION FOR REGIONAL USE</h4>
+                <p>Ink Sovereign Consortium Blockchain is a set of consortium blockchain developed for regional use
+                    cases with different legal frameworks and cultural backgrounds which follows the standards of
+                    Fabric. The Infrastructure for Creative Industry based on it enables developers to easily build
+                    powerful decentralised applications.</p>
+                <h4>Infrastructure for Decentralised Content Production</h4>
+                <p>Ink is building an Intellectual Property Assets Exchange on Qtum. This platform enables
+                    securitisation and tokenisation of Intellectual property, as a trusted corridor for cash generation
+                    and industry reshuffle in favour of artists and creators.</p>
+                <h4>INK Cross-chain Protocol</h4>
+                <p>For different sovereign consortium blockchains, the capability of cross-chain interaction is key to
+                    realise the network of Values. The Qtum public blockchain sitting at the very heart of Ink
+                    ecosystem, which becomes a natural bridge for transfer of value and information. It enables value
+                    and information to flow freely between Qtum chain and Ink sovereign consortium blockchains.
+                </p>
+            </div>
+        </div>
+        <div class="box" style="background: #000; color: #fff; font-size: 14px;">
+            <div class="info">
+                <h3 class="after">Ink Development History</h3>
+                <div class="item"><p class="time">April, 2016</p>
+                    <p>Ziggurat tech, member of Ink council, received seed-round investment.</p></div>
+                <div class="item"><p class="time">October, 2016</p>
+                    <p>Ziggurat IP Asset Management platform (ziggurat.cn) based on blockchain was launched.</p></div>
+                <div class="item"><p class="time">December,2016</p>
+                    <p>The number of original works registered on Ziggurat. </p></div>
+                <div class="item"><p class="time"></p>March, 2017<p>cn surpassed 6000. More than 10 partnerships were
+                    formed with Ziggurat. Founding team of Ink established the core mission and roadmap.</p></div>
+                <div class="item"><p class="time">April, 2017</p>
+                    <p>Founding team of Ink received million-dollar angel investment, and the project entered a new
+                        phase.</p></div>
+                <div class="item"><p class="time">May, 2017</p>
+                    <p>Founding team of Ink were invited to the Big Data Expo and signed Strategic Partnership with
+                        Guiyang Government in China.</p></div>
+                <div class="item"><p class="time">June, 2017</p>
+                    <p>The official Ink team was established, with experts in blockchain, IP incubation, management and
+                        operation.</p></div>
+                <div class="item"><p class="time">July, 2017</p>
+                    <p>Team Ink received multimillion-dollar Pre-A round financing. </p></div>
+                <div class="item"><p class="time">September, 2017</p>
+                    <p>Ink Sovereign Consortium Blockchain entered testing phase.</p></div>
+                <div class="item"><p class="time">October, 2017</p>
+                    <p>2017 Whitepaper of Ink to be officially released</p></div>
+                <div class="item"><p class="time">November, 2017</p>
+                    <p>Ink to complete international token offering. Preview for internal use only Ink Whitepaper </p>
+                </div>
+                <div class="item"><p class="time">December, 2017</p>
+                    <p>Ink to launch open platform for DApp development.</p></div>
+                <div class="item"><p class="time">January, 2018</p>
+                    <p>Cross-chain protocol to be established between Ink Sovereign Consortium Blockchain and Qtum
+                        Blockchain.</p></div>
+                <div class="item"><p class="time">February, 2018</p>
+                    <p>Ink to launch first batch of international IP tokens</p></div>
+                <div class="item"><p class="time">March, 2018 </p>
+                    <p>2018 Beta launch of IP Asset Exchange.</p></div>
+                <div class="item"><p class="time">May, 2018</p>
+                    <p>Ink Global IP Blockchain network to be launched.</p></div>
+                <div class="item"><p class="time">In the future</p>
+                    <p>In the future Ink Blockchain to receive global acclaim.</p></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3 class="after">Ink Team</h3>
+                <ul>
+                    <li>
+                        <img src="/src/images/home/ink/p1.png"/>
+                        <h3>Tang Ling</h3>
+                        <p class="t">China Co-founder</p>
+                        <p class="b">Founder & CEO of Ziggurat tech. Founder of Inkchain, expert of intellectual
+                            property.</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p2.png"/>
+                        <h3>Ismail Malik</h3>
+                        <p class="t">Britain Co-founder</p>
+                        <p class="b">ICO CROWD & BlockchainLab CEO. One of the authorities in blockchain and digital
+                            currency in Europe.</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p3.png"/>
+                        <h3>Tsukikawa Yuu</h3>
+                        <p class="t">Japan Co-founder</p>
+                        <p class="b">A promoter on blockchain development in Japan region, as an early investor of
+                            Bitcoin.</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p4.png"/>
+                        <h3>Walter Komarek</h3>
+                        <p class="t">Europe Co-founder</p>
+                        <p class="b">EU Continent CEO, President and Managing Partner of Forbesfone (the biggest telecom
+                            company in Malta).</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="box" style="background: #cd3427;color: #fff;">
+            <div class="info">
+                <h3 class="after w">Ink Core Developer</h3>
+                <ul>
+                    <li>
+                        <img src="/src/images/home/ink/p5.png"/>
+                        <h3 style="color: #fff;">Chen Chang </h3>
+                        <p style="color: #fff;" class="t">Core Developer China</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p6.png"/>
+                        <h3 style="color: #fff;">Dr Wang Hao</h3>
+                        <p style="color: #fff;" class="t">Core Developer China </p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p7.png"/>
+                        <h3 style="color: #fff;">Dr Gao Zhenfeng</h3>
+                        <p style="color: #fff;" class="t">Core Developer China</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p8.png"/>
+                        <h3 style="color: #fff;">Dr Frank Wang</h3>
+                        <p style="color: #fff;" class="t">Core Developer US</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Alexey Kalina</h3>
+                        <p style="color: #fff;" class="t">Core Developer Russia</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Paul Sokolov</h3>
+                        <p style="color: #fff;" class="t">Core Developer Russia</p>
+                    </li>
+                    <li>
+                        <img src="/src/images/home/ink/p9.png"/>
+                        <h3 style="color: #fff;">Alexandr Dorozhkin</h3>
+                        <p style="color: #fff;" class="t">Core Developer Russia</p>
+                    </li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class="lingqu">
+            <div class="btn" style="margin-top: 0; text-align: center;" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('立即领取')%></a>
+                <a @click="showModal = 'setEmail'" role="button" v-if="isLogin && loginUser.emailAuth == 0 && !hasJoin"><%=
+                    LANG('认证邮箱')%></a>
+                <a @click="showModal = 'setMobile'" role="button"
+                   v-if="isLogin && loginUser.mobileAuth == 0 && !hasJoin"><%= LANG('认证手机')%></a>
+                <a @click="showModal = 'applyGift'" role="button" v-if="isLogin && hasJoin"><%= LANG('领取成功')%></a>
+                <a @click="applyGift" role="button"
+                   v-if="isLogin && loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && !hasJoin"><%=
+                    LANG('立即领取')%></a>
+            </div>
+        </div>
+    </div>
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winning.png"/>
+                <div class="info">
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                    <a href="/u/asset" target="_self">立即查看</a>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <modal v-cloak :open="showModal == 'setMobile'" @close="showModal = false">
+        <set-mobile/>
+    </modal>
+
+    <modal v-cloak :open="showModal == 'setEmail'" @close="showModal = false">
+        <set-email/>
+    </modal>
+</div>
+<%-include("app.getCoin.html" ,{giftCoin: 'ink'})%>

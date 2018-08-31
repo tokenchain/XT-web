@@ -1,0 +1,158 @@
+<script type="text/x-template" id="dish-part">
+    <div class="bk-dish">
+        <div class="bk-length">
+            <ul class="bk-table">
+                <li role="button" data-type="length" class="bk-cell active" id="bkLength">
+                    <a role="button"><span><%= LANG('默认档位') %></span><i class="iconfont ml10 ft12"><%= LANG('') %></i></a>
+                    <dl>
+                        <dd role="button" data-length="5" class="active"><%= LANG('5档') %></dd>
+                        <dd role="button" data-length="10"><%= LANG('10档') %></dd>
+                        <dd role="button" data-length="20"><%= LANG('20档') %></dd>
+                        <dd role="button" data-length="50"><%= LANG('50档') %></dd>
+                    </dl>
+                </li>
+                <li role="button" data-type="depth" class="bk-cell" id="bkDepth">
+                    <a role="button"><span><%= LANG('默认深度') %></span><i class="iconfont ml10 ft12"></i></a>
+                    <dl>
+                        <dd role="button" data-depth="0.01" class="active"><%= LANG('合并0.01') %></dd>
+                        <dd role="button" data-depth="0.1" class=""><%= LANG('合并0.1') %></dd>
+                        <dd role="button" data-depth="1" class=""><%= LANG('合并1') %></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bk-market-form">
+            <table id="sellMarket" width="100%">
+                <tbody>
+                <tr v-for="item,index in asks" v-cloak="">
+                    <td class="text-second" width="20%"><%= LANG('卖') %>{{asks.length - index}}</td>
+                    <td width="30%">{{showPrice(item[0])}}</td>
+                    <td class="text-right text-g" width="30%">{{showDepth(item[1])}}</td>
+                    <td class="text-left" width="20%"><div class="percent text-second" :style="'width:' + getDepthPencent(item[1], getMaxDepth(asks)) + '%'"></div></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="bk-divider" style="margin:10px auto;"></div>
+            <table id="buyMarket" width="100%">
+                <tbody>
+                <tr v-for="item,index in bids" v-cloak="">
+                    <td class="text-primary" width="20%"><%= LANG('买') %>{{index + 1}}</td>
+                    <td width="30%">{{showPrice(item[0])}}</td>
+                    <td class="text-right text-g" width="30%">{{showDepth(item[1])}}</td>
+                    <td class="text-left" width="20%"><div class="percent text-primary" :style="'width:' + getDepthPencent(item[1], getMaxDepth(bids)) + '%'"></div></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods){
+        return Vue.component('dish-part', {
+            template: "#dish-part",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                dishData: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                currentMarket : {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    length : 5
+                }
+            },
+            computed: {
+                bids : function () {
+                    var oArray = this.dishData.bids;
+                    var nArray = [];
+                    //获取恰当的买单档位
+                    if(oArray && oArray.length > 0){
+                        var ilength = oArray.length;
+                        //重新循环赋值才能深复制过来
+                        oArray.forEach(function (item,index) {
+                            if(ilength > this.length){
+                                if(index < this.length){
+                                    nArray[index] = item;
+                                }
+                            }else{
+                                nArray[index] = item;
+                            }
+                        }.bind(this));
+                    }
+                    return nArray;
+                },
+                asks : function () {
+                    var oArray = this.dishData.asks;
+                    var nArray = [];
+                    //获取恰当的卖单档位(取最后的this.length档)
+                    if(oArray && oArray.length > 0){
+                        if(oArray.length > this.length){
+                            for(var i = 0; i < this.length; i++){
+                                nArray[i] = oArray[oArray.length - this.length + i]
+                            }
+                        }else{
+                            for(var i = 0; i < oArray.length; i++){
+                                nArray[i] = oArray[i]
+                            }
+                        }
+                    }
+                    return nArray;
+                }
+            },
+            methods: {
+                getMaxDepth : function (depth) {
+                    var maxNum = 0 ;
+                    //求卖单最大深度值
+                    for(var i = 0;i < depth.length; i++){
+                        if(parseFloat(depth[i][1]) > maxNum){
+                            maxNum = parseFloat(depth[i][1]);
+                        }
+                    }
+                    return maxNum;
+                },
+                getDepthPencent : function (number, maxNumber) {
+                    return Methods.fixNumber(number / maxNumber * 100, 2);
+                },
+                showPrice : function (price,type) {
+                    //格式化盘口价格
+                    return Methods.fixNumber(price, this.marketConfig.moneyDecimal);
+                },
+                showDepth : function (depth,type) {
+                    //格式化盘口深度
+                    return Methods.fixNumber(depth, this.marketConfig.coinDecimal);
+                },
+
+            },
+            watch: {
+
+            },
+            mounted: function() {
+
+            },
+            updated : function () {
+
+            },
+            beforeUpdate: function() {
+
+            },
+            beforeDestroy: function() {
+
+            }
+        });
+    })
+
+</script>

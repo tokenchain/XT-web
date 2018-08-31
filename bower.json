@@ -1,0 +1,22 @@
+{
+  "name": "exx-node",
+  "description": "",
+  "main": "",
+  "authors": [
+    "siven"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "vue": "2.2.4",
+    "jquery": "1.12.4"
+  }
+}

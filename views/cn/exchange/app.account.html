@@ -1,0 +1,635 @@
+<script>
+    require(['vue','common/methods','common/upload','components/country_code/index'], function (Vue, Methods,Upload) {
+        new Vue({
+            el: "#ex-account",
+            data: function () {
+                return {
+                    currCollapsible:'',
+                    displayAreaSelect:false,
+                    displayBankSelect:false,
+                    loginUser: '',
+                    businessInfo:null,
+                    authInfo:null,
+                    accountInfo:null,
+                    areaList:null,
+                    assetsInfo:null,
+                    outputBailStatus:null,
+                    bankList:[
+                        {
+                        id:2,
+                        name:"<%= LANG('中国工商银行') %>"
+                    },{
+                        id:3,
+                        name:"<%= LANG('中国邮政银行') %>"
+                    },{
+                        id:4,
+                        name:"<%= LANG('中国建设银行') %>"
+                    },{
+                        id:5,
+                        name:"<%= LANG('中国农业银行') %>"
+                    },{
+                        id:6,
+                        name:"<%= LANG('中国招商银行') %>"
+                    },{
+                        id:7,
+                        name:"<%= LANG('中国银行') %>"
+                    },{
+                        id:8,
+                        name:"<%= LANG('交通银行') %>"
+                    },{
+                        id:9,
+                        name:"<%= LANG('广东发展银行') %>"
+                    },{
+                        id:10,
+                        name:"<%= LANG('中信银行') %>"
+                    },{
+                        id:11,
+                        name:"<%= LANG('光大银行') %>"
+                    },{
+                        id:12,
+                        name:"<%= LANG('浦发银行') %>"
+                    },{
+                        id:14,
+                        name:"<%= LANG('中国民生银行') %>"
+                    },{
+                        id:15,
+                        name:"<%= LANG('兴业银行') %>"
+                    },{
+                        id:16,
+                        name:"<%= LANG('平安银行') %>"
+                    },{
+                        id:18,
+                        name:"<%= LANG('华夏银行') %>"
+                    }],
+                    formBusiness:{
+                        nick:'',
+                        desc:'',
+                        locked:false
+                    },
+                    formBond:{
+                        avaiAsset:'',
+                        inputAsset:'',
+                        inputCode:'',
+                        outputAsset:'',
+                        outputCode:'',
+                        inputLocked:false,
+                        outputLocked:false
+                    },
+                    formName:{
+                        realName:'',
+                        cardId:'',
+                        code:'',
+                        areaInfo:1,
+                        locked:false
+                    },
+                    formBank:{
+                        bankRid:'',
+                        bankId:'',
+                        realName:'',
+                        bank:'',
+                        branch:'',
+                        acount:'',
+                        code:'',
+                        mobiles:'',
+                        country:'+86',
+                        locked:false
+                    },
+                    formAlipay:{
+                        alipay:'',
+                        code:'',
+                        locked:false
+                    },
+                    formWechat:{
+                        wechat:'',
+                        code:'',
+                        locked:false
+                    }
+                }
+            },
+            computed : {
+                putRealAuth:function(){
+                    var auth = {
+                        edt:true,
+                        val:"<%= LANG('认证') %>",
+                        des:"<%= LANG('为保障您的账户安全，请完成实名认证后方可交易操作！') %>",
+                    };
+                    if(this.loginUser){
+                        switch(this.loginUser.realAuth){
+                            case 1:
+                                auth.edt = false;
+                                auth.val = "<%= LANG('待审核') %>";
+                                auth.des = "<%= LANG('高级认证 - 待审核') %>";
+                                break;
+                            case 2:
+                                auth.edt = false;
+                                auth.val = "<%= LANG('已认证') %>";
+                                auth.des = "<%= LANG('您已经通过高级实名认证，实名认证后不能更改。') %>";
+                                break;
+                            case 3:
+                                auth.edt = true;
+                                auth.val = "<%= LANG('不通过') %>";
+                                auth.des = this.loginUser.realAuthFailReason;
+                                break;
+                            default:
+                        }
+                    }
+                    return auth;
+                },
+                putAccBind:function(){
+                    var bind = {
+                        bank:{val:"<%= LANG('未绑定') %>",clazz:'nobind'},
+                        alipay:{val:"<%= LANG('未绑定') %>",clazz:'nobind'},
+                        wechat:{val:"<%= LANG('未绑定') %>",clazz:'nobind'},
+                        nick:{val:"<%= LANG('未设置') %>",clazz:'nobind'},
+                        desc:{val:"<%= LANG('未填写') %>",clazz:'nobind'}
+                    }
+                    if(this.loginUser){
+                        if(this.loginUser.isBank){
+                            bind.bank = {
+                                val:"<%= LANG('已绑定') %>",
+                                clazz:'bind'
+                            };
+                        }
+                        if(this.loginUser.isAlipay){
+                            bind.alipay = {
+                                val:"<%= LANG('已绑定') %>",
+                                clazz:'bind'
+                            };
+                        }
+                        if(this.loginUser.isWechat){
+                            bind.wechat = {
+                                val:"<%= LANG('已绑定') %>",
+                                clazz:'bind'
+                            };
+                        }
+                        if(this.businessInfo.name){
+                            bind.nick = {
+                                val:"<%= LANG('已设置') %>",
+                                clazz:'bind'
+                            };
+                        }
+                        if(this.businessInfo.remark){
+                            bind.desc = {
+                                val:"<%= LANG('已填写') %>",
+                                clazz:'bind'
+                            };
+                        }
+                    }
+                    return bind;
+                },
+                putAreaName:function(key){
+                    return this.areaList && this.areaList[this.formName.areaInfo] || "<%= LANG('大陆地区') %>";
+                },
+                putBailStatus:function(){
+                    var defaultVal = "<%= LANG('申请划出保证金，审核通过后保证金将自动纳入您的BTC资产中') %>";
+                    if(this.outputBailStatus){
+                        switch (this.outputBailStatus.status){
+                            case 0:
+                                defaultVal = '<%= LANG("最后一次申请保证金为") %>：' + parseFloat(this.outputBailStatus.money) + ' BTC，<%= LANG("申请中，请耐心等候审核结果") %>';
+                                break;
+                            case 1:
+                                defaultVal = '<%= LANG("最后一次申请保证金为") %>：' + parseFloat(this.outputBailStatus.money) + ' BTC，<%= LANG("申请成功") %>';
+                                break;
+                            case 2:
+                                defaultVal = '<%= LANG("最后一次申请保证金为") %>：' + parseFloat(this.outputBailStatus.money) + ' BTC，<%= LANG("申请失败") %>';
+                                break;
+                        }
+                    }
+                    return defaultVal;
+                },
+                loaded:function(){
+                    if(this.loginUser && this.businessInfo){
+                        return true
+                    }else{
+                        return false
+                    }
+                }
+            },
+            methods: {
+                // 获取个人信息
+                // getUserInfo:function(){
+                //     var _this = this;
+                //     Methods.getUserInfo(function(user){
+                //         _this.loginUser = user;
+                //         top.location.reload();
+                //     })
+                // },
+                getAssetsInfo:function(){
+                    var currentUserInfo = Methods.getLocalUserInfo(ENV + 'currentUserInfo');
+                    if(currentUserInfo && currentUserInfo.coinFundMap){
+                        this.assetsInfo = currentUserInfo.coinFundMap;
+                    }
+                },
+                getBusinessInfo:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'userInfo',
+                        success: function(res) {
+                            if(res.resMsg.code == 1000){
+                                _this.businessInfo = res.datas;
+                            }
+                        }
+                    });
+                },
+                getOutputBailStatus:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'findBailByStatus',
+                        success: function(res) {
+                            this.outputBailStatus = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getAreaList:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAreaInfo',
+                        success: function(res) {
+                            if(res.resMsg.code == 1000){
+                                _this.areaList = res.datas;
+                            }
+                        }
+                    });
+                },
+                getAuthInfo:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAuthStatus',
+                        success: function(res) {
+                            if(res.resMsg.code == 1000){
+                                _this.authInfo = res.datas;
+                            }
+
+                        }
+                    });
+                },
+                getAccountInfo:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAccountInfos',
+                        success: function(res) {
+                            if(res.resMsg.code == 1000){
+                                _this.accountInfo = res.datas;
+                            }
+                        }
+                    });
+                },
+                selectCollapsible:function(val){
+                    if(this.loginUser.realAuth != 2 && val != 'name'){
+                        return $.toast({
+                            text: '<%= LANG("请先完成实名认证") %>',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        });
+                    }
+                    if(val == this.currCollapsible){
+                        this.currCollapsible = ''
+                    }else{
+                        this.currCollapsible = val
+                    }
+                },
+                selectCountry: function (country) {
+                    this.formBank.country = country.code;
+                },
+                selectBankInfo:function(bank){
+                    this.formBank.bankId = bank.id;
+                    this.formBank.bank = bank.name;
+                },
+                selectAreaInfo:function(key){
+                    this.formName.areaInfo = key;
+                },
+                setUserInfo:function(userInfo){
+                    this.formBank.realName = userInfo.realName;
+                    if(userInfo.realAuth != 1 && userInfo.realAuth != 2){
+                        this.getAuthInfo()
+                    }
+                },
+                setBusinessInfo:function(businessInfo){
+                    this.formBusiness.nick = businessInfo.name;
+                    this.formBusiness.desc = businessInfo.remark;
+                },
+                setAssetInfo:function(assetsInfo){
+                    //目前采用单一币种作为保证金（BTC）
+                    this.formBond.avaiAsset = parseFloat(assetsInfo.btc.available);
+                },
+                setAccountInfo:function(accountInfo){
+                    this.formBank.bankRid = accountInfo.bank.bankRid;
+                    this.formBank.bankId = accountInfo.bank.bankId;
+                    this.formBank.bank = accountInfo.bank.bank;
+                    this.formBank.branch = accountInfo.bank.branch;
+                    this.formBank.acount = accountInfo.bank.acount;
+                    this.formBank.mobiles = accountInfo.bank.mobiles;
+                    this.formBank.country = accountInfo.bank.country;
+                    this.formAlipay.alipay = accountInfo.alipay.aliName;
+                    this.formWechat.wechat = accountInfo.wechat.chatName;
+                    this.setFileImg('alipayImg',accountInfo.alipay.aliCode);
+                    this.setFileImg('wechatImg',accountInfo.wechat.chatCode);
+                },
+                setAuthInfo:function(authInfo){
+                    this.formName.realName = authInfo.realName;
+                    this.formName.cardId = authInfo.cardId;
+                    this.formName.areaInfo = authInfo.areaInfo;
+                    this.setFileImg('loadImg',authInfo.loadImg);
+                    this.setFileImg('frontalImg',authInfo.frontalImg);
+                    this.setFileImg('backImg',authInfo.backImg);
+                    this.setFileImg('addressImg',authInfo.addressImg);
+                },
+                setFileImg:function(id,val,path){
+                    if(!val){
+                        return;
+                    }
+                    var fileInput = $("#" + id).find("input:hidden[name='fileUrl']");
+                    var preview = $("#" + id).find(".preview a");
+                    fileInput.val(val);
+                    var url = DOMAIN_FILE + "/picauth?file=" + val;
+                    preview.css({background:'url("'+ url +'&type=1") no-repeat scroll 50% 50%',backgroundSize:'contain'});
+                },
+                doOutputBail:function(){
+                    var _this = this;
+                    if(_this.formBond.outputLocked){
+                        return;
+                    }
+                    _this.formBond.outputLocked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'cancelBail',
+                        data:{
+                            amount:_this.formBond.outputAsset,
+                            code:_this.formBond.outputCode
+                        },
+                        success: function(res) {
+                            _this.formBond.outputLocked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                window.location.reload();
+                            })
+                        },
+                        error:function(res){
+                            _this.formBond.outputLocked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doInputBail:function(){
+                    var _this = this;
+                    if(_this.formBond.inputLocked){
+                        return;
+                    }
+                    _this.formBond.inputLocked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doInBail',
+                        data:{
+                            amount:_this.formBond.inputAsset,
+                            code:_this.formBond.inputCode
+                        },
+                        success: function(res) {
+                            _this.formBond.inputLocked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                window.location.reload();
+                            })
+                        },
+                        error:function(res){
+                            _this.formBond.inputLocked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doBusinessInfo:function(type){
+                    var _this = this;
+                    var data = {};
+                    if(_this.formBusiness.locked){
+                        return;
+                    }
+                    if(type == 1){
+                        data = {
+                            merchantName:_this.formBusiness.nick,
+                            type:type
+                        }
+                    }else if(type ==2){
+                        data = {
+                            remark:_this.formBusiness.desc,
+                            type:type
+                        }
+                    }
+                    _this.formBusiness.locked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'updateMerchantInfo',
+                        data:data,
+                        success: function(res) {
+                            _this.formBusiness.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                window.location.reload();
+                            })
+                        },
+                        error:function(res){
+                            _this.formBusiness.locked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doAlipayBind:function(){
+                    var _this = this;
+                    if(_this.formAlipay.locked){
+                        return;
+                    }
+                    _this.formAlipay.locked = true;
+                    var alipayImg = $('#alipayImg .J_PicUrl').val();
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doAddAliPay',
+                        data:{
+                            aliCode:_this.formAlipay.alipay,
+                            qrCode:alipayImg,
+                            dynamicCode:_this.formAlipay.code,
+                        },
+                        success: function(res) {
+                            _this.formAlipay.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                //window.location.reload();
+                                _this.getUserInfo();
+                            })
+                        },
+                        error:function(res){
+                            _this.formAlipay.locked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doWechatBind:function(){
+                    var _this = this;
+                    if(_this.formWechat.locked){
+                        return;
+                    }
+                    _this.formWechat.locked = true;
+                    var wechatImg = $('#wechatImg .J_PicUrl').val();
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doAddWeChat',
+                        data:{
+                            chatCode:_this.formWechat.wechat,
+                            qrCode:wechatImg,
+                            dynamicCode:_this.formWechat.code
+                        },
+                        success: function(res) {
+                            _this.formWechat.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                //window.location.reload();
+                                _this.getUserInfo();
+                            })
+                        },
+                        error:function(res){
+                            _this.formWechat.locked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doAddBankCard:function(){
+                    var _this = this;
+                    if(_this.formBank.locked){
+                        return;
+                    }
+                    _this.formBank.locked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doAddBankcard',
+                        data:{
+                            bankRid:_this.formBank.bankRid,
+                            realName:_this.formBank.realName,
+                            branchName:_this.formBank.branch,
+                            accountId:_this.formBank.acount,
+                            bankId:_this.formBank.bankId,
+                            dynamicCode:_this.formBank.code,
+                            mobiles:_this.formBank.mobiles,
+                            country:_this.formBank.country
+                        },
+                        success: function(res) {
+                            _this.formBank.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                //window.location.reload();
+                                _this.getUserInfo();
+                            })
+                        },
+                        error:function(res){
+                            _this.formBank.locked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                doNameAuth:function(){
+                    var _this = this;
+                    if(_this.formName.locked){
+                        return;
+                    }
+                    _this.formName.locked = true;
+                    var loadImg = $('#loadImg .J_PicUrl').val();
+                    var frontalImg = $('#frontalImg .J_PicUrl').val();
+                    var backImg = $('#backImg .J_PicUrl').val();
+                    var addressImg = $('#addressImg .J_PicUrl').val();
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'doDepthSave',
+                        data:{
+                            frontalImg:frontalImg,
+                            backImg:backImg,
+                            loadImg:loadImg,
+                            addressImg:addressImg,
+                            realName:_this.formName.realName,
+                            cardId:_this.formName.cardId,
+                            dynamicCode:_this.formName.code,
+                            area:_this.formName.areaInfo
+                        },
+                        success: function(res) {
+                            _this.formName.locked = false;
+                            JuaBox.success(EXX.L(res.resMsg.message),function(){
+                                //window.location.reload();
+                                _this.getUserInfo();
+                            })
+                        },
+                        error:function(res){
+                            _this.formName.locked = false;
+                            JuaBox.showWrong(EXX.L(res.resMsg.message));
+                        }
+                    });
+                },
+                initFileUpload:function(){
+                    var options = {
+                        initShowNum: 1,
+                        needAdd: false,
+                        isProcess: false,
+                        minNum: 1,
+                        pics: "",
+                        userType: 1,
+                        savePicSize: false,
+                        isAuth: true,
+                        isPicFile: true
+                    }
+                    $("#loadImg").initFileUpload($.extend({},options,{picsPathHiddenName: "loadImg"}));
+                    $("#frontalImg").initFileUpload($.extend({},options,{picsPathHiddenName: "frontalImg"}));
+                    $("#backImg").initFileUpload($.extend({},options,{picsPathHiddenName: "backImg"}));
+                    $("#addressImg").initFileUpload($.extend({},options,{picsPathHiddenName: "addressImg"}));
+                    $("#alipayImg").initFileUpload($.extend({},options,{picsPathHiddenName: "alipayImg"}));
+                    $("#wechatImg").initFileUpload($.extend({},options,{picsPathHiddenName: "wechatImg"}));
+                },
+                initPage:function(){
+                    this.$nextTick(function(){
+                        this.initFileUpload();
+                        this.getAssetsInfo();
+                        this.getAreaList();
+                        this.getAccountInfo();
+                        this.getOutputBailStatus();
+                    })
+                }
+            },
+            created: function() {
+            },
+            mounted : function () {
+                this.loginUser = Methods.getLocalUserInfo();
+                this.getBusinessInfo();
+            },
+            watch:{
+                loginUser:function(val){
+                    this.setUserInfo(val);
+                },
+                loaded:function(val){
+                    this.initPage();
+                },
+                accountInfo:function(val){
+                    this.setAccountInfo(val)
+                },
+                authInfo:function(val){
+                    this.setAuthInfo(val)
+                },
+                assetsInfo:function(val){
+                    this.setAssetInfo(val)
+                },
+                businessInfo:function(val){
+                    this.setBusinessInfo(val)
+                },
+                'formBond.inputAsset':function(val){
+                    val = parseFloat(val);
+                    var avai = this.formBond.avaiAsset;
+                    if(isNaN(val) || val < 0){
+                        this.formBond.inputAsset = '';
+                    }else if(val > avai){
+                        this.formBond.inputAsset = avai
+                    }
+                },
+                'formBond.outputAsset':function(val){
+                    val = parseFloat(val);
+                    var bail = parseFloat(this.businessInfo.bail)
+                    if(isNaN(val) || val < 0){
+                        this.formBond.outputAsset = '';
+                    }else if(val > bail){
+                        this.formBond.outputAsset = bail
+                    }
+                }
+            }
+        })
+    })
+</script>

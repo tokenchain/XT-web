@@ -1,0 +1,79 @@
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+    document.domain = DOMAIN_BASE;
+</script>
+
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+<div id="escape">
+    <h1>  <%= LANG('ZBG换码协议') %> </h1>
+        <p><%= LANG('欢迎使用ZBG数字资产交易平台提供的服务Z') %></p>
+    <h4><%= LANG('一、ZBG换码服务内容') %> </h4>
+        <p><%= LANG('ZBG换码功能由ZBG数字资产交易平台提供Z') %></p>
+        <p><%= LANG('ZBG换码活动中，换码池中的ZBG的平台币ZT数量恒定Z') %></p>
+    <p><%= LANG('ZBG换码功能支持增投Z') %></p>
+    <p><%= LANG('ZBG换码行为本身属于高风险投资Z') %></p>
+        <p> <%= LANG('除非另有证明Z') %></p>
+        <p><%= LANG('您知悉并同意Z') %></p>
+        <p></p>
+    <h4><%= LANG('二、其他约定') %> </h4>
+        <p> <%= LANG('您如对本协议项下ZBG换码功能有任何疑问Z') %> </p>
+        <p> <%= LANG('责任范围和限制Z') %></p>
+        <p><%= LANG('您了解并同意Z') %></p>
+        <p><%= LANG('换码结束后Z') %></p>
+        <p><%= LANG('本协议自发布之日起实施Z') %></p>
+        <p><%= LANG('如果您对本协议内容有任何疑问Z') %><a href="https://www.zbg.com">www.zbg.com</a>。<%= LANG('联系在线客服') %></p>
+</div>
+<style>
+    html {
+        background-color: #fff;
+    }
+
+    #escape {
+        width: 1000px;
+        margin: 0 auto;
+        color: #ccc;
+        background-color: #fff;
+        padding: 20px;
+    }
+
+    #escape h1 {
+        margin-top: 50px;
+        font-size: 22px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    #escape p {
+        font-size: 14px;
+        margin-bottom: 50px;
+        line-height: 22px;
+        color: #333;
+    }
+
+    #escape h4 {
+        font-size: 20px;
+        color: #000;
+        margin-bottom: 20px;
+    }
+
+    #escape p a:hover {
+        color: #4FD3D3;
+    }
+    #escape p a{
+        color: #4039D4;
+    }
+</style>

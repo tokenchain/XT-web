@@ -1,0 +1,637 @@
+<link rel="stylesheet" href="/src/styles/tradePro.css?<%= VERSION %>">
+<link rel="stylesheet" href="/src/styles/temporary.css?<%= VERSION %>">
+<script src="/lib/others/jquery.range.js" type="application/javascript"></script>
+<%-include("../include/head.html")%>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        EXX.userNav = new Vue({
+            el: '#user-nav',
+            data: function () {
+                return {
+                    loaded: true,
+                    isLogin: ISLOGIN,
+                    assistPrice: '',
+                    // topNews: [],
+                    hasReadNews: [],
+                    showTopNews: false,
+                    showAssetDrop : false,
+                    assetInterVal : null,
+                    lastAssetTime : 0,
+                    isMobile: Methods.isMobile(),
+                    ExchangeMode: [
+                        "<%= LANG('模拟交易')%>",
+                        "<%= LANG('实盘交易')%>"
+                    ],
+                    currentExchangeMode: Methods.getCookie(ENV + 'ExchangeMode') || 1,
+                    tradeTheme: 'dark',
+                    showModal : false,
+                    transferInfo : {},
+                    payinCoin : '',
+                    marketConfig:'',
+                    userInfo: '',
+                    userAssets: [],
+                    coinConfig: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息,
+                    marketAreaList: [],
+                }
+            },
+            watch : {
+                showAssetDrop : function (newVal,oldVal) {
+                    //下拉展开资产的时候立即获取资产并且开启定时器
+                    if(this.showAssetDrop && this.isLogin){
+                        //获取汇率
+                        this.getAssistPrice();
+                        //获取用户资金
+                        this.getAccountAssets();
+                        //获取货币信息
+                        this.getCoinConfig();
+
+                        this.assetInterVal = setInterval(function () {
+                            //获取汇率
+                            this.getAssistPrice();
+                            //获取用户资金
+                            this.getAccountAssets();
+                            //获取货币信息
+                            this.getCoinConfig();
+                        }.bind(this),3000)
+                    }else{
+                        window.clearInterval(this.assetInterVal);
+                    }
+                },
+                showTopNews : function () {
+                    if(!this.showTopNews){
+                        $('body').removeClass('notice-open');
+                    }else{
+                        $('body').addClass('notice-open');
+                    }
+                }
+            },
+            computed: {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                /**
+                 * 格式化用户资产数据
+                 * 将金额不为0的货币与所有货币列表整合
+                 */
+                userCoinFunds: function() {
+                    var coins = this.coinConfig || [];
+                    var userAssets = this.userAssets;
+
+                    var coinAssets = [];
+                    coins.forEach(function (coin, index, array) {
+                        var coinItem = coin;
+                        userAssets.forEach(function (asset, idx, arr) {
+                            if (coin.currencyId == asset.currencyTypeId) {
+                                for (var k in asset) {
+                                    coin[k] = asset[k];
+                                }
+                            }
+                        });
+                        coinAssets.push(coinItem);
+                    }.bind(this));
+
+                    return coinAssets;
+                }
+            },
+            methods: {
+                logout: function () {
+                    Methods.logout();
+                },
+                //获取大写货币名称
+                getCoinName : function (market) {
+                    // return !market ? '' :  market.split('_')[0].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取小写货币名称
+                getCoinMinName : function (market) {
+                    // return !market ? '' :  market.split('_')[0].toLowerCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取交易所属类型
+                getMoneyName : function (market) {
+                    // return !market ? '' :  market.split('_')[1].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[1].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取交易名称
+                getTradeName : function (market) {
+                    // return !market ? '' :  market.split('_')[1].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase() + '_' + market.name.split('_')[1].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                goToExchange: function (type, market) {
+                    Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
+
+                    if(type == 2){
+                        window.location.href = '/trade/' + market;
+                    }else{
+                        window.location.href = '/tradePro/' + market;
+                        //window.location.href = DOMAIN_MAIN + '/trade?market=' + market;
+                    }
+                },
+                //设置语言
+                setLan: function (lan) {
+                    console.log(lan)
+                    var name = ENV + 'lan';
+                    Methods.setCookie(name, lan);
+                    top.location.reload();
+                },
+                openPayin: function(coin) {
+                    this.payinCoin = coin;
+                    this.showModal = 'payin';
+                },
+                openTransfer: function(type, userId, coin) {
+                    this.transferInfo = {
+                        type: type,
+                        userId: userId,
+                        coin: coin
+                    };
+                    this.showModal = 'transfer';
+                },
+                /*
+                * 获取所有货币信息
+                * */
+                getCoinConfig: function() {
+                    var data = {
+                        // webId: 100
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户总额不为零的货币信息(财务中心)
+                getAccountAssets: function () {
+                    var data = {
+                        // webId: 100,
+                        userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,
+                        pageSize: 9999,
+                        pageNum: 1
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        data: JSON.stringify(data),
+                        success: function(res) {
+                            this.loaded = true;
+
+                            if(res.datas.list){
+                                this.userAssets = res.datas.list;
+                            }
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                // 获取币价汇率
+                getAssistPrice: function (callback) {
+                    Methods.ajax({
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        success: function (res) {
+                            this.assistPrice = res.datas;
+                            callback && callback();
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                //获取用户信息-ok
+                getUserInfo: function () {
+                    var _this = this;
+                    Methods.ajax({
+                        type:'POST',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        success: function (res) {
+                            _this.userInfo = res.datas;
+                            //更新用户信息
+                            Methods.setLocalUserInfo(res.datas);
+                        }
+                    });
+                },
+
+                initSwiftTrade : function () {
+                    $(".group-list.l1").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l1 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l1 .group-box ul").removeClass('block');
+                        $(".group-list.l1 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                    $(".group-list.l2").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l2 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l2 .group-box ul").removeClass('block');
+                        $(".group-list.l2 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                },
+                // 获取市场配置
+                getMarketConfig: function () {
+                    var _this = this;
+
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        success: function (res) {
+                            _this.marketConfig = res.datas;
+                        }
+                    });
+                },
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
+                getMarketClass:function (item,index) {
+                    var index = index
+                    if (index == 0) {
+                        console.log(item)
+                        return item.name +' block'
+                    } else {
+                        return 'block'
+                    }
+                }
+            },
+            mounted: function () {
+                this.getMarketAreaListByWebId();
+                if (this.isLogin) {
+                    //获取用户信息
+                    this.getUserInfo();
+                    //获取用户资金
+                    this.getAccountAssets();
+                }
+                //获取货币信息
+                this.getCoinConfig();
+                //获取市场配置
+                this.getMarketConfig();
+                //初始化鼠标监听
+                this.initSwiftTrade();
+
+                // 消息相关
+                // this.getTopNewsList();
+                // this.getHasReadNews();
+            },
+            created : function () {
+            }
+        })
+    })
+</script>
+<section class="tradeNew" id="app-trade-pro">
+    <div class="tradeNew-container">
+        <div class="chartEntrust-area">
+            <div class="chart-area">
+                <div class="trade-navbar" v-cloak="">
+                    <div class="market-menu">
+                        <div class="current-market">
+                            <div class="current" data-toggle="dropdown">
+                                <!--<h3><%= LANG('市场')%></h3>-->
+                                <p>{{coinName}}/ <span class="denominator">{{moneyName}}</span></p>
+                            </div>
+                            <div class="market-box">
+                                <div class="mark-list">
+                                    <ul class="title">
+                                        <li><p><%= LANG('交易对')%></p>
+                                            <p> <%= LANG('最新价')%></p>
+                                            <p><%= LANG('涨跌幅')%></p></li>
+                                    </ul>
+                                    <h3><%= LANG('推荐区')%></h3>
+                                    <ul class="list">
+                                        <template v-if="!allMarketLoading">
+                                            <li v-for="(data,index) in allMarket" @click="gotoTrade(data.market)"
+                                                v-if="data.market!=undefined && (data.market == 'eth_usdt' || data.market == 'ltc_usdt' || data.market == 'eos_usdt' || data.market == 'zt_usdt' || data.market == 'btc_usdt' ||   data.market == 'zt_zb')">
+                                                <!--&& data.market.indexOf(selectIcon) != -1-->
+                                                <p>
+                                                    <img :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/><b>{{showCoinNew(data.market)}}</b><span><i>/</i>{{showMoneyNew(data.market)}}</span>
+                                                </p>
+                                                <p>{{showPrice(data.lastPrice,data.market)}}</p>
+                                                <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' +
+                                                    showRate(data.rate) : '' + showRate(data.rate) }}%</p>
+                                            </li>
+                                        </template>
+                                        <template v-if="allMarketLoading">
+                                            <li>
+                                                <p>ZB/BTC</p>
+                                                <p>--</p>
+                                                <p>--</p>
+                                            </li>
+                                            <li>
+                                                <p>ZB/USDT</p>
+                                                <p>--</p>
+                                                <p>--</p>
+                                            </li>
+                                            <li>
+                                                <p>BTC/USDT</p>
+                                                <p>--</p>
+                                                <p>--</p>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                    <h3><%= LANG('创新区')%></h3>
+                                    <ul class="list">
+                                        <template v-if="!allMarketLoading">
+                                            <li v-for="(data,index) in allMarket" @click="gotoTrade(data.market)"
+                                                v-if="data.market!=undefined && (data.market != 'eth_usdt' && data.market != 'ltc_usdt' && data.market != 'eos_usdt' && data.market != 'zt_usdt' && data.market != 'btc_usdt' &&   data.market != 'zt_zb')  ">
+                                                <p>
+                                                    <img :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/><b>{{showCoinNew(data.market)}}</b><span><i>/</i>{{showMoneyNew(data.market)}}</span>
+                                                </p>
+                                                <p>{{showPrice(data.lastPrice,data.market)}}</p>
+                                                <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' +
+                                                    showRate(data.rate) : '' + showRate(data.rate) }}%</p>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="statistics" v-cloak="">
+                            <li v-if="!selectlan"><p class="price"> {{currentPrice}}
+                               <span> ≈ {{currentPrice*usdprice | capitalizeusd }} USD</span></p></li>
+                            <li v-else><p class="price"> {{currentPrice}}
+                                <span> ≈ {{currentPrice*cnyprice | capitalizecny }} CNY</span></p></li>
+                            <li>24H <%= LANG('涨跌幅')%><p :class="rateClass">{{riseRate}}%</p></li>
+                            <li>24H <%= LANG('最高')%><p>{{highPrice}} {{moneyName}}</p></li>
+                            <li>24H <%= LANG('最低')%><p>{{lowPrice}} {{moneyName}}</p></li>
+                            <li>24H <%= LANG('成交量')%><p>{{volume}} {{coinName}}</p></li>
+                        </ul>
+                    </div>
+                    <div class="chart-oper" v-cloak="">
+                        <div class="item" v-cloak="">
+                            <p v-if="kline.period == '1w'"><%= LANG('周') %></p>
+                            <p v-if="kline.period == '1d'"><%= LANG('日') %></p>
+                            <p v-if="kline.period == '1h'">1<%= LANG('小时') %></p>
+                            <p v-if="kline.period == '30m'">30<%= LANG('分') %></p>
+                            <p v-if="kline.period == '15m'">15<%= LANG('分') %></p>
+                            <p v-if="kline.period == '1m'">1<%= LANG('分') %></p>
+                            <p v-if="kline.period == 'line'"><%= LANG('分时') %></p>
+                            <div class="item-list" v-cloak="">
+                                <ul>
+                                    <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']">
+                                        <%= LANG('周') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']">
+                                        <%= LANG('日') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">
+                                        1<%= LANG('小时') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">
+                                        30<%= LANG('分') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">
+                                        15<%= LANG('分') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">
+                                        1<%= LANG('分') %>
+                                    </li>
+                                    <li role="button" @click="switchPeriod('line')"
+                                        :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--<div class="line"></div>-->
+                        <!--<div class="item">-->
+                        <!--<p><%= LANG('工具') %></p>-->
+                        <!--<div class="item-list more">-->
+                        <!--<ul>-->
+                        <!--<li>-->
+                        <!--<p><%= LANG('技术指标')%></p>-->
+                        <!--<div class="common-select"><a @click="switchIndic()" role="button" :class="{'on' : kline.indicsStatus == 'on'}"><i></i></a></div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<p><%= LANG('画线工具')%></p>-->
+                        <!--<div class="common-select"><a @click="switchTool()" role="button" :class="{'on' : kline.toolStatus == 'on'}"><i></i></a></div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<p><%= LANG('主指标')%></p>-->
+                        <!--<a @click="setChartMainIndicator('MA')" :class="{'selected': kline.mIndic == 'MA'}">MA</a>-->
+                        <!--<a @click="setChartMainIndicator('EMA')" :class="{'selected': kline.mIndic == 'EMA'}">EMA</a>-->
+                        <!--<a @click="setChartMainIndicator('BOLL')" :class="{'selected': kline.mIndic == 'BOLL'}">BOLL</a>-->
+                        <!--<a @click="setChartMainIndicator('SAR')" :class="{'selected': kline.mIndic == 'SAR'}">SAR</a>-->
+                        <!--<a @click="setChartMainIndicator('NONE')" :class="{'selected': kline.mIndic == 'NONE'}">NONE</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<p><%= LANG('主图样式')%></p>-->
+                        <!--<a @click="setChartMainStyle('CandleStick')" :class="{'selected': kline.chartStyle == 'CandleStick'}">CandleStick</a>-->
+                        <!--<a @click="setChartMainStyle('CandleStickHLC')" :class="{'selected': kline.chartStyle == 'CandleStickHLC'}">CandleStickHLC</a>-->
+                        <!--<a @click="setChartMainStyle('OHLC')" :class="{'selected': kline.chartStyle == 'OHLC'}">OHLC</a>-->
+                        <!--</li>-->
+                        <!--&lt;!&ndash;<li><p></p><a @click="showChartSetting" role="button"><%= LANG('指标参数设置')%></a></li>&ndash;&gt;-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+                <div style="height: 100%;" v-show="chartType === 'kline'">
+                    <iframe :src="'/kline/lite/' + currentMarket + '?money=' + assistCoin.toLowerCase()" id="marketFrame" class="marketFrame" name="marketFrame" onload="" frameborder="0" width="100%" style="height:100%" hspace="0" scrolling="no"></iframe>
+                </div>
+                <div style="height: 100%;" v-if="chartType === 'depth'">
+                    <exx-highchart class="depth-chart" :options="depthChartOptions" ref="depth"></exx-highchart>
+                </div>
+            </div>
+            <div class="entrust-area" v-if="isLogin" v-cloak="">
+                <div class="head">
+                    <ul class="tab">
+                        <li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>
+                        <li @click="changeEntrustTab('history')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('成交历史')%></li>
+                    </ul>
+                    <div class="oper" v-if="isLogin">
+                        <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
+                        <a :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
+                        <img @click="Refresh" class="Refresh" src="/src/images/zbg/images/Refresh@2x.png" alt="">
+                        <!--<a @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>-->
+                    </div>
+                </div>
+                <div class="body">
+                    <!--<div v-if="!isLogin" class="notLogin">-->
+                    <!--<%=LANG('请您先')%><a href="/login"><%=LANG('登录')%></a><%=LANG('或')%><a href="/register"><%=LANG('注册')%></a>-->
+                    <!--</div>-->
+                    <div class="entrust-list" v-if="isLogin" v-cloak="">
+                        <ul class="title">
+                            <li>
+                                <p><span><%=LANG('时间')%></span></p>
+                                <p><span><%=LANG('方向')%></span></p>
+                                <p><span><%=LANG('委托价')%>/<%=LANG('成交均价')%>({{moneyName}})</span></p>
+                                <p><span><%=LANG('委托量')%>/<%=LANG('成交量')%>({{coinName}})</span></p>
+                                <p><span><%=LANG('成交额')%>({{moneyName}})</span></p>
+                                <p><span><%=LANG('状态')%>/<%=LANG('操作')%></span></p>
+                            </li>
+                        </ul>
+                        <ul class="list">
+                            <li v-if="isLogin && getGroupEntrust(currentEntrustTab).length > 0  &&  !loading"
+                                v-for="item in getGroupEntrust(currentEntrustTab)">
+                                <template v-if="item.type == 1">
+                                    <p>{{showTime(item.createTime)}}</p>
+                                    <p class="buyColor"><%=LANG('买')%></p>
+                                    <p>
+                                        <span class="hint--top" :aria-label="showAssistHint(item.price)">{{newShowMoney(item.price)}}</span>
+                                        / <span class="hint--top"
+                                                :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{newShowMoney(item.completeTotalMoney/item.completeAmount)}}</span>
+                                    </p>
+                                    <p><span>{{newShowCoin(item.amount)}}</span> / {{newShowCoin(item.completeAmount)}}
+                                    </p>
+                                    <p>
+                                        <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{newShowAmount(item.completeTotalMoney)}}</span>
+                                    </p>
+                                    <p v-if="item.status == 3 || item.status == 0"><span
+                                            v-html="showStatus(item.status)"></span> | <a role="button"
+                                                                                          @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a>
+                                    </p>
+                                    <p v-if="item.status != 3 && item.status != 0"><span
+                                            v-html="showStatus(item.status)"></span></p>
+                                </template>
+                                <template v-if="item.type == 0">
+                                    <p>{{showTime(item.createTime)}}</p>
+                                    <p class="sellColor"><%=LANG('卖')%></p>
+                                    <p>
+                                        <span class="hint--top" :aria-label="showAssistHint(item.price)">{{newShowMoney(item.price)}}</span>
+                                        / <span class="hint--top"
+                                                :aria-label="showAssistHint(item.completeTotalMoney/item.completeAmount)">{{newShowMoney(item.completeTotalMoney/item.completeAmount)}}</span>
+                                    </p>
+                                    <p><span>{{newShowCoin(item.amount)}}</span> / {{newShowCoin(item.completeAmount)}}
+                                    </p>
+                                    <p>
+                                        <span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney)">{{newShowAmount(item.completeTotalMoney)}}</span>
+                                    </p>
+                                    <p v-if="item.status == 3 || item.status == 0"><span
+                                            v-html="showStatus(item.status)"></span> | <a role="button"
+                                                                                          @click="doCancelEntrust(item.entrustId)"><%=LANG('取消')%></a>
+                                    </p>
+                                    <p v-if="item.status != 3 && item.status != 0"><span
+                                            v-html="showStatus(item.status)"></span></p>
+                                </template>
+                            </li>
+
+                        </ul>
+                        <div class="norecord" v-if="isLogin && getGroupEntrust(currentEntrustTab).length == 0 && !loading "><%=LANG('没有记录')%></div>
+                        <div class="spinner" v-else-if="isLogin && loading " >
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="plateFill-area">
+            <div class="plate-area">
+                <dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                           :assist-price="assistPrice" ref="dishPart"></dish-part>
+                <deal-record :deal-record="dealRecord" :market-config="currentMarketConfig"
+                             :current-market="currentMarket" ref="dealRecord"></deal-record>
+            </div>
+            <div class="fill-area" v-cloak="">
+                <!--<div class="head">-->
+                    <!--<div class="cd-select">-->
+                        <!--&lt;!&ndash;<p><%= LANG('价格输入转换')%></p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a :class="{'on': inputPriceMode != 0}" @click="toggleInputPriceMode"></a>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="body" v-show="!showLeverInfo">
+                    <trade-form :trade-type="1" :current-user-asset="currentUserAsset"
+                                :market-config="currentMarketConfig" :current-market="currentMarket"
+                                :assist-price="assistPrice" ref="tradeFormBuy"></trade-form>
+                    <trade-form :trade-type="0" :current-user-asset="currentUserAsset"
+                                :market-config="currentMarketConfig" :current-market="currentMarket"
+                                :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="plate-time flex flex-lr-center flex-tb-center" v-cloak="" v-if="marketOpenStatus">
+        <div class="time">
+            <template v-if="marketOpenStatus && marketOpenTime[0] < 30">
+                <h3><%= LANG('开盘倒计时')%></h3>
+                <div class="countdown flex flex-tb-center">
+                    <p>{{marketOpenTime[0]}}</p>
+                    <em><%= LANG('天')%></em>
+                    <p>{{marketOpenTime[1]}}</p>
+                    <em><%= LANG('时')%></em>
+                    <p>{{marketOpenTime[2]}}</p>
+                    <em><%= LANG('分')%></em>
+                    <p class="sec">{{marketOpenTime[3]}}</p>
+                    <em><%= LANG('秒')%></em>
+                </div>
+                <p><%= LANG('开盘时间')%>：{{marketStartTime}} GMT+0800 (CST)</p>
+            </template>
+            <template v-if="marketOpenStatus && marketOpenTime[0] > 30">
+                <h3 class="text"><%= LANG('敬请期待')%></h3>
+            </template>
+        </div>
+    </div>
+    <!-- 账单 -->
+    <modal v-cloak class="modal-bill" :open="showModal == 'bill'"  @close="showModal = false" >
+        <bill :params="billParams" theme="light" />
+    </modal>
+    <!-- 委托记录 -->
+    <modal v-cloak class="modal-entrust" :open="showModal == 'entrust'"  @close="showModal = false" >
+        <modal-entrust :params="entrustParams" theme="light" />
+    </modal>
+    <!-- 开启关闭杠杆 -->
+    <modal v-cloak :open= "showModal == 'toggleUserAction'" @close="showModal = false">
+        <toggle-user-action :params="userParams" :done="userActionSuccess()" theme="light"/>
+    </modal>
+    <!-- 批量取消委托 -->
+    <!--<modal v-cloak :open= "showModal == 'batchCancel'" @close="showModal = false">-->
+    <!--<batch-cancel :market-config="currentMarketConfig" theme="light"/>-->
+    <!--</modal>-->
+    <!--还款-->
+    <modal v-cloak :open= "showModal == 'refund'" @close="showModal = false">
+        <modal-refund :params="refundParams" :user-asset="currentUserAsset" />
+    </modal>
+</section>
+<%-include("../tradePro/app/siderBar.html")%>
+<%-include("app/dishPartDark.html")%>
+<%-include("app/lastTradeDark.html")%>
+<%-include("app/tradeFormDark.html")%>
+<%-include("app/batchCancel.html")%>
+<%-include("../component/json_table.html")%>
+<%-include("../component/page_lite.html")%>
+<%-include("../component/modal.html")%>
+<%-include("../u/model/bill.html")%>
+<%-include("../u/model/refund.html")%>
+<%-include("../u/model/toggleUserAction.html")%>
+<%-include("../trade/_entrust.html")%>
+<%-include("../component/vue_highcharts.html")%>
+<%-include("../activity/_addMarket.html")%>
+
+<%-include("../component/inline_chart.html")%>
+<!--引入交易app-->
+<%-include("app.html")%>
+<!--侧边栏-->
+

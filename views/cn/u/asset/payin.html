@@ -1,0 +1,353 @@
+<style>
+    .totalcoin{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .totalcoin li{
+        margin: 5px;
+
+    }
+    .totalcoin li a{
+        display: block;
+        background: rgba(255,255,255,.1);
+        padding: 10px 0;
+        min-width: 80px;
+        text-align: center;
+        border-radius: 3px;
+    }
+    .totalcoin .active {
+        color: #ff5353
+    }
+    
+</style>
+<link href="<%= STATIC %>/styles/u/basic.css" rel="stylesheet" type="text/css">
+<div class="user-container">
+<div class="assets-panel" id="app-payin">
+    <div v-show="!loaded" class="cd-loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+    <div v-show="loaded" class="container">
+        <ul class="totalcoin" v-cloak>
+            <li role="button" v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin,'button-disabled': item.rechargeFlag != 1,'button-hover-active': item.rechargeFlag == 1}">
+                <template v-if="item.rechargeFlag == 1">
+                    <!--<img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'">-->
+                    <!--<img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'">-->
+                    <a :href="'/u/payin/' + item.name" v-if="item.isLegalCoin!=1">{{item.name.toUpperCase()}}</a>
+                    <a :href="'/u/payin/legaltender/' + item.name" v-else>{{item.name.toUpperCase()}}</a>
+                </template>
+                <a v-else>{{item.name.toUpperCase()}}</a>
+            </li>
+        </ul>
+
+        <div v-if="isLegalCoin == 0" v-cloak="">
+            <div class="assets-address" v-if="payin.isMemo" v-cloak="">
+                <p v-if="payin.address == ''"><a :data-clipboard-text="payin.address" @click="getPayinAddress" class="copyAddress" style="background: #5f55ff;padding: 15px 35px;font-size: 14px;"><%= LANG('获取钱包地址')%></a></p>
+
+                <div v-if="payin.address != ''">
+
+                    <div style="margin-bottom: 20px">
+                        <h4><%= LANG('账户') %></h4>
+                        <p v-text="btsAccount"  class="address"></p>
+                        <a :data-clipboard-text="btsAccount" class="copyAddress"><%= LANG('复制')%></a>
+                    </div>
+                    <div  style="margin-bottom: 50px">
+                        <h3><%= LANG('备注') %>（MEMO)</h3>
+                        <p v-text="btsMemo" class="address"></p>
+                        <a :data-clipboard-text="btsMemo" class="copyAddress"><%= LANG('复制')%></a>
+                    </div>
+                    <div class="tips">
+                        <h5><%= LANG('充值说明')%>：</h5>
+                        <p><%= LANG('填错账户或备注(MEMO)都会导致资产丢失，请谨慎操作。') %></p>
+                        <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认{{confirmTimes}}个确认后系统自动到账；')%></p>
+                        <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="assets-address" v-else>
+                    <p v-if="payin.address == ''"><a :data-clipboard-text="payin.address" @click="getPayinAddress" class="copyAddress" style="background: #5f55ff;padding: 15px 35px;font-size: 14px;"><%= LANG('获取钱包地址')%></a></p>
+
+                    <div v-if="payin.address != ''">
+                        <%= coin.toUpperCase()%><%= LANG('钱包地址')%>
+                        <p class="address" v-text="payin.address"></p><a :data-clipboard-text="payin.address" class="copyAddress"><%= LANG('复制钱包地址')%></a>
+                    </div>
+                    <div class="code"><canvas ref="canvas"></canvas></div>
+                    <div class="tips">
+                        <b><%= LANG('充值说明')%>：</b>
+                        <p style="font-weight: bold"><%= LANG('本充值地址仅接收')%>  <span style="color: #ff4a68;font-weight: bold">{{currentCoin.toUpperCase()}}</span><%= LANG('充值x')%>，<%= LANG('其他币如果充值到本地址，ZBG不提供找回服务，请仔细核对')%>
+                         </p>
+                        <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
+                        <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
+
+
+                    </div>
+            </div>
+            <!--充值记录-->
+
+
+            <div class="assets-record" v-cloak="">
+                <div class="assets-list">
+                    <div class="head"><h2><%= coin.toUpperCase()%><%= LANG('充值记录')%></h2></div>
+                    <div class="body">
+                        <ul class="title">
+                            <li>
+                            <p><%= LANG('提交时间')%></p>
+                            <p><%= LANG('类型')%></p>
+                            <p><%= LANG('金额')%></p>
+                            <p><%= LANG('处理时间')%></p>
+                            <p><%= LANG('确认次数')%></p>
+                            <p><%= LANG('状态')%></p>
+                            </li>
+                        </ul>
+                    <div class="body">
+                    <ul class="list">
+                        <li v-for="record in payinRecords" v-if="payinRecords.length > 0">
+                            <p>{{record.createTime.split('.')[0]}}</p>
+                            <p v-if="record.type == 1"><%= LANG('区块链转入') %></p>
+                            <p v-else-if="record.type == 2"><%= LANG('内部转入') %></p>
+                            <p v-else-if="record.type == 3"><%= LANG('充值') %></p>
+                            <p v-else-if="record.type == 4"><%= LANG('系统转账') %></p>
+                            <p>+ {{record.amount}}</p>
+                            <p>{{record.depositTime ? record.depositTime.split('.')[0] : '--'}}</p>
+                            <p>{{record.confirmTimes}}</p>
+                            <p>{{record.status == 0 ? '<%= LANG('未到账') %>' : '<%= LANG('已到账') %>'}}</p>
+                        </li>
+                        <li v-if="payinRecords.length == 0" class="norecord"><%= LANG('暂无记录')%></li>
+                    </ul>
+                    </div>
+                    </div>
+                </div>
+
+
+                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayinCoinRecord" v-if="payinRecords.length > 0 || pageIndex > 1"></page-lite>
+            </div>
+        </div>
+
+    </div>
+
+
+        <div v-if="isLegalCoin == 1" class="layer-coin-box" v-cloak="">
+            <div class="bank-card">
+                <h2 class="bank-card-title"><%= LANG('银行账号')%></h2>
+                <span class="bank-card-num">{{formatBank(bankInfo.depositBankAccount)}}</span>
+                <span class="bank-card-name">{{bankInfo.depositBankNm}}</span>
+            </div>
+            <div class="payin-explain">
+                <h2 class="explain-title"><%= LANG('充值说明')%></h2>
+                <p class="explain-p"><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
+                <p class="explain-p"><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
+            </div>
+        </div>
+
+</div>
+</div>
+<%-include("../../component/page_lite.html")%>
+<script>
+    require(['vue', 'common/methods', 'clipboadrd', 'qrcode'], function (Vue, Methods, Clipboard, QRCode) {
+        EXX.appPayin = new Vue({
+            el: "#app-payin",
+            data: function () {
+                return {
+                    isLogin: ISLOGIN,
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageCount: 0,
+                    requestLocked: false,
+                    coinConfig: [],
+                    payin: '',
+                    payinRecords: [],
+                    currentUserAsset: '',
+                    currentCoin: "<%= coin%>",
+                    keyWord: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    isLegalCoin: "<%= isLegalCoin %>",
+                    bankInfo: {},
+                    mObj:[],
+                    loaded:false
+                }
+            },
+            computed: {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                //获取充值二维码 暂弃用
+                qrUrl: function () {
+                    // return DOMAIN_MAIN + API_PREFIX + 'getPayinQrcode?code=' + this.payin.address + "&width=160&height=160";
+                    return '';
+                },
+                btsAccount: function () {
+                    return this.payin.address ? this.payin.address.split("_")[0] : "--";
+                },
+                btsMemo: function () {
+                    return this.payin.address ? this.payin.address.split("_")[1] : "--";
+                },
+                confirmTimes: function () {
+                    /*if(this.coinConfig && this.coinConfig[this.currentCoin]){
+                        return this.coinConfig[this.currentCoin].inConfigTimes;
+                    }else{
+                        return '--';
+                    }*/
+                    var _this = this;
+                    for (var i = 0; i < _this.coinConfig.length; i++) {
+                        if (_this.coinConfig[i].name == _this.currentCoin) {
+                            return _this.coinConfig[i].inConfigTimes;
+                        }
+                    }
+
+                    return '--';
+                }
+            },
+            methods: {
+                filterCoin: function (objs) {
+                    var _this = this;
+                    // if (!_this.keyWord) {
+                    //     return objs;
+                    // }
+
+                    var nObj = [];
+                    objs.forEach(function (coin, index) {
+                        var coinName = coin.name;
+                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1) {
+                            nObj.push(coin);
+                        }
+                    });
+                   _this. mObj = nObj.slice(0,12);
+
+                    return nObj
+                },
+                LANG: function (key) {
+                    return EXX.L(key);
+                },
+                showDate: function (date) {
+                    if (isNaN(date) || Number(date) < 0) {
+                        return '--'
+                    } else {
+                        return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');
+                    }
+                },
+                isDemoCoin: function (coin) {
+                    if (coin && coin.length > 3 && coin.substring(0, 1) == 'd') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                getCoinConfig: function () {
+                    var data = {
+                        // webId: 100
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        success: function (res) {
+                            this.loaded = true
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getPayinAddress: function () {
+                    var data = {
+                        // webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin
+                    };
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinAddress',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            this.payin = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getAddress: function () {
+                    var data = {
+                        // webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin
+                    };
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getAddress ',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            this.payin = res.datas;
+                        }.bind(this)
+                    });
+                },
+                getPayinCoinRecord: function () {
+                    var data = {
+                        // webId: 100,
+                        userId: this.loginUser.userId,
+                        currencyTypeName: this.currentCoin,
+                        pageNum: this.pageIndex,
+                        pageSize: this.pageSize,
+                        sort: 0
+                    };
+                    Methods.ajax({
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinCoinRecord',
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            this.payinRecords = res.datas.list;
+                            this.pageCount = res.datas.list.length;
+                        }.bind(this)
+                    });
+                },
+                pageInit: function () {
+                    var clipboard = new Clipboard('.copyAddress');
+                    clipboard.on('success', function (e) {
+                        JuaBox.info("<%= LANG('复制成功！') %>");
+                    });
+                },
+                getBankaccountSearch: function () {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'bankaccountsearch',
+                        success: function (res) {
+                            this.bankInfo = res.datas
+                        }.bind(this)
+                    });
+                },
+                formatBank: function (str) {
+                    if (str){
+                        var str = str.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
+                        return str
+                    }
+                }
+            },
+            created: function () {
+                this.getCoinConfig();
+
+                this.pageInit();
+
+                this.getAddress();
+                this.getPayinCoinRecord();
+                this.getBankaccountSearch()
+            },
+            mounted: function () {
+                var _this = this;
+                this.$watch('payin.address', function () {
+                    QRCode.toCanvas(_this.$refs.canvas, _this.payin.address, {
+                        width: 200,
+                        height: 200
+                    }, function (error) {
+                    })
+                });
+            }
+        })
+    })
+</script>

@@ -1,0 +1,489 @@
+<!--<link href="<%= STATIC %>/styles/components.css" rel="stylesheet" type="text/css">-->
+<link href="<%= STATIC %>/styles/activity.css" rel="stylesheet" type="text/css">
+<section id="million" class="million-content">
+
+    <div class="million-banner">
+      <div class="million-cont">
+       <h1 v-html="giftInfo.name"></h1>
+       <h3 v-cloak>{{giftInfo.desc}}</h3>
+
+        <div class="bottext">
+            <span v-cloak>ID: {{giftInfo.giftId}}</span><!--礼包ID-->
+            <span v-cloak>{{giftInfo.amount}} DUSD</span>
+            <span><%= LANG('模拟金') %></span>
+            <!--<a><%= LANG('活动即将开始') %></a>-->
+            <a v-if="isAbled" @click="gotoStep('1')"><%= LANG('立即领取礼包') %></a>
+            <a v-if="!isAbled" @click="gotoStep('1')"><%= LANG('已使用或过期') %></a>
+        </div>
+      </div>
+        <!--<div class="list">-->
+           <!--<ul>-->
+               <!--<li><span>ID: 58741</span></li>-->
+
+               <!--<li class="on"><span>100,000 DUSD</span></li>-->
+               <!--<li><span>模拟金</span><a>立即领取礼包</a></li>-->
+           <!--</ul>-->
+
+       <!--</div>-->
+
+    </div>
+
+    <div class="million-step1" v-show="step > 0">
+       <div class="million-cont">
+        <h3 class="stitle">STEP 1</h3>
+        <div class="sline"></div>
+        <h4 class="snote"><%= LANG('该礼包需要拥有至少1个模拟帐户') %></h4>
+
+        <div class="accoutlist">
+            <p><%= LANG('请选择一个账号') %>: </p>
+            <ul>
+              <li  v-for="account in targetAccounts" @click="handleSelectSub(account)" :class="{on: selectedSub.userId == account.userId}" >
+                <a>
+                  <img :src="'<%= STATIC %>/images/userhead/' + account.photo">
+                  {{account.nickName}}
+                </a>
+              </li>
+            </ul>
+
+        </div>
+
+        <div class="btnlist">
+            <a @click="openAddAccount"><%= LANG('创建模拟帐号') %></a>
+            <a @click="gotoStep('2')" class="nextload" :class="{graybtn: !selectedSub}"><%= LANG('下一步') %></a>
+            <!--<a @click="openSelectAccount">选择存放帐户</a>-->
+        </div>
+
+      <transition name="modal" v-cloak>
+        <div v-if="showAccountsList" class="modal-mask select-account ">
+          <ul v-cloak>
+            <li  v-for="account in mockAccounts" @click="handleSelectSub(account)" >
+              <div class="avatar">
+                <div v-if="account.userType == 3" class="gray-mask"><%= LANG('模拟') %></div>
+                <img v-if="account.photo" :src="'<%= STATIC %>/images/userhead/' + account.photo">
+                <img v-else src="<%= STATIC %>/images/userhead/default.jpg">
+              </div>
+              <div class="memo">
+                {{account.nickName}}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </transition>
+
+     </div>
+    </div>
+
+    <div class="million-step2" v-if="step > 1">
+        <div class="million-cont">
+        <h3 class="stitle">STEP 2</h3>
+        <div class="sline"></div>
+        <h4 class="snote"><%= LANG('选择需要分配该笔奖励的币种') %></h4>
+        <div class="marketlist">
+          <ul v-cloak v-if="uniqueCoins.length">
+            <li @click="handleSelectCoin(coin)" v-for="coin in uniqueCoins" class="right-m" :class="{on: selectedCoins.indexOf(coin) !== -1}">
+              <span class="left-m"><i :class="'icon-' + coin"></i>{{coin.toUpperCase()}}</span>
+              <i class="iconfont icon-correct-c-o"></i>
+            </li>
+          </ul>
+          <div class="btnlist">
+            <a @click="openAddMarket"><%= LANG('添加交易币种') %></a>
+            <a @click="gotoStep('3')" :class="{graybtn: !selectedCoins.length}"><%= LANG('下一步') %></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="million-step3" v-if="step > 2">
+        <div class="million-cont">
+        <h3 class="stitle">STEP 3</h3>
+        <div class="sline"></div>
+        <h4 class="snote"><%= LANG('配置资金') %></h4>
+
+        <div class="coinlist" id="slidelist">
+          <ul class="valueshow">
+            <li v-for='(json,index) in sliderData'>
+              <span><i :class="'icon-' + json.coin"></i>{{json.coin}}</span>
+              <input v-model="json.ratio" type="range" max="100" min="0" @input='changeinput(index)'>
+              <span>{{json.ratio}}%</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btnlist">
+            <a class="helpbtn" href="/activity/tech" target="_blank"><%= LANG('新手帮助') %></a>
+            <a @click="applyGift"><%= LANG('立即领取') %></a>
+
+        </div>
+      </div>
+    </div>
+
+  <modal v-cloak :open= "showModal == 'addAccount'" @close="showModal = false">
+    <add-account  />
+  </modal>
+  <modal v-cloak :open= "showModal == 'addMarket'" @close="showModal = false">
+    <add-market :params="marketParams" />
+  </modal>
+
+</section>
+
+<%-include("../component/modal.html")%>
+
+<%-include("_addaccount.html")%>
+<%-include("_addMarket.html")%>
+
+<script>
+  require(['vue', 'common/methods'], function(Vue, Methods) {
+    EXX.million = new Vue({
+      el: '#million',
+      data: function() {
+        return {
+          showModal: false,
+          isLogin: ISLOGIN,
+          giftId: '',
+          step: 0,
+          loginUser: Methods.getLocalUserInfo(),
+          showAccountsList: false,
+          accountsList: [],
+          accountsInfo: [],
+          giftInfo: {},
+          marketParams: {},
+          coinParams: {},
+          userMarketsData: [],
+          selectedSub: false,
+          selectedMarkets: [],
+          selectedCoins: [],
+          sliderData: []
+        }
+      },
+      computed: {
+        isAbled : function () {
+            var timestamp = Date.parse(new Date());
+            if(this.giftInfo.userIsUsed || this.giftInfo.isUsed || this.giftInfo.expressTime < timestamp){
+                return false;
+            }else{
+                return true;
+            }
+        },
+        mockAccounts: function() {
+          var accounts = this.accountsInfo.filter(function(account){
+            return account.userType == 3;
+          });
+          return accounts
+        },
+        realAccounts: function() {
+          var accounts = this.accountsInfo.filter(function(account){
+            return account.userType != 3;
+          });
+          return accounts
+        },
+        targetAccounts: function() {
+          return this.giftInfo.isDemo == 1 ? this.mockAccounts : this.realAccounts
+        },
+        //根据选择的市场获取对应币种
+        marketCoins: function() {
+          var markets = this.selectedMarkets;
+          var coins = [];
+          markets.map(function(market){
+            coins.push(market.split('_')[0]);
+            coins.push(market.split('_')[1])
+          });
+          var uniqueCoins = coins.filter(function(elem, index, self) {
+            return index == self.indexOf(elem);
+          });
+          return uniqueCoins
+        },
+        uniqueCoins: function() {
+          var userMarketsData = this.userMarketsData || [];
+          var availableCoins = [];
+          userMarketsData.map(function(market){
+            if (market.isVisible) {
+              availableCoins.push(market.market.split('_')[0]);
+              availableCoins.push(market.market.split('_')[1])
+            }
+          });
+          var coins = availableCoins.filter(function(elem, index, self) {
+            return index == self.indexOf(elem);
+          });
+          return coins
+        },
+        formatRange: function() {
+          var sliderData = this.sliderData;
+          var arr = [];
+          sliderData.forEach(function(data){
+            arr.push(data.coin + '|' + data.ratio);
+          });
+          return arr.length ? arr.join('_') : ''
+        }
+      },
+      watch: {
+        selectedCoins: function() {
+          var data = [];
+          var sum = 0;
+          this.selectedCoins.map(function(coin, index){
+            var obj = {};
+            obj.coin = coin;
+            var ratio = (100 / this.selectedCoins.length).toFixed(0);
+            sum += Number(ratio);
+            if (index == this.selectedCoins.length -1 ) {
+              ratio = Number(ratio) + (100 - sum);
+            }
+            obj.ratio = ratio;
+            data.push(obj);
+          }.bind(this));
+          this.sliderData = data;
+        },
+        totalPencent : function () {
+          var pencent = 0;
+          for(var i = 0, ilength = this.sliderData.length; i < ilength; i++){
+            pencent += this.sliderData[i].ratio;
+          }
+        }
+      },
+      methods: {
+        mainCoin: function(market) {
+          return market.split('_')[0]
+        },
+        secondaryCoin: function(market) {
+          return market.split('_')[1]
+        },
+        changeinput: function(index){
+          var curTatol = 0;
+          var noTatol = 0;
+          var prevTotal = 0;
+
+          var slideNum = this.sliderData.length;
+            //获取当前已经分配的份额
+            for(var i = 0 ; i <= index; i++) {
+                curTatol += parseFloat(this.sliderData[i].ratio);
+            }
+            if(curTatol > 100){
+                curTatol = 100;
+                for(var i = 0 ; i < index; i++) {
+                    prevTotal += parseFloat(this.sliderData[i].ratio);
+                }
+                this.sliderData[index].ratio = 100 - prevTotal;
+
+                for(var i = (index+1) ; i < slideNum; i++) {
+                    this.sliderData[i].ratio = 0;
+                }
+
+            }else{
+                noTatol = 100 - curTatol;
+
+                if(noTatol < 0){
+                    noTatol = 0;
+                }
+
+                //剩余的平均赋值
+                for(var i = (index+1) ; i < slideNum; i++) {
+                    this.sliderData[i].ratio = parseInt(noTatol / (slideNum-index-1));
+                }
+            }
+
+            //取整处理
+            var total = 0;
+            var butLastTotal = 0;//
+            for(var i = 0 ; i < slideNum; i++) {
+               total += parseFloat(this.sliderData[i].ratio);
+            }
+            for(var i = 0 ; i < slideNum -1 ; i++) {
+                butLastTotal += parseInt(this.sliderData[i].ratio);
+            }
+            this.sliderData[slideNum-1].ratio = 100 - butLastTotal;
+        },
+        openModal: function(name) {
+          this.showModal = name;
+          //this.$refs[name].open = true;
+        },
+        openAddAccount: function() {
+          if (this.isLogin) {
+            this.showModal = 'addAccount'
+          } else {
+            JuaBox.info("<%= LANG('需要先登录主账号才能添加子账号') %>")
+          }
+        },
+        gotoStep: function(step) {
+            if(!this.isAbled){
+                return JuaBox.info("<%= LANG('礼包已被领取或已过期，感谢您的参与。') %>")
+            }
+          switch(step) {
+            case '1':
+              this.step = 1;
+              break;
+            case '2':
+              if (!this.selectedSub) {
+                return
+              }
+              this.step = 2;
+              break;
+            case '3':
+              if (!this.selectedCoins.length) {
+                return
+              }
+              this.step = 2;
+              this.step = 3;
+              break;
+          }
+        },
+        openSelectAccount: function() {
+          if (this.isLogin) {
+            if (!this.mockAccounts.length) {
+              JuaBox.info("<%= LANG('没有可用的模拟账户') %>")
+              return
+            }
+            this.showAccountsList = true
+          } else {
+            JuaBox.info("<%= LANG('需要先登录主账号才能选择子账号') %>")
+          }
+        },
+        closeModal: function() {
+          this.showModal = false;
+        },
+        getAccounts: function() {
+          var data = {
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getUserAssets',
+            data: data,
+            success: function(res) {
+              this.accountsInfo = res.datas.userFunds;
+            }.bind(this)
+          });
+
+        },
+        getGift: function() {
+          var data = {
+            userId: this.loginUser.userId,
+            giftId: this.giftId
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getGift',
+            data: data,
+            success: function(res) {
+              this.giftInfo = res.datas;
+            }.bind(this)
+          });
+
+        },
+        handleSelectSub: function(account) {
+          this.selectedSub = account;
+          this.getUserMarkets();
+        },
+        openAddMarket: function() {
+          if (!this.selectedSub) {
+            JuaBox.info("<%= LANG('请选择一个存放账户') %>");
+            return
+          }
+          this.showModal = 'addMarket';
+          this.marketParams = {
+            account: this.selectedSub,
+              userMarkets: this.userMarketsData
+          }
+        },
+        getUserMarkets: function(callback) {
+          var data = {
+            childId: this.selectedSub.userId
+          };
+          Methods.ajax({
+            url: DOMAIN_MAIN + API_PREFIX + 'getAllMarket',
+            data: data,
+            success: function (res) {
+              if(!res.datas.userMarket){
+                return console.log('getAllMarket failed.')
+              }
+              this.userMarketsData = res.datas.userMarket;
+              if(typeof callback == 'function'){
+                callback();
+              }
+            }.bind(this)
+          });
+        },
+        handleSelectMarket: function(market) {
+          if (this.selectedMarkets.indexOf(market.market) !== -1) {
+            this.selectedMarkets.remove(market.market);
+          } else {
+            this.selectedMarkets.push(market.market)
+          }
+        },
+        handleSelectCoin: function(coin) {
+          if (this.selectedCoins.indexOf(coin) !== -1) {
+            this.selectedCoins.remove(coin);
+          } else {
+            this.selectedCoins.push(coin)
+          }
+        },
+        openAddCoin: function() {
+          if (!this.selectedSub) {
+            JuaBox.info("<%= LANG('请选择一个存放账户') %>");
+            return
+          }
+          this.showModal = 'addCoin';
+          this.coinParams = {
+            account: this.selectedSub
+          }
+        },
+        applyGift: function() {
+          var data = {
+            childId: this.selectedSub.userId,
+            giftId: this.giftInfo.giftId,
+            giveDetails: this.formatRange
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'userGetGift',
+            data: data,
+            success: function(res) {
+              swal({
+                title: "<%= LANG('礼包领取成功') %>",
+                text: "<%= LANG('即将跳转到交易中心') %>",
+                icon: "success",
+                buttons: ["<%= LANG('立即跳转') %>!", false],
+                dangerMode: false
+              }).then(function(willDelete){
+                window.location.href = DOMAIN_MAIN + '/trade/';
+              });
+              window.setTimeout(function(){ window.location.href = DOMAIN_MAIN + '/trade/';},3000);
+            }.bind(this)
+          });
+        },
+        handleClickInPage: function() {
+          this.showAccountsList = false;
+        }
+
+      },
+      created: function() {
+        var urlParams = Methods.parseQueryString();
+        if (urlParams.giftId) {
+          this.giftId = urlParams.giftId;
+        }
+        this.getAccounts();
+        if(this.isLogin) {
+          this.getGift();
+        }
+      },
+      updated: function() {
+        if (this.step > 0) {
+          $('.million-banner').slideUp();
+          $('#main-nav').addClass('sticky')
+        }
+        if (this.step > 1) {
+          $('.million-step1').slideUp();
+        }
+        if (this.step > 2) {
+          $('.million-step2').slideUp();
+        }
+      },
+      mounted : function () {
+        document.addEventListener('click', this.handleClickInPage, true);
+      },
+      beforeDestroy: function() {
+        document.removeEventListener('click', this.handleClickInPage, true)
+      }
+    });
+  });
+</script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/slider.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/xulei-v1.js"></script>

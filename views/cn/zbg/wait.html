@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZBG.COM即将上线</title>
+    <style>
+        body{
+            background: #061649;
+            padding: 0;
+            margin: 0;
+        }
+        .logo{
+            position: absolute;
+            left: 30px;
+            top: 30px;
+            width: 80px;
+        }
+        .logo img{
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+        }
+        .wait{
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 60px;
+            font-weight: 500;
+        }
+        .radial-bg {
+            width: 1200px;
+            height: 1200px;
+            border-radius: 50%;
+            background: -webkit-radial-gradient(farthest-side at 50% 50%, #48138b, rgba(72, 19, 139, 0));
+            background: radial-gradient(farthest-side at 50% 50%, #48138b, rgba(72, 19, 139, 0));
+            position: absolute;
+            left: 0;
+            top: 0;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            border: 1px solid #15286b;
+            z-index: -9999;
+        }
+
+        .radial-bg::before {
+            content: " ";
+            position: absolute;
+            top: 17.5%;
+            left: 17.5%;
+            width: 65%;
+            height: 65%;
+            border: inherit;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="radial-bg"></div>
+<div class="logo"><img src="/src/images/logo.png"></div>
+<div class="wait">ZBG.COM即将上线</div>
+</body>
+</html>

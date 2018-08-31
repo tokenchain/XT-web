@@ -1,0 +1,239 @@
+<style>
+    .commom-panel {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .commom-panel .banner {
+        background-image: url('/src/images/home/spc/bg.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        position: relative;
+        padding: 120px 0 50px;
+        text-align: center;
+
+    }
+
+    .commom-panel .banner .info {
+        position: relative;
+    }
+
+    .commom-panel .banner .logo {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner h2 {
+        font-size: 30px;
+        color: #fff;
+    }
+
+    .commom-panel .content {
+        padding-top: 50px;
+    }
+
+    .commom-panel .content .box {
+        padding-bottom: 30px;
+        color: #666;
+    }
+
+    .commom-panel .content .box .info {
+        width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .commom-panel .content .box .info > h3 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #000;
+    }
+
+    .commom-panel .content .box .info > h4 {
+        font-size: 16px;
+        margin: 30px 0 20px 0;
+        color: #333;
+    }
+
+    .commom-panel .content .box .info > p {
+        line-height: 30px;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+
+    .commom-panel .content .box .info ul {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 80px;
+    }
+
+    .commom-panel .content .box .info ul li {
+        flex: none;
+        width: 20%;
+        text-align: center;
+        line-height: 28px;
+    }
+
+    .commom-panel .banner .subtitle {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .subtitle p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .commom-panel .btn {
+        margin-top: 40px;
+    }
+
+    .commom-panel .btn a {
+        display: inline-block;
+        padding: 13px 50px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 14px;
+        background: #df1a14;
+    }
+
+    .winning {
+        display: none;
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(19, 19, 28, 0.95);
+        z-index: 9999;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .winning-box {
+        width: 700px;
+        position: relative;
+    }
+
+    .winning-box .close {
+        position: absolute;
+        background: #ffb400;
+        color: #fff;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 30px;
+        right: 0;
+        top: 0;
+        font-weight: bold;
+    }
+
+    .winning-box .info {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 150px;
+        text-align: center;
+    }
+
+    .winning-box .info p {
+        color: #ffb400;
+        font-size: 130px;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, .2);
+    }
+
+    .winning-box .info a {
+        display: inline-block;
+        padding: 15px 80px;
+        border-radius: 50px;
+        font-size: 18px;
+        color: #fff;
+        margin-top: 80px;
+        background-image: -moz-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -webkit-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+        background-image: -ms-linear-gradient(-25deg, rgb(133, 39, 234) 0%, rgb(159, 46, 235) 46%, rgb(72, 31, 206) 100%);
+
+    }
+</style>
+<div class="commom-panel" id="giftCoin">
+    <div class="banner">
+
+        <div class="info">
+            <div class="logo"><img src="/src/images/home/spc/logo.png" style="width: 100px;"/></div>
+            <h2>SPC空投福利</h2>
+            <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;"><%= LANG('满足条件的EXX用户可随机领取 1~20
+                SPC')%>
+            </div>
+            <p v-cloak="" v-if="isLogin && (loginUser.emailAuth == 0 || loginUser.mobileAuth == 0)">（<%=
+                LANG('需完成手机和邮箱认证')%>）</p>
+            <div class="btn" v-cloak="">
+                <a role="button" v-if="!isLogin" href="/login" target="_self"><%= LANG('登录')%></a>
+                <a role="button" v-if="isLogin && timeStatus == 0" style="background-color: #666;"><%=
+                    LANG('活动未开始')%></a>
+                <a role="button" v-if="isLogin && timeStatus == 2" style="background-color: #666;"><%=
+                    LANG('活动已结束')%></a>
+                <template v-if="isLogin && timeStatus == 1">
+                    <a role="button" v-if="applyStatus == 2" style="background-color: #666;"><%= LANG('未满足条件')%></a>
+                    <a @click="showModal = 'setEmail'" role="button"
+                       v-if="loginUser.emailAuth == 0 && applyStatus == 0"><%= LANG('认证邮箱')%></a>
+                    <a @click="showModal = 'setMobile'" role="button"
+                       v-if="loginUser.mobileAuth == 0 && applyStatus == 0"><%= LANG('认证手机')%></a>
+                    <a @click="showModal = 'applyGift'" role="button" v-if="applyStatus == 1"><%= LANG('领取成功')%></a>
+                    <a @click="applyGift" role="button"
+                       v-if="loginUser.emailAuth == 1 && loginUser.mobileAuth == 1 && applyStatus == 0"><%=
+                        LANG('立即领取')%></a>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="box">
+            <div class="info">
+                <h3>空投福利一:</h3>
+                <p>150万SPC，空投对象：北京时间 2018年1月16日9点58分，同时拥有至少 1 Qtum, 1 HSR , 10 INK ，0.1 UBTC 的EXX用户赠送 50
+                    SPC，名额不足时按资产多者优先发放，赠送在三个工作日内发放到账号里。</p>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3>空投福利二</h3>
+                <p>100万SPC，空投对象： 北京时间 2018年1月16日9点58分，EXX账户中持有 100 SPC 以上的用户，可以在首页SPC抽奖活动中随机抽取 1 至 20 不等数量的
+                    SPC，先到先得。</p>
+            </div>
+        </div>
+
+    </div>
+
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winning.png"/>
+                <div class="info">
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                    <a href="/u/bill" target="_self"><%- LANG('立即查看') %></a>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <modal v-cloak :open="showModal == 'setMobile'" @close="showModal = false">
+        <set-mobile/>
+    </modal>
+
+    <modal v-cloak :open="showModal == 'setEmail'" @close="showModal = false">
+        <set-email/>
+    </modal>
+</div>
+<%-include("app.getCoin.html" ,{giftCoin: 'spc'})%>

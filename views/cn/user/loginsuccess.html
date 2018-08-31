@@ -1,0 +1,542 @@
+<%-include("../include/head.html")%>
+
+<section class="entrance-area">
+    <div class="box">
+        <!--<div class="head">-->
+            <!--<ul>-->
+                <!--<li class="active"><a href="/login/"><%= LANG('使用ZB账户登陆ZBG成功') %></a></li>-->
+
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="body" id="logBox">
+            <!--<div class="cooperation">-->
+                <!--<a @click="easyLogin"><i><img src="/src/images/zb-logo-red.png"/></i>完善ZBG本地密码信息</a>-->
+            <!--</div>-->
+            <!--<div class="cooperation">-->
+                <!--<a @click="easyLogin"><i><img src="/src/images/zb-logo-red.png"/></i>直接使用</a>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+                <!--<div class="form-control" id="nikeForm">-->
+                    <!--<input autocomplete="off" placeholder="<%= LANG('手机') %>/<%= LANG('邮箱') %>/<%= LANG('用户名') %>"-->
+                           <!--v-model="userName" v-on:blur="handleCheckUserType($event)"-->
+                           <!--v-on:focus="clearPhoneInputError($event)" type="text">-->
+                    <!--<country-code v-if="showCountry" :selected="selectCountry"/>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="form-button">-->
+                <!--<button class="button" type="button big" @click="handleLogin"-->
+                        <!--:class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('登录') %></span></button>-->
+            <!--</div>-->
+            <!--<div class="form-other"><%= LANG('还没账号？') %><a href="/register"><%= LANG('立即注册') %></a></div>-->
+
+        </div>
+    </div>
+    <div class="canvas_graph"></div>
+</section>
+<script>
+    var isZbLogin = false;
+    var passIsSet = false;
+    var easyLoginSetTimeout
+
+    function loginSuccessUi(redirect) {
+        //$("#logBox").fadeOut();
+
+        var buttons
+        if (isZbLogin && passIsSet) {
+            buttons = {
+                button1 : {
+                    text : "<%= LANG('立即跳转') %>",
+                    value : true,
+                },
+                button2 : {
+                    text : "<%= LANG('设置密码') %>",
+                    value : false,
+                }
+            }
+        } else {
+            buttons = {
+                button1 : {
+                    text : "<%= LANG('立即跳转') %>",
+                    value : true,
+                }
+            }
+        }
+        swal({
+            title: "<%= LANG('ZB登录成功') %>",
+            text: "<%= LANG('即将跳转到账户中心') %>",
+            icon: "success",
+            // buttons: ["<%= LANG('立即跳转') %>", isZbLogin && passIsSet ? "<%= LANG('设置密码') %>" : false],
+            buttons: buttons,
+            dangerMode: false,
+        }).then(function (value) {
+            if (value) {
+                sessionStorage.removeItem('ljtz')
+                window.location.href = redirect;
+            } else {
+                if (isZbLogin && passIsSet) {
+                    sessionStorage.setItem('ljtz',true)
+                    window.location.href = '/u/account';
+                }
+            }
+        })
+        window.setTimeout(function () {
+            window.location.href = redirect;
+        }, isZbLogin && passIsSet ? 20000 : 3000);
+    }
+
+    function loginErrorUi(message) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('提示') %>",
+            text: message,
+            icon: "warning",
+            buttons: ["<%= LANG('确定') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            //$("#logBox").fadeIn();
+        });
+        window.setTimeout(function () {
+            $(".swal-overlay").trigger('click');
+            //$("#logBox").fadeIn();
+        }, 4000);
+    }
+
+
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+        var app = new Vue({
+            el: '#logBox',
+            data: function () {
+                return {
+                    pubKey: '',
+                    rsaKeyId: '',
+                    timestramp: '',
+                    userType: 1,
+                    showCountry: false,
+                    showImgCode: false,
+                    userName: '',
+                    password: '',
+                    imgCode: '',
+                    countryCode: '+86',
+                    requestLocked: false,
+                    url: Methods.getUrlparm('url'),
+                    // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-28-120-50'
+                    imgCodeId: '',
+                    imageCodeUrl: '',
+                    phoneState: true,
+                    pwdState: true,
+                    getPubkeyNum: 0,
+                    guid: '',
+                    loginUser: ''
+                }
+            },
+            methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
+                //判断用户名信息
+                handleCheckUserType: function (e) {
+                    this.userType = Methods.checkUserType(this.userName);
+                    this.showCountry = Methods.isAllNumber(this.userName);
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if (this.userName.length < 6) {
+                        Methods.showLineError(target, "<%= LANG('手机、邮箱或用户名格式不正确') %>")
+                        this.phoneState = false;
+                    } else {
+                        Methods.showLineError(target, "")
+                        this.phoneState = true;
+                    }
+                },
+                //密码输入框失去焦点时，判断密码格式是否满足-ok
+                handCheckPwd: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if (Methods.checkPwdStrength(this.password) < 2) {
+                        Methods.showLineError(target, "<%= LANG('登录密码格式不正确') %>")
+                        this.pwdState = false;
+                    } else {
+                        Methods.showLineError(target, "")
+                        this.pwdState = true;
+                    }
+                },
+                //清除输入框错误信息-ok
+                clearPhoneInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                    this.phoneState = true;
+                },
+                //清除输入框错误信息-ok
+                clearPwdInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                    this.pwdState = true;
+                },
+                //选择国家代码
+                selectCountry: function (country) {
+                    this.countryCode = country.code
+                },
+                //重新获取公钥
+                againgetPubkey: function () {
+                    if (this.pubKey == "" || this.rsaKeyId == "") {
+                        this.getPubkeyNum++;
+                        if (this.getPubkeyNum <= 3) {
+                            this.getPubKey();
+                        } else {
+                            window.location.reload();
+                        }
+                    }
+                },
+                //获取公钥-ok
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                            this.againgetPubkey();
+                        }.bind(this),
+                        error: function () {
+                            this.againgetPubkey();
+                        }
+                    });
+                },
+                //刷新图形验证码-ok
+                handleRefreshImgcode: function () {
+                    // this.timestramp = '-' + new Date().getTime();
+                    this.getImageCode();
+                },
+                //登录方法
+                handleLogin: function () {
+                    if (this.pubKey == "" || this.rsaKeyId == "") {
+                        this.getPubKey();
+                    }
+                    if (this.requestLocked) {
+                        return false;
+                    }
+                    if (!this.pwdState || !this.phoneState) {
+                        return false;
+                    }
+                    var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
+                    var data = {
+                        userType: Methods.checkUserType(this.userName),
+                        userName: this.userName,
+                        password: encryptionPwd,
+                        rsaKeyId: this.rsaKeyId,
+                        imgCode: this.imgCode,
+                        imgCodeId: this.imgCodeId,
+                        //暂无该参数
+                        countryCode: this.countryCode
+                    };
+                    var _this = this;
+                    if (this.userName === '') {
+                        // swal("<%= LANG('提示') %>", "<%= LANG('请输入手机号/邮箱') %>", "warning");
+                        loginErrorUi("<%= LANG('请输入账号') %>");
+                        //loginSuccessUi("/");
+                        //JuaBox.info("<%= LANG('请输入手机号/邮箱') %>");
+                    } else if (this.password === '') {
+                        loginErrorUi("<%= LANG('请输入密码') %>");
+                    } else if (this.showImgCode && this.imgCode == '') {
+                        loginErrorUi("<%= LANG('验证码格式不正确') %>");
+                    } else {
+                        _this.requestLocked = true;
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'login',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'loginbypassword',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                _this.requestLocked = false;
+                                //确保清除子账号Cookie
+                                //Methods.deleCookie(ENV + 'currentAccountId');
+                                //存储用户信息
+                                Methods.setLocalUserInfo(res.datas);
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV + 'uon', res.resMsg.code);
+                                Methods.setCookie(ENV + 'uid', res.datas.userId);
+                                Methods.setCookie(ENV + 'uname', res.datas.loginName);
+
+                                Methods.setCookie(ENV + 'utoken', res.datas.token);
+
+                                /*if (res.datas.userInfo.thirdAssetMove == '-1') {
+                                    window.location.href = DOMAIN_WEB + '/u/welcome'
+                                } else {
+                                    if(_this.url){
+                                        top.location.href = _this.url;
+                                    }else{
+                                        loginSuccessUi('/u');
+                                    }
+                                }*/
+                                isZbLogin = false;
+                                //跳转页面提示
+                                loginSuccessUi('/u');
+                            },
+                            error: function (res) {
+                                _this.requestLocked = false;
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV + 'uon', res.resMsg.code);
+
+                                var resMsg = res.resMsg;
+                                // 依次是: 6011 谷歌，6037 短信，6038 邮箱
+                                // 6061 需要输入谷歌、邮箱验证码，
+                                // 6062 需要输入谷歌、短信验证码，
+                                // 6063 需要输入邮箱，短信验证码，
+                                // 6064 需要输入谷歌、邮箱、短信验证码
+
+                                /**
+                                 *作者: GongQi
+                                 *时间: 2018/5/30
+                                 *功能: 6066 开启异地登录
+                                 *     6065 开启异地登录、Google验证
+                                 */
+                                if (resMsg.code == 6011 ||
+                                    resMsg.code == 6065 ||
+                                    resMsg.code == 6066) {
+                                    data.code = resMsg.code; //将二次验证code传递
+                                    Methods.setLocalStorage(ENV + 'noLoginUserInfo', data);
+                                    //需要进一步验证
+                                    window.location.href = '/loginAuth';
+                                } else if (resMsg.code == 6015) {
+                                    // 6015 图片验证码
+                                    _this.showImgCode = true;
+                                    _this.getImageCode();
+
+                                    _this.timestramp = '-' + new Date().getTime();
+                                    loginErrorUi(EXX.L(resMsg.message));
+                                } else {
+                                    //有错误,需重新获取pubkey
+                                    loginErrorUi(EXX.L(resMsg.code));
+                                    _this.getPubKey();
+
+                                    _this.getImageCode();
+                                    _this.timestramp = '-' + new Date().getTime();
+
+                                }
+                            }
+                        });
+
+                    }
+                },
+                //监听回车键-ok
+                bindEnter: function () {
+                    var _this = this;
+                    document.onkeydown = function (e) {
+                        var ev = document.all ? window.event : e;
+                        if (ev.keyCode == 13) {
+                            _this.handleLogin()
+                            return false;
+                        }
+                    }
+                },
+                // 检测快捷登录
+                thirdLogin: function (guid) {
+
+                    var data = {
+                        wsClientId: guid
+                    }
+                    var that = this
+
+                    console.log(data)
+                    Methods.ajax({
+                        type: 'GET',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'thirdLogin',
+                        success: function (res) {
+                            var state = res.datas.state
+
+                            console.log(state)
+                            switch (state) {
+                                // 请求状态
+                                // 1:授权成功且已完善信息，
+                                // 2:授权成功但未完善信息，
+                                // 3:已注册
+                                // 4: 绑定zb成功
+                                // 5: zb账户已被绑定
+                                case -1:
+                                    swal({
+                                        title: "<%= LANG('您的信息正在卖力核对中，请稍后...') %>",
+                                        icon: "info",
+                                        buttons: {
+                                            button1: {
+                                                text: "<%= LANG('取消') %>",
+                                            }
+                                        },
+                                        dangerMode: false,
+
+                                    }).then(function (value) {
+                                        window.location.href = '/';
+                                    })
+                                    break;
+                                case 0:
+                                    clearTimeout(easyLoginSetTimeout);
+                                    easyLoginSetTimeout = setTimeout(function () {
+                                        that.thirdLogin(guid)
+                                    }, 1000)
+                                    break;
+
+                                case 1:
+                                case 2:
+                                    that.isloading = false
+                                    //存储用户信息
+                                    Methods.setLocalUserInfo(res.datas);
+                                    var thirdLogin = {
+                                        state: res.datas.state
+                                    };
+                                    if (state == 2) {
+                                        thirdLogin.alertState = true;
+                                    }
+                                    Methods.setLocalStorage(ENV + 'thirdLogin', thirdLogin);
+                                    //设置登录状态 cookie
+                                    Methods.setCookie(ENV + 'uon', res.resMsg.code);
+                                    Methods.setCookie(ENV + 'uid', res.datas.userId);
+                                    Methods.setCookie(ENV + 'uname', res.datas.loginName);
+                                    Methods.setCookie(ENV + 'utoken', res.datas.token);
+                                    isZbLogin = true;
+                                    if (res.datas.loginPwd == '1') {
+                                        passIsSet = false;
+                                    } else {
+                                        passIsSet = true;
+                                    }
+
+
+                                    sessionStorage.setItem('isZbLogin', true)
+                                    loginSuccessUi('/u');
+
+                                    break;
+                                case 3:
+                                    swal({
+                                        title: "<%= LANG('此账户在ZBG已注册，请直接登陆.') %>",
+                                        icon: "success",
+                                        buttons : {
+                                            button1 : {
+                                                text : "<%= LANG('登录') %>",
+                                            }
+                                        },
+                                        dangerMode: false,
+                                    }).then(function (value) {
+                                            window.location.href = '/login';
+                                    })
+                                    window.setTimeout(function () {
+                                        window.location.href = '/login';
+                                    }, 3000);
+                                    break;
+
+                                case 4:
+                                    var path = '/u/account'
+                                    //存储用户信息
+                                    Methods.setLocalUserInfo(res.datas);
+                                    //设置登录状态 cookie
+                                    Methods.setCookie(ENV + 'uon', res.resMsg.code);
+                                    Methods.setCookie(ENV + 'uid', res.datas.userId);
+                                    Methods.setCookie(ENV + 'uname', res.datas.loginName);
+                                    Methods.setCookie(ENV + 'utoken', res.datas.token);
+                                    swal({
+                                        title: "<%= LANG('成功绑定ZB账户') %>",
+                                        icon: "success",
+                                        buttons : {
+                                            button1 : {
+                                                text : "<%= LANG('跳转用户中心') %>",
+                                            }
+                                        },
+                                        dangerMode: false,
+                                    }).then(function (value) {
+                                        window.location.href = path;
+                                    })
+                                    window.setTimeout(function () {
+                                        window.location.href = path;
+                                    }, 3000);
+                                    break;
+
+                                case 5:
+                                    var path ='/u/account'
+                                    swal({
+                                        title: "<%= LANG('账户已被绑定,请核对。') %>",
+                                        icon: "error",
+                                        buttons : {
+                                            button1 : {
+                                                text : "<%= LANG('跳转用户中心') %>",
+                                            }
+                                        },
+                                        dangerMode: false,
+                                    }).then(function (value) {
+                                        window.location.href = path;
+                                    })
+                                    window.setTimeout(function () {
+                                        window.location.href = path;
+                                    }, 3000);
+                                    break;
+                            }
+
+                        }.bind(this)
+                    });
+                },
+
+                createS4: function () {
+                    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+                },
+                createGuid: function () {
+                    var S4 = this.createS4
+                    return (S4() + S4() + S4() + S4() + S4());
+                },
+                easyLogin: function () {
+                    var guid = this.guid
+                    window.open('https://vip.zb.cn/user/login?platform=zbg&wsclientid='+ guid,'_self')
+                    // window.open('http://ttvip.10xingjf.com/user/login?platform=zbg&wsclientid=' + guid, '_self')
+                    this.thirdLogin(guid);
+                },
+                GetRequest: function () {
+                    var url = location.search;
+                    var theRequest = new Object();
+                    if (url.indexOf("?") != -1) {
+                        var str = url.substr(1);
+                        strs = str.split("&");
+                        for (var i = 0; i < strs.length; i++) {
+                            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                        }
+                    }
+                    return theRequest;
+                }
+            },
+            created: function () {
+                var that = this
+                var params = Methods.parseQueryString();
+                this.userName = params.userName ? params.userName : '';
+                // this.guid = this.createGuid()
+                window.addEventListener('blur', function () {
+                    clearTimeout(easyLoginSetTimeout)
+                })
+                window.addEventListener('focus', function () {
+                    that.thirdLogin(that.guid)
+                })
+
+                if (window.location.search.indexOf('wsclientid') != -1) {
+                    var Request = new Object();
+                    Request = this.GetRequest();
+                    that.thirdLogin(Request.wsclientid)
+                }
+            },
+            mounted: function () {
+                console.log(11111)
+                Methods.checkMobileStyle();
+                this.bindEnter();
+                if (this.userName != '') {
+                    $('#username').parent().parent().addClass('activenocolor');
+                }
+                this.getPubKey();
+                this.userType = Methods.checkUserType(this.userName);
+
+                this.getImageCode();
+
+            }
+        });
+    })
+
+
+</script>
+

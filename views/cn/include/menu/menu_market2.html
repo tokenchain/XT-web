@@ -1,0 +1,86 @@
+<div class="trading-menu">
+    <p role="button" class="<%= PATH.indexOf('/trade/') != -1 ? 'active' : ''%>">
+        <a :href="'/trade/'+ marketConfig[0].name" v-if="marketConfig.length > 0"><%= LANG('K线交易')%></a>
+    </p>
+    <div class="trading-menu-dropdown">
+        <div class="group-list l2">
+            <ul class="group-tab" v-cloak="">
+                <!--<li role="button" class="active"><%= LEGAL[UNIT].alias.toUpperCase() %><%= LANG('区')%></li>-->
+                <!--<li role="button">USDT<%= LANG('区')%></li>-->
+                <!--<li role="button">BTC<%= LANG('区')%></li>-->
+                <!--<li role="button">ETH<%= LANG('区')%></li>-->
+                <!--<li role="button">QTUM<%= LANG('区')%></li>-->
+                <!--<li role="button">HSR<%= LANG('区')%></li>-->
+                <li role="button" v-for="item,index in marketAreaList" :class="{'active': index == 0}">
+                    {{item.name.toUpperCase()}}<%= LANG('区')%>
+                </li>
+            </ul>
+            <div class="group-box" v-cloak="">
+                <ul :class="{'block':marketIndex==0}" v-for="(marketItem,marketIndex) in marketAreaList" v-cloak="">
+                    <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == marketItem.name.toUpperCase()">
+                        <a :href="'/trade/' + getTradeName(market)" target="_self">
+                            <span class="coinimg"><img
+                                    :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
+                            <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
+                        </a>
+                    </li>
+                </ul>
+                <!--<ul class="<%= LEGAL[UNIT].alias %> block">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == '<%= LEGAL[UNIT].alias.toUpperCase() %>'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="usdt">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'USDT'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="btc">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'BTC'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="eth">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'ETH'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="qtum">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'QTUM'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="hsr">-->
+                <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == 'HSR'">-->
+                <!--<a :href="'/trade/' + getTradeName(market)" target="_self">-->
+                <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
+                <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="content" id="mainForm">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li class="dashboard">Dashboard</li>
+      <li><a href="/u"><i class="icon iconfont icon-home"></i></a></li>
+      <li><a href="/u"><%= LANG('账户面板') %></a></li>
+      <li><a href="/u/safe"><%= LANG('基本信息') %></a></li>
+      <li class="is-active"><a href="/u/safe/resetSafePwd"><%= LANG('找回二级密码') %></a></li>
+    </ul>
+  </nav>
+  <h2><%= LANG('找回二级密码') %></h2>
+  <div class="fill-form">
+    <div class="fill-form-bd">
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('登录密码') %>：</em>
+        <input class="fill-control" id="currentPwd" v-model="loginPwd" type="password" autocomplete="off" />
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('新密码') %>：</em>
+        <input class="fill-control" v-model="newSafePwd" type="password" autocomplete="off" />
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('确认新密码') %>：</em>
+        <input class="fill-control" v-model="passwordConfirmation" type="password" autocomplete="off" />
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('图形验证码') %>：</em>
+        <input class="fill-control" v-model="imgCode" type="text">
+        <img class="hq btn-five" :src="imageCodeUrl" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>">
+      </div>
+
+      <div class="fill-group">
+        <em class="name"><%= LANG('动态验证码') %>：</em>
+        <input class="fill-control" v-model="dynamicCode" type="text">
+        <send-code class="hq btn-five btn-sm" :code-type="3" :user-name="userName" />
+      </div>
+
+      <div class="fill-form-fd text-center">
+        <a href="javascript:;" v-on:click="handleSubmit" class="btn btn-primary btn-lg btn-block">
+          <%= LANG('提交') %>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%-include("../../component/send_code/index.html")%>
+<script>
+  require(['vue', 'common/methods', 'common/juabox'], function(Vue, Methods, JuaBox ) {
+    var app = new Vue({
+      el: '#mainForm',
+      data: function () {
+        return {
+          imgCodeId: '',
+          imageCodeUrl: '',
+          timestramp: '',
+          countryCode: '+86',
+          dynamicCode: '',
+          imgCode: '',
+          loginPwd: '',
+          newSafePwd: '',
+          passwordConfirmation: '',
+          userName: Methods.getCookie(ENV + 'uname')
+        }
+      },
+      methods: {
+          //获取图形验证码
+          getImageCode: function () {
+              Methods.ajax({
+                  type: 'GET',
+                  url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                  success: function (res) {
+                      this.imageCodeUrl = res.datas.img;
+                      this.imgCodeId = res.datas.imgCodeId;
+                  }.bind(this)
+              });
+          },
+        handleRefreshImgcode: function() {
+          // this.timestramp = '-' + new Date().getTime();
+          this.getImageCode();
+        },
+        handleSubmit: function () {
+          var data = {
+            countryCode: this.countryCode,
+            userName: this.userName,
+            dynamicCode: this.dynamicCode,
+            imgCode: this.imgCode,
+            imgCodeId: this.imgCodeId,
+            loginPwd: this.loginPwd,
+            newSafePwd: this.newSafePwd
+          }
+          Methods.ajax({
+            url: DOMAIN_MAIN + API_PREFIX + 'safePwdReset',
+            data: data,
+            success: function (res) {
+              JuaBox.info('<%= LANG("二级密码修改成功") %>');
+              setTimeout(function (){
+                window.location.replace('/u');
+              });
+            }
+          });
+        }
+      },
+      mounted: function () {
+          this.getImageCode();
+      }
+    });
+  })
+</script>

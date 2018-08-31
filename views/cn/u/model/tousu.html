@@ -1,0 +1,71 @@
+<script type="text/x-template" id="tousu">
+    <div class="exx-modal-container">
+        <div class="exx-modal-header"><h3><%= LANG('HPC投诉建议') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <template>
+                        <div>
+                            <textarea   v-model="content" class="tousutextarea" rows="20" cols="51">
+                            </textarea>
+                        </div>
+                    </template>
+                    <div class="form-button">
+                        <button @click="submit"  class="button"><span><%= LANG('提交') %></span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('tousu', {
+            template: "#tousu",
+            props: {
+                item: {
+                    type: Object
+                },
+            },
+            data: function () {
+                return {
+                    content:'在这里将对币种HPC的投诉和吐槽告诉我们吧~',
+                    userName: Methods.getCookie(ENV + 'uname'),
+                    userId: Methods.getCookie(ENV + 'uid')
+                }
+            },
+            computed: {},
+            methods: {
+                submit(){
+                    var data = {
+                        userId:this.userId,
+                        userName :this.userName,
+                        applyCurrencyId :this.item.apply_currency_id,
+                        content:this.content
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + "/exchange/activity/controller/CoinComplainController/" + 'addComplain',
+                        data,
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                }
+            },
+        })
+    })
+</script>
+<style>
+    .tousutextarea{
+        border:1px solid #626563;
+        resize:none;
+        padding: 8px
+    }
+</style>

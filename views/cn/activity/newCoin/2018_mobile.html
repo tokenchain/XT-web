@@ -1,0 +1,232 @@
+<style>
+    .site-wrapper {
+        min-width: 100% !important;
+    }
+
+    .commom-panel {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .commom-panel .banner {
+        background-image: url('/src/images/home/2018/activityBg.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100%;
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        position: relative;
+        padding: 30px 0;
+        text-align: center;
+
+    }
+
+    .commom-panel .banner .info {
+        position: relative;
+    }
+
+    .commom-panel .banner .logo {
+        margin-bottom: 30px;
+    }
+
+    .commom-panel .banner h2 {
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .commom-panel .content {
+        padding-top: 30px;
+    }
+
+    .commom-panel .content .box {
+        padding-bottom: 30px;
+        color: #666;
+    }
+
+    .commom-panel .content .box .info {
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .commom-panel .content .box .info > h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #000;
+    }
+
+    .commom-panel .content .box .info > h4 {
+        font-size: 16px;
+        margin: 30px 0 20px 0;
+        color: #333;
+    }
+
+    .commom-panel .content .box .info > p {
+        line-height: 30px;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+
+    .commom-panel .content .box .info ul {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 80px;
+    }
+
+    .commom-panel .content .box .info ul li {
+        flex: none;
+        width: 20%;
+        text-align: center;
+        line-height: 28px;
+    }
+
+    .commom-panel .banner .subtitle {
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .minititle {
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: #fff;
+    }
+
+    .commom-panel .banner .subtitle p {
+        font-size: 14px;
+        margin-top: 15px;
+        font-weight: normal;
+    }
+
+    .commom-panel .btn {
+        margin-top: 40px;
+    }
+
+    .commom-panel .btn a {
+        display: inline-block;
+        padding: 13px 50px;
+        border-radius: 40px;
+        color: #fff;
+        font-size: 14px;
+        background: #fcc801;
+    }
+
+    .winning {
+        display: none;
+        font-family: Roboto, "Segoe UI", Arial, sans-serif, "Microsoft YaHei";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(19, 19, 28, 0.95);
+        z-index: 9999;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .winning-box {
+        width: 700px;
+        position: relative;
+    }
+
+    .winning-box .close {
+        position: absolute;
+        background: #ffb400;
+        color: #fff;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 30px;
+        right: 0;
+        top: 0;
+        font-weight: bold;
+    }
+
+    .winning-box .info {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 90px;
+        text-align: center;
+    }
+
+    .winning-box .info img {
+        max-width: 70px
+    }
+
+    .winning-box .info p {
+        margin-top: 10px;
+        color: #ffb400;
+        font-size: 42px;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, .2);
+    }
+</style>
+<div class="commom-panel" id="giftCoin">
+    <div class="banner">
+
+        <div class="info">
+            <div class="logo">
+                <div style="height: 80px;"></div>
+                <!--<img src="/src/images/home/2018/logo.png" style="height: 80px;" />--></div>
+            <h2>　<!--<%= LANG('每天登录抽大奖')%>--></h2>
+            <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;">　
+                <!--<%= LANG('活动时间：2018年2月12日-2018年2月25日')%>--></div>
+            <p class="minititle">　</p>
+            <div class="btn" v-cloak="">
+                <a role="button" v-if="timeStatus == 0" style="background-color: #666;"><%= LANG('活动未开始')%></a>
+                <a role="button" v-if="timeStatus == 2" style="background-color: #666;"><%= LANG('活动已结束')%></a>
+                <template v-if="timeStatus == 1">
+                    <a role="button" v-if="applyStatus == 2" style="background-color: #666;"><%= LANG('未满足条件')%></a>
+                    <a @click="showModal = 'applyGift'" role="button" v-if="applyStatus == 1"><%= LANG('领取成功')%></a>
+                    <a @click="getGiftCoin" role="button" v-if="applyStatus == 0 && !requestLocked"><%=
+                        LANG('立即领取')%></a>
+                    <a role="button" v-if="applyStatus == 0 && requestLocked"><%= LANG('正在处理')%></a>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="box">
+            <div class="info">
+                <h3><%= LANG('活动时间：2018年2月12日-2018年2月25日')%></h3>
+                <h3><%= LANG('活动范围：网站和APP（APP需升级到最新版）')%></h3>
+            </div>
+        </div>
+        <div class="box">
+            <div class="info">
+                <h3><%= LANG('活动说明：')%></h3>
+                <p><%= LANG('活动期间，为感谢新老用户的支持与厚爱，EXX壕送用户千万大奖，用户登录后在本活动页每天有一次免费领取上线EXX数字货币的机会。')%></p>
+                <p><%= LANG('本次活动奖品的唯一赞助商为EXX平台。应用发布平台不提供赞助（如Apple AppStore，Google Play等）。')%></p>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="info">
+                <h3><%= LANG('当前活动支持币种如下：')%></h3>
+                <p>BTC、LTC、ETH、ETC、HSR、QTUM、UBTC、MCO、INK、TSL、CFUN、VLC、TV等。</p>
+            </div>
+        </div>
+    </div>
+
+    <transition name="fade">
+        <div class="winning" v-if="showModal == 'applyGift'" v-cloak="">
+            <div class="winning-box">
+                <a class="close" @click="showModal = false">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#lei-close"></use>
+                    </svg>
+                    <%- LANG('关闭') %></a>
+                <img src="/src/images/home/winning.png"/>
+                <div class="info">
+                    <a href="javascript:;">
+                        <img v-if="coin" :src="'/src/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'">
+                    </a>
+                    <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
+                </div>
+            </div>
+        </div>
+    </transition>
+</div>
+<%-include("app.mobile.2018.html")%>

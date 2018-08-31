@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>挖矿返利列表</title>
+    <script src="/src/js/TweenMax.min.js"></script>
+    <script src="/src/js/noframework.waypoints.min.js"></script>
+    <script src="/src/js/dxcicons.js" type="text/javascript"></script>
+    <script src="/src/js/dxcseoicons.js" type="text/javascript"></script>
+    <script src="/src/js/snap.svg.js" type="text/javascript"></script>
+    <script src="/src/js/jquery-latest.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/src/styles/xuleipro.css">
+    <link rel="stylesheet" type="text/css" href="/src/js/zt.css">
+</head>
+
+<body>
+<div class="radial-bg"></div>
+<header class="header"><a href="/" title="ZBG.COM" class="logo"><img src="/src/images/home/exxlogo.png?1530273697751"></a>
+    <!--<ul class="user-nav">-->
+        <!--<li><a href="/register" role="button">注册</a></li>-->
+        <!--<li class="signup"><a href="/login" role="button">登录</a></li>-->
+    <!--</ul>-->
+</header>
+<section class="banner">
+    <div class="container">
+        <div class="banner-wrapper">
+            <div class="banner-txt">
+                <h1>交易贡献手续费，100%价值赠送ZT;有可流通的ZT，均分80%交易手续费</h1>
+                <p class="slogan">ZT每小时按照均价计算并快照，ZT以及收益次日凌晨统一发放收益</a></p>
+            </div>
+            <div class="img-container" onclick="restartIcons([0])" ><div id="affiliateIcon" class="seoicon affiliateIcon"></div></div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="tab">
+            <ul>
+                <li><a href="/zt">ZT概况</a></li>
+                <!--<li><a href="/zb_zt">ZB换码ZT</a></li>-->
+                <li class="active"><a href="/ztfee">挖矿/ZT利润返还</a></li>
+                <!--<li><a href="/ztuser">推荐人获10%ZT</a></li>-->
+            </ul>
+        </div>
+
+
+        <div class="statistics">
+            <div class="statistics-head">
+                <ul>
+                    <li>今日待分配收入折合<p>B1730.00000000</p></li>
+                    <li>今日平台总收入折合<p>B1380.00000000</p></li>
+                </ul>
+            </div>
+            <div class="statistics-body">
+                <h2>今日待分配收入详情</h2>
+                <ul class="title">
+                    <li>
+                        <p>币种</p>
+                        <p>平台总手续费</p>
+                        <p>待分配收入</p>
+                    </li>
+                </ul>
+                <ul class="list">
+                    <li>
+                        <p>ZIL</p>
+                        <p>19844.00000000</p>
+                        <p>19844.00000000</p>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
+</body>
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var logAuth = new Vue({
+            el: '#logAuth',
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
+
+                }
+            },
+            methods: {
+                totalprofit:function() {
+                    Methods.ajax({
+
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/MinerTransactionController/minerSummary",
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            console.log(res)
+                        },
+                        error: function (res) {
+                            console.log(res)
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
+                        }
+                    })
+
+                },
+                profitdata:function(){
+                    Methods.ajax({
+
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/MinerTransactionController/minerDetail",
+                        data: JSON.stringify(data),
+                        success: function (res) {
+                            console.log(res)
+                        },
+                        error: function (res) {
+                            console.log(res)
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
+                        }
+                    })
+                }
+            },
+            mounted: function () {
+                // this.totalprofit()
+            }
+        })
+    });
+
+</script>

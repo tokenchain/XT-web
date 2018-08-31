@@ -1,0 +1,116 @@
+<script type="text/x-template" id="batch-cancel">
+    <div class="exx-modal-container">
+        <div class="exx-modal-header">
+            <h3><%= LANG("批量撤单")%></h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="exx-tab" style="margin: 0;">
+                <ul>
+                        <li @click="type = 0" role="button" :class="{'active' : type == 0 }"><%= LANG('全部取消')%></li>
+                        <li @click="type = 1" role="button" :class="{'active' : type == 1 }"><%= LANG('取消买单')%></li>
+                        <li @click="type = 2" role="button" :class="{'active' : type == 2 }"><%= LANG('取消卖单')%></li>
+                </ul>
+            </div>
+
+            <div class="exx-form-box">
+                <div class="exx-form-group">
+                    <label><%= LANG('限定单价高于') %>(<%= LANG('可不填写')%>)：</label>
+                    <div class="exx-form-content">
+                        <div class="exx-form-input">
+                        <input autocomplete="off" v-model="minPrice" type="text" class="text-right">
+                    </div>
+                    </div>
+                </div>
+                <div class="exx-form-group">
+                    <label><%= LANG('限定单价低于') %>(<%= LANG('可不填写')%>)：</label>
+                    <div class="exx-form-content">
+                        <div class="exx-form-input">
+                        <input autocomplete="off" v-model="maxPrice" type="text" class="text-right">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="exx-form-btn">
+                    <button @click="doBatchCancelEntrust" class="exxbtn btn-ok"><span><%= LANG('提交') %></span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('batch-cancel', {
+            template: "#batch-cancel",
+            props: {
+                marketConfig: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
+                currentMarket: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    maxPrice: '',
+                    minPrice: '',
+                    type : 0,
+                    requestLocked : false
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                //执行批量取消委托
+                doBatchCancelEntrust: function() {
+                    var _this = this;
+                    if (_this.maxPrice != '' && _this.minPrice != '' && _this.maxPrice < _this.minPrice) {
+                        return JuaBox.showWrong(EXX.L("<%= LANG('最高价m应该大于最低价n！') %>", _this.maxPrice, _this.minPrice));
+                    }
+                    var data = {
+                        market: _this.$parent.$parent.currentMarket,
+                        userId: _this.$parent.$parent.currentAccountId,
+                        maxPrice: _this.maxPrice,
+                        minPrice: _this.minPrice,
+                        types: _this.type,
+                        isReal: false,
+                        ids: ''
+                    };
+                    Methods.getJSONP({
+                        url: DOMAIN_TRADE + API_PREFIX + 'doBatchCancelEntrust',
+                        data: data,
+                        success: function (res) {
+                            $.toast({
+                                heading: 'Success',
+                                text: EXX.L("<%= LANG('成功取消n条委托！') %>", res.datas.counts),
+                                showHideTransition: 'plain',
+                                icon: 'success'
+                            });
+                            _this.$parent.close();
+                        }
+                    });
+                }
+            },
+            watch: {},
+            mounted: function () {
+
+            },
+            updated: function () {
+
+            },
+            beforeUpdate: function () {
+
+            },
+            beforeDestroy: function () {
+
+            }
+        });
+    })
+
+</script>

@@ -1,0 +1,562 @@
+<!doctype html>
+<html>
+<head>
+    <script type="text/javascript">
+        var GLOBAL             = {},
+            EXX = {},
+            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+            DISH_API        = GLOBAL['DISH_API']       = '<%= DISH_API %>';
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi ">
+
+    <title> <%= LANG('买卖盘') %> </title>
+    <script src="/src/js/TweenMax.min.js"/></script>
+    <script src="/src/js/noframework.waypoints.min.js"></script>
+    <script src="/src/js/dxcicons.js" type="text/javascript"/></script>
+    <script src="/src/js/dxcseoicons.js" type="text/javascript"/></script>
+    <script src="/src/js/snap.svg.js" type="text/javascript"></script>
+    <script src="/src/js/jquery-latest.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/src/styles/xuleipro.css">
+    <link rel="stylesheet" type="text/css" href="/src/js/zt.css">
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/main.css?<%= VERSION %>">
+
+
+
+    <script src="/src/js/highcharts.js"></script>
+    <script src="/src/js/highcharts-3d.js"></script>
+    <script src="/src/js/exporting.js"></script>
+
+    <style type="text/css">
+        html{
+            overflow: auto;
+
+        }
+        body{
+            background-color: #161633;
+        }
+        #info_desh{
+            width: 1110px;
+            margin: 0 auto;
+        }
+        .container_info{
+            color: #dcdce4;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        #info_desh .buyorsell{
+            height: 50px;
+            margin: 0 auto ;
+            background-color: #323267;
+            line-height: 50px;
+            font-size: 18px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            color: #fff;
+            padding-left: 20px;
+        }
+
+        .container_info .sell{
+            background-color: #23234c;
+            flex: 1;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .container_info ul{
+        }
+        .container_info ul li{
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+             align-items: center;
+             height: 35px;
+             font-size: 13px;
+             padding: 0 30px 0 20px ;
+
+         }
+        .container_info .active:hover{
+             background-color: #323267;
+         }
+        .container_info span{
+             flex: 1;
+         }
+        .container_info span:nth-child(2){
+            text-align: center;
+        }
+        .container_info span:nth-child(3){
+            text-align: right;
+        }
+        .container_info .buy{
+            background-color: #23234c;
+            flex: 1;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            margin-right: 20px;
+            overflow: hidden
+        }
+
+
+        .container_info .sellgears{
+            color: #ff5353;
+        }
+        .container_info .buygears{
+            color: #32c39f;
+        }
+        .container_info h6{
+            background-color: #25254B;
+            font-size: 15px;
+            padding-left: 20px;
+            box-shadow:  0 3px 6px rgba(0,0,0,.1);
+            height: 50px;
+            line-height: 50px;
+            margin: 0;
+        }
+        .container_info .titel{
+            height: 40px;
+            opacity: 0.5;
+        }
+
+        .social-icons a.weixin{
+            position: relative;
+        }
+        .social-icons a.weixin img{
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px;
+            max-width: none;
+            display: none;
+        }
+        .social-icons a.weixin:hover img{
+            display: block;
+        }
+        .footer{
+            width: 100%;
+            margin-top: 200px;
+            /*position: absolute;*/
+            /*bottom: 0px;*/
+            /*left: 0;*/
+            /*right: 0;*/
+        }
+        @media all {
+
+        }
+    </style>
+</head>
+<body class="home">
+
+<%-include("../include/head.html")%>
+
+
+
+
+<section class="section" id="info_desh" v-cloak="">
+    <h5 class="buyorsell"><%= LANG('买卖盘') %> </h5>
+    <div class="container_info">
+        <div class="buy">
+            <h6><%= LANG('买盘') %></h6>
+            <ul>
+                <li class="titel">
+                    <span><%= LANG('档位') %></span>
+                    <span><%= LANG('买入价') %>({{priceunit}})</span>
+                    <span><%= LANG('买入量') %>({{sumunit}})</span>
+                </li>
+                <li class="active" v-for="(item,index) in bidslist  " :key="index">
+                    <span class="buygears"><%= LANG('买') %> {{index+1}}</span>
+                    <span>{{Number(item[0]).toFixed(float)}}</span>
+                    <span>{{Number(item[1]).toFixed(float)}}</span>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="sell">
+            <h6><%= LANG('卖盘') %></h6>
+            <ul>
+                <li class="titel">
+                    <span ><%= LANG('档位') %></span>
+                    <span class="price"><%= LANG('卖出价') %>({{priceunit}})</span>
+                    <span class="sum"><%= LANG('卖出量') %>({{sumunit}})</span>
+                </li>
+                <li class="active" v-for="(item,index) in askslist " :key="index">
+                    <span class="sellgears"><%= LANG('卖') %> {{index+1}}</span>
+                    <span>{{ Number(item[0]).toFixed(float)}}</span>
+                    <span>{{Number(item[1]).toFixed(float)}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+<footer class="footer">
+    </div>
+    <!-- End of .radial-bg -->
+    <div class="container">
+        <div class="page-footer">
+            <div class="footer-menu">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="/" class="d-block">
+                            <span class="logoImg" style="padding-left: 2rem;">  <img src="<%= STATIC %>/images/logo.png" style="width: 80px; border-radius: 0;" alt="footer logo"></span>
+                            <a class="timer" href="#">©2017-2018 ZBG.com</a>
+                        </a>
+
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5><%= LANG('客户服务') %></h5>
+                        <ul class="footer-nav">
+
+                            <li>
+                                <a href="https://zbg.zendesk.com/hc/zh-cn/requests/new" target="_Blank"><%= LANG('提交工单') %></a>
+                            </li>
+
+                            <li>
+                                <a href="https://zbg.zendesk.com/hc/zh-cn/sections/360001359833-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" target="_Blank"><%= LANG('常见问题') %></a>
+                            </li>
+                            <li>
+                                <a href="https://zbg.zendesk.com/hc/zh-cn/sections/360001332414-%E5%85%AC%E5%91%8A%E4%B8%AD%E5%BF%83" target="_Blank"><%= LANG('公告') %></a>
+                            </li>
+                            <li>
+                                <a href="/help/rate" target="_self"><%= LANG('费率') %></a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/app" target="_self">APP</a>-->
+                            <!--</li>-->
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5><%= LANG('工具支持') %></h5>
+                        <ul class="footer-nav">
+                            <li>
+                                <a href="/help/restApi" target="_self">API</a>
+                            </li>
+                            <li>
+                                <a href="/apply" target="_self"><%= LANG('上币申请') %></a>
+                            </li>
+                            <li>
+                                <a href="/marketglobal" target="_self"> <%= LANG('全球行情') %></a>
+                            </li>
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md-2">
+                        <h5><%= LANG('条款协议') %></h5>
+                        <ul class="footer-nav">
+                            <li>
+                                <a href="/help/privacy"><%= LANG('隐私保护ZBG') %></a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/help/escape"><%= LANG('ZB换码协议') %></a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                            <!--<%= LANG('团队') %>：<%= LANG('澳大利亚') %>-->
+                            <!--</li>-->
+                            <li>
+                                <a href="/help/agreement"><%= LANG('用户协议') %></a>
+                            </li>
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5><%= LANG('联系我们') %></h5>
+                        <p>sp@zbg.com</p>
+                        <!--<form class="footer-form" action="#" method="post">-->
+                        <!--<input type="email" class="form-control" placeholder="Enter email address…">-->
+                        <!--<button class="icon-btn" type="submit">-->
+                        <!--<i class="icon-arrow-right-1"></i>-->
+                        <!--</button>-->
+                        <!--</form>-->
+
+                        <div class="social-icons">
+                            <a href="https://www.facebook.com/ZBG.coin" target="_blank" rel="noopener">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://twitter.com/ZBG08533003" target="_blank" rel="noopener">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/zbglobal/" target="_blank" rel="noopener">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://t.me/joinchat/IGimOg-HcfebqdRcsezpgQ" target="_blank" rel="noopener">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                            <a class="weixin" href="javascript:;" target="_blank" rel="noopener">
+                                <img src="/src/images/zbg/images/WechatIMG260.jpeg"/>
+                                <i class="fab fa-weixin"></i>
+                            </a>
+                        </div>
+                        <!-- End of .social-icons -->
+                    </div>
+                    <!-- End of .col -->
+                </div>
+                <!-- End of .row -->
+            </div>
+            <!-- End of .footer-menu -->
+
+            <div class="footer-bottom">
+                <!--<p>©2017-2018-->
+                <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
+                <!--</p>-->
+                <!--<div class="dropdown text-xs-right ml-auto">-->
+                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
+                <!--<span>English</span>-->
+                <!--<i class="fa fa-angle-up"></i>-->
+                <!--</a>-->
+                <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
+                <!--</div>-->
+                <!-- End of .dropdown -->
+            </div>
+            <!-- End of .footer-copyright -->
+        </div>
+        <!-- End of .page-footer -->
+    </div>
+    <!-- End of .container -->
+</footer>
+
+
+
+</body>
+
+<link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/jqueryToast/jquery.toast.min.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+<script src="/lib/others/jquery.nicescroll.min.js" type="text/javascript"></script>
+<script src="/lib/iscroll/iscroll.min.js" type="text/javascript"></script>
+<link href="/lib/jqueryToast/jquery.toast.min.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+<script src="/lib/bootstrap/dist/js/bootstrap.min.js?<%= VERSION %>" charset="utf-8"></script>
+<!--<script src="/src/scripts/jquery-ui.min.js"></script>-->
+<script src="/src/scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/src/scripts/login/jquery.drawsvg.min.js"></script>
+
+<!-- jQuery -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+<!-- Bootstrap js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- font awesome -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+<!-- jQuery Countdown plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+<!-- jQuery Easing Plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+<!-- jQuery progressbar plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+<!-- Bootstrap Progressbar -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+<!-- ImagesLoaded js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+<!-- Slick carousel js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
+<!-- Magnific popup -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+<!--2018年06月26日16:18:09-->
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+       new Vue({
+            el: '#info_desh',
+            data: function () {
+                return {
+                    showLeverInfo:false,
+                    askslist:[],
+                    bidslist:[],
+                    index:'',
+                    marketId:'',
+                    priceunit:'',
+                    sumunit:'',
+                    float:'',//价格精度
+
+                }
+            },
+            methods: {
+                // getHomeMarket : function () {
+                //     var _this = this;
+                //     var wsUrl = WEBSOCKET + '/websocket';
+                //     // var wsUrl = 'ws://192.168.4.95:28080' + '/websocket';
+                //
+                //     //建立握手
+                //     if ('WebSocket' in window) {
+                //         _this.websocket = new WebSocket(wsUrl);
+                //     } else if ('MozWebSocket' in window) {
+                //         _this.websocket = new MozWebSocket(wsUrl);
+                //     } else {
+                //         console.log('Your browser does not support websocket.')
+                //         return false;
+                //     }
+                //
+                //     _this.websocket.onopen = function (event) {
+                //         var marketParam = {
+                //             dataType: "100_ENTRUST_ADD_ZT_USDT",
+                //             dataSize: 50,
+                //             action: "ADD"
+                //         }
+                //         _this.websocket.send(JSON.stringify(marketParam));
+                //         // console.log('init websocket');
+                //
+                //         //离开或者刷新当前页面时
+                //         window.onbeforeunload =function() {
+                //             console.log(1111)
+                //             _this.websocket && _this.websocket.close();
+                //         }
+                //     };
+                //     _this.websocket.onmessage = function (event) {
+                //         //修改状态
+                //         if(!_this.marketInit){
+                //             _this.marketInit = true;
+                //         }
+                //         // console.log('数据变化了：')
+                //         // [ 市场ID, 当前成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 分时量（按小时统计）]
+                //         var res = JSON.parse(event.data);
+                //         if (res.length==1){
+                //             this.askslist = res[0][4]
+                //             this.bidslist = res[0][5]
+                //         }else{
+                //             var arr = []
+                //             arr.push(res[5])
+                //             arr.push(res[6])
+                //
+                //             if (res[0] == 'T'){//ask
+                //                 for (let i = 0; i <this.askslist.length ; i++) {
+                //                     var el = this.askslist[i]
+                //                     if (res[5] == el[0] ){
+                //                         this.askslist[i][1] = Number(el[1]) +  Number(res[6])
+                //                         break
+                //                     }else if (res[5] > el[0]) {//如果价格大于某一项 就插入到其前面
+                //                         this.askslist.splice(i,0,arr)
+                //                         break
+                //                     }else{//如果都比加入的要小就添加到最后一位
+                //                         this.askslist.push(arr)
+                //                         break
+                //                     }
+                //                 }
+                //             }else{
+                //                 for (let i = 0; i <this.bidslist.length ; i++) {
+                //                     var el = this.bidslist[i]
+                //                     if (res[5] == el[0] ){//如果相等只加量
+                //                         this.bidslist[i][1] = Number(el[1]) +  Number(res[6])
+                //                         break
+                //                     }else if (res[5] > el[0]) {//如果价格小于某一项 就插入到其前面
+                //                         this.bidslist.splice(i,0,arr)
+                //                         break
+                //                         break
+                //                     }else{//如果都比加入的要小就添加到最后一位
+                //                         this.bidslist.push(arr)
+                //                         break
+                //                     }
+                //                 }
+                //             }
+                //
+                //
+                //         }
+                //         console.log(res)
+                //     };
+                //     _this.websocket.onerror = function (event) {
+                //         //
+                //     };
+                // },
+                getDishListData:function (marketId) {
+                    var _this = this;
+
+                    Methods.ajax({
+                        type:"get",
+                        url:  DISH_API + "/api/data/v1/entrusts" + marketId,
+                        success: function (res) {
+                            _this.askslist = res.datas.asks.reverse()
+                            _this.bidslist = res.datas.bids
+                            // console.log(_this.askslist)
+                            // console.log(_this.bidslist)
+                            setTimeout(function () {
+                                _this.getDishListData(marketId)
+                            },1000)
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                // 获取市场配置
+                getMarketConfig: function () {
+                    var _this = this;
+                    Methods.ajax({
+                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        success: function (res) {
+
+                            for (let i = 0; i <res.datas.length ; i++) {
+                                var el = res.datas[i]
+                                if (el.marketId ==_this.marketId.split("=")[1] ){
+                                    _this.float = el.amountDecimal
+                                    _this.priceunit = el.name.split('_')[1].toUpperCase()
+                                    _this.sumunit = el.name.split('_')[0].toUpperCase()
+                                    break
+                                }
+                            }
+                           // console.log( res.datas )
+                        }
+                    });
+                },
+                //截取参数
+                splicepam(){
+                    // console.log(window.location.search.)
+                    this.marketId = window.location.search
+                    this.getDishListData(this.marketId)
+                }
+            },
+            mounted: function () {
+                var _this = this;
+                _this.splicepam()
+                _this.getMarketConfig()
+                // _this.getDishListData(_this.currentMarketId)
+                // this.getHomeMarket()
+            },
+           filters: {
+
+               filterNum: function (num) {
+                   // var _this = this
+                   // console.log(vm)
+                   if (num){
+                       return
+                   }
+
+               }
+           },
+        })
+    });
+
+</script>

@@ -1,0 +1,10 @@
+<div id="blog" class="exx-blog">
+    <div class="container">
+        <h2><%- content.title%>
+            <p class="time">
+                <%- LANG('发布时间')%>：<%- METHOD.getDateTime(content.createTime, 'YYYY-MM-DD HH:MM:SS') %>
+            </p>
+        </h2>
+        <div class="blog-info"><%- content.content%></div>
+    </div>
+</div>

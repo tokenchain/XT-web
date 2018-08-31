@@ -1,0 +1,84 @@
+<div class="content">
+  <div id="fund-info" class="bk-assets">
+    <div class="">
+      <h2 class="mt0"><%= LANG('资金管理') %></h2>
+      <div class="shuju-list pd-fff">
+        <json-table class="sell" :columns="assetCols" :rows="balances" ></json-table>
+      </div>
+    </div>
+  </div>
+
+  <%-include("./_bills.html")%>
+
+</div>
+<%-include("../../component/json_table.html")%>
+<script>
+  require(['vue', 'common/methods','common/juabox'], function(Vue, Methods, JuaBox) {
+    var fundInfo = new Vue({
+      el: "#fund-info",
+      data: function () {
+        return {
+          assets: {},
+          assetCols: [
+            { label: "<%= LANG('币种') %>", key: "propTag" },
+            { label: "<%= LANG('可用资金') %>", key: "usable" },
+            { label: "<%= LANG('冻结资金') %>", key: "frozen" },
+            { label: "<%= LANG('总计') %>", key: "total" },
+            { label: "<%= LANG('操作') %>", key: "action", cell: function(item) {
+              return "<a href='/u/fund/payin?coint=" + item.propTag + "' class='btn btn-second btn-sm'><%= LANG('充值') %></a> <a href='/u/fund/payout?coint=" + item.propTag + "' class='btn btn-primary btn-sm'><%= LANG('提币') %></a>"
+            }}
+          ]
+        }
+      },
+      computed: {
+        balances: function() {
+          return this.assets.balance;
+        }
+      },
+      methods: {
+        getBill: function() {
+          var data = {
+            dataType: 0,
+            coint: 'all',
+            pageIndex: 1,
+            pageSize: 10
+          };
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getBill',
+            data: data,
+            success: function(res) {
+              this.recordRows = res.datas.bills;
+            }.bind(this)
+          });
+        },
+        getBillType: function() {
+          Methods.ajax({
+            type: 'GET',
+              // url: DOMAIN_MAIN + API_PREFIX + 'getBillType',
+              url: DOMAIN_DEV + '/exchange/controller/website/fund/FundController' + 'getBillType',
+            success: function(res) {
+              //console.log(res);
+              //return res;
+            }
+          });
+        },
+        getAssets: function() {
+          var _this = this;
+          Methods.ajax({
+            type: 'GET',
+            url: DOMAIN_MAIN + API_PREFIX + 'getAsset',
+            success: function(res) {
+              _this.assets = res.datas;
+            }
+          });
+        }
+      },
+      mounted: function() {
+        this.getAssets();
+        this.getBill();
+        //this.getBillType();
+      }
+    })
+  });
+</script>

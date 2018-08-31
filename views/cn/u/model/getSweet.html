@@ -1,0 +1,295 @@
+<script type="text/x-template" id="getSweet">
+    <div class="exx-modal-container" style="width: 500px;">
+        <div class="exx-modal-header">
+            <h3><%= LANG('领取糖果') %><span>（{{sweetCoin.toUpperCase()}}）</span></h3>
+        </div>
+        <div class="exx-modal-body">
+
+            <div class="exx-form-box">
+                <div v-if="userAsset && sweets" class="flex flex-lr" style="padding: 15px 10px;background: #f7f8fa; border-radius: 3px;margin-bottom: 20px;color: #888;">
+                    <div>
+                        <p style="margin-bottom: 10px; line-height: 1.5;"><%= LANG('可领') %>{{sweetCoin.toUpperCase()}}：<br/><em style="color: #333; font-size: 16px;">{{exxCoinCanGet}}</em></p>
+
+                        <p style="margin-bottom: 10px; display:none;"><%= LANG('可用') %>{{currentSweet.exxCoin.toUpperCase()}}：<em style="color: #333;">{{exxCoinCanUse}}</em>(已锁定{{baseCoin.toUpperCase()}})</p>
+                        <p style="display: none"><%= LANG('可用') %>{{baseCoin.toUpperCase()}}：<em style="color: #333;">{{baseCoinCanUse}}</em></p>
+
+                    </div>
+                     <div>
+                         <p style="margin-bottom: 10px; line-height: 1.5;"><%= LANG('已领') %>{{sweetCoin.toUpperCase()}}：<br/><em style="color: #333; font-size: 16px;">{{exxCoinHasGet}}</em></p>
+                     </div>
+                </div>
+
+                <div class="form-box" v-if="currentSweet">
+                    <div class="form-group flex flex-lr hide">
+
+                        <div class="form-control flex-0" style="width: 200px;">
+                            <input autocomplete="off" name="amount" v-model.number="baseAmount" type="text">
+                            <div class="form-text">{{baseCoin.toUpperCase()}}</div>
+                        </div>
+                        <div class="flex flex-tb-center" style="font-size: 24px;color: #ced3de;">
+                            <svg class="icon" style="width: 1em; height: 1em;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M572.197 505.905a19.707 19.707 0 0 1-5.976 13.397L300.215 785.31c-3.438 3.438-8.558 5.705-13.129 5.705s-9.728-2.304-13.129-5.705l-28.562-28.562c-3.438-3.438-5.705-8.558-5.705-13.129s2.304-9.728 5.705-13.129L469.98 505.905 245.395 281.32c-3.438-3.438-5.705-8.558-5.705-13.129s2.304-9.728 5.705-13.129l28.562-28.562c3.438-3.438 8.558-5.705 13.129-5.705s9.728 2.304 13.129 5.705l266.277 266.277a19.534 19.534 0 0 1 5.714 13.465z m219.428 0a19.707 19.707 0 0 1-5.976 13.397L519.643 785.31c-3.438 3.438-8.558 5.705-13.129 5.705s-9.728-2.304-13.129-5.705l-28.562-28.562c-3.438-3.438-5.705-8.558-5.705-13.129s2.304-9.728 5.705-13.129l224.585-224.585L464.823 281.32c-3.438-3.438-5.705-8.558-5.705-13.129s2.304-9.728 5.705-13.129l28.562-28.562c3.438-3.438 8.558-5.705 13.129-5.705s9.728 2.304 13.129 5.705L785.92 492.777a19.534 19.534 0 0 1 5.714 13.465z"></path></svg>
+                        </div>
+                        <div class="form-control flex-0" style="width: 200px;">
+                            <input autocomplete="off" name="amount" v-model.number="sweetAmount" type="text" readonly>
+                            <div class="form-text">{{sweetCoin.toUpperCase()}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" placeholder="<%= LANG('领取数量') %>" name="amount" v-model.number="sweetAmount" type="text">
+                            <a role="button" @click="getAllSweet" class="label-a"><%= LANG('全部领取')%></a>
+                        </div>
+                        <p style="color:#888; margin-top: 10px;">
+                            <%= LANG('使用额度') %>：<span style="color: #f0ad4e">{{useExxAmount}}</span> {{currentSweet.exxCoin.toUpperCase()}} + <span style="color: #f0ad4e">{{useBaseAmount}}</span> {{baseCoin.toUpperCase()}}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input autocomplete="off" name="password" placeholder="<%= LANG('登录密码') %>" v-model="safePwd" type="password">
+                        </div>
+                    </div>
+                    <div class="form-button">
+                        <button @click="handleSubmit" class="button"><span><%= LANG('确定') %></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('getsweet', {
+            template: "#getSweet",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                },
+                baseCoin: {
+                    type: String,
+                    default: ''
+                },
+                sweetCoin: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    locked: false,
+                    userAsset : '',
+                    userInfo: Methods.getLocalUserInfo(),
+                    baseAmount: '',
+                    sweetAmount: '',
+                    safePwd: '',
+                    dynamicCode: '',
+                    googleCode: '',
+                    sweets : ""
+                }
+            },
+            computed: {
+                currentSweet : function () {
+                    if(this.sweets){
+                        return this.sweets[this.sweetCoin];
+                    }else{
+                        return '';
+                    }
+                },
+                baseCoinCanUse : function () {
+                    if(this.currentSweet){
+                        return Methods.fixDecimal(this.currentSweet.baseAmountLeft, 8);
+                    }else{
+                        return 0;
+                    }
+                },
+                exxCoinCanUse : function () {
+                    if(this.currentSweet){
+                        return Methods.fixDecimal(this.currentSweet.exxAmountLeft, 8);
+                    }else{
+                        return 0;
+                    }
+                },
+                exxCoinCanGet : function () {
+                    if(this.currentSweet){
+                        return Methods.fixDecimal(this.currentSweet.candyAmountLeft, 8);
+                    }else{
+                        return 0;
+                    }
+                },
+                exxCoinHasGet : function () {
+                    if(this.currentSweet){
+                        return Methods.fixDecimal(this.currentSweet.totalSendCandy, 8);
+                    }else{
+                        return 0;
+                    }
+                },
+                useExxAmount : function () {
+                    if(this.baseAmount == ''){
+                        return 0;
+                    }else{
+                        if(parseFloat(this.baseAmount) > parseFloat(this.exxCoinCanUse)){
+                            return this.exxCoinCanUse;
+                        }else{
+                            return this.baseAmount;
+                        }
+                    }
+                },
+                useBaseAmount : function () {
+                    if(this.baseAmount == ''){
+                        return 0;
+                    }else{
+                        if(parseFloat(this.baseAmount) > parseFloat(this.exxCoinCanUse)){
+                            return Methods.fixDecimal(parseFloat(this.baseAmount) - parseFloat(this.exxCoinCanUse), 8);
+                        }else{
+                            return 0;
+                        }
+                    }
+                },
+                maxBaseCoin : function () {
+                    if(this.currentSweet){
+                        return Methods.fixDecimal(this.exxCoinCanGet * this.currentSweet.baseRateAmount / this.currentSweet.candyRateAmount, 8);
+                    }else{
+                        return 0;
+                    }
+                },
+                currentAccountId: function () {
+                    return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                }
+            },
+            watch : {
+                sweetAmount : function () {
+                    this.sweetAmount = Methods.fixDecimal(this.sweetAmount, 8);
+                    if(isNaN(this.sweetAmount) || this.sweetAmount < 0){
+                        this.baseAmount = '';
+                        this.sweetAmount = '';
+                    }else{
+                        //极大值判定
+                        if(parseFloat(this.sweetAmount) > parseFloat(this.exxCoinCanGet)){
+                            this.sweetAmount = this.exxCoinCanGet;
+                        }
+                        this.baseAmount = this.sweetAmount * this.currentSweet.baseRateAmount / this.currentSweet.candyRateAmount;
+                        this.baseAmount = Methods.fixDecimal(this.baseAmount, 8);
+                        //极小值判定
+                        if(this.baseAmount == 0 && this.sweetAmount != 0){
+                            this.sweetAmount = '';
+                            this.baseAmount = '';
+                        }
+                    }
+                }
+                /*baseAmount : function () {
+                    this.baseAmount = Methods.fixDecimal(this.baseAmount, 8);
+                    if(isNaN(this.baseAmount) || this.baseAmount < 0){
+                        this.baseAmount = '';
+                        this.sweetAmount = '';
+                    }else{
+                        if(parseFloat(this.baseAmount) > parseFloat(this.maxBaseCoin)){
+                            this.baseAmount = this.maxBaseCoin;
+                        }
+                        this.sweetAmount = this.baseAmount * this.currentSweet.candyRateAmount / this.currentSweet.baseRateAmount;
+                        this.sweetAmount = Methods.fixDecimal(this.sweetAmount, 8);
+                    }
+                }*/
+            },
+            methods: {
+                fixDecimal : function (val) {
+                    return Methods.fixDecimal(val, 8)
+                },
+                getAllSweet : function () {
+                    this.sweetAmount = this.exxCoinCanGet;
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户资金
+                getTargetUserAsset: function (callback) {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        lastTime : 0
+                    };
+                    // Methods.ajax({
+                    //     url: DOMAIN_MAIN + API_PREFIX + 'getTargetUserAssetNew',
+                    //     data: data,
+                    //     success: function (res) {
+                    //         if(res.datas.userFund){
+                    //             this.userAsset = res.datas.userFund;
+                    //             callback && callback();
+                    //         }
+                    //     }.bind(this)
+                    // });
+                },
+                getSweetList: function () {
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        baseCoin: this.baseCoin
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getUserCandy',
+                        data: data,
+                        success: function (res) {
+                            this.sweets = res.datas;
+                        }.bind(this)
+                    });
+                },
+                handleSubmit: function () {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return false;
+                    }
+                    var data = {
+                        targetUserId: this.currentAccountId,
+                        baseCoin: this.baseCoin,
+                        candyId: this.currentSweet.candyId,
+                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        amount: this.baseAmount
+                    };
+                    if(data.amount == 0 || data.amount.length == 0){
+                        JuaBox.info("<%= LANG('请输入领取金额') %>");
+                    } else if (this.safePwd === "") {
+                        JuaBox.info("<%= LANG('请输入登录密码') %>");
+                    } else {
+                        this.locked = true;
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_MAIN + API_PREFIX + 'getCandy',
+                            data: data,
+                            success: function (res) {
+                                this.locked = false;
+                                this.done();
+                                JuaBox.info("<%= LANG('领取成功') %>");
+                                this.$parent.close();
+                            }.bind(this),
+                            error: function (res) {
+                                this.locked = false;
+                                JuaBox.info(EXX.L(res.resMsg.message))
+                            }.bind(this)
+                        })
+                    }
+                }
+            },
+            created: function () {
+                this.getPubKey();
+                this.getSweetList();
+                this.getTargetUserAsset();
+            },
+            mounted: function () {
+            }
+        })
+    })
+</script>

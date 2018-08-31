@@ -1,0 +1,114 @@
+<!--登录用户才可以进入的申诉页面-->
+<div id="app-dispute" v-cloak="">
+    <div class="exx-title" v-if="appealInfo" v-cloak="">
+        <button v-if="appealInfo.appealInfo.status == 0" type="button" class="exxbtn btn-ok" style="min-width: 150px; margin-right: 20px; float:right; position: relative; top:-15px;" @click="showModal = true"><span><%= LANG('提交证据') %></span></button>
+        <button v-if="appealInfo.appealInfo.status != 0" type="button" class="exxbtn btn-cancel" style="min-width: 150px; margin-right: 20px; float:right; position: relative; top:-15px;"><span><%= LANG('申诉完成') %></span></button>
+        <button type="button" class="exxbtn btn-ok" style="min-width: 150px; margin-right: 20px; float:right; position: relative; top:-15px;" @click="openChat(appealInfo.order.chatId)"><span><%= LANG('联系对方') %></span></button>
+        <h2><%= LANG('申诉记录') %></h2>
+    </div>
+    <div class="dispute-content" :class="{'loading loading-light-bg' : !loaded}">
+        <template v-if="loaded">
+            <div class="order-status" style="margin-right: 0px;" v-if="appealInfo.appealInfo.status != 0">
+                <div class="order-info" style="padding-left: 0">
+                    <p><b><%= LANG('申诉结果') %></b>：{{appealInfo.appealInfo.results}}({{getStrTime(appealInfo.appealInfo.endTime)}})</p>
+                </div>
+            </div>
+            <div class="dispute-order">
+                <div class="order-status">
+                    <div class="order-title">
+                        <p><%= LANG('申诉信息') %></p>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('买方账号') %>：</span>
+                        <span class="detail">{{appealInfo.appealInfo.buyUserName}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('卖方账号') %>：</span>
+                        <span class="detail">{{appealInfo.appealInfo.sellUserName}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('发起方') %>：</span>
+                        <span class="detail">{{appealInfo.appealInfo.appealUserName}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('申诉订单状态') %>：</span>
+                        <span class="detail">{{orderStatus[appealInfo.order.preStatus]}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('申诉时间') %>：</span>
+                        <span class="detail">{{getStrTime(appealInfo.appealInfo.createTime)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('申诉类型') %>：</span>
+                        <span class="detail">{{appealReason[appealInfo.appealInfo.appealReason]}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('问题描述') %>：</span>
+                        <span class="detail">{{appealInfo.appealInfo.message}}</span>
+                    </div>
+                </div>
+                <div class="order-status">
+                    <div class="order-title">
+                        <p><%= LANG('订单信息') %></p>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('订单号') %>：</span>
+                        <span class="detail"><a :href="'/exchange/orderInfo?id=' + appealInfo.order.id" target="_self" style="color: #ff9d11">{{appealInfo.order.id}}</a></span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('接单时间') %>：</span>
+                        <span class="detail">{{getStrTime(appealInfo.order.receiptTime)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('付款时间') %>：</span>
+                        <span class="detail">{{getStrTime(appealInfo.order.repayTime)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('结束时间') %>：</span>
+                        <span class="detail">{{getStrTime(appealInfo.order.endTime)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('交易价格') %>：</span>
+                        <span class="detail">{{appealInfo.order.price}} {{getMoneyName(appealInfo.order.ad.market)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('交易数量') %>：</span>
+                        <span class="detail">{{appealInfo.order.amount}} {{getCoinName(appealInfo.order.ad.market)}}</span>
+                    </div>
+                    <div class="order-info">
+                        <span class="title"><%= LANG('交易金额') %>：</span>
+                        <span class="detail">{{appealInfo.order.money}} {{getMoneyName(appealInfo.order.ad.market)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dispute-group">
+                <ul>
+                    <li class="dispute-item" v-for="info in appealInfo.appealproofInfo">
+                        <h5 class="dispute-item-title">
+                            <span style="float: right; color:#999;"> <%= LANG('提交于') %> {{getStrTime(info.createTime)}}</span>
+                            <b style="color:#ff9d11">{{info.userName}}</b>
+                        </h5>
+                        <h5 class="dispute-item-content">
+                            <p class="item-detail">{{info.message}}</p>
+                            <div class="evidence-group">
+                                <div class="evidence-item" v-for="img in getStrImgArr(info.image)" :key="img">
+                                    <img :src="getFullImgName(img)" class="small-img" @click="currBigImg = img"/>
+                                    <big-img v-if="currBigImg == img" :img-src="getFullImgName(img)" @clickit="currBigImg = ''"></big-img>
+                                </div>
+                            </div>
+                        </h5>
+                    </li>
+                </ul>
+            </div>
+            <page-lite v-if="appealInfo.appealproofInfo.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="appealInfo.appealInfo.pages-1" :turn-page="getAppealInfo"></page-lite>
+            <modal :open="showModal" @close="showModal = false">
+                <dispute-form :order-code="appealInfo.appealInfo.orderId" :appeal-code="appealInfo.appealInfo.id" @success="refreshAppealInfo"></dispute-form>
+            </modal>
+        </template>
+    </div>
+</div>
+<%-include("../component/page_lite.html")%>
+<%-include("../component/big_img.html")%>
+<%-include("../component/dispute_form.html")%>
+<%-include("../component/modal.html")%>
+<%-include("app.dispute.html")%>

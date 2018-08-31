@@ -1,0 +1,55 @@
+<script type="text/x-template" id="transaction-verification">
+
+    <div :class="'exx-modal-container exx-' + theme">
+        <div class="exx-modal-header"><h3><%= LANG('交易验证') %></h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input style="padding: 10px 10px" :placeholder="'<%= LANG('资金密码') %>'"
+                                   autocomplete="new-password" v-model="safePwd" type="password">
+                        </div>
+                    </div>
+                    <div class="form-button">
+                        <button class="button" @click="verification">
+                            <span><%= LANG('确定') %></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('transaction-verification', {
+            template: "#transaction-verification",
+            props: {
+                theme: {
+                    type: String,
+                    default: 'light'
+                },
+            },
+            data: function () {
+                return {
+                    safePwd: ''
+                }
+            },
+            methods: {
+                verification: function () {
+                    if (this.safePwd != '') {
+                        this.$emit('verification',this.safePwd)
+                    }
+                }
+            },
+            updated: function () {
+            }
+        })
+    })
+</script>
+

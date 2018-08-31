@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>用户API-HTTP接口</title>
+
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
+    <style type="text/css">
+
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 20px 0 10px;
+            padding: 0;
+            font-weight: bold;
+            -webkit-font-smoothing: antialiased;
+            cursor: text;
+            position: relative; }
+
+        h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+            text-decoration: none; }
+
+        h1 tt, h1 code {
+            font-size: inherit; }
+
+        h2 tt, h2 code {
+            font-size: inherit; }
+
+        h3 tt, h3 code {
+            font-size: inherit; }
+
+        h4 tt, h4 code {
+            font-size: inherit; }
+
+        h5 tt, h5 code {
+            font-size: inherit; }
+
+        h6 tt, h6 code {
+            font-size: inherit; }
+
+        h1 {
+            font-size: 28px;
+            color: black; }
+
+        h2 {
+            font-size: 24px;
+            border-bottom: 1px solid #cccccc;
+            color: black; }
+
+        h3 {
+            font-size: 18px; }
+
+        h4 {
+            font-size: 16px; }
+
+        h5 {
+            font-size: 14px; }
+
+        h6 {
+            color: #777777;
+            font-size: 14px; }
+
+        p, blockquote, ul, ol, dl, li, table, pre {
+            margin: 15px 0; }
+
+        hr {
+            background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+            border: 0 none;
+            color: #cccccc;
+            height: 4px;
+            padding: 0;
+        }
+
+        body > h2:first-child {
+            margin-top: 0;
+            padding-top: 0; }
+        body > h1:first-child {
+            margin-top: 0;
+            padding-top: 0; }
+        body > h1:first-child + h2 {
+            margin-top: 0;
+            padding-top: 0; }
+        body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+            margin-top: 0;
+            padding-top: 0; }
+
+        a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+            margin-top: 0;
+            padding-top: 0; }
+
+        h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+            margin-top: 0; }
+
+        li p.first {
+            display: inline-block; }
+        li {
+            margin: 0; }
+
+        ul :first-child, ol :first-child {
+            margin-top: 0; }
+
+        dl {
+            padding: 0; }
+        dl dt {
+            font-size: 14px;
+            font-weight: bold;
+            font-style: italic;
+            padding: 0;
+            margin: 15px 0 5px; }
+        dl dt:first-child {
+            padding: 0; }
+        dl dt > :first-child {
+            margin-top: 0; }
+        dl dt > :last-child {
+            margin-bottom: 0; }
+        dl dd {
+            margin: 0 0 15px;
+            padding: 0 15px; }
+        dl dd > :first-child {
+            margin-top: 0; }
+        dl dd > :last-child {
+            margin-bottom: 0; }
+
+        blockquote {
+            border-left: 4px solid #dddddd;
+            padding: 0 15px;
+            color: #777777; }
+        blockquote > :first-child {
+            margin-top: 0; }
+        blockquote > :last-child {
+            margin-bottom: 0; }
+
+        table {
+            padding: 0;border-collapse: collapse; }
+        table tr {
+            border-top: 1px solid #cccccc;
+            background-color: white;
+            margin: 0;
+            padding: 0; }
+        table tr:nth-child(2n) {
+            background-color: #f8f8f8; }
+        table tr th {
+            font-weight: bold;
+            border: 1px solid #cccccc;
+            margin: 0;
+            padding: 6px 13px; }
+        table tr td {
+            border: 1px solid #cccccc;
+            margin: 0;
+            padding: 6px 13px; }
+        table tr th :first-child, table tr td :first-child {
+            margin-top: 0; }
+        table tr th :last-child, table tr td :last-child {
+            margin-bottom: 0; }
+
+        img {
+            max-width: 100%; }
+
+        span.frame {
+            display: block;
+            overflow: hidden; }
+        span.frame > span {
+            border: 1px solid #dddddd;
+            display: block;
+            float: left;
+            overflow: hidden;
+            margin: 13px 0 0;
+            padding: 7px;
+            width: auto; }
+        span.frame span img {
+            display: block;
+            float: left; }
+        span.frame span span {
+            clear: both;
+            color: #333333;
+            display: block;
+            padding: 5px 0 0; }
+        span.align-center {
+            display: block;
+            overflow: hidden;
+            clear: both; }
+        span.align-center > span {
+            display: block;
+            overflow: hidden;
+            margin: 13px auto 0;
+            text-align: center; }
+        span.align-center span img {
+            margin: 0 auto;
+            text-align: center; }
+        span.align-right {
+            display: block;
+            overflow: hidden;
+            clear: both; }
+        span.align-right > span {
+            display: block;
+            overflow: hidden;
+            margin: 13px 0 0;
+            text-align: right; }
+        span.align-right span img {
+            margin: 0;
+            text-align: right; }
+        span.float-left {
+            display: block;
+            margin-right: 13px;
+            overflow: hidden;
+            float: left; }
+        span.float-left span {
+            margin: 13px 0 0; }
+        span.float-right {
+            display: block;
+            margin-left: 13px;
+            overflow: hidden;
+            float: right; }
+        span.float-right > span {
+            display: block;
+            overflow: hidden;
+            margin: 13px auto 0;
+            text-align: right; }
+
+        code, tt {
+            margin: 0 2px;
+            padding: 0 5px;
+            white-space: nowrap;
+            border: 1px solid #eaeaea;
+            background-color: #f8f8f8;
+            border-radius: 3px; }
+
+        pre code {
+            margin: 0;
+            padding: 0;
+            white-space: pre;
+            border: none;
+            background: transparent; }
+
+        .highlight pre {
+            background-color: #f8f8f8;
+            border: 1px solid #cccccc;
+            font-size: 13px;
+            line-height: 19px;
+            overflow: auto;
+            padding: 6px 10px;
+            border-radius: 3px; }
+
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #cccccc;
+            font-size: 13px;
+            line-height: 19px;
+            overflow: auto;
+            padding: 6px 10px;
+            border-radius: 3px; }
+        pre code, pre tt {
+            background-color: transparent;
+            border: none; }
+
+        sup {
+            font-size: 0.83em;
+            vertical-align: super;
+            line-height: 0;
+        }
+
+        kbd {
+            display: inline-block;
+            padding: 3px 5px;
+            font-size: 11px;
+            line-height: 10px;
+            color: #555;
+            vertical-align: middle;
+            background-color: #fcfcfc;
+            border: solid 1px #ccc;
+            border-bottom-color: #bbb;
+            border-radius: 3px;
+            box-shadow: inset 0 -1px 0 #bbb
+        }
+
+        * {
+            -webkit-print-color-adjust: exact;
+        }
+        @media print {
+            table, pre {
+                page-break-inside: avoid;
+            }
+            pre {
+                word-wrap: break-word;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div style="padding: 50px 0">
+    <div class="cd-nav"><ul><li><a href="/help/restApi"><%= LANG('行情API (WebSocket)') %></a></li><li class="active"><a href="/help/httpApi"><%= LANG('交易API') %>(http)</a></li></ul></div>
+    <div style="width: 1110px;margin: 0 auto;background: #fff; line-height: 1.8; color: #555;padding: 30px;border-radius: 5px">
+
+
+        <h2 id="toc_0">HTTPAPI</h2>
+
+        <p><%= LANG('zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：') %><a style="font-size: 18px;text-decoration-line: underline;font-weight: bold" href="javascript:;">829230107</a> <%= LANG('，我们将会为您做出最权威的解答') %></p>
+        <p>Java Demo:https://github.com/zbg-user-api-demo/user_api_demo_java.git</p>
+        <p>Python Demo:https://github.com/zbg-user-api-demo/user_api_demo_py.git</p>
+
+        <h2 id="toc_1"><%= LANG('API地址域名地址') %></h2>
+
+        <p><%= LANG('域名地址：https://www.zbg.com/') %></p>
+
+        <h2 id="toc_2"><%= LANG('使用说明') %></h2>
+
+        <p><%= LANG('使用这些API之前首先要获取两项参数，在网站登录后，进入API功能开启然后获取Api Id和Api Secret两项参数。通过这两个参数拥有交易下单、提币等高级权限，请用户注意保密。所有http接口都需要进行签名，签名规则在后面说明。') %>
+            <!--部分需要传资金密码的，需要对密码进行加密，和加密密码规则--></p>
+
+        <h2 id="toc_3">1<%= LANG('配置及基础功能API') %></h2>
+
+        <h3 id="toc_4">1.1<%= LANG('获取市场列表') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/config/controller/website/marketcontroller/getByWebId<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %> </p>
+            
+        <div>
+            <pre><code class="language-none"><%= LANG('无') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回成功报文') %></p>
+
+        <div><pre><code class="language-none">
+{
+  { &quot;datas&quot;: [
+    {
+      &quot;amountDecimal&quot;: 8,//<%= LANG('数量精度') %>
+      &quot;minAmount&quot;: &quot;0.0001000000&quot;,//<%= LANG('最小数量') %>
+      &quot;buyerCurrencyId&quot;: &quot;2&quot;,//<%= LANG('买方币种') %>
+      &quot;priceDecimal&quot;: 8,//<%= LANG('价格精度') %>
+      &quot;serverId&quot;: &quot;entrust-server-001&quot;,//<%= LANG('服务ID') %>
+      &quot;marketId&quot;: &quot;70&quot;,//<%= LANG('市场ID') %>
+      &quot;webId&quot;: &quot;100&quot;, //<%= LANG('站点ID') %>
+      &quot;modifyTime&quot;: 0,
+      &quot;sellerCurrencyId&quot;: &quot;19&quot;,//<%= LANG('卖方币种') %>
+      &quot;createTime&quot;: 1522400906009,
+      &quot;defaultFee&quot;: &quot;0.00050000&quot;,//<%= LANG('默认费率') %>
+      &quot;name&quot;: &quot;zt_btc&quot;,//<%= LANG('市场名称') %>
+      &quot;leverType&quot;: &quot;1&quot;,//<%= LANG('杠杆类型: 1现货 2杠杆') %>
+      &quot;state&quot;: 1,//<%= LANG('状态: 1 运行, 0 停止 -1 删除') %>
+      &quot;openTime&quot;: 1,//<%= LANG('开盘时间') %>
+    },
+    ....
+  ],
+  &quot;resMsg&quot;: {
+    &quot;code&quot;: &quot;1&quot;,
+    &quot;method&quot;: null,
+    &quot;message&quot;: &quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_5">1.2<%= LANG('获取资金列表') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/config/controller/website/currencycontroller/getCurrencyList<br>
+            <%= LANG('请求方式') %> ：post<br>
+            <%= LANG('请求报文') %> </p>
+
+        <div>
+            <pre><code class="language-none"><%= LANG('无') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回成功报文') %></p>
+
+        <div><pre><code class="language-none">{
+  &quot;datas&quot;: [
+    {
+      &quot;totalNumber&quot;: &quot;230000000.00000000&quot;,//<%= LANG('总量') %>
+      &quot;tradeSearchUrl&quot;: null,//<%= LANG('交易查询地址') %>
+      &quot;tokenCoinsId&quot;: 0,//<%= LANG('如果大于0是另一种币的token，否则等于0') %>
+      &quot;minCash&quot;: null,
+      &quot;tokenName&quot;: null,//
+      &quot;description&quot;: &quot;<%= LANG('比特币') %>&quot;,//<%= LANG('描述') %>
+      &quot;arithmetic&quot;: null,   //<%= LANG('共识算法') %>
+      &quot;dailyDrawLimit&quot;: 10000,
+      &quot;remark&quot;: null,   //
+      &quot;isLegalCoin&quot;: 0, //<%= LANG('是否是法币，比如美金 1是，0不是') %>
+      &quot;outConfigTimes&quot;: 0,//
+      &quot;timesFreetrial&quot;: &quot;0&quot;,//
+      &quot;hourFreetrial&quot;: &quot;0&quot;,//
+      &quot;inConfigTimes&quot;: 6,//
+      &quot;alias&quot;: &quot;b&quot;,//<%= LANG('别名') %>
+      &quot;logo&quot;: &quot;market-btc.png&quot;,//<%= LANG('图标') %>
+      &quot;needBlockUrl&quot;: 0,//<%= LANG('是否需要block地址,0不需要 1需要') %>
+      &quot;currencyId&quot;: &quot;2&quot;,//<%= LANG('币种id') %>
+      &quot;drawFlag&quot;: 1,
+      &quot;rechargeFlag&quot;: 1,
+      &quot;onceDrawLimit&quot;: 100,
+      &quot;founder&quot;: null,
+      &quot;drawFee&quot;: &quot;0.00100000&quot;,
+      &quot;blockChainUrl&quot;: &quot;https://blockchain.info/tx/&quot;, //<%= LANG('blockChain查询地址(区块查询地址)') %>
+      &quot;dayFreetrial&quot;: &quot;0&quot;,
+      &quot;marketValue&quot;: null,//<%= LANG('总市值') %>
+      &quot;minFee&quot;: null,
+      &quot;teamAddress&quot;: null,
+      &quot;defaultDecimal&quot;: 2,//<%= LANG('币种小数位(精度)-优先级低于 market中的配置') %>
+      &quot;publishNumber&quot;: &quot;14500000.00000000&quot;,//<%= LANG('已发行') %>
+      &quot;isMining&quot;: &quot;0&quot;,//<%= LANG('是否可挖矿') %>
+      &quot;name&quot;: &quot;btc&quot;,//<%= LANG('名称') %>
+      &quot;limitAmount&quot;: null,
+      &quot;websiteCurrencyId&quot;: &quot;223f4d23232&quot;,
+      &quot;descriptionEnglish&quot;: &quot;&lt;p&gt;The BTC is ...&lt;/p&gt;&quot;,//<%= LANG('英文描述') %>
+      &quot;mark&quot;: null//<%= LANG('符号') %>
+    },
+    .....
+  ],
+  &quot;resMsg&quot;: {
+    &quot;code&quot;: &quot;1&quot;,
+    &quot;method&quot;: null,
+    &quot;message&quot;: &quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <!--
+        ### 1.3获取加密公钥接口
+        此接口请注意访问不要过于频繁，秘钥有一定有效时间，建议使用秘钥时如果一分钟内获取过则继续用原来的秘钥，超过一分钟再次获取。
+        path:/exchange/user/controller/website/baseapicontroller/getpubkey
+        请求方式：post
+        请求报文
+
+        ```
+        无
+        ```
+        返回成功报文
+
+        ```
+        {
+          "datas": {
+            "validTimestamp": 1530696058919,//有效截止时间戳，单位是微秒
+            "keyId": "7eGSwgsxidM",//秘钥id
+            "pubKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNeHeIroVpIMiBVrpY9EVLF2Qiegi8uOrT2Nx09a7kEEaqOY8jBb+xSoTxh6ZVijlUToDluUEBv6sCG26u8BEMOnlMugdhf1ERpxIrh+EkLnK4qVdb2srqvT8wx4I88jy0167txR2e/JdzOG2W5yPTaVFvGWMPm0N1Ql6R2sTdQQIDAQAB"//公钥
+          },
+          "resMsg": {
+            "code": "1",
+            "method": null,
+            "message": "success !"
+          }
+        }
+        ```
+        -->
+
+        <h2 id="toc_6">2<%= LANG('获取用户信息接口') %></h2>
+
+        <h3 id="toc_7">2.1<%= LANG('获取用户信息接口') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/user/controller/website/usercontroller/getuserinfo<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %> </p>
+
+        <div>
+            <pre><code class="language-none"><%= LANG('无') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回成功报文') %></p>
+
+        <div><pre><code class="language-none">{
+&quot;datas&quot;:{
+&quot;loginMobileAuth&quot;:0,//<%= LANG('是否手机认证：0：否，1：是') %>
+&quot;googleStatus&quot;:0,//<%= LANG('审核状态：0：没审核，1：修改审核中') %>
+&quot;isAlipay&quot;:&quot;&quot;,//<%= LANG('是否绑定支付宝1绑定0未绑定') %>
+&quot;loginPwd&quot;:&quot;1&quot;,//<%= LANG('是否设置登录密码：0：否，1：是') %>
+&quot;externalUidType&quot;:null,//<%= LANG('扩展的userid来源类型，比如:zb，exx') %>
+&quot;isWechat&quot;:&quot;&quot;,//<%= LANG('是否绑定微信1绑定0未绑定') %>
+&quot;loginAuth&quot;:3,//<%= LANG('登录验证（1-登录密码 2-异地登录验证 4-谷歌验证,可以三者任意组合,默认 3') %>
+&quot;merchantName&quot;:&quot;&quot;,//<%= LANG('商户名字') %>
+&quot;countryCode&quot;:null,//<%= LANG('国家代码') %>
+&quot;loginName&quot;:&quot;13068859717&quot;,//<%= LANG('登录名') %>
+&quot;loginGoogleAuth&quot;:1,//<%= LANG('是否谷歌认证：0：否，1：是') %>
+&quot;email&quot;:null,//<%= LANG('用户邮箱') %>
+&quot;nickName&quot;:&quot;13068859717&quot;,//<%= LANG('用户昵称') %>
+&quot;isBank&quot;:&quot;&quot;,//<%= LANG('是否绑定银行') %>
+&quot;mobileAuth&quot;:1,//<%= LANG('是否手机认证：0：否，1：是，[2：修改失败,不通过，-1：修改审核中]') %>
+&quot;mobile&quot;:&quot;+86 13068859717&quot;,//<%= LANG('手机号码') %>
+&quot;userId&quot;:&quot;test6&quot;,//<%= LANG('用户id') %>
+&quot;recommendCode&quot;:&quot;dGVzdDY=\u000a&quot;,//<%= LANG('推荐码') %>
+&quot;realName&quot;:&quot;&quot;,//<%= LANG('用户实名') %>
+&quot;withdrawAuth&quot;:3,//<%= LANG('提现验证（1-资金密码 2-短信/邮箱验证 4-谷歌验证码 默认资金密码+短信/邮箱 = 3）') %>
+&quot;recommendCount&quot;:null,//<%= LANG('推荐人数') %>
+&quot;externalUserId&quot;:null,//<%= LANG('扩展的userid,比如zb一键登陆保存的zb的userid') %>
+&quot;mobileStatus&quot;:0,//<%= LANG('审核状态：0：没审核，1：修改审核中') %>
+&quot;safePwdAuth&quot;:1,//<%= LANG('是否设置安全密码：0：否，1：是') %>
+&quot;googleAuth&quot;:1,//<%= LANG('是否谷歌认证：0：否，1：是') %>
+&quot;loginEmailAuth&quot;:0,//<%= LANG('是否邮箱认证：0：否，1：是') %>
+&quot;tradeAuth&quot;:1,//<%= LANG('交易验证（1-永不输入资金密码 2-6小时内免输资金密码 3-每次交易均验证资金密码）') %>
+&quot;status&quot;:1//<%= LANG('0(000-初始状态) 1(001-已实名认证) 2(010-已银行认证) 3(011已实名和银行认证)') %>
+},
+&quot;resMsg&quot;:{
+&quot;code&quot;:&quot;1&quot;,
+&quot;method&quot;:null,
+&quot;message&quot;:&quot;success !&quot;
+}
+}
+</code></pre>
+        </div>
+
+        <h2 id="toc_8">3<%= LANG('交易API') %></h2>
+
+        <h2 id="toc_9">3.1<%= LANG('新增委托') %>:</h2>
+
+        <p>path:https://www.zbg.com/exchange/entrust/controller/website/EntrustController/addEntrust<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;amount&quot;: 0,                          //<%= LANG('下单数量') %>
+  &quot;rangeType&quot;: 0,                       //<%= LANG('委托类型，目前仅支持现价委托  0:现价委托  1 区间委托') %>
+  &quot;type&quot;: 0,                            //<%= LANG('买卖类型：0 卖出 1 购买') %>
+  &quot;marketId&quot;: &quot;90&quot;,                     //<%= LANG('市场ID') %>
+  &quot;price&quot;: 0                            //<%= LANG('价格') %>
+}</code></pre>
+        </div>
+
+        <!--
+        "rsaKeyId": "string",                   //资金安全密码
+        "securityPassword": "string",         //安全密码（通过公钥加密）（开启验证时才需传值）
+        -->
+
+        <p><%= LANG('返回报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;datas&quot;:{
+    “entrustId”:&quot;E6419466484531482624&quot;  //<%= LANG('委托ID') %>
+  },
+  &quot;resMsg&quot;:{
+    &quot;code&quot;:&quot;1&quot;,                        //<%= LANG('1代表成功，其他为错误码见说明') %>
+    &quot;method&quot;:null,
+    &quot;message&quot;:&quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_10">3.2<%= LANG('取消委托') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/entrust/controller/website/EntrustController/cancelEntrust<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;entrustId&quot;: &quot;E6419466484531482624&quot;,  //<%= LANG('要取消的委托ID') %>
+  &quot;marketId&quot;: &quot;90&quot;                     //<%= LANG('市场ID') %>
+}</code></pre>
+        </div>
+
+        <!--
+          "rsaKeyId": "string",                 //资金安全密码。开启验证时才需传值）
+          "securityPassword": "string"          //安全密码（通过公钥加密）（开启验证时才需传值）
+        -->
+
+        <p><%= LANG('返回报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;datas&quot;:null,
+  &quot;resMsg&quot;:{
+    &quot;code&quot;:&quot;1&quot;,                        //<%= LANG('1代表成功，其他为错误码见说明') %>
+    &quot;method&quot;:null,
+    &quot;message&quot;:&quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_11">3.3<%= LANG('查询正在进行的委托') %></h3>
+
+        <p>path: https://www.zbg.com/exchange/entrust/controller/website/EntrustController/getUserEntrustRecordFromCache<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %>: </p>
+
+        <div>
+            <pre><code class="language-请求参数">marketId： 90                    //<%= LANG('市场ID') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;datas&quot;: [{
+    &quot;amount&quot;: &quot;1.1&quot;,            //<%= LANG('数量') %>
+    &quot;rangeType&quot;: &quot;0&quot;,            //<%= LANG('区间类型 0 现价委托 1 区间委托') %>
+    &quot;rangeLowPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最低价') %>
+    &quot;rangeHighPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最高价') %>
+    &quot;totalMoney&quot;: &quot;5.555&quot;,            //<%= LANG('总金额') %>
+    &quot;entrustId&quot;: &quot;E6437955999037923328&quot;,            //<%= LANG('委托ID') %>
+    &quot;type&quot;: &quot;0&quot;,            //<%= LANG('0 卖出 1 购买  -1 取消') %>
+    &quot;userId&quot;: &quot;test6&quot;,            //<%= LANG('用户id') %>
+    &quot;completeAmount&quot;: &quot;0&quot;,            //<%= LANG('已经成交的数量') %>
+    &quot;marketId&quot;: &quot;80&quot;,            //<%= LANG('市场id') %>
+    &quot;dealTimes&quot;: &quot;0&quot;,            //<%= LANG('交易处理次数') %>
+    &quot;createTime&quot;: &quot;1534928321609&quot;,            //<%= LANG('下单时间') %>
+    &quot;price&quot;: &quot;5.05&quot;,            //<%= LANG('单价') %>
+    &quot;completeTotalMoney&quot;: &quot;0&quot;,            //<%= LANG('已完成的总金额') %>
+    &quot;entrustType&quot;: &quot;false&quot;,            //<%= LANG('委托类型 0(false)普通委托单 1(true)杠杆委托单') %>
+    &quot;status&quot;: &quot;0&quot;,            //<%= LANG('状态 : -2资金解冻失败 -1用户资金不足 0起始 1取消 2交易成功 3交易一部分') %>
+  }],
+  &quot;resMsg&quot;: {
+    &quot;code&quot;: &quot;1&quot;,            //<%= LANG('1代表成功，其他为错误码见说明') %>
+    &quot;method&quot;: null,
+    &quot;message&quot;: &quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_12">3.4<%= LANG('分页查询历史委托委托（只查询已经成交和已经取消的委托记录）') %></h3>
+
+        <p>paht: https://www.zbg.com/exchange/entrust/controller/website/EntrustController/getUserEntrustList<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %>: </p>
+
+        <div><pre><code class="language-请求参数">marketId：   90                      //<%= LANG('市场ID') %>
+pageIndex：  1               //<%= LANG('页码') %>
+pageSize:   20              //<%= LANG('每页展示条数') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回报文') %>:</p>
+
+        <div><pre><code class="language-none">json
+{
+  &quot;datas&quot;: [{
+    &quot;amount&quot;: &quot;1.1&quot;,            //<%= LANG('数量') %>
+    &quot;rangeType&quot;: &quot;0&quot;,            //<%= LANG('区间类型 0 现价委托 1 区间委托') %>
+    &quot;rangeLowPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最低价') %>
+    &quot;rangeHighPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最高价') %>
+    &quot;totalMoney&quot;: &quot;5.555&quot;,            //<%= LANG('总金额') %>
+    &quot;entrustId&quot;: &quot;E6437955999037923328&quot;,            //<%= LANG('委托ID') %>
+    &quot;type&quot;: &quot;0&quot;,            //<%= LANG('0 卖出 1 购买  -1 取消') %>
+    &quot;userId&quot;: &quot;test6&quot;,            //<%= LANG('用户id') %>
+    &quot;completeAmount&quot;: &quot;0&quot;,            //<%= LANG('已经成交的数量') %>
+    &quot;marketId&quot;: &quot;80&quot;,            //<%= LANG('市场id') %>
+    &quot;dealTimes&quot;: &quot;0&quot;,            //<%= LANG('交易处理次数') %>
+    &quot;createTime&quot;: &quot;1534928321609&quot;,            //<%= LANG('下单时间') %>
+    &quot;price&quot;: &quot;5.05&quot;,            //<%= LANG('单价') %>
+    &quot;completeTotalMoney&quot;: &quot;0&quot;,            //<%= LANG('已完成的总金额') %>
+    &quot;entrustType&quot;: &quot;false&quot;,            //<%= LANG('委托类型 0(false)普通委托单 1(true)杠杆委托单') %>
+    &quot;status&quot;: &quot;0&quot;,            //<%= LANG('状态 : -2资金解冻失败 -1用户资金不足 0起始 1取消 2交易成功 3交易一部分') %>
+  }],,
+  &quot;totalPage&quot;: &quot;2&quot;,            //<%= LANG('委托记录总条数') %>
+  &quot;currentPage&quot;: &quot;1&quot;,            //<%= LANG('当前页数') %>
+  &quot;resMsg&quot;: {
+    &quot;code&quot;: &quot;1&quot;,            //<%= LANG('1代表成功，其他为错误码见说明') %>
+    &quot;method&quot;: null,
+    &quot;message&quot;: &quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_13">3.5<%= LANG('根据委托单id查询委托记录') %></h3>
+
+        <p>path: https://www.zbg.com/exchange/entrust/controller/website/EntrustController/getEntrustById<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求参数') %>：</p>
+           
+        <div><pre><code class="language-none">marketId：   90                      //<%= LANG('市场ID') %>
+entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
+</code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %>:</p>
+
+        <div><pre><code class="language-javascript">{
+  &quot;datas&quot;: [{
+    &quot;amount&quot;: &quot;1.1&quot;,            //<%= LANG('数量') %>
+    &quot;rangeType&quot;: &quot;0&quot;,            //<%= LANG('区间类型 0 现价委托 1 区间委托') %>
+    &quot;rangeLowPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最低价') %>
+    &quot;rangeHighPrice&quot;: &quot;null&quot;,            //<%= LANG('区间委托的最高价') %>
+    &quot;totalMoney&quot;: &quot;5.555&quot;,            //<%= LANG('总金额') %>
+    &quot;entrustId&quot;: &quot;E6437955999037923328&quot;,            //<%= LANG('委托ID') %>
+    &quot;type&quot;: &quot;0&quot;,            //<%= LANG('0 卖出 1 购买  -1 取消') %>
+    &quot;userId&quot;: &quot;test6&quot;,            //<%= LANG('用户id') %>
+    &quot;completeAmount&quot;: &quot;0&quot;,            //<%= LANG('已经成交的数量') %>
+    &quot;marketId&quot;: &quot;80&quot;,            //<%= LANG('市场id') %>
+    &quot;dealTimes&quot;: &quot;0&quot;,            //<%= LANG('交易处理次数') %>
+    &quot;createTime&quot;: &quot;1534928321609&quot;,            //<%= LANG('下单时间') %>
+    &quot;price&quot;: &quot;5.05&quot;,            //<%= LANG('单价') %>
+    &quot;completeTotalMoney&quot;: &quot;0&quot;,            //<%= LANG('已完成的总金额') %>
+    &quot;entrustType&quot;: &quot;false&quot;,            //<%= LANG('委托类型 0(false)普通委托单 1(true)杠杆委托单') %>
+    &quot;status&quot;: &quot;0&quot;,            //<%= LANG('状态 : -2资金解冻失败 -1用户资金不足 0起始 1取消 2交易成功 3交易一部分') %>
+  }],,
+  &quot;resMsg&quot;: {
+    &quot;code&quot;: &quot;1&quot;,            // <%= LANG('1代表成功，其他为错误码见说明') %>
+    &quot;method&quot;: null,
+    &quot;message&quot;: &quot;success !&quot;
+  }
+}</code></pre>
+        </div>
+
+        <h2 id="toc_14">4 <%= LANG('财务资金API') %></h2>
+
+        <h3 id="toc_15">4.1 <%= LANG('获取充币地址') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/fund/controller/website/fundcontroller/getPayinAddress<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">{
+    “currencyTypeName”:&quot;btc&quot; // <%= LANG('货币类型名称(必传)') %>
+}</code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %></p>
+
+        <div><pre><code class="language-none">
+{
+    &quot;datas&quot;: {
+        &quot;address&quot;: &quot;19cdJwd3j6ArHNhiYoWpN8cJq9ash7WDDC&quot;,// <%= LANG('充币地址') %>
+        &quot;wallet&quot;: &quot;merchants014&quot;
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <h3 id="toc_16">4.2 <%= LANG('查询充币记录') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/fund/controller/website/fundcontroller/getPayinCoinRecord<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">{
+    “currencyTypeName”:“qtum”, // <%= LANG('货币类型') %>
+    “sort”:1 // <%= LANG('不传按充币时间倒序排，传了按升序排序') %>
+    &quot;pageNum&quot;:1
+    &quot;pageSize&quot;:20
+}</code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: {
+        &quot;totalRow&quot;: 1,  // <%= LANG('总行数') %>
+        &quot;totalPage&quot;: 1, // <%= LANG('总页数') %>
+        &quot;pageSize&quot;: 20, // <%= LANG('每页数量') %>
+        &quot;list&quot;: [
+            {
+                &quot;currencyTypeId&quot;: 1,// <%= LANG('货币类型id') %>
+                &quot;depositId&quot;: “f3342424”,// <%= LANG('充值主键') %>
+                &quot;amount&quot;: &quot;10.0&quot;,// <%= LANG('充币数量') %>
+                &quot;confirmTimes&quot;: &quot;4&quot;,// <%= LANG('确认次数') %>
+                &quot;createTime&quot;: &quot;2018-03-10 10:22:09.0&quot;,// <%= LANG('充币时间') %>
+                &quot;depositAddress&quot;: &quot;1BKd2sSPYzxC2XHurR6oQWc2wzSx2rZzck&quot;,// <%= LANG('充币地址') %>
+                &quot;txId&quot;: &quot;6378183001917882368&quot;,// <%= LANG('交易id') %>
+                &quot;userId&quot;: &quot;1&quot;,// <%= LANG('用户id') %>
+                &quot;status&quot;: 1,//&#39; <%= LANG('0:未到账  1:已到账') %>  &#39;
+
+            }
+        ],
+        &quot;pageNum&quot;: 1
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <h3 id="toc_17">4.3 <%= LANG('查询提币记录') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/fund/controller/website/fundwebsitecontroller/getpayoutcoinrecord<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">currencyId=1    // <%= LANG('币种id(必选)') %>
+tab=all         // <%= LANG('(必选) | all(所有), wait(已提交，未审核), success(审核通过), fail(审核失败), cancel(用户主动取消)') %>
+pageIndex=1     // <%= LANG('可选, 默认') %> 1
+pageSize=10     // <%= LANG('可选, 默认') %> 10</code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: {
+        &quot;totalRow&quot;: 34,                                          // <%= LANG('总行数') %>
+        &quot;totalPage&quot;: 4,                                          // <%= LANG('总页数') %>
+        &quot;pageSize&quot;: 10,                                          // <%= LANG('每页数量') %>
+        &quot;list&quot;: [
+            {
+                &quot;modifyUid&quot;: null,                               // <%= LANG('修改人id') %>
+                &quot;withdrawalId&quot;: &quot;W6419027628808093696&quot;,          // <%= LANG('提现id') %>
+                &quot;fees&quot;: &quot;0.001000000000000000&quot;,                  // <%= LANG('手续费') %>
+                &quot;amount&quot;: &quot;10.000000000000000000&quot;,               // <%= LANG('提现数量') %>
+                &quot;userApplyWithdrawId&quot;: &quot;7eBDJ5PKbSK&quot;,            // <%= LANG('提现记录id') %>
+                &quot;verifyRemark&quot;: null,                            // <%= LANG('审核意见') %>
+                &quot;remark&quot;: null,                                  // <%= LANG('备注') %>
+                &quot;verifyTime&quot;: 0,                                 // <%= LANG('审核时间') %>
+                &quot;userName&quot;: &quot;994709373@qq.com&quot;,                  // <%= LANG('用户名') %>
+                &quot;userId&quot;: &quot;7e9ioSoVXcW&quot;,                         // <%= LANG('用户id') %>
+                &quot;actuallyAmount&quot;: &quot;10.000000000000000000&quot;,       // <%= LANG('实际到账数量') %>
+                &quot;modifyTime&quot;: 0,                                 // <%= LANG('修改时间') %>
+                &quot;verifyStatus&quot;: 0,                               // <%= LANG('审核状态(0 待审核 , 1 审核通过 -1 审核不通过)') %>
+                &quot;createTime&quot;: 1530415446577,                    // <%= LANG('提币时间') %>
+                &quot;state&quot;: 1,                                                             // <%= LANG('状态(-1 删除, 1 正常)') %>
+                &quot;currencyId&quot;: &quot;2&quot;,                                                          // <%= LANG('币种id') %>
+                &quot;withdrawalAddress&quot;: &quot;1JimMZks39eVqU6T3v6wvz1m4LtJ3tPjGL&quot;,                  // <%= LANG('提币地址') %>
+                &quot;verifyUid&quot;: null                                                           // <%= LANG('审核人id') %>
+            }
+        ],
+        &quot;pageNum&quot;: 1
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <h3 id="toc_18">4.4 <%= LANG('获取用户所有资金信息') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/fund/controller/website/fundcontroller/findbypage<br>
+            <%= LANG('请求方式') %>：post<br>
+            <%= LANG('请求报文') %> </p>
+
+        <div><pre><code class="language-none">
+{
+    &quot;pageSize&quot;:30,       #  <%= LANG('每页行数（可选）') %>
+    &quot;pageNum&quot;:1          #  <%= LANG('页码（可选）') %>
+}
+</code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: {
+        &quot;totalRow&quot;: null,
+        &quot;totalPage&quot;: null,
+        &quot;pageSize&quot;: 30,
+        &quot;list&quot;: [
+            {
+                &quot;currencyTypeId&quot;: 1,                    // <%= LANG('货币类型id') %>
+                &quot;amount&quot;: &quot;971.174000000000000000&quot;,     // <%= LANG('用户当前可用资金数量') %>
+                &quot;freeze&quot;: &quot;122.000000000000000000&quot;,     // <%= LANG('用户冻结资金数量') %>
+                &quot;createTime&quot;: &quot;2018-02-19 10:02:33&quot;,
+                &quot;depositAddress&quot;: null,
+                &quot;userId&quot;: &quot;1&quot;
+            },
+            {
+                &quot;currencyTypeId&quot;: 2,
+                &quot;amount&quot;: &quot;768.368000000000000000&quot;,
+                &quot;freeze&quot;: &quot;131.000000000000000000&quot;,
+                &quot;createTime&quot;: &quot;2018-02-19 10:02:33&quot;,
+                &quot;depositAddress&quot;: null,
+                &quot;userId&quot;: &quot;1&quot;
+            }
+        ],
+        &quot;pageNum&quot;: 1
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}</code></pre>
+        </div>
+
+        <h3 id="toc_19">4.5 <%= LANG('查询提币地址') %></h3>
+
+        <p>path:https://www.zbg.com/exchange/fund/controller/website/fundwebsitecontroller/getwithdrawaddress<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">currencyId=2          // <%= LANG('(必传)') %>
+pageIndex=1           // <%= LANG('(可选, 默认1)') %>
+pageSize=10           // <%= LANG('(可选, 默认10)') %></code></pre>
+        </div>
+
+        <p> <%= LANG('返回报文') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: {
+        &quot;totalRow&quot;: 2,
+        &quot;totalPage&quot;: 1,
+        &quot;pageSize&quot;: 10,
+        &quot;list&quot;: [
+            {
+                &quot;address&quot;: &quot;1DkwrD4bMtjd6kcZw8CxM9r3z4AGVFfSRz&quot;,    // <%= LANG('地址') %>
+                &quot;modifyTime&quot;: 1524217688882,                        // <%= LANG('修改时间') %>
+                &quot;currencyName&quot;: &quot;btc&quot;,                              // <%= LANG('币种名称') %>
+                &quot;createTime&quot;: 1523185357488,                        // <%= LANG('提币时间') %>
+                &quot;userFundAddressId&quot;: &quot;7bwK95B7jTk&quot;,                 // <%= LANG('地址id') %>
+                &quot;remark&quot;: &quot;correct&quot;,                                // <%= LANG('备注') %>
+                &quot;currencyId&quot;: &quot;2&quot;,                                  // <%= LANG('币种id') %>
+                &quot;type&quot;: 1,                                          // <%= LANG('(1-提币地址, 2-打币地址)') %>
+                &quot;userName&quot;: &quot;Mr.牛&quot;,                                // <%= LANG('用户名') %>
+                &quot;userId&quot;: &quot;7e8fMkzTlL6&quot;,                            // <%= LANG('用户id') %>
+                &quot;status&quot;: &quot;1&quot;                                       // <%= LANG('状态(-1 删除, 1 正常)') %>
+            }
+        ],
+        &quot;pageNum&quot;: 1
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}</code></pre>
+        </div>
+
+        <!--
+        ### 4.6获取提币地址id 处于安全考虑暂时封禁
+        path:/exchange/fund/controller/website/fundwebsitecontroller/getaddressid
+        请求方式：get
+        请求报文
+
+        ```
+        address=0x57c80B095CcaC7535d39283e4F8182aC4c6AcA8D      //提币地址
+        currencyId=2                        //币种id
+        ```
+
+        返回报文如下,返回的提笔地址id用于提币申请接口
+
+        ```
+        {
+            "datas": {
+                "addressId" : "7e9ioSoVXcW"     //提币地址id
+            },
+            "resMsg": {
+                "code": "1",
+                "method": null,
+                "message": "success !"
+            }
+        }
+        ```
+        ### 4.7提币申请 处于安全考虑暂时封禁
+        path:/exchange/fund/controller/website/fundwebsitecontroller/dopayoutcoin
+        请求方式：post
+        请求报文
+
+        ```
+        {
+            "currencyId"    :   2,                  //币种id(必须)
+            "addressId"     :   "7bwK95B7jTk",      //提币地址id(必须)
+            "emailCode"     :   "123456",           //邮箱验证码
+            "dynamicCode"   :   "123456",           //短信验证码
+            "googleCode"    :   "123456",           //Google验证码
+            "coin"          :   "btc",              //币种名称(必须)
+            "amount"        :   "12",               //提币数量(必须)
+            "remark"        :   "remark",           //备注
+        }
+        ```
+            这两个参数废弃
+            "rsaKeyId"      :   "7bwK95B7jTk",      //公钥id(必须)
+            "safePwd"       :   "7bwK95B7jTk",      //提币密码(必须)
+
+        返回成功报文
+
+        ```
+        {
+            "datas": {
+                "withdrawId": "7bwK95B7jTk"         //提币申请单号
+            },
+            "resMsg": {
+                "code": "1",
+                "method": null,
+                "message": "success !"
+            }
+        }
+
+        ```
+        -->
+
+        <h2 id="toc_20">5 <%= LANG('签名规则') %></h2>
+
+        <h3 id="toc_21">5.1 <%= LANG('签名规则') %></h3>
+
+        <p> <%= LANG('签名串sign=md5(Apiid+Timestamp+参数内容拼串+签名秘钥)，Timestamp是毫秒为单位的时间戳,签名秘钥为ApiSecret,和Apiid在网站打开Api功能时获取。参数拼串内容规则有三种，只有header参数的为空字符串') %>&quot;&quot;
+            <%= LANG('，body json格式的参数为body参数的json字符串格式，key-value以及get形式的参数内容拼串为所有参数按key值首字母排序后再按key1+value1+key2+value2...的形式拼串。签名后将Apiid、Timestamp、Sign放入到请求header中，注意首字母大写，后面全小写。') %><br>
+            
+            <%= LANG('比如在网站打开API功能后拿到下面两个参数 Apiid=7eESLc0x69I7eESLc0x69J,Apisecret = 87ceba599b6d39a39deb01cf71eacd57，Timestamp=1526886847000,') %><br>
+            <%= LANG('a、Body json格式参数') %> </p>
+
+        <div><pre><code class="language-none"> <%= LANG('参数内容json字符串为') %>：{&quot;userId&quot;:&quot;u111&quot;,&quot;name&quot;:&quot;zhangsan&quot;}
+<%= LANG('参数内容拼串为') %>：{&quot;userId&quot;:&quot;u111&quot;,&quot;name&quot;:&quot;zhangsan&quot;}
+<%= LANG('则') %> Sign = md5(7eESLc0x69I7eESLc0x69J1526886847000{&quot;userId&quot;:&quot;u111&quot;,&quot;name&quot;:&quot;zhangsan&quot;}87ceba599b6d39a39deb01cf71eacd57)
+= 1429945054c993ea3e22a28227bf7b25   </code></pre>
+        </div>
+
+        <p>b、 <%= LANG('没有任何body或get参数') %> </p>
+
+        <div><pre><code class="language-none"> <%= LANG('参数内容拼串为空') %> <%= LANG('则') %>
+Sign = md5(7eESLc0x69I7eESLc0x69J152688684700087ceba599b6d39a39deb01cf71eacd57)
+= 735aeffac07c60ddeb2d6f18115c1946 </code></pre>
+        </div>
+
+        <p>c、formdata key-value， <%= LANG('或者get参数') %> </p>
+
+        <div><pre><code class="language-none"> <%= LANG('参数内容为') %>：userid=10,status=1,acount = 10
+<%= LANG('参数内容拼串为') %>：account10status1userid10
+<%= LANG('则') %> Sign = md5(7eESLc0x69I7eESLc0x69J1526886847000account10status1userid1087ceba599b6d39a39deb01cf71eacd57)
+= 1d83cb6bde160eff50fbb13a407e7804   </code></pre>
+        </div>
+
+        <p> <%= LANG('提供Java版本的签名代码如下，其他语言请参考代码自行实现') %></p>
+
+        <div><pre><code class="language-none">import com.alibaba.fastjson.JSON;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Author: cai.zhenghao
+ * @Description:
+ * @Date: Created in 2018/6/26   <%= LANG('下午') %>3:48
+ * @Modified By:
+ */
+public class SignUtils {
+
+    /**
+     *  <%= LANG('自行根据需要设置,一般认为一个服务里使用的只有一个') %>
+     */
+    public static String ID_NAME = &quot;Apiid&quot;;
+
+    /**
+     *  <%= LANG('不为空、不为空字符串、不为双引号、不为空') %>{}
+     *
+     * @param source
+     * @return
+     */
+    public static boolean isEmpty(String source) {
+        return source == null || source.isEmpty() || source.equals(&quot;\&quot;\&quot;&quot;) || source.trim().equals(&quot;{}&quot;);
+    }
+
+    /**
+     *  <%= LANG('参数是formdata key value，或者get参数 形式的情况下获取签名header') %>
+     * @param parameters
+     * @return
+     */
+    public static Map getHeaderOfKeyValue(String id, String secret,Map&lt;String, Object&gt; parameters) {
+        long time = System.currentTimeMillis();
+        Map header = new HashMap();
+        StringBuffer contentSb = new StringBuffer();
+        if (parameters != null) {
+            parameters.entrySet().stream()
+                    .filter(a -&gt; a != null &amp;&amp; (!isEmpty(a.getKey()) || !isEmpty((String) a.getValue()))).
+                    sorted(Map.Entry.&lt;String, Object&gt;comparingByKey()).forEachOrdered(e -&gt; contentSb.append(e.getKey() + e.getValue()));
+        }
+
+        header.put(ID_NAME,id);
+        header.put(&quot;Timestamp&quot;, String.valueOf(time));
+        header.put(&quot;Sign&quot;, encryptMD5(id + time + contentSb.toString() + secret));
+        return header;
+
+    }
+
+    /**
+     *  <%= LANG('参数为空情况下获取签名header') %>
+     * @return
+     */
+    public static Map getHeaderOfNoParams(String id, String secret) {
+        Map header = new HashMap();
+        long time = System.currentTimeMillis();
+        header.put(ID_NAME, id);
+        header.put(&quot;Timestamp&quot;, String.valueOf(time));
+        header.put(&quot;Sign&quot;, encryptMD5(id + time + secret));
+        return header;
+
+    }
+
+    /**
+     *  <%= LANG('参数是body json形式的情况下获取签名header') %>
+     * @param object
+     * @return
+     */
+    public static Map getHeaderOfBodyJson(String id, String secret, Object object) {
+        Map header = new HashMap();
+        long time = System.currentTimeMillis();
+        String params = JSON.toJSONString(object);
+        header.put(ID_NAME, id);
+        header.put(&quot;Timestamp&quot;, String.valueOf(time));
+        header.put(&quot;Sign&quot;, encryptMD5(id + time + params + secret));
+        return header;
+    }
+
+    public static String encryptMD5(String str) {
+        return digest(&quot;MD5&quot;, str);
+    }
+
+    public static String digest(String code, String str) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(code);
+            messageDigest.reset();
+            messageDigest.update(str.getBytes());
+            byte[] byteArray = messageDigest.digest();
+            StringBuffer md5StrBuff = new StringBuffer();
+
+            for(int i = 0; i &lt; byteArray.length; ++i) {
+                if (Integer.toHexString(255 &amp; byteArray[i]).length() == 1) {
+                    md5StrBuff.append(&quot;0&quot;).append(Integer.toHexString(255 &amp; byteArray[i]));
+                } else {
+                    md5StrBuff.append(Integer.toHexString(255 &amp; byteArray[i]));
+                }
+            }
+
+            return md5StrBuff.toString();
+        } catch (NoSuchAlgorithmException var6) {
+            var6.printStackTrace();
+            return null;
+        }
+    }
+}</code></pre>
+        </div>
+
+        <!--
+        ### 5.2密码加密规则
+        部分接口需要传用户资金密码，资金密码需要加密。可通过接口获取加密公钥（获取秘钥接口详细说明在下面的章节中介绍），加密并base64后作为传输上传，同时要上传获取秘钥接口返回的秘钥id。加解密使用的算法标准为RSA/ECB/PKCS1Padding 在有些文档也被命名为 RSA/None/PKCS1Padding。由于RSA公钥加密对同一个字符串每次结果都不一样，没有办法提供样例。下面提供JAVA版本的加密代码，其他语言请参考代码自行实现。
+
+        ```
+        //上层调用，pubkey即为秘钥获取接口返回的公钥
+        String pwdEncode = RSACoder.encryptBASE64(RSACoder.encryptByPublicKey(pwd.getBytes(),pubKey));
+        ```
+        ```
+        import javax.crypto.Cipher;
+        import java.io.ByteArrayOutputStream;
+        import java.security.Key;
+        import java.security.KeyFactory;
+        import java.security.spec.X509EncodedKeySpec;
+        import sun.misc.BASE64Decoder;
+        import sun.misc.BASE64Encoder;
+        //加密代码
+            public static final String KEY_ALGORITHM = "RSA";
+            public static final String RSA_TRANS = "RSA/ECB/PKCS1Padding";
+            /** RSA最大加密明文大小*/
+            private static final int MAX_ENCRYPT_BLOCK = 117;
+            /**
+             * 加密<br>
+             * 用公钥加密
+             * @param data
+             * @param key
+             * @return
+             * @throws Exception
+             */
+            public static byte[] encryptByPublicKey(byte[] data, String key)
+                    throws Exception {
+                // 对公钥解密
+                byte[] keyBytes = decryptBASE64(key);
+
+                // 取得公钥
+                X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
+                KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+                Key publicKey = keyFactory.generatePublic(x509KeySpec);
+
+                // 对数据加密
+                Cipher cipher = Cipher.getInstance(RSA_TRANS);
+                cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+
+                return crypt(cipher, data, MAX_ENCRYPT_BLOCK);
+            }
+
+            private static byte[] crypt(Cipher cipher, byte[] data, int max) throws Exception {
+                int inputLen = data.length;
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                int offSet = 0;
+                byte[] cache;
+                int i = 0;
+                // 对数据分段加密
+                while (inputLen - offSet > 0) {
+                    if (inputLen - offSet > max) {
+                        cache = cipher.doFinal(data, offSet, max);
+                    } else {
+                        cache = cipher.doFinal(data, offSet, inputLen - offSet);
+                    }
+                    out.write(cache, 0, cache.length);
+                    i++;
+                    offSet = i * max;
+                }
+                byte[] encryptedData = out.toByteArray();
+                out.close();
+                return encryptedData;
+            }
+
+           /**
+             * BASE64解密
+             * @param key
+             * @return
+             * @throws Exception
+             */
+            public static byte[] decryptBASE64(String key) throws Exception {
+                return (new BASE64Decoder()).decodeBuffer(key);
+            }
+
+            /**
+             * BASE64加密
+             * @param key
+             * @return
+             * @throws Exception
+             */
+            public static String encryptBASE64(byte[] key) throws Exception {
+                return (new BASE64Encoder()).encodeBuffer(key);
+            }
+        ```
+        -->
+
+        <h2 id="toc_22">6<%= LANG('市场行情类接口') %></h2>
+
+        <p><%= LANG('注意，市场行情类接口的域名和前面几部分HTTP接口不同，不需要签名，header不需要传签名的几个参数。一个IP一分钟内最多只能访问1000次这部分接口，请注意频率控制。') %></p>
+
+        <h2 id="toc_23">6.1 <%= LANG('所有市场24H市场行情') %></h2>
+
+        <p><%= LANG('这个数据服务端更新速度为10秒一次，不必太过频繁获取') %><br>
+            path:https://kline.zbg.com/api/data/v1/tickers<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div>
+            <pre><code class="language-none">isUseMarketName=true          //<%= LANG('必传，选择true则返回的结果中用BTC_USDT这样的市场名替代掉marketId,false则使用marketId') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回报文分两种格式') %><br>
+            <%= LANG('isUseMarketName为fasle时格式如下') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    },
+    &quot;datas&quot;: [
+        [
+            99,
+            &quot;0.0&quot;,
+            &quot;0&quot;,
+            &quot;0&quot;,
+            &quot;0&quot;,
+            &quot;0.0&quot;,
+            &quot;[]&quot;,
+            &quot;9.396&quot;,
+            &quot;9.08&quot;,
+            &quot;21469873.428&quot;
+        ],
+        [
+            90,
+            &quot;8249994.968&quot;,
+            &quot;8257720.9458&quot;,
+            &quot;8207608.58&quot;,
+            &quot;1080294.9779&quot;,
+            &quot;0.51&quot;,
+            &quot;[[1, 8219706.597], [2, 8249994.998]]&quot;,
+            &quot;7418805.42381067&quot;,
+            &quot;7418805.425&quot;,
+            &quot;21469873.428&quot;
+        ]
+    ]
+}
+</code></pre>
+        </div>
+
+        <p><%= LANG('isUseMarketName为true时格式如下') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    },
+    &quot;datas&quot;: {
+        &quot;ETC_USDT&quot;: [
+            99,
+            &quot;0.0&quot;,
+            &quot;0&quot;,
+            &quot;0&quot;,
+            &quot;0&quot;,
+            &quot;0.0&quot;,
+            &quot;[]&quot;,
+            &quot;9.296&quot;,
+            &quot;9.708&quot;,
+            &quot;21469873.428&quot;
+        ],
+        &quot;BTC_KRW&quot;: [
+            90,
+            &quot;8245004.195&quot;,
+            &quot;8257720.93&quot;,
+            &quot;8207608.57&quot;,
+            &quot;1187226.0187&quot;,
+            &quot;0.45&quot;,
+            &quot;[[1, 8219706.597], [2, 8245004.125]]&quot;,
+            &quot;7418805.413&quot;,
+            &quot;7418805.47&quot;,
+            &quot;21469873.408&quot;
+        ]
+    }
+}
+</code></pre>
+        </div>
+
+        <p><%= LANG('数据说明') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]') %>
+</code></pre>
+        </div>
+
+        <p><%= LANG('最近6H收盘价列表按时间顺序排序，数据说明：') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]') %>
+</code></pre>
+        </div>
+
+        <h2 id="toc_24">6.2 <%= LANG('单个市场24H市场行情') %></h2>
+
+        <p><%= LANG('这个数据服务端更新速度为10秒一次，不必太过频繁获取') %><br>
+            path:https://kline.zbg.com/api/data/v1/ticker<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">marketId=90          //<%= LANG('市场id，和市场名传一个即可') %>
+marketName=ETC_USDT          //<%= LANG('市场名，和市场id传一个即可') %>
+</code></pre>
+        </div>
+
+        <p><%= LANG('返回报文格式') %> </p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: [
+        90,
+        &quot;8268227.40230003&quot;,
+        &quot;8268227.40230003&quot;,
+        &quot;8207608.58629997&quot;,
+        &quot;1725211.1401&quot;,
+        &quot;0.73&quot;,
+        &quot;[[1, 8219706.597], [2, 8266335.7998], [3, 8268227.4023]]&quot;,
+        &quot;7418805.4126&quot;,
+        &quot;7418805.4237&quot;,
+        &quot;21469873.408&quot;
+    ],
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+
+</code></pre>
+        </div>
+
+        <p><%= LANG('数据说明') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]') %>
+</code></pre>
+        </div>
+
+        <p><%= LANG('最近6H收盘价列表按时间顺序排序，数据说明：') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]') %>
+</code></pre>
+        </div>
+
+        <h2 id="toc_25">6.3 <%= LANG('K线') %></h2>
+
+        <p>path:https://kline.zbg.com/api/data/v1/klines<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">marketId=90                     //<%= LANG('市场id，和市场名传一个即可') %>
+marketName=ETC_USDT             //<%= LANG('市场名，和市场id传一个即可') %>
+type=1M                         //<%= LANG('K线类型，支持1M，5M，15M，30M，1H，1D，1W 七种类型，分别代表1-30分钟，1小时，1日，1周') %>
+dataSize=5                      //<%= LANG('数据量，最多为') %>100</code></pre>
+        </div>
+
+        <p><%= LANG('返回报文格式') %> </p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: [
+        [
+            &quot;K&quot;,
+            &quot;90&quot;,
+            &quot;btc_krw&quot;,
+            &quot;1532181600&quot;,
+            &quot;8266335.737&quot;,
+            &quot;8279949.6898&quot;,
+            &quot;8266003.6894&quot;,
+            &quot;8269418.0781&quot;,
+            &quot;492264.06&quot;,
+            &quot;0.04&quot;,
+            &quot;1&quot;,
+            &quot;1H&quot;,
+            &quot;false&quot;
+        ],
+        ..........
+    ],
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <p><%= LANG('数据说明') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[数据类型, 市场ID, 市场名字, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]') %>
+</code></pre>
+        </div>
+
+        <h2 id="toc_26">6.4 <%= LANG('交易记录') %></h2>
+
+        <p>path:https://kline.zbg.com/api/data/v1/trades<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">marketId=90                     //<%= LANG('市场id，和市场名传一个即可') %>
+marketName=ETC_USDT             //<%= LANG('市场名，和市场id传一个即可') %>
+dataSize=10                     //<%= LANG('数据量，最多为') %>20</code></pre>
+        </div>
+
+        <p><%= LANG('返回报文格式') %> </p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: [
+        [
+            &quot;T&quot;,
+            &quot;90&quot;,
+            &quot;1532183063&quot;,
+            &quot;BTC_KRW&quot;,
+            &quot;bid&quot;,
+            &quot;8271173.90&quot;,
+            &quot;515.50&quot;
+        ],
+        ..........
+    ],
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <p><%= LANG('数据说明') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]') %>
+</code></pre>
+        </div>
+
+        <h2 id="toc_27">6.5 <%= LANG('盘口数据（市场深度）') %></h2>
+
+        <p><%= LANG('本接口最多返回买卖50档的盘口数据') %><br>
+            path:https://kline.zbg.com/api/data/v1/entrusts<br>
+            <%= LANG('请求方式') %>：get<br>
+            <%= LANG('请求报文') %></p>
+
+        <div><pre><code class="language-none">marketId=90                     //<%= LANG('市场id，和市场名传一个即可') %>
+marketName=ETC_USDT             //<%= LANG('市场名，和市场id传一个即可') %></code></pre>
+        </div>
+
+        <p><%= LANG('返回报文格式') %> </p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: {
+        &quot;asks&quot;: [
+            [
+                &quot;8247657.898&quot;,
+                &quot;5.95&quot;
+            ],
+            [
+                &quot;7418805.435&quot;,
+                &quot;4.88&quot;
+            ],
+            [
+                &quot;7418805.47&quot;,
+                &quot;0.01&quot;
+            ]
+        ],
+        &quot;bids&quot;: [
+            [
+                &quot;0.81945643&quot;,
+                &quot;24.32&quot;
+            ],
+            [
+                &quot;0.847&quot;,
+                &quot;2.064&quot;
+            ],
+            [
+                &quot;0.516&quot;,
+                &quot;17.043&quot;
+            ]
+        ],
+        &quot;timestamp&quot;: &quot;1532183394&quot;
+    },
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;success !&quot;
+    }
+}
+</code></pre>
+        </div>
+
+        <p><%= LANG('数据说明') %></p>
+
+        <div><pre><code class="language-none"><%= LANG('asks:(卖盘)[[价格, 量]]') %>
+<%= LANG('bids:(买盘)[[价格, 量]]') %>
+</code></pre>
+        </div>
+
+        <h2 id="toc_28">7 <%= LANG('接口结果外部和错误码') %></h2>
+
+        <p><%= LANG('失败时返回报文如下') %></p>
+
+        <div><pre><code class="language-none">{
+    &quot;datas&quot;: null,
+    &quot;resMsg&quot;: {
+        &quot;code&quot;: &quot;1000&quot;,
+        &quot;method&quot;: null,
+        &quot;message&quot;: &quot;param invalid&quot;
+    }
+}</code></pre>
+        </div>
+
+        <p><%= LANG('错误码列表：') %><br>
+            <%= LANG('配置及基础功能API、获取用户信息接口、交易API、财务资金API') %></p>
+
+        <table>
+            <thead>
+            <tr>
+                <th style="text-align: right"><%= LANG('错误码') %></th>
+                <th style="text-align: left"><%= LANG('说明') %></th>
+                <th style="text-align: left"><%= LANG('英文说明') %></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td style="text-align: right">1000</td>
+                <td style="text-align: left">系统错误</td>
+                <td style="text-align: left">system error</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">1003</td>
+                <td style="text-align: left">无效的参数</td>
+                <td style="text-align: left">param invalid</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2000</td>
+                <td style="text-align: left">参数错误</td>
+                <td style="text-align: left">parameter error</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2001</td>
+                <td style="text-align: left">委托价格类型为空</td>
+                <td style="text-align: left">entrust price range type null</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2002</td>
+                <td style="text-align: left">委托类型错误</td>
+                <td style="text-align: left">rangeType [ 0,1] error</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2003</td>
+                <td style="text-align: left">委托价格异常</td>
+                <td style="text-align: left">entrust price abnormal</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2004</td>
+                <td style="text-align: left">市场ID不能为空</td>
+                <td style="text-align: left">market id null</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2012</td>
+                <td style="text-align: left">委托信息不存在或状态异常</td>
+                <td style="text-align: left">entrust not exists or status abnormal</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2014</td>
+                <td style="text-align: left">缓存中无该该委托单</td>
+                <td style="text-align: left">entrust not exists in cache</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2015</td>
+                <td style="text-align: left">委托单已取消或数据库中不存在</td>
+                <td style="text-align: left">entrust already canceled or not exists in database</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2016</td>
+                <td style="text-align: left">分页index，pageSize参数有误</td>
+                <td style="text-align: left">paging:index or pageSize invalid</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2017</td>
+                <td style="text-align: left">交易货币量为空</td>
+                <td style="text-align: left">entrust amount null</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2019</td>
+                <td style="text-align: left">委托单ID不能为空</td>
+                <td style="text-align: left">entrustId null</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2020</td>
+                <td style="text-align: left">委托类型不能为空</td>
+                <td style="text-align: left">entrustType null</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2022</td>
+                <td style="text-align: left">交易货币量小于最小值</td>
+                <td style="text-align: left">entrust amount low min limit</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">2999</td>
+                <td style="text-align: left">内部错误</td>
+                <td style="text-align: left">system error</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6002</td>
+                <td style="text-align: left">授权失效，需要重新登录</td>
+                <td style="text-align: left">Authorization invalid, please sign in again.</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6021</td>
+                <td style="text-align: left">限制提币操作</td>
+                <td style="text-align: left">Limit the withdraw operation</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6076</td>
+                <td style="text-align: left">安全密码错误，请重新输入</td>
+                <td style="text-align: left">Security password error, please enter again!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6095</td>
+                <td style="text-align: left">用户不存在</td>
+                <td style="text-align: left">User does not exist</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6096</td>
+                <td style="text-align: left">无效的参数</td>
+                <td style="text-align: left">Invalid parameter</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6114</td>
+                <td style="text-align: left">提币地址为空</td>
+                <td style="text-align: left">Please select a currency address!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6124</td>
+                <td style="text-align: left">审核失败</td>
+                <td style="text-align: left">Audit failure!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6126</td>
+                <td style="text-align: left">审核通过</td>
+                <td style="text-align: left">Audit Approve!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6115</td>
+                <td style="text-align: left">提交提币申请失败</td>
+                <td style="text-align: left">Submit a withdrawal application failure!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6125</td>
+                <td style="text-align: left">无效的货币类型</td>
+                <td style="text-align: left">An invalid currency type!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6130</td>
+                <td style="text-align: left">没有选取币种</td>
+                <td style="text-align: left">No selection of currency, Please try again!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6894</td>
+                <td style="text-align: left">时间过长，API签名已失效</td>
+                <td style="text-align: left">The time is too long,sign for api is invalid now!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6895</td>
+                <td style="text-align: left">校验API权限失败，接口不属于授权API</td>
+                <td style="text-align: left">Failed to verify the API permission. This interface is not a authorize API!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6896</td>
+                <td style="text-align: left">校验API权限失败,Userid和Apiid不匹配</td>
+                <td style="text-align: left">Failed to verify the API permission. The Userid is not matching with Apiid!</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6897</td>
+                <td style="text-align: left">校验API权限失败，请确认是否开启Api权限</td>
+                <td style="text-align: left">Failed to verify the API permission. Please confirm whether to enable API
+                    permission!
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">6898</td>
+                <td style="text-align: left">多次校验API权限失败，请确认是否开启Api权限</td>
+                <td style="text-align: left">Failed to verify the API permission for multiple times. Please confirm whether to
+                    enable API permission!
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">10012</td>
+                <td style="text-align: left">未知异常</td>
+                <td style="text-align: left">unknown error</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p><%= LANG('行情、盘口数据（市场深度）、k线、交易记录四类API的错误码说明') %></p>
+
+        <table>
+            <thead>
+            <tr>
+                <th style="text-align: right"><%= LANG('错误码') %></th>
+                <th style="text-align: left"><%= LANG('说明') %></th>
+                <th style="text-align: left"><%= LANG('英文说明') %></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td style="text-align: right">1000</td>
+                <td style="text-align: left">系统错误</td>
+                <td style="text-align: left">system error</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">5010</td>
+                <td style="text-align: left">参数错误</td>
+                <td style="text-align: left">param is invalid</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">5016</td>
+                <td style="text-align: left">数据不存在</td>
+                <td style="text-align: left">rdata not exist</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">5017</td>
+                <td style="text-align: left">该市场不存在</td>
+                <td style="text-align: left">market not exist</td>
+            </tr>
+            <tr>
+                <td style="text-align: right">5019</td>
+                <td style="text-align: left">你的IP一分钟内访问次数超过1000次</td>
+                <td style="text-align: left">your ip has been accessed more than 1000 times a minute</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+
+</html>

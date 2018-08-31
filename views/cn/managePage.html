@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+<head>
+    <%-include("include/headInit.html")%>
+    <%-include("include/headMeta.html")%>
+</head>
+<body>
+    <%-include("include/head.html")%>
+    <section class="management-center">
+        <div class="user-center">
+            <%-include("u/asset/menu.html")%>
+            <div class="user-container">
+                <% try{ %>
+                <%-include(templateMain)%>
+                <% }catch(err){ %>
+                <%- err%>
+                <%-include("include/error.html")%>
+                <% } %>
+            </div>
+        </div>
+    </section>
+    <!--<%-include("include/footMain.html")%>-->
+<%-include("chat/chat_new.html")%>
+<%-include("include/footInit.html")%>
+</body>
+</html>
+<!--财务中心模板-->

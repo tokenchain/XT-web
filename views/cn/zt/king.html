@@ -1,0 +1,492 @@
+<!doctype html>
+<html>
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+    document.domain = DOMAIN_BASE;
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title> <%= LANG('熊市逆袭，挑战巨额奖池') %>  </title>
+    <script src="/src/js/TweenMax.min.js"></script>
+    <script src="/src/js/noframework.waypoints.min.js"></script>
+    <script src="/src/js/dxcicons.js" type="text/javascript"></script>
+    <script src="/src/js/dxcseoicons.js" type="text/javascript"></script>
+    <script src="/src/js/snap.svg.js" type="text/javascript"></script>
+    <script src="/src/js/jquery-latest.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/src/styles/xuleipro.css">
+    <link rel="stylesheet" type="text/css" href="/src/js/zt_old.css">
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <style>
+        .mes{
+            margin-top: 60px;
+            color: #B492E9;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .zt-miner .head p{
+            color: #B492E9;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        h5{
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .pondInfo{
+            margin-top: 80px;
+        }
+        .pondInfo .rich{
+            margin-top: 100px;
+        }
+        .pondInfo .rich h5{
+            text-align: center;
+            font-size: 25px;
+            margin-bottom: 50px;
+            color: #B492E9;
+        }
+
+        .pondInfo .rich ul{
+            background-color: #fff;
+            color: #1b1e27;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .pondInfo .rich ul li{
+            padding: 0 30px;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+        }
+
+        .pondInfo .rich ul li h2{
+            width: 100%;
+            text-align: center;
+            color: #1b1e27;
+            font-size: 20px;
+        }
+        .pondInfo .rich ul li span{
+            flex: 1;
+            text-align: center;
+        }
+        .pondInfo .rich ul li p{
+            width: 100%;
+            text-align: center;
+        }
+        .pondInfo .rich ul li span:last-child{
+            text-align: right;
+        }
+        .pondInfo .rich ul li span:first-child{
+            text-align: left;
+        }
+        .pondInfo .rich ul li.titel{
+            color: #989dad;
+        }
+        .pondInfo .rich ul li.publicity span{
+            color: #4FD3D3;
+        }
+        .pondInfo .rich ul li:nth-child(2n+1){
+            background-color: #f6f6f9;
+        }
+        .pondInfo .rich ul li.top{
+            -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        .zt-miner .miner-item li .text .subTitle1{
+            font-size: 14px;
+            color: #fff
+        }
+        .zt-miner .miner-item li .text .subTitle2{
+            font-size: 14px;
+            color: #000
+        }
+    </style>
+</head>
+
+<body>
+<%-include("../include/head.html")%>
+
+<div class="radial-bg"></div>
+
+<section class="banner">
+    <div class="container">
+        <div class="banner-wrapper">
+            <div class="banner-txt">
+                <h1> <%= LANG('富豪池&逆袭池') %></h1>
+                <p class="slogan"><%= LANG('活动期间，ZBG将在指定交易对，开启限时60分钟的逆袭池和富豪池，并将根据开启时段奖池排名产生逆袭王者和巅峰王者，他们将获得ZBG颁发的王者奖励。') %></p>
+            </div>
+            <div class="img-container" onclick="restartIcons([0])" ><div id="affiliateIcon" class="seoicon computerIcon"></div></div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="tab">
+            <ul>
+                <li><a href="/zt"> <%= LANG('概述') %> </a></li>
+                <!--<li ><a href="/zb_zt"><%= LANG('ZB换码ZT') %></a></li>-->
+                <li><a href="/ztfee"> <%= LANG('网站收益') %> </a></li>
+                <li ><a href="/ztminer"> <%= LANG('交易挖矿') %></a></li>
+                <li class="active"><a href="/king"><%= LANG('富豪&逆袭') %></a></li>
+                <!-- <li><a href="/tradeRange"><%= LANG('交易排名大赛') %></a></li> -->
+            </ul>
+        </div>
+        <div class="zt-miner" id="ztminerContent" v-cloak="">
+            <div class="head" v-cloak="">
+                <%= LANG('惊喜HOUR周期间') %>
+                <p class="introduce">
+                    <%= LANG('奖池每日开启，具体开启信息可关注ZBG每日官方公告。') %>
+                </p>
+            </div>
+            <ul class="miner-item">
+                <li style="background: #4039D4;">
+                    <div class="text" style="color: rgba(255,255,255,.8)">
+                        <%= LANG('最高净买入') %> <span style="color: #fff"><%= LANG('富豪池') %> </span>
+                        </br>
+                        <p class="subTitle1"><%= LANG('交易手续费折合') %></p>
+                        <p style="color: #fff">{{getRichPoolFeebyMarketData.fee_amount | capitalize}} BTC</p>
+                    </div>
+                    <div class="icon" onclick="restartIcons([1])">
+                        <div style="width: 135px" class="seoicon awardsIcon"></div>
+                    </div>
+                    <!--<a href="javascript:;" style="background: #fff; color: #4039D4"><%= LANG('查看详情') %></a>-->
+                    <p class="tips tips2">
+                        <%= LANG('富豪池开启一小时内，在指定交易对, 以最高净买入金额进行TOP10排位， 第一名获得“巅峰王者”的称号。可获得该富豪池开启1小时内，对应交易对所产生的总交易手续费。') %>
+                    </p>
+
+                </li>
+                <li>
+
+                    <div class="text">
+                        <%= LANG('1小时K线越顶') %> <span style="color: #262542"><%= LANG('逆袭池') %> </span>
+                        </br>
+                        <p class="subTitle2"><%= LANG('交易手续费折合') %></p>
+                        <p>{{totalFeeAmount | capitalize}} BTC</p>
+                        <!--<p v-if="totalFeeAmount">{{totalFeeAmount}} BTC</p>-->
+                    </div>
+                    <div class="icon" onclick="restartIcons([2])">
+                        <div style="width: 140px" class="seoicon monitoringIcon"></div>
+                    </div>
+                    <!--<a href="javascript:;"><%= LANG('查看详情') %></a>-->
+                    <p class="tips">
+                        <%= LANG('逆袭池指定交易对开启1小时内，每10分钟根据最高成交买单价（单笔买入量不低于2ZT），产生一名“逆袭王者候选人”，并逐一排名，每位上榜用户将按名次获得对应比例的奖池奖励。') %>
+                    </p>
+                </li>
+            </ul>
+            <div class="pondInfo">
+                <div class="rich">
+                    <ul>
+
+                        <li class="top">
+                            <h2 class=""><%= LANG('富豪池') %></h2>
+                        </li>
+                        <li class="titel">
+                            <span><%= LANG('排名') %></span>
+                            <span><%= LANG('累计净买入额') %></span>
+                            <span><%= LANG('用户名') %></span>
+                        </li>
+
+                        <li v-for="(item,index) in getRichTradeAmount" :key="index">
+                            <span>{{Number(index)+1}}</span>
+                            <span>{{item.money | capitalize}}</span>
+                            <span>{{item.user_name}}</span>
+                        </li>
+
+                        <li v-if=" getRichTradeAmount && getRichTradeAmount<=0">
+                            <p>{{textnixi}}</p>
+                        </li>
+                        <li class="publicity">
+                            <span><%= LANG('开启时间') %>：{{getRichPoolFeebyMarketData.rich_pool_open_time?getRichPoolFeebyMarketData.rich_pool_open_time:'--'}}</span>
+                            <span><%= LANG('开启交易对') %>：{{getRichPoolFeebyMarketData.market?getRichPoolFeebyMarketData.market:'--' }}</span>
+                            <span v-if="getRichTradeAmount[0]" ><%= LANG('当前巅峰王者') %>：{{getRichTradeAmount[0].user_name}}</span>
+                            <span v-else><%= LANG('当前巅峰王者') %>：--</span>
+                            <span v-if="getRichTradeAmount[0]"><%= LANG('当前最高净买入额') %>：{{getRichTradeAmount[0].money | capitalize}}</span>
+                            <span v-else> <%= LANG('当前最高净买入额') %>：--</span>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="rich">
+                    <ul>
+                        <li class="top">
+                            <h2 class=""><%= LANG('逆袭池') %></h2>
+                        </li>
+                        <li class="titel">
+                            <span><%= LANG('时间') %></span>
+                            <span><%= LANG('最高成交买单价') %></span>
+                            <span><%= LANG('逆袭王者候选人') %></span>
+                        </li>
+                        <li  v-for="item in highpricedata ">
+                            <span>{{item.endTimeStr}}</span>
+                            <span>{{item.highPrice | capitalize}}</span>
+                            <span>{{item.loginName}}</span>
+                        </li>
+                        <li v-if=" highpricedata && highpricedata<=0">
+                            <p>{{textnixi}}</p>
+                        </li>
+                        <li  v-for=" item in kingList" class="publicity">
+                            <span><%= LANG('开启时间') %>：{{item.period}}</span>
+                            <span><%= LANG('开启交易对') %>：{{item.marketName?item.marketName:'--'}}</span>
+                            <span><%= LANG('当前逆袭王者') %>：{{item.loginName?item.loginName:'--' }}</span>
+                            <span><%= LANG('当前最高成交买单价') %>：{{item.highPrice | capitalize}}</span>
+                            <span><%= LANG('交易手续费折合') %>：{{item.totalFeeAmount | capitalize}}</span>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="mes">
+                <h5>
+                    <%= LANG('温馨提示') %>:
+                </h5>
+                <p>1、 <%= LANG('活动期间，逆袭池随机开启，每次限时60分钟；开启期间排名数据每10分钟更新一次。') %></p>
+                <p>2、 <%= LANG('逆袭池玩法中，只有在单笔买入量不低于2 ZT的情况下，才视为有效买入。') %></p>
+                <!-- <p>3、 <%= LANG('逆袭王者随机产生的方式：平台将根据国际权威数据网站https://coinmarketcap.com/currencies/bitcoin/historical-data/显示的8月26日Bitcoin收盘价的整数部分作为参考数。将参考数／6产生的余数作为抽选依据。') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('规定：') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为1，表示抽取排行榜第一个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为2，表示抽取排行榜第二个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为3，表示抽取排行榜第三个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为4，表示抽取排行榜第四个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为5，表示抽取排行榜第五个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('余数为0，表示抽取排行榜第六个十分钟的用户为获奖者') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('以8月24日Bitcoin收盘价为例：') %></p>
+                <p >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('根据官网数据显示，8月24日Bitcoin的收盘价为6719.96.平台将以该数值的整数部分6719作为参考数并除以6（6719/6余数为5），则意味第五个时段的用户为最终逆袭王者。') %></p>
+                <p style="font-size: 14px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('Historical data for Bitcoin') %></p>
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= LANG('Currency in USD') %></p>
+                <table style="width:60%;margin-left: 20px">
+                    <thead>
+                        <tr>
+                            <td>Date</td>
+                            <td>Open</td>
+                            <td>High</td>
+                            <td>Low</td>
+                            <td style="color:red">Close</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aug 24,2018</td>
+                            <td>6,551.52</td>
+                            <td>6,719.96</td>
+                            <td>6,498.64</td>
+                            <td style="color:red">6,719.96</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+                <p>3、 <%= LANG('逆袭池开启时段总交易手续费发放比例说明：第1名获得70%逆袭池总交易手续费；第2名获得10%逆袭池总交易手续费；第3-6名获得5%逆袭池总交易手续费。当出现两个或两个以上相同最高成交买单价时，按出现的时间先后顺序进行排名。') %></p>
+                <p>4、 <%= LANG('逆袭池上榜用户在参与奖池活动当日，需保持当日累计净买入量大于等于10ZT，否则将失去领奖资格，对应的奖励将平分给余下有领奖资格的用户。（累计净买入量=累计买入量-累计卖出量）。') %></p>
+                <p>5、 <%= LANG('每日上榜逆袭池榜单的用户将按比例获得对应时段奖池内总交易手续费（折合等价ZT进行结算），并将在当日奖池关闭后48小时内发放。') %></p>
+                <p>6、 <%= LANG('所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由ZBG提供的精美周边 ——ZBG主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。') %></p>
+                <p>7、 <%= LANG('本活动最终解释权归ZBG.com所有。') %></p>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</section>
+</body>
+
+<link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/jqueryToast/jquery.toast.min.js?<%= VERSION %>"></script>
+<script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+<script src="/lib/others/jquery.nicescroll.min.js" type="text/javascript"></script>
+<script src="/lib/iscroll/iscroll.min.js" type="text/javascript"></script>
+<link href="/lib/jqueryToast/jquery.toast.min.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+<script src="/lib/bootstrap/dist/js/bootstrap.min.js?<%= VERSION %>" charset="utf-8"></script>
+<!--<script src="/src/scripts/jquery-ui.min.js"></script>-->
+<script src="/src/scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/src/scripts/login/jquery.drawsvg.min.js"></script>
+
+<!-- jQuery -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+<!-- Bootstrap js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- font awesome -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+<!-- jQuery Countdown plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+<!-- jQuery Easing Plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+<!-- jQuery progressbar plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+<!-- Bootstrap Progressbar -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+<!-- ImagesLoaded js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+<!-- Slick carousel js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
+<!-- Magnific popup -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+<!--2018年06月26日16:18:09-->
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+<script>
+    function loginErrorUi(message) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('提示') %>",
+            text: message,
+            icon: "warning",
+            buttons: ["<%= LANG('确定') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            //$("#logBox").fadeIn();
+        });
+        window.setTimeout(function () {
+            $(".swal-overlay").trigger('click');
+            //$("#logBox").fadeIn();
+        }, 4000);
+    }
+</script>
+<script>
+
+    function authErrorUi(message) {
+        //$("#logBox").fadeOut();
+        swal({
+            title: "<%= LANG('提示') %>",
+            text: message,
+            icon: "warning",
+            buttons: ["<%= LANG('确定') %>", false],
+            dangerMode: false,
+        }).then(function (willDelete) {
+            //$("#logBox").fadeIn();
+        });
+        window.setTimeout(function () {
+            $(".swal-overlay").trigger('click');
+            //$("#logBox").fadeIn();
+        }, 4000);
+    }
+
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var ztminerContent = new Vue({
+            el: '#ztminerContent',
+            data: function () {
+                return {
+                    highpricedata:[],//逆袭表单数组
+                    highPriceobj:{
+                        loginName:'--',
+                    },
+                    textnixi:"<%= LANG('暂无数据') %>",
+                    isshowmodel:false,//开启加速弹框
+                    isshutmodel:true,//关闭加速弹框
+                    getRichTradeAmountData:[],
+                    getRichPoolFeebyMarketData:{
+                    },
+                    msgObj:{},
+                    // endTime:'',
+                    // startTime:'-',
+                    marketName:'--',
+                    kingList:[],
+                    totalFeeAmount:0
+                }
+            },
+            methods: {
+                highprice: function(){
+                    var that=this;
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/activity/controller/GameController/highprice",
+                        success: function (res) {
+                            if (res.datas.highPriceUserList){
+                                that.highpricedata = res.datas.highPriceUserList
+                            }
+                            if (res.datas.highPrice){
+                                that.highPriceobj = res.datas.highPrice
+                            }
+                            if (res.datas.totalFeeAmount){
+                                that.totalFeeAmount = res.datas.totalFeeAmount
+                            }
+                            if (res.datas.endTime){
+                                that.endTime = res.datas.endTime
+                            }else{
+                                that.endTime = ''
+                            }
+                            if (res.datas.startTime){
+                                that.startTime = res.datas.startTime
+                            }else{
+                                that.startTime = '-'
+                            }
+                            if (res.datas.marketName){
+                                that.marketName = res.datas.marketName
+                            }
+                            if (res.datas.kingList){
+                                that.kingList = res.datas.kingList
+                            }
+
+                        },
+                        error: function (res) {
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
+
+                        }
+                    })
+                },
+                getRichTradeAmount: function(){
+                    var that=this;
+                    Methods.ajax({//POST /activity/controller/GameController/highprice
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/MinerTransactionController/getRichTradeAmount",
+                        success: function (res) {
+                            that.getRichTradeAmount = res.datas
+                            // console.log(that.getRichTradeAmount)
+                        },
+                        error: function (res) {
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
+
+                        }
+                    })
+                },
+                getRichPoolFeebyMarket: function(){
+                    var that=this;
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/MinerTransactionController/getRichPoolFeebyMarket",
+                        success: function (res) {
+                            that.getRichPoolFeebyMarketData = res.datas
+                        },
+                        error: function (res) {
+                            var resMsg = res.resMsg;
+                            authErrorUi(EXX.L(resMsg.message));
+
+                        }
+                    })
+                },
+
+            },
+            mounted: function () {
+                this.highprice()
+                this.getRichTradeAmount()
+                this.getRichPoolFeebyMarket()
+            },
+            filters: {
+                capitalize: function (value) {
+                    console.log(value)
+                    if (!value || value == null || value == 0) return '--'
+                    return (Math.ceil(value*1000000))/1000000
+                },
+            }
+        })
+    });
+</script>

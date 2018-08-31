@@ -1,0 +1,119 @@
+.certified {
+  box-sizing: border-box;
+  padding: 49px 102px; }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.verified {
+  letter-spacing: 0;
+  font-size: 14px; }
+  .verified .verified-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 120px;
+    align-items: center; }
+    .verified .verified-box .item {
+      width: 500px;
+      margin-bottom: 20px; }
+      .verified .verified-box .item .box-item {
+        display: flex;
+        justify-content: space-between; }
+      .verified .verified-box .item .top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px; }
+      .verified .verified-box .item .sex-radio {
+        display: flex;
+        justify-content: flex-start; }
+      .verified .verified-box .item .item-title {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        color: #000333;
+        letter-spacing: 0;
+        margin-right: 14px;
+        text-align: right; }
+      .verified .verified-box .item .item-content {
+        flex: 1;
+        text-align: left; }
+      .verified .verified-box .item .item-input {
+        color: #000333;
+        padding: 0 19px;
+        width: 500px;
+        height: 42px;
+        border: 1px solid #DDE2ED;
+        border-radius: 2px; }
+      .verified .verified-box .item .item-input2 {
+        width: 360px; }
+      .verified .verified-box .item .item-input-default {
+        color: #B0B7C7; }
+      .verified .verified-box .item .radio-box {
+        margin-right: 29px; }
+      .verified .verified-box .item .item-radio {
+        margin-right: 12px; }
+      .verified .verified-box .item .item-select {
+        background: #FFFFFF;
+        border: 1px solid #DDE2ED;
+        border-radius: 2px;
+        width: 500px;
+        height: 42px; }
+      .verified .verified-box .item .item-select2 {
+        width: 120px; }
+      .verified .verified-box .item .item-prompt {
+        margin-left: 20px;
+        color: #ACAEB2; }
+    .verified .verified-box .code-item {
+      display: flex;
+      justify-content: space-between;
+      width: 500px;
+      height: 42px;
+      border: 1px solid #DDE2ED;
+      margin-bottom: 20px;
+      align-items: center;
+      padding-left: 19px; }
+      .verified .verified-box .code-item input {
+        color: #B0B7C7 !important;
+        height: 40px !important;
+        width: 300px !important;
+        border: 0 !important; }
+      .verified .verified-box .code-item .getcode {
+        margin-right: 20px;
+        color: #DDE2ED;
+        position: relative; }
+        .verified .verified-box .code-item .getcode button {
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #000333;
+          letter-spacing: 0;
+          text-align: right;
+          margin-left: 20px;
+          cursor: pointer; }
+        .verified .verified-box .code-item .getcode button:before {
+          position: absolute;
+          left: 0;
+          content: '';
+          width: 1px;
+          height: 13px;
+          background: #DDE2ED;
+          display: block; }
+  .verified .bottom-button {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 60px;
+    width: 500px; }
+    .verified .bottom-button .button-big {
+      cursor: pointer;
+      height: 42px;
+      width: 240px;
+      border-radius: 2px;
+      color: #FFFFFF; }
+    .verified .bottom-button .button-complete {
+      background: #FF9D10; }
+    .verified .bottom-button .button-cancel {
+      background: #D7D7D7; }
+    .verified .bottom-button .button-mr40 {
+      margin-right: 40px; }

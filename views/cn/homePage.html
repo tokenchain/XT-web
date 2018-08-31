@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="<%= LAN %>">
+<head>
+    <%-include("include/headInit.html")%>
+    <%-include("include/headMeta.html")%>
+</head>
+<body>
+    <%-include("include/head.html")%>
+    <section>
+    <% try{ %>
+        <%-include(templateMain)%>
+    <% }catch(err){ %>
+        <%-include("include/error.html")%>
+    <% } %>
+    </section>
+    <!--<%-include("include/footMain.html")%>-->
+    <%-include("chat/chat_new.html")%>
+    <%-include("include/footInit.html")%>
+</body>
+</html>
+<!--首页用到-->

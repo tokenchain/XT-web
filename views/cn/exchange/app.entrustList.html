@@ -1,0 +1,119 @@
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        new Vue({
+            el: "#app-adList",
+            data: function() {
+                return {
+                    locked : false,
+                    market : Methods.getUrlparm('market') || 'qc_cny',
+                    marketConfig : '',
+                    type : Methods.getUrlparm('type') || '2',
+                    ads : '',
+                    isOwn : top.location.pathname.indexOf('/entrustList') != -1 ? 1 : 2,
+                    pageIndex : 1,
+                    pageSize : 10,
+                    pageCount : 0,
+                    payment : {
+                        '1' : "<%- LANG('微信')%>",
+                        '2' : "<%- LANG('支付宝')%>",
+                        '3' : "<%- LANG('银行转账')%>"
+                    }
+
+                }
+            },
+            computed : {
+                coin : function () {
+                    return !this.market ? '' : this.market.split('_')[0];
+                },
+                money : function () {
+                    return !this.market ? '' : this.market.split('_')[1];
+                },
+                coinName : function () {
+                    return !this.market ? '' : this.market.split('_')[0].toUpperCase();
+                },
+                moneyName : function () {
+                    return !this.market ? '' : this.market.split('_')[1].toUpperCase();
+                }
+            },
+            methods: {
+                getMarketConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'c2cMarketConfig',
+                        success: function(res) {
+                            this.marketConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                gotoOtherInfo:function(id){
+                    window.location.href = '/exchange/business?userId=' + id
+                },
+                getAdList: function() {
+                    this.locked = true;
+                    var data = {
+                        isOwn : this.isOwn,
+                        page : this.pageIndex,
+                        pageSize : this.pageSize
+                    };
+                    if(this.isOwn != 1){
+                        data.market = this.market;
+                        data.type = this.type;
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        data : data,
+                        url: DOMAIN_MAIN + API_PREFIX + 'AdList',
+                        success: function(res) {
+                            this.locked = false;
+                            this.ads = res.datas.ads;
+                            this.pageCount = res.datas.ads.length;
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                changeStatus: function(id,val) {
+                    var data = {
+                        adId : id,
+                        status : val
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        data : data,
+                        url: DOMAIN_MAIN + API_PREFIX + 'adStatus',
+                        success: function(res) {
+                            this.getAdList();
+                        }.bind(this)
+                    });
+                },
+                getPayment : function (val) {
+                    if(!val){
+                        return ''
+                    }
+                    var arr = (val + '').split('|');
+                    var result = [];
+                    for(var i = 0, ilen = arr.length; i < ilen; i ++){
+                        result.push(this.payment[arr[i] + '']);
+                    }
+                    return result.join(',');
+                },
+                getCoinName : function (market) {
+                    return !market ? '' :  market.split('_')[0].toUpperCase();
+                },
+                getMoneyName : function (market) {
+                    return !market ? '' :  market.split('_')[1].toUpperCase();
+                },
+                getAmount : function (val,market) {
+                    return Methods.fixNumber(val, this.marketConfig[market].coinDecimal);
+                }
+
+            },
+            created: function(){
+                this.getAdList();
+                this.getMarketConfig();
+            }
+        });
+    })
+</script>

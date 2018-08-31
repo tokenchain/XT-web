@@ -1,0 +1,31 @@
+<section class="help-content appcont" id="app-download">
+
+    <div class="app-top">
+        <div class="top-box">
+            <h2><span>EXX</span> App <%= LANG('已全面开放下载')%></h2>
+            <p><%= LANG('请选择对应的版本安装')%></p>
+            <div class="button">
+                <a :href="getUrl('pro')" class="ios hint--top" aria-label="<%- LANG('苹果企业版下载说明')%>"><img src="<%= STATIC %>/images/home/app-pro-logo.png?44" style="height: 30px;"/></a>
+                <a :href="getUrl('ios')" class="ios hint--top" aria-label="<%- LANG('苹果商店下载说明')%>"><img src="<%= STATIC %>/images/home/app-store-logo.png"/></a>
+                <a :href="getUrl('android')" class="adr hint--top" aria-label="<%- LANG('安卓版本下载说明')%>"><img src="<%= STATIC %>/images/home/google-play-logo.png"></a>
+            </div>
+            <p style="margin: 10px auto; display: none"><a href="">IOS企业版安装指南</a></p>
+            <div class="xz"></div>
+            <div class="code"><img :src="qrcodeUrl"/></div>
+        </div>
+    </div>
+    <div class="app-bottom">
+        <div class="box">
+           <img src="<%= STATIC %>/images/home/app-pic-list.png">
+        </div>
+        <div class="app-foot-cont">
+            <p>Best app for EXX</p>
+            <p style="display: none">It is a long established fact that a reader will be distracted by the readable content of a page when</p>
+            <img class="exxlogo" src="<%= WEB.LOGO %>" />
+        </div>
+
+    </div>
+
+</section>
+
+<%-include("app.download.html")%>

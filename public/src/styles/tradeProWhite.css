@@ -1,0 +1,90 @@
+.dark .tradeNew{background: #f2f3f5;}
+.dark .common-box{background: #fff;}
+.dark .buyColor{color: #ee1c3e !important;}
+.dark .buyBgColor{background: #ee1c3e !important;}
+.dark .sellColor{color: #0bb64b !important;}
+.dark .sellBgColor{background: #0bb64b !important;}
+.dark .corW{color: #c0c1c3 !important;}
+.dark .corY{color: #f37906 !important;}
+.dark #asksWrap .amountColor {color: #0bb64b !important;}
+.dark #bidsWrap .amountColor {color: #ee1c3e !important;}
+.dark .tab li{color: #5d5e6d;}
+.dark .tab li:hover{color: #232427;}
+.dark .tab li.on{background: #f2f3f5;color: #f37906;}
+.dark .common-select p{color: #82828f;}
+.dark .common-select a{background: #ebecf1;}
+.dark .chart-box-head{border-bottom: 1px solid #f2f3f5;}
+.dark .chart-box-head .line{background: #e6e8ec;}
+.dark .chart-box-head ul.item li{color: #888;}
+.dark .chart-box-head ul.item li:hover{color: #333;}
+.dark .chart-box-head ul.item li.active{color: #f37906;}
+.dark .chart-box-head .date-select p{color: #888;}
+.dark .chart-box-head .date-select:hover p{color: #333;}
+.dark .chart-box-head .date-select .date-select-list ul{background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1);border: 1px solid #e3e6ec;}
+.dark .chart-box-head .date-select .date-select-list ul li{color:#888;}
+.dark .chart-box-head .date-select .date-select-list ul li:hover{color: #333;background: #edf0f4;}
+.dark .chart-box-head .date-select .date-select-list ul li.active{color: #f37906;}
+.dark .chart-box-head .more > p{color: #888;}
+.dark .chart-box-head .more:hover > p{color: #333;}
+.dark .chart-box-head .more .more-list ul{background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1);border: 1px solid #e3e6ec;}
+.dark .chart-box-head .more .more-list ul li{color:#9696a7;}
+.dark .chart-box-head .more .more-list ul li + li{border-top: 1px solid #edf0f4;}
+.dark .chart-box-head .more .more-list ul li a:hover{color: #333;}
+.dark .chart-box-head .more .more-list ul li a.selected{color: #f37906;}
+.dark .chart-box-head .unit-select p{color: #888;}
+.dark .chart-box-head .unit-select:hover p{color: #333;}
+.dark .chart-box-head .unit-select p b{color: #f37906;}
+.dark .chart-box-head .unit-select ul{background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1);border: 1px solid #e3e6ec;}
+.dark .chart-box-head .unit-select ul li{color: #888;}
+.dark .chart-box-head .unit-select ul li:hover{color: #333;background: #edf0f4;}
+.dark .chart-area .chart-box-head .full-screen a{color: #888;}
+.dark .chart-area .chart-box-head .full-screen a:hover{color: #333;}
+.dark .chart-area .chart-box-head .full-screen a:after{background: #fff;}
+.dark .chart-area.full .chart-box-head .full-screen a:before{background: #fff;}
+.dark .entrust-box-head{border-bottom: 1px solid #f2f3f5;}
+.dark .entrust-box-head .oper a{color: #9696a7;}
+.dark .entrust-box-body .tradeNew-table .tr{border-bottom: 1px solid #f2f3f5;}
+
+.dark .entrust-box-body .tradeNew-table .head .td{color:#9595ba;}
+.dark .entrust-box-body .tradeNew-table .body:hover{background: #f2f3f5;}
+.dark .entrust-box-body .tradeNew-table .body .td{color: #232427;}
+.dark .entrust-box-body .tradeNew-table .time i{color:#fff;}
+.dark .plate-box-head{border-bottom: 1px solid #f2f3f5;}
+.dark .plate-box-body{color: #cbcde1;}
+.dark .plate-box .current-price{color: #747a8c;border-top:1px solid #f2f3f5; border-bottom: 1px solid #f2f3f5; }
+.dark .plate-box .tradeNew-table .head .td{color: #9595ba;}
+.dark .plate-box .tradeNew-table .td .cor1{color: #5c5d74;}
+.dark .plate-box .tradeNew-table .td .cor2{color: #9595ba;}
+.dark .plate-box .tradeNew-table .body:hover{background:#f2f3f5;}
+
+.dark .fill-box-head{border-bottom: 1px solid #f2f3f5;}
+
+
+.dark .fill-box-body .box{color: #5c5d74;}
+.dark .fill-box-body .box + .box{border-left: 1px solid #f2f3f5;}
+.dark .fill-box-body .box .input{background: #fff;border: 1px solid #e7e9ec;}
+.dark .fill-box-body .box .input .coverPrice { background: #1a1e21;box-shadow: 0 0 5px #000;}
+.dark .fill-box-body .box .input .coverPrice:after{border-top-color:#1a1e21; }
+.dark .fill-box-body .box .input i:after{border-right: 1px solid #55565a; border-bottom: 1px solid #55565a;}
+.dark .fill-box-body .box .input i:hover:after{border-color:#fff;}
+.dark .fill-box-body .box .input input{color: #d6435b;}
+.fill-box-body .box .input label{color: #cbcde1;}
+
+
+
+.dark .notLogin{color: #565a66;}
+.dark .noRecord {color: #565a66;}
+.dark .lever-box{background: #24262f;}
+.dark .lever-box-head{color: #565a66;}
+.dark .lever-box-proportion{background: #2c2e38;}
+.dark .lever-box-proportion ul li{color: #616576;}
+.dark .lever-box-proportion ul li + li{border-left: 1px solid #343741;}
+.dark .lever-box-proportion ul li p{color: #cdced1;}
+.dark .lever-box-proportion .lever-safe p{ background: #1a1e21;}
+.dark .lever-date .item p{ color: #cdced1;}
+.dark .lever-date .item.head p{color: #616576;}
+.dark .lever-date .item p a{ color: #f37906;}
+.dark .lever-introduce{background: #24262f;}
+.dark .lever-introduce h3{color: #84889c; }
+.dark .lever-introduce h4{color: #84889c;}
+.dark .lever-introduce p{color: #616576;}

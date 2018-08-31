@@ -1,0 +1,241 @@
+<script type="text/javascript">
+    var GLOBAL             = {},
+        EXX = {},
+        ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+        LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+        MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+        ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+        VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+        DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+        DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+        WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+    document.domain = DOMAIN_BASE;
+</script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+<div id="zb_rule">
+    <h2> <%= LANG('ZBG推广大赛规则') %> </h2>
+    <p class="content"> <%= LANG('为构建一个更加活跃的开放Z') %> </p>
+    <p class="content">&nbsp; <%= LANG('1.每位注册用户可邀请好友成为Z') %></p>
+    <p class="content">&nbsp; <%= LANG('2.根据具体的排名，当选的Z') %></p>
+
+    <p class="content thank"><%= LANG('感谢每一位的关注与支持Z') %> </p>
+    <p class="recent team">ZBG team</p>
+    <!--<p class="recent">近期</p>-->
+    <h6 class="content title"> <%= LANG('附表') %>  ：</h6>
+    <ul>
+        <li> <%= LANG('排名') %></li>
+        <li> <%= LANG('可认购数目') %></li>
+        <li><%= LANG('私募价格') %></li>
+    </ul>
+    <ol>
+        <li><span>	NO.1	</span><span>	50000	</span><span>	0.001*  <%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.2	</span><span>	40000	</span><span>	0.002*  <%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.3	</span><span>	30000	</span><span>	0.003*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.4	</span><span>	20000	</span><span>	0.004*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.5	</span><span>	19800	</span><span>	0.005*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.6	</span><span>	19600	</span><span>	0.006*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.7	</span><span>	19400	</span><span>	0.007*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.8	</span><span>	19200	</span><span>	0.008*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.9	</span><span>	19000	</span><span>	0.009*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.10	</span><span>	18800	</span><span>	0.01*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.11	</span><span>	18600	</span><span>	0.011*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.12	</span><span>	18400	</span><span>	0.012*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.13	</span><span>	18200	</span><span>	0.013*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.14	</span><span>	18000	</span><span>	0.014*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.15	</span><span>	17800	</span><span>	0.015*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.16	</span><span>	17600	</span><span>	0.016*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.17	</span><span>	17400	</span><span>	0.017*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.18	</span><span>	17200	</span><span>	0.018*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.19	</span><span>	17000	</span><span>	0.019*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.20	</span><span>	16800	</span><span>	0.02*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.21	</span><span>	16600	</span><span>	0.021*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.22	</span><span>	16400	</span><span>	0.022*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.23	</span><span>	16200	</span><span>	0.023*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.24	</span><span>	16000	</span><span>	0.024*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.25	</span><span>	15800	</span><span>	0.025*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.26	</span><span>	15600	</span><span>	0.026*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.27	</span><span>	15400	</span><span>	0.027*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.28	</span><span>	15200	</span><span>	0.028*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.29	</span><span>	15000	</span><span>	0.029*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.30	</span><span>	14800	</span><span>	0.03*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.31	</span><span>	14600	</span><span>	0.031*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.32	</span><span>	14400	</span><span>	0.032*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.33	</span><span>	14200	</span><span>	0.033*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.34	</span><span>	14000	</span><span>	0.034*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.35	</span><span>	13800	</span><span>	0.035*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.36	</span><span>	13600	</span><span>	0.036*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.37	</span><span>	13400	</span><span>	0.037*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.38	</span><span>	13200	</span><span>	0.038*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.39	</span><span>	13000	</span><span>	0.039*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.40	</span><span>	12800	</span><span>	0.04*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.41	</span><span>	12600	</span><span>	0.041*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.42	</span><span>	12400	</span><span>	0.042*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.43	</span><span>	12200	</span><span>	0.043*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.44	</span><span>	12000	</span><span>	0.044*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.45	</span><span>	11800	</span><span>	0.045*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.46	</span><span>	11600	</span><span>	0.046*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.47	</span><span>	11400	</span><span>	0.047*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.48	</span><span>	11200	</span><span>	0.048*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.49	</span><span>	11000	</span><span>	0.049*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.50	</span><span>	10800	</span><span>	0.05*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.51	</span><span>	10600	</span><span>	0.051*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.52	</span><span>	10400	</span><span>	0.052*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.53	</span><span>	10200	</span><span>	0.053*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.54	</span><span>	10000	</span><span>	0.054*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.55	</span><span>	9800	</span><span>	0.055*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.56	</span><span>	9600	</span><span>	0.056*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.57	</span><span>	9400	</span><span>	0.057*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.58	</span><span>	9200	</span><span>	0.058*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.59	</span><span>	9000	</span><span>	0.059*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.60	</span><span>	8800	</span><span>	0.06*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.61	</span><span>	8600	</span><span>	0.061*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.62	</span><span>	8400	</span><span>	0.062*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.63	</span><span>	8200	</span><span>	0.063*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.64	</span><span>	8000	</span><span>	0.064*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.65	</span><span>	7800	</span><span>	0.065*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.66	</span><span>	7600	</span><span>	0.066*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.67	</span><span>	7400	</span><span>	0.067*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.68	</span><span>	7200	</span><span>	0.068*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.69	</span><span>	7000	</span><span>	0.069*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.70	</span><span>	6800	</span><span>	0.07*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.71	</span><span>	6600	</span><span>	0.071*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.72	</span><span>	6400	</span><span>	0.072*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.73	</span><span>	6200	</span><span>	0.073*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.74	</span><span>	6000	</span><span>	0.074*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.75	</span><span>	5800	</span><span>	0.075*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.76	</span><span>	5600	</span><span>	0.076*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.77	</span><span>	5400	</span><span>	0.077*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.78	</span><span>	5200	</span><span>	0.078*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.79	</span><span>	5000	</span><span>	0.079*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.80	</span><span>	4800	</span><span>	0.08*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.81	</span><span>	4600	</span><span>	0.081*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.82	</span><span>	4400	</span><span>	0.082*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.83	</span><span>	4200	</span><span>	0.083*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.84	</span><span>	4000	</span><span>	0.084*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.85	</span><span>	3800	</span><span>	0.085*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.86	</span><span>	3600	</span><span>	0.086*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.87	</span><span>	3400	</span><span>	0.087*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.88	</span><span>	3200	</span><span>	0.088*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.89	</span><span>	3000	</span><span>	0.089*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.90	</span><span>	2800	</span><span>	0.09*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.91	</span><span>	2600	</span><span>	0.091*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.92	</span><span>	2400	</span><span>	0.092*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.93	</span><span>	2200	</span><span>	0.093*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.94	</span><span>	2000	</span><span>	0.094*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.95	</span><span>	1800	</span><span>	0.095*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.96	</span><span>	1600	</span><span>	0.096*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.97	</span><span>	1400	</span><span>	0.097*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.98	</span><span>	1200	</span><span>	0.098*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.99	</span><span>	1000	</span><span>	0.099*<%= LANG('ZT初始发行价') %>	</span></li>
+        <li><span>	NO.100	</span><span>	800	</span><span>	0.1*<%= LANG('ZT初始发行价') %>	</span></li>
+    </ol>
+
+
+    </ol>
+</div>
+<style>
+    #zb_rule{
+        width: 1000px;
+        margin: 0 auto;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+        padding: 50px;
+    }
+
+    #zb_rule h2{
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+
+    #zb_rule .recent{
+        text-align: right;
+        line-height: 24px;
+    }
+
+    #zb_rule .team{
+        margin-top: 20px;
+        font-size: 20px;
+        padding-right: 40px;
+        padding-bottom: 80px;
+        border-bottom: 1px solid #000;
+    }
+
+    #zb_rule .content{
+        font-size: 14px;
+        text-align: left;
+        line-height: 28px;
+    }
+
+    #zb_rule .thank{
+        margin-top: 30px;
+        /*padding-left: 100px;*/
+
+    }
+
+    #zb_rule ul{
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    #zb_rule ul li{
+        width: 230px;
+    }
+
+    #zb_rule ul li:nth-child(1){
+        width: 230px;
+        text-align: left;
+        padding-left: 17px;
+    }
+
+    #zb_rule ul li:nth-child(2){
+        width: 230px;
+        text-align: left;
+        padding-left: 60px;
+    }
+
+    #zb_rule ol{
+    }
+
+    #zb_rule ol li{
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+    }
+
+    #zb_rule .title{
+        margin-bottom: 30px;
+        margin-top: 40px;
+    }
+
+    #zb_rule ol li span{
+        width: 200px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+    #zb_rule ol li span:nth-child(3){
+        width: 230px;
+        text-align: right;
+        justify-content:flex-end ;
+    }
+
+    #zb_rule ol li span:nth-child(1){
+        width: 230px;
+        text-align: right;
+        justify-content:flex-start ;
+    }
+
+    #zb_rule ol li span:nth-child(2){
+        padding-right: 72px;
+    }
+</style>

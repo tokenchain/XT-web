@@ -1,0 +1,111 @@
+<link href="<%= STATIC %>/styles/user/new_register.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+
+<section class="new-register">
+    <div class="register-box" id="register-box">
+        <h1 class="register-title">注册</h1>
+        <!--<div class="box-item">-->
+        <!--<select class="item-select">-->
+        <!--<option value ="1">通讯社1</option>-->
+        <!--<option value ="2">通讯社1</option>-->
+        <!--</select>-->
+        <!--<input type="text" class="register-input" placeholder="设置密码">-->
+        <!--</div>-->
+        <!--<div class="box-item">-->
+        <!--<input type="text" class="register-input" placeholder="提现密码">-->
+        <!--</div>-->
+        <!--<div class="box-item">-->
+        <!--<input type="text" class="register-input" placeholder="确认提现密码">-->
+        <!--</div>-->
+        <div class="box-item">
+            <input type="text"
+                   v-model="register.email"
+                   class="register-input"
+                   placeholder="请输入您的邮箱">
+        </div>
+        <div class="box-item">
+            <input type="text"
+                   class="register-input"
+                   v-model="register.imgCode"
+                   placeholder="<%= LANG('图形验证码') %>">
+            <img class='img-captcha'
+                 @click="getImageCode"
+                 :src="imageCodeUrl"
+                 alt="<%= LANG('点击刷新验证码') %>">
+        </div>
+        <div class="box-item box-item-2">
+            <input type="text"
+                   v-model="register.dynamicCode"
+                   class="register-input register-input-2"
+                   placeholder="动态验证码">
+            <send-code class='captcha-btn'
+                       :code-type="1"
+                       :user-name="register.email"
+                       :country-code="countryCode"
+                       :img-code="imgCode"
+                       :img-code-id="imgCodeId"
+                       :bus-type="1"
+                       :error-fun="handleRefreshImgcode"/>
+        </div>
+        <div class="box-item">
+            <input type="text"
+                   v-model="password"
+                   class="register-input"
+                   placeholder="设置密码">
+        </div>
+        <div class="box-item">
+            <input type="text"
+                   v-model="register.password"
+                   v-model="register.email"
+                   class="register-input"
+                   placeholder="确认密码">
+        </div>
+        <div class="b.exx-entrance-mainox-item">
+            <input class="item-checkobox"
+                   type="checkbox">
+            <a class='item-a' href="#">阅读并同意《用户服务协议》</a>
+        </div>
+        <div>
+            <button class="button-register">注册</button>
+        </div>
+    </div>
+</section>
+<%-include("../component/send_code/index.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+        var app = new Vue({
+            el: '#register-box',
+            data: function () {
+                return {
+                    register: {
+                        email: '',
+                        password: '',
+                        pwdLevel: '',
+                        imgCode: '',
+                        imgCodeId: '',
+                        dynamicCode: ''
+                    },
+                    password: '',
+                    imgCodeId: '',
+                    imageCodeUrl: ''
+                }
+            },
+            methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
+            },
+            mounted: function () {
+                this.getImageCode();
+            }
+        });
+    })
+</script>

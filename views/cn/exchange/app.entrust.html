@@ -1,0 +1,302 @@
+<script>
+    require(['vue','common/methods'], function (Vue, Methods) {
+        new Vue({
+            el: "#app-entrust",
+            data: function () {
+                return {
+                    //用户信息对象
+                    user : {
+                        id : '',//用户ID
+                        name : '',//用户名
+                        mobileAuth : '',//手机认证 0未认证,1已认证
+                        emailAuth : '',//邮箱认证 0未认证,1已认证
+                        realAuth : '',//实名认证 0未认证,1已认证
+                        merchantApply : '',//认证商家 0未认证,1已认证
+                        freezeAmount : '',//保证金金额
+                        freezeCoin : '',//保证金类型 如QC,BTC,USDT
+                        online : '',//0不在线，1在线
+                        averageTime : '',//平均放行时间(分钟)
+                        language : '',//语言（保留字段）
+                        regTime : '',//注册时间
+                        tradeTotal : '',//成交笔数
+                        avatar : ''//用户头像路径（保留字段）
+                    },
+                    //支付方式对象
+                    payment : {
+                        weixin : {
+                            name : '',//开户名
+                            account : '',//微信号
+                            qrcode : ''//二维码图片路径
+                        },
+                        alipay : {
+                            name : '',//开户名
+                            account : '',//支付宝
+                            qrcode : ''//二维码图片路径
+                        },
+                        bank : {
+                            name : '',//开户名
+                            bank : '',//开户银行
+                            branch : '',//开户支行
+                            account : ''//银行卡号
+                        }
+                    },
+                    locked : false,
+                    adId : Methods.getUrlparm('id') || '',
+                    loginUser: Methods.getLocalUserInfo(),
+                    currentUserInfo : Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
+                    accountInfo : '',
+                    marketConfig : '',
+                    //广告信息对象
+                    ad : {
+                        adId : '',//广告ID
+                        type : '1',//1买，2卖
+                        saleType : 1,//1固定价格，2浮动价格
+                        timeLimit : '',//付款期限
+                        amount : '',//交易数量
+                        payType : '',//支付类型 1微信，2支付宝，3银行卡，回传用|隔开的字符串，如1|2
+                        floatPrice : '',//浮动价格百分比，保存为小数，如前台设置为5%，则回传0.05保存
+                        fixedPrice : '',//固定价格，传多少是多少
+                        minAmount : '',//最小交易数量（以QC、USDT计算）
+                        maxAmount : '',//最大交易数量（以QC、USDT计算）
+                        market : 'qc_cny',//交易市场 如qc_cny
+                        status : '',//广告状态  开启、关闭、已删除
+                        memo : '',//交易备注信息
+                        pubTime : '',//发布时间
+                        isTop : '',//是否固顶
+                        country : '中国',//国家 默认中国
+                        code : '',
+                        user : {
+                            //user对象[{},{}], {}
+                        }
+                    },
+                    //订单信息对象
+                    order : {
+                        id : '',//订单ID
+                        type : '',//1买，2卖
+                        amount : '',//交易数量
+                        price : '',//订单生成的价格
+                        status : '',//订单状态 已取消  等待接单==>等待支付==>等待确认(已支付)==>已确认(完成)==>申诉中
+                        memo : '',//交易备注信息
+                        createTime : '',//下订单的时间
+                        startTime : '',//接收订单的时间
+                        payTime : '',//支付订单的时间
+                        endTime : '',//订单完成的时间
+                        chatId : '',//会话ID，只有接单后才生成
+                        ad : {
+                            //ad广告对象
+                        },
+                        payment : {
+                            //payment支付方式对象
+                        },
+                        user : {
+                            //下单人信息
+                        }
+                    }
+                }
+            },
+            computed : {
+                currentMarketConfig : function () {
+                    return this.marketConfig[this.ad.market] || '';
+                },
+                coin : function () {
+                    return this.ad.market.split('_')[0];
+                },
+                money : function () {
+                    return this.ad.market.split('_')[1];
+                },
+                coinName : function () {
+                    return this.ad.market.split('_')[0].toUpperCase();
+                },
+                moneyName : function () {
+                    return this.ad.market.split('_')[1].toUpperCase();
+                },
+                canUseCoin : function () {
+                    return Methods.fixDecimal(this.currentUserInfo.coinFundMap[this.coin].available, this.currentMarketConfig.coinDecimal || 2);
+                },
+                amountPlaceholder : function () {
+                    if(!this.currentMarketConfig){
+                        return '';
+                    }
+                    var minAmount = parseFloat(this.currentMarketConfig.minAmount),
+                        maxAmount = parseFloat(this.currentMarketConfig.maxAmount);
+                    if(this.ad.type == 2){
+                        maxAmount = Math.min(this.canUseCoin, maxAmount);
+                        if(this.canUseCoin < minAmount){
+                            return EXX.L("可用a余额不足b", this.coinName, minAmount);
+                        }
+                        return EXX.L("卖出数量最少a，最多b", minAmount, maxAmount);
+                    }
+                    return EXX.L("买入数量最少a，最多b", minAmount, maxAmount);
+                },
+                minAmountPlaceholder:function(){
+                    if(!this.currentMarketConfig){
+                        return '';
+                    }
+                    return EXX.L("最小交易额不能少于x",  this.currentMarketConfig.minTradeAmount);
+                },
+                maxAmountPlaceholder:function(){
+                    if(!this.currentMarketConfig){
+                        return '';
+                    }
+                    return EXX.L("最大交易额不能大于x",  this.currentMarketConfig.maxTradeAmount);
+                },
+                moneyRegEx : function(){
+                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.currentMarketConfig.moneyDecimal + "})?$");
+                },
+                coinRegEx : function(){
+                    return new RegExp("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0," + this.currentMarketConfig.coinDecimal + "})?$");
+                }
+            },
+            watch : {
+                'ad.amount' : function () {
+                    var newVal = this.ad.amount;
+                    if (!this.coinRegEx.test(newVal) && newVal != '') {
+                        this.ad.amount = Methods.checkDecimal(newVal, this.currentMarketConfig.coinDecimal);
+                    }
+                },
+                'ad.minAmount' : function () {
+                    var newVal = this.ad.minAmount;
+                    if (!this.coinRegEx.test(newVal) && newVal != '') {
+                        this.ad.minAmount = Methods.checkDecimal(newVal, this.currentMarketConfig.coinDecimal);
+                    }
+                },
+                'ad.maxAmount' : function () {
+                    var newVal = this.ad.maxAmount;
+                    if (!this.coinRegEx.test(newVal) && newVal != '') {
+                        this.ad.maxAmount = Methods.checkDecimal(newVal, this.currentMarketConfig.coinDecimal);
+                    }
+                },
+                'ad.fixedPrice' : function () {
+                    var newVal = this.ad.fixedPrice;
+                    if (!this.moneyRegEx.test(newVal) && newVal != '') {
+                        this.ad.fixedPrice = Methods.checkDecimal(newVal, this.currentMarketConfig.moneyDecimal);
+                    }
+                }
+            },
+            methods: {
+                getMarketConfig: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'c2cMarketConfig',
+                        success: function(res) {
+                            this.marketConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                changeTab: function (market, type) {
+                    if(this.ad.adId != '' && this.ad.type != type){
+                        return JuaBox.showWrong('广告类型不可修改');
+                    }
+                    if(this.ad.adId != '' && this.ad.market != market){
+                        return JuaBox.showWrong('交易市场不可修改');
+                    }
+                    this.ad.market = market;
+                    this.ad.type = type;
+                },
+                changePay: function (type) {
+                    if(this.ad.payType == ''){
+                        this.ad.payType = type + '';
+                    }else{
+                        var payTypeArr = this.ad.payType.split('|');
+                        var payTypeTemp = payTypeArr.slice(0);
+                        var isOk = false;
+                        for(var i = 0, ilen = payTypeArr.length; i < ilen; i++){
+                            if(payTypeArr[i] == type){
+                                payTypeTemp.remove(type);
+                                payTypeTemp.remove((type+''));
+                                isOk = true;
+                            }
+                        }
+                        if(!isOk){
+                            payTypeTemp.push(type);
+                        }
+                        this.ad.payType = payTypeTemp.join('|');
+                    }
+                },
+                doSubmit: function() {
+                    if (this.locked) {
+                        JuaBox.info("<%= LANG('您有未完成的提交，请稍候……') %>");
+                        return
+                    }
+                    var amount = parseFloat(this.ad.amount),
+                        fixedPrice = parseFloat(this.ad.fixedPrice),
+                        minAmount = parseFloat(this.ad.minAmount),
+                        maxAmount = parseFloat(this.ad.maxAmount);
+
+                    if(this.ad.type == 2 && amount > this.canUseCoin){
+                        return JuaBox.showWrong(EXX.L('您现有的x数量不足',this.coinName));
+                    }
+                    if(isNaN(amount) || amount < this.currentMarketConfig.minAmount || amount > this.currentMarketConfig.maxAmount){
+                        return JuaBox.showWrong(this.amountPlaceholder)
+                    }
+                    if(isNaN(fixedPrice) || fixedPrice <= 0){
+                        return JuaBox.showWrong(EXX.L('固定价格不能少于x',0));
+                    }
+                    if(!this.ad.payType){
+                        return JuaBox.showWrong("<%- LANG('至少选择一种付款方式')%>");
+                    }
+                    if(isNaN(minAmount) || minAmount < this.currentMarketConfig.minTradeAmount){
+                        return JuaBox.showWrong(this.minAmountPlaceholder);
+                    }
+                    if(isNaN(maxAmount) || maxAmount < minAmount){
+                        return JuaBox.showWrong("<%- LANG('最大交易额不能少于最小交易额')%>");
+                    }
+                    if(isNaN(maxAmount) || maxAmount > this.currentMarketConfig.maxTradeAmount){
+                        return JuaBox.showWrong(this.maxAmountPlaceholder);
+                    }
+                    if(this.ad.code == ''){
+                        return JuaBox.showWrong("<%- LANG('请输入验证码')%>");
+                    }
+                    this.locked = true;
+                    Methods.ajax({
+                        type: 'POST',
+                        data : this.ad,
+                        url: DOMAIN_MAIN + API_PREFIX + 'releaseAd',
+                        success: function(res) {
+                            this.locked = false;
+                            JuaBox.info("<%- LANG('提交成功')%>", function () {
+                                top.location.href = '/exchange/entrustList'
+                            });
+                        }.bind(this),
+                        error: function (res) {
+                            this.locked = false;
+                            JuaBox.info(EXX.L(res.resMsg.message))
+                        }.bind(this)
+                    });
+                },
+                getAccountInfo:function(){
+                    var _this = this;
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getAccountInfos',
+                        success: function(res) {
+                            _this.accountInfo = res.datas;
+                        }
+                    });
+                },
+                getAdInfo: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        data : {
+                            adId : this.adId
+                        },
+                        url: DOMAIN_MAIN + API_PREFIX + 'AdInfo',
+                        success: function(res) {
+                            this.ad = res.datas;
+                        }.bind(this)
+                    });
+                }
+            },
+            created: function() {
+                if(this.adId){
+                    this.getAdInfo();
+                }
+                this.getMarketConfig();
+                this.getAccountInfo();
+            },
+            mounted : function () {
+
+            }
+        })
+    })
+</script>

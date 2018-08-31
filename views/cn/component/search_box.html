@@ -1,0 +1,32 @@
+<script type="text/x-template" id="search-box">
+    <div class="search-box">
+        <input placeholder="<%= LANG('搜索')%>" type="text" v-model="keyWord">
+        <i class="icon-search" @click="submit"></i>
+    </div>
+</script>
+
+<script>
+    require(['vue'], function (Vue) {
+        return Vue.component("search-box",{
+            template: "#search-box",
+            props : {
+                submit : {
+                    type : Function,
+                    default : function () {
+
+                    }
+                }
+            },
+            data:function() {
+                return {
+                    keyWord:''
+                }
+            },
+            watch:{
+                keyWord:function(){
+                    this.$emit('input',this.keyWord)
+                }
+            }
+        })
+    })
+</script>

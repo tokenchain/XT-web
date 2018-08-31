@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+        var GLOBAL             = {},
+            EXX = {},
+            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= LANG('上币详情')%></title>
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
+    <style>
+        html{
+            background-color: #fff;
+        }
+        .header{
+            background-color: transparent;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+        }
+        .banner{
+            width: 100%;
+            height: 700px;
+            background: url('/src/images/zbg/banner.jpg') center center no-repeat ;
+            background-size:cover;
+            position: relative;
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .banner .img{
+            width: 100px;
+            height: 100px;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255,255,255,0.2);
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .banner img{
+            width: 64px;
+            height: 64px;
+        }
+        .banner h3{
+            font-size: 40px;
+            margin:40px 0;
+        }
+        .banner p{
+            max-width: 1010px;
+            overflow: hidden;
+            line-height: 1.8;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+        }
+        .banner .btn{
+            margin-top: 100px;
+            padding: 15px 50px;
+            -webkit-border-radius: 40px;
+            -moz-border-radius: 40px;
+            border-radius: 40px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            color: rgb(46, 15, 104);
+            /*background-color: #fff;*/
+            border: 1px solid #fff;
+            color: #fff;
+        }
+        .banner .btn::after{
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            -webkit-border-radius: 40px;
+            -moz-border-radius: 40px;
+            border-radius: 40px;
+            background-color: #4FD3D3;
+            opacity: 1;
+           transition: all 0.3s;
+            z-index: -1;
+
+        }
+        .banner .btn:hover{
+            box-shadow: 0 1px 20px rgba(0, 0, 0, 0.8);
+            border: 1px solid #4FD3D3;
+        }
+        .banner .btn:hover::after {
+            width:100%;
+
+        }
+        #container{
+            margin-top: 50px;
+        }
+        #project .main  .container{
+            width: 1170px;
+        }
+        #project  h5{
+            margin-top: 100px;
+            text-align: center;
+            font-size: 40px;
+        }
+        #project .team_titel{
+            margin-top: 150px;
+        }
+        #project .main  .container ul{
+            display: flex;
+            display: -webkit-flex;
+            flex-wrap: wrap;
+            margin: 50px;
+        }
+        #project .main  .container ul li{
+            height: 40px;
+            width: 50%;
+            background-color: #f0f0f0;
+            line-height: 40px;
+            text-align: left;
+            padding-left: 10px;
+        }
+        #project .main  .container ul li a{
+            color: #5f55ff;
+        }
+        #project .main  .container ul li i{
+            color: #333;
+        }
+        #project .main  .container ul li span{
+            color: #666;
+            font-weight: 300;
+        }
+        #project .main  .container ul li.active{
+            background-color: #e7e7e7;
+        }
+        #project .team ul{
+            width: 1010px;
+            margin: 50px auto;
+        }
+        #project .team ul p{
+
+            text-align: center;
+            line-height: 2.0;
+            display: -webkit-flex;
+            display: flex;
+           justify-content: center;
+            color: #ccc;
+        }
+        #project .team ul li{
+            flex: 1;
+        }
+        footer{
+            margin-top: 100px;
+            height: 120px;
+            border-top: 1px solid #e7e7e7;
+        }
+        footer .titel{
+            margin-top: 40px;
+            text-align: center;
+            font-size: 18px;
+            color: #717171;
+        }
+        footer .logo{
+            margin-top: 10px;
+            text-align: center;
+            color: #ccc;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body class="home">
+<%-include("../include/head.html")%>
+<!--<%-include("../component/page_lite.html")%>-->
+<!-- jQuery -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+<!-- Bootstrap js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- font awesome -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+<!-- jQuery Countdown plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+<!-- jQuery Easing Plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+<!-- jQuery progressbar plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+<!-- Bootstrap Progressbar -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+<!-- ImagesLoaded js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+<!-- Slick carousel js -->
+<!-- Magnific popup -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
+
+<!-- Custom js -->
+<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+<!--2018年06月26日16:18:09-->
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+<section class="project" id="project">
+    <div class="banner">
+        <div class="img">
+            <img src="/src/images/icon/coin/lext.svg" alt="">
+
+        </div>
+        <h3>LEXT</h3>
+        <p>链锁LEXEL致力于结合区块链技术和芯片级硬件加密技术，打造更高速更安全的公有链基础底层和相关硬件，彻底解决互联网世界的安全问题。简而言之，这是可支持亿级海量用户的数字加密技术，可支持海量并发交易的公有链。</p>
+        <a href="http://www.lexel.io/file/Chinese1-White%20Paper.pdf" class="btn">查看白皮书</a>
+    </div>
+    <div class="main">
+        <div class="container">
+            <h5>项目总量</h5>
+            <div id="container" style="min-width:400px;height:400px"></div>
+            <ul>
+                <li>
+                    <span class="mes">项目官网: </span>
+                    <a href="http://www.lexel.io/">官网链接</a>
+                </li>
+                <li class="active">
+                    <span>白皮书链接: </span>
+                    <a href="http://www.lexel.io/file/Chinese1-White%20Paper.pdf">链接</a>
+                </li>
+                <!--<li class="active">-->
+                    <!--<span>代码链接: </span>-->
+                    <!--<a href="#">开元源链接链接</a>-->
+                <!--</li>-->
+                <li class="active">
+                    <span>上线交易所数量: </span>
+                    <i>1</i>
+                </li>
+                <li >
+                    <span >代币发行总量: </span>
+                    <i>100亿</i>
+                </li>
+                <li>
+                    <span>代币分配计划: </span>
+                    <i>无</i>
+                </li>
+                <li class="active">
+                    <span>众筹价格: </span>
+                    <i>¥0.031</i>
+                </li>
+                <li  class="active">
+                    <span>空投总量: </span>
+                    <i>无</i>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="team">
+        <h5 class="team_titel">项目团队</h5>
+        <ul>
+            <li>
+                <!--<img src="/src/images/zbg/noimg.gif" alt="">-->
+                <p>暂无介绍</p>
+            </li>
+
+        </ul>
+    </div>
+    <footer>
+        <p class="titel">ZB Global Exchange Platform</p>
+        <p class="logo">www.zbg.com</p>
+    </footer>
+</section>
+</body>
+</html>
+
+
+<script src="/src/js/highcharts.js"></script>
+
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        var project = new Vue({
+            el: '#project',
+            data: function() {
+                return {
+
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                highdraw(){
+                    var chart = Highcharts.chart('container', {
+                        chart: {
+                            spacing : [40, 0 , 40, 0]
+                        },
+                        title: {
+                            floating:true,
+                            text: ''
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                    style: {
+                                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                    }
+                                },
+                                point: {
+                                    events: {
+                                        mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                            // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                            chart.setTitle({
+                                                text: e.target.name+ '\t'+ e.target.y + ' %'
+                                            });
+                                        }
+                                        //,
+                                        // click: function(e) { // 同样的可以在点击事件里处理
+                                        //     chart.setTitle({
+                                        //         text: e.point.name+ '\t'+ e.point.y + ' %'
+                                        //     });
+                                        // }
+                                    }
+                                },
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            innerSize: '80%',
+                            name: '市场份额',
+                            data: [
+                                {name:'总量',   y: 100.0},
+                                // ['IE',       26.8],
+                                // {
+                                //     name: 'Chrome',
+                                //     y: 12.8,
+                                //     sliced: true,
+                                //     selected: true,
+                                //     url: 'http://www.hcharts.cn'
+                                // },
+                                // ['Safari',    8.5],
+                                // ['Opera',     6.2],
+                                // ['其他',   0.7]
+                            ]
+                        }]
+                    }, function(c) { // 图表初始化完毕后的会掉函数
+                        // 环形图圆心
+                        var centerY = c.series[0].center[1],
+                            titleHeight = parseInt(c.title.styles.fontSize);
+                        // 动态设置标题位置
+                        c.setTitle({
+                            y:centerY + titleHeight/2
+                        });
+                    });
+                }
+            },
+            updated : function () {
+
+            },
+            created: function(){
+
+            },
+            mounted : function () {
+                this.highdraw()
+            }
+        });
+    });
+</script>

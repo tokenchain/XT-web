@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+        var GLOBAL             = {},
+            EXX = {},
+            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= LANG('市场')%></title>
+    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link href="<%= STATIC %>/styles/xulei-v1.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
+</head>
+<body>
+<%-include("../include/head.html")%>
+<!--<%-include("../component/page_lite.html")%>-->
+<!-- jQuery -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+<!-- Bootstrap js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- font awesome -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+<!-- jQuery Countdown plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+<!-- jQuery Easing Plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+<!-- jQuery progressbar plugin -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+<!-- Bootstrap Progressbar -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+<!-- ImagesLoaded js -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+<!-- Slick carousel js -->
+<!-- Magnific popup -->
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
+
+<!-- Custom js -->
+<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+<!--2018年06月26日16:18:09-->
+<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+<script src="/lib/requirejs/require.js"></script>
+<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+    <section class="home-market" id="new-market">
+        <!-- <div class="cd-nav">
+                <ul>
+                    <li><a href="/market">ZBG<%= LANG('市场')%></a></li>
+                    <li><a href="/marketglobal"><%= LANG('全球市场')%></a></li>
+                    <li class="active"><a href="/newmarket"><%= LANG('上币排行')%></a></li>
+                </ul>
+        </div> -->
+        <div class="cd-nav-aux">
+            <ul>
+                <li class="active"><a href="/newmarket"> <%= LANG('上线前公示')%></a></li>
+                <li><a href="/apply"><%= LANG('上币推荐')%> </a></li>
+            </ul>
+            <div class="market-search"><input placeholder="<%= LANG('搜索')%>" type="text" autocomplete="off" name="search_1530688781509"> <i class="exx exx-search"></i></div>
+        </div>
+                        <div class="container-fluid">
+                            <div style="padding: 20px; line-height: 2;background: rgba(0,0,0,.2); margin-top: 20px; border-radius: 5px; color: #9793da; text-shadow: 1px 1px 1px #000;">
+                                <%= LANG('本列表都是节点推荐结果Z')%>
+                            </div>
+                        <div class="cd-table">
+                            <div class="head">
+                                <ul>
+                                    <li class="ranking"><%= LANG('排名')%> </li>
+                                    <li><%= LANG('币种')%>（<%= LANG('官网')%>）</li>
+                                    <!--<li><%= LANG('币种详情')%></li>-->
+                                    <li><%= LANG('推荐担保金')%> </li>
+                                    <li><%= LANG('推荐人')%> </li>
+                                    <li> <%= LANG('全球交易额')%>(<%= LANG('万')%>)</li>
+                                    <li> <%= LANG('投诉')%></li>
+                                    <li> <%= LANG('综合评分')%> </li>
+                                    <!--<li> <%= LANG('点评/反对')%> </li>-->
+                                </ul>
+                            </div>
+                            <div class="body">
+                                <ul role="button" v-for="(item,index) in datalist" v-cloak="">
+                                    <!--<li class="ranking"><p class="one" style="color: white;font-size: 18px;">1</p></li>-->
+                                    <li class="ranking"><p :class="{'one':index==0,'two':index==1,'three':index==2}">{{index+1}}</p></li>
+                                    <li><a :href="item.website.split('_')[1]"> {{item.website.split('_')[0]  }}</a></li>
+                                    <!--<li><a :href="'/project-'+item.name">{{item.oldname}}</a></li>-->
+                                    <li>{{item.apply_deposit}}</li>
+                                    <li>{{item.referrer}}</li>
+                                    <li>{{item.global_sum}}</li>
+                                    <li class="tousuli">
+                                        <p class="tousul" @click="addComplain(item)" ><%= LANG('点击投诉')%></p>
+                                        <p class="tousu" @click="queryComplain(item)"><%= LANG('查看投诉')%></p>
+                                    </li>
+                                    <li>{{item.grade}}</li>
+                                    <!--<li>-</li>-->
+                                </ul>
+                                <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"></page-lite>-->
+                                <!--<ul role="button">-->
+                                    <!--<li class="ranking"><p class="two"  style="color: white;font-size: 18px;">2</p></li>-->
+                                    <!--<li><a href="#">-</a></li>-->
+                                    <!--<li>-</li>-->
+                                    <!--<li>-</li>-->
+                                    <!--<li>-</li>-->
+                                    <!--<li>-</li>-->
+                                    <!--<li>-</li>-->
+                                <!--</ul>-->
+                                    <!--<ul role="button">-->
+                                        <!--<li class="ranking"><p class="three"  style="color: white;font-size: 18px;">3</p></li>-->
+                                        <!--<li><a href="#">-</a></li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                    <!--</ul>-->
+                                    <!--<ul role="button">-->
+                                        <!--<li class="ranking"><p>4</p></li>-->
+                                        <!--<li><a href="#">-</a></li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                        <!--<li>-</li>-->
+                                    <!--</ul>-->
+                            </div>
+                        </div>
+                    </div>
+                    <modal v-cloak :open="showModal" @close="showModal = false">
+                        <tousu :item = "item"/>
+                    </modal>
+    </section>
+    <%-include("../component/modal.html")%>
+    <%-include("../u/model/tousu.html")%>
+
+
+<!--<script src="/src/js/ribbons.js"></script>-->
+</body>
+</html>
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        var newMarket = new Vue({
+            el: '#new-market',
+            data: function() {
+                return {
+                    totalRow: 0,
+                    pageIndex: 1,
+                    pageSize: 200,
+                    datalist:[],
+                    showModal:false,
+                    item:{},
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                getapplycoinList:function () {
+                    var that=this;
+                    var data={
+                        pageIndex:this.pageIndex,
+                        pageSize:this.pageSize
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        data:JSON.stringify(data),
+                        url: DOMAIN_DEV +"/exchange/activity/controller/ApplyCoinController/applycoinList",
+                        success: function (res) {
+
+                            // for (let i = 0; i < res.datas.results.length ; i++) {
+                            //     var el = res.datas.results[i]
+                            //     // var index =  el.website.indexOf('（')
+                            //     // console.log(index)
+                            //     // var name  = el.website.substring(0,index)
+                            //     // console.log(name)
+                            //     // el.name = name.toLowerCase()
+                            //     // el.oldname = name
+                            // }
+                            // console.log(res.datas.results)
+                            this.datalist=res.datas.results;
+                            console.log(res)
+                            this.pageCount = res.datas.totalRow;
+                        }.bind(this)
+                    });
+                },
+                addComplain(item){
+                    console.log(`/addComplain?id=${item.apply_currency_id}&website=${item.website}`)
+                    // return
+                    top.location.href = `/complain/addComplain?id=${item.apply_currency_id}&website=${item.website}`
+                },
+                queryComplain(item){
+                    top.location.href = `/complain/complains?id=${item.apply_currency_id}&website=${item.website}`
+                }
+            },
+            updated : function () {
+
+            },
+            created: function(){
+                this.getapplycoinList();
+            },
+            mounted : function () {
+
+            }
+        });
+    });
+</script>
+<style>
+    .tousu{
+        padding: 10px;
+        color: #fff;
+        background-color: #7772d8;
+        border-radius: 10px;
+        margin-right: -70px
+    }
+    .tousul{
+        padding: 10px;
+        color: #fff;
+        background-color: #7772d8;
+        border-radius: 10px;
+        margin-right: 20px
+    }
+</style>

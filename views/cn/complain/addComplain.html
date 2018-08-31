@@ -1,0 +1,195 @@
+<div id="addComplain">
+    <nav class="comNav">
+        <span class="nav1">
+            <a href="/">ZBG.COM</a>
+        </span> >
+        <span class="nav2">
+            <a href="/newmarket"><%= LANG('上线前公示') %></a>
+        </span> >
+        <span>
+            <a href="javascript:void(0)">{{myTitle}}<span><%= LANG('投诉建议') %></span></a>
+        </span>
+    </nav>
+    <header>
+        <div class="addComplain title" v-cloak>
+            {{myTitle}}<span><%= LANG('投诉建议') %></span>
+        </div>
+
+    </header>
+    <main>
+        <div class="description">
+                <%= LANG('问题描述') %>
+        </div>
+        <div class="textarea">
+            <textarea placeholder="<%= LANG('在这里将投诉和吐槽告诉我们吧~') %>" v-model="content" cols="30" rows="18"></textarea>
+            <p class="calcnum">{{calcnum}}/1000</p>
+        </div>
+        <div v-show="isGoogleV">
+            <input class="googleCode" v-model='googleCode' placeholder="<%= LANG('Google验证码') %>" type="text" maxlength="6">
+        </div>
+        <div class="goGoogleBtn" v-show="!isGoogleV" class="comgoogleAuth">
+               <p> <%= LANG('您暂未添加谷歌验证码，请立即认证') %></p>
+               <button class="btns" @click="goGoogle"><%= LANG('Google认证') %></button>
+               </div>
+        <div class="btn">
+            <button @click="submit"><%= LANG('提交') %></button>
+        </div>
+    </main>
+</div>
+<style>
+    .calcnum{
+        display: flex;
+        justify-content: flex-end;
+    }
+    #addComplain main {
+        width: 800px;
+        margin: 0 auto;
+        color: #000
+    }
+
+    .addComplain.title {
+        display: flex;
+        justify-content: center;
+        font-size: 32px;
+        color: #000;
+        margin:100px 0;
+    }
+
+    #addComplain .description {
+        font-size: 16px;
+        margin-bottom: 15px
+    }
+
+    #addComplain .textarea {
+        width: 100%;
+        resize: none;
+        padding: 15px;
+        background-color: #f2f2f2
+    }
+
+    #addComplain textarea {
+        width: 100%;
+        resize: none;
+    }
+
+    #addComplain .googleCode {
+        height: 40px;
+        border-bottom: 1px solid #6a6ada;
+        width: 100%;
+        font-size: 18px;
+        padding-left: 5px;
+        margin-top: 35px
+    }
+
+    #addComplain .btn {
+        margin-top: 70px;
+        display: flex;
+        justify-content: center;
+    }
+    #addComplain .btn button{
+        border-radius: 20px;
+        height: 42px
+    }
+    #addComplain button{
+        width: 150px
+    }
+    .comNav {
+        width: 800px;
+        margin: 0 auto;
+        margin-bottom: 30px
+    }
+
+    .nav1 {
+        color: #999;
+        cursor: pointer;
+    }
+
+    .nav2 {
+        color: #999;
+        cursor: pointer;
+    }
+    .goAccount{
+        color: #6a6ada
+    }
+    .comgoogleAuth{
+        margin-top: 20px
+    }
+    .goGoogleBtn{
+        margin-top: 70px
+    }
+    .goGoogleBtn .btns{
+        border-radius: 20px;
+        background-color: #fff;
+        color: #6a6ada;
+        border:1px solid #6a6ada;
+        margin-top: 20px
+    }
+</style>
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'mathjs/dist/math.min'], function (Vue, Methods, JuaBox) {
+        EXX.addComplain = new Vue({
+            el: "#addComplain",
+            data: function () {
+                return {
+                    test: 'hello',
+                    website: '<%= website %>',
+                    applyCurrencyId: '<%= id %>',
+                    pageIndex: 1,
+                    pageSize: 20,
+                    content: '',
+                    userId: Methods.getCookie(ENV + "uid"),
+                    userName: Methods.getCookie(ENV + "uname"),
+                    googleCode: '',
+                    loginUser:Methods.getLocalUserInfo(ENV + 'userInfo')
+                }
+            },
+            methods: {
+                submit() {
+                    var _this = this
+                    if(this.calcnum<20||this.calcnum>1000){
+                            JuaBox.wrong('长度必须在20字以上,1000字以下')
+                            return 
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        data: JSON.stringify({
+                            applyCurrencyId: this.applyCurrencyId,
+                            userId: this.userId,
+                            userName: this.userName,
+                            content: encodeURI(_this.content),
+                            googleCode: this.googleCode
+                        }),
+                        url: DOMAIN_DEV +
+                            "/exchange/activity/controller/CoinComplainController/addComplain",
+                        success: function (res) {
+                            console.log(res.resMsg.code == 1, res)
+                            if (res.resMsg.code == 1) {
+                                JuaBox.sure('成功', function () {
+                                    top.location.href =
+                                        `/complain/complains?id=${_this.applyCurrencyId}&website=${_this.website}`
+                                })
+                            }
+                        }.bind(this)
+                    });
+                },
+                goGoogle(){
+                    top.location.href =`/u/account`
+                }
+            },
+            created() {
+
+            },
+            computed: {
+                myTitle() {
+                    return this.website.substring(0, this.website.indexOf('（'))
+                },
+                calcnum(){
+                    return this.content.length
+                },
+                isGoogleV(){
+                    return !!this.loginUser.googleAuth
+                }
+            }
+        })
+    });
+</script>

@@ -1,0 +1,103 @@
+<div id="help-banner" class="banner" :class="{'loaded': loaded}">
+    <div class="help-nav">
+        <h3><%= LANG('入门教程')%></h3>
+        <ul>
+            <!--<li v-for="category in categories">-->
+            <!--<a :href="'/help/display?cid=' + category.code + '&fid=4'">-->
+            <!--&lt;!&ndash;<h4 class="vue-init">{{category.name}}</h4>&ndash;&gt;-->
+            <!--<h4 class="vue-init">{{category.name}}</h4>-->
+            <!--</a>-->
+            <!--</li>-->
+            <li>
+                <a href="/help/coin">
+                    <h4 class="vue-init"><%= LANG('币种资料') %></h4>
+                </a>
+            </li>
+            <li v-for="(item,index) in category.subsetCategory">
+                <a :href="returnURL(item)">
+                    <h4 class="vue-init">{{item.categoryName}}</h4>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        var helpbanner = new Vue({
+            el: "#help-banner",
+            created: function () {
+                this.getGuideCategories()
+            },
+            mounted: function () {
+                this.getCategoryByType();
+            },
+            data: function () {
+                return {
+                    loaded: true,
+                    category: {}
+                    // categories: [],
+                }
+            },
+            methods: {
+                getGuideCategories: function () {
+                    var data = {
+                        tab: 4
+                    };
+                    // Methods.ajax({
+                    //   type: 'GET',
+                    //   url: DOMAIN_MAIN + API_PREFIX + 'getProblemCategorType',
+                    //   data: data,
+                    //   success: function(res) {
+                    //     this.categories = res.datas.problemType[0].problCategor
+                    //   }.bind(this)
+                    // });
+                },
+                getCategoryByType: function () {
+                    var that = this
+                    var lanNum = 1
+                    switch (LAN) {
+                        case "cn":
+                            lanNum = 1
+                            break;
+                        case "en":
+                            lanNum = 2
+                            break;
+                        case "kr":
+                            lanNum = 3
+                            break;
+                        case "jp":
+                            lanNum = 4
+                            break;
+                    }
+                    var data = {
+                        type: 1,
+                        lanType: lanNum
+                    };
+
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecategorycontroller/" + 'getCategoryByType',
+                        data: data,
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                that.category = res.datas[0]
+                            }
+                        }
+                    });
+                },
+                returnURL: function (item) {
+                    var address = '/help/display?'
+                    var categoryId = 'categoryId=' + item.categoryId
+                    var articleId = '&articleId=""'
+                    if (item.subArticle[0]) {
+                        articleId = '&articleId=' + item.subArticle[0].articleId
+                    }
+                    return address + categoryId + articleId
+                }
+            }
+        })
+    })
+</script>

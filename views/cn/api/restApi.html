@@ -1,0 +1,1065 @@
+<article class="table-responsive page-content clearfix">
+    <h2>Rest API</h2>
+    <%- LANG('API说明及加群')%>
+    <h3 id="market"><%LANG('行情API')%></h3>
+    <p><%= LANG('获取EXX最新市场行情数据')%></p>
+    <table class="table api-table">
+        <thead>
+        <tr>
+            <th width="50%"><%= LANG('接口')%></th>
+            <th width="50%"><%= LANG('描述')%></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://api.exx.com/data/v1/markets</a>
+                <span class="api-desc"><%= LANG('所有市场')%></span>
+                <div class="api-detail" style="display:none;">
+                    <h4><%= LANG('示例')%></h4>
+
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://api.exx.com/data/v1/markets
+                    //# Response
+                   {
+                        "eos_btc":{
+                            "minAmount":"0.00010",
+                            "amountScale":2,
+                            "priceScale":6,
+                            "maxLevels":0,
+                            "isOpen":false
+                        },
+                        "etc_hsr":{
+                            "minAmount":"0.001",
+                            "amountScale":3,
+                            "priceScale":3,
+                            "maxLevels":0,
+                            "isOpen":true
+                        },
+                        ...
+                        }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        amountScale   : <%= LANG('最小交易金额')%>
+                        amountScale   : <%= LANG('买方币小数点')%>
+                        priceScale    : <%= LANG('卖方币小数点')%>
+                        maxLevels     : <%= LANG('最大杠杆倍数，0表示不开放杠杆')%>
+                        isOpen        : <%= LANG('是否开盘')%>
+			        </pre>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://api.exx.com/data/v1/tickers</a>
+                <span class="api-desc"><%= LANG('所有行情')%></span>
+                <div class="api-detail" style="display:none;">
+                    <h4><%= LANG('示例')%></h4>
+
+                    <pre class="brush: js;">
+            //# Request
+            GET https://api.exx.com/data/v1/tickers
+            //# Response
+               {
+                "bts_btc":{
+                    "vol":0.0,
+                    "last":0,
+                    "sell":0.0,
+                    "buy":0.0,
+                    "weekRiseRate":0.0,
+                    "riseRate":0.0,
+                    "high":0.0,
+                    "low":0,
+                    "monthRiseRate":0.0
+                },
+                ...
+                }
+            </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                vol           : <%= LANG('成交量(最近的24小时)')%>
+                last          : <%= LANG('最新成交价')%>
+                sell          : <%= LANG('卖一价')%>
+                buy           : <%= LANG('买一价')%>
+                weekRiseRate  : <%= LANG('周涨跌幅')%>
+                riseRate      : <%= LANG('24小时涨跌幅')%>
+                high          : <%= LANG('最高价')%>
+                low           : <%= LANG('最低价')%>
+                monthRiseRate : <%= LANG('30日涨跌幅')%>
+	        </pre>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://api.exx.com/data/v1/ticker</a>
+                <span class="api-desc"><%= LANG('市场行情')%></span>
+                <div class="api-detail" style="display:none;">
+                    <h4><%= LANG('示例')%></h4>
+
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://api.exx.com/data/v1/ticker?currency=eth_hsr
+                    //# Response
+                    {
+                        "ticker": {
+                            "vol": "1447.851",
+                            "last": "30.487000000",
+                            "sell": "30.499",
+                            "buy": "30.487",
+                            "weekRiseRate": -1.17,
+                            "riseRate": 9.45,
+                            "high": "30.812",
+                            "low": "27.855",
+                            "monthRiseRate": -0.99
+                        },
+                        "date": "1510383406453"
+                    }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        vol           : <%= LANG('成交量(最近的24小时)')%>
+                        last          : <%= LANG('最新成交价')%>
+                        sell          : <%= LANG('卖一价')%>
+                        buy           : <%= LANG('买一价')%>
+                        weekRiseRate  : <%= LANG('周涨跌幅')%>
+                        riseRate      : <%= LANG('24小时涨跌幅')%>
+                        high          : <%= LANG('最高价')%>
+                        low           : <%= LANG('最低价')%>
+                        monthRiseRate : <%= LANG('30日涨跌幅')%>
+			        </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://api.exx.com/data/v1/depth</a>
+                <span class="api-desc"><%= LANG('市场深度')%></span>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        GET https://api.exx.com/data/v1/depth?currency=eth_hsr
+                        //# Response
+                        {
+                            "asks": [
+                                [
+                                    "32.831",
+                                    "0.083"
+                                ]...
+                            ],
+                            "bids": [
+                                [
+                                    "30.434",
+                                    "10.766"
+                                ]...
+                            ],
+                            "timestamp" : <%= LANG('时间戳')%>
+                        }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        asks : <%= LANG('卖方深度')%>
+                        bids : <%= LANG('买方深度')%>
+                        timestamp : <%= LANG('此次深度的产生时间戳')%>
+			        </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://api.exx.com/data/v1/trades</a>
+                <span class="api-desc"><%= LANG('历史成交')%></span>
+                <div class="api-detail" style="display:none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                        //# Request
+                        GET https://api.exx.com/data/v1/trades?currency=eth_hsr
+                        //# Response
+                        [
+                            {
+                                "amount"     : 0.933,
+                                "price"      : 31.595,
+                                "tid"        : 2583932,
+                                "type"       : "sell",
+                                "date"       : 2583932,
+                                "trade_type" : "ask",
+                            }...
+                        ]
+			        </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        amount     : <%= LANG('交易数量')%>
+                        price      : <%= LANG('交易价格')%>
+                        tid        : <%= LANG('交易生成ID')%>
+                        type       : <%= LANG('交易类型，buy(买)/sell(卖)')%>
+                        date       : <%= LANG('交易时间(时间戳)')%>
+                        trade_type : <%= LANG('委托类型，ask(卖)/bid(买)')%>
+			        </pre>
+
+                    <h4><%= LANG('请求参数说明')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="trade"><%= LANG('交易API')%></h3>
+    <p><%= LANG('用于EXX快速进行交易')%></p>
+
+    <table class="table api-table">
+        <thead>
+        <tr>
+            <th width="50%"><%= LANG('接口')%></th>
+            <th width="50%"><%= LANG('描述')%></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/order</a>
+                <span class="api-desc"><%= LANG('委托下单')%></span>
+                <div class="api-detail" style="display: none;">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/order?accesskey=accesskey&amp;amount=1.5&amp;currency=eth_hsr&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;price=1024&amp;type=buy
+                    	&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code": 100,
+                        "message": "操作成功",
+                        "id": "13877"
+                    }
+                    </pre>
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    code : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>
+                    id : <%= LANG('委托挂单号')%>
+                    </pre>
+
+                    <h4><%= LANG('请求参数说明(加密签名请根据参数名的首字母顺序顺序签名,signature不用加入待签名字符串)')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>amount</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('交易数量')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>nonce</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('当前时间毫秒数')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>price</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('单价')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>type</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('交易类型')%>buy/sell[buy/sell]</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>signature</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('请求加密签名串')%></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/cancel</a>
+                <span class="api-desc"><%= LANG('取消委托')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/cancel?&amp;accesskey=your_access_key&amp;currency=eth_hsr&amp;id=123456789&amp;nonce=<%= LANG('当前时间毫秒数')%>
+                    	&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code": "100",
+                        "message": "操作成功。"
+                    }
+					</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                        code : <%= LANG('返回代码')%>
+                        message : <%= LANG('提示信息')%>
+					</pre>
+
+                    <h4><%= LANG('请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>id</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('委托挂单号')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>nonce</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('当前时间毫秒数')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>signature</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('请求加密签名串')%></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getOrder</a>
+                <span class="api-desc"><%= LANG('获取委托买单或卖单')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getOrder?accesskey=your_access_key&amp;currency=eth_hsr&amp;id=123456789&amp;nonce=<%= LANG('当前时间毫秒数')%>
+                    	&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "fees": 0,
+                        "total_amount": 1,
+                        "trade_amount": 0,
+                        "price": 31,
+                        "currency": “eth_hsr",
+                        "id": "13877",
+                        "trade_money": 0,
+                        "type": "buy",
+                        "trade_date": 1509728383300,
+                        "status": 0
+                    }
+						</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    fees         : <%= LANG('交易手续费')%>
+                    total_amount : <%= LANG('挂单总数量')%>
+                    trade_amount : <%= LANG('已成交数量')%>
+                    price        : <%= LANG('单价')%>
+                    currency     : <%= LANG('交易市场')%>
+                    id           : <%= LANG('委托挂单号')%>
+                    trade_money  : <%= LANG('已成交总金额')%>
+                    type:        : <%= LANG('挂单类型')%>buy/sell')%>
+                    trade_date   : <%= LANG('时间戳')%>
+                    status       : <%= LANG('挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）')%>
+
+					</pre>
+
+                    <h4><%= LANG('请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>id</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('委托挂单号')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>nonce</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('当前时间毫秒数')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>signature</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('请求加密签名串')%></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getOpenOrders</a>
+                <span class="api-desc"><%= LANG('获取多个委托买单或卖单，每次请求返回10条记录')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getOpenOrders?accesskey=your_access_key&amp;currency=eth_hsr
+                    	&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;pageIndex=1&amp;type=buy&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    [
+                        {
+                            "fees": 0,
+                            "total_amount": 1,
+                            "trade_amount": 0,
+                            "price": 30,
+                            "currency": “eth_hsr",
+                            "id": "13878",
+                            "trade_money": 0,
+                            "type": "buy",
+                            "trade_date": 1509728897772,
+                            "status": 0
+                        },
+                        {
+                            "fees": 0,
+                            "total_amount": 1,
+                            "trade_amount": 0,
+                            "price": 30,
+                            "currency": “eth_hsr",
+                            "id": "13877",
+                            "trade_money": 0,
+                            "type": "buy",
+                            "trade_date": 1509728383300,
+                            "status": 0
+                        }
+                    ]
+					</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    fees         : <%= LANG('交易手续费')%>
+                    total_amount : <%= LANG('挂单总数量')%>
+                    trade_amount : <%= LANG('已成交数量')%>
+                    price        : <%= LANG('单价')%>
+                    currency     : <%= LANG('交易市场')%>
+                    id           : <%= LANG('委托挂单号')%>
+                    trade_money  : <%= LANG('已成交总金额')%>
+                    type:        : <%= LANG('挂单类型')%> buy/sell
+                    trade_date   : <%= LANG('时间戳')%>
+                    status       : <%= LANG('挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）')%>
+					</pre>
+
+                    <h4><%= LANG('请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)')%></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><%= LANG('参数名')%></th>
+                            <th><%= LANG('描述')%></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                            <td>
+                                <p>accesskey</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>currency</p>
+                            </td>
+                            <td>
+                                <p>
+                                    bcc_btc   : bcc/btc<br>
+                                    eth_btc   : eth/btc<br>
+                                    ltc_btc   : ltc/btc<br>
+                                    ...<br>
+                                    mona_qtum : mona/qtum<br>
+                                    etp_qtum  : etp/qtum
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>nonce</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('当前时间毫秒数')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>pageIndex</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('记录页数')%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>type</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('交易类型')%>buy/sell[buy/sell]</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>signature</p>
+                            </td>
+                            <td>
+                                <p><%= LANG('请求加密签名串')%></p>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getBalance</a>
+                <span class="api-desc"><%= LANG('获取用户信息')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getBalance?accesskey=your_access_key&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "credits": [
+                            {
+                                "flatRatio": "0.1",
+                                "userRatio": "0.0985",
+                                "noticeRatio": "0.2",
+                                "levels": 10,
+                                "flatPrice": 11.01471399
+                            }
+                        ],
+                        "funds": {
+                            "BTS": {
+                                "total": "10",
+                                "freeze": "0",
+                                "balance": "10",
+                                "propTag": "BTS",
+                                "credit_quota": "121.938066",
+                                "credit_borrowed": "0",
+                                "credit_interest": "0"
+                            },
+                            "MONA": {
+                                "total": "0.966033",
+                                "freeze": "0.966033",
+                                "balance": "0",
+                                "propTag": "MONA",
+                                "credit_quota": "0",
+                                "credit_borrowed": "0",
+                                "credit_interest": "0"
+                            },
+                            ....
+                            "ETH": {
+                                "total": "10",
+                                "freeze": "0",
+                                "balance": "10",
+                                "propTag": "ETH",
+                                "credit_quota": "121.938066",
+                                "credit_borrowed": "0",
+                                "credit_interest": "0"
+                            },
+                            "LTC": {
+                                "total": "0",
+                                "freeze": "0",
+                                "balance": "0",
+                                "propTag": "LTC",
+                                "credit_quota": "121.938066",
+                                "credit_borrowed": "0",
+                                "credit_interest": "0"
+                            },
+                            "QTUM": {
+                                "total": "0.003",
+                                "freeze": "0.003",
+                                "balance": "0",
+                                "propTag": "QTUM",
+                                "credit_quota": "0",
+                                "credit_borrowed": "9.65",
+                                "credit_interest": "0.026252"
+                            }
+                        }
+                    }
+					</pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    credits <%= LANG('借贷信息')%>:
+                        flatRatio   : <%= LANG('平仓风险比例, 当用户风险系数低于此值时，系统执行平仓操作')%>
+                        userRatio   : <%= LANG('平仓比例, 用户风险系数')%>
+                        noticeRatio : <%= LANG('提醒比例')%>,
+                        levels      : <%= LANG('杠杆倍数')%>,
+                        flatPrice   : <%= LANG('平仓价格')%>
+                    funds(<%= LANG('资产信息')%>) :
+                        ETH（ETH<%= LANG('资产详情')%>): {
+                            total           : <%= LANG('货币总量')%>,
+                            freeze          : <%= LANG('冻结数量')%>,
+                            balance         : <%= LANG('可用资产')%>,
+                            propTag         : <%= LANG('货币标识')%>,
+                            credit_quota    : <%= LANG('借款额度')%>,
+                            credit_borrowed : <%= LANG('已使用额度')%>,
+                            credit_interest : <%= LANG('未支付利息')%>
+                        }
+                        ...
+                        QTUM（QTUM<%= LANG('资产详情')%>): {
+                                total           : <%= LANG('货币总量')%>,
+                                freeze          : <%= LANG('冻结数量')%>,
+                                balance         : <%= LANG('可用资产')%>,
+                                propTag         : <%= LANG('货币标识')%>,
+                                credit_quota    : <%= LANG('借款额度')%>,
+                                credit_borrowed : <%= LANG('已使用额度')%>,
+                                credit_interest : <%= LANG('未支付利息')%>
+                            }
+					</pre>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getChargeAddress</a>
+                <span class="api-desc"><%= LANG('获取充值地址')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getChargeAddress?accesskey=your_access_key&amp;currency=qtum&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code":100,
+                        "message" : {
+                            "des" : "success",
+                          "isSuc" : true,
+                          "datas" : {
+                                "currency":"qtum",
+                                "key":"QSWnWqpHiM7Rz2S4Ybf76seYNURPL3Z5TN"
+                            }
+                        }
+                    }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    code : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>:
+                        des :  <%= LANG('提示信息')%>:
+                      isSuc : <%= LANG('提示信息')%>:
+                       data :{
+                            key       : <%= LANG('充值地址')%>,
+                            currency  : <%= LANG('货币标识')%>
+                        }
+                    </pre>
+                </div>
+            </td>
+        </tr>
+        <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getChargeRecord</a>
+            <span class="api-desc"><%= LANG('获取充值记录')%></span>
+            <div class="api-detail" style="display: none">
+                <h4><%= LANG('示例')%></h4>
+                <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getChargeRecord?accesskey=your_access_key&amp;currency=qtum&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;pageIndex=<%= LANG('页数')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code":100,
+                        "message":{
+                            "des": "success",
+                            "isSuc": true,
+                            "datas": {
+                                "total":2,
+                                "pageSize":10,
+                                "list":[{
+                                    "amount":11.000000000,
+                                    "status":"-",
+                                    "hash":"2018013019033000098753290",
+                                    "submit_time":"2018-01-30 19:03:31"
+                                    "confirmTimes":1
+                                },
+                                {
+                                    "amount":11.000000000,
+                                    "status":"-",
+                                    "hash":"2018013018533000050778882",
+                                    "submit_time":"2018-01-30 18:53:31"
+                                    "confirmTimes":1
+                                },
+                                "pageIndex":1
+                            }
+                        }
+                    }
+                    </pre>
+
+                <h4><%= LANG('返回值说明')%></h4>
+                <pre class="brush: js;">
+                    code : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>:
+                        des : <%= LANG('提示信息')%>:
+                        isSuc:<%= LANG('提示信息')%>:
+                        data:{
+                            total       : <%= LANG('记录数')%>,
+                            status      : <%= LANG('充值状态')%>,
+                            hash        : <%= LANG('充值交易号')%>
+                            submit_time : <%= LANG('充值时间')%>,
+                            confirmTimes: <%= LANG('确认数')%>
+                        }
+                    </pre>
+            </div>
+        </td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getWithdrawAddress</a>
+                <span class="api-desc"><%= LANG('获取认证提币地址')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getWithdrawAddress?accesskey=your_access_key&amp;currency=qtum&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code":100,
+                        "message":{
+                            "des": "success",
+                            "isSuc": true,
+                            "datas": [{
+                                "memo":"备注信息",
+                                "key":"QSWnWqpHiM7Rz2S4Ybf76seYNURPL3Z5TN",
+                                "currency":"qtum"
+                            }]
+                        }
+                    }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    code : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>:
+                        des :
+                        isSuc:
+                        data:[{
+                            memo      : <%= LANG('备注')%>,
+                            key       : <%= LANG('提币地址地址')%>,
+                            currency  : <%= LANG('货币标识')%>
+                        }]
+                    </pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/getWithdrawRecord</a>
+                <span class="api-desc"><%= LANG('获取提币记录')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/getWithdrawRecord?accesskey=your_access_key&amp;currency=qtum&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;pageIndex=<%= LANG('页数')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code":100,
+                        "message":{
+                            "des": "success",
+                            "isSuc": true,
+                            "datas": {
+                                "pageSize":10,
+                                "list":[{
+                                    "amount":11.00000000,
+                                    "id":2018013084703,
+                                    "status":"success",
+                                    "submitTime":1517310691000,
+                                    "manageTime":1517310812000,
+                                    "receive":11.00000000,
+                                    "toAddress":"QjedNoj5cU6M5Vv5ipWoPtZEebWBXskYnu"
+                                },{
+                                    "amount":11.00000000,
+                                    "id":2018013084684,
+                                    "status":"success",
+                                    "submitTime":1517309701000,
+                                    "manageTime":1517309912000,
+                                    "receive":11.00000000,
+                                    "toAddress":"QjedNoj5cU6M5Vv5ipWoPtZEebWBXskYnu"
+                                }]
+                                ,"pageIndex":1
+                            }
+                        }
+                    }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    code : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>:
+                        des : <%= LANG('提示信息')%>:
+                      isSuc : <%= LANG('提示信息')%>:
+                       data :{
+                        pageSize:<%= LANG('每页记录数')%>,
+                            list:
+                                amount     : <%= LANG('提币数量')%>,
+                                id         : <%= LANG('提币记录ID')%>,
+                                status     : <%= LANG('状态')%>,
+                                submitTime : <%= LANG('提交时间')%>,
+                                manageTime : <%= LANG('处理时间')%>,
+                                receive    : <%= LANG('到账金额')%>,
+                                toAddress  : <%= LANG('提币地址')%>
+                        }
+                    </pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="api-link" role="button"><em class="p">+</em><em class="l">-</em> https://trade.exx.com/api/withdraw</a>
+                <span class="api-desc"><%= LANG('提币')%></span>
+                <div class="api-detail" style="display: none">
+                    <h4><%= LANG('示例')%></h4>
+                    <pre class="brush: js;">
+                    //# Request
+                    GET https://trade.exx.com/api/withdraw?accesskey=your_access_key&amp;amount=10&amp;currency=qtum&amp;nonce=<%= LANG('当前时间毫秒数')%>&amp;receiveAddr=<%= LANG('提币地址')%>&amp;safePwd=<%= LANG('提币密码')%>&amp;signature=<%= LANG('请求加密签名串')%>
+                    //# Response
+                    {
+                        "code":100,
+                        "message":"success",
+                        "id":"2018013084703"
+                    }
+                    </pre>
+
+                    <h4><%= LANG('返回值说明')%></h4>
+                    <pre class="brush: js;">
+                    code    : <%= LANG('返回代码')%>
+                    message : <%= LANG('提示信息')%>
+                    id      : <%= LANG('提币单号')%>
+                    </pre>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <h3 id="example"><%= LANG('示例代码')%></h3>
+    <p></p>
+    <p><%= LANG('签名方式：根据secretkey把请求的参数签名，请求参数按照ascii值排序加密')%></p>
+    <pre class="brush: js;">
+    //......
+    try{
+    	//......
+        String params = "accesskey=yourAccessKey&amp;nonce="+System. currentTimeMillis();
+    	String secretKey = "yourSecretKey";
+    	String baseURL = "https://trade.exx.com/api/getBalance";
+    	String signature = HmacSHA512(params, secretKey);
+    	String url = baseURL + "?" + params + "&amp;signature=" + signature;
+    	String result = doRequest(url);
+
+        //String params = "accesskey=yourAccessKey&amp;nonce=1234567890123";
+        //String secretKey = "yourSecretKey";
+        //<%= LANG('通过HmacSHA512加密的结果为')%>:
+        //c247be4b0b3f448254e70d422d199c874afa8fe873fd25d39cc1d14e4d60700bdbe0ea681a57bf772a8c16706e8a4d4bef3cd362fcc89f03a15e7e1b9e1930b1
+    	//......
+    }catch(Exception ex){
+    	ex.printStackTrace();
+    }
+    //......
+    </pre>
+
+    <!--<h3 id="download"><%= LANG('文档下载')%></h3>
+    <p><%= LANG('下载DEMO以及开发文档')%></p>
+    <p style="line-height: 1;"><a class="exxbtn btn-ok" style="width: 100px;display: block;" target="_blank" href="https://img1.exx.com/file/0/api_1.0.zip"><span><%= LANG('立即下载')%></span></a></p>
+    -->
+
+    <h3 id="faq"><%= LANG('常见问题')%></h3>
+    <p><b><%= LANG('访问限制')%></b></p>
+    <p><%= LANG('1.单个IP限制每分钟1000次访问，超过1000次将被锁定1小时，一小时后自动解锁。')%></p>
+    <p><%= LANG('2.每个市场限制每秒钟10次访问，一秒钟内10次以上的请求，将会视作无效。')%></p>
+    <p><%= LANG('3.资产接口每秒最多支持访问3次。')%></p>
+    <p><%= LANG('4.充提地址、充提记录接口每秒最多可访问1次。')%></p>
+    <p><%= LANG('5.提币权限需要在生成API密钥操作中开启,默认不开启。')%></p>
+    <p><%= LANG('6.子账号不允许提币操作。')%></p>
+</article>

@@ -1,0 +1,2828 @@
+{
+  "API说明及加群": {
+    "cn": "<p>ZBG为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将ZBG交易功能整合到自己应用当中。</p><p>如果在使用过程中有任何问题，请联系我们技术讨论QQ群：630260653[<a href='https://jq.qq.com/?_wv=1027&k=52xTBP3' target='_blank'>点击加群</a>] ，我们将为您做出最权威的解答。 </p>",
+    "en": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>",
+    "jp": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>",
+    "kr": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>"
+  },
+  "行情API": {
+    "cn": "行情API",
+    "en": "Price API",
+    "jp": "Price API",
+    "kr": "Price API"
+  },
+  "获取ZBG最新市场行情数据": {
+    "cn": "获取ZBG最新市场行情数据",
+    "en": "Receive the latest ZBG market data",
+    "jp": "Receive the latest ZBG market data",
+    "kr": "Receive the latest ZBG market data"
+  },
+  "接口": {
+    "cn": "接口",
+    "en": "Interface",
+    "jp": "Interface",
+    "kr": "Interface"
+  },
+  "描述": {
+    "cn": "描述",
+    "en": "Description",
+    "jp": "Description",
+    "kr": "Description"
+  },
+  "所有市场": {
+    "cn": "所有市场",
+    "en": "All markets",
+    "jp": "All markets",
+    "kr": "All markets"
+  },
+  "示例": {
+    "cn": "示例",
+    "en": "Description",
+    "jp": "Description",
+    "kr": "Description"
+  },
+  "返回值说明": {
+    "cn": "返回值说明",
+    "en": "Returned Value Specification",
+    "jp": "Returned Value Specification",
+    "kr": "Returned Value Specification"
+  },
+  "买方币小数点": {
+    "cn": "买方币小数点",
+    "en": "The decimal point of buyer's coin",
+    "jp": "The decimal point of buyer's coin",
+    "kr": "The decimal point of buyer's coin"
+  },
+  "卖方币小数点": {
+    "cn": "卖方币小数点",
+    "en": "The decimal point of seller's coin",
+    "jp": "The decimal point of seller's coin",
+    "kr": "The decimal point of seller's coin"
+  },
+  "最大杠杆倍数，0表示不开放杠杆": {
+    "cn": "最大杠杆倍数，0表示不开放杠杆",
+    "en": "The maximum time of leverage, select 0 means not enable margin",
+    "jp": "The maximum time of leverage, select 0 means not enable margin",
+    "kr": "The maximum time of leverage, select 0 means not enable margin"
+  },
+  "是否开盘": {
+    "cn": "是否开盘",
+    "en": "Whether open market",
+    "jp": "Whether open market",
+    "kr": "Whether open market"
+  },
+  "所有行情": {
+    "cn": "所有行情",
+    "en": "All price",
+    "jp": "All price",
+    "kr": "All price"
+  },
+  "成交量(最近的24小时)": {
+    "cn": "成交量(最近的24小时)",
+    "en": "24 Hours Trading Volume",
+    "jp": "24 Hours Trading Volume",
+    "kr": "24 Hours Trading Volume"
+  },
+  "最新成交价": {
+    "cn": "最新成交价",
+    "en": "Last Price",
+    "jp": "Last Price",
+    "kr": "Last Price"
+  },
+  "最新成交": {
+    "cn": "最新成交",
+    "en": "Latest transactions",
+    "jp": "Latest transactions",
+    "kr": "Latest transactions"
+  },
+  "卖一价": {
+    "cn": "卖一价",
+    "en": "Sell1 Price",
+    "jp": "Sell1 Price",
+    "kr": "Sell1 Price"
+  },
+  "买一价": {
+    "cn": "买一价",
+    "en": "Buy1 price",
+    "jp": "Buy1 price",
+    "kr": "Buy1 price"
+  },
+  "周涨跌幅": {
+    "cn": "周涨跌幅",
+    "en": "1 Week Change",
+    "jp": "1 Week Change",
+    "kr": "1 Week Change"
+  },
+  "24小时涨跌幅": {
+    "cn": "24小时涨跌幅",
+    "en": "24 Hours Change",
+    "jp": "24 Hours Change",
+    "kr": "24 Hours Change"
+  },
+  "最高价": {
+    "cn": "最高价",
+    "en": "Maximum price",
+    "jp": "Maximum price",
+    "kr": "Maximum price"
+  },
+  "最低价": {
+    "cn": "最低价",
+    "en": "Minimum price",
+    "jp": "Minimum price",
+    "kr": "Minimum price"
+  },
+  "30日涨跌幅": {
+    "cn": "30日涨跌幅",
+    "en": "30 Days Change",
+    "jp": "30 Days Change",
+    "kr": "30 Days Change"
+  },
+   "市场行情": {
+    "cn": "市场行情",
+    "en": "Market quotation",
+    "jp": "Market quotation",
+    "kr": "Market quotation"
+  },
+  "请求参数说明": {
+    "cn": "请求参数说明",
+    "en": "Request Parameter Specification",
+    "jp": "Request Parameter Specification",
+    "kr": "Request Parameter Specification"
+  },
+   "参数名": {
+    "cn": "参数名",
+    "en": "Parameters",
+    "jp": "Parameters",
+    "kr": "Parameters"
+  },
+   "市场深度": {
+    "cn": "市场深度",
+    "en": "The depth of market",
+    "jp": "The depth of market",
+    "kr": "The depth of market"
+  },
+  "时间戳": {
+    "cn": "时间戳",
+    "en": "Timestamp",
+    "jp": "Timestamp",
+    "kr": "Timestamp"
+  },
+   "卖方深度": {
+    "cn": "卖方深度",
+    "en": "The depth of seller",
+    "jp": "The depth of seller",
+    "kr": "The depth of seller"
+  },
+  "买方深度": {
+    "cn": "买方深度",
+    "en": "The depth of buyer",
+    "jp": "The depth of buyer",
+    "kr": "The depth of buyer"
+  },
+   "此次深度的产生时间戳": {
+    "cn": "此次深度的产生时间戳",
+    "en": "The timestamp of this depth",
+    "jp": "The timestamp of this depth",
+    "kr": "The timestamp of this depth"
+  },
+  "历史成交": {
+    "cn": "历史成交",
+    "en": "Trade History",
+    "jp": "Trade History",
+    "kr": "Trade History"
+  },
+   "交易数量": {
+    "cn": "交易数量",
+    "en": "Amount",
+    "jp": "Amount",
+    "kr": "Amount"
+  },
+  "交易价格": {
+    "cn": "交易价格",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "交易生成ID": {
+    "cn": "交易生成ID",
+    "en": "Trading ID",
+    "jp": "Trading ID",
+    "kr": "Trading ID"
+  },
+  "交易类型，buy(买)/sell(卖)": {
+    "cn": "交易类型，buy(买)/sell(卖)",
+    "en": "Trading Type, buy/sell",
+    "jp": "Trading Type, buy/sell",
+    "kr": "Trading Type, buy/sell"
+  },
+   "交易时间(时间戳)": {
+    "cn": "交易时间(时间戳)",
+    "en": "Time(Timestamp)",
+    "jp": "Time(Timestamp)",
+    "kr": "Time(Timestamp)"
+  },
+  "委托类型，ask(卖)/bid(买)": {
+    "cn": "委托类型，ask(卖)/bid(买)",
+    "en": "Order Type, ask/bid",
+    "jp": "Order Type, ask/bid",
+    "kr": "Order Type, ask/bid"
+  },
+   "交易API": {
+    "cn": "交易API",
+    "en": "Trade API",
+    "jp": "Trade API",
+    "kr": "Trade API"
+  },
+  "用于ZBG快速进行交易": {
+    "cn": "用于ZBG快速进行交易",
+    "en": "Fast Trade on ZBG.com",
+    "jp": "Fast Trade on ZBG.com",
+    "kr": "Fast Trade on ZBG.com"
+  },
+   "委托下单": {
+    "cn": "委托下单",
+    "en": "Place commissioned order",
+    "jp": "Place commissioned order",
+    "kr": "Place commissioned order"
+  },
+  "当前时间毫秒数": {
+    "cn": "当前时间毫秒数",
+    "en": "Current time in milliseconds",
+    "jp": "Current time in milliseconds",
+    "kr": "Current time in milliseconds"
+  },
+   "请求加密签名串": {
+    "cn": "请求加密签名串",
+    "en": "Request Encrypted Signature String",
+    "jp": "Request Encrypted Signature String",
+    "kr": "Request Encrypted Signature String"
+  },
+  "返回代码": {
+    "cn": "返回代码",
+    "en": "Returned Code",
+    "jp": "Returned Code",
+    "kr": "Returned Code"
+  },
+   "提示信息": {
+    "cn": "提示信息",
+    "en": "Notice",
+    "jp": "Notice",
+    "kr": "Notice"
+  },
+  "委托挂单号": {
+    "cn": "委托挂单号",
+    "en": "Commissioned order number",
+    "jp": "Commissioned order number",
+    "kr": "Commissioned order number"
+  },
+   "请求参数说明(加密签名请根据参数名的首字母顺序顺序签名,signature不用加入待签名字符串)": {
+    "cn": "请求参数说明(加密签名请根据参数名的首字母顺序顺序签名,signature不用加入待签名字符串)",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+  "单价": {
+    "cn": "单价",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "取消委托": {
+    "cn": "取消委托",
+    "en": "Cancel order",
+    "jp": "Cancel order",
+    "kr": "Cancel order"
+  },
+  "获取委托买单或卖单": {
+    "cn": "获取委托买单或卖单",
+    "en": "Acquire buy order or sell order",
+    "jp": "Acquire buy order or sell order",
+    "kr": "Acquire buy order or sell order"
+  },
+   "交易手续费": {
+    "cn": "交易手续费",
+    "en": "Transaction Fee",
+    "jp": "Transaction Fee",
+    "kr": "Transaction Fee"
+  },
+  "挂单总数量": {
+    "cn": "挂单总数量",
+    "en": "Order Amount",
+    "jp": "Order Amount",
+    "kr": "Order Amount"
+  },
+   "已成交数量": {
+    "cn": "已成交数量",
+    "en": "Completed Order Amount",
+    "jp": "Completed Order Amount",
+    "kr": "Completed Order Amount"
+  },
+  "交易市场": {
+    "cn": "交易市场",
+    "en": "Trading Market",
+    "jp": "Trading Market",
+    "kr": "Trading Market"
+  },
+   "已成交总金额": {
+    "cn": "已成交总金额",
+    "en": "Total Trading Amount",
+    "jp": "Total Trading Amount",
+    "kr": "Total Trading Amount"
+  },
+  "挂单类型": {
+    "cn": "挂单类型",
+    "en": "Order Type",
+    "jp": "Order Type",
+    "kr": "Order Type"
+  },
+   "挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）": {
+    "cn": "挂单状态（0、待成交 1、取消 2、交易完成 3、待成交未交易部分）",
+    "en": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)",
+    "jp": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)",
+    "kr": "Order Status (0: Pending   1: Cancel  2: Completed  3:Part of pending trading order)"
+  },
+  "请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)": {
+    "cn": "请求参数说明(加密签名请根据这个顺序签名,signature不用加入待签名字符串)",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+   "获取多个委托买单或卖单，每次请求返回10条记录": {
+    "cn": "获取多个委托买单或卖单，每次请求返回10条记录",
+    "en": "Acquire multiple buy order or sell order, request to return 10 records each time.",
+    "jp": "Acquire multiple buy order or sell order, request to return 10 records each time.",
+    "kr": "Acquire multiple buy order or sell order, request to return 10 records each time."
+  },
+  "记录页数": {
+    "cn": "记录页数",
+    "en": "Record Page",
+    "jp": "Record Page",
+    "kr": "Record Page"
+  },
+   "交易类型": {
+    "cn": "交易类型",
+    "en": "Trading Type",
+    "jp": "Trading Type",
+    "kr": "Trading Type"
+  },
+  "获取用户信息": {
+    "cn": "获取用户信息",
+    "en": "Acquire user information",
+    "jp": "Acquire user information",
+    "kr": "Acquire user information"
+  },
+   "借贷信息": {
+    "cn": "借贷信息",
+    "en": "Lending information",
+    "jp": "Lending information",
+    "kr": "Lending information"
+  },
+  "平仓风险比例, 当用户风险系数低于此值时，系统执行平仓操作": {
+    "cn": "平仓风险比例, 当用户风险系数低于此值时，系统执行平仓操作",
+    "en": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account.",
+    "jp": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account.",
+    "kr": "Liquidation Risk Proportion, When the liquidation risk of user’s account is lower than this value, the system will conduct liquidation to the account."
+  },
+   "平仓比例, 用户风险系数": {
+    "cn": "平仓比例, 用户风险系数",
+    "en": "Liquidation Proportion, The risk of user’s account",
+    "jp": "Liquidation Proportion, The risk of user’s account",
+    "kr": "Liquidation Proportion, The risk of user’s account"
+  },
+  "提醒比例": {
+    "cn": "提醒比例",
+    "en": "Remind Proportion",
+    "jp": "Remind Proportion",
+    "kr": "Remind Proportion"
+  },
+   "杠杆倍数": {
+    "cn": "杠杆倍数",
+    "en": "Leverage Times",
+    "jp": "Leverage Times",
+    "kr": "Leverage Times"
+  },
+  "平仓价格": {
+    "cn": "平仓价格",
+    "en": "Liquidation Price",
+    "jp": "Liquidation Price",
+    "kr": "Liquidation Price"
+  },
+   "资产信息": {
+    "cn": "资产信息",
+    "en": "Assets information",
+    "jp": "Assets information",
+    "kr": "Assets information"
+  },
+  "资产详情": {
+    "cn": "资产详情",
+    "en": "Asset details",
+    "jp": "Asset details",
+    "kr": "Asset details"
+  },
+   "货币总量": {
+    "cn": "货币总量",
+    "en": "Total Amount",
+    "jp": "Total Amount",
+    "kr": "Total Amount"
+  },
+  "冻结数量": {
+    "cn": "冻结数量",
+    "en": "Frozen Amount",
+    "jp": "Frozen Amount",
+    "kr": "Frozen Amount"
+  },
+   "可用资产": {
+    "cn": "可用资产",
+    "en": "Available Assets",
+    "jp": "Available Assets",
+    "kr": "Available Assets"
+  },
+    "货币标识": {
+    "cn": "货币标识",
+    "en": "Coin Identifier",
+    "jp": "Coin Identifier",
+    "kr": "Coin Identifier"
+  },
+  "借款额度": {
+    "cn": "借款额度",
+    "en": "Borrowing Limit",
+    "jp": "Borrowing Limit",
+    "kr": "Borrowing Limit"
+  },
+   "已使用额度": {
+    "cn": "已使用额度",
+    "en": "Used Amount",
+    "jp": "Used Amount",
+    "kr": "Used Amount"
+  },
+  "未支付利息": {
+    "cn": "未支付利息",
+    "en": "Outstanding Interest",
+    "jp": "Outstanding Interest",
+    "kr": "Outstanding Interest"
+  },
+   "签名方式：根据secretkey把请求的参数签名，请求参数按照ascii值排序加密": {
+    "cn": "签名方式：根据secretkey把请求的参数签名，请求参数按照ascii值排序加密",
+    "en": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "jp": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)",
+    "kr": "Request Parameter Specification(Encrypted signature please according to this order, signature and ReqTime need not to join with signature string)"
+  },
+  "通过HmacSHA512加密的结果为": {
+    "cn": "通过HmacSHA512加密的结果为",
+    "en": "The result of being encrypted with HmacSHA512",
+    "jp": "The result of being encrypted with HmacSHA512",
+    "kr": "The result of being encrypted with HmacSHA512"
+  },
+   "文档下载": {
+    "cn": "文档下载",
+    "en": "Download Document",
+    "jp": "Download Document",
+    "kr": "Download Document"
+  },
+  "下载DEMO以及开发文档": {
+    "cn": "下载DEMO以及开发文档",
+    "en": "Download DEMO and document",
+    "jp": "Download DEMO and document",
+    "kr": "Download DEMO and document"
+  },
+   "立即下载": {
+    "cn": "立即下载",
+    "en": "Download",
+    "jp": "Download",
+    "kr": "Download"
+  },
+  "常见问题": {
+    "cn": "常见问题",
+    "en": "FAQ",
+    "jp": "FAQ",
+    "kr": "FAQ"
+  },
+   "访问限制": {
+    "cn": "访问限制",
+    "en": "Access Restrictions",
+    "jp": "Access Restrictions",
+    "kr": "Access Restrictions"
+  },
+  "1.单个IP限制每分钟1000次访问，超过1000次将被锁定1小时，一小时后自动解锁。": {
+    "cn": "1.单个IP限制每分钟1000次访问，超过1000次将被锁定1小时，一小时后自动解锁。",
+    "en": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked.",
+    "jp": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked.",
+    "kr": "1. Each IP can send maximum of 1000 https requests within 1 minute. If exceeds 1000 requests, the system will automatically block the IP for one hour. After an hour, the IP will be automatically unlocked."
+  },
+   "2.每个市场限制每秒钟10次访问，一秒钟内10次以上的请求，将会视作无效。": {
+    "cn": "2.每个市场限制每秒钟10次访问，一秒钟内10次以上的请求，将会视作无效",
+    "en": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests.",
+    "jp": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests.",
+    "kr": "2. Each user can send maximum of 10 request within one second, it will be considered invalid if exceeds 10 requests."
+  },
+  "示例代码": {
+    "cn": "示例代码",
+    "en": "Sample Code",
+    "jp": "Sample Code",
+    "kr": "Sample Code"
+  },
+   "错误代码": {
+    "cn": "错误代码",
+    "en": "Error Code",
+    "jp": "Error Code",
+    "kr": "Error Code"
+  },
+  "API交易设置": {
+    "cn": "API交易设置",
+    "en": "API Trading Setting",
+    "jp": "API Trading Setting",
+    "kr": "API Trading Setting"
+  },
+   "API交易状态": {
+    "cn": "API交易状态",
+    "en": "API Trading Status",
+    "jp": "API Trading Status",
+    "kr": "API Trading Status"
+  },
+  "API密钥管理": {
+    "cn": "API密钥管理",
+    "en": "API Secretkey Management",
+    "jp": "API Secretkey Management",
+    "kr": "API Secretkey Management"
+  },
+   "API交易IP绑定": {
+    "cn": "API交易IP绑定",
+    "en": "Bind API Trading IP",
+    "jp": "Bind API Trading IP",
+    "kr": "Bind API Trading IP"
+  },
+  "服务地址": {
+    "cn": "服务地址",
+    "en": " Service Address",
+    "jp": " Service Address",
+    "kr": " Service Address"
+  },
+   "服务连接地址": {
+    "cn": "服务连接地址",
+    "en": " attachment address",
+    "jp": " attachment address",
+    "kr": " attachment address"
+  },
+  "获取ZBG最新行情数据": {
+    "cn": "获取ZBG最新行情数据",
+    "en": "Receive the latest ZBG market data",
+    "jp": "Receive the latest ZBG market data",
+    "kr": "Receive the latest ZBG market data"
+  },
+   "K线": {
+    "cn": "K线",
+    "en": "Kline WebSocket",
+    "jp": "Kline WebSocket",
+    "kr": "Kline WebSocket"
+  },
+  "返回数据时服务器时间": {
+    "cn": "返回数据时服务器时间",
+    "en": "The server time when return data",
+    "jp": "The server time when return data",
+    "kr": "The server time when return data"
+  },
+   "[数据类型(k线数据类型), 平台ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]": {
+    "cn": "[数据类型(k线数据类型), 平台ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]",
+    "en": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period",
+    "jp": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period",
+    "kr": "Data Type (Kline Data Type), ID, Coins information, Timestamp, Opening data, High, Low, Closing price, Trading volume, Change, USD rate, Kline period"
+  },
+  "请求类型": {
+    "cn": "请求类型",
+    "en": "Request Type",
+    "jp": "Request Type",
+    "kr": "Request Type"
+  },
+   "时间周期的ETC_BTC的K线数据": {
+    "cn": "时间周期的ETC_BTC的K线数据",
+    "en": "Time period Kline data of ETC_BTC",
+    "jp": "Time period Kline data of ETC_BTC",
+    "kr": "Time period Kline data of ETC_BTC"
+  },
+  "30分钟周期ETH_HSR的K数据": {
+    "cn": "30分钟周期ETH_HSR的K数据",
+    "en": "30 Mins Kline data of ETH_HSR",
+    "jp": "30 Mins Kline data of ETH_HSR",
+    "kr": "30 Mins Kline data of ETH_HSR"
+  },
+   "(时间周期TM: 1M, 5M, 15M, 30M, 1H, 1D)": {
+    "cn": "(时间周期TM: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "en": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "jp": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)",
+    "kr": "(Time period: 1M, 5M, 15M, 30M, 1H, 1D)"
+  },
+  "首次请求的数据数量,最大50条": {
+    "cn": "首次请求的数据数量,最大50条",
+    "en": "The data amount of first requests, maximum 50 datas",
+    "jp": "The data amount of first requests, maximum 50 datas",
+    "kr": "The data amount of first requests, maximum 50 datas"
+  },
+   "请求的动作类型": {
+    "cn": "请求的动作类型",
+    "en": "Requested Action Type",
+    "jp": "Requested Action Type",
+    "kr": "Requested Action Type"
+  },
+  "增加数据到当前WebSocket连接": {
+    "cn": "增加数据到当前WebSocket连接",
+    "en": "Add data to current WebSocket link",
+    "jp": "Add data to current WebSocket link",
+    "kr": "Add data to current WebSocket link"
+  },
+   "从当前WebSocket连接移除数据": {
+    "cn": "从当前WebSocket连接移除数据",
+    "en": "Delete date from current WebSocket link",
+    "jp": "Delete date from current WebSocket link",
+    "kr": "Delete date from current WebSocket link"
+  },
+  "首次全量返回": {
+    "cn": "首次全量返回",
+    "en": "The first total content return",
+    "jp": "The first total content return",
+    "kr": "The first total content return"
+  },
+   "增量返回": {
+    "cn": "增量返回",
+    "en": "Increments return",
+    "jp": "Increments return",
+    "kr": "Increments return"
+  },
+  "数据类型": {
+    "cn": "数据类型",
+    "en": "Date Type",
+    "jp": "Date Type",
+    "kr": "Date Type"
+  },
+   "平台ID": {
+    "cn": "平台ID",
+    "en": "ID",
+    "jp": "ID",
+    "kr": "ID"
+  },
+  "币种信息": {
+    "cn": "币种信息'",
+    "en": "Coins information",
+    "jp": "Coins information",
+    "kr": "Coins information"
+  },
+   "(卖价)[[价格, 量]]": {
+    "cn": "(卖价)[[价格, 量]]",
+    "en": "Sell Price [[Price, Amount]]",
+    "jp": "Sell Price [[Price, Amount]]",
+    "kr": "Sell Price [[Price, Amount]]"
+  },
+  "(买价)[[价格, 量]]": {
+    "cn": "(买价)[[价格, 量]]",
+    "en": "Buy Price [[Price, Amount]]",
+    "jp": "Buy Price [[Price, Amount]]",
+    "kr": "Buy Price [[Price, Amount]]"
+  },
+   "买卖类型": {
+    "cn": "买卖类型",
+    "en": "Trading Type",
+    "jp": "Trading Type",
+    "kr": "Trading Type"
+  },
+  "价格": {
+    "cn": "价格",
+    "en": "Price",
+    "jp": "Price",
+    "kr": "Price"
+  },
+   "量": {
+    "cn": "量",
+    "en": "Volume",
+    "jp": "Volume",
+    "kr": "Volume"
+  },
+  "获取ETC_BTC委托记录": {
+    "cn": "获取ETC_BTC委托记录",
+    "en": "Acquire ETC_BTC order records",
+    "jp": "Acquire ETC_BTC order records",
+    "kr": "Acquire ETC_BTC order records"
+  },
+   "获取ETH_HSR委托记录": {
+    "cn": "获取ETH_HSR委托记录",
+    "en": "Acquire ETH_HSR order records",
+    "jp": "Acquire ETH_HSR order records",
+    "kr": "Acquire ETH_HSR order records"
+  },
+  "历史成交记录": {
+    "cn": "历史成交记录",
+    "en": "History Order WebSocket",
+    "jp": "History Order WebSocket",
+    "kr": "History Order WebSocket"
+  },
+   "[数据类型, 平台ID, 币种信息, 时间戳, 买卖类型, 价格, 量]": {
+    "cn": "[数据类型, 平台ID, 币种信息, 时间戳, 买卖类型, 价格, 量]",
+    "en": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount",
+    "jp": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount",
+    "kr": "Data Type, ID, Coins information, Timestamp, Trading Type, Price, Amount"
+  },
+  "获取ETC_BTC历史成交记录": {
+    "cn": "获取ETC_BTC历史成交记录",
+    "en": "Acquire ETC_BTC history trading records",
+    "jp": "Acquire ETC_BTC history trading records",
+    "kr": "Acquire ETC_BTC history trading records"
+  },
+   "获取MONA_QTUM历史成交记录": {
+    "cn": "获取MONA_QTUM历史成交记录",
+    "en": "Acquire MONA_QTUM history trading records",
+    "jp": "Acquire MONA_QTUM history trading records",
+    "kr": "Acquire MONA_QTUM history trading records"
+  },
+  "所有市场行情": {
+    "cn": "所有市场行情",
+    "en": "All Markets Quotation",
+    "jp": "All Markets Quotation",
+    "kr": "All Markets Quotation"
+  },
+   "市场": {
+    "cn": "市场",
+    "en": " Markets",
+    "jp": " Markets",
+    "kr": " Markets"
+  },
+  "市场id": {
+    "cn": "市场id",
+    "en": "Market ID",
+    "jp": "Market ID",
+    "kr": "Market ID"
+  },
+   "卖方币种": {
+    "cn": "卖方币种",
+    "en": "Coin of seller",
+    "jp": "Coin of seller",
+    "kr": "Coin of seller"
+  },
+    "买方币种": {
+    "cn": "买方币种",
+    "en": "Coin of buyer",
+    "jp": "Coin of buyer",
+    "kr": "Coin of buyer"
+  },
+  "保留属性": {
+    "cn": "保留属性",
+    "en": "Reserved attribute",
+    "jp": "Reserved attribute",
+    "kr": "Reserved attribute"
+  },
+   "最新价格": {
+    "cn": "最新价格",
+    "en": "Last price",
+    "jp": "Last price",
+    "kr": "Last price"
+  },
+  "24H成交总量": {
+    "cn": "24H成交总量",
+    "en": "24H trading volume",
+    "jp": "24H trading volume",
+    "kr": "24H trading volume"
+  },
+   "24H涨跌幅": {
+    "cn": "24H涨跌幅",
+    "en": "24H change",
+    "jp": "24H change",
+    "kr": "24H change"
+  },
+  "获取所有市场行情": {
+    "cn": "获取所有市场行情",
+    "en": "Acquire all market quotation",
+    "jp": "Acquire all market quotation",
+    "kr": "Acquire all market quotation"
+  },
+   "单个市场行情": {
+    "cn": "单个市场行情",
+    "en": "Single Market Quotation",
+    "jp": "Single Market Quotation",
+    "kr": "Single Market Quotation"
+  },
+  "成交量": {
+    "cn": "成交量",
+    "en": "Trading volume",
+    "jp": "Trading volume",
+    "kr": "Trading volume"
+  },
+   "涨跌幅": {
+    "cn": "涨跌幅",
+    "en": "Change",
+    "jp": "Change",
+    "kr": "Change"
+  },
+  "获取HSR_BTC市场行情": {
+    "cn": "获取HSR_BTC市场行情",
+    "en": "Acquire HSR_BTC quotation",
+    "jp": "Acquire HSR_BTC quotation",
+    "kr": "Acquire HSR_BTC quotation"
+  },
+   "获取ETH_HSR市场行情": {
+    "cn": "获取ETH_HSR市场行情",
+    "en": "Acquire HSR_BTC quotation",
+    "jp": "Acquire HSR_BTC quotation",
+    "kr": "Acquire HSR_BTC quotation"
+  },
+  "下载JAVA例子以及开发文档": {
+    "cn": "下载JAVA例子以及开发文档",
+    "en": "Download JAVA example and API document",
+    "jp": "Download JAVA example and API document",
+    "kr": "Download JAVA example and API document"
+  },
+   "GITHUB链接": {
+    "cn": "GITHUB链接",
+    "en": "GITHUB Link",
+    "jp": "GITHUB Link",
+    "kr": "GITHUB Link"
+  },
+  "成交价格": {
+    "cn": "成交价格",
+    "en": "Transaction price",
+    "jp": "Transaction price",
+    "kr": "Transaction price"
+  },
+   "回到顶部": {
+    "cn": "回到顶部",
+    "en": "goTop",
+    "jp": "",
+    "kr": ""
+  },
+  "行情API (WebSocket)": {
+    "cn": "行情API (WebSocket)",
+    "en": "Quotation API (WebSocket)",
+    "jp": "",
+    "kr": ""
+  },
+   "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：": {
+    "cn": "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：",
+    "en": "ZBG provides an easy and strong API aiming at assisting users to integrate the trading function of ZBG into their own application efficiently and fast. If there is any question, you can contact us at QQ group: ",
+    "jp": "",
+    "kr": ""
+  },
+  "，我们将会为您做出最权威的解答": {
+    "cn": "，我们将会为您做出最权威的解答",
+    "en": "，where we will provide authentic answers",
+    "jp": "",
+    "kr": ""
+  },
+   "WebSocket服务地址": {
+    "cn": "WebSocket服务地址",
+    "en": "WebSocket Service Address",
+    "jp": "",
+    "kr": ""
+  },
+  "ZBG WebSocket服务连接地址：wss://kline.zbg.com/websocket": {
+    "cn": "ZBG WebSocket服务连接地址：wss://kline.zbg.com/websocket",
+    "en": "WebSocket service address: wss://kline.zbg.com/websocket",
+    "jp": "",
+    "kr": ""
+  },
+   "使用说明": {
+    "cn": "使用说明",
+    "en": "Instructions",
+    "jp": "",
+    "kr": ""
+  },
+  "以下API都可以在一个WebSocket 连接进行处理, 通过订阅报文中的action参数来订阅服务器数据。k线、盘口、交易记录数据三类数据服务器首先会返回一次全量数据，之后有新数据时会主动推送。": {
+    "cn": "以下API都可以在一个WebSocket 连接进行处理, 通过订阅报文中的action参数来订阅服务器数据。k线、盘口、交易记录数据三类数据服务器首先会返回一次全量数据，之后有新数据时会主动推送。",
+    "en": "All API below can be processed on one WebSocket connection. You can subscribe server data by subscribing the action parameter in message. The servers of K line, handicap and trading record will return the full data once at first, and push the data proactively whenever there is new data.",
+    "jp": "",
+    "kr": ""
+  },
+   "订阅报文基础格式:": {
+    "cn": "订阅报文基础格式:",
+    "en": "Basic format of subscribing message:",
+    "jp": "",
+    "kr": ""
+  },
+  "dataType: 请求的数据类型, 下面各个章节会详细说明。": {
+    "cn": "dataType: 请求的数据类型, 下面各个章节会详细说明。",
+    "en": "dataType: data type requested, details are in chapters below.",
+    "jp": "",
+    "kr": ""
+  },
+   "dataSize: 请求的数据数量，决定首次全量数据的数量，不传或者为 0 则返回一条数据。": {
+    "cn": "dataSize: 请求的数据数量，决定首次全量数据的数量，不传或者为 0 则返回一条数据。",
+    "en": "dataSize: data size requested, determine the size of first full data, return a data when no param or 0.",
+    "jp": "",
+    "kr": ""
+  },
+  "action: 请求的动作类型，ADD:增加数据订阅，DEL:移除数据订阅。": {
+    "cn": "action: 请求的动作类型，ADD:增加数据订阅，DEL:移除数据订阅。",
+    "en": "action: action type requested，ADD: add data subscription，DEL: delete data subscription. ",
+    "jp": "",
+    "kr": ""
+  },
+   "报文格式比较简单直观，可以先用在线websocket工具简单测试下或者到官网有k线的页面打开开发者模式查看数据后再进行开发。": {
+    "cn": "报文格式比较简单直观，可以先用在线websocket工具简单测试下或者到官网有k线的页面打开开发者模式查看数据后再进行开发。",
+    "en": "Since the format is simple and intuitive, you can make a test via online WebSocket tool or check the data by entering developer mode on the page with K line before developing.",
+    "jp": "",
+    "kr": ""
+  },
+  "行情API": {
+    "cn": "行情API",
+    "en": "Quotation API",
+    "jp": "",
+    "kr": ""
+  },
+   "获取zbg最新行情数据": {
+    "cn": "获取zbg最新行情数据",
+    "en": "Acquire the latest ZBG quotation data",
+    "jp": "",
+    "kr": ""
+  },
+  "K线": {
+    "cn": "K线",
+    "en": "K Line",
+    "jp": "",
+    "kr": ""
+  },
+   "size最多为500条，支持的时间周期有 1M, 5M, 15M, 30M, 1H, 1D": {
+    "cn": "size最多为500条，支持的时间周期有 1M, 5M, 15M, 30M, 1H, 1D",
+    "en": "Maximum size is 500; support the period of 1M, 5M, 15M, 30M, 1H, 1D",
+    "jp": "",
+    "kr": ""
+  },
+  "示例": {
+    "cn": "示例",
+    "en": "Example",
+    "jp": "",
+    "kr": ""
+  },
+   "首次全量数据response": {
+    "cn": "首次全量数据response",
+    "en": "First full data response",
+    "jp": "",
+    "kr": ""
+  },
+  "增量数据response": {
+    "cn": "增量数据response",
+    "en": "Incremental data response",
+    "jp": "",
+    "kr": ""
+  },
+   "request dataType格式为": {
+    "cn": "request dataType格式为",
+    "en": "The format of request dataType is: ",
+    "jp": "",
+    "kr": ""
+  }
+  ,"市场id_KLINE_时间周期_市场卖方货币_市场卖方货币": {
+    "cn": "市场id_KLINE_时间周期_市场卖方货币_市场卖方货币",
+    "jp": "Full amount data is a list of incremental data.",
+    "kr": ""
+  },
+  "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]": {
+    "cn": "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]",
+    "en": "Full amount data is a list of incremental data. Field description: [data type, market ID, currency information, time stamp, opening data, highest price, lowest price, closing price, volume, fluctuation, dollar exchange rate, K-line period, whether converted]",
+    "jp": "",
+    "kr": ""
+  },
+  "盘口（市场深度）": {
+    "cn": "盘口（市场深度）",
+    "en": "Handicap (Depth of Market)",
+    "jp": "",
+    "kr": ""
+  },
+   "买盘卖盘各自最多50条，后续版本全量数据可能会发多次，接收到全量数据后清空替换掉所有盘口。": {
+    "cn": "买盘卖盘各自最多50条，后续版本全量数据可能会发多次，接收到全量数据后清空替换掉所有盘口。",
+    "en": "Maximum bid size or ask size is 50; full data may be sent multiple times in follow-up versions; handicap will be empty and replaced on receipt of full data.",
+    "jp": "",
+    "kr": ""
+  },
+  "request dataType格式为": {
+    "cn": "request dataType格式为",
+    "en": "The format of request dataType is:",
+    "jp": "",
+    "kr": ""
+  },
+   "市场id_ENTRUST_ADD_市场卖方货币_市场卖方货币": {
+    "cn": "市场id_ENTRUST_ADD_市场卖方货币_市场卖方货币",
+    "en": "market id_ENTRUST_ADD_ seller's currency_seller's currency",
+    "jp": "",
+    "kr": ""
+  },
+  "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。": {
+    "cn": "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。",
+    "en": "Incremental data field description: [data type, market ID, time stamp, currency information, transaction type (asks or bids), price, quantity]Each incremental data is a single file position data; 0 indicates that the stalls have been fully traded and need to be removed.",
+    "jp": "",
+    "kr": ""
+  },
+   "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]": {
+    "cn": "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]",
+    "en": "The format of request dataType is: market id_ENTRUST_ADD_ seller's currency_seller's currency",
+    "jp": "",
+    "kr": ""
+  },
+  "1.3交易记录": {
+    "cn": "1.3交易记录",
+    "en": "3. Trading Record",
+    "jp": "",
+    "kr": ""
+  },
+   "全量数据买最多50条。": {
+    "cn": "全量数据买最多50条。",
+    "en": "Maximum full data size is 50.",
+    "jp": "",
+    "kr": ""
+  },
+  "后续增量数据response": {
+    "cn": "后续增量数据response",
+    "en": "Incremental data response",
+    "jp": "",
+    "kr": ""
+  },
+   "市场id_TRADE_市场卖方货币_市场卖方货币": {
+    "cn": "市场id_TRADE_市场卖方货币_市场卖方货币",
+    "en": "market id_TRADE_ seller's currency_seller’s currency",
+    "jp": "",
+    "kr": ""
+  },
+  "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]": {
+    "cn": "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]",
+    "en": "Full data is a list of incremental data, field description: [data type, market ID, currency information, time stamp, trading type (asks or bids), price, quantity]",
+    "jp": "",
+    "kr": ""
+  },
+   "市场行情包括6小时收盘价": {
+    "cn": "市场行情包括6小时收盘价",
+    "en": "Market Quotation including 6H Closing Price",
+    "jp": "",
+    "kr": ""
+  },
+  "没有全量数据和增量数据的分别，只有一种格式。": {
+    "cn": "没有全量数据和增量数据的分别，只有一种格式。",
+    "en": "Only one format with no distinction of full data or incremental data.",
+    "jp": "",
+    "kr": ""
+  },
+  "request dataType格式为": {
+    "cn": "request dataType格式为",
+    "en": "The format of request dataType is:",
+    "jp": "",
+    "kr": ""
+  },
+   "市场id_ENTRUST_ADD_市场卖方货币_市场卖方货币": {
+    "cn": "市场id_ENTRUST_ADD_市场卖方货币_市场卖方货币",
+    "en": "market id_ENTRUST_ADD_ seller's currency_seller's currency",
+    "jp": "",
+    "kr": ""
+  },
+  "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。": {
+    "cn": "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。",
+    "en": "Incremental data field description: [data type, market ID, time stamp, currency information, transaction type (asks or bids), price, quantity]Each incremental data is a single file position data; 0 indicates that the stalls have been fully traded and need to be removed.",
+    "jp": "",
+    "kr": ""
+  },
+   "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]": {
+    "cn": "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]",
+    "en": "The format of request dataType is: market id_ENTRUST_ADD_ seller's currency_seller's currency",
+    "jp": "",
+    "kr": ""
+  },
+  "1.3交易记录": {
+    "cn": "1.3交易记录",
+    "en": "3. Trading Record",
+    "jp": "",
+    "kr": ""
+  },
+   "全量数据买最多50条。": {
+    "cn": "全量数据买最多50条。",
+    "en": "Maximum full data size is 50.",
+    "jp": "",
+    "kr": ""
+  },
+  "后续增量数据response": {
+    "cn": "后续增量数据response",
+    "en": "Incremental data response",
+    "jp": "",
+    "kr": ""
+  },
+   "市场id_TRADE_市场卖方货币_市场卖方货币": {
+    "cn": "市场id_TRADE_市场卖方货币_市场卖方货币",
+    "en": "market id_TRADE_ seller's currency_seller’s currency",
+    "jp": "",
+    "kr": ""
+  },
+  "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]": {
+    "cn": "全量数据是增量数据的列表形式，字段说明：[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]",
+    "en": "Full data is a list of incremental data, field description: [data type, market ID, currency information, time stamp, trading type (asks or bids), price, quantity]",
+    "jp": "",
+    "kr": ""
+  },
+   "市场行情包括6小时收盘价": {
+    "cn": "市场行情包括6小时收盘价",
+    "en": "Market Quotation including 6H Closing Price",
+    "jp": "",
+    "kr": ""
+  },
+  "没有全量数据和增量数据的分别，只有一种格式。": {
+    "cn": "没有全量数据和增量数据的分别，只有一种格式。",
+    "en": "Only one format with no distinction of full data or incremental data.",
+    "jp": "",
+    "kr": ""
+  },
+   "request dataType固定为 ALL_TRADE_STATISTIC_24H": {
+    "cn": "request dataType固定为 ALL_TRADE_STATISTIC_24H",
+    "en": "Request dataType is fixed to ALL_TRADE_STATISTIC_24H",
+    "jp": "",
+    "kr": ""
+  },
+    "字段说明：": {
+    "cn": "字段说明：",
+    "en": "Field description:",
+    "jp": "",
+    "kr": ""
+  },
+  ":[[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价],....]}。": {
+    "cn": ":[[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价],....]}。",
+    "en": ": [[market ID, latest transaction price, highest price, lowest price, 24H volume, 24H fluctuation, latest 6H closing price list, ...]]].",
+    "jp": "",
+    "kr": ""
+  },
+   "交易API (http)": {
+    "cn": "交易API (http)",
+    "en": "Trading API (http)",
+    "jp": "",
+    "kr": ""
+  },
+  "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答": {
+    "cn": "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答",
+    "en": "ZBG provides an easy and strong API aiming at assisting users to integrate the trading function of ZBG into their own application efficiently and fast. If there is any question, you can contact us at QQ group: 829230107 where we will provide authentic answers.",
+    "jp": "",
+    "kr": ""
+  },
+   "API地址域名地址": {
+    "cn": "API地址域名地址",
+    "en": "API Domain Name",
+    "jp": "",
+    "kr": ""
+  },
+  "域名地址：https://www.zbg.com/": {
+    "cn": "域名地址：https://www.zbg.com/",
+    "en": "Domain Name: https://www.zbg.com/",
+    "jp": "",
+    "kr": ""
+  },
+   "使用这些API之前首先要获取两项参数，在网站登录后，进入API功能开启然后获取Api Id和Api Secret两项参数。通过这两个参数拥有交易下单、提币等高级权限，请用户注意保密。所有http接口都需要进行签名，签名规则在后面说明。": {
+    "cn": "使用这些API之前首先要获取两项参数，在网站登录后，进入API功能开启然后获取Api Id和Api Secret两项参数。通过这两个参数拥有交易下单、提币等高级权限，请用户注意保密。所有http接口都需要进行签名，签名规则在后面说明。",
+    "en": "Before utilizing these API, you need to get two params-API ID and API Secret-by logging in API function. Using these two params to own advanced authorities such as making a transaction, withdrawing and so on. Please keep it confidential. All HTTP interfaces need to be signed, whose rules are explained later.",
+    "jp": "",
+    "kr": ""
+  },
+  "配置及基础功能API": {
+    "cn": "配置及基础功能API",
+    "en": "Configuration & Basic Function API",
+    "jp": "",
+    "kr": ""
+  },
+  
+   "获取加密公钥接口": {
+    "cn": "获取加密公钥接口",
+    "en": "Acquire the interface of encrypted public key",
+    "jp": "",
+    "kr": ""
+  },
+
+  "获取市场列表": {
+    "cn": "获取市场列表",
+    "en": "Acquire Market List",
+    "jp": "",
+    "kr": ""
+  },
+  "请求方式": {
+    "cn": "请求方式",
+    "en": "Request method",
+    "jp": "",
+    "kr": ""
+  },
+   "请求报文": {
+    "cn": "请求报文",
+    "en": "Request message",
+    "jp": "",
+    "kr": ""
+  },
+  "无": {
+    "cn": "无",
+    "en": "None",
+    "jp": "",
+    "kr": ""
+  },
+   "返回成功报文": {
+    "cn": "返回成功报文",
+    "en": "Successful return message",
+    "jp": "",
+    "kr": ""
+  },
+   "获取资金列表": {
+    "cn": "获取资金列表",
+    "en": "Acquire Asset List",
+    "jp": "",
+    "kr": ""
+  },
+    "获取用户信息接口": {
+    "cn": "获取用户信息接口",
+    "en": "Acquire the Interface of User Information",
+    "jp": "",
+    "kr": ""
+  },
+  "获取用户信息接口": {
+    "cn": "获取用户信息接口",
+    "en": "Acquire the Interface of User Information",
+    "jp": "",
+    "kr": ""
+  },
+   "是否手机认证：0：否，1：是": {
+    "cn": "是否手机认证：0：否，1：是",
+    "en": "mobile authentication or not：0：No，1：Yes",
+    "jp": "",
+    "kr": ""
+  },
+  "审核状态：0：没审核，1：修改审核中": {
+    "cn": "审核状态：0：没审核，1：修改审核中",
+    "en": "verifying status：0：no，1：pending",
+    "jp": "",
+    "kr": ""
+  },
+   "是否绑定支付宝1绑定0未绑定": {
+    "cn": "是否绑定支付宝1绑定0未绑定",
+    "en": "bind Alipay or not 1Yes 0No",
+    "jp": "",
+    "kr": ""
+  },
+  "是否设置登录密码：0：否，1：是": {
+    "cn": "是否设置登录密码：0：否，1：是",
+    "en": "set login password or not：0：no，1：yes",
+    "jp": "",
+    "kr": ""
+  },
+   "扩展的userid来源类型，比如:zb，exx": {
+    "cn": "扩展的userid来源类型，比如:zb，exx",
+    "en": "type of external user id, such as :zb，zbg",
+    "jp": "",
+    "kr": ""
+  },
+  "是否绑定微信1绑定0未绑定": {
+    "cn": "是否绑定微信1绑定0未绑定",
+    "en": "bind Wechat or not 1yes 0no",
+    "jp": "",
+    "kr": ""
+  },
+   "登录验证（1-登录密码 2-异地登录验证 4-谷歌验证,可以三者任意组合,默认 3": {
+    "cn": "登录验证（1-登录密码 2-异地登录验证 4-谷歌验证,可以三者任意组合,默认 3",
+    "en": "login authentication（1-password 2-remote login auth 4-google auth, free combination, default 3",
+    "jp": "",
+    "kr": ""
+  },
+  "商户名字": {
+    "cn": "商户名字",
+    "en": "merchant name",
+    "jp": "",
+    "kr": ""
+  },
+   "国家代码": {
+    "cn": "国家代码",
+    "en": "country code",
+    "jp": "",
+    "kr": ""
+  },
+  "登录名": {
+    "cn": "登录名",
+    "en": "login name",
+    "jp": "",
+    "kr": ""
+  },
+   "是否谷歌认证：0：否，1：是": {
+    "cn": "是否谷歌认证：0：否，1：是",
+    "en": "Google auth or not：0：no，1：yes",
+    "jp": "",
+    "kr": ""
+  },
+  "用户邮箱": {
+    "cn": "用户邮箱",
+    "en": "email",
+    "jp": "",
+    "kr": ""
+  },
+   "用户昵称": {
+    "cn": "用户昵称",
+    "en": "nick name",
+    "jp": "",
+    "kr": ""
+  },
+  "是否绑定银行": {
+    "cn": "是否绑定银行",
+    "en": "bind bank account or not",
+    "jp": "",
+    "kr": ""
+  },
+   "是否手机认证：0：否，1：是，[2：修改失败,不通过，-1：修改审核中]": {
+    "cn": "是否手机认证：0：否，1：是，[2：修改失败,不通过，-1：修改审核中]",
+    "jp": "mobile auth or not：0：no，1：yes，[2：modification failed，-1：in examining]",
+    "kr": ""
+  },
+   "用户id": {
+    "cn": "用户id",
+    "en": "user id",
+    "jp": "",
+    "kr": ""
+  },
+  "推荐码": {
+    "cn": "推荐码",
+    "en": "recommendation code",
+    "jp": "",
+    "kr": ""
+  },
+   "用户实名": {
+    "cn": "用户实名",
+    "en": "real name",
+    "jp": "",
+    "kr": ""
+  },
+  "提现验证（1-资金密码 2-短信/邮箱验证 4-谷歌验证码 默认资金密码+短信/邮箱 = 3）": {
+    "cn": "提现验证（1-资金密码 2-短信/邮箱验证 4-谷歌验证码 默认资金密码+短信/邮箱 = 3）",
+    "en": "withdrawal auth（1-assets passcode 2-message/email auth 4-google auth code default asset password+message/email = 3）",
+    "jp": "",
+    "kr": ""
+  },
+   "推荐人数": {
+    "cn": "推荐人数",
+    "en": "recommendation amount",
+    "jp": "",
+    "kr": ""
+  },
+  "扩展的userid,比如zb一键登陆保存的zb的userid": {
+    "cn": "扩展的userid,比如zb一键登陆保存的zb的userid",
+    "en": "external user id like zb, directly login zb’s user id",
+    "jp": "",
+    "kr": ""
+  },
+   "审核状态：0：没审核，1：修改审核中": {
+    "cn": "审核状态：0：没审核，1：修改审核中",
+    "en": "examining status：0：not yet，1：pending",
+    "jp": "",
+    "kr": ""
+  },
+  "是否设置安全密码：0：否，1：是": {
+    "cn": "是否设置安全密码：0：否，1：是",
+    "en": "set security code：0：no，1：yes",
+    "jp": "",
+    "kr": ""
+  },
+   "是否邮箱认证：0：否，1：是": {
+    "cn": "是否邮箱认证：0：否，1：是",
+    "en": "google auth or not：0：no，1：yes",
+    "jp": "",
+    "kr": ""
+  },
+  "交易验证（1-永不输入资金密码 2-6小时内免输资金密码 3-每次交易均验证资金密码）": {
+    "cn": "交易验证（1-永不输入资金密码 2-6小时内免输资金密码 3-每次交易均验证资金密码）",
+    "en": "email auth：0：no，1：yes",
+    "jp": "",
+    "kr": ""
+  },
+   "0(000-初始状态) 1(001-已实名认证) 2(010-已银行认证) 3(011已实名和银行认证)": {
+    "cn": "0(000-初始状态) 1(001-已实名认证) 2(010-已银行认证) 3(011已实名和银行认证)",
+    "en": "trade auth（1-never fill in asset psw 2-do not fill in asset psw in 6h 3-fill in asset psw in each trade）",
+    "jp": "",
+    "kr": ""
+  },
+  "交易API": {
+    "cn": "交易API",
+    "en": "Trading API",
+    "jp": "",
+    "kr": ""
+  },
+   "新增委托": {
+    "cn": "新增委托",
+    "en": "New Entrustment",
+    "jp": "",
+    "kr": ""
+  },
+  "下单数量": {
+    "cn": "下单数量",
+    "en": "order amount",
+    "jp": "",
+    "kr": ""
+  },
+   "委托类型，目前仅支持现价委托  0:现价委托  1 区间委托": {
+    "cn": "委托类型，目前仅支持现价委托  0:现价委托  1 区间委托",
+    "en": "entrustment type，only current price entrustment is supported at present 0:current price  1 interval",
+    "jp": "",
+    "kr": ""
+  },
+  "买卖类型：0 卖出 1 购买": {
+    "cn": "买卖类型：0 卖出 1 购买",
+    "en": "type：0 sell 1 buy",
+    "jp": "",
+    "kr": ""
+  },
+   "市场ID": {
+    "cn": "市场ID",
+    "en": "market ID",
+    "jp": "",
+    "kr": ""
+  },
+  "价格": {
+    "cn": "价格",
+    "en": "price",
+    "jp": "",
+    "kr": ""
+  },
+   "返回报文": {
+    "cn": "返回报文",
+    "en": "Return message",
+    "jp": "",
+    "kr": ""
+  },
+  "委托ID": {
+    "cn": "委托ID",
+    "en": "entrustmentID",
+    "jp": "",
+    "kr": ""
+  },
+   "1代表成功，其他为错误码见说明": {
+    "cn": "1代表成功，其他为错误码见说明",
+    "en": "1success，see other error codes in the end",
+    "jp": "",
+    "kr": ""
+  },
+  "取消委托": {
+    "cn": "取消委托",
+    "en": "Cancel Entrustment",
+    "jp": "",
+    "kr": ""
+  },
+   "要取消的委托ID": {
+    "cn": "要取消的委托ID",
+    "en": "entrustment ID which needs to be camcelled",
+    "jp": "",
+    "kr": ""
+  },
+  "查询正在进行的委托": {
+    "cn": "查询正在进行的委托",
+    "en": "Inquire On-Going Entrustment",
+    "jp": "",
+    "kr": ""
+  },
+   "分页查询历史委托委托（只查询已经成交和已经取消的委托记录）": {
+    "cn": "分页查询历史委托委托（只查询已经成交和已经取消的委托记录）",
+    "en": "Inquiry Historical Entrustment in Paging（only for entrustments done or cancelled）",
+    "jp": "",
+    "kr": ""
+  },
+  "页码": {
+    "cn": "页码",
+    "en": "page",
+    "jp": "",
+    "kr": ""
+  },
+   "每页展示条数": {
+    "cn": "每页展示条数",
+    "en": "quantity showed in each page",
+    "jp": "",
+    "kr": ""
+  },
+  "根据委托单id查询委托记录": {
+    "cn": "根据委托单id查询委托记录",
+    "en": "Inquiry Entrustment Record according to Entrustment ID",
+    "jp": "",
+    "kr": ""
+  },
+   "要查询的委托ID": {
+    "cn": "要查询的委托ID",
+    "en": "entrustment ID to inquiry",
+    "jp": "",
+    "kr": ""
+  },
+  "财务资金API": {
+    "cn": "财务资金API",
+    "en": "Finance API",
+    "jp": "",
+    "kr": ""
+  },
+   "获取充币地址": {
+    "cn": "获取充币地址",
+    "en": "Acquire deposit address",
+    "jp": "",
+    "kr": ""
+  },
+  "货币类型名称(必传)": {
+    "cn": "货币类型名称(必传)",
+    "en": "currency type name (necessary)",
+    "jp": "",
+    "kr": ""
+  },
+   "充币地址": {
+    "cn": "充币地址",
+    "en": "deposit address",
+    "jp": "",
+    "kr": ""
+  },
+  "查询充币记录": {
+    "cn": "查询充币记录",
+    "en": "Inquiry Deposit Record",
+    "jp": "",
+    "kr": ""
+  },
+   "货币类型": {
+    "cn": "货币类型",
+    "en": "currency type",
+    "jp": "",
+    "kr": ""
+  },
+    "不传按充币时间倒序排，传了按升序排序": {
+    "cn": "不传按充币时间倒序排，传了按升序排序",
+    "en": "no param- reverse chronological order，param- chronological order",
+    "jp": "",
+    "kr": ""
+  },
+  "总行数": {
+    "cn": "总行数",
+    "en": "total row",
+    "jp": "",
+    "kr": ""
+  },
+   "总页数": {
+    "cn": "总页数",
+    "en": "total page",
+    "jp": "",
+    "kr": ""
+  },
+  "每页数量": {
+    "cn": "每页数量",
+    "en": "amount in each page",
+    "jp": "",
+    "kr": ""
+  },
+   "货币类型id": {
+    "cn": "货币类型id",
+    "en": "currency type id",
+    "jp": "",
+    "kr": ""
+  },
+  "充值主键": {
+    "cn": "充值主键",
+    "en": "deposit key",
+    "jp": "",
+    "kr": ""
+  },
+   "充币数量": {
+    "cn": "充币数量",
+    "en": "deposit amount",
+    "jp": "",
+    "kr": ""
+  },
+  "确认次数": {
+    "cn": "确认次数",
+    "en": "confirm",
+    "jp": "",
+    "kr": ""
+  },
+   "充币时间": {
+    "cn": "充币时间",
+    "en": "deposit time",
+    "jp": "",
+    "kr": ""
+  },
+  "交易id": {
+    "cn": "交易id",
+    "en": "trade id",
+    "jp": "",
+    "kr": ""
+  },
+   "0:未到账  1:已到账": {
+    "cn": "0:未到账  1:已到账",
+    "en": "0:not arrive yet  1:already arrived",
+    "jp": "",
+    "kr": ""
+  },
+  "查询提币记": {
+    "cn": "查询提币记",
+    "en": "Inquiry Withdrawal Record",
+    "jp": "",
+    "kr": ""
+  },
+   "币种id(必选)": {
+    "cn": "币种id(必选)",
+    "en": "currency id (necessary)",
+    "jp": "",
+    "kr": ""
+  },
+  "(必选) | all(所有), wait(已提交，未审核), success(审核通过), fail(审核失败), cancel(用户主动取消)": {
+    "cn": "(必选) | all(所有), wait(已提交，未审核), success(审核通过), fail(审核失败), cancel(用户主动取消)",
+    "en": "(necessary) | all, wait(submitted，not verify yet), success(verified), fail(failed), cancel(user cancel)",
+    "jp": "",
+    "kr": ""
+  },
+   "可选, 默认": {
+    "cn": "可选, 默认",
+    "en": "selectable, default",
+    "jp": "",
+    "kr": ""
+  },
+  "修改人id": {
+    "cn": "修改人id",
+    "en": "modify id",
+    "jp": "",
+    "kr": ""
+  },
+   "提现id": {
+    "cn": "提现id",
+    "en": "withdrawal id",
+    "jp": "",
+    "kr": ""
+  },
+  "手续费": {
+    "cn": "手续费",
+    "en": "transaction fee",
+    "jp": "",
+    "kr": ""
+  },
+   "提现数量": {
+    "cn": "提现数量",
+    "en": "withdrawal amount",
+    "jp": "",
+    "kr": ""
+  },
+  "提现记录id": {
+    "cn": "提现记录id",
+    "en": "withdrawal record id",
+    "jp": "",
+    "kr": ""
+  },
+   "审核意见": {
+    "cn": "审核意见",
+    "en": "verify remark",
+    "jp": "",
+    "kr": ""
+  },
+  "备注": {
+    "cn": "备注",
+    "en": "remark",
+    "jp": "",
+    "kr": ""
+  },
+   "审核时间": {
+    "cn": "审核时间",
+    "en": "verify time",
+    "jp": "",
+    "kr": ""
+  },
+  "实际到账数量": {
+    "cn": "实际到账数量",
+    "en": "actual amount",
+    "jp": "",
+    "kr": ""
+  },
+   "修改时间": {
+    "cn": "修改时间",
+    "en": "modify time",
+    "jp": "",
+    "kr": ""
+  },
+  "审核状态(0 待审核 , 1 审核通过 -1 审核不通过)": {
+    "cn": "审核状态(0 待审核 , 1 审核通过 -1 审核不通过)",
+    "en": "verify status (0 yet to verify , 1 success -1 fail)",
+    "jp": "",
+    "kr": ""
+  },
+   "提币时间": {
+    "cn": "提币时间",
+    "en": "time",
+    "jp": "",
+    "kr": ""
+  },
+  "状态(-1 删除, 1 正常)": {
+    "cn": "状态(-1 删除, 1 正常)",
+    "en": "status(-1 canceled, 1 normal)",
+    "jp": "",
+    "kr": ""
+  },
+   "币种id": {
+    "cn": "币种id",
+    "en": "currency id",
+    "jp": "",
+    "kr": ""
+  },
+  "审核人id": {
+    "cn": "审核人id",
+    "en": "verify id",
+    "jp": "",
+    "kr": ""
+  },
+  "比特币": {
+    "cn": "比特币",
+    "en": "Bitcoin",
+    "jp": "",
+    "kr": ""
+  },
+   "获取用户所有资金信息": {
+    "cn": "获取用户所有资金信息",
+    "en": "Acquire All Assets Information",
+    "jp": "",
+    "kr": ""
+  },
+  "每页行数（可选）": {
+    "cn": "每页行数（可选）",
+    "en": "row in each page（selectable）",
+    "jp": "",
+    "kr": ""
+  },
+   "页码（可选）": {
+    "cn": "页码（可选）",
+    "en": "page number（selectable）",
+    "jp": "",
+    "kr": ""
+  },
+  "用户当前可用资金数量": {
+    "cn": "用户当前可用资金数量",
+    "en": "amount of current assets available",
+    "jp": "",
+    "kr": ""
+  },
+   "用户冻结资金数量": {
+    "cn": "用户冻结资金数量",
+    "en": "amount of assets frozen",
+    "jp": "",
+    "kr": ""
+  },
+  "查询提币地址": {
+    "cn": "查询提币地址",
+    "en": "Inquiry Withdrawal Address",
+    "jp": "",
+    "kr": ""
+  },
+   "(必传)": {
+    "cn": "(必传)",
+    "en": "(neseccary)",
+    "jp": "",
+    "kr": ""
+  },
+  "(可选, 默认1)": {
+    "cn": "(可选, 默认1)",
+    "en": "(selectable, default 1)",
+    "jp": "",
+    "kr": ""
+  },
+   "(可选, 默认10)": {
+    "cn": "(可选, 默认10)",
+    "en": "( selectable, default 10)",
+    "jp": "",
+    "kr": ""
+  },
+  "地址": {
+    "cn": "地址",
+    "en": "address",
+    "jp": "",
+    "kr": ""
+  },
+   "币种名称": {
+    "cn": "币种名称",
+    "en": "currency name",
+    "jp": "",
+    "kr": ""
+  },
+  "地址id": {
+    "cn": "地址id",
+    "en": "address id",
+    "jp": "",
+    "kr": ""
+  },
+   "(1-提币地址, 2-打币地址)": {
+    "cn": "(1-提币地址, 2-打币地址)",
+    "en": "(1-withdrawal address, 2-deposit address)",
+    "jp": "",
+    "kr": ""
+  },
+  "状态(-1 删除, 1 正常)": {
+    "cn": "状态(-1 删除, 1 正常)",
+    "en": "status(-1 cancelled, 1 normal)",
+    "jp": "",
+    "kr": ""
+  },
+   "签名规则": {
+    "cn": "签名规则",
+    "en": "Signature Rules",
+    "jp": "",
+    "kr": ""
+  },
+  "签名串sign=md5(Apiid+Timestamp+参数内容拼串+签名秘钥)，Timestamp是毫秒为单位的时间戳,签名秘钥为ApiSecret,和Apiid在网站打开Api功能时获取。参数拼串内容规则有三种，只有header参数的为空字符串": {
+    "cn": "签名串sign=md5(Apiid+Timestamp+参数内容拼串+签名秘钥)，Timestamp是毫秒为单位的时间戳,签名秘钥为ApiSecret,和Apiid在网站打开Api功能时获取。参数拼串内容规则有三种，只有header参数的为空字符串",
+    "en": "The signature string sign=md5 (Apiid+Timestamp+ parameter content string + signature secret key); the signature secret key is Api Secret, and Apiid will be acquired by enabling Api function on the website. There are three parameter string content rules: empty string ''",
+    "jp": "",
+    "kr": ""
+  },
+   "，body json格式的参数为body参数的json字符串格式，key-value以及get形式的参数内容拼串为所有参数按key值首字母排序后再按key1+value1+key2+value2...的形式拼串。签名后将Apiid、Timestamp、Sign放入到请求header中，注意首字母大写，后面全小写。": {
+    "cn": "，body json格式的参数为body参数的json字符串格式，key-value以及get形式的参数内容拼串为所有参数按key值首字母排序后再按key1+value1+key2+value2...的形式拼串。签名后将Apiid、Timestamp、Sign放入到请求header中，注意首字母大写，后面全小写。",
+    "en": "when header param only, JSON string format for body JSON format parameter, key-value, and GET string param format for all params sorted according to the initial value of the key value and then spelled in the form of key1+value1+key2+value2... After signing, put Apiid, Timestamp, Sign into the header requested, pay attention to the initial capitalization and the whole lowercase.",
+    "jp": "",
+    "kr": ""
+  },
+  "比如在网站打开API功能后拿到下面两个参数 Apiid=7eESLc0x69I7eESLc0x69J,Apisecret = 87ceba599b6d39a39deb01cf71eacd57，Timestamp=1526886847000,": {
+    "cn": "比如在网站打开API功能后拿到下面两个参数 Apiid=7eESLc0x69I7eESLc0x69J,Apisecret = 87ceba599b6d39a39deb01cf71eacd57，Timestamp=1526886847000,",
+    "en": "Eg: open the API function on the website to get the following two parameters, Apiid=7eESLc0x69I7eESLc0x69J, Apisecret = 87ceba599b6d39a39deb01cf71eacd57, Timestamp=1526886847, ",
+    "jp": "",
+    "kr": ""
+  },
+   "a、Body json格式参数": {
+    "cn": "a、Body json格式参数",
+    "en": "a, Body JSON format parameters",
+    "jp": "",
+    "kr": ""
+  },
+  "参数内容json字符串为": {
+    "cn": "参数内容json字符串为",
+    "en": "Param content json character string",
+    "jp": "",
+    "kr": ""
+  },
+   "参数内容拼串为": {
+    "cn": "参数内容拼串为",
+    "en": "Param conten collage string",
+    "jp": "",
+    "kr": ""
+  },
+  "则": {
+    "cn": "则",
+    "en": "Then",
+    "jp": "",
+    "kr": ""
+  },
+   "没有任何body或get参数": {
+    "cn": "没有任何body或get参数",
+    "en": "No body or get param",
+    "jp": "",
+    "kr": ""
+  },
+    "参数内容拼串为空": {
+    "cn": "参数内容拼串为空",
+    "en": "No param in content collage string",
+    "jp": "",
+    "kr": ""
+  },
+  "或者get参数": {
+    "cn": "或者get参数",
+    "en": "or get param",
+    "jp": "",
+    "kr": ""
+  },
+   "参数内容为": {
+    "cn": "参数内容为",
+    "en": "Param content",
+    "jp": "",
+    "kr": ""
+  },
+  "提供Java版本的签名代码如下，其他语言请参考代码自行实现": {
+    "cn": "提供Java版本的签名代码如下，其他语言请参考代码自行实现",
+    "en": "Signature codes for Java are as follows. For other language please implement your own code writing",
+    "jp": "",
+    "kr": ""
+  },
+   "下午": {
+    "cn": "下午",
+    "en": "pm",
+    "jp": "",
+    "kr": ""
+  },
+  "自行根据需要设置,一般认为一个服务里使用的只有一个": {
+    "cn": "自行根据需要设置,一般认为一个服务里使用的只有一个",
+    "en": "Set based on your demand, usually one in one serve",
+    "jp": "",
+    "kr": ""
+  },
+   "不为空、不为空字符串、不为双引号、不为空": {
+    "cn": "不为空、不为空字符串、不为双引号、不为空",
+    "en": "Not empty、not empty character string、not double quotation mark、not empty",
+    "jp": "",
+    "kr": ""
+  },
+  "参数是formdata key value，或者get参数 形式的情况下获取签名header": {
+    "cn": "参数是formdata key value，或者get参数 形式的情况下获取签名header",
+    "en": "acquire signature header when param is formdata key value, or get param format",
+    "jp": "",
+    "kr": ""
+  },
+   "参数为空情况下获取签名header": {
+    "cn": "参数为空情况下获取签名header",
+    "en": "acquire signature header when param is empty",
+    "jp": "",
+    "kr": ""
+  },
+  "参数是body json形式的情况下获取签名header": {
+    "cn": "参数是body json形式的情况下获取签名header",
+    "en": "acquire signature header when param is body json format",
+    "jp": "",
+    "kr": ""
+  },
+   "数量精度": {
+    "cn": "数量精度",
+    "en": "quantity accuracy",
+    "jp": "",
+    "kr": ""
+  },
+  "最小数量": {
+    "cn": "最小数量",
+    "en": "minimum quantity",
+    "jp": "",
+    "kr": ""
+  },
+   "买方币种": {
+    "cn": "买方币种",
+    "en": "buyer’s currency",
+    "jp": "",
+    "kr": ""
+  },
+  "价格精度": {
+    "cn": "价格精度",
+    "en": "price accuracy",
+    "jp": "",
+    "kr": ""
+  },
+   "服务ID": {
+    "cn": "服务ID",
+    "en": "service ID",
+    "jp": "",
+    "kr": ""
+  },
+  "市场ID": {
+    "cn": "市场ID",
+    "en": "market ID",
+    "jp": "",
+    "kr": ""
+  },
+   "站点ID": {
+    "cn": "站点ID",
+    "en": "station ID",
+    "jp": "",
+    "kr": ""
+  },
+  "卖方币种": {
+    "cn": "卖方币种",
+    "en": "seller’s currency",
+    "jp": "",
+    "kr": ""
+  },
+   "默认费率": {
+    "cn": "默认费率",
+    "en": "default rate",
+    "jp": "",
+    "kr": ""
+  },
+  "市场名称": {
+    "cn": "市场名称",
+    "en": "market name",
+    "jp": "",
+    "kr": ""
+  },
+   "杠杆类型: 1现货 2杠杆": {
+    "cn": "杠杆类型: 1现货 2杠杆",
+    "en": "margin trade type: 1stock 2margin",
+    "jp": "",
+    "kr": ""
+  },
+  "状态: 1 运行, 0 停止 -1 删除": {
+    "cn": "状态: 1 运行, 0 停止 -1 删除",
+    "en": "situation: 1 run, 0 stop -1 delete",
+    "jp": "",
+    "kr": ""
+  },
+   "开盘时间": {
+    "cn": "开盘时间",
+    "en": "opening time",
+    "jp": "",
+    "kr": ""
+  },
+  "请求参数": {
+    "cn": "请求参数",
+    "en": "Request param",
+    "jp": "",
+    "kr": ""
+  },
+   "查询提币记录": {
+    "cn": "查询提币记录",
+    "en": "Inquiry Withdrawal Record",
+    "jp": "",
+    "kr": ""
+  },
+  "交易查询地址": {
+    "cn": "交易查询地址",
+    "en": "trade search address",
+    "jp": "",
+    "kr": ""
+  },
+   "如果大于0是另一种币的token，否则等于0": {
+    "cn": "如果大于0是另一种币的token，否则等于0",
+    "en": "the token of another currency if >0，otherwise =0",
+    "jp": "",
+    "kr": ""
+  },
+  "描述": {
+    "cn": "描述",
+    "en": "description",
+    "jp": "",
+    "kr": ""
+  },
+   "共识算法": {
+    "cn": "共识算法",
+    "en": "consensus algorithm",
+    "jp": "",
+    "kr": ""
+  },
+  "是否是法币，比如美金 1是，0不是": {
+    "cn": "是否是法币，比如美金 1是，0不是",
+    "en": "legal tender or not, 1Yes, 0No",
+    "jp": "",
+    "kr": ""
+  },
+   "别名": {
+    "cn": "别名",
+    "en": "alias",
+    "jp": "",
+    "kr": ""
+  },
+  "图标": {
+    "cn": "图标",
+    "en": "lohgo",
+    "jp": "",
+    "kr": ""
+  },
+   "是否需要block地址,0不需要 1需要": {
+    "cn": "是否需要block地址,0不需要 1需要",
+    "en": "need block address or not,0No 1Yes",
+    "jp": "",
+    "kr": ""
+  },
+  "blockChain查询地址(区块查询地址)": {
+    "cn": "blockChain查询地址(区块查询地址)",
+    "en": "blockchain search address",
+    "jp": "",
+    "kr": ""
+  },
+   "总市值": {
+    "cn": "总市值",
+    "en": "market value",
+    "jp": "",
+    "kr": ""
+  },
+  "币种小数位(精度)-优先级低于 market中的配置": {
+    "cn": "币种小数位(精度)-优先级低于 market中的配置",
+    "en": "currency accuracy- lower priority to the configuration in market",
+    "jp": "",
+    "kr": ""
+  },
+   "已发行": {
+    "cn": "已发行",
+    "en": "published",
+    "jp": "",
+    "kr": ""
+  },
+  "是否可挖矿": {
+    "cn": "是否可挖矿",
+    "en": "provide mining or not",
+    "jp": "",
+    "kr": ""
+  },
+   "名称": {
+    "cn": "名称",
+    "en": "name",
+    "jp": "",
+    "kr": ""
+  },
+  "英文描述": {
+    "cn": "英文描述",
+    "en": "English description",
+    "jp": "",
+    "kr": ""
+  },
+   "符号": {
+    "cn": "符号",
+    "en": "mark",
+    "jp": "",
+    "kr": ""
+  },
+  "全量数据response": {
+    "cn": "全量数据response",
+    "en": "full data response",
+    "jp": "",
+    "kr": ""
+  },
+   "最近6H收盘价列表数据说明：[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]": {
+    "cn": "最近6H收盘价列表数据说明：[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]",
+    "en": "Data description of latest 6H closing price: [[ordinal, closing price], [serial number, closing price], [serial number, closing price]]",
+    "jp": "",
+    "kr": ""
+  },
+  "request dataType固定为": {
+    "cn": "request dataType固定为",
+    "en": "Request dataType is fixed to",
+    "jp": "",
+    "kr": ""
+  },
+   "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]": {
+    "cn": "全量数据字段说明：[数据类型, 市场ID, 币种信息, 时间戳, asks:(卖盘)[[价格, 量]], bids(买盘)[[价格, 量]]]",
+    "en": "Full data field description: [data type, market ID, currency information, time stamp, asks: (price, quantity)], bids [[price, quantity]]]",
+    "jp": "",
+    "kr": ""
+  },
+  "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]": {
+    "cn": "增量数据字段说明：[数据类型, 市场ID, 时间戳, 币种信息, 买卖类型(asks卖bids买), 价格, 量]",
+    "en": "Incremental data field description: [data type, market ID, time stamp, currency information, transaction type (asks or bids), price, quantity]",
+    "jp": "",
+    "kr": ""
+  },
+   "每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。": {
+    "cn": "每个增量数据表示的是单个档位要数据，当量为0时说明这个档位已经被全部交易完毕，需要移除。",
+    "en": "Each incremental data is a single file position data; 0 indicates that the stalls have been fully traded and need to be removed.",
+    "jp": "",
+    "kr": ""
+  },
+  "市场行情类接口": {
+    "cn": "市场行情类接口",
+    "en": "Interface of Market Quotations",
+    "jp": "",
+    "kr": ""
+  },
+   "注意，市场行情类接口的域名和前面几部分HTTP接口不同，不需要签名，header不需要传签名的几个参数。一个IP一分钟内最多只能访问1000次这部分接口，请注意频率控制。": {
+    "cn": "注意，市场行情类接口的域名和前面几部分HTTP接口不同，不需要签名，header不需要传签名的几个参数。一个IP一分钟内最多只能访问1000次这部分接口，请注意频率控制。",
+    "en": "Please note that the domain name of the interface of market quotations is different from the previous HTTP interfaces, and no signature is required, and the header does not need the parameters of the signature. Each IP can only access this interface 1000 times in a minute. Please control the frequency.",
+    "jp": "",
+    "kr": ""
+  },
+  "所有市场24H市场行情": {
+    "cn": "所有市场24H市场行情",
+    "en": "24H Quotation of All Markets",
+    "jp": "",
+    "kr": ""
+  },
+   "这个数据服务端更新速度为10秒一次，不必太过频繁获取": {
+    "cn": "这个数据服务端更新速度为10秒一次，不必太过频繁获取",
+    "en": "This data server will be updated every 10 seconds. Please do not acquire the data too frequently.",
+    "jp": "",
+    "kr": ""
+  },
+  "必传，选择true则返回的结果中用BTC_USDT这样的市场名替代掉marketId,false则使用marketId": {
+    "cn": "必传，选择true则返回的结果中用BTC_USDT这样的市场名替代掉marketId,false则使用marketId",
+    "en": "required, choose ‘ true“ to replace marketID with names like BTC_USDT; choose “false”to use marketId",
+    "jp": "",
+    "kr": ""
+  },
+   "返回报文分两种格式": {
+    "cn": "返回报文分两种格式",
+    "en": "Two formats of return message",
+    "jp": "",
+    "kr": ""
+  },
+    "isUseMarketName为fasle时格式如下": {
+    "cn": "isUseMarketName为fasle时格式如下",
+    "en": "When isUseMarketName=fasle",
+    "jp": "",
+    "kr": ""
+  },
+  "isUseMarketName为true时格式如下": {
+    "cn": "isUseMarketName为true时格式如下",
+    "en": "When isUseMarketName=true",
+    "jp": "",
+    "kr": ""
+  },
+   "数据说明": {
+    "cn": "数据说明",
+    "en": "Data explanation",
+    "jp": "",
+    "kr": ""
+  },
+  "[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]": {
+    "cn": "[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]",
+    "en": "[Market ID, latest transaction price, highest price, lowest price, 24h volume, 24h change, list of closing prices in last 6H, top buying price, top selling price, 24h volume (in unit of the buyer's currency)]",
+    "jp": "",
+    "kr": ""
+  },
+   "最近6H收盘价列表按时间顺序排序，数据说明：": {
+    "cn": "最近6H收盘价列表按时间顺序排序，数据说明：",
+    "en": "list of closing prices in last 6h in chronological order, data explanation:",
+    "jp": "",
+    "kr": ""
+  },
+  "[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]": {
+    "cn": "[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]",
+    "en": "[[serial number, closing price], [serial number, closing price], [serial number, closing price]]",
+    "jp": "",
+    "kr": ""
+  },
+   "单个市场24H市场行情": {
+    "cn": "单个市场24H市场行情",
+    "en": "24H Quotation of Single Market",
+    "jp": "",
+    "kr": ""
+  },
+  "这个数据服务端更新速度为10秒一次，不必太过频繁获": {
+    "cn": "这个数据服务端更新速度为10秒一次，不必太过频繁获",
+    "en": "This data server will be updated every 10 seconds. Please do not acquire the data too frequently.",
+    "jp": "",
+    "kr": ""
+  },
+   "市场id，和市场名传一个即可": {
+    "cn": "市场id，和市场名传一个即可",
+    "en": "either market id or market name",
+    "jp": "",
+    "kr": ""
+  },
+  "市场名，和市场id传一个即可": {
+    "cn": "市场名，和市场id传一个即可",
+    "en": "either market name or market id",
+    "jp": "",
+    "kr": ""
+  },
+   "[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]": {
+    "cn": "[ 市场ID, 最新成交价, 最高价，最低价, 24小时成交量，24小时涨跌幅, 最近6H收盘价列表,买一价，卖一价,24小时成交额(单位是买方币种)]",
+    "en": "[Market ID, latest transaction price, highest price, lowest price, 24h volume, 24h change, list of closing prices in last 6H, top buying price, top selling price, 24h volume (in unit of the buyer's currency)]",
+    "jp": "",
+    "kr": ""
+  },
+  "最近6H收盘价列表按时间顺序排序，数据说明：": {
+    "cn": "最近6H收盘价列表按时间顺序排序，数据说明：",
+    "en": "List of closing prices in last 6h in chronological order, data explanation:",
+    "jp": "",
+    "kr": ""
+  },
+   "[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]": {
+    "cn": "[[序号, 收盘价], [序号, 收盘价], [序号, 收盘价]]",
+    "en": "[[serial number, closing price], [serial number, closing price], [serial number, closing price]]",
+    "jp": "",
+    "kr": ""
+  },
+  "K线类型，支持1M，5M，15M，30M，1H，1D，1W 七种类型，分别代表1-30分钟，1小时，1日，1周": {
+    "cn": "K线类型，支持1M，5M，15M，30M，1H，1D，1W 七种类型，分别代表1-30分钟，1小时，1日，1周",
+    "en": "K line type, support 1M，5M，15M，30M，1H，1D，1W, which stand for 1-30m，1h，1day，1week",
+    "jp": "",
+    "kr": ""
+  },
+   "数据量，最多为": {
+    "cn": "数据量，最多为",
+    "en": "data size, maximum ",
+    "jp": "",
+    "kr": ""
+  },
+  "[数据类型, 市场ID, 市场名字, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]": {
+    "cn": "[数据类型, 市场ID, 市场名字, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]",
+    "en": "[data type, market id, market name, time stamp, opening data, highest price, lowest price, closing price, volume, change, US dollar exchange rate, k-line cycle, whether is converted]",
+    "jp": "",
+    "kr": ""
+  },
+   "交易记录": {
+    "cn": "交易记录",
+    "en": "Trading History",
+    "jp": "",
+    "kr": ""
+  },
+  "[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]": {
+    "cn": "[数据类型, 市场ID, 币种信息, 时间戳, 买卖类型(asks卖bids买), 价格, 量]",
+    "en": "[Data type, market ID, token information, time stamp, type (asks or bids), price, amount]",
+    "jp": "",
+    "kr": ""
+  },
+   "盘口数据（市场深度）": {
+    "cn": "盘口数据（市场深度）",
+    "en": "Market Data (Market Depth)",
+    "jp": "",
+    "kr": ""
+  },
+  "本接口最多返回买卖50档的盘口数据": {
+    "cn": "本接口最多返回买卖50档的盘口数据",
+    "en": "A maximum of 50 data of selling and buying can be returned",
+    "jp": "",
+    "kr": ""
+  },
+   "asks:(卖盘)[[价格, 量]]": {
+    "cn": "asks:(卖盘)[[价格, 量]]",
+    "en": "asks: [[price, amount]]",
+    "jp": "",
+    "kr": ""
+  },
+  "bids:(买盘)[[价格, 量]]": {
+    "cn": "bids:(买盘)[[价格, 量]]",
+    "en": "bids: [[price, amount]]",
+    "jp": "",
+    "kr": ""
+  },
+   "接口结果外部和错误码": {
+    "cn": "接口结果外部和错误码",
+    "en": "External of Interface and Error Code",
+    "jp": "",
+    "kr": ""
+  },
+  "失败时返回报文如下": {
+    "cn": "失败时返回报文如下",
+    "en": "Failed return message",
+    "jp": "",
+    "kr": ""
+  },
+   "错误码列表：": {
+    "cn": "错误码列表：",
+    "en": "Error Code List:",
+    "jp": "",
+    "kr": ""
+  },
+  "配置及基础功能API、获取用户信息接口、交易API、财务资金API": {
+    "cn": "配置及基础功能API、获取用户信息接口、交易API、财务资金API",
+    "en": "For configuration and basic function API, acquire interface of user information, transaction API, finance API",
+    "jp": "",
+    "kr": ""
+  },
+   "错误码": {
+    "cn": "错误码",
+    "en": "Error Code",
+    "jp": "",
+    "kr": ""
+  },
+  "说明": {
+    "cn": "说明",
+    "en": "Chinese Description ",
+    "jp": "",
+    "kr": ""
+  },
+   "英文说明": {
+    "cn": "英文说明",
+    "en": "English Description ",
+    "jp": "",
+    "kr": ""
+  },
+  "返回报文格式": {
+    "cn": "返回报文格式",
+    "en": "Return message",
+    "jp": "",
+    "kr": ""
+  },
+   "行情、盘口数据（市场深度）、k线、交易记录四类API的错误码说明": {
+    "cn": "行情、盘口数据（市场深度）、k线、交易记录四类API的错误码说明",
+    "en": "For quotations, market data (market depth), k line and trading history",
+    "jp": "",
+    "kr": ""
+  },
+  "区间类型 0 现价委托 1 区间委托": {
+    "cn": "区间类型 0 现价委托 1 区间委托",
+    "en": "entrustment type 0 current price 1 interval",
+    "jp": "",
+    "kr": ""
+  },
+   "区间委托的最低价": {
+    "cn": "区间委托的最低价",
+    "en": "lowest price of interval entrustment",
+    "jp": "",
+    "kr": ""
+  },
+  "区间委托的最高价": {
+    "cn": "区间委托的最高价",
+    "en": "highest price of interval entrustment",
+    "jp": "",
+    "kr": ""
+  },
+   "总金额": {
+    "cn": "总金额",
+    "en": "total volume",
+    "jp": "",
+    "kr": ""
+  },
+  "0 卖出 1 购买  -1 取消": {
+    "cn": "0 卖出 1 购买  -1 取消",
+    "en": "0 sell  1 buy  -1 cancel",
+    "jp": "",
+    "kr": ""
+  },
+   "已经成交的数量": {
+    "cn": "已经成交的数量",
+    "en": "amount of completed transactions",
+    "jp": "",
+    "kr": ""
+  },
+  "交易处理次数": {
+    "cn": "交易处理次数",
+    "en": "times of transaction dealing",
+    "jp": "",
+    "kr": ""
+  },
+   "下单时间": {
+    "cn": "下单时间",
+    "en": "time of order",
+    "jp": "",
+    "kr": ""
+  },
+  "已完成的总金额": {
+    "cn": "已完成的总金额",
+    "en": "total volume of completed transactions",
+    "jp": "",
+    "kr": ""
+  },
+   "委托类型 0(false)普通委托单 1(true)杠杆委托单": {
+    "cn": "委托类型 0(false)普通委托单 1(true)杠杆委托单",
+    "en": "entrustment type 0(false)normal 1(true)margin",
+    "jp": "",
+    "kr": ""
+  },
+  "状态 : -2资金解冻失败 -1用户资金不足 0起始 1取消 2交易成功 3交易一部分": {
+    "cn": "状态 : -2资金解冻失败 -1用户资金不足 0起始 1取消 2交易成功 3交易一部分",
+    "en": "status: -2unfreezing failed -1insufficient asset 0start 1cancel 2successful 3 part of transaction",
+    "jp": "",
+    "kr": ""
+  },
+   "委托记录总条数": {
+    "cn": "委托记录总条数",
+    "en": "number of total pages of entrustment records",
+    "jp": "",
+    "kr": ""
+  },
+  "当前页数": {
+    "cn": "当前页数",
+    "en": "current page number",
+    "jp": "",
+    "kr": ""
+  },
+   "奖池每日开启，具体开启信息可关注ZBG每日官方公告。": {
+    "cn": "奖池每日开启，具体开启信息可关注ZBG每日官方公告。",
+    "en": "The prize pool is opened daily. The specific information can be followed by the daily official announcement of ZBG.",
+    "jp": "",
+    "kr": ""
+  },
+   "开启加速挖矿失败": {
+    "cn": "开启加速挖矿失败",
+    "en": "Open miner speed failure",
+    "jp": "",
+    "kr": ""
+  },
+  "逆袭池指定交易对开启1小时内，每10分钟根据最高成交买单价（单笔买入量不低于2ZT），产生一名“逆袭王者候选人”，从中随机产生一名逆袭王者，并获得该逆袭池对应时段、对应交易对所产生的总交易手续费。": {
+    "cn": "逆袭池指定交易对开启1小时内，每10分钟根据最高成交买单价（单笔买入量不低于2ZT），产生一名“逆袭王者候选人”，从中随机产生一名逆袭王者，并获得该逆袭池对应时段、对应交易对所产生的总交易手续费。",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "活动期间，逆袭池随机开启，每次限时60分钟；开启期间排名数据每10分钟更新一次。": {
+    "cn": "活动期间，逆袭池随机开启，每次限时60分钟；开启期间排名数据每10分钟更新一次。",
+    "en": "During the activity, Counterattack Pool will be opened randomly for 60 minutes; rankings will be updated every 10 minutes.",
+    "jp": "",
+    "kr": ""
+  },
+  "逆袭池玩法中，只有在单笔买入量不低于2 ZT的情况下，才视为有效买入。": {
+    "cn": "逆袭池玩法中，只有在单笔买入量不低于2 ZT的情况下，才视为有效买入。",
+    "en": "In Counterattack Pool only the purchase of at least 2 ZT in single transaction can be valid.",
+    "jp": "",
+    "kr": ""
+  },
+   "逆袭池开启时段总交易手续费发放比例说明：第1名获得70%逆袭池总交易手续费；第2名获得10%逆袭池总交易手续费；第3-6名获得5%逆袭池总交易手续费。当出现两个或两个以上相同最高成交买单价时，按出现的时间先后顺序进行排名。": {
+    "cn": "逆袭池开启时段总交易手续费发放比例说明：第1名获得70%逆袭池总交易手续费；第2名获得10%逆袭池总交易手续费；第3-6名获得5%逆袭池总交易手续费。当出现两个或两个以上相同最高成交买单价时，按出现的时间先后顺序进行排名。",
+    "en": "The distribution rules of the total transaction service fees generated in the period of Counterattack Pool: No.1 will get 70% of the total; No.2 will get 10%; No.3-No.6 will get 5%. The earlier data will be given priority if two or more transactions are made at the same highest buying price.",
+    "jp": "",
+    "kr": ""
+  },
+  "逆袭池上榜用户在参与奖池活动当日，需保持当日累计净买入量大于等于10ZT，否则将失去领奖资格，对应的奖励将平分给余下有领奖资格的用户。（累计净买入量=累计买入量-累计卖出量）。": {
+    "cn": "逆袭池上榜用户在参与奖池活动当日，需保持当日累计净买入量大于等于10ZT，否则将失去领奖资格，对应的奖励将平分给余下有领奖资格的用户。（累计净买入量=累计买入量-累计卖出量）。",
+    "en": "Users in the ranking of Counterattack Pool must keep the daily net buying volume no less than 10 ZT, or the corresponding reward will be cancelled and be added to the reward of next Counterattack Pool. (accumulative net buying volume=accumulative buying volume-accumulative selling volume).",
+    "jp": "",
+    "kr": ""
+  },
+   "每日上榜逆袭池榜单的用户将按比例获得对应时段奖池内总交易手续费（折合等价ZT进行结算），并将在当日奖池关闭后48小时内发放。": {
+    "cn": "每日上榜逆袭池榜单的用户将按比例获得对应时段奖池内总交易手续费（折合等价ZT进行结算），并将在当日奖池关闭后48小时内发放。",
+    "en": "All users in the ranking of Counterattack Pool will get corresponding part of the total transaction service fees (in ZT). Rewards will be given out in 48 hours after the pool is closed that day.",
+    "jp": "",
+    "kr": ""
+  },
+  "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由ZBG提供的精美周边 ——ZBG主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。": {
+    "cn": "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由ZBG提供的精美周边 ——ZBG主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。",
+    "en": "All users who list in the rankings of both Millionaire Pool and Counterattack Pool will get rewards of free derivative products--ZBG themed T-shirt, which will be given out once our client service completes the statistics.",
+    "jp": "",
+    "kr": ""
+  },
+   "本活动最终解释权归ZBG.com所有。": {
+    "cn": "本活动最终解释权归ZBG.com所有。",
+    "en": "ZBG reserves the right of final decision on the interpretation of this activity.",
+    "jp": "",
+    "kr": ""
+  },
+    "逆袭池指定交易对开启1小时内，每10分钟根据最高成交买单价（单笔买入量不低于2ZT），产生一名“逆袭王者候选人”，并逐一排名，每位上榜用户将按名次获得对应比例的奖池奖励。": {
+    "cn": "逆袭池指定交易对开启1小时内，每10分钟根据最高成交买单价（单笔买入量不低于2ZT），产生一名“逆袭王者候选人”，并逐一排名，每位上榜用户将按名次获得对应比例的奖池奖励。",
+    "en": "In 1 hour after Counterattack Pool is opened, one candidate of the King of Counterattack will be elected by the highest buying price (buy at least 2 ZT once) every 10 minutes. Candidates will be ranked according to the price. All users in the ranking will get corresponding rewards.",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+   "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  },
+  "": {
+    "cn": "",
+    "en": "",
+    "jp": "",
+    "kr": ""
+  }
+}

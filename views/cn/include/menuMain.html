@@ -1,0 +1,445 @@
+<header class="header" id="user-nav">
+    <a href="/" class="logo"><img src="/src/images/logo.png"/></a>
+    <ul class="main-nav">
+        <li><a role="button" :href="'/trade/'+ marketConfig[0].name" v-if="marketConfig.length > 0">交易</a></li>
+        <li><a role="button" href="/market">市场</a></li>
+        <li class="dropdown">
+            <p role="button" href="#" data-toggle="dropdown">ZT</p>
+            <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="/zt/summarize">概况</a></li>-->
+                <!--<li><a href="/zt/exchange">ZB换码</a></li>-->
+                <!--<li><a href="/zt/rebate">挖矿返利</a></li>-->
+                <!--<li><a href="/zt/reward">推荐奖励</a></li>-->
+            <!--</ul>-->
+            <ul class="dropdown-menu">
+                <li><a href="/zt">概况</a></li>
+                <!--<li><a href="/zb_zt">ZB换码ZT</a></li>-->
+                <li><a href="/ztfee">挖矿/ZT利润返还</a></li>
+                <!--<li><a href="/ztuser">推荐人获ZT</a></li>-->
+            </ul>
+
+        </li>
+    </ul>
+
+<div class="r-area">
+    <div class="notice-nav"> <%= LANG('公告') %> ：
+        <a target="_Blank"  href="https://zbg.zendesk.com/hc/zh-cn/articles/360006379074-%E5%85%B3%E4%BA%8EZT%E5%8F%8AZB%E6%8D%A2%E7%A0%81%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%AF%B4%E6%98%8E">关于ZT及ZB换码协议的说明 </a>
+    </div>
+    <ul class="user-nav">
+        <li class="dropdown">
+            <p role="button" data-toggle="dropdown">
+                <img src="/src/images/icon/language-icon.svg"/>
+                <%= WEB.LAN[LAN] %>
+            </p>
+            <ul class="dropdown-menu">
+                <% for(var key in WEB.LAN){ %>
+                <% if(key != LAN){ %>
+                <li class="<%= key %>"><a @click="setLan('<%= key %>')"><%= WEB.LAN[key] %></a></li>
+                <% } %>
+                <% } %>
+            </ul>
+        </li>
+        <% if(isLogin){ %>
+            <li class="dropdown">
+                <p role="button" data-toggle="dropdown">
+                    <img src="/src/images/icon/user-icon.svg"/>
+                    <span v-text="userInfo.nickName || userInfo.loginName"></span></p>
+                    <ul class="dropdown-menu">
+                        <!--<li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>-->
+                        <li><a href="/u">用户中心</a></li>
+                        <li><a href="/u/asset">资产管理</a></li>
+                        <li v-if="userInfo.userType != 3" v-cloak><a role="button" href="/u/api">API设置</a></li>
+                        <li><a role="button" href="javascript:;" @click="logout"><%= LANG('退出登录') %></a></li>
+                    </ul>
+            </li>
+        <% }else{ %>
+            <li><a href="/register" role="button"><%= LANG('注册') %></a></li>
+            <li class="signup"><a href="/login" role="button"><%= LANG('登录') %></a></li>
+        <% } %>
+    </ul>
+</div>
+        <modal  :open= "showModal == 'transfer'" @close="showModal = false">
+            <transfer :info="transferInfo" />
+        </modal>
+
+        <modal  :open= "showModal == 'payin'" @close="showModal = false">
+            <modal-payin :coin="payinCoin" />
+        </modal>
+
+</header>
+
+
+
+<%-include("../component/modal.html")%>
+<%-include("../component/search_box.html")%>
+<%-include("../u/model/insideDebit.html")%>
+<%-include("../u/model/payin.html")%>
+<%-include("assetDropDown.html")%>
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        EXX.userNav = new Vue({
+            el: '#user-nav',
+            data: function () {
+                return {
+                    loaded: true,
+                    isLogin: ISLOGIN,
+                    assistPrice: '',
+                    // topNews: [],
+                    hasReadNews: [],
+                    showTopNews: false,
+                    showAssetDrop : false,
+                    assetInterVal : null,
+                    lastAssetTime : 0,
+                    isMobile: Methods.isMobile(),
+                    ExchangeMode: [
+                        "<%= LANG('模拟交易')%>",
+                        "<%= LANG('实盘交易')%>"
+                    ],
+                    currentExchangeMode: Methods.getCookie(ENV + 'ExchangeMode') || 1,
+                    tradeTheme: 'dark',
+                    showModal : false,
+                    transferInfo : {},
+                    payinCoin : '',
+                    marketConfig:'',
+                    userInfo: '',
+                    userAssets: [],
+                    coinConfig: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息,
+                    marketAreaList: [],
+                }
+            },
+            watch : {
+                showAssetDrop : function (newVal,oldVal) {
+                    //下拉展开资产的时候立即获取资产并且开启定时器
+                    if(this.showAssetDrop && this.isLogin){
+                        //获取汇率
+                        this.getAssistPrice();
+                        //获取用户资金
+                        this.getAccountAssets();
+                        //获取货币信息
+                        this.getCoinConfig();
+
+                        this.assetInterVal = setInterval(function () {
+                            //获取汇率
+                            this.getAssistPrice();
+                            //获取用户资金
+                            this.getAccountAssets();
+                            //获取货币信息
+                            this.getCoinConfig();
+                        }.bind(this),3000)
+                    }else{
+                        window.clearInterval(this.assetInterVal);
+                    }
+                },
+                showTopNews : function () {
+                    if(!this.showTopNews){
+                        $('body').removeClass('notice-open');
+                    }else{
+                        $('body').addClass('notice-open');
+                    }
+                }
+            },
+            computed: {
+                currentAccountId: function () {
+                    if (this.isLogin) {
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                    }
+                },
+                /**
+                 * 格式化用户资产数据
+                 * 将金额不为0的货币与所有货币列表整合
+                 */
+                userCoinFunds: function() {
+                    var coins = this.coinConfig || [];
+                    var userAssets = this.userAssets;
+
+                    var coinAssets = [];
+                    coins.forEach(function (coin, index, array) {
+                        var coinItem = coin;
+                        userAssets.forEach(function (asset, idx, arr) {
+                            if (coin.currencyId == asset.currencyTypeId) {
+                                for (var k in asset) {
+                                    coin[k] = asset[k];
+                                }
+                            }
+                        });
+                        coinAssets.push(coinItem);
+                    }.bind(this));
+
+                    return coinAssets;
+                }
+            },
+            methods: {
+                logout: function () {
+                    Methods.logout();
+                },
+                //获取大写货币名称
+                getCoinName : function (market) {
+                    // return !market ? '' :  market.split('_')[0].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取小写货币名称
+                getCoinMinName : function (market) {
+                    // return !market ? '' :  market.split('_')[0].toLowerCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取交易所属类型
+                getMoneyName : function (market) {
+                    // return !market ? '' :  market.split('_')[1].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[1].toUpperCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                //获取交易名称
+                getTradeName : function (market) {
+                    // return !market ? '' :  market.split('_')[1].toUpperCase();
+                    if (market.name.split('_').length > 1) {
+                        return !market ? '' : market.name.split('_')[0].toLowerCase() + '_' + market.name.split('_')[1].toLowerCase();
+                    } else {
+                        // console.log('coin name incorrect: ' + market.name);
+                        return '';
+                    }
+                },
+                goToExchange: function (type, market) {
+                    Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
+
+                    if(type == 2){
+                        window.location.href = '/trade/' + market;
+                    }else{
+                        window.location.href = '/tradePro/' + market;
+                        //window.location.href = DOMAIN_MAIN + '/trade?market=' + market;
+                    }
+                },
+                //设置语言
+                setLan: function (lan) {
+                    console.log(lan)
+                    var name = ENV + 'lan';
+                    Methods.setCookie(name, lan);
+                    top.location.reload();
+                },
+                openPayin: function(coin) {
+                    this.payinCoin = coin;
+                    this.showModal = 'payin';
+                },
+                openTransfer: function(type, userId, coin) {
+                    this.transferInfo = {
+                        type: type,
+                        userId: userId,
+                        coin: coin
+                    };
+                    this.showModal = 'transfer';
+                },
+                /*
+                * 获取所有货币信息
+                * */
+                getCoinConfig: function() {
+                    var data = {
+                        // webId: 100
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
+                        data: data,
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        success: function(res) {
+                            this.coinConfig = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取用户总额不为零的货币信息(财务中心)
+                getAccountAssets: function () {
+                    var data = {
+                        // webId: 100,
+                        userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,
+                        pageSize: 9999,
+                        pageNum: 1
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        data: JSON.stringify(data),
+                        success: function(res) {
+                            this.loaded = true;
+
+                            if(res.datas.list){
+                                this.userAssets = res.datas.list;
+                            }
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                // 获取币价汇率
+                getAssistPrice: function (callback) {
+                    Methods.ajax({
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        success: function (res) {
+                            this.assistPrice = res.datas;
+                            callback && callback();
+                        }.bind(this),
+                        error : function(){
+                        }
+                    });
+                },
+                //获取用户信息-ok
+                getUserInfo: function () {
+                    var _this = this;
+                    Methods.ajax({
+                        type:'POST',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        success: function (res) {
+                            _this.userInfo = res.datas;
+                            //更新用户信息
+                            Methods.setLocalUserInfo(res.datas);
+                        }
+                    });
+                },
+                //获取通知（暂弃用）
+                /*getTopNewsList: function (type) {
+                    var data = {
+                        problemType: 1,
+                        problCategor: 102
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getProblemListTop',
+                        data: data,
+                        success: function (res) {
+                            this.topNews = res.datas.titelList;
+                            this.initNewsList();
+                        }.bind(this)
+                    });
+                },
+                initNewsList : function () {
+                    if(this.topNews && this.topNews.length > 0){
+                        for(var index = 0, ilength = this.topNews.length; index < ilength; index++){
+                            var item = this.topNews[index];
+                            var isRead = this.checkReadNews(item.id);
+                            item.readed = isRead;
+                            Vue.set(this.topNews, index, item)
+                            if(!isRead){
+                                this.showTopNews = true;
+                                //有就跳出确保每次只显示一条
+                                return false;
+                            }
+                        }
+                    }
+                    this.showTopNews = false;
+                },
+                gotoReadNews: function (id) {
+                    this.setHasReadNews(id);
+                    window.location.href = '/blog/display?type=102&id=' + id;
+                },
+                getHasReadNews: function () {
+                    var hasReadNews = Methods.getCookie(ENV + 'hasReadNews');
+                    if (hasReadNews) {
+                        this.hasReadNews = hasReadNews.split(',');
+                    } else {
+                        this.hasReadNews = [];
+                    }
+                    this.initNewsList();
+                },
+                setHasReadNews: function (id) {
+                    if (!this.hasReadNews) {
+                        this.hasReadNews = [];
+                    }
+                    this.hasReadNews.push(id);
+                    Methods.setCookie(ENV + 'hasReadNews', this.hasReadNews.join(','), 7);
+                    this.initNewsList();
+                },
+                checkReadNews: function (id) {
+                    var result = false;
+                    if (this.hasReadNews.length > 0) {
+                        this.hasReadNews.forEach(function (t) {
+                            if (t == id) {
+                                result = true;
+                            }
+                        })
+                    }
+                    return result;
+                },*/
+                initSwiftTrade : function () {
+                    $(".group-list.l1").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l1 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l1 .group-box ul").removeClass('block');
+                        $(".group-list.l1 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                    $(".group-list.l2").on('mouseover', '.group-tab li', function () {
+                        $(".group-list.l2 .group-tab li").removeClass('active');
+                        $(this).addClass('active');
+
+                        $(".group-list.l2 .group-box ul").removeClass('block');
+                        $(".group-list.l2 .group-box ul").eq($(this).index()).addClass('block');
+                        //console.log($(this).index())
+                    })
+                },
+                // 获取市场配置
+                getMarketConfig: function () {
+                    var _this = this;
+
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        success: function (res) {
+                            _this.marketConfig = res.datas;
+                        }
+                    });
+                },
+                getMarketAreaListByWebId: function() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                        success: function (res) {
+                            this.marketAreaList=res.datas
+                        }.bind(this)
+                    });
+                },
+                getMarketClass:function (item,index) {
+                    var index = index
+                    if (index == 0) {
+                        console.log(item)
+                        return item.name +' block'
+                    } else {
+                        return 'block'
+                    }
+                }
+            },
+            mounted: function () {
+                this.getMarketAreaListByWebId();
+
+                if (this.isLogin) {
+                    //获取用户信息
+                    this.getUserInfo();
+                    //获取用户资金
+                    this.getAccountAssets();
+                }
+                //获取货币信息
+                this.getCoinConfig();
+                //获取市场配置
+                this.getMarketConfig();
+                //初始化鼠标监听
+                this.initSwiftTrade();
+
+                // 消息相关
+                // this.getTopNewsList();
+                // this.getHasReadNews();
+            },
+            created : function () {
+            }
+        })
+    })
+</script>

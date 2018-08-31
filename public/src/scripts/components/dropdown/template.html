@@ -1,0 +1,12 @@
+<div ref="dropdown" :class="['vue-dropdown', {open: isOpen}]" >
+  <div class="dropdown-toggle" v-on:click="dropdownToggle">
+    <span class="sel-item">{{currentItem ? currentItem.name : placeholder}}<i :class="['iconfont', isOpen ? 'icon-arrow_drop_up' : 'icon-arrow_drop_down']"></i></span>
+  </div>
+  <transition name="bounce">
+    <ul v-if="isOpen" class="dropdown-list">
+      <li v-for="item in list">
+        <div class="item" v-on:click="handleSelected(item)">{{item.name}}</div>
+      </li>
+    </ul>
+  </transition>
+</div>

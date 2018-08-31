@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="missionIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="75px" height="75px" viewBox="0 0 75 75" enable-background="new 0 0 75 75" xml:space="preserve">
+<g id="cupAll">
+	<g id="cupTop">
+		<g>
+			<defs>
+				<rect id="cupMaskqjwr" x="18.7" y="11.9" width="37.7" height="40.4"/>
+			</defs>
+			<clipPath id="cupMaskqjwr_1_">
+				<use xlink:href="#cupMaskqjwr"  overflow="visible"/>
+			</clipPath>
+			<g clip-path="url(#cupMaskqjwr_1_)">
+				<g id="cupBody">
+					<path id="armL" fill="#F2D34F" d="M26.8,33.6c-3.5,0-6.3-2.8-6.3-6.3l-0.1-9.2h6.3V19h-5.4l0.1,8.3c0,3,2.4,5.4,5.4,5.4
+						C26.8,32.7,26.8,33.6,26.8,33.6z"/>
+					<path id="armR" fill="#F2D34F" d="M48.4,33.6c3.5,0,6.3-2.8,6.3-6.3l0.1-9.2h-6.3V19h5.4l-0.1,8.3c0,3-2.4,5.4-5.4,5.4V33.6z"
+						/>
+					<g id="cupBottom">
+						<path fill="#F2D34F" d="M32.8,50.5c0,0,0.6-0.6,1.3-1.3s1.4-2.8,1.4-4.6v-5.4h4v5.4c0,1.8,0.6,3.9,1.4,4.6l1.3,1.3H32.8z"/>
+						<path fill="#F0C100" d="M35.6,39.2v5.4c0,1.8-0.6,3.9-1.4,4.6c-0.7,0.7-1.3,1.3-1.3,1.3h3.9l2.9-6.5v-4.8H35.6z"/>
+					</g>
+					<path fill="#F2D34F" d="M51.9,14.5l-2.5,1.7c-0.3,0.2-0.5,0.7-0.5,1v15.5c0,6.2-5,11.2-11.2,11.2s-11.2-5-11.2-11.2V17.3
+						c0-0.4-0.2-0.8-0.5-1l-2.5-1.7L51.9,14.5L51.9,14.5z"/>
+					<path fill="#FAEDB9" d="M49.5,14.5L47,16.3c-0.3,0.2-0.5,0.7-0.5,1v15.5c0,5.9-4.5,10.7-10.3,11.2c0.3,0,0.6,0,0.9,0
+						c6.2,0,11.2-5,11.2-11.2V17.3c0-0.4,0.2-0.8,0.5-1l2.5-1.7L49.5,14.5L49.5,14.5z"/>
+					<polygon opacity="0.21" points="51,15.2 24.1,15.1 23.3,14.5 23.3,11.9 51.9,11.9 51.9,14.5 					"/>
+					<rect id="rim" x="23.3" y="11.9" fill="#F0C100" width="28.5" height="2.7"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="base">
+	<path id="baseTop" fill="#425168" d="M31.5,50.5H44c1,0,2.4,0.4,3,1l1.1,1h-21c0,0,0.6-0.4,1.2-1C29,50.9,30.4,50.5,31.5,50.5z"/>
+	<rect x="25.4" y="52.3" fill="#323D4E" width="24.3" height="10.8"/>
+	<g id="plaque">
+		<path fill="#EDF8FA" d="M47.8,60.4v-5.5c-0.4,0-0.8-0.3-0.8-0.8H28c0,0.4-0.3,0.8-0.8,0.8v5.5c0.4,0,0.8,0.3,0.8,0.8h19
+			C47.1,60.7,47.4,60.4,47.8,60.4z"/>
+		<rect x="31.2" y="56.4" fill="#323D4E" width="12.7" height="0.3"/>
+		<rect x="32.6" y="57.5" fill="#323D4E" width="10" height="0.3"/>
+		<rect x="33.7" y="58.5" fill="#323D4E" width="7.8" height="0.3"/>
+	</g>
+</g>
+<g id="stars">
+	<path id="star3" fill="#FFFFFF" d="M43.1,21.2c-1.7,0.2-1.9,0.4-2.1,2.1c-0.2-1.7-0.4-1.9-2.1-2.1c1.7-0.2,1.9-0.4,2.1-2.1
+		C41.2,20.8,41.4,20.9,43.1,21.2z"/>
+	<path id="star2" fill="#FFFFFF" d="M46,25c-1.4,0.2-1.5,0.3-1.7,1.7c-0.2-1.4-0.3-1.5-1.7-1.7c1.4-0.2,1.5-0.3,1.7-1.7
+		C44.4,24.6,44.6,24.8,46,25z"/>
+	<path id="star1" fill="#FFFFFF" d="M46.2,20.3c-1,0.1-1.1,0.2-1.2,1.2c-0.1-1-0.2-1.1-1.2-1.2c1-0.1,1.1-0.2,1.2-1.2
+		C45.1,20.1,45.2,20.2,46.2,20.3z"/>
+</g>
+</svg>

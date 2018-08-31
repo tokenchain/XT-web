@@ -1,0 +1,54 @@
+body{
+	background-color: #FFFFFF;
+	color: #ddd;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+
+
+.centerall{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	/* [disabled]margin-bottom: -24px; */
+	color: #000000;
+	font-size: 24px;
+}
+
+h1{
+	font-weight: bold;
+	font-size: 36px;
+	color: #000000;
+}
+
+p{
+	line-height: 150%;
+	font-size: 20px;
+	color: #868686;
+	text-align: center;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+}
+
+.flatbuttons{
+	clear: both;
+	font-size: 18px;
+	margin-right: -4px;
+	margin-top: -4px;
+	margin-left: -4px;
+	margin-bottom: -4px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+.flatbuttons button{
+	cursor: pointer;
+}
+
+
+.description{
+	clear: both;
+	margin-bottom: -27px;
+	font-size: 24px;
+}
