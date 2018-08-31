@@ -1,6 +1,0 @@
-<svg class="inline-chart" :width="getSetting('width')" :height="getSetting('height')">
-  <template v-if="type == 'line'">
-    <polygon v-if="linePoints.polygon" :fill="fill" :points="linePoints.polygon"></polygon>
-    <polyline v-if="linePoints.polyline" fill="none" :points="linePoints.polyline" :stroke="stroke" :store-width="strokeWidth" storke-linecap="square"></polyline>
-  </template>
-</svg>
