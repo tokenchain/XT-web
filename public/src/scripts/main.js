@@ -4,7 +4,7 @@ require.config({
     urlArgs: 'ver=' + VERSION,
     paths: {
         'vue': ENV == 'w' ? 'vue/dist/vue' : 'vue/dist/vue.min',
-        //'jquery': 'jquery/dist/jquery.min',
+        'jquery': 'jquery/dist/jquery.min',
         'text': 'requirejs/text',
         'css': 'requirejs/css',
         'clipboadrd': 'others/clipboard.min',
