@@ -677,87 +677,6 @@
                     </div>
                 </div>
             </div>
-            <!-- 全球主要交易市场行情 -->
-            <!--<div v-show="markerShow=='ALL'">-->
-                <!--<div class="cd-nav-aux">-->
-                    <!--<ul>-->
-                        <!--<li class="active">-->
-                            <!--<a href="javascript:;">-->
-                                <!--<%= LANG('全球主要交易市场行情')%>-->
-                            <!--</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-
-                    <!--<div class="market-search">-->
-                        <!--<input placeholder="<%= LANG('搜索')%>" type="text" autocomplete="off" v-model="masInput" name="search_1530688781509">-->
-                        <!--&lt;!&ndash;<svg @click="searchmak" class="icon" style="width: 1.5em; height: 1.5em;vertical-align: middle;fill: currentColor;overflow: hidden;"&ndash;&gt;-->
-                             <!--&lt;!&ndash;viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1337">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<path d="M830.486464 796.124515 672.790943 638.42797c44.959904-52.799318 72.109099-121.232412 72.109099-196.016087 0-167.084182-135.448007-302.533214-302.53219-302.533214s-302.533214 135.449031-302.533214 302.533214 135.449031 302.53219 302.533214 302.53219c74.782651 0 143.215745-27.149196 196.017111-72.109099L796.101988 830.531518c9.499249 9.499249 24.885227 9.499249 34.384476 0S839.986737 805.623764 830.486464 796.124515zM442.366829 698.401131c-141.380814 0-255.989248-114.631985-255.989248-255.989248 0-141.403341 114.608434-255.989248 255.989248-255.989248 141.37979 0 255.989248 114.585907 255.989248 255.989248C698.356077 583.769146 583.747643 698.401131 442.366829 698.401131z"&ndash;&gt;-->
-                                  <!--&lt;!&ndash;p-id="1338"></path>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</svg>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--&lt;!&ndash;<ul class="totalcoin">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li role="button" v-for="(item,index) in glabalmarktsdata" :class="item.coinName=='BTC'?'active':'' " @click="gomrkets(item.coinName)"&ndash;&gt;-->
-                        <!--&lt;!&ndash;v-cloak="">{{item.coinName}}</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-
-
-                <!--<div class="container-fluid">-->
-
-                    <!--<div class="cd-table">-->
-                        <!--<div class="head">-->
-                            <!--<ul>-->
-                                <!--<li class="coin-name">-->
-                                    <!--<%= LANG('交易平台')%>-->
-                                <!--</li>-->
-                                <!--<li class="new-price">-->
-                                    <!--<%= LANG('最新价')%>-->
-                                <!--</li>-->
-                                <!--<li role="button" class="increase sort">24H-->
-                                    <!--<%= LANG('涨幅')%>-->
-                                    <!--<em></em>-->
-                                <!--</li>-->
-                                <!--<li class="high-price">24H-->
-                                    <!--<%= LANG('高')%> /-->
-                                    <!--<%= LANG('低')%>-->
-                                <!--</li>-->
-                                <!--<li role="button" class="amount sort down">24H-->
-                                    <!--<%= LANG('成交量')%>-->
-                                    <!--<em></em>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<div v-if="!glabalexchangedataSwitch" class="cd-loading">-->
-                            <!--<div class="vertical-bars">-->
-                                <!--<p class="layer-1"></p>-->
-                                <!--<p class="layer-2"></p>-->
-                                <!--<p class="layer-3"></p>-->
-                                <!--<p class="layer-4"></p>-->
-                                <!--<p class="layer-5"></p>-->
-                                <!--<p class="layer-6"></p>-->
-                                <!--<p class="layer-7"></p>-->
-                                <!--<p class="layer-8"></p>-->
-                                <!--<p class="layer-9"></p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div v-else class="body">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<ul v-for="(item,index) in glabalexchangedata " :key="index" role="button" v-cloak>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li class="coin-name">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>{{item.cName}}</b>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li class="new-price">{{item.ticker.last |capitalize2}}</li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li class="increase">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<span :class="item.ticker.riseRate && item.ticker.riseRate<0 ?'red':'green'">{{item.ticker.riseRate}}%</span>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li>{{item.ticker.high | capitalize2}} / {{item.ticker.low | capitalize2}}</li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li>{{item.ticker.vol |thousand}}万</li>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
         </div>
 
 
@@ -1523,9 +1442,6 @@
                     ios: '',
                     navActive: 'hot',
                     markerShow: "ZBG",
-                    // glabalmarktsdata: [],
-                    // glabalexchangedata: [],
-                    // glabalexchangedataSwitch: false,
                     masInput: '', //搜索数据
                     currentColor: '#c0c0ec',
                     testMarkets: [],
@@ -1643,81 +1559,6 @@
                     })
                     return arr
                 },
-                //请求全球市场
-                // glabalmarkts() {
-                //     var that = this;
-                //
-                //     $.ajax({
-                //         type: "POST",
-                //         url: "https://ticker.bitkk.com/getTickersByPlatform",
-                //         data: {
-                //             platform: "zb"
-                //         },
-                //         dataType: "jsonp",
-                //         error: function () {
-                //             // alert("error");
-                //         },
-                //         success: function (json) {
-                //             if (json.isSuc) {
-                //                 var arr = json.datas,
-                //                     i,
-                //                     j,
-                //                     len = arr.length;
-                //                 for (i = 0; i < len; i++) {
-                //                     for (j = i + 1; j < len; j++) {
-                //                         if (arr[i].coinName === arr[j].coinName) {
-                //                             j = ++i;
-                //                         }
-                //                     }
-                //                     // that.glabalmarktsdata.push(arr[i]);
-                //                 }
-                //                 // console.log(that.glabalmarktsdata)
-                //             } else {
-                //
-                //             }
-                //
-                //
-                //         }
-                //     });
-                // },
-                // glabalexchange(coin) {
-                //     var that = this;
-                //     $.ajax({
-                //         type: "POST",
-                //         url: "https://ticker.bitkk.com/getTickers",
-                //         data: {
-                //             coin: coin
-                //         },
-                //         dataType: "jsonp",
-                //         error: function () {
-                //             // alert("error");
-                //         },
-                //         success: function (json) {
-                //             if (json.isSuc) {
-                //                 that.glabalexchangedata = json.datas;
-                //                 that.glabalexchangedataSwitch = true
-                //             } else {
-                //
-                //             }
-                //         }
-                //     });
-                //
-                // },
-                // gomrkets(coin) {
-                //     // console.log(coin)
-                //     var coinname = coin.toLowerCase()
-                //     this.glabalexchange(coinname)
-                // },
-                //搜索市场
-                // searchmak() {
-                //     console.log(this.masInput)
-                //     if (this.masInput != '') {
-                //         this.gomrkets(this.masInput)
-                //     } else {
-                //         this.glabalexchange('btc')
-                //     }
-                //
-                // },
                 isLeverMarket: function (market) {
                     var marketInfo = this.marketConfig[market];
                     //console.log(this.marketConfig);
