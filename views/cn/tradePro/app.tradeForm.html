@@ -82,14 +82,14 @@
                     if (this.inputPrice != '') {
                         return Methods.fixDecimal(this.canUseMoney / this.inputPrice, this.marketConfig.amountDecimal);
                     } else {
-                        return this.$parent.canBuyCoin;
+                        return '--';
                     }
                 },
                 realCanSellMoney: function () {
                     if (this.inputPrice != '') {
                         return Methods.fixDecimal(this.canUseCoin * this.inputPrice, this.marketConfig.priceDecimal);
                     } else {
-                        return this.$parent.canSellMoney;
+                        return '--';
                     }
                 },
                 coin: function () {
