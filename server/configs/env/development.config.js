@@ -14,16 +14,14 @@ module.exports = {
     //法币单位
     UNIT: "krw",
     //网站端口
-    PORT: "3002",
+    PORT: "9002",
     //版本号
     VERSION: Date.now(),
     //域配置
-    DOMAIN_BASE: "exx.com",
+    DOMAIN_BASE : "ww.xt.com",
 
-    DOMAIN_DEV: "http://ww.exx.com/test",
-    // DOMAIN_DEV : "http://72.main.zbg.com",
-    // DOMAIN_DEV : "http://192.168.8.70:9000",
-    WEBSOCKET: "ws://192.168.20.13:28080",
+    DOMAIN_DEV : "https://www.xt.com",  //后端接口 域
+    WEBSOCKET : "wss://ws.xt.com",     //WEBSOCKET 服务地址
 
     DISH_API: "http://179kline.zbg.com"
 }
