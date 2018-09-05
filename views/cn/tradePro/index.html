@@ -454,7 +454,7 @@
                     </div>
                 </div>
 
-                <div style="height: 100%;" v-show="chartType === 'kline'">
+                <div style="position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px;" v-show="chartType === 'kline'">
                     <iframe :src="'/kline/lite/' + currentMarket + '?money=' + assistCoin.toLowerCase()" id="marketFrame" class="marketFrame" name="marketFrame" onload="" frameborder="0" width="100%" style="height:100%" hspace="0" scrolling="no"></iframe>
                 </div>
                 <div style="height: 100%;" v-if="chartType === 'depth'">
