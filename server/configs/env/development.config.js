@@ -17,12 +17,13 @@ module.exports = {
     PORT: "9002",
     //版本号
     VERSION: Date.now(),
+
     //域配置
     DOMAIN_BASE : "ww.xt.com",
 
     DOMAIN_DEV : "https://www.xt.com",  //后端接口 域
     WEBSOCKET : "wss://ws.xt.com",     //WEBSOCKET 服务地址
 
-    DISH_API: "http://179kline.zbg.com"
+    DISH_API: "https://ws.xt.com"     //盘口数据地址
 }
 /* * 开发环境前端 + 开发环境后端* */
