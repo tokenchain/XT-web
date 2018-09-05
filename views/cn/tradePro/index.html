@@ -314,11 +314,12 @@
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
-                            <div class="current" data-toggle="dropdown">
+                            <div class="current" data-toggle="dropdown" @click="mouseSet(allMarket)">
                                 <!--<h3><%= LANG('市场')%></h3>-->
                                 <p>{{coinName}}/ <span class="denominator">{{moneyName}}</span></p>
                             </div>
-                            <div class="market-box">
+                            <!--zb 东西-->
+                            <!--<div class="market-box">
                                 <div class="mark-list">
                                     <ul class="title">
                                         <li><p><%= LANG('交易对')%></p>
@@ -330,9 +331,10 @@
                                         <template v-if="!allMarketLoading">
                                             <li v-for="(data,index) in allMarket" @click="gotoTrade(data.market)"
                                                 v-if="data.market!=undefined && (data.market == 'eth_usdt' || data.market == 'ltc_usdt' || data.market == 'eos_usdt' || data.market == 'zt_usdt' || data.market == 'btc_usdt' ||   data.market == 'zt_zb')">
-                                                <!--&& data.market.indexOf(selectIcon) != -1-->
+                                                &lt;!&ndash;&& data.market.indexOf(selectIcon) != -1&ndash;&gt;
                                                 <p>
-                                                    <img :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/><b>{{showCoinNew(data.market)}}</b><span><i>/</i>{{showMoneyNew(data.market)}}</span>
+                                                    <img :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
+                                                    <b>{{showCoinNew(data.market)}}</b><span><i>/</i>{{showMoneyNew(data.market)}}</span>
                                                 </p>
                                                 <p>{{showPrice(data.lastPrice,data.market)}}</p>
                                                 <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' +
@@ -342,18 +344,18 @@
                                         <template v-if="allMarketLoading">
                                             <li>
                                                 <p>ZB/BTC</p>
-                                                <p>--</p>
-                                                <p>--</p>
+                                                <p>&#45;&#45;</p>
+                                                <p>&#45;&#45;</p>
                                             </li>
                                             <li>
                                                 <p>ZB/USDT</p>
-                                                <p>--</p>
-                                                <p>--</p>
+                                                <p>&#45;&#45;</p>
+                                                <p>&#45;&#45;</p>
                                             </li>
                                             <li>
                                                 <p>BTC/USDT</p>
-                                                <p>--</p>
-                                                <p>--</p>
+                                                <p>&#45;&#45;</p>
+                                                <p>&#45;&#45;</p>
                                             </li>
                                         </template>
                                     </ul>
@@ -370,6 +372,30 @@
                                                     showRate(data.rate) : '' + showRate(data.rate) }}%</p>
                                             </li>
                                         </template>
+                                    </ul>
+                                </div>
+                            </div>-->
+                            <div class="market-box">
+                                <ul class="tabBox">
+                                    <li :class="hoverActive === 'qc' ? 'active' : ''" @mouseover="overTab('qc', allMarket)">QC区</li>
+                                    <li :class="hoverActive === 'usdt' ? 'active' : ''" @mouseover="overTab('usdt', allMarket)">USDT区</li>
+                                    <li :class="hoverActive === 'btc' ? 'active' : ''" @mouseover="overTab('btc', allMarket)">BTC区</li>
+                                </ul>
+                                <div class="mark-list">
+                                    <ul class="title">
+                                        <li><p><%=LANG('交易对')%></p><p><%=LANG('最新价')%></p><p><%=LANG('涨跌幅')%></p></li>
+                                    </ul>
+                                    <ul class="list">
+                                        <li v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
+                                            <p>
+                                                <img v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc'"
+                                                     :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
+                                                <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
+                                                <b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b>
+                                            </p>
+                                            <p>{{showPrice(data.lastPrice,data.market)}}</p>
+                                            <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' + showRate(data.rate) : '' + showRate(data.rate) }}%</p>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

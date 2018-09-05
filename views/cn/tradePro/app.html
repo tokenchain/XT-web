@@ -110,10 +110,17 @@
                     loading:false,
                     cnyprice:[],//转换价格
                     usdprice:[],//转换价格
-                    selectlan:false
+                    selectlan:false,
+                    hoverActive: 'qc',  //qc  usdt  btc   悬浮激活样式
+                    allMarkets: null,
                 }
             },
             computed: {
+                //过滤要显示的市场
+                displayMarkets: function() {
+                    var type = this.hoverActive;
+                    return this.marketsForCoin(type);   //根据币种 过滤
+                },
                 //转化marketId
                 currentMarketId: function () {
 
@@ -449,7 +456,6 @@
                     return document.getElementById('marketFrame').window || document.getElementById('marketFrame').contentWindow;
                 }
             },
-
             watch: {
                 currentPrice: function (newVal, oldVal) {
                     if (!isNaN(newVal)) {
@@ -477,6 +483,25 @@
                 }
             },
             methods: {
+                marketsForCoin: function (type) {
+                    var all = this.allMarkets || []
+                    var type = this.hoverActive
+                    var topAll = all.filter(function (item, i) {
+                        if (item.market) {
+                            var tradeItem = item.market.split('_')[1]
+                            return tradeItem.indexOf(type) !== -1
+                        }
+                    })
+                    return topAll
+                },
+                mouseSet: function (allMarket) {
+                    // console.log(allMarket)
+                    this.allMarkets = allMarket
+                },
+                overTab: function (type, allMarkets) {
+                    this.hoverActive = type
+                    this.allMarkets = allMarkets
+                },
                 // 获取服务器时间
                 getServerTime: function (callback) {
                     var _this = this;

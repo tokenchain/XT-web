@@ -21,7 +21,7 @@ module.exports = {
     //域配置
     DOMAIN_BASE : "ww.xt.com",
 
-    DOMAIN_DEV : "https://www.xt.com",  //后端接口 域
+    DOMAIN_DEV : "",  //后端接口 域
     WEBSOCKET : "wss://ws.xt.com",     //WEBSOCKET 服务地址
 
     DISH_API: "https://ws.xt.com"     //盘口数据地址

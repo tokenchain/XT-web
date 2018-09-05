@@ -33,6 +33,9 @@
     ======================================== -->
     <title>ZB Global Exchange Platform</title>
 
+    <link rel="stylesheet" type="text/css" href="/lib/swiper/swiper-4.3.3.min.css">
+    <script type="text/javascript" src="/lib/swiper/swiper-4.3.3.min.js"></script>
+
     <!-- links for favicon
     ======================================== -->
     <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
@@ -72,7 +75,7 @@
             left: 0;
             top: 0;
             width: 100%;
-            height: 100px;
+            height: 60px;
             padding: 0 40px;
             background: transparent;
         }
@@ -251,7 +254,14 @@
                 top: -20px;
             }
         }
-
+        .swiper-container {
+            width: 100%;
+            height: 800px;
+            height: 500px;
+        }
+        .swiper-container-horizontal>.swiper-pagination-bullets{
+            bottom: 45px;
+        }
 
     </style>
 
@@ -260,12 +270,12 @@
 
 
 <body class="home">
-
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
 <%-include("../include/head.html")%>
 
 
 <!-- jQuery -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+
 <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
 <!-- Bootstrap js -->
 <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
@@ -298,10 +308,36 @@
 <script src="/lib/requirejs/require.js"></script>
 <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
 
+<script>
+    window.onload = function () {
+        var mySwiper = new Swiper ('.swiper-container', {
+            // direction: 'vertical',
+            speed: 2000,
+            loop: true,
+            Autoplay: {
+                autoplay: true,
+                delay: 5000,
+
+                stopOnLastSlide: true,
+            },
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }
+        });
+    }
+</script>
+
 <div id="zbg-index">
     <!-- Preloader -->
-    <div class="o-preloader">
-        <!--<div class="o-preloader_inner"></div>-->
+    <!--<div class="o-preloader">
+        &lt;!&ndash;<div class="o-preloader_inner"></div>&ndash;&gt;
         <div class="loader vertical-bars-1">
             <div class="layer-1 color-1"></div>
             <div class="layer-2 color-2"></div>
@@ -314,17 +350,17 @@
             <div class="layer-9 color-1"></div>
             <div class="layer-10 color-2"></div>
         </div>
-    </div>
+    </div>-->
 
     <!--<div class="radial-bg radial-bg__banner"></div>-->
     <!-- End of .radial-bg -->
     <!-- banner starts
 ============================================ -->
-    <section class="banner">
+    <!--<section class="banner">
         <div class="container">
             <div class="banner-wrapper d-flex align-items-center">
                 <div class="banner-txt">
-                    <!--<h1>Pos+Pow交易挖矿，社区化自制的交易平台</h1>-->
+                    &lt;!&ndash;<h1>Pos+Pow交易挖矿，社区化自制的交易平台</h1>&ndash;&gt;
 
                     <h1>
                         <%= LANG('Pos+Pow交易挖矿X') %>
@@ -336,14 +372,14 @@
                         </a>
                     </p>
                     <ul class="compromise">
-                        <!--<li>本时收入累计折合：<p v-cloak=""><a href="/ztfee">  B{{hourSum}}</a> </p ></li>-->
+                        &lt;!&ndash;<li>本时收入累计折合：<p v-cloak=""><a href="/ztfee">  B{{hourSum}}</a> </p ></li>&ndash;&gt;
                         <li>
                             <%= LANG('累计可分配总额折合') %> ：
                             <p v-cloak="">
                                 <a href="/ztfee"> {{minerDetailData.todayDividendSummary*0.9 |capitalize}} BTC</a>
                             </p>
                         </li>
-                        <!-- <li>  <%= LANG('创新区手续费折合（加速释放）') %> ：<p v-cloak=""><a href="/ztfee"> {{minerDetailData.todaySummaryExcludeMine |capitalize}} BTC</a></p ></li> -->
+                        &lt;!&ndash; <li>  <%= LANG('创新区手续费折合（加速释放）') %> ：<p v-cloak=""><a href="/ztfee"> {{minerDetailData.todaySummaryExcludeMine |capitalize}} BTC</a></p ></li> &ndash;&gt;
                         <li>
                             <%= LANG('今日市场手续费总额') %> ：
                             <p v-cloak="">
@@ -356,12 +392,12 @@
                                 <a href="/ztfee">{{statisticData.totalDestroyAmount | capitalize}} ZT</a>
                             </p>
                         </li>
-                        <!--<li><%= LANG('已释放总量(含团队非流通部分)') %>：<p v-cloak=""><a href="/ztfee">100000000 ZT</a></p></li>-->
+                        &lt;!&ndash;<li><%= LANG('已释放总量(含团队非流通部分)') %>：<p v-cloak=""><a href="/ztfee">100000000 ZT</a></p></li>&ndash;&gt;
                     </ul>
                     <div style="margin-top: 20px;">
 
-                        <!--<a class="btn" href="/ztuser"><%= LANG('推荐获赠10%ZT') %></a>-->
-                        <!-- <a class="btn" :href="android" style="margin: 0 10px;background-color: rgb(78, 211, 212);">
+                        &lt;!&ndash;<a class="btn" href="/ztuser"><%= LANG('推荐获赠10%ZT') %></a>&ndash;&gt;
+                        &lt;!&ndash; <a class="btn" :href="android" style="margin: 0 10px;background-color: rgb(78, 211, 212);">
                                     <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden; height: 20px;width: 20px;margin-right: 8px"
                                         viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M963.615 347.084q23.342 0 39.58 14.716t16.238 36.028v299.385q0 20.297-16.238 35.013t-39.58 14.716h-18.267q-23.342 0-39.58-14.716t-16.238-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m-823.056 0q23.342 0 38.565 14.716t15.223 36.028v299.385q0 20.297-15.223 35.013t-38.565 14.716h-18.268q-23.342 0-39.58-14.716t-16.237-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m560.206-235.449q18.268 8.12 38.058 22.327t38.057 33.49 31.968 42.118 19.79 48.206H252.194q16.238-53.788 51.251-88.293t70.533-54.803L322.22 33.49q-2.03-2.03-0.507-7.61t10.656-11.672q8.119-7.104 15.223-6.597t9.133 2.538L409.5 93.368q28.416-13.194 59.877-20.298t64.951-7.104q69.011 0 128.888 28.417l53.788-84.234q2.03-2.03 7.611-2.03t16.746 6.09q10.148 5.073 11.67 9.133t-0.507 6.09z m-283.148 87.279q13.194 0 22.327-9.134t9.134-22.327-9.134-22.327-22.327-9.134-22.327 9.134-9.133 22.327 9.133 22.327 22.327 9.134z m249.658-4.06q13.193 0 22.327-9.133t9.133-22.328-9.133-22.327-22.327-9.133-22.328 9.133-9.133 22.327 9.133 22.328 22.328 9.133z m161.363 126.859l1.015 456.69q0 22.326-14.715 37.55t-36.028 15.222h-14.208v142.082q0 20.297-14.716 35.52T713.958 1024h-29.43q-20.298 0-35.014-15.223t-14.715-35.52V831.175H448.063v142.082q0 20.297-14.715 35.52T397.32 1024H367.89q-20.297 0-35.013-15.223t-14.715-35.52V831.175h-11.164q-21.312 0-36.028-15.223t-14.715-37.55v-456.69h572.384z"></path>
@@ -374,13 +410,13 @@
                                         <path d="M781.152 517.547c1.35 140.502 129.231 187.259 130.72 187.907-1.162 3.216-20.492 66.642-67.481 132.167-40.604 56.626-82.659 112.933-149.023 114.093-65.292 1.165-86.199-36.882-160.801-36.882-74.562 0-97.891 35.723-159.597 38.048-63.984 2.329-112.789-61.102-153.729-117.497-83.732-115.399-147.627-326.037-61.751-468.213 42.612-70.649 118.847-115.307 201.509-116.514 62.918-1.073 122.337 40.467 160.71 40.467 38.513 0 110.649-49.921 186.511-42.612 31.716 1.26 120.898 12.201 178.13 92.025-4.563 2.839-106.41 59.285-105.201 177.010v0zM514.026 237.942c-7.358-53.414 20.211-108.929 51.695-143.808 35.161-39.259 94.487-68.457 143.481-70.32 6.287 54.393-16.716 109.020-50.667 148.37-34.043 39.216-89.836 69.81-144.507 65.758v0zM514.026 237.942z"></path>
                                     </svg>
                                     Apple Store
-                                </a> -->
+                                </a> &ndash;&gt;
 
 
-                        <!--<a class="btn btn-play video-popup" href="https://www.youtube.com/watch?v=uH0UQl5JC2c"><i class="icon-play-1"></i> 视频介绍</a>-->
+                        &lt;!&ndash;<a class="btn btn-play video-popup" href="https://www.youtube.com/watch?v=uH0UQl5JC2c"><i class="icon-play-1"></i> 视频介绍</a>&ndash;&gt;
                     </div>
                 </div>
-                <!-- End of .banner-txt -->
+                &lt;!&ndash; End of .banner-txt &ndash;&gt;
                 <div class="img-container img-container__banner">
                     <a href="/appstore">
                         <svg id="demo1" width="485px" height="796px" viewBox="0 0 682 796" version="1.1"
@@ -448,83 +484,188 @@
                             </g>
                         </svg>
                     </a>
-                    <!--<img src="<%= STATIC %>/images/zbg/images/banner/home-banner.png" style="width: 485px" alt="home banner image" class="img-fluid ml-auto">-->
+                    &lt;!&ndash;<img src="<%= STATIC %>/images/zbg/images/banner/home-banner.png" style="width: 485px" alt="home banner image" class="img-fluid ml-auto">&ndash;&gt;
                 </div>
-                <!-- End of .img-container -->
+                &lt;!&ndash; End of .img-container &ndash;&gt;
             </div>
 
-            <!-- End of .banner-wrapper -->
+            &lt;!&ndash; End of .banner-wrapper &ndash;&gt;
         </div>
-        <!-- End of .container -->
+        &lt;!&ndash; End of .container &ndash;&gt;
 
+    </section>-->
+    <section class="banner">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!--<div class="swiper-slide">
+                    <img src="/src/images/banner.jpg" alt="">
+                    <div class="container max-min">
+                        <div class="banner-wrapper">
+                            <div class="banner-txt wow fadeIn" data-wow-duration="2s" data-wow-delay="0">
+                                <h1><%=LANG('社区化自治的交易平台')%></h1>
+                                <p class="slogan"><%=LANG('距离会员申请开启')%></p>
+                            </div>
+                            <div class="time">
+                                <ul class="wow zoomIn" data-wow-duration="2s" data-wow-delay="0">
+                                    <li>
+                                        <div class="data">00</div>
+                                        <p><%=LANG('天')%></p>
+                                    </li>
+                                    <li class="mao">:</li>
+                                    <li>
+                                        <div class="data">00</div>
+                                        <p><%=LANG('小时')%></p>
+                                    </li>
+                                    <li class="mao">:</li>
+                                    <li>
+                                        <div class="data">00</div>
+                                        <p><%=LANG('分钟')%></p>
+                                    </li>
+                                    <li class="mao">:</li>
+                                    <li>
+                                        <div class="data">00</div>
+                                        <p><%=LANG('秒')%></p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="snuyd clear">
+                                <ul class="clear minWidth">
+                                    <li v-cloak="" v-for="(item, index) in loadingList" :class="['wow', {zoomInLeft: index < 2, zoomIn: index === 2 || index === 3 , zoomInRight: index > 3}]"
+                                        data-wow-duration="1.5s" data-wow-delay ="0s">
+                                        <div class="prox">
+                                            <svg width="180" height="180">
+                                                <defs>
+                                                    <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient1">
+                                                        <stop offset="0%" stop-color="#3eece6"></stop>
+                                                        <stop offset="100%" stop-color="#5790ea"></stop>
+                                                    </linearGradient>
+                                                    <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient2">
+                                                        <stop offset="0%" stop-color="#49c2ec"></stop>
+                                                        <stop offset="100%" stop-color="#5780ea"></stop>
+                                                    </linearGradient>
+                                                </defs>
+
+                                                <g>
+                                                    <circle cx="90" cy="90" r="85" stroke-width="8" stroke="rgba(72,72,72,0.5)"
+                                                            :stroke-dasharray="(Math.PI * 2 * 85).toFixed(0) + ' '+ (Math.PI * 2 * 85).toFixed(0)" fill="none"></circle>
+                                                    &lt;!&ndash;<circle cx="107" cy="106" r="85" stroke-width="8" stroke="#00A5E0" fill="none"
+                                                            :stroke-dasharray="item.num + ' '+ (Math.PI * 2 * 85).toFixed(0)"
+                                                            stroke-linecap="round"></circle>&ndash;&gt;
+
+                                                    <circle cx="90" cy="90" r="85" stroke-width="8" stroke="url('#gradient1')" fill="none"
+                                                            :stroke-dasharray="item.num + ' '+ (Math.PI * 2 * 85).toFixed(0)"
+                                                            stroke-linecap="round"></circle>
+                                                    <circle cx="90" cy="90" r="85" stroke-width="8" stroke="url('#gradient2')" fill="none"
+                                                            :stroke-dasharray="((Math.PI * 2 * 85) / 2).toFixed(0) + ' '+ (Math.PI * 2 * 85).toFixed(0)"
+                                                            stroke-linecap="round"></circle>
+                                                </g>
+                                            </svg>
+                                            <div class="fontsize">
+                                                <h6>{{item.title}}</h6>
+                                                <h5><%= LANG('赠送')%>{{item.send}}<div style="margin-top: 5px;"><%= LANG('XT')%></div></h5>
+                                                <h4>1/{{item.people}}<%= LANG('席位')%></h4>
+                                                <h3>{{1/item.people}}%</h3>
+                                            </div>
+                                        </div>
+                                        <a @click="openModal('indexApply', item, index)"><%= LANG('申请')%></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="swiper-slide">
+                    <img src="/src/images/banner2.jpg" alt="">
+                    <div class="topHeader">
+                        <h2>全球领先的数字资产交易平台</h2>
+                        <p><span>买价值币 只选 XT</span></p>
+                        <ul>
+                            <li>专业</li>
+                            <li>安全</li>
+                            <li>快速</li>
+                            <li>高效</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="/src/images/banner3.jpg" alt="">
+                    <div class="bannerTop">
+                        <h2>X网会员即将震撼发布</h2>
+                        <p>敬请期待</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <div class="bottom">
+            <ul >
+                <!--<li style="width: 80%"></li>-->
+                <li><%=LANG('投票上币-超级投票节点专场活动')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('公链知识大奖赛 答题交易领大奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('BTM交易赛 TOP20都有奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('超级伙伴和币客伙伴全球招募')%></li>
+                <li class="fenge"></li>
+                <li><%=LANG('YEE交易排名赛 TOP20都有奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('Token第一季度回购信息披露')%></li>
+
+                <li><%=LANG('投票上币-超级投票节点专场活动')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('公链知识大奖赛 答题交易领大奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('BTM交易赛 TOP20都有奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('超级伙伴和币客伙伴全球招募')%></li>
+                <li class="fenge"></li>
+                <li><%=LANG('YEE交易排名赛 TOP20都有奖')%></li>
+                <li class="fenge">/</li>
+                <li><%=LANG('Token第一季度回购信息披露')%></li>
+            </ul>
+        </div>
     </section>
     <!-- End of .banner -->
 
-    <!-- token-slider starts
-============================================ -->
-    <!--<ul class="market-list" v-show="marketInit">-->
-    <!--<li role="button"-->
-    <!--@click="goExchange(1, data.market.replace('/','_'))"-->
-    <!--v-for="(data, index) in displayMarkets"-->
-    <!--v-show="marketConfig && assistPrice" v-cloak>-->
-    <!--<div class="item currency">-->
-    <!--<img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />-->
-    <!--<em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}-->
-    <!--&lt;!&ndash;<p class="text-icon"><i v-show="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>&ndash;&gt;-->
-    <!--</div>-->
-
-    <!--<div class="item state">-->
-    <!--<span class="green"><%= LANG('已开启')%></span>-->
-    <!--&lt;!&ndash;<span v-show="marketConfig[data.market].openMode" class="green"><%= LANG('已开启')%></span>&ndash;&gt;-->
-    <!--&lt;!&ndash;<span v-else class="gray"><%= LANG('未开启')%></span>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="item">-->
-    <!--<span :class="data.rate >= 0 ? 'red' : 'green'" class="mr5">{{showMoney(data.lastPrice, data.market)}}</span> {{getRealCoinName(data.market.split('_')[1]).toUpperCase()}}-->
-    <!--</div>-->
-    <!--<div class="item">${{getPriceByAssist(data.lastPrice, data.market,'usd')}}</div>-->
-    <!--<div class="item"><%= LEGAL[UNIT].note %>{{getPriceByAssist(data.lastPrice, data.market, '<%= UNIT %>')}}</div>-->
-    <!--<div class="item">-->
-    <!--<span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span><i class="i-icon" :class="data.rate >= 0 ? 'up' : 'down'"></i>-->
-    <!--</div>-->
-    <!--<div class="item"><span class="hint&#45;&#45;top" :aria-label="showVolumeHint(data.convertVolume)">{{showCoin(data.volume, data.market)}} {{data.market.split('_')[0].toUpperCase()}}</span></div>-->
-    <!--<div class="item trend">-->
-    <!--<inline-chart type="line" :settings="getLineChartColor(index, true)" :data="getLineData(data.lineData)"></inline-chart>-->
-    <!--</div>-->
-    <!--</li>-->
-    <!--</ul>-->
-
-    <div class="token-slider-wrapper" style="display: none">
+    <!--<div class="token-slider-wrapper" style="display: none">
         <div class="countdown-box">
             <div class="container">
-                <!--<div class="token-box">-->
-                <!--<h4> <%= LANG('距离ZT换码结束') %> </h4>-->
-                <!--<div id="clock">-->
-                <!--<div><span>{{day}}</span><%= LANG('天') %></div>-->
-                <!--<div><span>{{hour}}</span><%= LANG('小时') %></div>-->
-                <!--<div><span>{{min}}</span><%= LANG('分钟') %></div>-->
-                <!--<div><span>{{sec}}</span><%= LANG('秒') %></div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;<div class="progress">&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="progress-bar" data-transitiongoal="50" id="progressId" role="progressbar"></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--<div class="progress-new">-->
-                <!--<div class="progress-bar-new" id="progressId"></div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; End of .progress &ndash;&gt;-->
-                <!--<div class="message">-->
-                <!--<p>-->
-                <!--<span><%= LANG('投入ZB到换码池') %></span>-->
-                <!--<span><%= LANG('均分3.5亿ZT') %></span>-->
-                <!--</p>-->
-                <!--<a class="btn btn-small" style="background-color: #4ed3d4;" href="/zb_zt"><%= LANG('去换码') %></a>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;<p>每百万锁仓ZT预计分配折合 <span>{{todayMinerIncome}}BTC/0.133 QC</span><a href="/ztminer">详细</a></p>&ndash;&gt;-->
-                <!--</div>-->
-                <!-- End of .token-box -->
+                &lt;!&ndash;<div class="token-box">&ndash;&gt;
+                &lt;!&ndash;<h4> <%= LANG('距离ZT换码结束') %> </h4>&ndash;&gt;
+                &lt;!&ndash;<div id="clock">&ndash;&gt;
+                &lt;!&ndash;<div><span>{{day}}</span><%= LANG('天') %></div>&ndash;&gt;
+                &lt;!&ndash;<div><span>{{hour}}</span><%= LANG('小时') %></div>&ndash;&gt;
+                &lt;!&ndash;<div><span>{{min}}</span><%= LANG('分钟') %></div>&ndash;&gt;
+                &lt;!&ndash;<div><span>{{sec}}</span><%= LANG('秒') %></div>&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<div class="progress">&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<div class="progress-bar" data-transitiongoal="50" id="progressId" role="progressbar"></div>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;<div class="progress-new">&ndash;&gt;
+                &lt;!&ndash;<div class="progress-bar-new" id="progressId"></div>&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash; End of .progress &ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;<div class="message">&ndash;&gt;
+                &lt;!&ndash;<p>&ndash;&gt;
+                &lt;!&ndash;<span><%= LANG('投入ZB到换码池') %></span>&ndash;&gt;
+                &lt;!&ndash;<span><%= LANG('均分3.5亿ZT') %></span>&ndash;&gt;
+                &lt;!&ndash;</p>&ndash;&gt;
+                &lt;!&ndash;<a class="btn btn-small" style="background-color: #4ed3d4;" href="/zb_zt"><%= LANG('去换码') %></a>&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<p>每百万锁仓ZT预计分配折合 <span>{{todayMinerIncome}}BTC/0.133 QC</span><a href="/ztminer">详细</a></p>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash; End of .token-box &ndash;&gt;
             </div>
-            <!-- End of .container -->
+            &lt;!&ndash; End of .container &ndash;&gt;
         </div>
-        <!-- End of .countdown-box -->
+        &lt;!&ndash; End of .countdown-box &ndash;&gt;
 
 
         <div class="token-slider" v-show="!marketConfig || !assistPrice">
@@ -546,7 +687,7 @@
                             <%= LANG('24小时成交量') %>
                             <span>0</span>
                         </div>
-                        <!-- End of .token-price -->
+                        &lt;!&ndash; End of .token-price &ndash;&gt;
                         <a class="btn btn-small">
                             <%= LANG('交易挖矿') %>
                         </a>
@@ -580,7 +721,7 @@
                             <%= LANG('24小时成交量') %>
                             <span>{{data.volume}} {{data.market.split('_')[0].toUpperCase()}}</span>
                         </div>
-                        <!-- End of .token-price -->
+                        &lt;!&ndash; End of .token-price &ndash;&gt;
                         <a class="btn btn-small" @click="goExchange(1, data.market.replace('/','_'))">
                             <%= LANG('交易挖矿')
                             %>
@@ -592,27 +733,27 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End of .token-box -->
+                    &lt;!&ndash; End of .token-box &ndash;&gt;
                 </div>
-                <!-- End of .item -->
+                &lt;!&ndash; End of .item &ndash;&gt;
             </div>
-            <!-- End of .carousel-container -->
+            &lt;!&ndash; End of .carousel-container &ndash;&gt;
         </div>
-        <!-- End of .token-slider -->
-    </div>
+        &lt;!&ndash; End of .token-slider &ndash;&gt;
+    </div>-->
 
 
     <section class="index-market">
 
         <div class="container">
-            <div class="market-navwrapper">
+            <!--<div class="market-navwrapper">
                 <div class="market-navcontent">
                     <div @click="markerShow='ZBG'" class="market-nav2" :class="{active:markerShow=='ZBG'}"><%=
                         LANG('ZBG市场')%>
                     </div>
-                    <!--<div @click="markerShow='ALL'" class="market-nav2" :class="{active:markerShow=='ALL'}"> <%= LANG('全球主要行情')%></div>-->
+                    &lt;!&ndash;<div @click="markerShow='ALL'" class="market-nav2" :class="{active:markerShow=='ALL'}"> <%= LANG('全球主要行情')%></div>&ndash;&gt;
                 </div>
-            </div>
+            </div>-->
             <!-- zbg市场 -->
             <div class="index-market-wrapper" v-show="markerShow=='ZBG'">
                 <div class="navWrapper">
@@ -620,11 +761,16 @@
                         <div @click="changeMarketsTab('hot')" class="market-nav" :class="{active:navActive=='hot'}">
                             <%= LANG('全部')%>
                         </div>
+                        <div @click="changeMarketsTab('qc')" class="market-nav" :class="{active:navActive=='qc'}">
+                            QC
+                            <%= LANG('区')%>
+                        </div>
                         <div @click="changeMarketsTab('usdt')" class="market-nav" :class="{active:navActive=='usdt'}">
                             USDT
                             <%= LANG('区')%>
                         </div>
-                        <div @click="changeMarketsTab('zt')" class="market-nav" :class="{active:navActive=='zt'}">ZT
+                        <div @click="changeMarketsTab('btc')" class="market-nav" :class="{active:navActive=='btc'}">
+                            BTC
                             <%= LANG('区')%>
                         </div>
                     </div>
@@ -658,7 +804,9 @@
                         <ul role="button" v-for="(data, index) in displayMarkets"
                             @click="goExchange(1, data.market.replace('/','_'))">
                             <li class="coin-name">
-                                <img :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
+                                <img v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc'"
+                                     :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
+                                <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
                                 {{data.market.split('_')[0].toUpperCase()}}
                                 <span>
                                             <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
@@ -745,7 +893,7 @@
     <!-- End of .features -->
 
     <!-- benefits-of-solution starts============================================ -->
-    <section class="section">
+    <section class="section advantage">
         <div class="container">
             <div class="benefits-of-solution section-padding">
                 <div class="section-heading text-center">
@@ -826,7 +974,7 @@
 
     <!-- roadmap-to-success starts
 ============================================ -->
-    <section class="section">
+    <section class="section timeLine">
         <div class="radial-bg radial-bg__roadmap">
         </div>
         <!-- End of .radial-bg -->
@@ -1348,7 +1496,6 @@
 </div>
 
 </body>
-
 </html>
 
 <%-include("../component/inline_chart.html")%>
@@ -1958,7 +2105,7 @@
                         },
                         error: function (res) {
                             var resMsg = res.resMsg;
-                            authErrorUi(EXX.L(resMsg.message));
+                            // authErrorUi(EXX.L(resMsg.message));
                         }
                     })
                 },
@@ -2679,18 +2826,16 @@
 
                 setTimeout(function () {
                     // this.$nextTick(function() {
-                    that.kLineBoxWidth = document.getElementsByClassName('k-line-box')[
-                        0].offsetWidth;
+                    //that.kLineBoxWidth = document.getElementsByClassName('k-line-box')[0].offsetWidth;
                     // console.log(that.kLineBoxWidth)
                     that.itemComplete = true;
                     // })
                 }, 2000)
 
                 window.addEventListener('resize', function () {
-                    setTimeout(function () {
-                        that.kLineBoxWidth = document.getElementsByClassName(
-                            'k-line-box')[0].offsetWidth;
-                    }, 400)
+                    /*setTimeout(function () {
+                        that.kLineBoxWidth = document.getElementsByClassName('k-line-box')[0].offsetWidth;
+                    }, 400)*/
                 })
             },
             filters: {
