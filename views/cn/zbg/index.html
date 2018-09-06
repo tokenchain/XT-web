@@ -31,7 +31,7 @@
 
     <!-- Page Title
     ======================================== -->
-    <title>ZB Global Exchange Platform</title>
+    <title>XT.com Exchange</title>
 
     <link rel="stylesheet" type="text/css" href="/lib/swiper/swiper-4.3.3.min.css">
     <script type="text/javascript" src="/lib/swiper/swiper-4.3.3.min.js"></script>
@@ -311,7 +311,6 @@
 <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 <script src="/lib/requirejs/require.js"></script>
 <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
-
 
 
 <script>
@@ -1207,7 +1206,7 @@
 
     <!-- crowdsale starts
 ============================================ -->
-    <section class="section" v-show=0>
+    <!--<section class="section" v-show=0>
         <div class="container">
             <div class="crowdsale section-padding">
                 <div class="section-heading text-center">
@@ -1218,7 +1217,7 @@
                         <%= LANG('ZT是ZBG平台的通用积分') %>
                     </p>
                 </div>
-                <!-- End of .section-heading -->
+                &lt;!&ndash; End of .section-heading &ndash;&gt;
 
                 <div class="token-info">
                     <div class="row no-gutters">
@@ -1227,50 +1226,50 @@
                                         <span>
                                             <%= LANG('名字') %> :</span> ZT
                             </div>
-                            <!-- End of .inner-content -->
+                            &lt;!&ndash; End of .inner-content &ndash;&gt;
                         </div>
-                        <!-- End of .col -->
+                        &lt;!&ndash; End of .col &ndash;&gt;
 
                         <div class="col">
                             <div class="inner-content">
                                         <span>
                                             <%= LANG('发行平台') %> :</span> ZBG
                             </div>
-                            <!-- End of .inner-content -->
+                            &lt;!&ndash; End of .inner-content &ndash;&gt;
                         </div>
-                        <!-- End of .col -->
+                        &lt;!&ndash; End of .col &ndash;&gt;
 
                         <div class="col">
                             <div class="inner-content">
                                         <span>
                                             <%= LANG('总量') %>:</span> 500,000,000
                             </div>
-                            <!-- End of .inner-content -->
+                            &lt;!&ndash; End of .inner-content &ndash;&gt;
                         </div>
-                        <!-- End of .col -->
+                        &lt;!&ndash; End of .col &ndash;&gt;
 
                         <div class="col">
                             <div class="inner-content">
                                         <span>
                                             <%= LANG('市场流通量') %>:</span> 350,000,000
                             </div>
-                            <!-- End of .inner-content -->
+                            &lt;!&ndash; End of .inner-content &ndash;&gt;
                         </div>
-                        <!-- End of .col -->
+                        &lt;!&ndash; End of .col &ndash;&gt;
                     </div>
-                    <!-- End of .row -->
+                    &lt;!&ndash; End of .row &ndash;&gt;
                 </div>
-                <!-- End of .token-info -->
+                &lt;!&ndash; End of .token-info &ndash;&gt;
 
                 <div class="pie-chart">
                     <div id="container" style="height: 400px"></div>
                 </div>
-                <!-- End of .pie-chart -->
+                &lt;!&ndash; End of .pie-chart &ndash;&gt;
             </div>
-            <!-- End of .crowdsale -->
+            &lt;!&ndash; End of .crowdsale &ndash;&gt;
         </div>
-        <!-- End of .container -->
-    </section>
+        &lt;!&ndash; End of .container &ndash;&gt;
+    </section>-->
     <section class="section chartHichart">
         <div class="container">
             <h1 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT概况')%></h1>
@@ -1837,9 +1836,17 @@
 
                     oriMarkets.forEach(function (item, index) {
                         var currMarketName = _this.marketsIdSwitch[item[0]];
-                        if (currMarketName.indexOf(keyword) != -1 && currMarketName.indexOf(marketsTab)!= -1) {
-                            //过滤后的数组
-                            markets.push(item);
+                        if (marketsTab == 'hot') {
+                            var marketSearck = currMarketName.split('_')[1]
+                            if (marketSearck.indexOf(keyword) != -1) {
+                                //过滤后的数组
+                                markets.push(item);
+                            }
+                        } else {
+                            if (currMarketName.indexOf(keyword) != -1 && currMarketName.indexOf(marketsTab)!= -1) {
+                                //过滤后的数组
+                                markets.push(item);
+                            }
                         }
                     });
                     return this.doSortMarket(this.convertMarket(markets));

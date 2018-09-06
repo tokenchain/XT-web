@@ -1,412 +1,446 @@
 <%-include("../include/head.html")%>
 
-    <style>
-        @media (max-width: 768px) {
-            .entrance-area {
-                padding: 30px 15px;
-                margin-top: 70px;
-                height: 100%;
-                /*overflow:visible;*/
-            }
+<style>
+    .header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
 
-            .entrance-area .body {
-                width: 100%;
-            }
+    .large-header{
+        position: absolute;
+    }
 
-            .entrance-area .head ul {
-                width: 100%;
-            }
+    .exx-checkbox label i:before {
+        position: absolute;
+        left: 6px;
+        top: 0px;
+        width: 5px;
+        height: 12px;
+        border-bottom: 2px solid #8b8bec;
+        border-right: 2px solid #8b8bec;
+        opacity: 0;
+        -webkit-transform: scale(0) rotate(40deg);
+        transform: scale(0) rotate(40deg);
+    }
 
-            .entrance-area .canvas_graph::after {
-                /*width: 100%;*/
-                left: 0;
-            }
+    @media (max-width: 768px) {
+        .entrance-area {
+            padding: 30px 15px;
+            margin-top: 70px;
+            height: 100%;
+            /*overflow:visible;*/
         }
-    </style>
 
-    <section class="entrance-area">
-        <div class="box">
-            <div class="head">
-                <ul>
-                    <li>
-                        <a href="/login">
-                            <%= LANG('登录') %>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="/register">
-                            <%= LANG('注册') %>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="body" id="regForm">
-                <div class="form-group">
-                    <div class="form-control" id="nikeForm">
-                        <input autocomplete="off" placeholder="<%= LANG('请输入您的手机/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)"
-                            v-on:focus="clearInputError($event)" type="text">
-                        <country-code v-if="showCountry" :selected="selectCountry" />
-                    </div>
+        .entrance-area .body {
+            width: 100%;
+        }
+
+        .entrance-area .head ul {
+            width: 100%;
+        }
+
+        .entrance-area .canvas_graph::after {
+            /*width: 100%;*/
+            left: 0;
+        }
+    }
+</style>
+
+<section class="entrance-area">
+    <div id="large-header" class="large-header">
+        <canvas id="demo-canvas"></canvas>
+    </div>
+    <div class="box">
+        <!--<div class="head">
+            <ul>
+                <li>
+                    <a href="/login">
+                        <%= LANG('登录') %>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/register">
+                        <%= LANG('注册') %>
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+        <div class="body" id="regForm">
+            <h2><%= LANG('注册') %></h2>
+            <div class="form-group">
+                <div class="form-control" id="nikeForm">
+                    <img src="/src/images/user.png" class="title" alt="">
+                    <input autocomplete="off" placeholder="<%= LANG('请输入您的手机/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)"
+                           v-on:focus="clearInputError($event)" type="text">
+                    <country-code v-if="showCountry" :selected="selectCountry"/>
                 </div>
-                <div class="form-group">
-                    <div class="form-control" id="passwordForm">
-                        <input autocomplete="new-password" placeholder="<%= LANG('设置密码') %>" v-on:keyup="handleCheckPwdStrength($event)" v-on:focus="clearInputError($event)"
-                            v-model="password" type="password">
-                        <ul v-show="password.length" class="exx-grade" v-cloak="">
-                            <li :class="[{active: pwdStrength == 0 }]">
-                                <%= LANG('不合格') %>
-                            </li>
-                            <li :class="[{active: pwdStrength == 1 }]">
-                                <%= LANG('弱') %>
-                            </li>
-                            <li :class="[{active: pwdStrength == 2 }]">
-                                <%= LANG('中') %>
-                            </li>
-                            <li :class="[{active: pwdStrength > 2 }]">
-                                <%= LANG('强') %>
-                            </li>
-                        </ul>
+            </div>
+            <div class="form-group">
+                <div class="form-control" id="passwordForm">
+                    <img src="/src/images/pass.png" class="title" alt="">
+                    <input autocomplete="new-password" placeholder="<%= LANG('设置密码') %>" v-on:keyup="handleCheckPwdStrength($event)" v-on:focus="clearInputError($event)"
+                           v-model="password" type="password">
+                    <ul v-show="password.length" class="exx-grade" v-cloak="">
+                        <li :class="[{active: pwdStrength == 0 }]">
+                            <%= LANG('不合格') %>
+                        </li>
+                        <li :class="[{active: pwdStrength == 1 }]">
+                            <%= LANG('弱') %>
+                        </li>
+                        <li :class="[{active: pwdStrength == 2 }]">
+                            <%= LANG('中') %>
+                        </li>
+                        <li :class="[{active: pwdStrength > 2 }]">
+                            <%= LANG('强') %>
+                        </li>
+                    </ul>
 
-                    </div>
-                    <div class="input-alert hide">
+                </div>
+                <div class="input-alert hide">
                         <span>
                             <%- LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %>
                         </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-control" id="confirmPwdForm">
+                    <img src="/src/images/pass.png" class="title" alt="">
+                    <input autocomplete="new-password" placeholder="<%= LANG('确认密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)"
+                           v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="captcha"></div>
+                <!-- 验证码容器元素 -->
+            </div>
+            <!-- <div class="form-group">
+                <div class="form-control" style="display: block !important;">
+                    <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)"
+                        maxlength="4" type="text">
+                    <div class="code-img" v-cloak="">
+                        <img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>">
                     </div>
                 </div>
+            </div> -->
 
-                <div class="form-group">
-                    <div class="form-control" id="confirmPwdForm">
-                        <input autocomplete="new-password" placeholder="<%= LANG('确认密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)"
-                            v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
-                    </div>
+
+            <div class="form-group">
+                <div class="form-control" id="msgCodeForm">
+                    <img src="/src/images/pass.png" class="title" alt="">
+                    <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)"
+                           v-on:focus="clearInputError($event)" type="text">
+                    <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId"
+                               :bus-type="1" :error-fun="handleRefreshImgcode" :puzzle-validate-string="puzzleValidateString" :error-slide="initMoveCoder"
+                    />
                 </div>
-                <div class="form-group">
-                    <div id="captcha"></div>
-                    <!-- 验证码容器元素 -->
-                </div>
-                <!-- <div class="form-group">
-                    <div class="form-control" style="display: block !important;">
-                        <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)"
-                            maxlength="4" type="text">
-                        <div class="code-img" v-cloak="">
-                            <img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>">
-                        </div>
-                    </div>
-                </div> -->
+            </div>
 
-
-                <div class="form-group">
-                    <div class="form-control" id="msgCodeForm">
-                        <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)"
-                            v-on:focus="clearInputError($event)" type="text">
-                        <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId"
-                            :bus-type="1" :error-fun="handleRefreshImgcode" :puzzle-validate-string="puzzleValidateString" :error-slide="initMoveCoder"
-                        />
-                    </div>
-                </div>
-
-                <div class="form-group" style="color: #a5acbb;">
-                    <div class="exx-checkbox">
-                        <label>
-                            <input v-model="agreement" type="checkbox">
-                            <i></i>
-                            <span>
+            <div class="form-group" style="color: #a5acbb;">
+                <div class="exx-checkbox">
+                    <label>
+                        <input v-model="agreement" type="checkbox">
+                        <i></i>
+                        <span>
                                 <%= LANG('阅读并同意') %>
                             </span>
-                        </label>
-                        <p>
-                            <a href="/help/agreement" target="_blank">
-                                <%= LANG('《用户服务协议》') %>
-                            </a>
-                        </p>
-                    </div>
+                    </label>
+                    <p>
+                        <a href="/help/agreement" target="_blank">
+                            <%= LANG('《用户服务协议》') %>
+                        </a>
+                    </p>
                 </div>
+            </div>
 
-                <div class="form-button">
-                    <button class="button" id="submitBtn" type="button" v-on:click="handleRegister" :class="requestLocked ? 'btn-loading' : ''">
+            <div class="form-button">
+                <button class="button" id="submitBtn" type="button" v-on:click="handleRegister" :class="requestLocked ? 'btn-loading' : ''">
                         <span>
                             <%= LANG('注册') %>
                         </span>
-                    </button>
-                </div>
+                </button>
             </div>
         </div>
-        <div class="canvas_graph"></div>
-    </section>
-    <%-include("../component/send_code/index.html")%>
-        <script>
-            require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods,
-                JuaBox) {
-                var app = new Vue({
-                    el: '#regForm',
-                    data: function () {
-                        return {
-                            timestramp: '',
-                            pubKey: '',
-                            rsaKeyId: '',
-                            pwdStrength: 0,
-                            userType: 1, //注册类型，1为手机，2为邮箱
-                            showCountry: false,
-                            preUserName: '',
-                            userName: '',
-                            password: '',
-                            passwordConfirmation: '',
-                            passwordIdentical: false,
-                            dynamicCode: '',
-                            imgCode: '',
-                            smsCode: '',
-                            countryCode: '+86',
-                            agreement: false,
-                            requestLocked: false,
-                            // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
-                            imgCodeId: '',
-                            imageCodeUrl: '',
-                            puzzleValidateString: ''
-                        }
-                    },
-                    methods: {
-                        //获取图形验证码
-                        getImageCode: function () {
-                            Methods.ajax({
-                                type: 'GET',
-                                url: DOMAIN_DEV +
-                                    "/exchange/verifycode/controller/website/userverifycontroller/" +
-                                    'getvalidatecode',
-                                success: function (res) {
-                                    this.imageCodeUrl = res.datas.img;
-                                    this.imgCodeId = res.datas.imgCodeId;
-                                }.bind(this)
-                            });
-                        },
-                        getPubKey: function () {
-                            Methods.ajax({
-                                type: 'GET',
-                                url: DOMAIN_DEV +
-                                    "/exchange/user/controller/website/baseapicontroller/" +
-                                    'getpubkey',
-                                success: function (res) {
-                                    this.pubKey = res.datas.pubKey;
-                                    this.rsaKeyId = res.datas.keyId;
-                                }.bind(this)
-                            });
-                        },
-                        handleCheckUserType: function (e) {
-                            var target = e.target || e.currentTarget || e.srcElement;
-                            this.userType = Methods.checkUserType(this.userName);
-                            this.showCountry = Methods.isAllNumber(this.userName);
-                            if (this.userType != 1 && this.userType != 2) {
-                                Methods.showLineError(target, "<%= LANG('手机或邮箱格式不正确') %>")
-                            } else {
-                                Methods.showLineError(target, "")
-                            }
-                        },
-                        clearInputError: function (e) {
-                            var target = e.target || e.currentTarget || e.srcElement;
-                            Methods.showLineError(target, "")
-                        },
-                        handleCheckUserName: function (e) {
-                            this.handleCheckUserType(e);
-                            //不合格或没有改变就不请求
-                            if ((this.userType != 1 && this.userType != 2) || this.userName.length <
-                                6 || this.userName == this.preUserName) {
-                                return false;
-                            }
-                            this.preUserName = this.userName;
-                            var data = {
-                                countryCode: this.countryCode,
-                                userName: this.userName
-                            };
-                            Methods.ajax({
-                                type: 'GET',
-                                // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
-                                url: DOMAIN_DEV +
-                                    "/exchange/user/controller/website/usercontroller/" +
-                                    'checkUserName',
-                                data: data,
-                                success: function (res) {
-
-                                }.bind(this),
-                                error: function (res) {
-                                    var msg = res.resMsg;
-                                    //弹出错误提示
-                                    JuaBox.info(EXX.L(msg.message));
-
-                                    /*var _this = this;
-                                    if (msg.code == '3005') {
-                                        JuaBox.info(EXX.L(msg.message));
-                                    } else if (msg.code == '8888') {
-                                        swal({
-                                            title: "<%= LANG('商业合作方用户') %>",
-                                            text: EXX.L(msg.message),
-                                            icon: "info",
-                                            buttons: ["<%= LANG('去登录') %>!", false],
-                                            dangerMode: false
-                                        }).then(function () {
-                                            window.location.href = DOMAIN_WEB + '/login?userName=' + _this.userName;
-                                        });
-                                    }*/
-                                }.bind(this)
-                            });
-                        },
-                        selectCountry: function (country) {
-                            this.countryCode = country.code;
-                        },
-                        handleComparedPwd: function (e) {
-                            var target = e.target || e.currentTarget || e.srcElement;
-                            this.passwordIdentical = this.password === this.passwordConfirmation;
-                            if (target.placeholder == '设置密码') {
-                                return;
-                            }
-                            if (this.passwordIdentical) {
-                                Methods.showLineError(target, "")
-                            } else {
-                                Methods.showLineError(target, "<%= LANG('两次输入的密码不一致') %>")
-                            }
-                        },
-                        handleCheckPwdStrength: function (e) {
-                            this.pwdStrength = Methods.checkPwdStrength(this.password);
-                            this.handleComparedPwd(e)
-                        },
-                        handleRefreshImgcode: function () {
-                            // this.timestramp = '-' + new Date().getTime();
-                            // this.getImageCode();
-                        },
-                        handleCheckLength: function (e) {
-                            var target = e.target || e.currentTarget || e.srcElement;
-                            if ($(target).val() == '') {
-                                Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
-                            } else {
-                                Methods.showLineError(target, "")
-                            }
-                        },
-                        bindEnter: function () {
-                            var _this = this;
-                            document.onkeydown = function (e) {
-                                var ev = document.all ? window.event : e;
-                                if (ev.keyCode == 13) {
-                                    _this.handleRegister()
-                                    return false;
-                                }
-                            }
-                        },
-                        handleRegister: function () {
-                            var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
-                            var data = {
-                                userType: this.userType,
-                                // email: this.userName,
-                                userName: this.userName,
-                                password: encryptionPwd,
-                                rsaKeyId: this.rsaKeyId,
-                                dynamicCode: this.smsCode,
-                                //recommId: Methods.getCookie(ENV + 'recommendCode'),
-                                countryCode: this.countryCode,
-                                pwdLevel: this.pwdStrength, //密码强度，前端计算
-                                puzzleValidateString: this.puzzleValidateString
-                            };
-                            if (Methods.getCookie(ENV + "recommendCode")) {
-                                data.recommendCode = decodeURIComponent(Methods.getCookie(ENV +
-                                    "recommendCode"));
-                            }
-                            if (this.requestLocked) {
-                                return false;
-                            } else if (this.userName.length < 6 || this.userType != 1 && this.userType !=
-                                2) {
-                                return JuaBox.info("<%= LANG('手机或邮箱格式不正确') %>");
-                            } else if (this.pwdStrength == 0) {
-                                return JuaBox.info('<%= LANG("密码不合格") %>');
-                            } else if (!this.passwordIdentical) {
-                                return JuaBox.info('<%= LANG("两次输入的密码不一致") %>');
-                            } else if (!this.puzzleValidateString) {
-                                return JuaBox.info('<%= LANG("滑动验证未通过") %>');
-                            } else if (!this.agreement) {
-                                JuaBox.info('<%= LANG("需同意《用户服务协议》才能继续") %>');
-                            } else {
-                                this.requestLocked = true;
-                                Methods.ajax({
-                                    // url: DOMAIN_MAIN + API_PREFIX + 'register',
-                                    url: DOMAIN_DEV +
-                                        "/exchange/user/controller/website/usercontroller/" +
-                                        'register',
-                                    data: JSON.stringify(data),
-                                    success: function (res) {
-                                        this.requestLocked = false;
-                                        //确保清除子账号Cookie
-                                        //Methods.deleCookie(ENV + 'currentAccountId');
-
-                                        //存储用户信息
-                                        Methods.setLocalUserInfo(res.datas);
-                                        //设置登录状态 cookie
-                                        Methods.setCookie(ENV + 'uon', 1);
-                                        Methods.setCookie(ENV + 'uid', res.datas.userId);
-                                        Methods.setCookie(ENV + 'uname', res.datas.loginName);
-                                        Methods.setCookie(ENV + 'utoken', res.datas.token);
-
-                                        window.location.replace('/u');
-                                    },
-                                    error: function (res) {
-                                        this.requestLocked = false;
-                                        JuaBox.showWrong(EXX.L(res.resMsg.code));
-                                        // JuaBox.info(EXX.L(res.resMsg.message));
-                                        this.timestramp = '-' + new Date().getTime();
-                                        this.initMoveCoder()
-                                        // this.getImageCode();
-                                    }.bind(this)
-                                });
-                            }
-                        },
-                        //初始化滑动验证码
-                        initMoveCoder: function () {
-                            this.puzzleValidateString = ''
-                            var captchaIns;
-                            var _this = this
-                            // initNECaptcha为全局函数，可直接调用
-                            initNECaptcha({
-                                // config对象，参数配置
-                                captchaId: '525d48dba54a4e49ba0f53c78d8d9128',      //'789dbd50da0d450daec08b4f5edbdad4',
-                                element: '#captcha',
-                                mode: 'float',
-                                width: 'auto',
-                                lang: _this.getLang(),
-                                onReady: function (instance) {},
-                                onVerify: function (err, data) {
-
-                                    if (data) {
-                                        _this.puzzleValidateString = data.validate
-                                    }
-                                    console.log(_this.puzzleValidateString)
-                                }
-                            }, function (instance) {
-                                // 初始化成功后得到验证实例instance，可以调用实例的方法
-                            }, function (err) {
-                                // 初始化失败后触发该函数，err对象描述当前错误信息
-                            })
-                        },
-                        getLang: function () {
-                            var lan = Methods.getCookie(ENV +
-                                "lan")
-                            switch (lan) {
-                                case 'cn':
-                                    return 'zh-CN';
-                                    break;
-                                case 'en':
-                                    return 'en';
-                                    break;
-                            }
-                        }
-                    },
-                    created: function () {
-                        var params = Methods.parseQueryString();
-                        this.userName = params.userName ? params.userName : '';
-                    },
-                    mounted: function () {
-                        Methods.checkMobileStyle();
-                        this.bindEnter();
-                        this.getPubKey();
-
-                        // this.getImageCode();
-                        this.initMoveCoder()
+    </div>
+    <!--<div class="canvas_graph"></div>-->
+</section>
+<%-include("../component/send_code/index.html")%>
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index', 'common/TweenLite.min', 'common/EasePack.min', 'common/demo-1'], function (Vue, Methods,
+                                                                                                                                                                   JuaBox) {
+        var app = new Vue({
+            el: '#regForm',
+            data: function () {
+                return {
+                    timestramp: '',
+                    pubKey: '',
+                    rsaKeyId: '',
+                    pwdStrength: 0,
+                    userType: 1, //注册类型，1为手机，2为邮箱
+                    showCountry: false,
+                    preUserName: '',
+                    userName: '',
+                    password: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    imgCode: '',
+                    smsCode: '',
+                    countryCode: '+86',
+                    agreement: false,
+                    requestLocked: false,
+                    // imageCodeUrl: DOMAIN_MAIN + '/imagecode/get-24-120-50'
+                    imgCodeId: '',
+                    imageCodeUrl: '',
+                    puzzleValidateString: ''
+                }
+            },
+            methods: {
+                //获取图形验证码
+                getImageCode: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                        "/exchange/verifycode/controller/website/userverifycontroller/" +
+                        'getvalidatecode',
+                        success: function (res) {
+                            this.imageCodeUrl = res.datas.img;
+                            this.imgCodeId = res.datas.imgCodeId;
+                        }.bind(this)
+                    });
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                        "/exchange/user/controller/website/baseapicontroller/" +
+                        'getpubkey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                handleCheckUserType: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    this.userType = Methods.checkUserType(this.userName);
+                    this.showCountry = Methods.isAllNumber(this.userName);
+                    if (this.userType != 1 && this.userType != 2) {
+                        Methods.showLineError(target, "<%= LANG('手机或邮箱格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
                     }
-                });
-            })
-        </script>
+                },
+                clearInputError: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    Methods.showLineError(target, "")
+                },
+                handleCheckUserName: function (e) {
+                    this.handleCheckUserType(e);
+                    //不合格或没有改变就不请求
+                    if ((this.userType != 1 && this.userType != 2) || this.userName.length <
+                        6 || this.userName == this.preUserName) {
+                        return false;
+                    }
+                    this.preUserName = this.userName;
+                    var data = {
+                        countryCode: this.countryCode,
+                        userName: this.userName
+                    };
+                    Methods.ajax({
+                        type: 'GET',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
+                        url: DOMAIN_DEV +
+                        "/exchange/user/controller/website/usercontroller/" +
+                        'checkUserName',
+                        data: data,
+                        success: function (res) {
+
+                        }.bind(this),
+                        error: function (res) {
+                            var msg = res.resMsg;
+                            //弹出错误提示
+                            JuaBox.info(EXX.L(msg.message));
+
+                            /*var _this = this;
+                            if (msg.code == '3005') {
+                                JuaBox.info(EXX.L(msg.message));
+                            } else if (msg.code == '8888') {
+                                swal({
+                                    title: "<%= LANG('商业合作方用户') %>",
+                                    text: EXX.L(msg.message),
+                                    icon: "info",
+                                    buttons: ["<%= LANG('去登录') %>!", false],
+                                    dangerMode: false
+                                }).then(function () {
+                                    window.location.href = DOMAIN_WEB + '/login?userName=' + _this.userName;
+                                });
+                            }*/
+                        }.bind(this)
+                    });
+                },
+                selectCountry: function (country) {
+                    this.countryCode = country.code;
+                },
+                handleComparedPwd: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    this.passwordIdentical = this.password === this.passwordConfirmation;
+                    if (target.placeholder == '设置密码') {
+                        return;
+                    }
+                    if (this.passwordIdentical) {
+                        Methods.showLineError(target, "")
+                    } else {
+                        Methods.showLineError(target, "<%= LANG('两次输入的密码不一致') %>")
+                    }
+                },
+                handleCheckPwdStrength: function (e) {
+                    this.pwdStrength = Methods.checkPwdStrength(this.password);
+                    this.handleComparedPwd(e)
+                },
+                handleRefreshImgcode: function () {
+                    // this.timestramp = '-' + new Date().getTime();
+                    // this.getImageCode();
+                },
+                handleCheckLength: function (e) {
+                    var target = e.target || e.currentTarget || e.srcElement;
+                    if ($(target).val() == '') {
+                        Methods.showLineError(target, "<%= LANG('验证码格式不正确') %>")
+                    } else {
+                        Methods.showLineError(target, "")
+                    }
+                },
+                bindEnter: function () {
+                    var _this = this;
+                    document.onkeydown = function (e) {
+                        var ev = document.all ? window.event : e;
+                        if (ev.keyCode == 13) {
+                            _this.handleRegister()
+                            return false;
+                        }
+                    }
+                },
+                handleRegister: function () {
+                    var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
+                    var data = {
+                        userType: this.userType,
+                        // email: this.userName,
+                        userName: this.userName,
+                        password: encryptionPwd,
+                        rsaKeyId: this.rsaKeyId,
+                        dynamicCode: this.smsCode,
+                        //recommId: Methods.getCookie(ENV + 'recommendCode'),
+                        countryCode: this.countryCode,
+                        pwdLevel: this.pwdStrength, //密码强度，前端计算
+                        puzzleValidateString: this.puzzleValidateString
+                    };
+                    if (Methods.getCookie(ENV + "recommendCode")) {
+                        data.recommendCode = decodeURIComponent(Methods.getCookie(ENV +
+                            "recommendCode"));
+                    }
+                    if (this.requestLocked) {
+                        return false;
+                    } else if (this.userName.length < 6 || this.userType != 1 && this.userType !=
+                        2) {
+                        return JuaBox.info("<%= LANG('手机或邮箱格式不正确') %>");
+                    } else if (this.pwdStrength == 0) {
+                        return JuaBox.info('<%= LANG("密码不合格") %>');
+                    } else if (!this.passwordIdentical) {
+                        return JuaBox.info('<%= LANG("两次输入的密码不一致") %>');
+                    } else if (!this.puzzleValidateString) {
+                        return JuaBox.info('<%= LANG("滑动验证未通过") %>');
+                    } else if (!this.agreement) {
+                        JuaBox.info('<%= LANG("需同意《用户服务协议》才能继续") %>');
+                    } else {
+                        this.requestLocked = true;
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'register',
+                            url: DOMAIN_DEV +
+                            "/exchange/user/controller/website/usercontroller/" +
+                            'register',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                this.requestLocked = false;
+                                //确保清除子账号Cookie
+                                //Methods.deleCookie(ENV + 'currentAccountId');
+
+                                //存储用户信息
+                                Methods.setLocalUserInfo(res.datas);
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV + 'uon', 1);
+                                Methods.setCookie(ENV + 'uid', res.datas.userId);
+                                Methods.setCookie(ENV + 'uname', res.datas.loginName);
+                                Methods.setCookie(ENV + 'utoken', res.datas.token);
+
+                                window.location.replace('/u');
+                            },
+                            error: function (res) {
+                                this.requestLocked = false;
+                                JuaBox.showWrong(EXX.L(res.resMsg.code));
+                                // JuaBox.info(EXX.L(res.resMsg.message));
+                                this.timestramp = '-' + new Date().getTime();
+                                this.initMoveCoder()
+                                // this.getImageCode();
+                            }.bind(this)
+                        });
+                    }
+                },
+                //初始化滑动验证码
+                initMoveCoder: function () {
+                    this.puzzleValidateString = ''
+                    var captchaIns;
+                    var _this = this
+                    // initNECaptcha为全局函数，可直接调用
+                    initNECaptcha({
+                        // config对象，参数配置
+                        captchaId: '525d48dba54a4e49ba0f53c78d8d9128',      //'789dbd50da0d450daec08b4f5edbdad4',
+                        element: '#captcha',
+                        mode: 'float',
+                        width: 'auto',
+                        lang: _this.getLang(),
+                        onReady: function (instance) {
+                        },
+                        onVerify: function (err, data) {
+
+                            if (data) {
+                                _this.puzzleValidateString = data.validate
+                            }
+                            console.log(_this.puzzleValidateString)
+                        }
+                    }, function (instance) {
+                        // 初始化成功后得到验证实例instance，可以调用实例的方法
+                    }, function (err) {
+                        // 初始化失败后触发该函数，err对象描述当前错误信息
+                    })
+                },
+                getLang: function () {
+                    var lan = Methods.getCookie(ENV +
+                        "lan")
+                    switch (lan) {
+                        case 'cn':
+                            return 'zh-CN';
+                            break;
+                        case 'en':
+                            return 'en';
+                            break;
+                    }
+                }
+            },
+            created: function () {
+                var params = Methods.parseQueryString();
+                this.userName = params.userName ? params.userName : '';
+            },
+            mounted: function () {
+                Methods.checkMobileStyle();
+                this.bindEnter();
+                this.getPubKey();
+
+                // this.getImageCode();
+                this.initMoveCoder()
+            }
+        });
+    })
+</script>

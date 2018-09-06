@@ -1,6 +1,5 @@
 @import "../fonts/iconfont.css";
 
-
 * {
   margin: 0;
   padding: 0;
@@ -42,7 +41,7 @@ a, [role="button"] {
 .header {
   position: relative;
   height: 60px;
-  background: #2a266d;
+  background: transparent;
   z-index: 500;
   font-size: 14px;
   padding: 0 25px;
@@ -585,13 +584,15 @@ button {
 //登录注册区
 .entrance-area {
   font-size: 14px;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 0px);
   @extend %display-flex;
   @extend %align-center;
   @extend %space-center;
-  background: #403aa3;
+  background: #000;
   position: relative;
   overflow: hidden;
+  background: url(../images/loginBg.png) center center no-repeat;
+  background-size: 100% 100%;
   @-webkit-keyframes infiniteStats {
     0% {
       @include transform(translate3d(-1440px, 0px, 0px));
@@ -687,8 +688,15 @@ button {
   .body {
     width: 400px;
     margin: 40px auto 0 auto;
+    > h2 {
+      font-size: 30px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 50px;
+      text-align: center;
+    }
     a {
-      color: $link-color;
+      //color: $link-color;
     }
     .cooperation {
       margin-bottom: 20px;
@@ -714,6 +722,25 @@ button {
         }
         &:hover {
           border-color: #e6201a;
+        }
+      }
+    }
+    .form-group{
+      .form-control{
+        input[type=text], input[type=password]{
+          background: #302e4c;
+          opacity: 0.6;
+          padding: 0 0 0 50px;
+          border: 1px solid rgba(255,255,255,0.1);
+          &:focus{
+            border-color: #5a7ff5;
+          }
+        }
+        >img{
+          position: absolute;
+          left: 18px;
+          top: 11px;
+          width: 20px;
         }
       }
     }
@@ -794,6 +821,7 @@ button {
   padding: 15px 20px;
   cursor: pointer;
   font-size: 14px;
+
 }
 
 .country-code .country-list li a:hover {
@@ -1166,7 +1194,7 @@ button {
   line-height: 1;
   min-height: calc(100vh - 60px);
   padding: 50px 0;
-  background: #403aa3;
+  //background: #000;
   .tab {
     text-align: center;
     margin-bottom: 40px;
@@ -2052,7 +2080,7 @@ input::-webkit-inner-spin-button {
       border-bottom: 1px solid #fae6e5;
       //margin-bottom: 20px;
       position: relative;
-      .tab.market-filter-tab{
+      .tab.market-filter-tab {
         position: absolute;
         right: 8px;
         top: 10px;

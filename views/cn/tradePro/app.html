@@ -117,10 +117,31 @@
             },
             computed: {
                 //过滤要显示的市场
-                displayMarkets: function() {
+                displayMarkets: function () {
+                    var res = [];
+                    var that = this;
+                    if (this.allMarket && this.allMarket.length > 0) {
+                        this.allMarket.forEach(function (market, index) {
+                            var ms = ''
+                            if (market.market) {
+                                ms =  market.market.split('_')
+                            }
+                            if (ms.length > 1) {
+                                ms = ms[1]
+                            } else {
+                                ms = ''
+                            }
+                            if (ms == that.hoverActive) {
+                                res.push(market)
+                            }
+                        })
+                    }
+                    return res;
+                },
+                /*displayMarkets: function() {
                     var type = this.hoverActive;
                     return this.marketsForCoin(type);   //根据币种 过滤
-                },
+                },*/
                 //转化marketId
                 currentMarketId: function () {
 
@@ -494,13 +515,8 @@
                     })
                     return topAll
                 },
-                mouseSet: function (allMarket) {
-                    // console.log(allMarket)
-                    this.allMarkets = allMarket
-                },
-                overTab: function (type, allMarkets) {
+                overTab: function (type) {
                     this.hoverActive = type
-                    this.allMarkets = allMarkets
                 },
                 // 获取服务器时间
                 getServerTime: function (callback) {

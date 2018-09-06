@@ -1,5 +1,15 @@
 <%-include("../include/head.html")%>
 <style>
+    .header{
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+    .large-header{
+        position: absolute;
+    }
     @media (max-width: 768px) {
         .entrance-area {
             padding: 0 15px;
@@ -16,8 +26,11 @@
     }
 </style>
 <section class="entrance-area">
+    <div id="large-header" class="large-header">
+        <canvas id="demo-canvas"></canvas>
+    </div>
     <div class="box">
-        <div class="head">
+        <!--<div class="head">
             <ul>
                 <li class="active">
                     <a href="/login">
@@ -30,10 +43,12 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div>-->
         <div class="body" id="logBox">
+            <h2 href="/login"><%= LANG('登录') %></h2>
             <div class="form-group">
                 <div class="form-control" id="nikeForm">
+                    <img src="/src/images/user.png" class="title" alt="">
                     <input autocomplete="off" placeholder="<%= LANG('手机') %>/<%= LANG('邮箱') %>/<%= LANG('用户名') %>" v-model="userName" v-on:blur="handleCheckUserType($event)"
                            v-on:focus="clearPhoneInputError($event)" type="text">
                     <country-code v-if="showCountry" :selected="selectCountry" />
@@ -41,6 +56,7 @@
             </div>
             <div class="form-group">
                 <div class="form-control" id="passwordForm">
+                    <img src="/src/images/pass.png" class="title" alt="">
                     <!--<input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:blur="handCheckPwd($event)" v-on:focus="clearPwdInputError($event)" >-->
                     <input autocomplete="new-password" placeholder="<%= LANG('登录密码') %>" v-model="password" type="password" v-on:focus="clearPwdInputError($event)">
                     <a href="/findLoginPwd" class="control-link">
@@ -68,7 +84,7 @@
 
         </div>
     </div>
-    <div class="canvas_graph"></div>
+    <!--<div class="canvas_graph"></div>-->
 </section>
 <script>
     var isZbLogin = false;
@@ -112,7 +128,7 @@
     }
 
 
-    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods,
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index', 'common/TweenLite.min',  'common/EasePack.min', 'common/demo-1'], function (Vue, Methods,
                                                                                                    JuaBox) {
         var app = new Vue({
             el: '#logBox',

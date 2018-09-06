@@ -314,7 +314,7 @@
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
-                            <div class="current" data-toggle="dropdown" @click="mouseSet(allMarket)">
+                            <div class="current" data-toggle="dropdown" >
                                 <!--<h3><%= LANG('市场')%></h3>-->
                                 <p>{{coinName}}/ <span class="denominator">{{moneyName}}</span></p>
                             </div>
@@ -377,9 +377,9 @@
                             </div>-->
                             <div class="market-box">
                                 <ul class="tabBox">
-                                    <li :class="hoverActive === 'qc' ? 'active' : ''" @mouseover="overTab('qc', allMarket)">QC区</li>
-                                    <li :class="hoverActive === 'usdt' ? 'active' : ''" @mouseover="overTab('usdt', allMarket)">USDT区</li>
-                                    <li :class="hoverActive === 'btc' ? 'active' : ''" @mouseover="overTab('btc', allMarket)">BTC区</li>
+                                    <li :class="hoverActive === 'qc' ? 'active' : ''" @mouseover="overTab('qc')">QC区</li>
+                                    <li :class="hoverActive === 'usdt' ? 'active' : ''" @mouseover="overTab('usdt')">USDT区</li>
+                                    <li :class="hoverActive === 'btc' ? 'active' : ''" @mouseover="overTab('btc')">BTC区</li>
                                 </ul>
                                 <div class="mark-list">
                                     <ul class="title">
