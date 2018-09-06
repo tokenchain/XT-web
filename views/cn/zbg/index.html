@@ -70,6 +70,9 @@
 
 
     <style>
+        li{
+            list-style: none;
+        }
         .header {
             position: fixed;
             left: 0;
@@ -85,7 +88,7 @@
         }
 
         .header.sticky {
-            background: #2a266d;
+            background: #262a42;
             padding: 0 25px;
             height: 60px;
         }
@@ -264,8 +267,9 @@
         }
 
     </style>
-
-
+    <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
+    <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 </head>
 
 
@@ -308,8 +312,11 @@
 <script src="/lib/requirejs/require.js"></script>
 <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
 
+
+
 <script>
     window.onload = function () {
+        var language = getCookie('wlan')
         var mySwiper = new Swiper ('.swiper-container', {
             // direction: 'vertical',
             speed: 2000,
@@ -331,6 +338,55 @@
                 prevEl: '.swiper-button-prev',
             }
         });
+        var myChart = echarts.init(document.getElementById('chartBox'));
+        // 指定图表的配置项和数据
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'horizontal',
+                bottom:'0',
+                data: language === 'cn' ? ['市场推广', 'XT基金会', '创始团队', '会员回馈'] : ['Market promotion', 'XT Foundation', 'Founding team', 'Member feedback']
+            },
+            series: [
+                {
+                    name: language === 'cn' ? '占比' : 'proportion',
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    color: ['#4aacc5', '#d48265', '#91c7ae', '#7cb4ed'],
+                    data:[
+                        {value:10000000, name: language === 'cn' ? '市场推广' : 'Market promotion'},
+                        {value:20000000, name: language === 'cn' ? 'XT基金会' : 'XT Foundation'},
+                        {value:20000000, name: language === 'cn' ? '创始团队' : 'Founding team'},
+                        {value:50000000, name: language === 'cn' ? '会员回馈' : 'Member feedback'}
+                    ]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
     }
 </script>
 
@@ -742,9 +798,8 @@
         &lt;!&ndash; End of .token-slider &ndash;&gt;
     </div>-->
 
-
+    <!--市场列表-->
     <section class="index-market">
-
         <div class="container">
             <!--<div class="market-navwrapper">
                 <div class="market-navcontent">
@@ -772,6 +827,12 @@
                         <div @click="changeMarketsTab('btc')" class="market-nav" :class="{active:navActive=='btc'}">
                             BTC
                             <%= LANG('区')%>
+                        </div>
+                    </div>
+                    <div class="tab market-filter-tab">
+                        <div class="market-filter">
+                            <input v-model="keyWord" placeholder="<%=LANG('搜索币种')%>"><i @click="keyWord ? emptySearch() : null" class="icon iconfont"
+                                                                                          :class="keyWord == '' ? 'icon-msnui-search' : 'icon-shanchu1'"></i>
                         </div>
                     </div>
                 </div>
@@ -802,7 +863,7 @@
                     </div>
                     <div class="body" v-show="displayMarkets.length">
                         <ul role="button" v-for="(data, index) in displayMarkets"
-                            @click="goExchange(1, data.market.replace('/','_'))">
+                            @click="goExchange(1, data.market.replace('/','_'))" v-cloak="">
                             <li class="coin-name">
                                 <img v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc'"
                                      :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
@@ -831,69 +892,8 @@
     </section>
 
 
-    <!-- End of .banner-slider -->
-    <!-- features starts============================================ -->
-    <!--<section class="features">-->
-    <!--<div class="radial-bg radial-bg__features">-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .radial-bg &ndash;&gt;-->
-    <!--<div class="container">-->
-    <!--<div class="feature-wrapper">-->
-    <!--<div class="feature-content section-padding">-->
-    <!--<div class="row align-items-center">-->
-    <!--<div class="col-md-6">-->
-    <!--<div class="text-content">-->
-    <!--<h2>交易即POW挖矿，获赠手续费等值的ZT</h2>-->
-    <!--<p>ZT每小时按照均价计算并快照，ZT以及收益次日凌晨统一发放收益</p>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .text-content &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .col-md-6 &ndash;&gt;-->
-
-    <!--<div class="col-md-6">-->
-    <!--<div class="img-container">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/feature-img/features-1.png" alt="feature image">-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .img-container &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .col-md-6 &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .row &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .feature-content &ndash;&gt;-->
-
-    <!--<div class="feature-content section-padding">-->
-    <!--<div class="row align-items-center">-->
-    <!--<div class="col-md-6 order-md-2">-->
-    <!--<div class="text-content">-->
-    <!--<h2>持有ZT即POS挖矿，持续获赠等值手续费的ZT</h2>-->
-    <!--<p>无论是二级市场购买的，还是交易免费获赠的，只要持有的ZT处于锁仓中，即可参与POS挖矿，按POS规则额外获取 的交易手续费，显示总额一般按照USDT折合计算，实际分配为ZT。</p>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .text-content &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .col-md-6 &ndash;&gt;-->
-
-    <!--<div class="col-md-6 order-md-1">-->
-    <!--<div class="img-container">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/feature-img/features-2.png" alt="feature image">-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .img-container &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .col-md-6 &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .row &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .feature-content &ndash;&gt;-->
-    <!--&lt;!&ndash; End of .feature-content &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .feature-wrapper &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .container &ndash;&gt;-->
-    <!--</section>-->
-    <!-- End of .features -->
-
     <!-- benefits-of-solution starts============================================ -->
-    <section class="section advantage">
+    <!--<section class="section advantage">
         <div class="container">
             <div class="benefits-of-solution section-padding">
                 <div class="section-heading text-center">
@@ -904,7 +904,7 @@
                         <%= LANG('ZBG是ZB Global的官方旗舰网站X') %>
                     </p>
                 </div>
-                <!-- End of .section-heading -->
+                &lt;!&ndash; End of .section-heading &ndash;&gt;
 
                 <div class="row">
                     <div class="col-md-6">
@@ -917,9 +917,9 @@
                                 <%= LANG('经过多年的运营总结Z') %>
                             </p>
                         </div>
-                        <!-- End of inner-content -->
+                        &lt;!&ndash; End of inner-content &ndash;&gt;
                     </div>
-                    <!-- End of .col-md-6 -->
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
 
                     <div class="col-md-6">
                         <div class="benefits-content">
@@ -931,9 +931,9 @@
                                 <%= LANG('ZBG共享ZB独立完整的数字货币企业化服务Z') %>
                             </p>
                         </div>
-                        <!-- End of inner-content -->
+                        &lt;!&ndash; End of inner-content &ndash;&gt;
                     </div>
-                    <!-- End of .col-md-6 -->
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
 
                     <div class="col-md-6">
                         <div class="benefits-content">
@@ -944,9 +944,9 @@
                             <p>
                                 <%= LANG('成熟敏捷的客户服务、技术支持体系，才能应对变化多端的客服需求，快速解决运营中出现的问题') %>。</p>
                         </div>
-                        <!-- End of inner-content -->
+                        &lt;!&ndash; End of inner-content &ndash;&gt;
                     </div>
-                    <!-- End of .col-md-6 -->
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
 
                     <div class="col-md-6">
                         <div class="benefits-content">
@@ -958,26 +958,49 @@
                                 <%= LANG('ZBG交易平台上提供多样化的币种Z') %>
                             </p>
                         </div>
-                        <!-- End of inner-content -->
+                        &lt;!&ndash; End of inner-content &ndash;&gt;
                     </div>
-                    <!-- End of .col-md-6 -->
-                    <!-- End of .col-md-6 -->
-                    <!-- End of .col-md-6 -->
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
+                    &lt;!&ndash; End of .col-md-6 &ndash;&gt;
                 </div>
-                <!-- End of .row -->
+                &lt;!&ndash; End of .row &ndash;&gt;
             </div>
-            <!-- End of .benefits-of-solution -->
+            &lt;!&ndash; End of .benefits-of-solution &ndash;&gt;
         </div>
-        <!-- End of .container -->
+        &lt;!&ndash; End of .container &ndash;&gt;
+    </section>-->
+    <section class="advantage">
+        <div class="container">
+            <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT平台优势')%></h2>
+            <!--<p><%=LANG('XT继承了ZB交易系统的高性能、安全稳定等优点，同时系统分离了币 ，能更好的保证交易者的资产安全。')%></p>-->
+            <ul class="row">
+                <li class="wow slideInLeft col-md-4" data-wow-duration="1.5s">
+                    <img src="/src/images/bt3.png" alt="">
+                    <h3><%=LANG('高性能撮合引擎')%></h3>
+                    <p><%=LANG('自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。')%></p>
+                </li>
+                <li class="wow slideInUp col-md-4" data-wow-duration="1.5s">
+                    <img src="/src/images/bt2.png" alt="">
+                    <h3><%=LANG('金融级安全防护')%></h3>
+                    <p><%=LANG('无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。')%></p>
+                </li>
+                <li class="wow slideInRight col-md-4" data-wow-duration="1.5s">
+                    <img src="/src/images/bt1.png" alt="">
+                    <h3><%=LANG('OTC场外交易')%></h3>
+                    <p><%=LANG('支持多种法币交易')%><div><%=LANG('平台担保、快速安全')%></div></p>
+                </li>
+            </ul>
+        </div>
     </section>
     <!-- End of section -->
 
     <!-- roadmap-to-success starts
 ============================================ -->
-    <section class="section timeLine">
+    <!--<section class="section timeLine">
         <div class="radial-bg radial-bg__roadmap">
         </div>
-        <!-- End of .radial-bg -->
+        &lt;!&ndash; End of .radial-bg &ndash;&gt;
 
         <div class="container">
             <div class="roadmap-to-success section-padding" id="roadmap">
@@ -989,11 +1012,11 @@
                         <%= LANG('ZBG致力于依托ZB.COM的技术体系X') %>
                     </p>
                 </div>
-                <!-- End of .section-heading -->
+                &lt;!&ndash; End of .section-heading &ndash;&gt;
             </div>
-            <!-- End of .roadmap-to-success -->
+            &lt;!&ndash; End of .roadmap-to-success &ndash;&gt;
         </div>
-        <!-- End of .container -->
+        &lt;!&ndash; End of .container &ndash;&gt;
 
         <div class="roadmap-container">
 
@@ -1015,7 +1038,7 @@
                         <div class="line"></div>
                     </div>
                 </div>
-                <!-- End of .roadmap-label -->
+                &lt;!&ndash; End of .roadmap-label &ndash;&gt;
                 <div class="col-md roadmap-label l-2" title="Click to open">
                     <div class="text-content">
                         <%= LANG('2018年7月21日') %>
@@ -1049,46 +1072,46 @@
 
                     <div class="data">
                         <div class="line"></div>
-                        <!--<div class="card text-left">-->
-                        <!--<a class="img-container" href="blog-details.html">-->
-                        <!--<img src="<%= STATIC %>/images/zbg/images/roadmap/roadmap-1.jpg" alt="roadmap image" class="img-fluid">-->
-                        <!--</a>-->
-                        <!--<div class="card-header">-->
-                        <!--<h4 class="mb-0">-->
-                        <!--<a href="blog-details.html">-->
-                        <!--Tier 1 Sold-->
-                        <!--</a>-->
-                        <!--</h4>-->
-                        <!--</div>-->
-                        <!--<div class="card-body" title="Click to open">-->
-                        <!--<p>Morbi id sagittis felis. Vivamus eu tellus quis ex tincidunt euismod ut sed ligula. Ut tortor-->
-                        <!--mi, lobortis ut mollis eget, pretium at mi.</p>-->
-                        <!--<a href="blog-details.html" class="btn-link">Read Full Story-->
-                        <!--<i class="icon-arrow-right-1"></i>-->
-                        <!--</a>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!-- End of .card -->
+                        &lt;!&ndash;<div class="card text-left">&ndash;&gt;
+                        &lt;!&ndash;<a class="img-container" href="blog-details.html">&ndash;&gt;
+                        &lt;!&ndash;<img src="<%= STATIC %>/images/zbg/images/roadmap/roadmap-1.jpg" alt="roadmap image" class="img-fluid">&ndash;&gt;
+                        &lt;!&ndash;</a>&ndash;&gt;
+                        &lt;!&ndash;<div class="card-header">&ndash;&gt;
+                        &lt;!&ndash;<h4 class="mb-0">&ndash;&gt;
+                        &lt;!&ndash;<a href="blog-details.html">&ndash;&gt;
+                        &lt;!&ndash;Tier 1 Sold&ndash;&gt;
+                        &lt;!&ndash;</a>&ndash;&gt;
+                        &lt;!&ndash;</h4>&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+                        &lt;!&ndash;<div class="card-body" title="Click to open">&ndash;&gt;
+                        &lt;!&ndash;<p>Morbi id sagittis felis. Vivamus eu tellus quis ex tincidunt euismod ut sed ligula. Ut tortor&ndash;&gt;
+                        &lt;!&ndash;mi, lobortis ut mollis eget, pretium at mi.</p>&ndash;&gt;
+                        &lt;!&ndash;<a href="blog-details.html" class="btn-link">Read Full Story&ndash;&gt;
+                        &lt;!&ndash;<i class="icon-arrow-right-1"></i>&ndash;&gt;
+                        &lt;!&ndash;</a>&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+                        &lt;!&ndash; End of .card &ndash;&gt;
                     </div>
-                    <!-- End of .data -->
+                    &lt;!&ndash; End of .data &ndash;&gt;
                 </div>
-                <!-- End of .roadmap-label -->
+                &lt;!&ndash; End of .roadmap-label &ndash;&gt;
 
 
-                <!--<div class="col-md roadmap-label l-5" title="Click to open">-->
-                <!--<div class="text-content">-->
-                <!--<%= LANG('2018年9月') %>-->
-                <!--<span>-->
-                <!--<%= LANG('正式发行ZB链并挪ZT到ZB链') %>-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--<div class="data">-->
-                <!--<div class="line"></div>-->
-                <!--&lt;!&ndash; End of .card &ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash; End of .data &ndash;&gt;-->
-                <!--</div>-->
-                <!-- End of .roadmap-label -->
+                &lt;!&ndash;<div class="col-md roadmap-label l-5" title="Click to open">&ndash;&gt;
+                &lt;!&ndash;<div class="text-content">&ndash;&gt;
+                &lt;!&ndash;<%= LANG('2018年9月') %>&ndash;&gt;
+                &lt;!&ndash;<span>&ndash;&gt;
+                &lt;!&ndash;<%= LANG('正式发行ZB链并挪ZT到ZB链') %>&ndash;&gt;
+                &lt;!&ndash;</span>&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash;<div class="data">&ndash;&gt;
+                &lt;!&ndash;<div class="line"></div>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash; End of .card &ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash; End of .data &ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash; End of .roadmap-label &ndash;&gt;
 
                 <div class="col-md roadmap-label l-5" title="Click to open">
                     <div class="text-content">
@@ -1100,11 +1123,11 @@
 
                     <div class="data">
                         <div class="line"></div>
-                        <!-- End of .card -->
+                        &lt;!&ndash; End of .card &ndash;&gt;
                     </div>
-                    <!-- End of .data -->
+                    &lt;!&ndash; End of .data &ndash;&gt;
                 </div>
-                <!-- End of .roadmap-label -->
+                &lt;!&ndash; End of .roadmap-label &ndash;&gt;
 
                 <div class="col-md roadmap-label l-6" title="Click to open">
                     <div class="text-content">
@@ -1116,13 +1139,13 @@
 
                     <div class="data">
                         <div class="line"></div>
-                        <!-- End of .card -->
+                        &lt;!&ndash; End of .card &ndash;&gt;
                     </div>
-                    <!-- End of .data -->
+                    &lt;!&ndash; End of .data &ndash;&gt;
                 </div>
-                <!-- End of .roadmap-label -->
+                &lt;!&ndash; End of .roadmap-label &ndash;&gt;
             </div>
-            <!-- End of .row -->
+            &lt;!&ndash; End of .row &ndash;&gt;
 
             <svg class="roadmap-line" width="3000">
                 <defs>
@@ -1135,7 +1158,50 @@
                 <path class="roadmap-line-path" d="M -290 0 l3000 0"/>
             </svg>
         </div>
-        <!-- End of .roadmap-container -->
+        &lt;!&ndash; End of .roadmap-container &ndash;&gt;
+    </section>-->
+    <section class="timeLine">
+        <div class="container">
+            <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('路线图')%></h2>
+            <p><%=LANG('XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区')%></p>
+            <div class="timeBox wow fadeIn" data-wow-duration="2.5s" style="text-align: center;">
+                <img class="timePic" src="/src/images/timeLime.png" alt="">
+                <ul>
+                    <li>
+                        <h2><%=LANG('2018年8月8日')%></h2>
+                        <p><%=LANG('开启内测')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年8月18日')%></h2>
+                        <p><%=LANG('XT平台开放交易公测')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年8月28日')%></h2>
+                        <p><%=LANG('开启会员抢购')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2019年')%></h2>
+                        <p><%=LANG('XT平台2.0计划')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年12月')%></h2>
+                        <p><%=LANG('首届社区治理峰会')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年11月')%></h2>
+                        <p><%=LANG('XT平台多语言支持计划')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年10月')%></h2>
+                        <p><%=LANG('全球创新项目遴选计划')%></p>
+                    </li>
+                    <li>
+                        <h2><%=LANG('2018年9月')%></h2>
+                        <p><%=LANG('XT生态合伙人计划')%></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </section>
     <!-- End of .roadmap-to-success -->
 
@@ -1205,59 +1271,22 @@
         </div>
         <!-- End of .container -->
     </section>
+    <section class="section chartHichart">
+        <div class="container">
+            <h1 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT概况')%></h1>
+            <p><%=LANG('XT是XT.COM平台的通证，用户通过持有XT，可以在平台的生态系统内获得相关服务和获取收益。')%></p>
+            <ul class="compromise">
+                <li><%=LANG('名字')%><p><a href="/ztfee">XT</a></p></li>
+                <li><%=LANG('发行平台')%><p><a href="/ztfee">XT.com</a></p></li>
+                <li><%=LANG('总量')%><p><a href="/ztfee">100000000</a></p></li>
+                <li><%=LANG('市场流通量')%><p><a href="/ztfee">0.3%<%=LANG('每天释放')%></a></p></li>
+            </ul>
+            <div class="chartBox" id="chartBox" style="height:400px;">
+
+            </div>
+        </div>
+    </section>
     <!-- End of .crowdsale -->
-
-    <!-- team starts
-============================================ -->
-
-
-    <!-- trusted-partners starts
-============================================ -->
-    <!--<section class="section">-->
-    <!--<div class="container">-->
-    <!--<div class="trusted-partners section-padding">-->
-    <!--<div class="section-heading text-center">-->
-    <!--<h2>支持的币种</h2>-->
-    <!--<p>ZBG作为全球领先的数字货币交易平台，支持多种主流数字货币，和极具潜力的优质创新币种</p>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .section-heading &ndash;&gt;-->
-
-    <!--<div class="partners">-->
-    <!--<div class="row justify-content-center">-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-1.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-2.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-3.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-4.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-5.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-6.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-7.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--<div class="partners-logo">-->
-    <!--<img src="<%= STATIC %>/images/zbg/images/partners/logos/partner-8.png" alt="partners logo">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .row &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .partners &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of .trusted-partners &ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; End of . container &ndash;&gt;-->
-    <!--</section>-->
-    <!-- End of .trusted-partners -->
 
     <!-- Team Modal -->
     <div class="team-modal modal fade" id="team-modal" tabindex="-1" role="dialog" aria-labelledby="team-modal"
@@ -1321,6 +1350,29 @@
         <!-- End of .modal-dialogue -->
     </div>
     <!-- End of .team-modal -->
+
+    <div class="partner">
+        <h2><%=LANG('合作伙伴')%></h2>
+        <div class="box">
+            <ul class="first">
+                <li><img src="/src/images/work/work08.png"></li>
+                <li><img src="/src/images/work/work02.png"></li>
+                <li><img src="/src/images/work/work03.png"></li>
+                <li><img src="/src/images/work/work04.png"></li>
+                <li><img src="/src/images/work/work05.png"></li>
+                <li style="padding-left: 20px;"><img src="/src/images/work/work01.png"></li>
+            </ul>
+            <ul class="second" style="margin-top: 5px;">
+                <li><img src="/src/images/work/work07.png"></li>
+                <li><img src="/src/images/work/work06.png"></li>
+                <li><img src="/src/images/work/work09.png"></li>
+                <li><img style="height: 24px;" src="/src/images/work/work10.png"></li>
+                <li><img style="height: 24px;" src="/src/images/work/work11.png"></li>
+                <li><img style="height: 24px;" src="/src/images/work/work12.png"></li>
+            </ul>
+        </div>
+    </div>
+
     <!-- footer starts
 ============================================ -->
     <footer class="footer">
@@ -1334,10 +1386,10 @@
                         <div class="col-md-4">
                             <a href="/" class="d-block">
                                         <span class="logoImg" style="padding-left: 2rem;">
-                                            <img src="<%= STATIC %>/images/logo.png"
+                                            <img src="<%= STATIC %>/images/logoXt.png"
                                                  style="width: 80px; border-radius: 0;" alt="footer logo">
                                         </span>
-                                <a class="timer" href="#">©2017-2018 ZBG.com</a>
+                                <a class="timer" href="#">©2018-2019 XT.com</a>
                             </a>
 
                         </div>
@@ -1433,15 +1485,9 @@
                             <h5>
                                 <%= LANG('联系我们') %>
                             </h5>
-                            <p>sp@zbg.com</p>
-                            <!--<form class="footer-form" action="#" method="post">-->
-                            <!--<input type="email" class="form-control" placeholder="Enter email address…">-->
-                            <!--<button class="icon-btn" type="submit">-->
-                            <!--<i class="icon-arrow-right-1"></i>-->
-                            <!--</button>-->
-                            <!--</form>-->
+                            <p>support@xt.com</p>
 
-                            <div class="social-icons">
+                            <!--<div class="social-icons">
                                 <a href="https://www.facebook.com/ZBG.coin" target="_blank" rel="noopener">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
@@ -1458,7 +1504,7 @@
                                     <img src="/src/images/zbg/images/WechatIMG260.jpeg"/>
                                     <i class="fab fa-weixin"></i>
                                 </a>
-                            </div>
+                            </div>-->
                             <!-- End of .social-icons -->
                         </div>
                         <!-- End of .col -->
@@ -1510,7 +1556,7 @@
                     keyWord: '',
                     mLength: 0,
                     //rateUp,rateDown,volumeUp,volumeDown
-                    sortBy: 'rateDown',
+                    sortBy: 'lastPrice',   //'rateDown',
                     assistPrice: null,
                     dWidth: window.document.body.offsetWidth,
                     markets: [],
@@ -1580,11 +1626,14 @@
                         case 'hot':
                             return this.testMarkets;
                             break;
+                        case 'qc':
+                            return this.selectMarkets('qc');
+                            break;
                         case 'usdt':
                             return this.selectMarkets('usdt');
                             break;
-                        case 'zt':
-                            return this.selectMarkets('zt');
+                        case 'btc':
+                            return this.selectMarkets('btc');
                             break;
 
                     }
@@ -1651,6 +1700,9 @@
                 }
             },
             methods: {
+                emptySearch: function () {
+                    this.keyWord = ''
+                },
                 //获取所有市场
                 test() {
                     var arr = []
@@ -1781,10 +1833,11 @@
                     var _this = this;
                     var markets = [];
                     var oriMarkets = this.markets;
+                    var marketsTab = this.marketsTab
 
                     oriMarkets.forEach(function (item, index) {
                         var currMarketName = _this.marketsIdSwitch[item[0]];
-                        if (currMarketName.indexOf(keyword) != -1) {
+                        if (currMarketName.indexOf(keyword) != -1 && currMarketName.indexOf(marketsTab)!= -1) {
                             //过滤后的数组
                             markets.push(item);
                         }
@@ -1849,6 +1902,8 @@
                         } else if (sortBy == 'volumeDown') {
                             // return y.convertVolume - x.convertVolume;
                             return y.convertVolume - x.convertVolume;
+                        } else if(sortBy == 'lastPrice') {
+                            return y.lastPrice - x.lastPrice;
                         }
                     });
                     return markets;
@@ -2195,6 +2250,9 @@
             },
             updated: function () {
 
+            },
+            beforeMount: function () {
+                new WOW().init();
             },
             created: function () {
                 this.test()
