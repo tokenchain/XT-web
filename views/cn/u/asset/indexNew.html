@@ -352,8 +352,11 @@
                 <div class="body">
                     <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)"
                         v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
-                        <li class="coin-name"><img
-                                :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
+                        <li class="coin-name">
+                            <img v-if="item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'"
+                                 :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
+                                 class="icon-coin"/>
+                            <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
                                 class="icon-coin"/><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
                         <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) | filterNum}}</span>
                         </li>
@@ -709,12 +712,14 @@
                 filterUserCoinFunds: function (objs) {
                     var _this = this;
                     if (!_this.keyWord) {
-                        return objs;
+                        return objs.filter(function (item, i) {
+                            return item.name !== 'qtum'
+                        })
                     }
                     var nObj = [];
                     objs.forEach(function (coin, index) {
                         var coinName = coin.name;
-                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1) {
+                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1 && coinName !== 'qtum') {
                             nObj.push(coin);
                         }
                     });
@@ -1101,8 +1106,7 @@
                         },
                         error: function (res) {
                             var resMsg = res.resMsg;
-                            authErrorUi(EXX.L(resMsg.message));
-
+                            // authErrorUi(EXX.L(resMsg.message));
                         }
                     })
                 },
@@ -1169,7 +1173,7 @@
                         },
                         error: function (res) {
                             var resMsg = res.resMsg;
-                            authErrorUi(EXX.L(resMsg.message));
+                            // authErrorUi(EXX.L(resMsg.message));
 
                         }
                     })

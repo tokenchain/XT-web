@@ -232,7 +232,22 @@
 
         }
 
+        /*小于 768px */
         @media (max-width: 768px) {
+            .topHeader h2, .bannerTop h2{
+                font-size: 2.5rem!important;
+                letter-spacing: 2px;
+            }
+
+            .topHeader p{
+                font-size: 2.5rem!important;
+            }
+            .bannerTop p{
+                font-size: 1.5rem!important;
+            }
+            .topHeader ul li{
+                font-size: 2.0rem!important;
+            }
             .drawsvg-initialized {
                 width: 200px;
                 height: 300px;
@@ -257,6 +272,13 @@
                 top: -20px;
             }
         }
+
+        @media (max-width: 430px) {
+            .tab.market-filter-tab{
+                display: none;
+            }
+        }
+
         .swiper-container {
             width: 100%;
             height: 800px;
@@ -337,7 +359,20 @@
                 prevEl: '.swiper-button-prev',
             }
         });
-        var myChart = echarts.init(document.getElementById('chartBox'));
+
+        //字体自适应
+        function getDpr(){
+            var dpr = document.body.offsetWidth;
+            if (dpr < 285) {
+                return 20;
+            } else if (dpr < 203) {
+                return 13
+            } else {
+                return 30;
+            }
+        }
+
+        // var myChart = echarts.init(document.getElementById('chartBox'));
         // 指定图表的配置项和数据
         option = {
             tooltip: {
@@ -363,7 +398,7 @@
                         emphasis: {
                             show: true,
                             textStyle: {
-                                fontSize: '30',
+                                fontSize: getDpr(),
                                 fontWeight: 'bold'
                             }
                         }
@@ -385,7 +420,12 @@
         };
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        // myChart.setOption(option);
+        // setTimeout(function (){
+        //     window.onresize = function () {
+        //         myChart.resize();
+        //     }
+        // },200)
     }
 </script>
 
@@ -979,7 +1019,7 @@
                     <h3><%=LANG('高性能撮合引擎')%></h3>
                     <p><%=LANG('自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。')%></p>
                 </li>
-                <li class="wow slideInUp col-md-4" data-wow-duration="1.5s">
+                <li class="wow slideInDown col-md-4" data-wow-duration="1.5s">
                     <img src="/src/images/bt2.png" alt="">
                     <h3><%=LANG('金融级安全防护')%></h3>
                     <p><%=LANG('无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。')%></p>
@@ -1270,7 +1310,7 @@
         </div>
         &lt;!&ndash; End of .container &ndash;&gt;
     </section>-->
-    <section class="section chartHichart">
+    <!--<section class="section chartHichart">
         <div class="container">
             <h1 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT概况')%></h1>
             <p><%=LANG('XT是XT.COM平台的通证，用户通过持有XT，可以在平台的生态系统内获得相关服务和获取收益。')%></p>
@@ -1284,7 +1324,7 @@
 
             </div>
         </div>
-    </section>
+    </section>-->
     <!-- End of .crowdsale -->
 
     <!-- Team Modal -->
@@ -1401,19 +1441,19 @@
                             <ul class="footer-nav">
 
                                 <li>
-                                    <a href="https://zbg.zendesk.com/hc/zh-cn/requests/new" target="_Blank">
+                                    <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/requests/new" target="_Blank">
                                         <%= LANG('提交工单') %>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="https://zbg.zendesk.com/hc/zh-cn/sections/360001359833-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"
+                                    <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/sections/360001359833-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"
                                        target="_Blank">
                                         <%= LANG('常见问题') %>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://zbg.zendesk.com/hc/zh-cn/sections/360001332414-%E5%85%AC%E5%91%8A%E4%B8%AD%E5%BF%83"
+                                    <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/sections/360001332414-%E5%85%AC%E5%91%8A%E4%B8%AD%E5%BF%83"
                                        target="_Blank">
                                         <%= LANG('公告') %>
                                     </a>
@@ -1439,7 +1479,8 @@
                                 <li>
                                     <a href="/help/restApi" target="_self">API</a>
                                 </li>
-                                <li>
+                                <!--xt 不需要-->
+                                <!--<li>
                                     <a href="/apply" target="_self">
                                         <%= LANG('上币申请') %>
                                     </a>
@@ -1448,7 +1489,7 @@
                                     <a href="/marketglobal" target="_self">
                                         <%= LANG('全球行情') %>
                                     </a>
-                                </li>
+                                </li>-->
                             </ul>
                             <!-- End of .footer-nav -->
                         </div>
@@ -2923,7 +2964,7 @@
 
 
 <!--客服-->
-<script>
+<!--<script>
     function getCookie(name) {
         var strcookie = document.cookie; //获取cookie字符串
         var arrcookie = strcookie.split("; "); //分割
@@ -2972,4 +3013,4 @@
         })(document, "script", "bd9a284a-2bb6-4bba-b2bd-20b51d8527db");
         /*]]>*/
     }
-</script>
+</script>-->

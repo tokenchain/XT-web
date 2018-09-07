@@ -11,7 +11,8 @@
                     <div class="dropdown-menu">
                         <ul class="dropdown-list">
                             <li :class="{'active': currentCoin == 'all'}"><a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a></li>
-                            <li v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name.toUpperCase()}}</a></li>
+                            <li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
+                                .toUpperCase()}}</a></li>
                         </ul>
                     </div>
                 </div>
