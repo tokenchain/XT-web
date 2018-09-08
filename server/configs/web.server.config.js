@@ -11,8 +11,8 @@ module.exports = function(LAN) {
         TITLE : LANG('网站通用标题'),
         KEYWORD : LANG('网站通用关键字'),
         DESCRIPTION : LANG('网站通用描述'),
-        LOGO : STATIC + '/images/home/exxlogo.png?' + VERSION,
-        LOGO_FOOT : STATIC + '/images/icohome/exxlogo.png?' + VERSION,
+        LOGO : STATIC + '/images/logoXt.png?' + VERSION,
+        LOGO_FOOT : STATIC + '/images/logoXt.png' + VERSION,
         FAVICON : STATIC + '/images/favicon/favicon.ico?' + VERSION,
         ICP : LANG('网站ICP备案号'),
         LAN : {

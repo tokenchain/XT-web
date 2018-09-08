@@ -919,11 +919,12 @@
                 },
                 //去掉虚拟市场货币的D字符
                 getRealCoinName: function (coin) {
-                    if (coin.length > 3 && coin.substring(0, 1) == 'd') {
+                    /*if (coin.length > 3 && coin.substring(0, 1) == 'd') {
                         return coin.substring(1);
                     } else {
                         return coin;
-                    }
+                    }*/
+                    return coin;
                 },
                 // 获取币价汇率
                 getPriceRate: function (callback) {

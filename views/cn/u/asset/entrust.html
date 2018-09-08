@@ -152,7 +152,7 @@
                     tradeStatus: '',
                     tradeStatusObj: {
                         '': "<%= LANG('全部') %>",
-                        // '3': "<%= LANG('交易中') %>",
+                        '0': "<%= LANG('交易中') %>",
                         '2': "<%= LANG('已完成') %>",
                         '1': "<%= LANG('已取消') %>"
                     },
@@ -429,7 +429,6 @@
                     this.getRecord();
                 },
                 changeTradeType: function (type) {
-                    console.log(type)
                     this.pageIndex = 1;
                     this.pageCount = 0;
                     this.tradeType = type;
@@ -572,6 +571,7 @@
                     this.getAssistPrice();
                     this.getRecord();
                 }.bind(this));
+                console.log('<%= market %>',11111111)
             },
             mounted: function () {
 

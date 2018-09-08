@@ -16,10 +16,10 @@ module.exports = {
     //版本号
     VERSION: Date.now(),
     //域配置
-    DOMAIN_BASE : "ww.xt.com",   //本地域
+    DOMAIN_BASE : "www.xt.com",   //本地域
 
     DOMAIN_DEV : "https://www.xt.com",  //后端接口 域
-    WEBSOCKET : "wss://ws.xt.com" //WEBSOCKET 服务地址
-    DISH_API: "http://192.168.20.13:28080"
+    WEBSOCKET : "wss://ws.xt.com", //WEBSOCKET 服务地址
+    DISH_API: "https://ws.xt.com"
 }
 /* * 开发环境前端 + 生产环境后端* */
