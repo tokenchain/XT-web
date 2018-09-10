@@ -9,8 +9,8 @@
                             <div class="dropdown" v-cloak="">
                                 <p role="button" data-toggle="dropdown"><%= LANG('市场') %>：<em>{{coinName}}</em><i>/</i>{{moneyName}}
                                 </p>
-                                <div class="dropdown-menu">
-                                    <ul class="dropdown-list" v-for="tab,index in marketGroupTab"
+                                <div class="dropdown-menu" style="width: 370px;right: -163px;">
+                                    <ul class="dropdown-list" v-for="tab,index in marketGroupTab" style="float: left;width: 120px"
                                         :class="{'block' : index == curIndex}">
                                         <li v-for="market,key in getGroupMarket(tab)"
                                             :class="{'active': market.name == currentMarket}"><a

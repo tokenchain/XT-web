@@ -1879,8 +1879,7 @@
                     oriMarkets.forEach(function (item, index) {
                         var currMarketName = _this.marketsIdSwitch[item[0]];
                         if (marketsTab == 'hot') {
-                            var marketSearck = currMarketName.split('_')[1]
-                            if (marketSearck.indexOf(keyword) != -1) {
+                            if (currMarketName.indexOf(keyword) != -1) {
                                 //过滤后的数组
                                 markets.push(item);
                             }

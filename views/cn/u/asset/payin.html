@@ -219,7 +219,7 @@
                     var nObj = [];
                     objs.forEach(function (coin, index) {
                         var coinName = coin.name;
-                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1) {
+                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1 && coinName !== 'qtum') {
                             nObj.push(coin);
                         }
                     });
