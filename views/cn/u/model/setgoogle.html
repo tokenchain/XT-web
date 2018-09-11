@@ -149,7 +149,7 @@
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
 
-                            var googleAuthUrl = 'otpauth://totp/' + this.userInfo.loginName +'?secret=' + this.googleSecret + '&issuer=ZBG';
+                            var googleAuthUrl = 'otpauth://totp/' + this.userInfo.loginName +'?secret=' + this.googleSecret + '&issuer=XT';
 
                             QRCode.toCanvas(document.getElementById('canvas'), googleAuthUrl,{
                                 width : 150,

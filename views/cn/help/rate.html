@@ -31,7 +31,8 @@
                 <div v-else class="body" v-cloak="">
                     <ul v-for="coin,key in coinMap" v-if="coin.isLegalCoin==0">
                         <li class="coin-name">
-                            <img v-if="coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'" :src="'/src/images/icon/coin/'+coin.name+'.png'"
+                            <img v-if="coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'||coin.name == 'xt'"
+                                 :src="'/src/images/icon/coin/'+coin.name+'.png'"
                                  class="icon-coin">
                             <img v-else :src="'/src/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}</li>
                         <li style="color: #33CC00;" v-if="coin.drawFlag==1"><%= LANG('开放') %></li>

@@ -276,7 +276,6 @@ a, [role="button"] {
             &:hover {
               background: #33336d;
               color: #fff;
-
             }
           }
           .active a {
@@ -1162,6 +1161,51 @@ button {
 .user-center {
   min-height: calc(100vh - 60px);
   padding: 50px 0;
+  .api_panel.user_api {
+    .form-group {
+      .form-control {
+        input[type=text], input[type=password] {
+          background: #302e4c;
+          opacity: 0.6;
+          padding: 0 0 0 50px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          &:focus {
+            border-color: #5a7ff5;
+          }
+        }
+        > img {
+          position: absolute;
+          left: 18px;
+          top: 11px;
+          width: 20px;
+        }
+      }
+    }
+  }
+  .exx-modal-container {
+    background: #1e2235;
+    .exx-modal-body {
+      .form-group {
+        .form-control {
+          input[type=text], input[type=password] {
+            background: #302e4c;
+            opacity: 0.6;
+            padding: 0 0 0 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            &:focus {
+              border-color: #5a7ff5;
+            }
+          }
+          > img {
+            position: absolute;
+            left: 18px;
+            top: 11px;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
 }
 
 //分页

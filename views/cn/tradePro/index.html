@@ -388,7 +388,8 @@
                                     <ul class="list">
                                         <li v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
                                             <p>
-                                                <img v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc'"
+                                                <img
+                                                        v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt'"
                                                      :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
                                                 <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
                                                 <b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b>

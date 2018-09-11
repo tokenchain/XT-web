@@ -2,10 +2,12 @@
     <div class="exx-modal-container">
         <div class="exx-modal-header"><h3><%= LANG('邮箱设置') %></h3></div>
         <div class="exx-modal-body">
+
             <div class="exx-form-box">
                 <div class="form-box">
                     <div class="form-group">
                         <div class="form-control" id="nikeForm">
+                            <img src="/src/images/user.png" class="title" alt="">
                             <input autocomplete="off" placeholder="<%= LANG('邮箱地址') %>" v-model="email" type="text">
                         </div>
                     </div>
@@ -20,12 +22,14 @@
                         <!--</template>-->
                         <!--</label>-->
                         <div class="form-control">
+                            <img src="/src/images/pass.png" class="title" alt="">
                             <input autocomplete="new-password" :placeholder="'<%= LANG('登录密码') %>'" v-model="safePwd"
                                    type="password">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="form-control" style="display: block !important;">
+                            <img src="/src/images/pass.png" class="title" alt="">
                             <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode"
                                    v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)"
                                    maxlength="4" type="text">
@@ -38,6 +42,7 @@
 
                     <div class="form-group">
                         <div class="form-control">
+                            <img src="/src/images/pass.png" class="title" alt="">
                             <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode"
                                    type="text">
                             <send-code :code-type="1"
@@ -52,6 +57,7 @@
 
                     <div class="form-group" v-if="userInfo.mobileAuth == 1">
                         <div class="form-control">
+                            <img src="/src/images/pass.png" class="title" alt="">
                             <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>"
                                    type="text">
                             <send-code :code-type="2"
@@ -67,6 +73,7 @@
 
                     <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1" class="form-group">
                         <div class="form-control">
+                            <img src="/src/images/pass.png" class="title" alt="">
                             <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode"
                                    name="googleCode" type="text">
                         </div>

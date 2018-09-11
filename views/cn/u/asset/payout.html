@@ -429,7 +429,9 @@
                 filterCoin: function (objs) {
                     var _this = this;
                     if (!_this.keyWord) {
-                        return objs;
+                        return objs.filter(function (item, i) {
+                            return item.name !== 'qtum'
+                        })
                     }
 
                     var nObj = [];
