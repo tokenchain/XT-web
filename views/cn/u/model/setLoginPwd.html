@@ -8,6 +8,7 @@
                     <template v-if="setLoginPwdType == 1">
                         <div class="form-group">
                             <div class="form-control" id="nikeForm">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="new-password" placeholder="<%= LANG('当前登录密码') %>"
                                        v-model="oldPassword"
                                        type="password">
@@ -15,6 +16,7 @@
                         </div>
                         <div class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>"
                                        v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
 
@@ -28,18 +30,21 @@
                         </div>
                         <div class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="new-password" placeholder="<%= LANG('确认新登录密码') %>"
                                        v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control" style="display: block !important;">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                                 <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
                                        type="text">
                                 <send-code :code-type="3"
