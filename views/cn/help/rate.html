@@ -1,19 +1,23 @@
+<style>
+    .header {
+        background: #060f22!important;
+    }
+</style>
 <section class="site-wrapper" id="app-help-rate">
-
-    <div class="cd-h1"><%= LANG('网站费率') %></div>
-
-
-
+    <div class="container" style="margin-top: 385px;">
+        <div class="cd-h1">
+            <%= LANG('网站费率') %>
+        </div>
         <div class="container-fluid">
             <div class="cd-table">
                 <div class="head">
-                <ul>
-                    <li class="coin-name"><%= LANG('币种') %></li>
-                    <li><%= LANG('提币状态') %></li>
-                    <li><%= LANG('提币费率') %></li>
-                    <li><%= LANG('单笔提币限额') %></li>
-                    <li><%= LANG('单日提币限额') %></li>
-                </ul>
+                    <ul>
+                        <li class="coin-name"><%= LANG('币种') %></li>
+                        <li><%= LANG('提币状态') %></li>
+                        <li><%= LANG('提币费率') %></li>
+                        <li><%= LANG('单笔提币限额') %></li>
+                        <li><%= LANG('单日提币限额') %></li>
+                    </ul>
                 </div>
                 <div v-if="!loaded" class="cd-loading">
                     <div class="vertical-bars">
@@ -34,7 +38,8 @@
                             <img v-if="coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'||coin.name == 'xt'"
                                  :src="'/src/images/icon/coin/'+coin.name+'.png'"
                                  class="icon-coin">
-                            <img v-else :src="'/src/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}</li>
+                            <img v-else :src="'/src/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}
+                        </li>
                         <li style="color: #33CC00;" v-if="coin.drawFlag==1"><%= LANG('开放') %></li>
                         <li style="color: #e35757;" v-else="coin.drawFlag!=1"><%= LANG('关闭') %></li>
                         <li>{{coin.drawFee}}</li>
@@ -48,30 +53,31 @@
             </div>
 
         </div>
+    </div>
 </section>
 
 <script>
-    require(['vue', 'common/methods'], function(Vue, Methods) {
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         new Vue({
             el: "#app-help-rate",
             data: function () {
                 return {
-                    coinMap:[],
-                    openCoin:{
-                        'bcc':'0.1%',
-                        'bcd':'0',
-                        'btc':'0.1%',
-                        'etp':'0.1%',
-                        'hpy':'0',
-                        'hsr':'0.1%',
-                        'ink':'0.1%',
-                        'qtum':'0.1%'
+                    coinMap: [],
+                    openCoin: {
+                        'bcc': '0.1%',
+                        'bcd': '0',
+                        'btc': '0.1%',
+                        'etp': '0.1%',
+                        'hpy': '0',
+                        'hsr': '0.1%',
+                        'ink': '0.1%',
+                        'qtum': '0.1%'
                     },
-                    loaded:false
+                    loaded: false
                 }
             },
             methods: {
-                getGuideCategories: function() {
+                getGuideCategories: function () {
                     var data = {
                         // webId: 100
                     };
@@ -80,7 +86,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
                         url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
-                        success: function(res) {
+                        success: function (res) {
                             this.loaded = true
                             this.coinMap = res.datas.filter(function (item, i) {
                                 return item.name !== 'qtum'
@@ -90,10 +96,10 @@
                 },
 
             },
-            created: function() {
+            created: function () {
                 this.getGuideCategories()
             }
         })
     })
 </script>
-
+<%-include("../include/footer.html")%>

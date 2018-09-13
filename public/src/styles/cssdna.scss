@@ -74,16 +74,32 @@ img {
 
 .container-fluid {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    /*padding-right: 15px;
+    padding-left: 15px;*/
     margin-right: auto;
     margin-left: auto;
+    box-shadow: 0 0 20px rgba(23,24,55,0.2);
+    background: #fff;
 }
 
 
 .site-wrapper{
+    position: relative;
     min-height: calc(100vh - 60px);
     padding: 50px 0;
+    background: url(../images/rate.jpg) top center no-repeat #f7f7f7;
+    .cd-h1{
+        position: absolute;
+        top: 150px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding-bottom: 50px;
+        border: none;
+        color: #fff;
+        font-size: 50px;
+        font-weight: 500;
+    }
 }
 
 
@@ -111,7 +127,7 @@ img {
                 white-space: nowrap;
             }
             &:hover{
-                color: #fff;
+                color: #7772d8;
             }
             &.active a{
                 color: #fff;

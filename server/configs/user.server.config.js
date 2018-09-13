@@ -28,6 +28,6 @@ module.exports = {
     //用户积分等级
     vipLevel: [0, 8000, 25000, 50000, 200000, 1000000],
     avatarList: ['u001.jpg', 'u002.jpg', 'u003.jpg', 'u004.jpg', 'u005.jpg', 'u006.jpg', 'u007.jpg', 'u008.jpg', 'u009.jpg', 'u010.jpg', 'u011.jpg', 'u012.jpg', 'u013.jpg', 'u014.jpg'],
-    //添加 滑动验证 key  （登录，找回密码，注册）
+    //网易网盾 滑动验证 key  （登录，找回密码，注册）
     captchaId: '525d48dba54a4e49ba0f53c78d8d9128'
 }

@@ -40,11 +40,15 @@ a, [role="button"] {
 //全站Header
 .header {
   position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
   height: 60px;
   background: transparent;
   z-index: 500;
   font-size: 14px;
-  padding: 0 25px;
+  padding: 0 40px;
   line-height: 1;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -54,6 +58,15 @@ a, [role="button"] {
   align-items: center;
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
+  &.active {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    background-color: #262a42;
+  }
   *, :before, :after {
     font: inherit;
     color: inherit;

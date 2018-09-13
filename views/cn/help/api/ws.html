@@ -6,10 +6,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>用户API-WebSocket接口</title>
+    <!--<link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">-->
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
-
     <style type="text/css">
 
+
+        .row{
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .wsApi{
+            position: relative;
+            background: url(/src/images/API.jpg) top center no-repeat #f7f7f7;
+        }
+        .wsApi .title{
+            position: absolute;
+            top: 150px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding-bottom: 50px;
+            border: none;
+            color: #fff;
+            font-size: 50px;
+            font-weight: 500;
+        }
 
         h1, h2, h3, h4, h5, h6 {
             margin: 20px 0 10px;
@@ -291,14 +315,15 @@
         }
     </style>
 
-
 </head>
 
 
 <body>
-<div style="padding: 50px 0">
-    <div class="cd-nav"><ul><li class="active"><a href="/help/restApi"><%= LANG('行情API (WebSocket)') %></a></li><li><a href="/help/httpApi"><%= LANG('交易API') %>(http)</a></li></ul></div>
-<div style="width: 1110px;margin: 0 auto;background: #fff; line-height: 1.8; color: #555;padding: 30px;border-radius: 5px">
+<div class="wsApi" style="padding: 60px 0">
+    <div class="title"><%= LANG('API接口') %></div>
+    <div class="cd-nav"
+         style="margin-top: 385px"><ul><li class="active"><a href="/help/restApi"><%= LANG('行情API (WebSocket)') %></a></li><li><a href="/help/httpApi"><%= LANG('交易API') %>(http)</a></li></ul></div>
+<div style="width: 1110px;margin: 0 auto;background: #fff; line-height: 1.8; color: #555;padding: 30px;border-radius: 5px;box-shadow: 0 0 20px rgba(23,24,55,0.2);">
 <h2 id="toc_0">WebSocketAPI</h2>
 
     <p><%= LANG('xt为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将xt交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：') %><a style="font-size: 18px;text-decoration-line: underline;font-weight: bold" href="javascript:;">829230107</a><%= LANG('，我们将会为您做出最权威的解答') %></p>
@@ -415,6 +440,173 @@
 
 </div>
 </div>
+
+<footer class="footer" id="footer">
+    <!-- <div class="radial-bg radial-bg__footer">
+    </div> -->
+    <!-- End of .radial-bg -->
+    <div class="container">
+        <div class="page-footer">
+            <div class="footer-menu">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="/" class="d-block">
+                                        <span class="logoImg" style="padding-left: 2rem;">
+                                            <img src="<%= STATIC %>/images/logo.png"
+                                                 style="width: 80px; border-radius: 0;" alt="footer logo">
+                                        </span>
+                            <a class="timer" href="#">©2018-2019 XT.com</a>
+                        </a>
+
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5>
+                            <%= LANG('客户服务') %>
+                        </h5>
+                        <ul class="footer-nav">
+
+                            <li>
+                                <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/requests/new" target="_Blank">
+                                    <%= LANG('提交工单') %>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/sections/360001359833-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"
+                                   target="_Blank">
+                                    <%= LANG('常见问题') %>
+                                </a>
+                            </li>
+                            <li>
+                                <a onclick="return false" href="https://zbg.zendesk.com/hc/zh-cn/sections/360001332414-%E5%85%AC%E5%91%8A%E4%B8%AD%E5%BF%83"
+                                   target="_Blank">
+                                    <%= LANG('公告') %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/help/rate" target="_self">
+                                    <%= LANG('费率') %>
+                                </a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/app" target="_self">APP</a>-->
+                            <!--</li>-->
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5>
+                            <%= LANG('工具支持') %>
+                        </h5>
+                        <ul class="footer-nav">
+                            <li>
+                                <a href="/help/restApi" target="_self">API</a>
+                            </li>
+                            <!--xt 不需要-->
+                            <!--<li>
+                                <a href="/apply" target="_self">
+                                    <%= LANG('上币申请') %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/marketglobal" target="_self">
+                                    <%= LANG('全球行情') %>
+                                </a>
+                            </li>-->
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md-2">
+                        <h5>
+                            <%= LANG('条款协议') %>
+                        </h5>
+                        <ul class="footer-nav">
+                            <li>
+                                <a href="/help/privacy">
+                                    <%= LANG('隐私保护ZBG') %>
+                                </a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/help/escape"><%= LANG('ZB换码协议') %></a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                            <!--<%= LANG('团队') %>：<%= LANG('澳大利亚') %>-->
+                            <!--</li>-->
+                            <li>
+                                <a href="/help/agreement">
+                                    <%= LANG('用户协议') %>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- End of .footer-nav -->
+                    </div>
+                    <!-- End of .col -->
+
+                    <div class="col-md">
+                        <h5>
+                            <%= LANG('联系我们') %>
+                        </h5>
+                        <p>support@xt.com</p>
+
+                        <!--<div class="social-icons">
+                            <a href="https://www.facebook.com/ZBG.coin" target="_blank" rel="noopener">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://twitter.com/ZBG08533003" target="_blank" rel="noopener">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/zbglobal/" target="_blank" rel="noopener">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://t.me/joinchat/IGimOg-HcfebqdRcsezpgQ" target="_blank" rel="noopener">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                            <a class="weixin" href="javascript:;" target="_blank" rel="noopener">
+                                <img src="/src/images/zbg/images/WechatIMG260.jpeg"/>
+                                <i class="fab fa-weixin"></i>
+                            </a>
+                        </div>-->
+                        <!-- End of .social-icons -->
+                    </div>
+                    <!-- End of .col -->
+                </div>
+                <!-- End of .row -->
+            </div>
+            <!-- End of .footer-menu -->
+
+            <div class="footer-bottom">
+                <!--<p>©2017-2018-->
+                <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
+                <!--</p>-->
+                <!--<div class="dropdown text-xs-right ml-auto">-->
+                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
+                <!--<span>English</span>-->
+                <!--<i class="fa fa-angle-up"></i>-->
+                <!--</a>-->
+                <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
+                <!--</div>-->
+                <!-- End of .dropdown -->
+            </div>
+            <!-- End of .footer-copyright -->
+        </div>
+        <!-- End of .page-footer -->
+    </div>
+    <!-- End of .container -->
+</footer>
+
 </body>
 
 </html>
+
