@@ -1,88 +1,86 @@
 <%-include("../../component/page_lite.html")%>
 <div class="user-container">
-    <div class="container">
-        <div class="share-panel">
-            <div id="myRecommend">
-                <div class="share-info">
-                    <h2>  <%= LANG('您的推荐地址如下') %> </h2>
-                    <p>  <%= LANG('扫码或者拷贝地址到您的朋友圈Z') %></p>
-                    <div class="info">
-                        <div class="code">
-                            <canvas class="codeimg" id="canvas"></canvas>
-                        </div>
-                        <div class="input">
-                            <input type="text" :value="reommendUrl" id="commendInput" style="margin-left: 30px">
-                            <a href="javascript:void(0)"  @click="copyUrl()"><%= LANG('复制链接地址') %>   </a>
-                        </div>
+    <div class="share-panel">
+        <div id="myRecommend">
+            <div class="share-info">
+                <h2> <%= LANG('您的推荐地址如下') %> </h2>
+                <p style="line-height: 2;">1.扫码或者拷贝地址到您的朋友圈、微博，用户注册后系统可自动跟踪您推荐的用户<br>2.推荐人可得到被邀请人交易手续费10%的佣金按照每天均价折算成at返还。<br>3.返还佣金会在第二天和挖矿收入一起发放。</p>
+                <div class="info">
+                    <div class="code">
+                        <canvas class="codeimg" id="canvas"></canvas>
+                    </div>
+                    <div class="input">
+                        <input type="text" :value="reommendUrl" id="commendInput" style="margin-left: 30px">
+                        <a href="javascript:void(0)" @click="copyUrl()"><%= LANG('复制链接地址') %> </a>
                     </div>
                 </div>
-                <div class="assets-record" v-cloak="">
-                    <div class="assets-list">
-                        <div class="head">
-                            <h2><%= LANG('我推荐的人') %></h2>
-                        </div>
-                        <div class="body">
-                            <ul class="title">
-                                <li>
-                                    <p><%= LANG('用户名') %></p>
-                                    <p><%= LANG('注册时间') %></p>
-                                    <p><%= LANG('是否有效') %></p>
-                                    <p><%= LANG('TA推荐的人数') %></p>
-                                </li>
-                            </ul>
-                            <ul class="list">
-                                <li v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
-                                    <p>{{recommend.loginName}}</p>
-                                    <p>{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</p>
-                                    <p v-if="recommend.isTrue"><%= LANG('是') %></p>
-                                    <p v-else><%= LANG('否') %></p>
-                                    <p>{{recommend.recommendCount}}</p>
-                                </li>
+            </div>
+            <div class="assets-record" v-cloak="">
+                <div class="assets-list">
+                    <div class="head">
+                        <h2><img src="/src/images/mytuijian.png" alt=""><%= LANG('我推荐的人') %></h2>
+                    </div>
+                    <div class="body">
+                        <ul class="title">
+                            <li>
+                                <p><%= LANG('用户名') %></p>
+                                <p><%= LANG('注册时间') %></p>
+                                <p><%= LANG('是否有效') %></p>
+                                <p><%= LANG('TA推荐的人数') %></p>
+                            </li>
+                        </ul>
+                        <ul class="list">
+                            <li v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
+                                <p>{{recommend.loginName}}</p>
+                                <p>{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</p>
+                                <p v-if="recommend.isTrue"><%= LANG('是') %></p>
+                                <p v-else><%= LANG('否') %></p>
+                                <p>{{recommend.recommendCount}}</p>
+                            </li>
 
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
-
-                <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getmyRecommend"></page-lite>
             </div>
 
-            <!--<div class="assets-record">-->
-                <!--<div class="assets-list">-->
-                    <!--<div class="head">-->
-                        <!--<h2><%= LANG('推荐奖励记录') %></h2>-->
-                    <!--</div>-->
-                    <!--<div class="body">-->
-                        <!--<ul class="title">-->
-                            <!--<li>-->
-                                <!--<p><%= LANG('币种') %></p>-->
-                                <!--<p><%= LANG('时间') %></p>-->
-                                <!--<p><%= LANG('类型') %></p>-->
-                                <!--<p><%= LANG('奖励金额') %></p>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                        <!--<ul class="list">-->
-                            <!--<li>-->
-                                <!--<p>ZT</p>-->
-                                <!--<p>2018-07-01</p>-->
-                                <!--<p>10000</p>-->
-                                <!--<p>10000</p>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getmyRecommend"></page-lite>
         </div>
+
+        <!--<div class="assets-record">-->
+        <!--<div class="assets-list">-->
+        <!--<div class="head">-->
+        <!--<h2><%= LANG('推荐奖励记录') %></h2>-->
+        <!--</div>-->
+        <!--<div class="body">-->
+        <!--<ul class="title">-->
+        <!--<li>-->
+        <!--<p><%= LANG('币种') %></p>-->
+        <!--<p><%= LANG('时间') %></p>-->
+        <!--<p><%= LANG('类型') %></p>-->
+        <!--<p><%= LANG('奖励金额') %></p>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--<ul class="list">-->
+        <!--<li>-->
+        <!--<p>ZT</p>-->
+        <!--<p>2018-07-01</p>-->
+        <!--<p>10000</p>-->
+        <!--<p>10000</p>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 
 <!--<script>-->
-    <!--function copyUrl() {-->
-        <!--var Url = document.getElementById("commendInput");-->
-        <!--Url.select(); // 选择对象-->
-        <!--document.execCommand("Copy"); // 执行浏览器复制命令-->
-        <!--alert("复制成功！")-->
-    <!--}-->
+<!--function copyUrl() {-->
+<!--var Url = document.getElementById("commendInput");-->
+<!--Url.select(); // 选择对象-->
+<!--document.execCommand("Copy"); // 执行浏览器复制命令-->
+<!--alert("复制成功！")-->
+<!--}-->
 <!--</script>-->
 
 
@@ -222,7 +220,7 @@
                 getDateTime: function (timestamp, format) {
                     return Methods.getDateTime(timestamp, format)
                 },
-                copyUrl:function () {
+                copyUrl: function () {
                     var Url = document.getElementById("commendInput");
                     Url.select(); // 选择对象
                     document.execCommand("Copy"); // 执行浏览器复制命令

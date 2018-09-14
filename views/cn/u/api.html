@@ -1,7 +1,6 @@
 
 <div id="user-api" class="api_panel user_api">
-    <div class="container">
-        <div class="first_open" v-cloak>
+    <div class="first_open" v-cloak>
             <h2><%= LANG('API私有交易设置') %></h2>
             <a href="/help/restApi" target="_blank"><%= LANG('查看【API文档】') %></a>
             <p class="tip" v-if="!apiStatusisOpen"><%= LANG('通过验证后,开启API') %></p>
@@ -47,7 +46,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <%-include("../component/send_code/index.html")%>
 <script>

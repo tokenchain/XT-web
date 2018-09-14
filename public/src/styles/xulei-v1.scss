@@ -4402,7 +4402,7 @@ p.exx-prompt {
   margin-left: 10px;
 }
 
-.safe-panel .auth_bg {
+/*.safe-panel .auth_bg {
   background: #F6F8FF;
   border-radius: 2px;
   height: 26px !important;
@@ -4651,14 +4651,14 @@ p.exx-prompt {
         color: #FD9800;
       }
     }
-    /*&:hover{
+    !*&:hover{
            background: #FFFCF8;
            border: 2px solid #FCE5C3;
            .step,.text
            {
                color: #FD9800;
            }
-    }*/
+    }*!
   }
 }
 
@@ -4674,7 +4674,7 @@ p.exx-prompt {
 .safe-panel .add-account p {
   color: #aaa;
   margin-top: 8px !important
-}
+}*/
 
 .user-basic-info {
   .base-li {
@@ -7765,7 +7765,7 @@ body.notice-open .sidebar-area {
   }
 }
 
-.safe-panel h2 {
+/*.safe-panel h2 {
   font-size: 14px;
   margin-bottom: 20px;
   color: #7e78de;
@@ -7879,10 +7879,11 @@ body.notice-open .sidebar-area {
   a {
     margin-left: auto;
   }
-}
+}*/
 
 .assets-panel {
   font-size: 14px;
+  width: 100%;
 }
 
 .total-assets {

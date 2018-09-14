@@ -5,7 +5,7 @@
     }
     .totalcoin li{
         margin: 5px;
-
+        background: #ddd;
     }
     .totalcoin li a{
         display: block;
@@ -45,7 +45,7 @@
                 <p class="layer-9"></p>
             </div>
         </div>
-        <div v-else class="container">
+        <div v-else>
             <ul class="totalcoin" v-cloak>
                 <li v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin,'button-disabled': item.drawFlag != 1,'button-hover-active': item.drawFlag == 1}">
                     <a :href="'/u/payout/' + item.name" v-if="item.drawFlag && item.isLegalCoin!=1">{{item.name.toUpperCase()}}</a>

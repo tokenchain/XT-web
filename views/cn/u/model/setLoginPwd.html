@@ -58,6 +58,7 @@
                         </div>
                         <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1" class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode"
                                        name="googleCode" type="text">
                             </div>

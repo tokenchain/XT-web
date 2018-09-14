@@ -5,7 +5,7 @@
     }
     .totalcoin li{
         margin: 5px;
-
+        background: #ddd;
     }
     .totalcoin li a{
         display: block;
@@ -36,7 +36,7 @@
             <p class="layer-9"></p>
         </div>
     </div>
-    <div v-show="loaded" class="container">
+    <div v-show="loaded">
         <ul class="totalcoin" v-cloak>
             <li role="button" v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin,'button-disabled': item.rechargeFlag != 1,'button-hover-active': item.rechargeFlag == 1}">
                 <template v-if="item.rechargeFlag == 1">

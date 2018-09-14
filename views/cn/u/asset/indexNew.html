@@ -327,13 +327,13 @@
             <p class="layer-9"></p>
         </div>
     </div>
-    <div v-else class="container">
-        <div class="assets-panel" v-cloak="" v-if="loaded">
+    <div v-else>
+        <div class="assets-list" v-cloak="" v-if="loaded">
             <!--<div class="total-assets">-->
             <!--<h3><%= LANG('账户资产价值') %></h3>-->
             <!--<p class="num">{{allTotalAsset}} USD</p>-->
             <!--</div>-->
-            <div class="cd-table dark">
+            <div class="cd-table">
 
                 <div class="filter">
                     <search-box v-model="keyWord"></search-box>

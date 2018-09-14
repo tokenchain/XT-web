@@ -245,6 +245,7 @@
                         });
                     }
                     if (!this.isLogin) {
+                        console.log(11111111111111)
                         return showError("<%- LANG('请先登录再进行交易') %>");
                     }
                     /*if(this.currentMarket == 'bot_qtum'){
@@ -272,7 +273,8 @@
                             return showError("<%= LANG('请输入正确的委托数量') %>");
                         }
                         if (this.inputNumber < parseFloat(this.marketConfig.minAmount)) {
-                            return showError("<%= LANG('请输入正确的委托数量') %>");
+                            console.log("<%= LANG('最小委托数量为') %>:" + parseFloat(this.marketConfig.minAmount))
+                            return showError("<%= LANG('最小委托数量为') %>:" + parseFloat(this.marketConfig.minAmount));
                         }
 
                             //判断是否低于市场价

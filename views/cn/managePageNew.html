@@ -7,13 +7,15 @@
 <body>
 <%-include("include/head.html")%>
 <section class="user-center">
-            <%-include("u/asset/menu.html")%>
-            <% try{ %>
-            <%-include(templateMain)%>
-            <% }catch(err){ %>
-            <%- err%>
-            <%-include("include/error.html")%>
-            <% } %>
+    <div class="container">
+        <%-include("u/asset/menu.html")%>
+        <% try{ %>
+        <%-include(templateMain)%>
+        <% }catch(err){ %>
+        <%- err%>
+        <%-include("include/error.html")%>
+        <% } %>
+    </div>
 </section>
 <%-include("chat/chat_new.html")%>
 <%-include("include/footInit.html")%>

@@ -7,6 +7,7 @@
 <body>
 <%-include("include/head.html")%>
 <section class="user-center">
+        <div class="container">
             <%-include("u/asset/menu.html")%>
             <% try{ %>
             <%-include(templateMain)%>
@@ -14,6 +15,7 @@
             <%- err%>
             <%-include("include/error.html")%>
             <% } %>
+        </div>
 </section>
 
 </body>
