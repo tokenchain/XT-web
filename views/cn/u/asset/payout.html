@@ -80,6 +80,7 @@
                                     <a role="button" @click.stop="openEditAddress('dele',record)"><%= LANG('删除') %></a>
                                 </p>
                             </li>
+
                             <li class="norecord" v-if="address.length == 0"><%= LANG('没有记录')%></li>
                         </ul>
                     </div>
@@ -203,7 +204,7 @@
             </div>
             <div class="assets-record" v-cloak="" v-if="isLegalCoin != 1">
                 <div class="assets-list">
-                    <div class="head"><h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2></div>
+                    <div class="head" style="padding: 20px;"><h2><%= coin.toUpperCase()%><%= LANG('提币记录') %></h2></div>
                     <div class="body">
                         <ul class="title">
                             <li>

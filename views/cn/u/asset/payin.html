@@ -77,7 +77,7 @@
             <div class="assets-address" v-else>
                     <p v-if="payin.address == ''"><a :data-clipboard-text="payin.address" @click="getPayinAddress" class="copyAddress" style="background: #5f55ff;padding: 15px 35px;font-size: 14px;"><%= LANG('获取钱包地址')%></a></p>
 
-                    <div v-if="payin.address != ''">
+                    <div v-if="payin.address != ''" style="color: #666;">
                         <%= coin.toUpperCase()%><%= LANG('钱包地址')%>
                         <p class="address" v-text="payin.address"></p><a :data-clipboard-text="payin.address" class="copyAddress"><%= LANG('复制钱包地址')%></a>
                     </div>
@@ -95,7 +95,7 @@
 
             <div class="assets-record" v-cloak="">
                 <div class="assets-list">
-                    <div class="head"><h2><%= coin.toUpperCase()%><%= LANG('充值记录')%></h2></div>
+                    <div class="head"><h2 style="padding: 20px;"><%= coin.toUpperCase()%><%= LANG('充值记录')%></h2></div>
                     <div class="body">
                         <ul class="title">
                             <li>

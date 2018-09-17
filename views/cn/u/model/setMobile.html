@@ -9,12 +9,14 @@
         </div>
         <div class="form-box">
           <div class="form-group">
+            <label class="control-label"><%= LANG('原手机号码') %>：</label>
             <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('原手机号码') %>" :value="coverPhone(userInfo.mobile)" type="text" readonly>
               <a class="code-num" href="javascript:;" @click="skipOne"><%= LANG('原手机已遗失？') %></a>
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label"><%= LANG('图形验证码') %>：</label>
             <div class="form-control" style="display: block !important;">
               <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="oneImgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
               <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
@@ -22,6 +24,7 @@
           </div>
 
           <div class="form-group">
+            <label class="control-label"><%= LANG('原手机验证码') %>：</label>
             <div class="form-control">
               <input autocomplete="off" placeholder="<%= LANG('原手机验证码') %>" maxlength="6" v-model="oldMobileCode" type="number" >
               <send-code :code-type="2"

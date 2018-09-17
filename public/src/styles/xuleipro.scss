@@ -286,6 +286,8 @@ a, [role="button"] {
             position: relative;
             padding: 15px 20px;
             color: #a3adc7;
+            font-size: 14px;
+            text-decoration: none;
             &:hover {
               background: #33336d;
               color: #fff;
@@ -294,6 +296,7 @@ a, [role="button"] {
           .active a {
             color: #fff;
             background: #33336d;
+            text-decoration: none;
           }
         }
 
@@ -518,7 +521,7 @@ $link-color: #8b8bec;
     }
     .code-img {
       position: absolute;
-      right: 0;
+      right: 1px;
       top: 0;
       bottom: 0;
       @extend %display-flex;
@@ -585,7 +588,7 @@ button {
   color: #fff;
   z-index: 1;
   overflow: hidden;
-  background-color: #6a6ada;
+  background-color: #5a7ff5;
 }
 
 .form-other {
@@ -934,6 +937,9 @@ button {
     //padding: 12px 20px;
     background: #f5f5f5;
     border-radius: 5px 5px 0 0;
+    &.myRecommend-head {
+      padding: 10px;
+    }
     h2 {
       font-size: 14px;
       //padding-left: 10px;
@@ -987,7 +993,12 @@ button {
   }
   .body {
     border-radius: 0 0 5px 5px;
-    overflow: hidden;
+    //overflow: hidden;
+    &.myRecommend-body {
+      p {
+        color: #666 !important;
+      }
+    }
     li {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -1022,7 +1033,7 @@ button {
   .list li {
     p {
       height: 60px;
-      color: #dcdce4;
+      color: #666;
       &:first-child {
         font-size: 16px;
       }
@@ -1038,7 +1049,7 @@ button {
   }
 }
 
-//账号
+//账号  个人中心
 .safe-panel {
   h2 {
     font-size: 14px;
@@ -1057,7 +1068,7 @@ button {
     margin-bottom: 40px;
     a {
       display: inline-block;
-      background: #6a6ada;
+      background: #5a7ff5;
       color: #fff;
       border-radius: 30px;
       padding: 12px 0;
@@ -1196,7 +1207,7 @@ button {
           top: 11px;*/
 
           display: inline-block;
-          background: #6a6ada;
+          background: #5a7ff5;
           color: #fff;
           border-radius: 30px;
           //padding: 12px 0;
@@ -1427,45 +1438,96 @@ button {
   }
   .api_panel.user_api {
     .form-group {
+      display: flex;
+      .control-label {
+        line-height: 40px;
+        font-family: MicrosoftYaHei-Bold;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #666666;
+        width: 29%;
+        text-align: right;
+      }
       .form-control {
+        flex: 1;
         input[type=text], input[type=password] {
-          background: #302e4c;
-          opacity: 0.6;
-          padding: 0 0 0 50px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 0 0 0 35px;
+          height: 40px;
+          border-radius: 4px;
+          border: solid 1px #cccccc;
+          color: #666;
           &:focus {
             border-color: #5a7ff5;
           }
         }
         > img {
           position: absolute;
-          left: 18px;
+          left: 10px;
           top: 11px;
-          width: 20px;
+          width: 15px;
         }
+      }
+    }
+    .form-button {
+      button {
+        width: 100px;
+        height: 40px;
       }
     }
   }
   .exx-modal-container {
-    background: #1e2235;
+    background: #fff;
+    .exx-modal-header {
+      height: 60px;
+      background-color: #5a7ff5;
+      h3 {
+        font-size: 18px;
+        color: #fff;
+      }
+    }
     .exx-modal-body {
+      .exx-form-box{
+        margin-left: 10px;
+      }
       .form-group {
+        display: flex;
+        .control-label {
+          line-height: 40px;
+          font-family: MicrosoftYaHei-Bold;
+          font-size: 14px;
+          font-weight: 500;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #666666;
+          width: 29%;
+          text-align: right;
+        }
         .form-control {
+          flex: 1;
           input[type=text], input[type=password] {
-            background: #302e4c;
-            opacity: 0.6;
-            padding: 0 0 0 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 0 0 35px;
+            height: 40px;
+            border-radius: 4px;
+            border: solid 1px #cccccc;
+            color: #666;
             &:focus {
               border-color: #5a7ff5;
             }
           }
           > img {
             position: absolute;
-            left: 18px;
+            left: 10px;
             top: 11px;
-            width: 20px;
+            width: 15px;
           }
+        }
+      }
+      .form-button {
+        button {
+          width: 100px;
+          height: 40px;
         }
       }
     }
@@ -1484,7 +1546,7 @@ button {
     //width: 74px;
     height: 38px;
     color: #999999;
-    background: rgba(239,239,239,1);
+    background: rgba(239, 239, 239, 1);
     border-radius: 4px;
     &:hover {
       border-color: $button-color;

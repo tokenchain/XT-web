@@ -1460,11 +1460,11 @@ svg.icon {
   z-index: 1;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  color: #bbb
+  color: #fff
 }
 
 .exx-modal-wrap .closebutton:hover {
-  color: #888
+  color: #ccc
 }
 
 .exx-modal-wrap .closebutton:after, .exx-modal-wrap .closebutton:before {
@@ -7957,7 +7957,7 @@ body.notice-open .sidebar-area {
 
 .assets-address .address {
   font-size: 26px;
-  color: #fff;
+  color: #000;
   margin: 20px 0;
   word-wrap: break-word;
 }

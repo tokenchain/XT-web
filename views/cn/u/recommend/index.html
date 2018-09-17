@@ -15,12 +15,12 @@
                     </div>
                 </div>
             </div>
-            <div class="assets-record" v-cloak="">
+            <div class="assets-record">
                 <div class="assets-list">
-                    <div class="head">
+                    <div class="head myRecommend-head">
                         <h2><img src="/src/images/mytuijian.png" alt=""><%= LANG('我推荐的人') %></h2>
                     </div>
-                    <div class="body">
+                    <div class="body myRecommend-body">
                         <ul class="title">
                             <li>
                                 <p><%= LANG('用户名') %></p>
@@ -29,7 +29,7 @@
                                 <p><%= LANG('TA推荐的人数') %></p>
                             </li>
                         </ul>
-                        <ul class="list">
+                        <ul class="list" v-cloak="">
                             <li v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
                                 <p>{{recommend.loginName}}</p>
                                 <p>{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</p>
@@ -37,7 +37,6 @@
                                 <p v-else><%= LANG('否') %></p>
                                 <p>{{recommend.recommendCount}}</p>
                             </li>
-
                         </ul>
                     </div>
                 </div>

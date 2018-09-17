@@ -3,10 +3,10 @@
             <li class="<%= PATH.indexOf('/u/asset') != -1 ? 'active' : ''%>">
                 <a href="/u/asset"><%= LANG('资金')%></a>
             </li>
-            <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
+            <li class="<%= PATH.indexOf('/u/payin') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
                 <a href="/u/payin"><%= LANG('充币')%></a>
             </li>
-            <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1" v-cloak="">
+            <li class="<%= PATH.indexOf('/u/payout') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
                 <a href="/u/payout"><%= LANG('提币')%></a>
             </li>
             <li class="<%= PATH.indexOf('/u/bill') != -1 ? 'active' : ''%>">

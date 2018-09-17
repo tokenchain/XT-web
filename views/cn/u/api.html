@@ -9,19 +9,22 @@
             <div v-if="showForm" v-cloak class="api_input">
                 <div class="form-group">
                     <div class="form-control" style="display: block !important;">
+                        <img src="/src/images/pass.png" class="title" alt="">
                         <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                         <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-control">
-                    <input placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
-                    <send-code class="hq btn-five btn-sm" :code-type="3" :user-name="loginUser.loginName"  :bus-type="31"  :img-code="imgCode" :img-code-id="imgCodeId" :error-fun="handleRefreshImgcode"></send-code>
+                        <img src="/src/images/pass.png" class="title" alt="">
+                        <input placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
+                        <send-code class="hq btn-five btn-sm" :code-type="3" :user-name="loginUser.loginName"  :bus-type="31"  :img-code="imgCode" :img-code-id="imgCodeId" :error-fun="handleRefreshImgcode"></send-code>
                     </div>
                 </div>
                 <p v-if="loginUser.userType == 2"><%= LANG('温馨提示：验证码将发送至主账号的手机或邮箱，请联系主账号获取。') %></p>
                 <div class="form-group" v-if="loginUser.googleAuth != '0'">
                     <div class="form-control">
+                        <img src="/src/images/pass.png" class="title" alt="">
                         <input placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" type="text" maxlength="6" @keyup="googleCode=googleCode.replace(/[^\d]/g,'')">
                     </div>
                 </div>
