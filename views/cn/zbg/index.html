@@ -857,10 +857,10 @@
                         <div @click="changeMarketsTab('hot')" class="market-nav" :class="{active:navActive=='hot'}">
                             <%= LANG('全部')%>
                         </div>
-                        <div @click="changeMarketsTab('qc')" class="market-nav" :class="{active:navActive=='qc'}">
+                        <!--<div @click="changeMarketsTab('qc')" class="market-nav" :class="{active:navActive=='qc'}">
                             QC
                             <%= LANG('区')%>
-                        </div>
+                        </div>-->
                         <div @click="changeMarketsTab('usdt')" class="market-nav" :class="{active:navActive=='usdt'}">
                             USDT
                             <%= LANG('区')%>
@@ -1940,6 +1940,9 @@
                     }
                     // console.log('markets: ' + markets)
                     markets.sort(function (x, y) {
+                        console.log(x, y)
+                        var xt_x = x.market.split('_')[0]
+                        var xt_y = y.market.split('_')[0]
                         if (sortBy == 'rateUp') {
                             // return x.rate - y.rate;
                             return x.rate - y.rate;

@@ -91,6 +91,7 @@ body.trading-dark {
         display: none;
         z-index: 9;
         .tabBox {
+          display: flex;
           li {
             float: left;
             width: 33.33%;
@@ -98,6 +99,7 @@ body.trading-dark {
             padding: 12px 5px;
             background: #1d1d34;
             cursor: pointer;
+            flex: 1;
             &.active {
               background: #29295f;
             }

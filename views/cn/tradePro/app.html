@@ -102,17 +102,19 @@
                     cancelEntrustList: [],
                     isRepeat: false,
                     serverTime: '',
-                    totalnum:'',
+                    totalnum: '',
                     //websocket消息 计算属性
                     // klineData: '',
                     // entrustData: '',
                     // tradeData: '',
-                    loading:false,
-                    cnyprice:[],//转换价格
-                    usdprice:[],//转换价格
-                    selectlan:false,
-                    hoverActive: 'qc',  //qc  usdt  btc   悬浮激活样式
+                    loading: false,
+                    cnyprice: [],//转换价格
+                    usdprice: [],//转换价格
+                    selectlan: false,
+                    hoverActive: 'usdt',  //qc  usdt  btc   悬浮激活样式
                     allMarkets: null,
+                    //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
+                    sortBy: 'lastPrice',
                 }
             },
             computed: {
@@ -124,7 +126,7 @@
                         this.allMarket.forEach(function (market, index) {
                             var ms = ''
                             if (market.market) {
-                                ms =  market.market.split('_')
+                                ms = market.market.split('_')
                             }
                             if (ms.length > 1) {
                                 ms = ms[1]
@@ -136,7 +138,7 @@
                             }
                         })
                     }
-                    return res;
+                    return this.doSortMarket(res);
                 },
                 /*displayMarkets: function() {
                     var type = this.hoverActive;
@@ -541,8 +543,8 @@
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             //币种对qc的价格
-                            _this.cnyprice =  _this.assistPrice.cny[mname]
-                            _this.usdprice =  _this.assistPrice.usd[mname]
+                            _this.cnyprice = _this.assistPrice.cny[mname]
+                            _this.usdprice = _this.assistPrice.usd[mname]
                             try {
                                 _this.$refs.dishPart.flushAssistPrice();
                                 _this.$refs.dealRecord.flushAssistPrice();
@@ -832,7 +834,7 @@
                     });
 
                 },
-                getMaxDepth:function(depth) {
+                getMaxDepth: function (depth) {
                     var maxNum = 0;
                     //求卖单最大深度值
                     for (var i = 0; i < depth.length; i++) {
@@ -843,11 +845,11 @@
                     return maxNum;
                 },
                 //获取 全量数据
-                getDishListData:function (marketId) {
+                getDishListData: function (marketId) {
                     var _this = this;
                     Methods.ajax({
-                        type:"get",
-                        url:  DISH_API + "/api/data/v1/entrusts?marketId=" + marketId,
+                        type: "get",
+                        url: DISH_API + "/api/data/v1/entrusts?marketId=" + marketId,
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
@@ -862,9 +864,9 @@
                             }
                             setTimeout(function () {
                                 _this.getDishListData(marketId)
-                            },30000)
+                            }, 30000)
                         }.bind(this),
-                        error : function(){
+                        error: function () {
                         }
                     });
                 },
@@ -874,7 +876,7 @@
                 mixDishArray: function (res) {
                     var _this = this;
                     //增量更新的合并盘口方法
-                    var mixArray = function (oldArray, newArray,type) {
+                    var mixArray = function (oldArray, newArray, type) {
                         var m = new top.hashMap();
                         var n = new top.hashMap();
                         var resultArray = [];
@@ -908,14 +910,14 @@
                          *  时间:2018/8/10 17:46
                          *  Email:csz.seven@gmail.com
                          *  描述:控制盘口档位大小为50
-                        */
+                         */
                         // console.log(resultArray)
                         // resultArray.reverse()
-                        if (type == "Ask"){
+                        if (type == "Ask") {
                             resultArray.splice(50)
                             return resultArray.reverse();
 
-                        }else{
+                        } else {
                             resultArray.reverse().splice(50)
                             return resultArray
                         }
@@ -931,7 +933,7 @@
                      *  时间:2018/8/10 16:41
                      *  Email:csz.seven@gmail.com
                      *  描述:此处多余逻辑已去除
-                    */
+                     */
                     result.datas.asks = res.asks;
                     result.datas.bids = res.bids;
 
@@ -953,9 +955,9 @@
                          *  时间:2018/8/10 16:43
                          *  Email:csz.seven@gmail.com
                          *  描述:增量-多余逻辑已去除
-                        */
-                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks,"Ask");
-                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids,"Bid");
+                         */
+                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
+                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
                         //_this.lastDepth.asks = resultAsksArray;
                         //_this.lastDepth.bids = resultBidsArray;
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
@@ -1453,6 +1455,7 @@
                     if ((tab != 'user' && sortBy == '') || markets.length == 0) {
                         return markets;
                     }
+                    console.log(sortBy, 1111111111)
                     markets.sort(function (x, y) {
                         if (sortBy == 'rateUp') {
                             return x.rate - y.rate;
@@ -1472,22 +1475,24 @@
                             return parseFloat(_this.getPriceByAssist(y.lastPrice, y.market, 'usd')) - parseFloat(_this.getPriceByAssist(x.lastPrice, x.market, 'usd'));
                         } else if (tab == 'user') {
                             return y.sortId - x.sortId;
+                        } else if (sortBy == 'lastPrice') {
+                            return y.lastPrice - x.lastPrice;
                         }
 
                     });
 
                     return markets;
                 },
-                Refresh(){
+                Refresh() {
                     this.loading = true
                     this.getUserEntrustList()
                     this.getUserEntrustRecordFromCache()
                 },
-                selectCoin(){
-                    var lan =  Methods.getCookie(ENV + 'lan');
-                    if (lan == 'en'){
+                selectCoin() {
+                    var lan = Methods.getCookie(ENV + 'lan');
+                    if (lan == 'en') {
                         this.selectlan = false
-                    }else{
+                    } else {
                         this.selectlan = true
                     }
                 }
@@ -1538,10 +1543,10 @@
                             })
                         }
                     })
-                    var masketAll=_this.marketConfig;
-                    var curmarket=_this.currentMarket;
-                    var openTime='';
-                    var serverTime="";
+                    var masketAll = _this.marketConfig;
+                    var curmarket = _this.currentMarket;
+                    var openTime = '';
+                    var serverTime = "";
                     _this.getServerTime(function (data) {
                         serverTime = data;
                         for (var i = 0; i < masketAll.length; i++) {
@@ -1550,17 +1555,17 @@
                             }
                         }
                         if (serverTime < openTime) {
-                            JuaBox.info("<%= LANG('未到开盘时间') %>",function () {
-                                window.location.href="/";
+                            JuaBox.info("<%= LANG('未到开盘时间') %>", function () {
+                                window.location.href = "/";
                             });
                             setTimeout(function () {
-                                window.location.href="/";
-                            },3000);
+                                window.location.href = "/";
+                            }, 3000);
                         }
                     })
                     setTimeout(function () {
                         _this.getDishListData(_this.currentMarketId)
-                    },30000)
+                    }, 30000)
 
                 });
             },
@@ -1574,11 +1579,11 @@
             },
             filters: {
                 capitalizecny: function (value) {
-                    if (!value || value == null || value == 0 || value== NaN ) return '--'
+                    if (!value || value == null || value == 0 || value == NaN) return '--'
                     return Number(value).toFixed(2)
                 },
                 capitalizeusd: function (value) {
-                    if (!value || value == null || value == 0 || value== NaN) return '--'
+                    if (!value || value == null || value == 0 || value == NaN) return '--'
                     return Number(value).toFixed(4)
                 },
             }
