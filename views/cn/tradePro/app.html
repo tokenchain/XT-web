@@ -1452,10 +1452,12 @@
                     var _this = this;
                     var sortBy = this.sortBy;
                     var tab = this.currentTab;
+                    var xtArr = markets.filter(function (item, i) {
+                        return item.market.indexOf('xt') !== -1
+                    })
                     if ((tab != 'user' && sortBy == '') || markets.length == 0) {
                         return markets;
                     }
-                    console.log(sortBy, 1111111111)
                     markets.sort(function (x, y) {
                         if (sortBy == 'rateUp') {
                             return x.rate - y.rate;
@@ -1481,7 +1483,7 @@
 
                     });
 
-                    return markets;
+                    return xtArr.concat(markets);
                 },
                 Refresh() {
                     this.loading = true
