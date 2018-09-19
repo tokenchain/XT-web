@@ -1342,8 +1342,31 @@ button {
       box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       background: #ffffff;
       margin-right: 20px;
+      &.account {
+        > li {
+          > a {
+            padding: 26px 20px 26px 46px;
+          }
+        }
+      }
       > li {
-        margin-bottom: 15px;
+        //margin-bottom: 15px;
+        position: relative;
+        > i {
+          position: absolute;
+          top: 25px;
+          left: 20px;
+          font-size: 16px;
+          color: #666666;
+          &.active {
+            color: #fff;
+          }
+          &.arrow-icon {
+            top: 25px;
+            left: unset;
+            right: 20px;
+          }
+        }
         > a {
           font-family: MicrosoftYaHei-Bold;
           display: block;
@@ -1360,41 +1383,6 @@ button {
           &:hover {
             color: #5a7ff5;
           }
-          &.User_default {
-            i {
-              color: #fff;
-            }
-            //background: #5a7ff5 url("/src/images/user1_active.png") 20px center / 16px no-repeat !important;
-          }
-          &.User_active {
-
-            //background: url("/src/images/user1.png") 20px center / 16px no-repeat !important;
-          }
-          &.api1_default {
-            i {
-              color: #fff;
-            }
-            //background: #5a7ff5 url("/src/images/api1_active.png") 20px center / 16px no-repeat !important;
-          }
-          &.api1_active {
-            //background: url("/src/images/api1.png") 20px center / 16px no-repeat !important;
-          }
-          &.Referee_default {
-            padding: 26px 15px;
-            i {
-              color: #fff;
-              font-size: 22px;
-            }
-            //background: #5a7ff5 url("/src/images/Referee_active.png") 20px center / 22px no-repeat !important;
-          }
-          &.Referee_active {
-            padding: 26px 15px;
-            i {
-              font-size: 22px;
-              padding-right: 6px;
-            }
-            //background: url("/src/images/Referee.png") 20px center / 22px no-repeat !important;
-          }
         }
         &.active {
           margin-left: 0;
@@ -1405,16 +1393,41 @@ button {
             font-weight: 500;
           }
         }
-        ul.second-level-box {
-          .second-level-item {
-            padding: 22px 46px;
-            &.active {
-              color: #5A7FF5;
-            }
-            a {
-              font-weight: Bold;
+        ul.nav-children {
+          transition: all .2s ease-in-out;
+          &.none{
+            display: none;
+          }
+          li {
+            //margin-bottom: 15px;
+            //position: relative;
+            > a {
+              display: block;
+              padding: 18px 20px 18px 46px;
+              font-family: MicrosoftYaHei-Bold;
+              font-size: 12px;
+              font-weight: 600;
+              font-stretch: normal;
+              letter-spacing: 0px;
+              color: #666;
+              i {
+                color: #666;
+                padding-right: 10px;
+              }
+              &:hover {
+                color: #5a7ff5;
+              }
               &.active {
-                color: #5A7FF5;
+                color: #5a7ff5;
+              }
+            }
+            &.active {
+              margin-left: 0;
+              > a {
+                color: $white-color;
+                //background: rgba(36, 185, 255, 0.08);
+                background: #5a7ff5;
+                font-weight: 500;
               }
             }
           }
@@ -1488,7 +1501,7 @@ button {
       }
     }
     .exx-modal-body {
-      .exx-form-box{
+      .exx-form-box {
         margin-left: 10px;
       }
       .form-group {

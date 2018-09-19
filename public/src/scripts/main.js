@@ -13,6 +13,8 @@ require.config({
         'components': '../src/scripts/components',
         // 2018年04月13日->二维码生成
         'qrcode': ENV == 'w' ? 'qrcode/build/qrcode' : 'qrcode/build/qrcode',
+        'bootstrap-datepicker': 'bootstrap-datepicker/js/bootstrap-datepicker',
+        'bootstrap': 'bootstrap/dist/js/bootstrap'
     },
     shim: {
         'others/cryptico.min': {},

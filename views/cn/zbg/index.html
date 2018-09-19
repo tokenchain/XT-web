@@ -1937,6 +1937,22 @@
                     var sortBy = this.sortBy;
                     var xtArr = markets.filter(function (item, i) {
                         return item.market.indexOf('xt') !== -1
+                    }).sort(function (x, y) {
+                        if (sortBy == 'rateUp') {
+                            // return x.rate - y.rate;
+                            return x.rate - y.rate;
+                        } else if (sortBy == 'rateDown') {
+                            // return y.rate - x.rate;
+                            return y.rate - x.rate;
+                        } else if (sortBy == 'volumeUp') {
+                            // return x.convertVolume - y.convertVolume;
+                            return x.convertVolume - y.convertVolume;
+                        } else if (sortBy == 'volumeDown') {
+                            // return y.convertVolume - x.convertVolume;
+                            return y.convertVolume - x.convertVolume;
+                        } else if(sortBy == 'lastPrice') {
+                            return y.lastPrice - x.lastPrice;
+                        }
                     })
                     if (sortBy == '' || markets.length == 0) {
                         return markets;
@@ -1962,7 +1978,9 @@
                             return y.lastPrice - x.lastPrice;
                         }
                     });
-                    return xtArr.concat(markets);
+                    return xtArr.concat(markets.filter(function (item, i) {
+                        return item.market.split('_')[0] !== 'xt'
+                    }));
                 },
                 changeSort: function (name) {
                     var sortBy = this.sortBy;
