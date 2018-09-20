@@ -8008,6 +8008,7 @@ body.notice-open .sidebar-area {
 .user-center .dropdown {
   position: relative;
   z-index: 12;
+  color: #666666;
 }
 
 .user-center .dropdown + .dropdown {
@@ -8041,12 +8042,11 @@ body.notice-open .sidebar-area {
 }
 
 .user-center .dropdown .dropdown-menu ul.dropdown-list {
-  background: #2a266d;
+  background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, .3);
-  padding: 10px 0;
+  padding: 5px 0;
   max-height: 550px;
   overflow-y: auto;
-
 }
 
 .user-center .dropdown .dropdown-menu ul.dropdown-list li a {
@@ -8058,16 +8058,16 @@ body.notice-open .sidebar-area {
   align-items: center;
   white-space: nowrap;
   position: relative;
-  padding: 15px 20px;
+  padding: 8px 20px;
 }
 
 .user-center .dropdown .dropdown-menu ul.dropdown-list li a:hover {
-  background: #3a3586;
+  background: #DDEBFF;
 }
 
 .user-center .dropdown .dropdown-menu ul.dropdown-list li.active a {
   color: #fff;
-  background: #3a3586;
+  background: #DDEBFF;
 }
 
 .bound {

@@ -229,8 +229,32 @@ router.get('/account/payment_information', function(req, res, next) {
  *功能: 新增重置提现密码
  */
 router.get('/account/reset_funds_pwd', function(req, res, next) {
-    res.render(TEMP_BASIC,{
+    res.render(TEMP_MANAGE_NEW,{
         templateMain:'u/account/reset-funds-pwd.html',
+    });
+});
+
+/**
+ * 2018-9-20
+ * zch
+ * 收益详情页面
+ */
+router.get('/earnings', function(req, res, next) {
+    res.render(TEMP_MANAGE_NEW,{
+        templateMain:'u/earnings.html',
+        column : 1
+    });
+});
+
+/**
+ * 2018-9-20
+ * zch
+ * 用户数详情页面
+ */
+router.get('/userDetails', function(req, res, next) {
+    res.render(TEMP_MANAGE_NEW,{
+        templateMain:'u/userDetails.html',
+        column : 1
     });
 });
 

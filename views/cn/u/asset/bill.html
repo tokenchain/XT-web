@@ -1,85 +1,85 @@
 <div class="user-container">
     <div class="assets-panel" id="app-bill">
-    <div class="assets-record" v-cloak="">
-        <div class="assets-list">
-            <div class="head">
-                <h2 style="padding-left: 20px;"><%= LANG('综合账单')%></h2>
-                <div class="dropdown-group">
-                <div class="dropdown" v-cloak="">
-                    <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" : currentCoin.toUpperCase()}}</em></p>
-                    <div class="dropdown-menu">
-                        <ul class="dropdown-list">
-                            <li :class="{'active': currentCoin == 'all'}"><a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a></li>
-                            <li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
-                                .toUpperCase()}}</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="assets-record" v-cloak="">
+            <div class="assets-list">
+                <div class="head">
+                    <h2 style="padding-left: 20px;"><%= LANG('综合账单')%></h2>
+                    <div class="dropdown-group">
+                        <div class="dropdown" v-cloak="">
+                            <p role="button" data-toggle="dropdown"><%= LANG('币种') %>：<em>{{currentCoin == 'all' ? "<%= LANG('全部') %>" : currentCoin.toUpperCase()}}</em></p>
+                            <div class="dropdown-menu">
+                                <ul class="dropdown-list">
+                                    <li :class="{'active': currentCoin == 'all'}"><a role="button" @click="changeCoin('all')"><%= LANG('全部') %></a></li>
+                                    <li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
+                                        .toUpperCase()}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
 
-                <div class="dropdown" v-cloak="">
-                    <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：
-                        <em v-for="(item,key) in billTypeObj" v-if="currentType == item.changTypeId">{{item.changTypeName}}</em>
-                    </p>
-                    <div class="dropdown-menu">
-                        <ul class="dropdown-list">
-                            <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == item.changTypeId}">
-                                <a role="button" @click="changeType(item.changTypeId)">{{item.changTypeName}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!--<div class="dropdown" v-cloak="">-->
-                    <!--<p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>-->
-                    <!--<div class="dropdown-menu">-->
+                        <div class="dropdown" v-cloak="">
+                            <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：
+                                <em v-for="(item,key) in billTypeObj" v-if="currentType == item.changTypeId">{{item.changTypeName}}</em>
+                            </p>
+                            <div class="dropdown-menu">
+                                <ul class="dropdown-list">
+                                    <li v-for="(item,key) in billTypeObj" :class="{'active': currentType == item.changTypeId}">
+                                        <a role="button" @click="changeType(item.changTypeId)">{{item.changTypeName}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--<div class="dropdown" v-cloak="">-->
+                        <!--<p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>-->
+                        <!--<div class="dropdown-menu">-->
                         <!--<ul class="dropdown-list">-->
-                            <!--<li v-for="(item,key) in timeTypeObj" :class="{'active': timeType == key}">-->
-                                <!--<a role="button" @click="changeTimeType(key)">{{item}}</a>-->
-                            <!--</li>-->
+                        <!--<li v-for="(item,key) in timeTypeObj" :class="{'active': timeType == key}">-->
+                        <!--<a role="button" @click="changeTimeType(key)">{{item}}</a>-->
+                        <!--</li>-->
                         <!--</ul>-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
-            </div>
-            <div class="body">
-            <ul class="title">
-                <li>
-                    <p><%= LANG('币种')%></p>
-                    <p><%= LANG('时间')%></p>
-                    <p><%= LANG('操作')%></p>
-                    <p><%= LANG('发生金额')%></p>
-                    <p><%= LANG('手续费')%></p>
-                </li>
-            </ul>
-                <div v-if="!billRecordsSwitch" class="cd-loading">
-                    <div class="vertical-bars">
-                    <p class="layer-1"></p>
-                    <p class="layer-2"></p>
-                    <p class="layer-3"></p>
-                    <p class="layer-4"></p>
-                    <p class="layer-5"></p>
-                    <p class="layer-6"></p>
-                    <p class="layer-7"></p>
-                    <p class="layer-8"></p>
-                    <p class="layer-9"></p>
+                        <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
-                <ul v-else class="list">
-                <li v-for="bill in billRecords" v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
-                    <p><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'">{{coinsId[bill.currencyTypeId].toUpperCase()}}</p>
-                    <p>{{bill.createTime.split('.')[0]}}</p>
-                    <p :class="{'buyColor' :bill.changeType==1, 'sellColor':bill.changeType==2 }">{{getChangeName(bill.changeType)}}</p>
-                    <p><span :class="[bill.changeAmount > 0 ? 'green-color' : 'red-color']">{{getChangeAmount(bill.changeAmount)}} {{coinsId[bill.currencyTypeId].toUpperCase()}}</span></p>
-                    <p>{{bill.feeAmount}}</p>
-                </li>
-                <li class="norecord" v-if="billRecords.length == 0"><%= LANG('暂无记录')%></li>
-            </ul>
+                <div class="body">
+                    <ul class="title">
+                        <li>
+                            <p><%= LANG('币种')%></p>
+                            <p><%= LANG('时间')%></p>
+                            <p><%= LANG('操作')%></p>
+                            <p><%= LANG('发生金额')%></p>
+                            <p><%= LANG('手续费')%></p>
+                        </li>
+                    </ul>
+                    <div v-if="!billRecordsSwitch" class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                    <ul v-else class="list">
+                        <li v-for="bill in billRecords" v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
+                            <p><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'">{{coinsId[bill.currencyTypeId].toUpperCase()}}</p>
+                            <p>{{bill.createTime.split('.')[0]}}</p>
+                            <p :class="{'buyColor' :bill.changeType==1, 'sellColor':bill.changeType==2 }">{{getChangeName(bill.changeType)}}</p>
+                            <p><span :class="[bill.changeAmount > 0 ? 'green-color' : 'red-color']">{{getChangeAmount(bill.changeAmount)}} {{coinsId[bill.currencyTypeId].toUpperCase()}}</span></p>
+                            <p>{{bill.feeAmount}}</p>
+                        </li>
+                        <li class="norecord" v-if="billRecords.length == 0"><%= LANG('暂无记录')%></li>
+                    </ul>
+                </div>
+
+
             </div>
-
-
         </div>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
     </div>
-    <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
-</div>
 
 </div>
 
@@ -112,32 +112,32 @@
                     // },
                     billTypeObj: [
                         {
-                            changTypeId:0,
-                            changTypeName:'<%= LANG("全部") %>'
+                            changTypeId: 0,
+                            changTypeName: '<%= LANG("全部") %>'
                         },
                         {
-                            changTypeId:1,
-                            changTypeName:'<%= LANG("买") %>'
+                            changTypeId: 1,
+                            changTypeName: '<%= LANG("买") %>'
                         },
                         {
-                            changTypeId:2,
-                            changTypeName:'<%= LANG("卖") %>',
+                            changTypeId: 2,
+                            changTypeName: '<%= LANG("卖") %>',
                         },
                         {
-                            changTypeId:3,
+                            changTypeId: 3,
                             changTypeName: '<%= LANG("充值") %>',
                         },
                         {
-                            changTypeId:4,
+                            changTypeId: 4,
                             changTypeName: '<%= LANG("提现") %>',
                         },
                         {
-                            changTypeId:5,
+                            changTypeId: 5,
                             changTypeName: '<%= LANG("系统充值") %>',
                         },
                         {
-                            changTypeId:6,
-                            changTypeName:'<%= LANG("系统扣款") %>',
+                            changTypeId: 6,
+                            changTypeName: '<%= LANG("系统扣款") %>',
                         },
                         // {
                         //     changTypeId:13,
@@ -148,11 +148,11 @@
                         //     changTypeName: '<%= LANG("分红") %>',
                         // },
                         {
-                            changTypeId:15,
+                            changTypeId: 15,
                             changTypeName: '<%= LANG("系统间转账") %>',
                         },
                         {
-                            changTypeId:16,
+                            changTypeId: 16,
                             changTypeName: '<%= LANG("推荐大赛奖励") %>',
                         },
                         // {
@@ -164,7 +164,7 @@
                         //     changTypeName: '<%= LANG("ZT释放记录") %>',
                         // },
                         {
-                            changTypeId:22,
+                            changTypeId: 22,
                             changTypeName: '<%= LANG("活动奖励") %>',
                         },
                     ],
@@ -345,7 +345,7 @@
                     this.pageCount = 0;
                     this.currentType = type;
                     console.log(this.currentType)
-                    if (this.currentType == '-1000'){
+                    if (this.currentType == '-1000') {
                         this.currentCoin = 'zt';
                     }
                     this.getBill();
@@ -356,13 +356,13 @@
                     this.timeType = type;
                     this.getBill();
                 },
-                getChangeAmount: function(str){
+                getChangeAmount: function (str) {
                     var arr = [...str].reverse()
                     var leng = arr.length
-                    for(var i = 0;i<leng;i++){
-	                    if(arr[0]==0){
-	                        arr.shift()
-                        }else if(arr[0]=='.'){
+                    for (var i = 0; i < leng; i++) {
+                        if (arr[0] == 0) {
+                            arr.shift()
+                        } else if (arr[0] == '.') {
                             arr.shift()
                             break
                         }

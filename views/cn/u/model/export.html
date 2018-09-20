@@ -1,0 +1,81 @@
+<script type="text/x-template" id="export">
+    <div class="exx-modal-container">
+        <div class="exx-modal-header"><h3><%= LANG('导出返佣记录总收益') %></h3></div>
+        <div class="exx-modal-body">
+
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('时间范围') %>：</label>
+                        <div class="form-control" id="rangeTime">
+                            <input type="radio" name="ago24" v-model="email" value="1">过去24小时
+                            <input type="radio" name="yeasterday" v-model="email" value="1">昨天
+                            <input type="radio" name="ago2week" v-model="email" value="1">过去2周
+                            <input type="radio" name="ago24" v-model="email" value="1">本月至今
+                            <input type="radio" name="ago24" v-model="email" value="1">过去1个月
+                            <input type="radio" name="ago24" v-model="email" value="1">过去3个月
+                            <input type="radio" name="ago24" v-model="email" value="1">自定义（最大范围3个月）
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label class="control-label"><%= LANG('登录密码') %>：</label>
+                        <div class="form-control">
+                            <img src="/src/images/pass.png" class="title" alt="">
+                            <input autocomplete="new-password" :placeholder="'<%= LANG('登录密码') %>'" v-model="safePwd"
+                                   type="password">
+                        </div>
+                    </div>-->
+
+                    <div class="form-button">
+                        <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button orange"><%=
+                            LANG('导出') %>
+                        </button>
+                        <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('export', {
+            template: "#export",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                close: {
+                    type: Function,
+                    default: function () {
+                        console.log('close');
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    locked: false,
+                    pubKey: '',
+                    rsaKeyId: '',
+                    email: '',
+                    emailCode: '',
+                    mobileCode: '',
+                    safePwd: '',
+                    googleCode: '',
+                    imgCode: '',
+                    imgCodeId: '',
+                    imageCodeUrl: ''
+                }
+            },
+            computed: {},
+            methods: {},
+            created: function () {
+
+            }
+        })
+    })
+</script>

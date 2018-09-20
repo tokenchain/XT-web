@@ -8,7 +8,7 @@
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(),
                     currentUserAsset: Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
-                    slideKey: <%= PATH.indexOf('/u/recommend') != -1 %>,
+                    slideKey: <%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 %>,
                 }
             },
             computed: {
@@ -75,14 +75,15 @@
                     <p><%= LANG('安全')%></p>
                 </a>
             </li>
-            <li class="<%= PATH.indexOf('/u/recommend') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
-                <i style="font-size: 24px;top: 19px;left:15px;" class="<%= PATH.indexOf('/u/recommend') != -1 ? 'icon iconfont icon-tuijianren active' : 'icon iconfont icon-tuijianren'%>"></i>
+            <li class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
+                <i style="font-size: 24px;top: 19px;left:15px;"
+                   class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'icon iconfont icon-tuijianren active' : 'icon iconfont icon-tuijianren'%>"></i>
                 <a @click="slideDown"><%= LANG('合伙人')%></a>
-                <i class="<%= PATH.indexOf('/u/recommend') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
+                <i class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
                 <ul class="nav-children" v-if="slideKey">
                     <li><a class="<%= PATH.indexOf('/u/recommend') != -1 ? 'active' : ''%>" href="/u/recommend"><%= LANG('合伙人')%></a></li>
-                    <li><a class="<%= PATH.indexOf('/u/earnings') != -1 ? 'active' : ''%>" href="/u/aaa"><%= LANG('收益详情')%></a></li>
-                    <li><a class="<%= PATH.indexOf('/u/UserDetails') != -1 ? 'active' : ''%>" href="/u/bbb"><%= LANG('用户数详情')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/earnings') != -1 ? 'active' : ''%>" href="/u/earnings"><%= LANG('收益详情')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" href="/u/userDetails"><%= LANG('用户数详情')%></a></li>
                 </ul>
             </li>
             <li class="<%= PATH.indexOf('/u/api') != -1 ? 'active' : ''%>">
