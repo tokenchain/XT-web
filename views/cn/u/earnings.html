@@ -1,4 +1,7 @@
-<div id="earnings" class="earnings">
+<%-include("../component/modal.html")%>
+<%-include("model/export.html")%>
+
+<div id="earnings" class="earningsDetails">
     <div class="topContiner">
         <div class="head">
             <h3><%= LANG('收益详情') %></h3>
@@ -14,7 +17,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="export">
+            <div class="export" @click="openModal()">
                 <%= LANG('导出') %>
                 <i class="icon iconfont icon-excel"></i>
             </div>
@@ -37,13 +40,52 @@
         </div>
     </div>
     <div class="bottomContiner">
-        <h3><%= LANG('每日详情') %></h3>
-
+        <div class="earnings">
+            <p class="">
+                <%= LANG('收益比例列表') %>
+            </p>
+            <table>
+                <thead>
+                <tr>
+                    <th>发展会员数量</th>
+                    <th>月交易额（BTC）</th>
+                    <th>个人交易手续费优惠</th>
+                    <th>返佣比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1-49</td>
+                    <td>100</td>
+                    <td>95折</td>
+                    <td>30%</td>
+                </tr>
+                <tr>
+                    <td>50-99</td>
+                    <td>200</td>
+                    <td>85折</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td>50-99</td>
+                    <td>200</td>
+                    <td>85折</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td>50-99</td>
+                    <td>200</td>
+                    <td>85折</td>
+                    <td>20%</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!--导出弹窗-->
     <modal v-cloak :open="showModal == 'export'" @close="showModal = false">
-        <modal-refund :params="refundParams" :assets="userAssets" :done="callCloseModal()"/>
+        <export :done="callCloseModal()"/>
     </modal>
 </div>
 <script>
@@ -53,13 +95,19 @@
             data: function () {
                 return {
                     month: 'all',
-                    showModal: 'export'
+                    showModal: false
                 }
             },
             computed: {},
             methods: {
                 changeMonth: function (month) {
                     this.month = month
+                },
+                callCloseModal: function () {
+
+                },
+                openModal: function () {
+                    this.showModal = 'export'
                 }
             },
             created: function () {
@@ -74,4 +122,3 @@
         });
     })
 </script>
-<%-include("model/userAction.html")%>

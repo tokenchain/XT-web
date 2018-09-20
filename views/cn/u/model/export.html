@@ -8,13 +8,25 @@
                     <div class="form-group">
                         <label class="control-label"><%= LANG('时间范围') %>：</label>
                         <div class="form-control" id="rangeTime">
-                            <input type="radio" name="ago24" v-model="email" value="1">过去24小时
-                            <input type="radio" name="yeasterday" v-model="email" value="1">昨天
-                            <input type="radio" name="ago2week" v-model="email" value="1">过去2周
-                            <input type="radio" name="ago24" v-model="email" value="1">本月至今
-                            <input type="radio" name="ago24" v-model="email" value="1">过去1个月
-                            <input type="radio" name="ago24" v-model="email" value="1">过去3个月
-                            <input type="radio" name="ago24" v-model="email" value="1">自定义（最大范围3个月）
+                            <div class="item">
+                                <input type="radio" name="过去24小时" v-model="email" value="1">过去24小时
+                            </div>
+                            <div class="item">
+                                <input type="radio" name="yeasterday" v-model="email" value="1">昨天
+                            </div>
+                            <div class="item">
+                                <input type="radio" name="ago2week" v-model="email" value="1">过去2周
+                            </div>
+                            <div class="item">
+                                <input type="radio" name="ago24" v-model="email" value="1">本月至今
+                            </div>
+                            <div class="item">
+                                <input type="radio" name="ago24" v-model="email" value="1">过去1个月
+                            </div>
+                            <div class="item">
+                                <input type="radio" name="ago24" v-model="email" value="1">自定义（最大范围3个月）
+                            </div>
+
                         </div>
                     </div>
 
@@ -72,7 +84,11 @@
                 }
             },
             computed: {},
-            methods: {},
+            methods: {
+                handleSubmit: function () {
+                    
+                }
+            },
             created: function () {
 
             }
