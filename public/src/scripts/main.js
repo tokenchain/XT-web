@@ -13,7 +13,7 @@ require.config({
         'components': '../src/scripts/components',
         // 2018年04月13日->二维码生成
         'qrcode': ENV == 'w' ? 'qrcode/build/qrcode' : 'qrcode/build/qrcode',
-        'bootstrap-datepicker': 'bootstrap-datepicker/js/bootstrap-datepicker',
+        'datepicker': 'bootstrap-datepicker-master/js/bootstrap-datepicker',
         'bootstrap': 'bootstrap/dist/js/bootstrap'
     },
     shim: {
@@ -28,7 +28,9 @@ require.config({
         },
         'others/highstock': {
             exports: "Highstock"
-        }
+        },
+        'datepicker': ['jquery']
+
     }
 });
 //require(['pace'], function(pace){

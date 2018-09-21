@@ -1,16 +1,21 @@
 <%-include("../component/modal.html")%>
 <%-include("model/export.html")%>
+<%-include("model/modalList.html")%>
+
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+
 
 <div id="earnings" class="earningsDetails">
     <div class="topContiner">
         <div class="head">
+            <input type="text" class="form-control" id="dataPicker" style="border: 1px solid #000">
             <h3><%= LANG('收益详情') %></h3>
             <div class="dropdown" v-cloak="">
                 <p style="" role="button" data-toggle="dropdown"><em>{{month == 'all' ? "<%= LANG('请选择月份') %>" : month + "<%= LANG('月') %>"}}</em></p>
                 <div class="dropdown-menu">
                     <ul class="dropdown-list">
                         <!--<li><a role="button" @click="changeMonth('all')"><%= LANG('请选择月份') %></a></li>-->
-                        <li v-for="(item, index) in 12"><a role="button" @click="changeMonth(item)">{{item}}<%= LANG('月') %></a></li>
+                        <li v-for="(item, index) in 12" :class="{'active': month==item}"><a role="button" @click="changeMonth(item)">{{item}}<%= LANG('月') %></a></li>
 
                         <!--<li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
                             .toUpperCase()}}</a></li>-->
@@ -42,15 +47,15 @@
     <div class="bottomContiner">
         <div class="earnings">
             <p class="">
-                <%= LANG('收益比例列表') %>
+                <%= LANG('每日详情') %>
             </p>
             <table>
                 <thead>
                 <tr>
-                    <th>发展会员数量</th>
-                    <th>月交易额（BTC）</th>
-                    <th>个人交易手续费优惠</th>
-                    <th>返佣比例</th>
+                    <th>日期</th>
+                    <th>每日收益（XT）</th>
+                    <th>交易次数</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,25 +63,25 @@
                     <td>1-49</td>
                     <td>100</td>
                     <td>95折</td>
-                    <td>30%</td>
+                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
                 </tr>
                 <tr>
                     <td>50-99</td>
                     <td>200</td>
                     <td>85折</td>
-                    <td>20%</td>
+                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
                 </tr>
                 <tr>
                     <td>50-99</td>
                     <td>200</td>
                     <td>85折</td>
-                    <td>20%</td>
+                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
                 </tr>
                 <tr>
                     <td>50-99</td>
                     <td>200</td>
                     <td>85折</td>
-                    <td>20%</td>
+                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -87,15 +92,22 @@
     <modal v-cloak :open="showModal == 'export'" @close="showModal = false">
         <export :done="callCloseModal()"/>
     </modal>
+
+    <!--查看详情-->
+    <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
+        <modal-list :done="callCloseModal()"/>
+    </modal>
 </div>
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
-        var userApi = new Vue({
+    require(['vue', 'common/methods', 'common/juabox','jquery', 'datepicker'], function (Vue, Methods, JuaBox, $) {
+        console.log(datepicker)
+        $("#dataPicker").datepicker({});
+        var earningsDetails = new Vue({
             el: "#earnings",
             data: function () {
                 return {
-                    month: 'all',
-                    showModal: false
+                    month: '9',
+                    showModal: false,
                 }
             },
             computed: {},
@@ -108,12 +120,27 @@
                 },
                 openModal: function () {
                     this.showModal = 'export'
+                },
+                getEveryData () {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                        '/exchange/xt_extends/controller/website/partnercontroller/findUserDetailByPage',
+                        // data: {},
+                        success: function (res) {
+                            console.log(res, "00")
+                        }.bind(this)
+                    });
+                },
+                lookDetails: function () {
+                    this.showModal = 'modalList'
                 }
             },
             created: function () {
 
             },
             mounted: function () {
+                this.getEveryData()
+
 
             },
             updated: function () {

@@ -1,3 +1,5 @@
+<!--<script src="/lib/bootstrap-datepicker-master/js/bootstrap-datepicker.js" charset="utf-8"></script>-->
+
 <script type="text/x-template" id="export">
     <div class="exx-modal-container">
         <div class="exx-modal-header"><h3><%= LANG('导出返佣记录总收益') %></h3></div>
@@ -9,41 +11,54 @@
                         <label class="control-label"><%= LANG('时间范围') %>：</label>
                         <div class="form-control" id="rangeTime">
                             <div class="item">
-                                <input type="radio" name="过去24小时" v-model="email" value="1">过去24小时
+                                <label for="agoOneDay">
+                                    <input id="agoOneDay" type="radio" name="agoOneDay" v-model="rangeTime" value="1">过去24小时
+                                </label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="yeasterday" v-model="email" value="1">昨天
+                                <label for="yeasterDay">
+                                    <input id="yeasterDay" type="radio" name="yeasterDay" v-model="rangeTime" value="2">昨天
+                                </label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="ago2week" v-model="email" value="1">过去2周
+                                <label for="agoTwoWeek">
+                                    <input id="agoTwoWeek" type="radio" name="agoTwoWeek" v-model="rangeTime" value="3">过去2周
+                                </label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="ago24" v-model="email" value="1">本月至今
+                                <label for="upToNow">
+                                    <input id="upToNow" type="radio" name="upToNow" v-model="rangeTime" value="4">本月至今
+                                </label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="ago24" v-model="email" value="1">过去1个月
+                                <label for="agoOneMonth">
+                                    <input id="agoOneMonth" type="radio" name="agoOneMonth" v-model="rangeTime" value="5">过去1个月
+                                </label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="ago24" v-model="email" value="1">自定义（最大范围3个月）
+                                <label for="agoThreeMonth">
+                                    <input id="agoThreeMonth" type="radio" name="agoThreeMonth" v-model="rangeTime" value="6">过去3个月
+                                </label>
                             </div>
-
+                            <div class="item">
+                                <label for="custom">
+                                    <input id="custom" type="radio" name="custom" v-model="rangeTime" value="7">自定义（最大范围3个月）
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <!--<div class="form-group">
-                        <label class="control-label"><%= LANG('登录密码') %>：</label>
+                    <div class="form-group">
                         <div class="form-control">
-                            <img src="/src/images/pass.png" class="title" alt="">
-                            <input autocomplete="new-password" :placeholder="'<%= LANG('登录密码') %>'" v-model="safePwd"
-                                   type="password">
+                            <input type="text" class="form-control" id="dataPicker">
                         </div>
-                    </div>-->
+                    </div>
 
                     <div class="form-button">
-                        <button v-if="!locked" v-on:click="handleSubmit" :disabled="locked" class="button orange"><%=
+                        <button v-on:click="handleSubmit" class="button orange"><%=
                             LANG('导出') %>
                         </button>
-                        <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
+                        <!--<button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>-->
                     </div>
                 </div>
             </div>
@@ -52,6 +67,7 @@
 </script>
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
+
         return Vue.component('export', {
             template: "#export",
             props: {
@@ -70,26 +86,26 @@
             },
             data: function () {
                 return {
-                    locked: false,
-                    pubKey: '',
-                    rsaKeyId: '',
-                    email: '',
-                    emailCode: '',
-                    mobileCode: '',
-                    safePwd: '',
-                    googleCode: '',
-                    imgCode: '',
-                    imgCodeId: '',
-                    imageCodeUrl: ''
+                    rangeTime: ''
                 }
             },
             computed: {},
             methods: {
                 handleSubmit: function () {
-                    
+
+                },
+                blur: function () {
+                    // $("#dataPicker").datepicker();
                 }
             },
             created: function () {
+
+            },
+            mounted: function () {
+                // console.log($('#dataPicker').datepicker({}))
+                // $('#dataPicker').click(function () {
+                //     alert(1)
+                // });
 
             }
         })
