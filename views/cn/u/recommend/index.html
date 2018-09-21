@@ -114,7 +114,7 @@
             </div>  
             <div class="invite-info">
                 <span><%= LANG('邀请码') %></span>
-                <span style="margin: 55px 0;display: block;color:#ff5353">5n0umv</span>
+                <textarea rows="2" :value="recommendCode" id="recommendCode"  readonly="readonly"></textarea>
                 <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(2)"><%= LANG('复制') %> </a>
             </div>   
         </div>
@@ -274,62 +274,23 @@
             el: "#partnerBox",
             data: function () {
                 return {
-                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
-                        .recommendCode || ''),
-                    myRecommend: [],
-                    pageIndex: 1,
-                    pageSize: 20,
-                    pageCount: 0,
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
+                    // myRecommend: [],
+                    // pageIndex: 1,
+                    // pageSize: 20,
+                    // pageCount: 0,
                     isLogin: ISLOGIN,
-                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo') //用户信息
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    recommendCode: Methods.getLocalUserInfo().recommendCode || '' // 邀请码
                 }
             },
-            methods: {
-                getDetailsData () {
-                    Methods.ajax({
-                        url: DOMAIN_DEV +
-                            '/exchange/xt_extends/controller/website/partnercontroller/getpartnerinfo',
-                        data: {userId: this.loginUser.userId},
-                        success: function (res) {
-                            console.log(res, "00")
-                        }.bind(this)
-                    });
-                },
-                getmyRecommend: function () {
-                    if (!this.isLogin) {
-                        return false;
-                    }
-                    var data = {
-                        pageIndex: this.pageIndex,
-                        pageSize: this.pageSize,
-                        userId: this.loginUser.userId
-                    };
-                    Methods.ajax({
-                        url: DOMAIN_DEV +
-                            '/exchange/user/controller/website/usercontroller/' +
-                            'myRecommendList',
-                        data: JSON.stringify(data),
-                        success: function (res) {
-                            this.myRecommend = res.datas.results;
-                            this.pageCount = res.datas.totalRow;
-                        }.bind(this)
-                    });
-                },
-                getDateTime: function (timestamp, format) {
-                    return Methods.getDateTime(timestamp, format)
-                },
-                copyUrl: function (type) {
-                    if(type == 1) {
-                        var Url = document.getElementById("commendInput");
-                        Url.select(); // 选择对象
-                        document.execCommand("Copy"); // 执行浏览器复制命令
-                        JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
-                    }
-                }
+            created () {
+                this.$nextTick(function () {
+                    this.getDetailsData()
+                })
             },
             mounted: function () {
-                this.getDetailsData()
-                this.getmyRecommend();
+                // this.getmyRecommend();
                 // var clipboard = new Clipboard('#copy_url');
                 // clipboard.on('success', function (e) {
                 //     JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
@@ -338,7 +299,59 @@
                     width: 150,
                     height: 150
                 }, function (error) {})
-            }
+            },
+            methods: {
+                getDetailsData () {
+                    if (!this.isLogin) {
+                        return false;
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/xt_extends/controller/website/partnercontroller/getpartnerinfo',
+                        data: {userId: this.loginUser.userId},
+                        success: function (res) {
+                            console.log(res, "00")
+                        }.bind(this)
+                    });
+                },
+                copyUrl: function (type) {
+                    if(type == 1) {
+                        var Url = document.getElementById("commendInput");
+                        Url.select(); // 选择对象
+                        document.execCommand("Copy"); // 执行浏览器复制命令
+                        JuaBox.info("<%= LANG('复制邀请链接地址成功!') %>");
+                    }else if(type == 2) {
+                        var Url = document.getElementById("recommendCode");
+                        Url.select(); // 选择对象
+                        document.execCommand("Copy");
+                        JuaBox.info("<%= LANG('复制成功!') %>");
+                    }
+                }
+                // 我的推荐
+                // getmyRecommend: function () {
+                //     if (!this.isLogin) {
+                //         return false;
+                //     }
+                //     var data = {
+                //         pageIndex: this.pageIndex,
+                //         pageSize: this.pageSize,
+                //         userId: this.loginUser.userId
+                //     };
+                //     Methods.ajax({
+                //         url: DOMAIN_DEV +
+                //             '/exchange/user/controller/website/usercontroller/myRecommendList',
+                //         data: JSON.stringify(data),
+                //         success: function (res) {
+                //             this.myRecommend = res.datas.results;
+                //             this.pageCount = res.datas.totalRow;
+                //         }.bind(this)
+                //     });
+                // },
+                // getDateTime: function (timestamp, format) {
+                //     return Methods.getDateTime(timestamp, format)
+                // },
+            },
         })
     });
 </script>
