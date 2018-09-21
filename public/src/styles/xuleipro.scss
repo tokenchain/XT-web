@@ -1560,15 +1560,44 @@ button {
           border-radius: 6px;
           color: #fff;
           margin: auto;
+          transition: all .5s;
+          position: relative;
+          z-index: 1;
+          &::before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            display: block;
+            background-color: #4FD3D3;
+            opacity: 0;
+            z-index: -1;
+            border-radius: 6px;
+            transition: all .3s;
+          }
+          &:hover {
+            color: #fff;
+            background-color: #4FD3D3;
+            -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+          }
+          &:hover::before {
+            content: " ";
+            width: 100%;
+            opacity: 1;
+          }
         }
       }
 
     }
     .earnings {
-      // height: 713px;
       color: #666;
       font-size: 14px;
       padding-bottom: 20px;
+      margin-bottom: 0;
       table {
         width: 100%;
         margin-top: 22px;
@@ -1592,16 +1621,36 @@ button {
             height: 52px;
             line-height: 52px;
             text-align: center;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            cursor: pointer;
             &:nth-child(even) {
               background-color: #f5f7fa;
             }
             td {
+              -webkit-transition: all .3s;
+              transition: all .3s;
               padding: 0 20px;
               &:first-child {
                 text-align: left;
               }
               &:last-child {
                 text-align: right;
+              }
+            }
+            &:hover {
+              td {
+                font-size: 16px;
+                -webkit-transform: translateX(-5px);
+                transform: translateX(-5px);
+                &:first-child {
+                  -webkit-transform: translateX(-10px);
+                  transform: translateX(-10px);
+                }
+                &:last-child {
+                  -webkit-transform: translateX(15px);
+                  transform: translateX(15px);
+                }
               }
             }
           }

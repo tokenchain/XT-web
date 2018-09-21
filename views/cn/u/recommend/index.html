@@ -80,20 +80,20 @@
         <div class="pieChart clearfix">
             <ul>
                 <li>
-                    <span>总注册人数</span>
-                    <em>1人</em>
+                    <span><%= LANG('总注册人数') %></span>
+                    <em>1 <%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span>总有效注册用户数</span>
-                    <em>1人</em>
+                    <span><%= LANG('总有效注册用户数') %></span>
+                    <em>1 <%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span>我的总收益</span>
+                    <span><%= LANG('我的总收益') %></span>
                     <em>0 USDT</em>
                 </li>
                 <li>
-                    <span>我的交易总笔数</span>
-                    <em>0笔</em>
+                    <span><%= LANG('我的交易总笔数') %></span>
+                    <em>0 <%= LANG('笔') %></em>
                 </li>
             </ul>
         </div>
@@ -104,16 +104,16 @@
         </p>
         <div class="info">
             <div class="code">
-                <span>邀请二维码</span>
+                <span><%= LANG('邀请二维码') %></span>
                 <canvas class="codeimg" id="canvas" style="margin-top: 20px;"></canvas>
             </div>
             <div class="copyUrl-info">
-                <span>邀请链接地址</span>
+                <span><%= LANG('邀请链接地址') %></span>
                 <textarea rows="2" :value="reommendUrl" id="commendInput"  readonly="readonly"></textarea>
                 <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(1)"><%= LANG('复制') %> </a>
             </div>  
             <div class="invite-info">
-                <span>邀请码</span>
+                <span><%= LANG('邀请码') %></span>
                 <span style="margin: 55px 0;display: block;color:#ff5353">5n0umv</span>
                 <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(2)"><%= LANG('复制') %> </a>
             </div>   
@@ -126,36 +126,36 @@
         <table>
             <thead>
                 <tr>
-                    <th>发展会员数量</th>
-                    <th>月交易额（BTC）</th>
-                    <th>个人交易手续费优惠</th>
-                    <th>返佣比例</th>
+                    <th><%= LANG('发展会员数量') %></th>
+                    <th><%= LANG('月交易额（BTC）') %></th>
+                    <th><%= LANG('个人交易手续费优惠') %></th>
+                    <th><%= LANG('返佣比例') %></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1-49</td>
                     <td>100</td>
-                    <td>95折</td>
+                    <td>95<%= LANG('折') %></td>
                     <td>30%</td>
                 </tr>
                 <tr>
                     <td>50-99</td>
                     <td>200</td>
-                    <td>85折</td>
+                    <td>85<%= LANG('折') %></td>
                     <td>20%</td>
                 </tr>
             </tbody>
         </table>
         <div class="describe">
-            <h2>合伙人说明</h2>
+            <h2><%= LANG('合伙人说明') %></h2>
             <ul>     
-                <li>1、合伙人所邀请的用户必须为有效用户，有效会员为账户余额价值大于1个ETH，每月至少有一笔交易；</li>
-                <li>2、会员数量或交易额达到任一标准即可享受相应等级的奖励；</li>
-                <li>3、用户邀请即返佣，普通用户邀请有效用户未超过50人时，享受邀请用户90天的交易佣金的20%；</li>
-                <li>4、如果30天内没有新增有效推荐用户，自动清除推荐人关系。</li>
+                <li>1、<%= LANG('合伙人所邀请的用户必须为有效用户，有效会员为账户余额价值大于1个ETH，每月至少有一笔交易；') %></li>
+                <li>2、<%= LANG('会员数量或交易额达到任一标准即可享受相应等级的奖励；') %></li>
+                <li>3、<%= LANG('用户邀请即返佣，普通用户邀请有效用户未超过50人时，享受邀请用户90天的交易佣金的20%；') %></li>
+                <li>4、<%= LANG('如果30天内没有新增有效推荐用户，自动清除推荐人关系。') %></li>
             </ul>
-            <p>本活动最终解释权归XT所有。</p>
+            <p><%= LANG('本活动最终解释权归XT所有。') %></p>
         </div>
     </div>
 </div>
