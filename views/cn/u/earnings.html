@@ -2,13 +2,12 @@
 <%-include("model/export.html")%>
 <%-include("model/modalList.html")%>
 
-<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+<!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">-->
 
 
 <div id="earnings" class="earningsDetails">
     <div class="topContiner">
         <div class="head">
-            <input type="text" class="form-control" id="dataPicker" style="border: 1px solid #000">
             <h3><%= LANG('收益详情') %></h3>
             <div class="dropdown" v-cloak="">
                 <p style="" role="button" data-toggle="dropdown"><em>{{month == 'all' ? "<%= LANG('请选择月份') %>" : month + "<%= LANG('月') %>"}}</em></p>
@@ -99,9 +98,9 @@
     </modal>
 </div>
 <script>
-    require(['vue', 'common/methods', 'common/juabox','jquery', 'datepicker'], function (Vue, Methods, JuaBox, $) {
-        console.log(datepicker)
-        $("#dataPicker").datepicker({});
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        // console.log(datepicker)
+        // $("#dataPicker").datepicker({});
         var earningsDetails = new Vue({
             el: "#earnings",
             data: function () {
