@@ -1442,7 +1442,7 @@ button {
     }
   }
 
-  // 夏彬 2018/9/20  start
+  /* 夏彬 2018/9/20 合伙人详情  START */
   .partner-container {
     width: 100%;
     float: left;
@@ -1549,6 +1549,16 @@ button {
           width: 90px;
           float: right;
           text-align: center;
+          textarea{
+            width: 100%;
+            margin: 44px 0;
+            display: block;
+            resize: none;
+            line-height: 18px;
+            text-align: center;
+            overflow-y: hidden;
+            color:#ff5353
+          }
         }
         .copyBtn {
           width: 90px;
@@ -1648,8 +1658,8 @@ button {
                   transform: translateX(-10px);
                 }
                 &:last-child {
-                  -webkit-transform: translateX(15px);
-                  transform: translateX(15px);
+                  -webkit-transform: translateX(10px);
+                  transform: translateX(10px);
                 }
               }
             }
@@ -1680,8 +1690,7 @@ button {
       }
     }
   }
-
-  // 夏彬 2018/9/20  end
+  /* 夏彬 2018/9/20  END */
 
   .user-container, #user-api {
     -webkit-box-flex: 1;
