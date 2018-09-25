@@ -1,5 +1,8 @@
 <!--<script src="/lib/bootstrap-datepicker-master/js/bootstrap-datepicker.js" charset="utf-8"></script>-->
 
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">
+
 <script type="text/x-template" id="export">
     <div class="exx-modal-container">
         <div class="exx-modal-header"><h3><%= LANG('导出返佣记录总收益') %></h3></div>
@@ -66,8 +69,7 @@
     </div>
 </script>
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods) {
-
+    require(['vue', 'common/methods', 'datepicker'], function (Vue, Methods) {
         return Vue.component('export', {
             template: "#export",
             props: {
@@ -102,11 +104,7 @@
 
             },
             mounted: function () {
-                // console.log($('#dataPicker').datepicker({}))
-                // $('#dataPicker').click(function () {
-                //     alert(1)
-                // });
-
+                $("#dataPicker").datepicker();
             }
         })
     })

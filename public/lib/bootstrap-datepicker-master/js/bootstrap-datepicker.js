@@ -719,6 +719,7 @@
 			}
 
 			this.picker.addClass('datepicker-orient-' + yorient);
+			console.log(this.picker)
 			if (yorient === 'top')
 				top -= calendarHeight + parseInt(this.picker.css('padding-top'));
 			else
@@ -733,7 +734,7 @@
 				});
 			} else {
 				this.picker.css({
-					top: top,
+					top: top + 60,  //+60 2018-9-25  by czh
 					left: left,
 					zIndex: zIndex
 				});
