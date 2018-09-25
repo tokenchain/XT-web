@@ -1451,7 +1451,8 @@ button {
       box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       margin-bottom: 20px;
       width: 100%;
-      padding: 0 15px;
+      padding-left: 15px;
+      padding-right: 15px;
       background: #fff;
       p:first-child {
         font-size: 18px;
@@ -1550,6 +1551,15 @@ button {
           width: 90px;
           float: right;
           text-align: center;
+          textarea {
+            width: 100%;
+            margin: 44px 0;
+            display: block;
+            resize: none;
+            line-height: 18px;
+            text-align: center;
+            overflow-y: hidden;
+          }
         }
         .copyBtn {
           width: 90px;
@@ -1599,8 +1609,8 @@ button {
   .earnings {
     color: #666;
     font-size: 14px;
-    padding-bottom: 20px;
-    margin-bottom: 0;
+    padding-bottom: 22px;
+    margin-bottom: 0 !important;
     table {
       width: 100%;
       margin-top: 22px;
