@@ -6,7 +6,7 @@
 <!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">-->
 <style>
     .datepicker.dropdown-menu.datepicker-orient-bottom {
-        top: 170px !important;
+        /*top: 170px !important;*/
     }
 </style>
 
@@ -16,7 +16,7 @@
             <h3><%= LANG('收益详情') %></h3>
             <div class="form-group">
                 <div class="form-control">
-                    <input type="text" class="form-control" id="dataPicker">
+                    <input v-model="month" type="text" class="form-control" id="dataPicker"  placeholder="请选择">
                     <i class="icon iconfont icon-shijian1"></i>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     <td>{{item.cashBackTime}}</td>
                     <td>{{item.coinXtCount}}</td>
                     <td>{{item.cnt}}</td>
-                    <td><span class="btn" @click="lookDetails(item.cashBackTime)"><%= LANG('收益详情') %></span></td>
+                    <td><span class="btn" @click="lookDetails()"><%= LANG('收益详情') %></span></td>
                 </tr>
                 <tr>
                     <td>{{item.mobile}</td>
@@ -91,12 +91,12 @@
 
     <!--导出弹窗-->
     <modal v-cloak :open="showModal == 'export'" @close="showModal = false">
-        <export :done="callCloseModal()"/>
+        <export :done="callCloseModal()" :mode="'income'"/>
     </modal>
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()" ref="modalList"/>
+        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'income'"/>
     </modal>
 </div>
 <script>
@@ -133,26 +133,10 @@
                         }.bind(this)
                     });
                 },
-                getSingleDayData: function (days) {
-                    Methods.ajax({
-                        url: DOMAIN_DEV +
-                        '/exchange/xt_extends/controller/website/partnercontroller/ getEverydayEarningsDetail',
-                        type: 'post',
-                        data: {
-                            userId: this.loginUser.userId,
-                            pageIndex: this.$refs.modalList.pageIndex,
-                            days: days
-                        },
-                        success: function (res) {
-                            console.log(res, 'SingleDayData')
-                            this.$refs.modalList.datas = res.datas
-                        }.bind(this)
-                    });
-                },
-                lookDetails: function (cashBackTime) {
-                    console.log(cashBackTime)
+                lookDetails: function () {
+                    // console.log(this.month, $('#dataPicker').val())
+                    this.month = $('#dataPicker').val()
                     this.showModal = 'modalList'
-                    this.getSingleDayData(cashBackTime)
                 }
             },
             created: function () {
@@ -162,6 +146,7 @@
                 this.getIncomeDetails()
 
                 $('#dataPicker').datepicker({
+                    orientation: "bottom left",
                     language: {
                         en: 'en',
                         cn: "zh-CN",

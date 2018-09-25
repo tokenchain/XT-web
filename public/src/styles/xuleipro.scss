@@ -1543,6 +1543,7 @@ button {
             margin: 44px 0;
             display: block;
             resize: none;
+            text-align: center;
             line-height: 18px;
             overflow-y: hidden;
           }
@@ -1632,7 +1633,6 @@ button {
       tbody {
         tr {
           height: 52px;
-          line-height: 52px;
           text-align: center;
           -webkit-transition: all .3s;
           transition: all .3s;
@@ -1925,6 +1925,27 @@ button {
             normal;
             border-radius: 100px;
             //margin: 0 80px;
+            &.total {
+              background-image: linear-gradient(0deg,
+                      #66a6ff 0%,
+                      #78cfff 50%,
+                      #89f7fe 100%),
+              linear-gradient(
+                              #9bbb58,
+                              #9bbb58);
+              background-blend-mode: normal,
+              normal;
+            }
+            &.totalYearstday {
+              background-image: linear-gradient(0deg,
+                      #8ec5fc 0%,
+                      #e0c3fc 100%),
+              linear-gradient(
+                              #9bbb58,
+                              #9bbb58);
+              background-blend-mode: normal,
+              normal;
+            }
             &:first-child {
               margin-right: 140px;
               background-image: linear-gradient(0deg,
@@ -2036,10 +2057,10 @@ button {
               position: absolute;
               top: 7px;
               color: #666666;
-              &.first{
+              &.first {
                 left: 125px;
               }
-              &.second{
+              &.second {
                 right: 8px;
               }
             }

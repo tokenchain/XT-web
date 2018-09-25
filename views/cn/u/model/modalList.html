@@ -24,7 +24,7 @@
                     </tbody>
                 </table>
             </div>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="datas.results.length > 0 || pageIndex > 1"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getSingleDayData" v-if="datas.results.length > 0 || pageIndex > 1"></page-lite>
         </div>
     </div>
 </script>
@@ -44,25 +44,53 @@
                     default: function () {
                         console.log('close');
                     }
+                },
+                month: {
+                    type: String,
+                    default: ''
+                },
+                mode: {
+                    type: String,  // income  user
+                    default: ''
                 }
             },
             data: function () {
                 return {
-                    rangeTime: '',
                     pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
-                    datas: {results: [1]}
+                    datas: {results: []},
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
             },
             computed: {},
             methods: {
-                handleSubmit: function () {
-                    this.$emit('getSingleDayData', )
-                }
+                getSingleDayData: function () {
+                    var Interface = this.mode === 'income' ? 'getEverydayEarningsDetail' : 'findUserDetailByPage'
+                    var parms = this.mode === 'income' ? {
+                        userId: this.loginUser.userId,
+                        pageIndex: this.pageIndex,
+                        days: this.month
+                    } : {
+                        queryTime: this.month,
+                        pageNum: this.pageIndex,
+                        pageSize: this.pageSize
+
+                    }
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                        '/exchange/xt_extends/controller/website/partnercontroller/' + Interface,
+                        type: 'post',
+                        data: parms,
+                        success: function (res) {
+                            console.log(res, 'SingleDayData')
+                            this.datas = res.datas
+                        }.bind(this)
+                    });
+                },
             },
             created: function () {
-
+                this.getSingleDayData()
             }
         })
     })

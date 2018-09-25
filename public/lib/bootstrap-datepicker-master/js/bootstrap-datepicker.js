@@ -737,7 +737,7 @@
                 });
             } else {
                 this.picker.css({
-                    top: top + 50,
+                    top: top + 70,
                     left: left,
                     zIndex: zIndex
                 });
