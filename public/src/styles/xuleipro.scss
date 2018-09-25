@@ -1543,6 +1543,7 @@ button {
             margin: 44px 0;
             display: block;
             resize: none;
+            text-align: center;
             line-height: 18px;
             overflow-y: hidden;
           }
@@ -1632,7 +1633,6 @@ button {
       tbody {
         tr {
           height: 52px;
-          line-height: 52px;
           text-align: center;
           -webkit-transition: all .3s;
           transition: all .3s;

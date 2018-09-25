@@ -72,7 +72,7 @@
         </div>
     </div>
 </div> -->
-<div class="partner-container" id="partnerBox">
+<div class="partner-container" id="partnerBox" v-cloak>
     <div class="partner-details">
         <p>
             <%= LANG('合伙人详情') %>
@@ -80,20 +80,27 @@
         <div class="pieChart clearfix">
             <ul>
                 <li>
-                    <span><%= LANG('总注册人数') %></span>
-                    <em>1 <%= LANG('人') %></em>
+                    <span>
+                        <%= LANG('总注册人数') %></span>
+                    <em>{{userCount}}
+                        <%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span><%= LANG('总有效注册用户数') %></span>
-                    <em>1 <%= LANG('人') %></em>
+                    <span>
+                        <%= LANG('总有效注册用户数') %></span>
+                    <em>{{userEffectiveAcount}}
+                        <%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span><%= LANG('我的总收益') %></span>
-                    <em>0 USDT</em>
+                    <span>
+                        <%= LANG('我的总收益') %></span>
+                    <em>{{totalProfit}} USDT</em>
                 </li>
                 <li>
-                    <span><%= LANG('我的交易总笔数') %></span>
-                    <em>0 <%= LANG('笔') %></em>
+                    <span>
+                        <%= LANG('昨日收益') %></span>
+                    <em>{{yesterdayProfite}}
+                        <%= LANG('XT') %></em>
                 </li>
             </ul>
         </div>
@@ -104,19 +111,24 @@
         </p>
         <div class="info">
             <div class="code">
-                <span><%= LANG('邀请二维码') %></span>
+                <span>
+                    <%= LANG('邀请二维码') %></span>
                 <canvas class="codeimg" id="canvas" style="margin-top: 20px;"></canvas>
             </div>
             <div class="copyUrl-info">
-                <span><%= LANG('邀请链接地址') %></span>
-                <textarea rows="2" :value="reommendUrl" id="commendInput"  readonly="readonly"></textarea>
-                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(1)"><%= LANG('复制') %> </a>
-            </div>  
+                <span>
+                    <%= LANG('邀请链接地址') %></span>
+                <textarea rows="2" :value="reommendUrl" id="commendInput" readonly="readonly"></textarea>
+                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(1)">
+                    <%= LANG('复制') %> </a>
+            </div>
             <div class="invite-info">
-                <span><%= LANG('邀请码') %></span>
-                <textarea rows="2" :value="recommendCode" id="recommendCode"  readonly="readonly"></textarea>
-                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(2)"><%= LANG('复制') %> </a>
-            </div>   
+                <span>
+                    <%= LANG('邀请码') %></span>
+                <textarea rows="2" :value="recommendCode" id="recommendCode" readonly="readonly"></textarea>
+                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(2)">
+                    <%= LANG('复制') %> </a>
+            </div>
         </div>
     </div>
     <div class="earnings">
@@ -126,36 +138,50 @@
         <table>
             <thead>
                 <tr>
-                    <th><%= LANG('发展会员数量') %></th>
-                    <th><%= LANG('月交易额（BTC）') %></th>
-                    <th><%= LANG('个人交易手续费优惠') %></th>
-                    <th><%= LANG('返佣比例') %></th>
+                    <th>
+                        <%= LANG('发展会员数量') %>
+                    </th>
+                    <th>
+                        <%= LANG('月交易额（BTC）') %>
+                    </th>
+                    <th>
+                        <%= LANG('个人交易手续费优惠') %>
+                    </th>
+                    <th>
+                        <%= LANG('返佣比例') %>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1-49</td>
+                <tr v-for="(item, index) in earningsList" :key="index" v-if="item.usersCountMax">
+                    <td>{{item.usersCountMax > 1000 ? 1000 + '+' : item.usersCountMin + '-' + item.usersCountMax}}</td>
                     <td>100</td>
                     <td>95<%= LANG('折') %></td>
-                    <td>30%</td>
-                </tr>
-                <tr>
-                    <td>50-99</td>
-                    <td>200</td>
-                    <td>85<%= LANG('折') %></td>
-                    <td>20%</td>
+                    <td>{{item.cashBack * 100}}%</td>
                 </tr>
             </tbody>
         </table>
         <div class="describe">
-            <h2><%= LANG('合伙人说明') %></h2>
-            <ul>     
-                <li>1、<%= LANG('合伙人所邀请的用户必须为有效用户，有效会员为账户余额价值大于1个ETH，每月至少有一笔交易；') %></li>
-                <li>2、<%= LANG('会员数量或交易额达到任一标准即可享受相应等级的奖励；') %></li>
-                <li>3、<%= LANG('用户邀请即返佣，普通用户邀请有效用户未超过50人时，享受邀请用户90天的交易佣金的20%；') %></li>
-                <li>4、<%= LANG('如果30天内没有新增有效推荐用户，自动清除推荐人关系。') %></li>
+            <h2>
+                <%= LANG('合伙人说明') %>
+            </h2>
+            <ul>
+                <li>1、
+                    <%= LANG('合伙人所邀请的用户必须为有效用户，有效会员为账户余额价值大于1个ETH，每月至少有一笔交易；') %>
+                </li>
+                <li>2、
+                    <%= LANG('会员数量或交易额达到任一标准即可享受相应等级的奖励；') %>
+                </li>
+                <li>3、
+                    <%= LANG('用户邀请即返佣，普通用户邀请有效用户未超过50人时，享受邀请用户90天的交易佣金的20%；') %>
+                </li>
+                <li>4、
+                    <%= LANG('如果30天内没有新增有效推荐用户，自动清除推荐人关系。') %>
+                </li>
             </ul>
-            <p><%= LANG('本活动最终解释权归XT所有。') %></p>
+            <p>
+                <%= LANG('本活动最终解释权归XT所有。') %>
+            </p>
         </div>
     </div>
 </div>
@@ -274,19 +300,26 @@
             el: "#partnerBox",
             data: function () {
                 return {
-                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
+                        .recommendCode || ''),
                     // myRecommend: [],
                     // pageIndex: 1,
                     // pageSize: 20,
                     // pageCount: 0,
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    recommendCode: Methods.getLocalUserInfo().recommendCode || '' // 邀请码
+                    recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
+                    userEffectiveAcount: '', //有效用户数
+                    userCount: '', // 注册人数
+                    totalProfit: '', // 总收益
+                    yesterdayProfite: '', // 昨日收益
+                    earningsList: [] // 收益比例列表
                 }
             },
-            created () {
+            created() {
                 this.$nextTick(function () {
                     this.getDetailsData()
+                    this.getEarningsData()
                 })
             },
             mounted: function () {
@@ -301,29 +334,44 @@
                 }, function (error) {})
             },
             methods: {
-                getDetailsData () {
+                getDetailsData() {
                     if (!this.isLogin) {
                         return false;
                     }
                     Methods.ajax({
-                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/xt_extends/controller/website/partnercontroller/getpartnerinfo',
-                        data: {userId: this.loginUser.userId},
+                        data: {
+                            userId: this.loginUser.userId
+                        },
                         success: function (res) {
-                            console.log(res, "00")
+                            this.userCount = res.datas.userCount
+                            this.userEffectiveAcount = res.datas.userEffectiveAcount
+                            this.totalProfit = res.datas.totalProfit
+                            this.yesterdayProfite = res.datas.yesterdayProfite
                         }.bind(this)
                     });
                 },
+                getEarningsData() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            '/exchange/xt_extends/controller/website/partnercontroller/getprofitconfig',
+                        success: function (res) {
+                            this.earningsList = res.datas
+                            console.log(this.earningsList, "00")
+
+                        }.bind(this)
+                    })
+                },
                 copyUrl: function (type) {
-                    if(type == 1) {
+                    if (type == 1) {
                         var Url = document.getElementById("commendInput");
                         Url.select(); // 选择对象
                         document.execCommand("Copy"); // 执行浏览器复制命令
                         JuaBox.info("<%= LANG('复制邀请链接地址成功!') %>");
-                    }else if(type == 2) {
+                    } else if (type == 2) {
                         var Url = document.getElementById("recommendCode");
-                        Url.select(); // 选择对象
+                        Url.select();
                         document.execCommand("Copy");
                         JuaBox.info("<%= LANG('复制成功!') %>");
                     }
