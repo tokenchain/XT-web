@@ -4,7 +4,7 @@
             <h2><%= LANG('API私有交易设置') %></h2>
             <a href="/help/restApi" target="_blank"><%= LANG('查看【API文档】') %></a>
             <p class="tip" v-if="!apiStatusisOpen"><%= LANG('通过验证后,开启API') %></p>
-            <p class="tip" v-if="apiStatusisOpen"><%= LANG('私有密钥允许您通过ZBG开放协议提供API访问您的账户并执行交易指令，我们为您提供的密钥非常重要，请妥善保管。') %></p>
+            <p class="tip" v-if="apiStatusisOpen"><%= LANG('私有密钥允许您通过XT开放协议提供API访问您的账户并执行交易指令，我们为您提供的密钥非常重要，请妥善保管。') %></p>
             <a class="api_btn" v-if="!apiStatusisOpen && !showForm" @click="handleShowForm('open')" href="#"><%= LANG('开启API') %></a>
             <div v-if="showForm" v-cloak class="api_input">
                 <div class="form-group">

@@ -8,51 +8,23 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>日期</th>
-                        <th>每日收益（XT）</th>
-                        <th>交易次数</th>
-                        <th>操作</th>
-                        <th>交易次数</th>
-                        <th>状态</th>
+                        <th><%= LANG('被邀请人账号') %></th>
+                        <th><%= LANG('收益XT') %></th>
+                        <th><%= LANG('交易时间') %></th>
+                        <th><%= LANG('状态') %></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1-49</td>
-                        <td>100</td>
-                        <td>95折</td>
-                        <td>100</td>
-                        <td>95折</td>
-                        <td>收益详情</td>
-                    </tr>
-                    <tr>
-                        <td>50-99</td>
-                        <td>200</td>
-                        <td>85折</td>
-                        <td>100</td>
-                        <td>95折</td>
-                        <td><span class="btn">收益详情</span></td>
-                    </tr>
-                    <tr>
-                        <td>50-99</td>
-                        <td>200</td>
-                        <td>100</td>
-                        <td>95折</td>
-                        <td>85折</td>
-                        <td><span class="btn">收益详情</span></td>
-                    </tr>
-                    <tr>
-                        <td>50-99</td>
-                        <td>200</td>
-                        <td>85折</td>
-                        <td>100</td>
-                        <td>95折</td>
-                        <td><span class="btn">收益详情</span></td>
+                    <tr v-cloak="" v-for="(item, index) in datas.results">
+                        <td>{{item.mobile}}</td>
+                        <td>{{item.coinXtCount}}</td>
+                        <td>{{item.cashBackTime}}</td>
+                        <td>{{item.isSendXt ? '已返拥' : '待返拥'}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getBill" v-if="datas.results.length > 0 || pageIndex > 1"></page-lite>
         </div>
     </div>
 </script>
@@ -80,13 +52,13 @@
                     pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
-                    billRecords: [1]
+                    datas: {results: [1]}
                 }
             },
             computed: {},
             methods: {
                 handleSubmit: function () {
-
+                    this.$emit('getSingleDayData', )
                 }
             },
             created: function () {

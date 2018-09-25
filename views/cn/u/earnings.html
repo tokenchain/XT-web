@@ -4,24 +4,34 @@
 
 <!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">-->
 <!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">-->
-
+<style>
+    .datepicker.dropdown-menu.datepicker-orient-bottom {
+        top: 170px !important;
+    }
+</style>
 
 <div id="earnings" class="earningsDetails">
     <div class="topContiner">
         <div class="head">
             <h3><%= LANG('收益详情') %></h3>
-            <div class="dropdown" v-cloak="">
+            <div class="form-group">
+                <div class="form-control">
+                    <input type="text" class="form-control" id="dataPicker">
+                    <i class="icon iconfont icon-shijian1"></i>
+                </div>
+            </div>
+            <!--<div class="dropdown" v-cloak="">
                 <p style="" role="button" data-toggle="dropdown"><em>{{month == 'all' ? "<%= LANG('请选择月份') %>" : month + "<%= LANG('月') %>"}}</em></p>
                 <div class="dropdown-menu">
                     <ul class="dropdown-list">
-                        <!--<li><a role="button" @click="changeMonth('all')"><%= LANG('请选择月份') %></a></li>-->
+                        &lt;!&ndash;<li><a role="button" @click="changeMonth('all')"><%= LANG('请选择月份') %></a></li>&ndash;&gt;
                         <li v-for="(item, index) in 12" :class="{'active': month==item}"><a role="button" @click="changeMonth(item)">{{item}}<%= LANG('月') %></a></li>
 
-                        <!--<li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
-                            .toUpperCase()}}</a></li>-->
+                        &lt;!&ndash;<li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
+                            .toUpperCase()}}</a></li>&ndash;&gt;
                     </ul>
                 </div>
-            </div>
+            </div>-->
             <div class="export" @click="openModal()">
                 <%= LANG('导出') %>
                 <i class="icon iconfont icon-excel"></i>
@@ -32,13 +42,13 @@
                 <li>
                     <div class="content">
                         <p><%= LANG('我的总收益') %></p>
-                        <p>2323XT</p>
+                        <p v-cloak>{{earnData.allXt}}XT</p>
                     </div>
                 </li>
                 <li>
                     <div class="content">
-                        <p><%= LANG('我的交易总次数') %></p>
-                        <p>232<%= LANG('次') %></p>
+                        <p><%= LANG('昨日收益') %></p>
+                        <p v-cloak>{{earnData.yesterdayXt}}<%= LANG('次') %></p>
                     </div>
                 </li>
             </ul>
@@ -52,37 +62,28 @@
             <table>
                 <thead>
                 <tr>
-                    <th>日期</th>
-                    <th>每日收益（XT）</th>
-                    <th>交易次数</th>
-                    <th>操作</th>
+                    <th><%= LANG('日期') %></th>
+                    <th><%= LANG('每日收益') %>（XT）</th>
+                    <th><%= LANG('交易次数') %></th>
+                    <th><%= LANG('操作') %></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1-49</td>
-                    <td>100</td>
-                    <td>95折</td>
-                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
+                <tr v-cloak="" v-for="(item, index) in earnData.records">
+                    <td>{{item.cashBackTime}}</td>
+                    <td>{{item.coinXtCount}}</td>
+                    <td>{{item.cnt}}</td>
+                    <td><span class="btn" @click="lookDetails(item.cashBackTime)"><%= LANG('收益详情') %></span></td>
                 </tr>
                 <tr>
-                    <td>50-99</td>
-                    <td>200</td>
-                    <td>85折</td>
-                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
+                    <td>{{item.mobile}</td>
+                    <td>{item.coinXtCount</td>
+                    <td>{{item.cashBackTime</td>
+                    <td><span class="btn" @click="lookDetails(2018)"><%= LANG('收益详情') %></span></td>
                 </tr>
-                <tr>
-                    <td>50-99</td>
-                    <td>200</td>
-                    <td>85折</td>
-                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
-                </tr>
-                <tr>
-                    <td>50-99</td>
-                    <td>200</td>
-                    <td>85折</td>
-                    <td><span class="btn" @click="lookDetails()">收益详情</span></td>
-                </tr>
+                <!--<tr v-if="earnData.records.length == 0" class="nodata">
+                    <td colspan="4"><%= LANG('暂无数据') %></td>
+                </tr>-->
                 </tbody>
             </table>
         </div>
@@ -95,7 +96,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()"/>
+        <modal-list :done="callCloseModal()" ref="modalList"/>
     </modal>
 </div>
 <script>
@@ -104,8 +105,10 @@
             el: "#earnings",
             data: function () {
                 return {
-                    month: '9',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    month: '',
                     showModal: false,
+                    earnData: {records: []}
                 }
             },
             computed: {},
@@ -119,26 +122,56 @@
                 openModal: function () {
                     this.showModal = 'export'
                 },
-                getEveryData () {
+                getIncomeDetails() {
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        '/exchange/xt_extends/controller/website/partnercontroller/findUserDetailByPage',
-                        // data: {},
+                        '/exchange/xt_extends/controller/website/partnercontroller/getOverviewOfEarnings',
+                        type: 'post',
+                        data: {userId: this.loginUser.userId},
                         success: function (res) {
-                            console.log(res, "00")
+                            this.earnData = res.datas
                         }.bind(this)
                     });
                 },
-                lookDetails: function () {
+                getSingleDayData: function (days) {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                        '/exchange/xt_extends/controller/website/partnercontroller/ getEverydayEarningsDetail',
+                        type: 'post',
+                        data: {
+                            userId: this.loginUser.userId,
+                            pageIndex: this.$refs.modalList.pageIndex,
+                            days: days
+                        },
+                        success: function (res) {
+                            console.log(res, 'SingleDayData')
+                            this.$refs.modalList.datas = res.datas
+                        }.bind(this)
+                    });
+                },
+                lookDetails: function (cashBackTime) {
+                    console.log(cashBackTime)
                     this.showModal = 'modalList'
+                    this.getSingleDayData(cashBackTime)
                 }
             },
             created: function () {
 
             },
             mounted: function () {
-                this.getEveryData()
-                // $("#dataPicker").datepicker({});
+                this.getIncomeDetails()
+
+                $('#dataPicker').datepicker({
+                    language: {
+                        en: 'en',
+                        cn: "zh-CN",
+                    }[getCookie('wlan')],
+                    autoclose: true,
+                    format: 'yyyy-mm',
+                    // startView: 0,
+                    minViewMode: 1,
+                    // maxViewMode: 1
+                })
 
             },
             updated: function () {
