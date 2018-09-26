@@ -1517,6 +1517,11 @@ button {
             }
             em {
               font-size: 16px;
+              max-width: 200px;
+              display: block;
+              margin: auto;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
           }
         }
