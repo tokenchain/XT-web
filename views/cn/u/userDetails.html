@@ -16,7 +16,7 @@
             <h3><%= LANG('用户详情') %></h3>
             <div class="form-group">
                 <div class="form-control">
-                    <input v-model="month" type="text" class="form-control" id="dataPicker"  placeholder="请选择">
+                    <input v-model="month" type="text" class="form-control" id="dataPicker" placeholder="请选择">
                     <i class="icon iconfont icon-shijian1"></i>
                 </div>
             </div>
@@ -69,21 +69,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-cloak="" v-for="(item, index) in earnData.records">
+                <tr v-cloak="" v-for="(item, index) in earnData.list">
                     <td>{{item.time}}</td>
                     <td>{{item.userCount}}</td>
                     <td>{{item.userEffectiveAcount}}</td>
                     <td><span class="btn" @click="lookDetails()"><%= LANG('用户详情') %></span></td>
                 </tr>
-                <tr>
-                    <td>{{item.mobile}</td>
-                    <td>{item.coinXtCount</td>
-                    <td>{{item.cashBackTime</td>
-                    <td><span class="btn" @click="lookDetails(2018)"><%= LANG('用户详情') %></span></td>
-                </tr>
-                <!--<tr v-if="earnData.records.length == 0" class="nodata">
+                <tr v-if="earnData.list.length == 0" class="nodata">
                     <td colspan="4"><%= LANG('暂无数据') %></td>
-                </tr>-->
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -100,21 +94,24 @@
     </modal>
 </div>
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'datepicker'], function (Vue, Methods, JuaBox) {
         var earningsDetails = new Vue({
             el: "#earnings",
             data: function () {
                 return {
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    month: '',
+                    month: '2018-9-26',
                     showModal: false,
-                    earnData: {records: []}
+                    earnData: {list: []}
                 }
             },
             computed: {},
             methods: {
+                addZore: function (time) {
+                    return time + ' 00:00:00'
+                },
                 changeMonth: function (month) {
-                    this.month = month
+                    this.month = this.addZore(month)
                 },
                 callCloseModal: function () {
 
@@ -123,11 +120,12 @@
                     this.showModal = 'export'
                 },
                 getIncomeDetails() {
+                    console.log(this.month)
                     Methods.ajax({
                         url: DOMAIN_DEV +
                         '/exchange/xt_extends/controller/website/partnercontroller/getuserdetail',
                         type: 'post',
-                        data: {userId: this.loginUser.userId},
+                        data: {userId: this.loginUser.userId, queryTime: this.addZore(this.month)},
                         success: function (res) {
                             this.earnData = res.datas
                         }.bind(this)
@@ -152,10 +150,8 @@
                         cn: "zh-CN",
                     }[getCookie('wlan')],
                     autoclose: true,
-                    format: 'yyyy-mm',
-                    // startView: 0,
+                    format: 'yyyy-mm-dd',
                     minViewMode: 1,
-                    // maxViewMode: 1
                 })
 
             },

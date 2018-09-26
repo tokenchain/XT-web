@@ -75,15 +75,9 @@
                     <td>{{item.cnt}}</td>
                     <td><span class="btn" @click="lookDetails()"><%= LANG('收益详情') %></span></td>
                 </tr>
-                <tr>
-                    <td>{{item.mobile}</td>
-                    <td>{item.coinXtCount</td>
-                    <td>{{item.cashBackTime</td>
-                    <td><span class="btn" @click="lookDetails(2018)"><%= LANG('收益详情') %></span></td>
-                </tr>
-                <!--<tr v-if="earnData.records.length == 0" class="nodata">
+                <tr v-if="earnData.records.length == 0" class="nodata">
                     <td colspan="4"><%= LANG('暂无数据') %></td>
-                </tr>-->
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -100,7 +94,7 @@
     </modal>
 </div>
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'datepicker'], function (Vue, Methods, JuaBox) {
         var earningsDetails = new Vue({
             el: "#earnings",
             data: function () {
