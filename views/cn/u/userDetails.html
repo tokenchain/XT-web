@@ -73,7 +73,7 @@
                     <td>{{item.time}}</td>
                     <td>{{item.userCount}}</td>
                     <td>{{item.userEffectiveAcount}}</td>
-                    <td><span class="btn" @click="lookDetails()"><%= LANG('用户详情') %></span></td>
+                    <td><span class="btn" @click="lookDetails(item.statisticsDate)"><%= LANG('用户详情') %></span></td>
                 </tr>
                 <tr v-if="earnData.list.length == 0" class="nodata">
                     <td colspan="4"><%= LANG('暂无数据') %></td>
@@ -90,7 +90,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'user'"/>
+        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'user'" :cash-back-time.sync="statisticsDate"/>
     </modal>
 </div>
 <script>
@@ -100,9 +100,10 @@
             data: function () {
                 return {
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    month: '2018-9-26',
+                    month: '2018-9-20',
                     showModal: false,
-                    earnData: {list: []}
+                    earnData: {list: []},
+                    statisticsDate: ''
                 }
             },
             computed: {},
@@ -120,7 +121,6 @@
                     this.showModal = 'export'
                 },
                 getIncomeDetails() {
-                    console.log(this.month)
                     Methods.ajax({
                         url: DOMAIN_DEV +
                         '/exchange/xt_extends/controller/website/partnercontroller/getuserdetail',
@@ -129,11 +129,11 @@
                         success: function (res) {
                             this.earnData = res.datas
                         }.bind(this)
-                    });
+                    })
                 },
-                lookDetails: function () {
-                    // console.log(this.month, $('#dataPicker').val())
-                    this.month = $('#dataPicker').val()
+                lookDetails: function (statisticsDate) {
+                    // this.month = $('#dataPicker').val()
+                    this.statisticsDate = statisticsDate
                     this.showModal = 'modalList'
                 }
             },
@@ -142,7 +142,6 @@
             },
             mounted: function () {
                 this.getIncomeDetails()
-
                 $('#dataPicker').datepicker({
                     orientation: "bottom left",
                     language: {
@@ -151,9 +150,11 @@
                     }[getCookie('wlan')],
                     autoclose: true,
                     format: 'yyyy-mm-dd',
-                    minViewMode: 1,
-                })
-
+                    // minViewMode: 1,   //月份视图
+                }).on('changeDate', function (ev) {
+                    console.log($('#dataPicker').val())
+                    this.getIncomeDetails()
+                }.bind(this))
             },
             updated: function () {
 

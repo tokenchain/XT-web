@@ -37,6 +37,16 @@ a, [role="button"] {
   text-decoration: none;
 }
 
+//bootstrp-datapicker  重置样式
+.datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+  background-image: linear-gradient(to bottom, #74B7F5, #5a7ff5) !important;
+  border: none;
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+  background-image: linear-gradient(to bottom, #74B7F5, #5a7ff5) !important;
+}
+
 //全站Header
 .header {
   position: relative;
@@ -1274,7 +1284,7 @@ button {
         border-top-color: currentColor;
       }
       em {
-        color: #dcdce4;
+        color: #5a7ff5;
       }
     }
     .dropdown-menu {
@@ -1298,7 +1308,7 @@ button {
             }
           }
           &.active a {
-            color: #fff;
+            //color: #fff;
             background: #3a3a79;
           }
         }
@@ -1798,7 +1808,7 @@ button {
       }
       .form-button {
         button {
-          width: 100px;
+          width: 25%;
           height: 40px;
         }
       }

@@ -1767,7 +1767,7 @@ button.icon-btn:hover {
 
 :placeholder-shown {
     /* Standard one last! */
-    color: #B492E9 !important;
+    color: #5a7ff5 !important;
     opacity: 1;
 }
 
@@ -3597,7 +3597,7 @@ form.footer-form input[type="email"] {
 }
 
 .footer-menu .timer {
-    color: #B492E9;
+    color: #e9e7ff;
     margin-left: 2rem;
 }
 

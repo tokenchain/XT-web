@@ -73,7 +73,7 @@
                     <td>{{item.cashBackTime}}</td>
                     <td>{{item.coinXtCount}}</td>
                     <td>{{item.cnt}}</td>
-                    <td><span class="btn" @click="lookDetails()"><%= LANG('收益详情') %></span></td>
+                    <td><span class="btn" @click="lookDetails(item.cashBackTime)"><%= LANG('收益详情') %></span></td>
                 </tr>
                 <tr v-if="earnData.records.length == 0" class="nodata">
                     <td colspan="4"><%= LANG('暂无数据') %></td>
@@ -90,7 +90,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'income'"/>
+        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'income'" :cash-back-time.sync="cashBackTime"/>
     </modal>
 </div>
 <script>
@@ -102,7 +102,8 @@
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     month: '',
                     showModal: false,
-                    earnData: {records: []}
+                    earnData: {records: []},
+                    cashBackTime: ''
                 }
             },
             computed: {},
@@ -127,9 +128,10 @@
                         }.bind(this)
                     });
                 },
-                lookDetails: function () {
-                    // console.log(this.month, $('#dataPicker').val())
-                    this.month = $('#dataPicker').val()
+                lookDetails: function (cashBackTime) {
+
+                    this.cashBackTime = cashBackTime
+                    console.log(this.cashBackTime, '111111111')
                     this.showModal = 'modalList'
                 }
             },

@@ -35,7 +35,8 @@
                     <tr v-cloak="" v-for="(item, index) in datas.results">
                         <td>{{item.phone}}</td>
                         <td>{{item.registerTime}}</td>
-                        <td>{{item.isEffective ? <i class="icon iconfont icon-youxiao"></i> : '---'}}</td>
+                        <td v-if="item.isEffective"><i style="color:#ffa200" class="icon iconfont icon-youxiao"></i></td>
+                        <td v-else>---</td>
                     </tr>
                     </tbody>
                 </table>
@@ -65,12 +66,17 @@
                     type: String,
                     default: ''
                 },
+                cashBackTime: {
+                    type: String,
+                    default: ''
+                },
                 mode: {
                     type: String,  // income  user
                     default: ''
                 }
             },
             data: function () {
+                console.log(this.cashBackTime)
                 return {
                     pageIndex: 1,
                     pageSize: 10,
@@ -81,14 +87,18 @@
             },
             computed: {},
             methods: {
+                addZore: function (time) {
+                    return time + ' 00:00:00'
+                },
                 getSingleDayData: function () {
+                    console.log(this.mode)
                     var Interface = this.mode === 'income' ? 'getEverydayEarningsDetail' : 'findUserDetailByPage'
                     var parms = this.mode === 'income' ? {
                         userId: this.loginUser.userId,
                         pageIndex: this.pageIndex,
-                        days: this.month
+                        days: this.cashBackTime
                     } : {
-                        queryTime: this.month,
+                        queryTime: this.addZore(this.cashBackTime),    //'2018-09-25 00:00:00',
                         pageNum: this.pageIndex,
                         pageSize: this.pageSize
                     }
@@ -102,10 +112,16 @@
                             this.datas = res.datas
                         }.bind(this)
                     });
-                },
+                }
+            },
+            watch: {
+
             },
             created: function () {
                 this.getSingleDayData()
+            },
+            mounted: function () {
+
             }
         })
     })

@@ -103,7 +103,8 @@
             },
             data: function () {
                 return {
-                    rangeTime: ''
+                    rangeTime: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
             },
             computed: {},
@@ -113,9 +114,10 @@
                     var startTime = $('#start').val() + ' 00:00:00'
                     var endTime = $('#end').val() + ' 00:00:00'
                     if (this.mode === 'income') {
-                        window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/xtpartnercontroller/exportTradeDetails'
+                        window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/partnercontroller/exportTradeDetails?userId=' + this.loginUser.userId
                     } else {
-                        window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/xtpartnercontroller/exportUserDetail?startTime=' + startTime + '&endTime=' + endTime
+                        window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/partnercontroller/exportUserDetail?userId=' + this.loginUser.userId
+                        // window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/partnercontroller/exportUserDetail?startTime=' + startTime + '&endTime=' + endTime
                     }
                 }
             },
