@@ -94,12 +94,12 @@
                 <li>
                     <span>
                         <%= LANG('我的总收益') %></span>
-                    <em>{{totalProfit}} USDT</em>
+                    <em>{{totalProfit | numFilter}} USDT</em>
                 </li>
                 <li>
                     <span>
                         <%= LANG('昨日收益') %></span>
-                    <em>{{yesterdayProfite}}
+                    <em>{{yesterdayProfite | numFilter}}
                         <%= LANG('XT') %></em>
                 </li>
             </ul>
@@ -139,6 +139,9 @@
             <thead>
                 <tr>
                     <th>
+                        <%= LANG('等级') %>
+                    </th>
+                    <th>
                         <%= LANG('发展会员数量') %>
                     </th>
                     <th>
@@ -153,11 +156,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in earningsList" :key="index" v-if="item.usersCountMax">
-                    <td>{{item.usersCountMax > 1000 ? 1000 + '+' : item.usersCountMin + '-' + item.usersCountMax}}</td>
-                    <td>100</td>
-                    <td>95<%= LANG('折') %></td>
-                    <td>{{item.cashBack * 100}}%</td>
+                <tr v-for="(item, index) in earningsList" :key="index">
+                    <td>P{{item.vipLevel}}</td>
+                    <td>{{item.usersCountMax ? (item.usersCountMax > 1000 ? 1000 + '+' : item.usersCountMin + '-' + item.usersCountMax) : 0}}</td>
+                    <td>{{item.tradingAmountMin | numFilter}}-{{item.tradingAmountMax | numFilter}}</td>
+                    <td>{{item.feeDiscount > 0 ? item.feeDiscount * 10 + '<%= LANG('折') %>' : 0}}</td>
+                    <td>{{item.cashBack > 0 ? (item.cashBack * 100 + '%') : 0}}</td>
                 </tr>
             </tbody>
         </table>
@@ -332,6 +336,12 @@
                     width: 150,
                     height: 150
                 }, function (error) {})
+            },
+            filters: {
+              numFilter(value) {
+                var realVal = Number(value).toFixed(2)
+                return Number(realVal)
+              }
             },
             methods: {
                 getDetailsData() {

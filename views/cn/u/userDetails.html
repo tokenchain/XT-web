@@ -90,7 +90,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'user'" :cash-back-time.sync="statisticsDate"/>
+        <modal-list :done="callCloseModal()" ref="modalList" :mode="'user'" :cash-back-time.sync="statisticsDate"/>
     </modal>
 </div>
 <script>
@@ -125,7 +125,7 @@
                         url: DOMAIN_DEV +
                         '/exchange/xt_extends/controller/website/partnercontroller/getuserdetail',
                         type: 'post',
-                        data: {userId: this.loginUser.userId, queryTime: this.addZore(this.month)},
+                        data: {userId: this.loginUser.userId, queryTime: this.addZore($('#dataPicker').val())},
                         success: function (res) {
                             this.earnData = res.datas
                         }.bind(this)
@@ -153,6 +153,7 @@
                     // minViewMode: 1,   //月份视图
                 }).on('changeDate', function (ev) {
                     console.log($('#dataPicker').val())
+                    this.month = $('#dataPicker').val()
                     this.getIncomeDetails()
                 }.bind(this))
             },

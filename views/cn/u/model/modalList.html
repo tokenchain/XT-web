@@ -33,7 +33,7 @@
                     </thead>
                     <tbody>
                     <tr v-cloak="" v-for="(item, index) in datas.results">
-                        <td>{{item.phone}}</td>
+                        <td>{{item.phone ? item.phone : item.email}}</td>
                         <td>{{item.registerTime}}</td>
                         <td v-if="item.isEffective"><i style="color:#ffa200" class="icon iconfont icon-youxiao"></i></td>
                         <td v-else>---</td>
@@ -61,10 +61,6 @@
                     default: function () {
                         console.log('close');
                     }
-                },
-                month: {
-                    type: String,
-                    default: ''
                 },
                 cashBackTime: {
                     type: String,

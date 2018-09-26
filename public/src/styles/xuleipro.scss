@@ -1527,6 +1527,11 @@ button {
             }
             em {
               font-size: 16px;
+              max-width: 200px;
+              display: block;
+              margin: auto;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
           }
         }
@@ -1980,6 +1985,7 @@ button {
                 font-stretch: normal;
                 letter-spacing: 0px;
                 color: #ffffff;
+                word-wrap: break-word;
                 &:first-child {
                   font-size: 16px;
                   margin-bottom: 20px;

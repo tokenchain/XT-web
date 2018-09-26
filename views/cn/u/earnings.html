@@ -90,7 +90,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'modalList'" @close="showModal = false">
-        <modal-list :done="callCloseModal()" ref="modalList" :month="month" :mode="'income'" :cash-back-time.sync="cashBackTime"/>
+        <modal-list :done="callCloseModal()" ref="modalList" :mode="'income'" :cash-back-time.sync="cashBackTime"/>
     </modal>
 </div>
 <script>
@@ -150,9 +150,11 @@
                     autoclose: true,
                     format: 'yyyy-mm',
                     // startView: 0,
-                    minViewMode: 1,
-                    // maxViewMode: 1
-                })
+                    // minViewMode: 1,
+                }).on('changeDate', function (ev) {
+                    console.log($('#dataPicker').val())
+                    this.getIncomeDetails()
+                }.bind(this))
 
             },
             updated: function () {
