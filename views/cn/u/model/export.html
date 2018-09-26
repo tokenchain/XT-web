@@ -7,6 +7,9 @@
     .datepicker.dropdown-menu.datepicker-orient-top {
         /*top: 120px!important;*/
     }
+    input:disabled{
+        background: #f7f3f3!important;
+    }
 </style>
 
 <script type="text/x-template" id="export">
@@ -61,12 +64,13 @@
                         <label class="control-label"><%= LANG('时间范围') %>：</label>
                         <div class="form-control">
                             <div class="input-daterange input-group" id="datepicker">
-                                <input type="text" class="input-sm form-control" id="start" name="start" placeholder="开始时间"/>
+                                <input disabled type="text" class="input-sm form-control" id="start" name="start" placeholder="开始时间"/>
                                 <i class="icon iconfont icon-shijian1 first"></i>
                                 <span class="input-group-addon"><%= LANG('到') %></span>
-                                <input type="text" class="input-sm form-control" id="end" name="end" placeholder="结束时间"/>
+                                <input disabled type="text" class="input-sm form-control" id="end" name="end" placeholder="结束时间"/>
                                 <i class="icon iconfont icon-shijian1 second"></i>
                             </div>
+                            <div style="margin-top:20px;">目前系统只支持导出最近3个月的数据</div>
                         </div>
                     </div>
 
