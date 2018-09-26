@@ -1680,14 +1680,14 @@
     "kr": "계좌 메인 스크린에 구현"
   },
   "检测到您是EXX商务合作方会员,您的可用资产可以一键转入": {
-    "cn": "检测到您是ZBG商务合作方会员,您的可用资产可以一键转入",
-    "en": "You are the number of business partner, your available funds can be quickly transferred into ZBG",
-    "jp": "お客様がZBG のビジネスパートナー側の会員なので、利用可能資金をワンタッチで移動できます",
-    "kr": "고객님이ZBG 비지니스 합작측 회원임을 검측, 고객님의 사용가능 자산을 원키로 전이가능"
+    "cn": "检测到您是XT商务合作方会员,您的可用资产可以一键转入",
+    "en": "You are the number of business partner, your available funds can be quickly transferred into XT",
+    "jp": "お客様がXT のビジネスパートナー側の会員なので、利用可能資金をワンタッチで移動できます",
+    "kr": "고객님이XT 비지니스 합작측 회원임을 검측, 고객님의 사용가능 자산을 원키로 전이가능"
   },
   "商务合作方一键转移说明": {
     "cn": "如果您在合作方有未完成的提现，建议取消后再重新登录进行本操作，本操作仅可执行一次!",
-    "en": "If you have unfinished withdrawal orders in CHBTC, please cancel them and re-login ZBG account to process this operation.",
+    "en": "If you have unfinished withdrawal orders in CHBTC, please cancel them and re-login XT account to process this operation.",
     "jp": "お客様がパートナー側で引き出してない資金がある場合は、キャンセルしてから再びログインしてこの操作を行ってください。この操作は一回しか行えません！",
     "kr": "만약 고객님께서 합작측에 미완성된 현금인출이 있을 경우, 취소후 다시 로그인하여 본 조작을 진행할것을 권장하며, 본 조작은 1번만 집행 가능 합니다!"
   },
@@ -1740,9 +1740,9 @@
     "kr": "상업합작에 관한 사용자 자산 전의 협의서"
   },
   "一键转入协议声明": {
-    "cn": "现就ZBG用户（转入账号）对存在于ZBG的商业合作方上的指定账号（转出账号）可用资产转移达成如下协议",
-    "en": " About transfering available assets of ZB account to ZBG account, you have agreed on: ",
-    "jp": "ユーザー（入金アカウント）がZBGのビジネスパートナー側の指定アカウント（出金アカウント）の利用可能資金の移動について以下通りの協議を結びます",
+    "cn": "现就XT用户（转入账号）对存在于XT的商业合作方上的指定账号（转出账号）可用资产转移达成如下协议",
+    "en": " About transfering available assets of ZB account to XT account, you have agreed on: ",
+    "jp": "ユーザー（入金アカウント）がXTのビジネスパートナー側の指定アカウント（出金アカウント）の利用可能資金の移動について以下通りの協議を結びます",
     "kr": "사용자(전입계좌)는 존재하는  상업합작측 지정한 계좌(전이계좌)에 대하여 전이 가능한 자산으로 아래와 같은 협의 달성"
   },
   "一、用户对转出账号的资产系该用户拥有占有和使用权的个人合法资产；": {
@@ -1764,14 +1764,14 @@
     "kr": "3. 는 사죵자 자산전이 과정이 안전하고 유효적임을 보증 합니다;"
   },
   "输入转出账号资金密码授权转账": {
-    "cn": "四、用户转移资产时，需要验证转出账号的资金密码，用户提交验证通过则代表用户授权ZBG平台将转出账号的资产转移到转入账号的操作；",
-    "en": "4. You enter your CHBTC account's transaction password and agree to transfer your assets is deem that you authorize ZBG to transfer your assets from your CHBTC account to ZBG account.",
-    "jp": "ユーザーが資産を移動する際に、出金アカウントの資金移動パスワードを検証する必要があります。そのパスワードを提出して検証されたら、ユーザーがZBGプラットフォームが出金アカウントの資金を入金アカウントに移動する操作を行うように授権したと見なされます",
-    "kr": "4. 사용자 자산전이할 때, 전이계좌의 자금 비밀번호 검증이 필요하여, 사용자는 검증을 제출하여 통과시 사용자가 위임한 ZBG플랫폼은 전이 계좌의 자산은 전입계좌로 전이를 조작 합니다. "
+    "cn": "四、用户转移资产时，需要验证转出账号的资金密码，用户提交验证通过则代表用户授权XT平台将转出账号的资产转移到转入账号的操作；",
+    "en": "4. You enter your CHBTC account's transaction password and agree to transfer your assets is deem that you authorize XT to transfer your assets from your CHBTC account to XT account.",
+    "jp": "ユーザーが資産を移動する際に、出金アカウントの資金移動パスワードを検証する必要があります。そのパスワードを提出して検証されたら、ユーザーがXTプラットフォームが出金アカウントの資金を入金アカウントに移動する操作を行うように授権したと見なされます",
+    "kr": "4. 사용자 자산전이할 때, 전이계좌의 자금 비밀번호 검증이 필요하여, 사용자는 검증을 제출하여 통과시 사용자가 위임한 XT플랫폼은 전이 계좌의 자산은 전입계좌로 전이를 조작 합니다. "
   },
   "一键转入后增加资产": {
     "cn": "五、用户确认了解并清楚转移的过程，转出资产后，转移列表中列出的资产将从转出账号减少，并在转入账号增加对应的数量。",
-    "en": "5. You confirm that you understand the process of assets transfer. The assets listed in the transfer list will be reduced from ZB account and increase on ZBG account after transferring.",
+    "en": "5. You confirm that you understand the process of assets transfer. The assets listed in the transfer list will be reduced from ZB account and increase on XT account after transferring.",
     "jp": "五、ユーザーが移動プロセスを確認してその内容を理解しています。資産が移動されたら、移動リストの中の資産が出金アカウントから控除され、そして入金アカウントに相応の数量が増やされます。",
     "kr": "5. 사용자는 전이과정을 확인 및 요해하며, 자산 전출 후, 라열표중에 라열한 자산을 전이하여, 전출계좌에서 감소하고, 전입계좌에서 상응한 수량을 전입합니다. "
   },
@@ -1800,10 +1800,10 @@
     "kr": "확인"
   },
   "bts充值重要提示": {
-    "cn": "重要提示：收币账户为zbgbts，填错账户或备注(MEMO)都会导致资产丢失，请谨慎操作。",
-    "en": "Notice: The BTS receiving account is zbgbts, please note that enter wrong BTS account or wrong MEMO will cause the loss of asset. Please proceed with caution.",
-    "jp": "重要なノート：コインを受けるアカウントがzbgbtsであり、アカウントまたは備考（MEMO）を間違えると資金紛失を生じるため、注意して操作してください",
-    "kr": "알리는 글: 화폐접수 계좌는 zbgbts, 계좌 또는 비고(MEMO)기록 오류는 자산 유실을 초래하기에 자세히 조작하여 주세요."
+    "cn": "重要提示：收币账户为XTbts，填错账户或备注(MEMO)都会导致资产丢失，请谨慎操作。",
+    "en": "Notice: The BTS receiving account is XTbts, please note that enter wrong BTS account or wrong MEMO will cause the loss of asset. Please proceed with caution.",
+    "jp": "重要なノート：コインを受けるアカウントがXTbtsであり、アカウントまたは備考（MEMO）を間違えると資金紛失を生じるため、注意して操作してください",
+    "kr": "알리는 글: 화폐접수 계좌는 XTbts, 계좌 또는 비고(MEMO)기록 오류는 자산 유실을 초래하기에 자세히 조작하여 주세요."
   },
   "钱包地址": {
     "cn": "钱包地址",
@@ -1921,13 +1921,13 @@
   },
   "开启后每次登录都将进行该项安全验证。": {
     "cn": "开启后每次登录都将进行该项安全验证。",
-    "en": "It is required verification when signing in ZBG account if you enable this function.",
+    "en": "It is required verification when signing in XT account if you enable this function.",
     "jp": "オープンされたら、ログイン毎にこのセキュリティ検証を行います",
     "kr": "가동후 매번 로그인은 해당 안전검증을 진행하게 됩니다."
   },
   "关闭后每次登录不会进行该项安全验证。": {
     "cn": "关闭后每次登录不会进行该项安全验证。",
-    "en": "It is not required verification when signing in ZBG account if you disable this function.",
+    "en": "It is not required verification when signing in XT account if you disable this function.",
     "jp": "クローズされたら、ログイン毎にこのセキュリティ検証を行いません",
     "kr": "닫은뒤에 매번 로그인은 해당 안전검증을 진행하지 않습니다."
   },
@@ -1999,13 +1999,13 @@
   },
   "修改Google并不会立即生效": {
     "cn": "修改Google并不会立即生效，您提交后，需要等待客服审核，审核通过前您仍可使用旧的Google验证码",
-    "en": "Modify Google authentication will not effect immediately, it need to be verified by ZBG.com. You can use the former Google authentication code before approval.",
+    "en": "Modify Google authentication will not effect immediately, it need to be verified by XT.com. You can use the former Google authentication code before approval.",
     "jp": "改正Googleはただちに発効する、ご提出後、顧客サービスをする審査、承認されてご使用前にも古いGoogleの確認コード",
     "kr": "Google 및 수정 안 직효 있습니다. 필요한 제출 후에 기다리다 상담 감사, 감사 통해 전 당신 仍可 사용 낡은 Google 인증 코드."
   },
   "修改手机并不会立即生效": {
     "cn": "修改手机并不会立即生效，您提交后，需要等待客服审核，审核通过前您仍可使用旧的手机号码",
-    "en": "Modify phone number will not effect immediately, it need to be verified by ZBG.com. You can use the former phone number before approval.",
+    "en": "Modify phone number will not effect immediately, it need to be verified by XT.com. You can use the former phone number before approval.",
     "jp": "携帯電話を改正に直ちに発効し、ご提出後、顧客サービスをする審査、承認されてご使用前にも古い携帯電話番号",
     "kr": "핸드폰 안 수정 및 제출 후 즉시 효력을 가진다, 당신이 필요로 하는 상담 기다리는 감사, 감사 통해 전 당신 仍可 사용 낡은 핸드폰 번호"
   },
