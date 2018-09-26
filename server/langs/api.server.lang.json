@@ -1,9 +1,9 @@
 {
   "API说明及加群": {
-    "cn": "<p>ZBG为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将ZBG交易功能整合到自己应用当中。</p><p>如果在使用过程中有任何问题，请联系我们技术讨论QQ群：630260653[<a href='https://jq.qq.com/?_wv=1027&k=52xTBP3' target='_blank'>点击加群</a>] ，我们将为您做出最权威的解答。 </p>",
-    "en": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>",
-    "jp": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>",
-    "kr": "<p>ZBG provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@ZBG.com.</p>"
+    "cn": "<p>XT为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将XT交易功能整合到自己应用当中。</p><p>如果在使用过程中有任何问题，请联系我们技术讨论QQ群：630260653[<a href='https://jq.qq.com/?_wv=1027&k=52xTBP3' target='_blank'>点击加群</a>] ，我们将为您做出最权威的解答。 </p>",
+    "en": "<p>XT provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@XT.com.</p>",
+    "jp": "<p>XT provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@XT.com.</p>",
+    "kr": "<p>XT provides APIs for fast access to its spot markets with the following features: Market data, Order book, Depths of bids and asks, Trade history, Trade execution, Order information, Order history, Account information.</p><p>In case of any problem, please contact our support team, please contact on support@XT.com.</p>"
   },
   "行情API": {
     "cn": "行情API",
@@ -11,11 +11,11 @@
     "jp": "Price API",
     "kr": "Price API"
   },
-  "获取ZBG最新市场行情数据": {
-    "cn": "获取ZBG最新市场行情数据",
-    "en": "Receive the latest ZBG market data",
-    "jp": "Receive the latest ZBG market data",
-    "kr": "Receive the latest ZBG market data"
+  "获取XT最新市场行情数据": {
+    "cn": "获取XT最新市场行情数据",
+    "en": "Receive the latest XT market data",
+    "jp": "Receive the latest XT market data",
+    "kr": "Receive the latest XT market data"
   },
   "接口": {
     "cn": "接口",
@@ -233,11 +233,11 @@
     "jp": "Trade API",
     "kr": "Trade API"
   },
-  "用于ZBG快速进行交易": {
-    "cn": "用于ZBG快速进行交易",
-    "en": "Fast Trade on ZBG.com",
-    "jp": "Fast Trade on ZBG.com",
-    "kr": "Fast Trade on ZBG.com"
+  "用于XT快速进行交易": {
+    "cn": "用于XT快速进行交易",
+    "en": "Fast Trade on XT.com",
+    "jp": "Fast Trade on XT.com",
+    "kr": "Fast Trade on XT.com"
   },
    "委托下单": {
     "cn": "委托下单",
@@ -563,11 +563,11 @@
     "jp": " attachment address",
     "kr": " attachment address"
   },
-  "获取ZBG最新行情数据": {
-    "cn": "获取ZBG最新行情数据",
-    "en": "Receive the latest ZBG market data",
-    "jp": "Receive the latest ZBG market data",
-    "kr": "Receive the latest ZBG market data"
+  "获取XT最新行情数据": {
+    "cn": "获取XT最新行情数据",
+    "en": "Receive the latest XT market data",
+    "jp": "Receive the latest XT market data",
+    "kr": "Receive the latest XT market data"
   },
    "K线": {
     "cn": "K线",
@@ -851,9 +851,9 @@
     "jp": "",
     "kr": ""
   },
-   "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：": {
-    "cn": "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：",
-    "en": "ZBG provides an easy and strong API aiming at assisting users to integrate the trading function of ZBG into their own application efficiently and fast. If there is any question, you can contact us at QQ group: ",
+   "XT为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将XT交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：": {
+    "cn": "XT为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将XT交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：",
+    "en": "XT provides an easy and strong API aiming at assisting users to integrate the trading function of XT into their own application efficiently and fast. If there is any question, you can contact us at QQ group: ",
     "jp": "",
     "kr": ""
   },
@@ -869,9 +869,9 @@
     "jp": "",
     "kr": ""
   },
-  "ZBG WebSocket服务连接地址：wss://kline.zbg.com/websocket": {
-    "cn": "ZBG WebSocket服务连接地址：wss://kline.zbg.com/websocket",
-    "en": "WebSocket service address: wss://kline.zbg.com/websocket",
+  "XT WebSocket服务连接地址：wss://kline.XT.com/websocket": {
+    "cn": "XT WebSocket服务连接地址：wss://kline.XT.com/websocket",
+    "en": "WebSocket service address: wss://kline.XT.com/websocket",
     "jp": "",
     "kr": ""
   },
@@ -923,9 +923,9 @@
     "jp": "",
     "kr": ""
   },
-   "获取zbg最新行情数据": {
-    "cn": "获取zbg最新行情数据",
-    "en": "Acquire the latest ZBG quotation data",
+   "获取XT最新行情数据": {
+    "cn": "获取XT最新行情数据",
+    "en": "Acquire the latest XT quotation data",
     "jp": "",
     "kr": ""
   },
@@ -1144,9 +1144,9 @@
     "jp": "",
     "kr": ""
   },
-  "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答": {
-    "cn": "zbg为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将zbg交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答",
-    "en": "ZBG provides an easy and strong API aiming at assisting users to integrate the trading function of ZBG into their own application efficiently and fast. If there is any question, you can contact us at QQ group: 829230107 where we will provide authentic answers.",
+  "XT为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将XT交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答": {
+    "cn": "XT为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将XT交易功能整合到自己应用当中。如果在使用过程中有任何问题，请联系我们技术讨论QQ群：829230107 ，我们将会为您做出最权威的解答",
+    "en": "XT provides an easy and strong API aiming at assisting users to integrate the trading function of XT into their own application efficiently and fast. If there is any question, you can contact us at QQ group: 829230107 where we will provide authentic answers.",
     "jp": "",
     "kr": ""
   },
@@ -1156,9 +1156,9 @@
     "jp": "",
     "kr": ""
   },
-  "域名地址：https://www.zbg.com/": {
-    "cn": "域名地址：https://www.zbg.com/",
-    "en": "Domain Name: https://www.zbg.com/",
+  "域名地址：https://www.XT.com/": {
+    "cn": "域名地址：https://www.XT.com/",
+    "en": "Domain Name: https://www.XT.com/",
     "jp": "",
     "kr": ""
   },
@@ -1254,9 +1254,9 @@
     "jp": "",
     "kr": ""
   },
-   "扩展的userid来源类型，比如:zb，exx": {
-    "cn": "扩展的userid来源类型，比如:zb，exx",
-    "en": "type of external user id, such as :zb，zbg",
+   "扩展的userid来源类型，比如:xt，exx": {
+    "cn": "扩展的userid来源类型，比如:xt，exx",
+    "en": "type of external user id, such as :xt，XT",
     "jp": "",
     "kr": ""
   },
@@ -1349,9 +1349,9 @@
     "jp": "",
     "kr": ""
   },
-  "扩展的userid,比如zb一键登陆保存的zb的userid": {
-    "cn": "扩展的userid,比如zb一键登陆保存的zb的userid",
-    "en": "external user id like zb, directly login zb’s user id",
+  "扩展的userid,比如xt一键登陆保存的xt的userid": {
+    "cn": "扩展的userid,比如xt一键登陆保存的xt的userid",
+    "en": "external user id like xt, directly login xt’s user id",
     "jp": "",
     "kr": ""
   },
@@ -2435,9 +2435,9 @@
     "jp": "",
     "kr": ""
   },
-   "奖池每日开启，具体开启信息可关注ZBG每日官方公告。": {
-    "cn": "奖池每日开启，具体开启信息可关注ZBG每日官方公告。",
-    "en": "The prize pool is opened daily. The specific information can be followed by the daily official announcement of ZBG.",
+   "奖池每日开启，具体开启信息可关注XT每日官方公告。": {
+    "cn": "奖池每日开启，具体开启信息可关注XT每日官方公告。",
+    "en": "The prize pool is opened daily. The specific information can be followed by the daily official announcement of XT.",
     "jp": "",
     "kr": ""
   },
@@ -2483,15 +2483,15 @@
     "jp": "",
     "kr": ""
   },
-  "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由ZBG提供的精美周边 ——ZBG主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。": {
-    "cn": "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由ZBG提供的精美周边 ——ZBG主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。",
-    "en": "All users who list in the rankings of both Millionaire Pool and Counterattack Pool will get rewards of free derivative products--ZBG themed T-shirt, which will be given out once our client service completes the statistics.",
+  "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由XT提供的精美周边 ——XT主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。": {
+    "cn": "所有进入逆袭池/富豪池榜单排名的用户，均可免费获得由XT提供的精美周边 ——XT主题文化衫一件。实物周边奖在惊喜HOUR周结束后由客服统计信息后发放。",
+    "en": "All users who list in the rankings of both Millionaire Pool and Counterattack Pool will get rewards of free derivative products--XT themed T-shirt, which will be given out once our client service completes the statistics.",
     "jp": "",
     "kr": ""
   },
-   "本活动最终解释权归ZBG.com所有。": {
-    "cn": "本活动最终解释权归ZBG.com所有。",
-    "en": "ZBG reserves the right of final decision on the interpretation of this activity.",
+   "本活动最终解释权归XT.com所有。": {
+    "cn": "本活动最终解释权归XT.com所有。",
+    "en": "XT reserves the right of final decision on the interpretation of this activity.",
     "jp": "",
     "kr": ""
   },

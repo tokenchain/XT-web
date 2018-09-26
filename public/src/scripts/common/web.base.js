@@ -702,7 +702,7 @@ var JuaBox = function(JuaId) {
 			return;
 		}
 		var options = options || {} ;
-		options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> ZBG Alert</span>";
+		options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> XT Alert</span>";
 		if(options.needLogin && !bitbank.getCookie(vip.cookiKeys.uname)){
 		    return JuaBox.log();
 		}
@@ -717,7 +717,7 @@ var JuaBox = function(JuaId) {
 			return;
 		}
 		var options = options || {} ;
-		options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> ZBG Alert</span>";
+		options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> XT Alert</span>";
 		options.btnNum = 1 ;
 		options.showClose = false ;
 		if(options.needLogin && !bitbank.getCookie(vip.cookiKeys.uname)){

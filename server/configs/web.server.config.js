@@ -24,7 +24,7 @@ module.exports = function(LAN) {
         },
         SNS : {
             sina : {
-                name : 'ZBG官方微博',
+                name : 'XT官方微博',
                 href : 'https://weibo.com/p/1005056104128706',
                 qrcode : 'https://s.chbtc.com/statics/img/v2/common/ma-weixin.png'
             },
