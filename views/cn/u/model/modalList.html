@@ -5,7 +5,7 @@
         <div class="exx-modal-header"><h3><%= LANG('查看详情') %></h3></div>
         <div class="exx-modal-body">
             <div class="earnings">
-                <table>
+                <table v-if="mode === 'income'">
                     <thead>
                     <tr>
                         <th><%= LANG('被邀请人账号') %></th>
@@ -20,6 +20,22 @@
                         <td>{{item.coinXtCount}}</td>
                         <td>{{item.cashBackTime}}</td>
                         <td>{{item.isSendXt ? '已返拥' : '待返拥'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table v-if="mode === 'user'">
+                    <thead>
+                    <tr>
+                        <th><%= LANG('被邀请人账号') %></th>
+                        <th><%= LANG('注册时间') %></th>
+                        <th><%= LANG('是否有效用户') %></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-cloak="" v-for="(item, index) in datas.results">
+                        <td>{{item.phone}}</td>
+                        <td>{{item.registerTime}}</td>
+                        <td>{{item.isEffective ? <i class="icon iconfont icon-youxiao"></i> : '---'}}</td>
                     </tr>
                     </tbody>
                 </table>
