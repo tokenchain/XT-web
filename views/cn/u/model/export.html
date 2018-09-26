@@ -109,8 +109,9 @@
             computed: {},
             methods: {
                 handleSubmit: function () {
-                    var interFace = this.mode === 'income' ? 'exportTradeDetails' : 'exportDetailByPage'
-                    window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/xtpartnercontroller/' + 'interFace'
+                    console.log($('#start').val(), $('#end').val())
+                    var interFace = this.mode === 'income' ? 'exportTradeDetails' : 'exportUserDetail'
+                    // window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/xtpartnercontroller/' + 'interFace'
                 }
             },
             created: function () {
@@ -124,7 +125,6 @@
                         cn: "zh-CN",
                     }[getCookie('wlan')],
                     autoclose: true,
-                    endDate: new Date()
                 }).on('changeDate', function (event) {
 
                 });
