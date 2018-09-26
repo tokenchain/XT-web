@@ -394,7 +394,7 @@
         <div class="trade-form-modal" v-if="isShowIntoModle" v-cloak>
             <div class="trade-form-verification">
                 <span class="verification-close" @click="closeInto">X</span>
-                <div class="verification-title">ZB<%= LANG('转入')%></div>
+                <div class="verification-title">XT<%= LANG('转入')%></div>
                 <input id="verification-input-2" type="number" min="0" placeholder="<%= LANG('请输入数量') %>"
                        v-model="intoNum">
                 <button class="" @click="AssetsInto(intoNum)"><%= LANG('确定')%></button>
@@ -597,7 +597,7 @@
 
                     currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
                     keyWord: '',
-                    zb_eth_exchangeList: ["zb", "ink", "chat", "topc", "bat", "1st", "qun", "true", "cdc", "ddm", "hotc", "xuc", "gram", "omg", "btm", "snt", "ae", "icx", "zrx", "edo", "fun", "mana", "rcn", "mco", "mith", "knc", "gnt", "mtl", "sub", "eosdac", "kan"],
+                    xt_eth_exchangeList: ["xt", "ink", "chat", "topc", "bat", "1st", "qun", "true", "cdc", "ddm", "hotc", "xuc", "gram", "omg", "btm", "snt", "ae", "icx", "zrx", "edo", "fun", "mana", "rcn", "mco", "mith", "knc", "gnt", "mtl", "sub", "eosdac", "kan"],
                     getuserfeetotalData: '',
                     todayminerstatDta:'',
                     getuserfeetotalData:{

@@ -618,7 +618,7 @@ JuaBox.info = function(message,options){
     return;
   }
   var options = options || {} ;
-  options.title = "<span class='ft36'><i class='iconfont icon-warning'></i> ZBG Alert</span>";
+  options.title = "<span class='ft36'><i class='iconfont icon-warning'></i> XT Alert</span>";
   JuaIndex ++ ;
   JuaArry[JuaIndex] = new JuaBox(JuaIndex) ;
   JuaArry[JuaIndex].info(message,options);
@@ -630,7 +630,7 @@ JuaBox.sure = function(message,options){
     return;
   }
   var options = options || {} ;
-  options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> ZBG Alert</span>";
+  options.title = "<span class='ft36'><i class='fa fa-warning ft36'></i> XT Alert</span>";
   options.btnNum = 1 ;
   options.showClose = false ;
   JuaIndex ++ ;

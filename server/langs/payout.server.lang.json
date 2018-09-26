@@ -115,7 +115,7 @@
   },
   "X网络收取矿工费XX/笔，由平台代扣；": {
     "cn": "[$1]网络收取矿工费[$2][$3]/笔，由平台代扣；",
-    "en": "[$1] blockchain charge miner fee of [$2][$3] per withdrawal which is withhold by ZBG ",
+    "en": "[$1] blockchain charge miner fee of [$2][$3] per withdrawal which is withhold by XT ",
     "jp": " Xネットワークがマイナー手数料としてXX/パーを受け取りますが、プラットフォームが代わりにそれを差し控えます",
     "kr": "[$1]네트워크에서 무단결근비[$2][$3]/회 수취，플랫폼에서 대리공제；"
   },
@@ -127,7 +127,7 @@
   },
   "/笔，由平台代扣": {
     "cn": "/笔，由平台代扣",
-    "en": "per withdrawal which is withhold by ZBG ",
+    "en": "per withdrawal which is withhold by XT ",
     "jp": " XX/パーとして、プラットフォームが代わりに差し控えます",
     "kr": "/회, 플랫폼에서 대리 공제"
   },
@@ -283,13 +283,13 @@
   },
   "杠杆交易存在很大风险": {
     "cn": "1、杠杆交易存在很大风险,对服务器网关瓶颈,网站访问不稳定等各种因素造成杠杆交易被平仓的风险,本公司不负任何责任。",
-    "en": "Margin trading has great risk, ZBG will not be responsible for the server gateway bottlenecks, unstable site access and other risks cause the liquidation of your margin trading.",
+    "en": "Margin trading has great risk, XT will not be responsible for the server gateway bottlenecks, unstable site access and other risks cause the liquidation of your margin trading.",
     "jp": " マージン取引には大きなリスクがあります。サーバーゲートウェイのボトルネック、サイト訪問不安定などさまざまな要因によってマージン取引がクローズポジションになった場合は、弊社が一切責任を負いません。",
     "kr": "1. 레버거래는 커다란 위험 존재하여, 서버 네트워크 난관에 대하여, 네트워크 방문 불온정 등 각종 인소로 레버거래가 스퀘어되는 벤처를 초래하면, 당사는 아무런 책임을 지지 않는다."
   },
   "系统将按照网站实时委托对您的资产进行强制平仓": {
     "cn": "2、当您的总资产不足申请额度的110%时,系统将按照网站实时委托对您的资产进行强制平仓买入或卖出以归还申请额度。如果价格波动剧烈,系统无法平仓,导致平台亏损,我们有权向用户追回损失",
-    "en": "When your total assets are less than 110% of the borrowed amount, the system will liquidate your account in a real time entrustment of ZBG to buy or sell your funds to repay your borrowed funds. If the price fluctuate fiercely, the system cannot liquidate your account and cause losses of ZBG, we have the right to claim for our losses.",
+    "en": "When your total assets are less than 110% of the borrowed amount, the system will liquidate your account in a real time entrustment of XT to buy or sell your funds to repay your borrowed funds. If the price fluctuate fiercely, the system cannot liquidate your account and cause losses of XT, we have the right to claim for our losses.",
     "jp": "お客様の総資産額が申込額の110％に足りない場合は、システムがウェッブサイトのリアルタイム委託により、お客様の資産に対して強制清算を行い、購入または売出で申込額を返済します。価格変動が激しく、システムが強制清算を行えず、プラットフォームの赤字を招いた場合、当社はユーザーから損失を取り返すする権利があります",
     "kr": "2. 고객님의 총 자산이 신청한도의 110%에 달하지 못할 경우, 시스템은 네트워크 실시 위탁에 따라 고객님의 자산에 대하여 강제적인 스퀘어 매입 또는 매출로 신청한도를 환불할것이다. 만약 가격 파동이 클 경우, 시스템은 스퀘어될 수가 없어 플랫폼 손실을 초래하게 되어, 우리는 사용자들로 부터 손실을 회수할 권한이 있다."
   },
