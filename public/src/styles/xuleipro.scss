@@ -1638,12 +1638,6 @@ button {
         line-height: 52px;
         background-color: #f7f7f7;
         padding: 0 20px;
-        &:first-child {
-          text-align: left;
-        }
-        &:last-child {
-          text-align: right;
-        }
       }
       tbody {
         tr {
@@ -1659,12 +1653,6 @@ button {
             -webkit-transition: all .3s;
             transition: all .3s;
             padding: 0 20px;
-            &:first-child {
-              text-align: left;
-            }
-            &:last-child {
-              text-align: right;
-            }
           }
           &:hover {
             td {
