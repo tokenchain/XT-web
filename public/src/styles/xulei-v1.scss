@@ -6405,7 +6405,46 @@ p.exx-prompt {
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center
+  justify-content: center;
+  .form-group {
+    display: flex;
+    .control-label {
+      line-height: 40px;
+      font-family: MicrosoftYaHei-Bold;
+      font-size: 14px;
+      font-weight: 500;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #666666;
+      width: 29%;
+      text-align: right;
+    }
+    .form-control {
+      flex: 1;
+      input[type=text], input[type=password], input[type=number]{
+        padding: 0 0 0 35px;
+        height: 40px;
+        border-radius: 4px;
+        border: solid 1px #cccccc;
+        color: #666;
+        &:focus {
+          border-color: #5a7ff5;
+        }
+      }
+      > img {
+        position: absolute;
+        left: 10px;
+        top: 11px;
+        width: 15px;
+      }
+    }
+  }
+  .form-button {
+    button {
+      width: 25%;
+      height: 40px;
+    }
+  }
 }
 
 .payout-fill .payout-input {
