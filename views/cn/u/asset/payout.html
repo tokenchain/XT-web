@@ -62,7 +62,7 @@
                     <a role="button" v-if="!item.drawFlag">{{item.name.toUpperCase()}}</a>
                 </li>
             </ul>
-            
+
             <div class="payout-address" v-if="step == 1 && isLegalCoin != 1" v-cloak="">
 
 
@@ -150,7 +150,7 @@
                 </div>
             </div>
 
-            <div class="payout-fill" v-if="isLegalCoin == 1" v-cloak="">
+            <div class="payout-fill" v-if="step == 2" v-cloak="">
                 <div class="payout-input">
                     <div class="form-box">
                         <div class="form-group">
@@ -231,7 +231,6 @@
                             </li>
                         </ul>
 
-
                         <div v-if="!payoutRecordsSwitch" class="cd-loading">
                             <div class="vertical-bars">
                                 <p class="layer-1"></p>
@@ -247,7 +246,7 @@
                         </div>
                         <ul v-else class="list">
                             <li v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
-                                <p style="text-align: left;"><span class="hint--top" :aria-label="record.withdrawalAddress">{{record.withdrawalAddress}}</span>{{record.withdrawalAddress}}</p>
+                                <p :title="record.withdrawalAddress" style="text-align: left;">{{record.withdrawalAddress}}</p>
                                 <p>{{showDate(record.createTime)}}</p>
                                 <p>{{ record.verifyStatus == 0 && record.state == -1 ? showDate(record.modifyTime) : (record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)) }}</p>
                                 <p>{{parseFloat(record.amount)}}</p>
@@ -731,7 +730,7 @@
                     }
                     _this.showModal = 'addAddress';
                     })
-                    
+
                 },
                 deleAddress: function () {
 
