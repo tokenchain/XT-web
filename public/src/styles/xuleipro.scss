@@ -3174,7 +3174,7 @@ input::-webkit-inner-spin-button {
     li {
       text-align: center;
       //width: calc((100% - 100px) / 3);
-      padding: 24px 13px;
+      padding: 24px 56px;
       transition: all 0.3s;
       //border: 1px solid rgba(23,24,55,0.2);
       h3 {
@@ -3253,36 +3253,44 @@ input::-webkit-inner-spin-button {
         -ms-flex: none;
         flex: none;
         &:nth-of-type(1) {
-          left: 59px;
-          top: -33px;
+          left: 93px;
+          top: 40px;
         }
         &:nth-of-type(2) {
-          left: 426px;
-          top: -33px;
+          left: 427px;
+          top: 40px;
         }
         &:nth-of-type(3) {
-          left: 791px;
-          top: -33px;
+          left: 769px;
+          top: 40px;
         }
         &:nth-of-type(4) {
-          left: 511px;
-          top: 54px;
+          left: 508px;
+          top: 121px;
         }
         &:nth-of-type(5) {
-          left: 78px;
-          bottom: 36px;
+          left: 108px;
+          bottom: -23px;
         }
         &:nth-of-type(6) {
-          left: 338px;
-          bottom: 36px;
+          left: 349px;
+          bottom: -23px;
         }
         &:nth-of-type(7) {
-          left: 600px;
-          bottom: 36px;
+          left: 588px;
+          bottom: -23px;
         }
         &:nth-of-type(8) {
-          left: 859px;
-          bottom: 36px;
+          left: 831px;
+          bottom: -23px;
+        }
+        &.active {
+          h2 {
+            color: #5a7ff5;
+          }
+          p {
+            color: #546682;
+          }
         }
         h2 {
           text-align: center;
@@ -3293,7 +3301,7 @@ input::-webkit-inner-spin-button {
         }
         p {
           font-size: 14px;
-          color: #7291a1;
+          color: #546682;
           line-height: 20px;
         }
       }
