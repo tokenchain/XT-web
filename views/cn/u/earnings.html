@@ -148,11 +148,11 @@
                         cn: "zh-CN",
                     }[getCookie('wlan')],
                     autoclose: true,
-                    format: 'yyyy-mm',
+                    format: 'yyyy-mm-dd',
                     // startView: 0,
                     // minViewMode: 1,
                 }).on('changeDate', function (ev) {
-                    console.log($('#dataPicker').val())
+                    this.month = $('#dataPicker').val()
                     this.getIncomeDetails()
                 }.bind(this))
 
