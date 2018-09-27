@@ -18,7 +18,16 @@
     .totalcoin .active {
         color: #ff5353
     }
-    
+
+    .assets-record .assets-list .title li p, .assets-record .assets-list .list li p{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        line-height: 60px;
+        text-align: center;
+    }
+
 </style>
 <link href="<%= STATIC %>/styles/u/basic.css" rel="stylesheet" type="text/css">
 <div class="user-container">
@@ -141,19 +150,21 @@
                 </div>
             </div>
 
-            <div class="payout-fill" v-if="step == 2" v-cloak="">
+            <div class="payout-fill" v-if="isLegalCoin == 1" v-cloak="">
                 <div class="payout-input">
                     <div class="form-box">
                         <div class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input placeholder="<%= LANG('已选择的提币地址') %>" readonly="readonly"
                                        v-model="selectedAddress.address" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control">
+                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('提币数量') %>" v-model.number="payoutAmount" type="number">
-                                <p class="form-text" style="height: 42px; cursor: pointer;"
+                                <p class="form-text" style="margin-top: 10px;cursor: pointer;"
                                    @click="payoutAmount = canUseAmount"><%= LANG('可用') %>：<em>{{canUseAmount}}</em></p>
                                 <div style="margin-top: 10px;color: #7786a5;">当前费率 {{currentMinFees}}
                                     {{currentCoin.toUpperCase()}}/笔，实际到账 {{actualPayout}}
@@ -168,12 +179,14 @@
                         <!--</div>-->
                         <div class="form-group">
                             <div class="form-control" style="display: block !important;">
+                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                                 <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control" v-if="loginUser.withdrawAuth == 3 || loginUser.withdrawAuth == 7">
+                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
                                        type="text">
                                 <send-code :code-type="3"
@@ -208,15 +221,17 @@
                     <div class="body">
                         <ul class="title">
                             <li>
-                                <p><%= LANG('接收地址') %></p>
+                                <p style="text-align: left;"><%= LANG('接收地址') %></p>
                                 <p><%= LANG('提交时间') %></p>
                                 <p><%= LANG('处理时间') %></p>
                                 <p><%= LANG('金额') %></p>
                                 <p><%= LANG('实到金额') %></p>
                                 <p><%= LANG('状态') %></p>
-                                <p><%= LANG('操作') %></p>
+                                <p style="text-align: right;"><%= LANG('操作') %></p>
                             </li>
                         </ul>
+
+
                         <div v-if="!payoutRecordsSwitch" class="cd-loading">
                             <div class="vertical-bars">
                                 <p class="layer-1"></p>
@@ -232,13 +247,13 @@
                         </div>
                         <ul v-else class="list">
                             <li v-for="record in payoutRecords" v-if="payoutRecords.length > 0">
-                                <p>{{record.withdrawalAddress}}</p>
+                                <p style="text-align: left;"><span class="hint--top" :aria-label="record.withdrawalAddress">{{record.withdrawalAddress}}</span>{{record.withdrawalAddress}}</p>
                                 <p>{{showDate(record.createTime)}}</p>
                                 <p>{{ record.verifyStatus == 0 && record.state == -1 ? showDate(record.modifyTime) : (record.verifyStatus == 0 ? '--' : showDate(record.verifyTime)) }}</p>
                                 <p>{{parseFloat(record.amount)}}</p>
                                 <p>{{parseFloat(record.actuallyAmount)}}</p>
                                 <p>{{ record.verifyStatus == 0 && record.state == -1 ? '<%= LANG('已取消') %>' : (record.verifyStatus == 0 ? '<%= LANG('待审核') %>' : (record.verifyStatus == 1 ? '<%= LANG('已完成') %>' : '<%= LANG('审核不通过') %>' )) }}</p>
-                                <p>
+                                <p style="text-align: right;">
                                     <a role="button" v-if="record.verifyStatus == 0 && record.state == 1" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
                                     <a role="button" v-else-if="record.verifyStatus == 1 && record.state == 1" @click="viewDetail(record.userApplyWithdrawId)"><%= LANG('查看详情') %></a>
                                     <a role="button" v-else="">--</a>
