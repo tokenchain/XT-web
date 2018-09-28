@@ -701,10 +701,10 @@
 
         <div class="bottom">
             <div class="title">公告</div>
-            <div class="notices-container">
+            <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                 <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
                     <li :key="item.articleId" v-cloak v-for="item in notices">
-                        <a :href="'/blog/display?articleId='+item.articleId" target="_blank" v-text="item.articleTitle"></a>
+                        <a href="#" v-text="item.articleTitle"></a>
                     </li>
                 </transition-group>
             </div>
@@ -1642,6 +1642,7 @@
                     currentColor: '#c0c0ec',
                     testMarkets: [],
                     noticeStart: false, //滚动开关
+                    noticeTimer: null,
                     notices: [{
                         articleTitle: '这是公告这是公告这是公告这是公告',
                         articleId: 1
@@ -1737,6 +1738,22 @@
                 }
             },
             methods: {
+                noticesMouseEnter: function ($event) {
+                    clearInterval(this.noticeTimer)
+                },
+                noticesMouseLeave: function ($event) {
+                    this.scrollNotices()
+                },
+                scrollNotices: function () {
+                    var _this = this
+                    clearInterval(_this.noticeTimer)
+                    _this.noticeTimer = setInterval(function () {
+                        var tmp = _this.notices.shift()
+                        setTimeout(function () {
+                            _this.notices.push(tmp)
+                        }, 1000)
+                    }, 3000)
+                },
                 emptySearch: function () {
                     this.keyWord = ''
                 },
@@ -2324,9 +2341,9 @@
             },
             created: function () {
                 //公告开始滚
-                setTimeout(function () {
-                    this.noticeStart = true
-                }, 500)
+                this.noticeStart = true
+                this.scrollNotices()
+
 
                 this.test()
                 // this.getHomeMarket()
