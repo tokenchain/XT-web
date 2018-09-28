@@ -2436,18 +2436,18 @@ input::-webkit-inner-spin-button {
       letter-spacing: 12px;
       color: #ffffff;
       text-align: center;
-      margin-bottom: 3%;
+      margin-bottom: 4%;
     }
     > p {
       height: 42px;
       font-family: MicrosoftYaHei;
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: normal;
       font-stretch: normal;
       letter-spacing: 0px;
       color: #ffffff;
       text-align: center;
-      margin-bottom: 2%;
+      margin-bottom: 3%;
     }
     > ul {
       display: -webkit-flex; /* Safari */
@@ -2457,7 +2457,7 @@ input::-webkit-inner-spin-button {
       justify-content: space-between;
 
       height: 42px;
-      width: 17%;
+      width: 32%;
       padding-left: 0;
       text-align: center;
       margin: 0 auto;
@@ -2468,7 +2468,7 @@ input::-webkit-inner-spin-button {
         float: left;*/
         text-align: center;
         font-family: MicrosoftYaHeiLight;
-        font-size: 2.2rem;
+        font-size: 3rem;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0px;
@@ -2478,7 +2478,7 @@ input::-webkit-inner-spin-button {
   }
   .bannerTop {
     position: absolute;
-    top: 211px;
+    top: 160px;
     left: 50%;
     width: 100%;
     margin-left: -50%;
@@ -2489,7 +2489,7 @@ input::-webkit-inner-spin-button {
       font-stretch: normal;
       letter-spacing: 12px;
       color: #ffffff;
-      //margin-bottom: 3%;
+      margin-bottom: 3%;
       text-align: center;
     }
     P {
@@ -2635,8 +2635,6 @@ input::-webkit-inner-spin-button {
     background: #5a7ff521; //#19223600;
     height: 40px;
     line-height: 40px;
-    width: 1140px;
-    margin: 0 auto;
     .title {
       position: absolute;
       left: 0;
@@ -2654,10 +2652,7 @@ input::-webkit-inner-spin-button {
       line-height: 40px;
       width: 220%;
       padding-left: 94%;
-      //animation: scroll-left 62s linear infinite; //alternate;
-      &.start {
-        transition: all 0.5s ease
-      }
+      animation: scroll-left 62s linear infinite; //alternate;
       li {
         display: inline-block;
         font-size: 14px;
@@ -3222,6 +3217,7 @@ input::-webkit-inner-spin-button {
 
 .timeLine {
 
+
   padding: 80px 0 150px 0;
   background: #fff;
   background-size: 500px 500px;
@@ -3381,7 +3377,8 @@ input::-webkit-inner-spin-button {
       align-items: center;
       li {
         flex: 0 1 14.5%;
-        margin: 0 5px /*float: left;
+        margin: 0 5px
+        /*float: left;
         &:not(:last-child){
           margin-right: 60px;
         }*/
@@ -3392,12 +3389,12 @@ input::-webkit-inner-spin-button {
 
 .footer {
   background-color: #060f22;
-  @media (max-width: 768px) {
-    .tips {
-      display: none;
+    @media (max-width: 768px) {
+      .tips {
+        display: none;
+      }
     }
-  }
-
+  
   //padding: 100px 0;
   //.footer-menu {
   //  display: -webkit-box;
