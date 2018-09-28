@@ -5,7 +5,8 @@
     }
     .totalcoin li{
         margin: 5px;
-        background: #ddd;
+        background: #f7f7f7;
+        color: #4d4d4d;
     }
     .totalcoin li a{
         display: block;
@@ -15,8 +16,14 @@
         text-align: center;
         border-radius: 3px;
     }
+    .totalcoin li a:hover {
+        color: #fff;
+        background: #5a7ff5;
+    }
     .totalcoin .active {
-        color: #ff5353
+        /* color: #ffc107 */
+        background: #5a7ff5;
+        color: #fff;
     }
     
 </style>
@@ -77,14 +84,14 @@
             <div class="assets-address" v-else>
                     <p v-if="payin.address == ''"><a :data-clipboard-text="payin.address" @click="getPayinAddress" class="copyAddress" style="background: #5f55ff;padding: 15px 35px;font-size: 14px;"><%= LANG('获取钱包地址')%></a></p>
 
-                    <div v-if="payin.address != ''" style="color: #666;">
+                    <div v-if="payin.address != ''" style="color: #666;font-size: 18px;">
                         <%= coin.toUpperCase()%><%= LANG('钱包地址')%>
                         <p class="address" v-text="payin.address"></p><a :data-clipboard-text="payin.address" class="copyAddress"><%= LANG('复制钱包地址')%></a>
                     </div>
                     <div class="code"><canvas ref="canvas"></canvas></div>
                     <div class="tips">
                         <b><%= LANG('充值说明')%>：</b>
-                        <p style="font-weight: bold"><%= LANG('本充值地址仅接收')%>  <span style="color: #ff4a68;font-weight: bold">{{currentCoin.toUpperCase()}}</span><%= LANG('充值')%>，<%= LANG('其他币如果充值到本地址，XT不提供找回服务，请仔细核对')%>
+                        <p style="font-weight: bold"><%= LANG('本充值地址仅接收')%>  <span style="color: #ffc107;font-weight: bold">{{currentCoin.toUpperCase()}}</span><%= LANG('充值')%>，<%= LANG('其他币如果充值到本地址，XT不提供找回服务，请仔细核对')%>
                          </p>
                         <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
                         <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>
