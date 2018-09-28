@@ -94,7 +94,7 @@ html {
 }
 
 body {
-    font-family: sans-serif;
+    font-family: "Microsoft YaHei";
     /*background-color: #403aa3;*/
     color: #fff;
     position: relative;
@@ -1577,7 +1577,7 @@ p {
     font-size: 1.4rem;
     line-height: 28px;
     color: #e9e7ff;
-    font-weight: 300;
+    /*font-weight: 300;*/
     margin-bottom: 2.4rem;
 }
 
@@ -3615,7 +3615,7 @@ form.footer-form input[type="email"] {
 .footer-menu p {
     line-height: 2.4rem;
     margin-bottom: 0.8rem;
-    color: #e9e7ff;
+    color: #979ca0;
 }
 
 .footer-nav {
@@ -3626,7 +3626,7 @@ form.footer-form input[type="email"] {
 .footer-nav li a {
     font-size: 1.4rem;
     line-height: 3.0rem;
-    color: #e9e7ff;
+    color: #979ca0;
     font-weight: 300;
     transition: all .3s;
 }

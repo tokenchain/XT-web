@@ -353,7 +353,7 @@
                     <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)"
                         v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
                         <li class="coin-name">
-                            <img v-if="item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'"
+                            <img v-if="item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
                                  :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
                                  class="icon-coin"/>
                             <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
