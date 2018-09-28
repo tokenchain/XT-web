@@ -3358,6 +3358,8 @@ input::-webkit-inner-spin-button {
   height: 550px;
   background: url("../images/footer.png") center center no-repeat;
   background-size: 100% 100%;
+  display: flex;
+  flex-direction: column;
   h2 {
     //font-size: 40px;
     font-weight: bold;
@@ -3365,15 +3367,17 @@ input::-webkit-inner-spin-button {
     margin-bottom: 90px;
   }
   .box {
-    width: 1200px;
-    margin: 0 auto;
+    // width: 1200px;
+    // margin: 0 auto;
     ul {
-      padding: 20px 50px 20px 50px;
+      // padding: 20px 50px 20px 50px;
+      padding: 20px 0;
       display: flex;
       justify-content: center;
       align-items: center;
       li {
         flex: 0 1 14.5%;
+        margin: 0 5px
         /*float: left;
         &:not(:last-child){
           margin-right: 60px;
@@ -3385,6 +3389,12 @@ input::-webkit-inner-spin-button {
 
 .footer {
   background-color: #060f22;
+    @media (max-width: 768px) {
+      .tips {
+        display: none;
+      }
+    }
+  
   //padding: 100px 0;
   //.footer-menu {
   //  display: -webkit-box;
