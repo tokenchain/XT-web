@@ -2410,6 +2410,8 @@ input::-webkit-inner-spin-button {
   }
 }
 
+
+
 .banner {
   position: relative;
   z-index: 2;
@@ -2436,18 +2438,18 @@ input::-webkit-inner-spin-button {
       letter-spacing: 12px;
       color: #ffffff;
       text-align: center;
-      margin-bottom: 4%;
+      margin-bottom: 3%;
     }
     > p {
       height: 42px;
       font-family: MicrosoftYaHei;
-      font-size: 4rem;
+      font-size: 3rem;
       font-weight: normal;
       font-stretch: normal;
       letter-spacing: 0px;
       color: #ffffff;
       text-align: center;
-      margin-bottom: 3%;
+      margin-bottom: 2%;
     }
     > ul {
       display: -webkit-flex; /* Safari */
@@ -2457,7 +2459,7 @@ input::-webkit-inner-spin-button {
       justify-content: space-between;
 
       height: 42px;
-      width: 32%;
+      width: 17%;
       padding-left: 0;
       text-align: center;
       margin: 0 auto;
@@ -2468,7 +2470,7 @@ input::-webkit-inner-spin-button {
         float: left;*/
         text-align: center;
         font-family: MicrosoftYaHeiLight;
-        font-size: 3rem;
+        font-size: 2.2rem;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0px;
@@ -2478,7 +2480,7 @@ input::-webkit-inner-spin-button {
   }
   .bannerTop {
     position: absolute;
-    top: 160px;
+    top: 211px;
     left: 50%;
     width: 100%;
     margin-left: -50%;
@@ -2489,7 +2491,7 @@ input::-webkit-inner-spin-button {
       font-stretch: normal;
       letter-spacing: 12px;
       color: #ffffff;
-      margin-bottom: 3%;
+      //margin-bottom: 3%;
       text-align: center;
     }
     P {
@@ -2635,6 +2637,8 @@ input::-webkit-inner-spin-button {
     background: #5a7ff521; //#19223600;
     height: 40px;
     line-height: 40px;
+    width: 1140px;
+    margin: 0 auto;
     .title {
       position: absolute;
       left: 0;
