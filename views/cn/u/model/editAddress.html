@@ -297,7 +297,7 @@
                     for (var key in this.selectedAddress) {
                         Vue.set(this.selectedAddress, key, this.address[key]);
                     }
-                    if (this.coin == 'bts' || this.coin == 'tv' || this.coin == 'bds' || this.coin == 'eos'|| this.coin == 'lst' ) {
+                    if (this.coin == 'bts' || this.coin == 'tv' || this.coin == 'bds' || this.coin == 'eos'|| this.coin == 'lst' || this.coin == 'xem' || this.coin == 'xlm' || this.coin == 'xrp') {
                         Vue.set(this.selectedAddress, 'address', this.address.account.split('_')[0]);
                         Vue.set(this.selectedAddress, 'btsMemo', this.address.account.split('_')[1]);
                     }

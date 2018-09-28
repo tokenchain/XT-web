@@ -701,31 +701,13 @@
 
         <div class="bottom">
             <div class="title">公告</div>
-            <ul >
-                <li><%=LANG('投票上币-超级投票节点专场活动')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('公链知识大奖赛 答题交易领大奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('BTM交易赛 TOP20都有奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('超级伙伴和币客伙伴全球招募')%></li>
-                <li class="fenge"></li>
-                <li><%=LANG('YEE交易排名赛 TOP20都有奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('Token第一季度回购信息披露')%></li>
-
-                <li><%=LANG('投票上币-超级投票节点专场活动')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('公链知识大奖赛 答题交易领大奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('BTM交易赛 TOP20都有奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('超级伙伴和币客伙伴全球招募')%></li>
-                <li class="fenge"></li>
-                <li><%=LANG('YEE交易排名赛 TOP20都有奖')%></li>
-                <li class="fenge">/</li>
-                <li><%=LANG('Token第一季度回购信息披露')%></li>
-            </ul>
+            <div class="notices-container">
+                <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
+                    <li :key="item.articleId" v-cloak v-for="item in notices">
+                        <a :href="'/blog/display?articleId='+item.articleId" target="_blank" v-text="item.articleTitle"></a>
+                    </li>
+                </transition-group>
+            </div>
         </div>
     </section>
     <!-- End of .banner -->
@@ -1423,7 +1405,7 @@
             <div class="page-footer">
                 <div class="footer-menu">
                     <div class="row">
-                        <div class="col-md-4" style="margin-top: 10px;">
+                        <div class="tips col-md-4" style="margin-top: 10px;">
                             <a href="/" class="d-block">
                                         <span class="logoImg" style="padding-left: 2rem;">
                                             <img src="<%= STATIC %>/images/logo.png"
@@ -1659,6 +1641,20 @@
                     masInput: '', //搜索数据
                     currentColor: '#c0c0ec',
                     testMarkets: [],
+                    noticeStart: false, //滚动开关
+                    notices: [{
+                        articleTitle: '这是公告这是公告这是公告这是公告',
+                        articleId: 1
+                    },{
+                        articleTitle: '这是公告222222222222',
+                        articleId: 2
+                    },{
+                        articleTitle: '这是公告333333333333333333333333',
+                        articleId: 3
+                    },{
+                        articleTitle: '这是公告444444444444444444',
+                        articleId: 4
+                    }]
                 }
             },
             computed: {
@@ -2327,6 +2323,11 @@
                 new WOW().init();
             },
             created: function () {
+                //公告开始滚
+                setTimeout(function () {
+                    this.noticeStart = true
+                }, 500)
+
                 this.test()
                 // this.getHomeMarket()
                 // this.getAndroidLink()
