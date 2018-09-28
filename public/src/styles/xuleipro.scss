@@ -2635,6 +2635,26 @@ input::-webkit-inner-spin-button {
     background: #5a7ff521; //#19223600;
     height: 40px;
     line-height: 40px;
+    width: 1140px;
+    margin: 0 auto;
+    .list-complete-item {
+      transition: all 1s;
+      display: inline-block;
+      margin-right: 10px
+    }
+    .list-complete-enter, .notices-container .list-complete-leave-to {
+      opacity: 0;
+      transform: translateY(-39px)
+    }
+    .list-complete-leave-active {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: auto
+    }
+    ul.start li {
+      transition: all 0.5s ease
+    }
     .title {
       position: absolute;
       left: 0;
@@ -2646,25 +2666,28 @@ input::-webkit-inner-spin-button {
     ul {
       clear: both;
       overflow: hidden;
-      text-align: right;
+      text-align: left;
       margin: 0 auto;
       height: 40px;
       line-height: 40px;
-      width: 220%;
-      padding-left: 94%;
-      animation: scroll-left 62s linear infinite; //alternate;
+      width: 100%;
+      //animation: scroll-left 62s linear infinite; //alternate;
+      &.start {
+        transition: all 0.5s ease
+      }
       li {
-        display: inline-block;
         font-size: 14px;
-        color: #fff;
+        padding-left: 80px;
         &.fenge {
           margin: 0 10px;
         }
         &:first-child {
           //margin-left: 80%;
         }
+        a{
+          color: #fff;
+        }
       }
-    ;
     }
   }
 }
