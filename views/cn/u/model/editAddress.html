@@ -20,11 +20,11 @@
                             <div class="form-control">
                                 <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off"
-                                       :placeholder="(coin == 'bts' || coin == 'tv' || coin == 'bds' || coin == 'eos' || coin == 'lst' || coin == 'xem' || coin == 'xlm' || coin == 'xrp') ? '<%= LANG('账户') %>' : '<%= LANG('提币地址') %>'"
+                                       :placeholder="(needMemoCoinList.indexOf(coin)>-1) ? '<%= LANG('账户') %>' : '<%= LANG('提币地址') %>'"
                                        v-model="selectedAddress.address" type="text" :readonly="type != 'add'"/>
                             </div>
                         </div>
-                        <div class="form-group" v-if="coin == 'bts' || coin == 'tv' || coin == 'bds' || coin == 'eos' || coin == 'lst' || coin == 'xem' || coin == 'xlm' || coin == 'xrp'">
+                        <div class="form-group" v-if="needMemoCoinList.indexOf(coin)>-1">
                             <label class="control-label"><%= LANG('备注') %>(MEMO)：</label>
                             <div class="form-control">
                                 <img src="/src/images/pass.png" class="title" alt="">
@@ -150,7 +150,8 @@
                     userName: Methods.getCookie(ENV + 'uname'),
                     imgCode: '',
                     imgCodeId: '',
-                    imageCodeUrl: ''
+                    imageCodeUrl: '',
+                    needMemoCoinList: ['bts', 'tv', 'bds', 'eos', 'lst', 'xem', 'xlm', 'xrp']
                 }
             },
             computed: {
@@ -198,7 +199,7 @@
                         return JuaBox.info("<%= LANG('请输入图形验证码')%>");
                     }
                     var address;
-                    if ((this.coin == 'bts' || this.coin == 'tv' || this.coin == 'bds' || this.coin == 'eos' || this.coin == 'lst' || this.coin == 'xem' || this.coin == 'xlm' || this.coin == 'xrp') && this.selectedAddress.btsMemo != '') {
+                    if ((this.needMemoCoinList.indexOf(this.coin)>-1) && this.selectedAddress.btsMemo != '') {
                         address = [this.selectedAddress.address.replace(/\s+|_/g, ""), this.selectedAddress.btsMemo.replace(/\s+|_/g, "")].join('_');
                     } else {
                         address = this.selectedAddress.address;
@@ -291,15 +292,19 @@
 
             },
             mounted: function () {
+                // console.log(this.type)
                 this.getPubKey();
                 this.getImageCode();
                 if (this.type != 'add') {
+                    console.log(this.address.address)
                     for (var key in this.selectedAddress) {
                         Vue.set(this.selectedAddress, key, this.address[key]);
                     }
-                    if (this.coin == 'bts' || this.coin == 'tv' || this.coin == 'bds' || this.coin == 'eos'|| this.coin == 'lst' || this.coin == 'xem' || this.coin == 'xlm' || this.coin == 'xrp') {
-                        Vue.set(this.selectedAddress, 'address', this.address.account.split('_')[0]);
-                        Vue.set(this.selectedAddress, 'btsMemo', this.address.account.split('_')[1]);
+                    if (this.needMemoCoinList.indexOf(this.coin)>-1) {
+                        // Vue.set(this.selectedAddress, 'address', this.address.account.split('_')[0]);
+                        // Vue.set(this.selectedAddress, 'btsMemo', this.address.account.split('_')[1]);
+                        Vue.set(this.selectedAddress, 'address', this.address.address.split('_')[0]);
+                        Vue.set(this.selectedAddress, 'btsMemo', this.address.address.split('_')[1]);
                     }
                 }
             }
