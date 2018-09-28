@@ -603,6 +603,7 @@
                     getuserfeetotalData:{
                         totalLockAmount:'--'
                     },//个人ZT资产数据
+                    sortBy: 'lastPrice',   //'rateDown',
                 }
             },
             computed: {
@@ -708,13 +709,53 @@
                 currencySymbol: function (currency) {
                     return this.currencyList.getObject('key', currency).symbol;
                 },
+                //排序的方法-ok
+                doSortMarket: function (markets) {
+                    if (sortBy == '' || markets.length == 0) {
+                        return markets;
+                    }
+                    // console.log(markets, 'markets')
+                    // console.log(this.assistPrice, 'this.assistPrice')
+                    var sortBy = this.sortBy;
+                    var xtArr = markets.filter(function (item, i) {
+                        return item.name.indexOf('xt') !== -1
+                    }).sort(function (x, y) {
+                        if (sortBy == 'lastPrice') {
+                            return this.assistPrice.cny[x.name] - this.assistPrice.cny[y.name];
+                        }
+                        /*if (sortBy == 'rateUp') {
+                            // return x.rate - y.rate;
+                            return x.rate - y.rate;
+                        } else if (sortBy == 'rateDown') {
+                            // return y.rate - x.rate;
+                            return y.rate - x.rate;
+                        } else if (sortBy == 'volumeUp') {
+                            // return x.convertVolume - y.convertVolume;
+                            return x.convertVolume - y.convertVolume;
+                        } else if (sortBy == 'volumeDown') {
+                            // return y.convertVolume - x.convertVolume;
+                            return y.convertVolume - x.convertVolume;
+                        } else if(sortBy == 'lastPrice') {
+                            return y.lastPrice - x.lastPrice;
+                        }*/
+                    })
+                    // console.log(markets, 'marketsmarketsmarketsmarkets')
+                    markets.sort(function (x, y) {
+                        if (sortBy == 'lastPrice') {
+                            return (this.assistPrice.cny[y.name] - this.assistPrice.cny[x.name]);
+                        }
+                    }.bind(this));
+                    return xtArr.concat(markets.filter(function (item, i) {
+                        return item.name !== 'xt'
+                    }));
+                },
                 //搜索过滤
                 filterUserCoinFunds: function (objs) {
                     var _this = this;
                     if (!_this.keyWord) {
-                        return objs.filter(function (item, i) {
+                        return this.doSortMarket(objs.filter(function (item, i) {
                             return item.name !== 'qtum'
-                        })
+                        }))
                     }
                     var nObj = [];
                     objs.forEach(function (coin, index) {
@@ -723,8 +764,7 @@
                             nObj.push(coin);
                         }
                     });
-
-                    return nObj;
+                    return this.doSortMarket(nObj);
                 },
                 userHidedCoins: function (user) {
                     var fundMaps = user.coinFundMap;

@@ -200,7 +200,8 @@
                     }
                     var address;
                     if ((this.needMemoCoinList.indexOf(this.coin)>-1) && this.selectedAddress.btsMemo != '') {
-                        address = [this.selectedAddress.address.replace(/\s+|_/g, ""), this.selectedAddress.btsMemo.replace(/\s+|_/g, "")].join('_');
+                        // console.log(this.selectedAddress, 'this.selectedAddress')
+                        address = [this.selectedAddress.address.replace(/\s+|_/g, ""), this.selectedAddress.btsMemo ? this.selectedAddress.btsMemo.replace(/\s+|_/g, "") : ''].join('_');
                     } else {
                         address = this.selectedAddress.address;
                     }
@@ -296,7 +297,7 @@
                 this.getPubKey();
                 this.getImageCode();
                 if (this.type != 'add') {
-                    console.log(this.address.address)
+                    console.log(this.address.address, this.address.address.split('_')[1])
                     for (var key in this.selectedAddress) {
                         Vue.set(this.selectedAddress, key, this.address[key]);
                     }
