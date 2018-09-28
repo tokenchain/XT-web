@@ -37,6 +37,10 @@ a, [role="button"] {
   text-decoration: none;
 }
 
+input::-webkit-input-placeholder {
+  color: #999 !important;
+}
+
 //bootstrp-datapicker  重置样式
 .datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
   background-image: linear-gradient(to bottom, #74B7F5, #5a7ff5) !important;
@@ -947,6 +951,7 @@ button {
     //padding: 12px 20px;
     background: #f5f5f5;
     border-radius: 5px 5px 0 0;
+    color: #666;
     &.myRecommend-head {
       padding: 10px;
     }
@@ -1080,9 +1085,10 @@ button {
       display: inline-block;
       background: #5a7ff5;
       color: #fff;
-      border-radius: 30px;
+      border-radius: 3px;
       padding: 12px 0;
-      width: 100px;
+      // width: 100px;
+      padding: 8px 18px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -1096,7 +1102,7 @@ button {
         width: 0;
         height: 100%;
         display: block;
-        background-color: #4FD3D3;
+        background-color: #846af7;
         opacity: 0;
         z-index: -1;
         border-radius: 30px;
@@ -1104,7 +1110,7 @@ button {
       }
       &:hover {
         color: #fff;
-        background-color: #4FD3D3;
+        background-color: #846af7;
         -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
         -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
@@ -1578,44 +1584,43 @@ button {
           }
         }
         .copyBtn {
-          width: 90px;
-          height: 40px;
           text-align: center;
           line-height: 40px;
-          display: block;
+          // display: block;
           background-color: #5a7ff5;
+          padding: 8px 18px;
           border-radius: 6px;
           color: #fff;
           margin: auto;
           transition: all .5s;
           position: relative;
           z-index: 1;
-          &::before {
-            content: " ";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            display: block;
-            background-color: #4FD3D3;
-            opacity: 0;
-            z-index: -1;
-            border-radius: 6px;
-            transition: all .3s;
-          }
-          &:hover {
-            color: #fff;
-            background-color: #4FD3D3;
-            -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-            -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          }
-          &:hover::before {
-            content: " ";
-            width: 100%;
-            opacity: 1;
-          }
+          // &::before {
+          //   content: " ";
+          //   position: absolute;
+          //   top: 0;
+          //   left: 0;
+          //   width: 0;
+          //   height: 100%;
+          //   // display: block;
+          //   background-color: #846af7;
+          //   opacity: 0;
+          //   z-index: -1;
+          //   border-radius: 6px;
+          //   transition: all .3s;
+          // }
+          // &:hover {
+          //   color: #fff;
+          //   background-color: #846af7;
+          //   -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+          //   -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+          //   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+          // }
+          // &:hover::before {
+          //   content: " ";
+          //   width: 100%;
+          //   opacity: 1;
+          // }
         }
       }
 
@@ -1673,13 +1678,14 @@ button {
     .describe {
       width: 100%;
       height: 220px;
-      border: 1px solid #ff5353;
+      border: 1px solid #f5f7fa;
       margin-top: 22px;
+      background: #f5f7fa;
       h2 {
         font-size: 16px;
         font-weight: 600;
         text-align: center;
-        color: #ff5353;
+        color: #333;
         margin: 29px 0 26px 0;
       }
       ul {
@@ -2983,7 +2989,7 @@ input::-webkit-inner-spin-button {
         }
         .body::-webkit-scrollbar-thumb {
           border-radius: 10px;
-          background: #7291a1;
+          background: #e5e5e5;
         }
         .body {
           //background-color: #3932a3;
@@ -3064,7 +3070,7 @@ input::-webkit-inner-spin-button {
       }
     }
     .navWrapper {
-      border-bottom: 1px solid #fae6e5;
+      border-bottom: 1px solid #e5e5e5;
       //margin-bottom: 20px;
       position: relative;
       .tab.market-filter-tab {
@@ -3080,9 +3086,10 @@ input::-webkit-inner-spin-button {
           input {
             border: 0;
             padding: 7px 6px;
-            background: transparent;
+            background: #f2f2f2;
             outline: none;
-
+            width: 100%;
+            color: #999;
           }
           i {
             position: absolute;
@@ -3090,7 +3097,7 @@ input::-webkit-inner-spin-button {
             right: 5px;
             top: 3px !important;
             font-size: 24px;
-            color: #009688;
+            color: #999999;
           }
         }
       }
