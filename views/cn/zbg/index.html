@@ -700,13 +700,15 @@
         </div>
 
         <div class="bottom">
-            <div class="title"><i class="icon iconfont icon-gonggao1" style="font-size: 24px;vertical-align: sub;"></i>公告</div>
-            <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
-                <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
-                    <li :key="item.articleId" v-cloak v-for="item in notices">
-                        <a href="#" v-text="item.articleTitle"></a>
-                    </li>
-                </transition-group>
+            <div class="box">
+                <div class="title"><i class="icon iconfont icon-gonggao1" style="font-size: 24px;vertical-align: sub;margin-top:5px;"></i>公告</div>
+                <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
+                    <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
+                        <li :key="item.articleId" v-cloak v-for="item in notices">
+                            <a href="#" v-text="item.articleTitle"></a>
+                        </li>
+                    </transition-group>
+                </div>
             </div>
         </div>
     </section>

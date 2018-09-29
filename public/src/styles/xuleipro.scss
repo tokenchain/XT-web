@@ -2633,16 +2633,22 @@ input::-webkit-inner-spin-button {
     }
   }
   .bottom {
+    margin: 0 auto;
     position: absolute;
     bottom: 0;
     z-index: 9;
-    left: 0;
-    right: 0;
     background: #5a7ff521; //#19223600;
     height: 40px;
     line-height: 40px;
-    width: 1140px;
-    margin: 0 auto;
+    width: 100%;
+    .box {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 1140px;
+      margin: 0 auto;
+    }
     .list-complete-item {
       transition: all 1s;
       display: inline-block;
@@ -2663,7 +2669,7 @@ input::-webkit-inner-spin-button {
     }
     .title {
       position: absolute;
-      left: 0;
+      //left: 0;
       padding: 0 18px;
       z-index: 999;
     }
@@ -2685,7 +2691,7 @@ input::-webkit-inner-spin-button {
         &.fenge {
           margin: 0 10px;
         }
-        a{
+        a {
           color: #fff;
         }
       }
@@ -3242,7 +3248,6 @@ input::-webkit-inner-spin-button {
 
 .timeLine {
 
-
   padding: 80px 0 150px 0;
   background: #fff;
   background-size: 500px 500px;
@@ -3402,8 +3407,7 @@ input::-webkit-inner-spin-button {
       align-items: center;
       li {
         flex: 0 1 14.5%;
-        margin: 0 5px
-        /*float: left;
+        margin: 0 5px /*float: left;
         &:not(:last-child){
           margin-right: 60px;
         }*/
@@ -3414,12 +3418,12 @@ input::-webkit-inner-spin-button {
 
 .footer {
   background-color: #060f22;
-    @media (max-width: 768px) {
-      .tips {
-        display: none;
-      }
+  @media (max-width: 768px) {
+    .tips {
+      display: none;
     }
-  
+  }
+
   //padding: 100px 0;
   //.footer-menu {
   //  display: -webkit-box;

@@ -110,7 +110,7 @@
                     var assist = this.$parent.getPriceByAssist(item.price).split(".");
                     var amount = this.$parent.showCoin(item.amount);
                     var newclass = newclass||''
-                    var amountClass = item.type == 'buy' ? 'buyColor' : 'sellColor';
+                    var amountClass = item.type == 'buy' ? 'sellColor' : 'buyColor';
                     var html = "";
                     html += "<li class='tr body "+ newclass +"'>";
                     html += "   <p class=\"td price " + amountClass +"\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></p>";
