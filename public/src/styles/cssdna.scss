@@ -560,6 +560,7 @@ $error: #ff4a68;
     -ms-flex: none;
     flex: none;
     margin-right: 5px;
+    color: #666;
   }
   a {
     -webkit-box-flex: 0;
@@ -569,7 +570,7 @@ $error: #ff4a68;
     padding: 5px;
     border-radius: 30px;
     position: relative;
-    background: #39A7DA;
+    background: #5a7ff5;
     &:after {
       content: "";
       display: block;
