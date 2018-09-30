@@ -348,12 +348,13 @@
                 blockChianUrl: function () {
                     var blockChianUrl = '';
                     var _this = this;
+                    console.log(this.coinConfig, 'this.coinConfig')
                     this.coinConfig.forEach(function (coin, index, arr) {
                         if (coin.name == _this.currentCoin) {
                             blockChianUrl = coin.blockChainUrl;
                         }
                     });
-
+                    console.log(blockChianUrl, 'blockChianUrl')
                     return blockChianUrl;
                 },
                 /**
@@ -713,7 +714,9 @@
                         success: function (res) {
                             var txid = res.datas;
                             var webUrl = that.blockChianUrl + txid;
-                            console.log(webUrl)
+
+                            console.log(that.blockChianUrl, 'blockChianUrl')
+                            console.log(webUrl, 'webUrl')
 
                             this.openWin(webUrl);
 

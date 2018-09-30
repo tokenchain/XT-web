@@ -1,5 +1,5 @@
 require.config({
-    waitSeconds: 20,
+    waitSeconds: 40,
     baseUrl: '/lib',
     urlArgs: 'ver=' + VERSION,
     paths: {
