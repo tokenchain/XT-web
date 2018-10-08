@@ -1,6 +1,46 @@
 <!--<link rel="stylesheet" href="/src/styles/zbg/css/main.css?<%= VERSION %>">-->
 <link rel="stylesheet" type="text/css" href="/src/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
 <style>
+    .social-icons a {
+        display: inline-block;
+        font-size: 15px;
+        line-height: 1;
+        color: #5a7ff5;
+        margin-right: 1rem;
+    }
+
+    .social-icons a:last-child {
+        margin-right: 0;
+    }
+
+    .social-icons a:hover {
+        color: #4FD3D3;
+        text-decoration: none;
+    }
+
+    .social-icons a.weixin {
+        position: relative;
+    }
+
+    .page-footer p {
+        font-size: 1.6rem!important;
+        color: #979ca0!important;
+    }
+
+    .social-icons a.weixin img {
+        position: absolute;
+        right: calc(100% + 10px);
+        top: 50%;
+        transform: translateY(-50%);
+        width: 150px;
+        max-width: none;
+        display: none;
+    }
+
+    .social-icons a.weixin:hover img {
+        display: block;
+    }
 
     .row {
         width: 100%;
@@ -372,6 +412,24 @@
                                 <i class="fab fa-weixin"></i>
                             </a>
                         </div>-->
+                        <div class="social-icons">
+                            <a href="https://www.facebook.com/xt.xt.1401" target="_blank" rel="noopener">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://mobile.twitter.com/XT11944686" target="_blank" rel="noopener">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <!--<a href="https://www.linkedin.com/company/zbglobal/" target="_blank" rel="noopener">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>-->
+                            <a href="https://t.me/XtChinsesGroup" target="_blank" rel="noopener">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                            <a class="weixin" href="javascript:;" target="_blank" rel="noopener">
+                                <img src="/src/images/zbg/images/WechatIMG260.jpeg"/>
+                                <i class="fab fa-weixin"></i>
+                            </a>
+                        </div>
                         <!-- End of .social-icons -->
                     </div>
                     <!-- End of .col -->

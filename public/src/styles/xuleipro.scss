@@ -1731,7 +1731,7 @@ button {
       }
       .form-control {
         flex: 1;
-        input[type=text], input[type=password] {
+        input[type=text], input[type=password], input[type=number] {
           padding: 0 0 0 35px;
           height: 40px;
           border-radius: 4px;
@@ -1785,7 +1785,7 @@ button {
         }
         .form-control {
           flex: 1;
-          input[type=text], input[type=password] {
+          input[type=text], input[type=password], input[type=number] {
             padding: 0 0 0 35px;
             height: 40px;
             border-radius: 4px;
@@ -1830,7 +1830,7 @@ button {
       }
       .form-control {
         flex: 1;
-        input[type=text], input[type=password] {
+        input[type=text], input[type=password], input[type=number] {
           padding: 0 0 0 35px;
           height: 40px;
           border-radius: 4px;

@@ -38,7 +38,8 @@ var LANGPACK = mergeJsons({}, [
     require('../langs/web.server.lang.json'),
     require('../langs/exchange.server.lang.json'),
     require('../langs/u.server.lang.json'),
-    require('../langs/zbg.home.lang.json')
+    require('../langs/zbg.home.lang.json'),
+    require('../langs/xt.server.lang.json')
 ], true);
 
 var FANTI_PACK = require('../langs/chinese.traditional.json');
