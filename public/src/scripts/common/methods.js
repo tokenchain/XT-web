@@ -207,7 +207,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                     // window.localStorage.clear();
                     window.localStorage.removeItem(ENV+"userInfo");
                     window.localStorage.removeItem(ENV+"thirdLogin");
-                    window.location.href = '/';
+                    // window.location.href = '/';
+                    location.replace(location.href);
                 }.bind(this)
             });
         },

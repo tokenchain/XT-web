@@ -36,6 +36,8 @@
                     <%= LANG('币币交易') %>
                 </a>
             </li>
+            <li><a role="button" href="#" >App</a></li>
+            <!--<li><a role="button" href="/appstore" >App</a></li>-->
             <!-- <li><a role="button" href="/market" id="menu_market"><%= LANG('市场') %></a></li> -->
             <!-- <li class="dropdown" onclick="showLoginList('ztmenu_list',0,event)">
                 <p role="button" class="arrow">
@@ -66,7 +68,6 @@
 
                 </ul>
             </li> -->
-            <!--<li><a role="button" href="/appstore" >App</a></li>-->
         </ul>
         <div class="notice-nav" style="visibility: hidden">
             <a href="https://xt.zendesk.com/hc/zh-cn" target="_blank" class="title" style="border-right: 1px solid rgba(255,255,255,30%);">
@@ -134,7 +135,7 @@
                         </a>
                     </li>
                     <li>
-                        <a role="button" href="javascript:;" onclick="DoSign_out()" id="menu_loginout">
+                        <a role="button" href="javascript:;" @click="logout" id="menu_loginout">
                             <%= LANG('退出登录') %>
                         </a>
                     </li>
@@ -416,6 +417,11 @@
                             _this.activeNav = val
                         }
                         })
+                    },
+                    methods: {
+                        logout: function () {
+                            Methods.logout()
+                        }
                     }
                 }
             )
