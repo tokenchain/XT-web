@@ -293,6 +293,10 @@
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
     <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
+
+    <!-- Start of xthelp Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=2cc097e4-7d89-4754-98e2-48565da064b6"> </script>
+    <!-- End of xthelp Zendesk Widget script -->
 </head>
 
 
@@ -339,27 +343,6 @@
 <script>
     window.onload = function () {
         var language = getCookie('wlan')
-        var mySwiper = new Swiper ('.swiper-container', {
-            // direction: 'vertical',
-            speed: 2000,
-            loop: true,
-            Autoplay: {
-                autoplay: true,
-                delay: 5000,
-
-                stopOnLastSlide: true,
-            },
-            // 如果需要分页器
-            pagination: {
-                el: '.swiper-pagination',
-            },
-
-            // 如果需要前进后退按钮
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            }
-        });
 
         //首页图表字体自适应
         function getDpr(){
@@ -670,7 +653,7 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="swiper-slide">
+                <!--<div class="swiper-slide">
                     <img src="/src/images/banner2.jpg" alt="">
                     <div class="topHeader">
                         <h2><%=LANG('全球领先的数字资产交易平台')%></h2>
@@ -687,8 +670,12 @@
                     <img src="/src/images/banner3.jpg" alt="">
                     <div class="bannerTop">
                         <h2><%=LANG('X网会员即将震撼发布')%></h2>
-                        <!--<p>敬请期待</p>-->
+                        &lt;!&ndash;<p>敬请期待</p>&ndash;&gt;
                     </div>
+                </div>-->
+
+                <div class="swiper-slide" v-for="item in bannerList">
+                    <img :src="item.picture" alt="">
                 </div>
             </div>
             <!-- 如果需要分页器 -->
@@ -856,7 +843,7 @@
                     <div class="tab market-filter-tab">
                         <div class="market-filter">
                             <input v-model="keyWord" placeholder="<%=LANG('搜索币种')%>"><i @click="keyWord ? emptySearch() : null" class="icon iconfont"
-                                                                                          :class="keyWord == '' ? 'icon-msnui-search' : 'icon-shanchu1'"></i>
+                                                                                        :class="keyWord == '' ? 'icon-msnui-search' : 'icon-shanchu1'"></i>
                         </div>
                     </div>
                 </div>
@@ -1540,23 +1527,23 @@
                 <!-- End of .footer-menu -->
 
                 <!--<div class="footer-bottom">-->
-                    <!--<p>©2017-2018-->
-                    <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
-                    <!--</p>-->
-                    <!--<div class="dropdown text-xs-right ml-auto">-->
-                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
-                    <!--<span>English</span>-->
-                    <!--<i class="fa fa-angle-up"></i>-->
-                    <!--</a>-->
-                    <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
-                    <!--</div>-->
-                    <!-- End of .dropdown -->
+                <!--<p>©2017-2018-->
+                <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
+                <!--</p>-->
+                <!--<div class="dropdown text-xs-right ml-auto">-->
+                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
+                <!--<span>English</span>-->
+                <!--<i class="fa fa-angle-up"></i>-->
+                <!--</a>-->
+                <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
+                <!--</div>-->
+                <!-- End of .dropdown -->
                 <!--</div>-->
                 <!-- End of .footer-copyright -->
             </div>
@@ -1646,7 +1633,20 @@
                     testMarkets: [],
                     noticeStart: false, //滚动开关
                     noticeTimer: null,
-                    notices: []
+                    notices: [{
+                        articleTitle: '',
+                        articleId: 1
+                    },{
+                        articleTitle: '',
+                        articleId: 2
+                    },{
+                        articleTitle: '',
+                        articleId: 3
+                    },{
+                        articleTitle: '',
+                        articleId: 4
+                    }],
+                    bannerList: []
                 }
             },
             computed: {
@@ -1729,31 +1729,53 @@
                 }
             },
             methods: {
-                // 获取公告信息
-                getNoticeList() {
-                    var that = this
+                initSwiper: function () {
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        // direction: 'vertical',
+                        speed: 2000,
+                        loop: true,
+                        Autoplay: {
+                            autoplay: true,
+                            delay: 5000,
+
+                            stopOnLastSlide: true,
+                        },
+                        // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                        // 如果需要前进后退按钮
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        }
+                    });
+                },
+                getBannerList: function () {
                     var language = getCookie('wlan')
                     var lanType = {
-                            cn: '1',
-                            en: '2',
-                            kr: '3',
-                            jp: '4',
-                            hk: '5'
-                        }[language]
-                    var data = {
-                        pageIndex: 1,
-                        pageSize: 4,
-                        categoryId: '7cZulbgB624',
-                        lanType: lanType
-                    }
+                        cn: '1',
+                        en: '2',
+                        kr: '3',
+                        jp: '4',
+                        hk: '5'
+                    }[language]
                     Methods.ajax({
-                        url: DOMAIN_DEV + '/exchange/support/controller/website/articlecontroller/getArticles',
-                        data: data,
+                        // type: 'GET',
+                        url: DOMAIN_DEV +
+                        "/exchange/banner/controller/website/BannerController/getByLanType",
+                        data: {
+                            showType: '1', // 1 web  0 app
+                            lanType: lanType  // 1-简体中文、2-英文、3-韩文、4-日文、5-繁体中文
+                        },
                         success: function (res) {
-                            that.notices = res.datas.list
-                            console.log(that.notices)
+                            this.bannerList = res.datas
+                        }.bind(this),
+                        error: function (res) {
+
                         }
-                    })
+                    });
                 },
                 noticesMouseEnter: function ($event) {
                     clearInterval(this.noticeTimer)
@@ -2357,11 +2379,14 @@
                 new WOW().init();
             },
             created: function () {
-                this.getNoticeList()
-
                 //公告开始滚
                 this.noticeStart = true
                 this.scrollNotices()
+
+
+                //获取banner
+                this.getBannerList()
+
 
 
                 this.test()
@@ -2436,6 +2461,11 @@
                 // this.glabalexchange('btc')
             },
             mounted: function () {
+                //及时更新dom
+                Vue.nextTick(function () {
+                    this.initSwiper()
+                }.bind(this))
+
                 $('.totalcoin').on('click', 'li', function () {
                     $(this).addClass('active').siblings().removeClass('active')
                 })
@@ -2988,7 +3018,6 @@
 
 
                 }(jQuery));
-
 
                 setTimeout(function () {
                     // this.$nextTick(function() {
