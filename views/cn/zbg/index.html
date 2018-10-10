@@ -653,7 +653,7 @@
                         </div>
                     </div>
                 </div>-->
-                <!--<div class="swiper-slide">
+                <div class="swiper-slide">
                     <img src="/src/images/banner2.jpg" alt="">
                     <div class="topHeader">
                         <h2><%=LANG('全球领先的数字资产交易平台')%></h2>
@@ -670,13 +670,13 @@
                     <img src="/src/images/banner3.jpg" alt="">
                     <div class="bannerTop">
                         <h2><%=LANG('X网会员即将震撼发布')%></h2>
-                        &lt;!&ndash;<p>敬请期待</p>&ndash;&gt;
+                        <!--<p>敬请期待</p>-->
                     </div>
-                </div>-->
-
-                <div class="swiper-slide" v-for="item in bannerList">
-                    <img :src="item.picture" alt="">
                 </div>
+
+                <!--<div class="swiper-slide" v-for="item in bannerList">
+                    <img :src="'/home/appl/website/public/src/images/banner/'+item.picture" alt="">
+                </div>-->
             </div>
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
@@ -1633,19 +1633,7 @@
                     testMarkets: [],
                     noticeStart: false, //滚动开关
                     noticeTimer: null,
-                    notices: [{
-                        articleTitle: '',
-                        articleId: 1
-                    },{
-                        articleTitle: '',
-                        articleId: 2
-                    },{
-                        articleTitle: '',
-                        articleId: 3
-                    },{
-                        articleTitle: '',
-                        articleId: 4
-                    }],
+                    notices: [],
                     bannerList: []
                 }
             },
@@ -1736,7 +1724,7 @@
                         loop: true,
                         Autoplay: {
                             autoplay: true,
-                            delay: 5000,
+                            delay: 1000,
 
                             stopOnLastSlide: true,
                         },
@@ -1751,6 +1739,32 @@
                             prevEl: '.swiper-button-prev',
                         }
                     });
+                },
+                // 获取公告信息
+                getNoticeList() {
+                    var that = this
+                    var language = getCookie('wlan')
+                    var lanType = {
+                        cn: '1',
+                        en: '2',
+                        kr: '3',
+                        jp: '4',
+                        hk: '5'
+                    }[language]
+                    var data = {
+                        pageIndex: 1,
+                        pageSize: 4,
+                        categoryId: '7cZulbgB624',
+                        lanType: lanType
+                    }
+                    Methods.ajax({
+                        url: DOMAIN_DEV + '/exchange/support/controller/website/articlecontroller/getArticles',
+                        data: data,
+                        success: function (res) {
+                            that.notices = res.datas.list
+                            console.log(that.notices)
+                        }
+                    })
                 },
                 getBannerList: function () {
                     var language = getCookie('wlan')
@@ -2380,14 +2394,12 @@
             },
             created: function () {
                 //公告开始滚
+                this.getNoticeList()
                 this.noticeStart = true
                 this.scrollNotices()
 
-
                 //获取banner
                 this.getBannerList()
-
-
 
                 this.test()
                 // this.getHomeMarket()
