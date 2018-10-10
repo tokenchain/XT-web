@@ -1646,19 +1646,7 @@
                     testMarkets: [],
                     noticeStart: false, //滚动开关
                     noticeTimer: null,
-                    notices: [{
-                        articleTitle: '',
-                        articleId: 1
-                    },{
-                        articleTitle: '',
-                        articleId: 2
-                    },{
-                        articleTitle: '',
-                        articleId: 3
-                    },{
-                        articleTitle: '',
-                        articleId: 4
-                    }]
+                    notices: []
                 }
             },
             computed: {
@@ -1741,6 +1729,32 @@
                 }
             },
             methods: {
+                // 获取公告信息
+                getNoticeList() {
+                    var that = this
+                    var language = getCookie('wlan')
+                    var lanType = {
+                            cn: '1',
+                            en: '2',
+                            kr: '3',
+                            jp: '4',
+                            hk: '5'
+                        }[language]
+                    var data = {
+                        pageIndex: 1,
+                        pageSize: 4,
+                        categoryId: '7cZulbgB624',
+                        lanType: lanType
+                    }
+                    Methods.ajax({
+                        url: DOMAIN_DEV + '/exchange/support/controller/website/articlecontroller/getArticles',
+                        data: data,
+                        success: function (res) {
+                            that.notices = res.datas.list
+                            console.log(that.notices)
+                        }
+                    })
+                },
                 noticesMouseEnter: function ($event) {
                     clearInterval(this.noticeTimer)
                 },
@@ -2343,6 +2357,8 @@
                 new WOW().init();
             },
             created: function () {
+                this.getNoticeList()
+
                 //公告开始滚
                 this.noticeStart = true
                 this.scrollNotices()

@@ -2664,30 +2664,24 @@ input::-webkit-inner-spin-button {
       right: 0;
       margin: auto
     }
-    ul.start li {
-      transition: all 0.5s ease
-    }
     .title {
       position: absolute;
       //left: 0;
       padding: 0 18px;
       z-index: 999;
     }
-    ul {
-      clear: both;
-      overflow: hidden;
-      text-align: left;
-      margin: 0 auto;
+    .notices-container {
+      position: relative;
       height: 40px;
-      line-height: 40px;
-      width: 100%;
-      //animation: scroll-left 62s linear infinite; //alternate;
-      &.start {
-        transition: all 0.5s ease
-      }
+      overflow: hidden;
+    }
+    ul {
       li {
         font-size: 14px;
         padding-left: 80px;
+        height: 60px;
+        line-height: 40px;
+        transition: all 0.5s ease;
         &.fenge {
           margin: 0 10px;
         }
