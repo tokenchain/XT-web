@@ -1763,6 +1763,9 @@
                         success: function (res) {
                             that.notices = res.datas.list
                             console.log(that.notices)
+                        },
+                        error: function (res) {
+                            var resMsg = res.resMsg;
                         }
                     })
                 },
