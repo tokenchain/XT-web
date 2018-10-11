@@ -69,7 +69,6 @@
     <!-- <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/juabox.css?<%= VERSION %>">
 
-
     <style>
         li{
             list-style: none;
@@ -289,6 +288,12 @@
             bottom: 45px;
         }
 
+        .swiper-pagination-bullet{
+            background: #ddd;
+        }
+        .swiper-pagination-bullet-active{
+            background: #007aff;
+        }
     </style>
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
     <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
@@ -677,6 +682,7 @@
                 <!--<div class="swiper-slide" v-for="item in bannerList">
                     <img :src="'/home/appl/website/public/src/images/banner/'+item.picture" alt="">
                 </div>-->
+
             </div>
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
@@ -1720,17 +1726,17 @@
                 initSwiper: function () {
                     var mySwiper = new Swiper ('.swiper-container', {
                         // direction: 'vertical',
-                        speed: 2000,
-                        loop: true,
-                        Autoplay: {
+                        speed: 2000,  //轮播滑动速度
+                        loop: true,   //循环
+                        autoplay: {
                             autoplay: true,
-                            delay: 1000,
-
-                            stopOnLastSlide: true,
+                            delay: 5000,   //轮播等待时间
+                            disableOnInteraction: false,  //点击之后还能继续轮播
                         },
                         // 如果需要分页器
                         pagination: {
                             el: '.swiper-pagination',
+                            clickable: true //允许点击小圆点跳转
                         },
 
                         // 如果需要前进后退按钮
