@@ -2960,15 +2960,19 @@ EXX.pack = {
     },
     "6079": {
         "cn": "您还未完善登录密码，请先完善!",
-        "en": "You have not perfected your login password, please improve it first."
+        "en": "You have not perfected your login password, please improve it first.",
+        jp: '',
+        kr: ''
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "1": {
+        "cn": "操作成功!",
+        "en": "success !",
+        jp: '',
+        kr: ''
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "success !": {
+        "cn": "操作成功!",
+        "en": "success !"
     },
     "": {
         "cn": "",
