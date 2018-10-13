@@ -11,6 +11,12 @@
     .headNav{
         color:#fff!important;
     }
+    .right-A a{
+        color: #fff;
+    }
+    .right-A a:hover{
+        color: #5a7ff5;
+    }
     .headNav:hover a{
         color:#fff!important
     }
@@ -94,7 +100,7 @@
             <li class="headNav" :class="{active:activeNav=='newmarket'}">
                     <a href="/newmarket"  ><%= LANG('上币排行') %></a>
             </li>-->
-            <li id="zichanguanli">
+            <li id="zichanguanli" class="right-A">
                 <a href="/u/asset" id="menu_asset">
                     <%= LANG('资产管理') %>
                 </a>
@@ -122,13 +128,13 @@
                 <ul class="dropdown-menu" id="dropdown_menuLogin">
                     <!--<li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>-->
                     <li>
-                        <a href="/u/asset" id="menu_asset">
-                            <%= LANG('资产管理') %>
+                        <a href="/u" id="user_center">
+                            <%= LANG('用户中心') %>
                         </a>
                     </li>
                     <li>
-                        <a href="/u" id="user_center">
-                            <%= LANG('用户中心') %>
+                        <a href="/u/asset" id="menu_asset">
+                            <%= LANG('资产管理') %>
                         </a>
                     </li>
                     <li>

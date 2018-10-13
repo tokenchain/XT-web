@@ -71,6 +71,12 @@
 
 
     <style>
+        .swiper-pagination-bullet{
+            background: #ddd;
+        }
+        .swiper-pagination-bullet-active{
+            background: #007aff;
+        }
         li{
             list-style: none;
         }
@@ -412,14 +418,7 @@
         // },200)
     }
 </script>
-<!--客服 udesk-->
-<script>
-    (function(a,h,c,b,f,g){a["UdeskApiObject"]=f;a[f]=a[f]||function(){(a[f].d=a[f].d||[]).push(arguments)};g=h.createElement(c);g.async=1;g.charset="utf-8";g.src=b;c=h.getElementsByTagName(c)[0];c.parentNode.insertBefore(g,c)})(window,document,"script","//assets-cli.udesk.cn/im_client/js/udeskApi.js","ud");
-    ud({
-        "code": "2jgf16i7",
-        "link": "https://13632735345.udesk.cn/im_client/?web_plugin_id=57038"
-    });
-</script>
+
 <div id="zbg-index">
     <!-- Preloader -->
     <!--<div class="o-preloader">
@@ -1560,7 +1559,40 @@
 </div>
 
 </body>
+<!--客服 udesk-->
+<script>
+    (function(a,h,c,b,f,g){a["UdeskApiObject"]=f;a[f]=a[f]||function(){(a[f].d=a[f].d||[]).push(arguments)};g=h.createElement(c);g.async=1;g.charset="utf-8";g.src=b;c=h.getElementsByTagName(c)[0];c.parentNode.insertBefore(g,c)})(window,document,"script","//assets-cli.udesk.cn/im_client/js/udeskApi.js","ud");
+    ud({
+        "code": "2jgf16i7",
+        "link": "https://13632735345.udesk.cn/im_client/?web_plugin_id=57038"
+    });
+    /*(function() {
+        var token = "" + (token = new Date()).getFullYear() + token.getMonth() + token.getDate() + Math.floor(Math.random(4)*10000);
 
+        /!* if your website does not introduce jQuery ,please cancel the ollowing annotation code.*!/
+        // var scriptDom = document.createElement("script");
+        // scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/static/vendor/js/jquery.min.js?t="+token;
+        // document.body.appendChild(scriptDom);
+
+        var scriptDom = document.createElement("script");
+        scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/js/sdk.min.js?t="+token;
+        document.body.appendChild(scriptDom);
+        var styleDom = document.createElement("link");
+        styleDom.rel = "stylesheet";
+        styleDom.href = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/css/sdk.min.css?t="+token;
+        document.body.appendChild(styleDom);
+        scriptDom.addEventListener('load', function() {
+            var udesk = UdeskSDK.ticketSDK.init({
+                subdomain: 'www.xt.com',
+                appid:'c020dc2c911a5552',
+                signature: 'your signature',
+                type: 'email',
+                signature: '166342693c74f01390152ef176a584a49ca9b533',//SHA1('c020dc2c911a5552&' + this.email + '&' + this.content + '&' + '003aebf8e32694eef4cdc675375fc789'),
+                content:'content',
+            })
+        }, false);
+    })();*/
+</script>
 </html>
 
 <%-include("../component/inline_chart.html")%>
