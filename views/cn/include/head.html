@@ -11,6 +11,12 @@
     .headNav{
         color:#fff!important;
     }
+    .right-A a{
+        color: #fff;
+    }
+    .right-A a:hover{
+        color: #5a7ff5;
+    }
     .headNav:hover a{
         color:#fff!important
     }
@@ -93,10 +99,12 @@
             </li>
             <li class="headNav" :class="{active:activeNav=='newmarket'}">
                     <a href="/newmarket"  ><%= LANG('上币排行') %></a>
-            </li>
-            <li class="headNav" :class="{active:activeNav=='appstore'}">
-                    <a href="/appstore"  ><%= LANG('下载APP') %></a>
             </li>-->
+            <li id="zichanguanli" class="right-A">
+                <a href="/u/asset" id="menu_asset">
+                    <%= LANG('资产管理') %>
+                </a>
+            </li>
             <li class="dropdown" onclick="showLoginList('dropdown_menuLanguage',1,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
                     <img src="/src/images/icon/language-icon.svg" />
@@ -120,13 +128,13 @@
                 <ul class="dropdown-menu" id="dropdown_menuLogin">
                     <!--<li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>-->
                     <li>
-                        <a href="/u/asset" id="menu_asset">
-                            <%= LANG('资产管理') %>
+                        <a href="/u" id="user_center">
+                            <%= LANG('用户中心') %>
                         </a>
                     </li>
                     <li>
-                        <a href="/u" id="user_center">
-                            <%= LANG('用户中心') %>
+                        <a href="/u/asset" id="menu_asset">
+                            <%= LANG('资产管理') %>
                         </a>
                     </li>
                     <li>
@@ -140,7 +148,6 @@
                         </a>
                     </li>
                 </ul>
-
             </li>
 
             <li id="menu_signUpLi">
@@ -283,11 +290,12 @@
         }
 
 
-
+        document.getElementById("zichanguanli").style.display = "flex";
         document.getElementById("menu_loginedList").style.display = "flex";
         document.getElementById("menu_signUpLi").style.display = "none";
         document.getElementById("menu_signInLi").style.display = "none";
     } else {
+        document.getElementById("zichanguanli").style.display = "none";
         document.getElementById("menu_loginedList").style.display = "none";
         document.getElementById("menu_signUpLi").style.display = "flex";
         document.getElementById("menu_signInLi").style.display = "flex";

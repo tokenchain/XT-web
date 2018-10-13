@@ -70,6 +70,12 @@
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/juabox.css?<%= VERSION %>">
 
     <style>
+        .swiper-pagination-bullet{
+            background: #ddd;
+        }
+        .swiper-pagination-bullet-active{
+            background: #007aff;
+        }
         li{
             list-style: none;
         }
@@ -300,7 +306,7 @@
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 
     <!-- Start of xthelp Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=2cc097e4-7d89-4754-98e2-48565da064b6"> </script>
+    <!--<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=2cc097e4-7d89-4754-98e2-48565da064b6"> </script>-->
     <!-- End of xthelp Zendesk Widget script -->
 </head>
 
@@ -1418,21 +1424,19 @@
                             </h5>
                             <ul class="footer-nav">
 
-                                <li>
+                                <!--<li>
                                     <a onclick="return false" href="" target="_Blank">
                                         <%= LANG('提交工单') %>
                                     </a>
-                                </li>
+                                </li>-->
 
                                 <li>
-                                    <a onclick="return false" href=""
-                                       target="_Blank">
+                                    <a href="https://13632735345.udesk.cn/hc" target="_Blank">
                                         <%= LANG('常见问题') %>
                                     </a>
                                 </li>
                                 <li>
-                                    <a onclick="return false" href=""
-                                       target="_Blank">
+                                    <a href="https://13632735345.udesk.cn/hc" target="_Blank">
                                         <%= LANG('公告') %>
                                     </a>
                                 </li>
@@ -1561,6 +1565,40 @@
 </div>
 
 </body>
+<!--客服 udesk-->
+<script>
+    (function(a,h,c,b,f,g){a["UdeskApiObject"]=f;a[f]=a[f]||function(){(a[f].d=a[f].d||[]).push(arguments)};g=h.createElement(c);g.async=1;g.charset="utf-8";g.src=b;c=h.getElementsByTagName(c)[0];c.parentNode.insertBefore(g,c)})(window,document,"script","//assets-cli.udesk.cn/im_client/js/udeskApi.js","ud");
+    ud({
+        "code": "2jgf16i7",
+        "link": "https://13632735345.udesk.cn/im_client/?web_plugin_id=57038"
+    });
+    /*(function() {
+        var token = "" + (token = new Date()).getFullYear() + token.getMonth() + token.getDate() + Math.floor(Math.random(4)*10000);
+
+        /!* if your website does not introduce jQuery ,please cancel the ollowing annotation code.*!/
+        // var scriptDom = document.createElement("script");
+        // scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/static/vendor/js/jquery.min.js?t="+token;
+        // document.body.appendChild(scriptDom);
+
+        var scriptDom = document.createElement("script");
+        scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/js/sdk.min.js?t="+token;
+        document.body.appendChild(scriptDom);
+        var styleDom = document.createElement("link");
+        styleDom.rel = "stylesheet";
+        styleDom.href = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/css/sdk.min.css?t="+token;
+        document.body.appendChild(styleDom);
+        scriptDom.addEventListener('load', function() {
+            var udesk = UdeskSDK.ticketSDK.init({
+                subdomain: 'www.xt.com',
+                appid:'c020dc2c911a5552',
+                signature: 'your signature',
+                type: 'email',
+                signature: '166342693c74f01390152ef176a584a49ca9b533',//SHA1('c020dc2c911a5552&' + this.email + '&' + this.content + '&' + '003aebf8e32694eef4cdc675375fc789'),
+                content:'content',
+            })
+        }, false);
+    })();*/
+</script>
 </html>
 
 <%-include("../component/inline_chart.html")%>
