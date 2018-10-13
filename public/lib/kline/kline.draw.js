@@ -148,6 +148,10 @@ String.fromFloat = function (v, fractionDigits) {
         return " " + text.PadRight(8, ' ');
     } else {
         for (var i = text.length - 1; i >= 0; i--) {
+            //2018.10.12  zb 那边让改的
+            if(fractionDigits == 0){
+                return text;
+            }
             if (text[i] == '.')
                 return text.substring(0, i);
             if (text[i] != '0')
