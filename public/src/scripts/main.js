@@ -391,7 +391,8 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         }
 
         var result = transKlineData(data.data);
-
+        console.log(win.updateKlineData, 'win.updateKlineData  main.js  394行')
+        console.log(result, 'result   main.js  395行')
         win.updateKlineData(result);
     } else if (type == 2) {
         var result = transDishData(data.data);
@@ -431,6 +432,7 @@ function transKlineData(oldData) {
     var localCoin = EXX.appTradePro.localCoin;
     // 当前市场币对美元汇率(当辅助价格接口返回延迟,终止操作)
     var usd_krate;
+    console.log(EXX.appTradePro.assistPrice, 'EXX.appTradePro.assistPrice  main.js 435行')
     if (EXX.appTradePro.assistPrice) {
         usd_krate = EXX.appTradePro.assistPrice.usd[EXX.appTradePro.money];
     } else {
