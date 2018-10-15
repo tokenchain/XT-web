@@ -1,3 +1,108 @@
+@media (max-width: 768px) {
+  .trading-dark .header {
+    //background: #1d1d3c !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 0 15px;
+    width: 100%;
+    height: 70px;
+    #header-navigator .active {
+      border: none;
+    }
+    .header-button {
+      display: block;
+    }
+    .container {
+      width: 100%;
+      padding: 0 20px;
+    }
+    .logo {
+      img {
+        width: 100px;
+      }
+    }
+    .notice-nav {
+      display: none;
+    }
+    .header-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 70px;
+      height: auto;
+      display: none;
+      background: #2a266d;
+      > ul {
+        display: block;
+        > li {
+          display: block;
+          border-top: 1px solid rgba(255, 255, 255, .1);
+          margin: 0 !important;
+          padding: 15px 25px;
+          > [role="button"] {
+            font-size: 14px !important;
+            width: 100%;
+            &.arrow:after {
+              margin-left: auto;
+            }
+          }
+          &.signup > [role="button"] {
+            padding: 0;
+            background: transparent !important;
+            color: #a3adc7 !important;
+          }
+        }
+      }
+    }
+    .dropdown {
+      position: relative;
+      .dropdown-menu {
+        display: none;
+        position: inherit;
+        top: 100%;
+        left: 0;
+        min-width: 100%;
+        z-index: 1000;
+        background: #29295f;
+        padding: 10px 0;
+        border: 2px solid #1d1d3c;
+        border-top: none;
+        li {
+          a {
+            display: block;
+            white-space: nowrap;
+            position: relative;
+            padding: 15px 20px;
+            color: #a3adc7;
+            &:hover {
+              background: #3a3a79;
+            }
+          }
+          .active a {
+            color: #fff;
+            background: #3b395b;
+          }
+        }
+
+      }
+    }
+    &.open {
+      background: #2a266d;
+      .header-nav {
+        display: block;
+      }
+    }
+
+    &.sticky {
+      .header-nav {
+        top: 60px;
+      }
+    }
+
+  }
+}
+
 body.trading-dark {
   background: #161633;
   font-size: 12px;
