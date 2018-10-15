@@ -73,9 +73,6 @@ input::-webkit-input-placeholder {
   align-items: center;
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
-  .right-A a {
-    color: $theme_color;
-  }
   &.active {
     position: fixed;
     left: 0;
@@ -210,7 +207,7 @@ input::-webkit-input-placeholder {
           text-decoration: none;
           position: relative;
           height: 100%;
-          color: $theme_color;
+          color: #fff;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
