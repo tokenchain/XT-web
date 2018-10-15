@@ -355,10 +355,10 @@
                         <li class="coin-name">
                             <img
                                     v-if="item.name =='dcr'||item.name =='sc'||item.name =='xz'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
-                                 :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
-                                 class="icon-coin"/>
+                                    :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
+                                    class="icon-coin"/>
                             <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
-                                class="icon-coin"/><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
+                                 class="icon-coin"/><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
                         <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) | filterNum}}</span>
                         </li>
                         <li><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8) | filterNum}}</span>
@@ -369,8 +369,8 @@
                             <template v-if="loginUser.userType == 1"><!--onclick="transFromZb('btc')"-->
                                 <!--2018年07月25日 新增功能-->
                                 <!--<a class="hint&#45;&#45;top" :aria-label="'当前锁仓'+ getuserfeetotalData.totalLockAmount" v-if="item.name.toUpperCase() == 'ZT'"-->
-                                   <!--@click="unlockZT()">-->
-                                    <!--<%= LANG('解锁ZT') %>-->
+                                <!--@click="unlockZT()">-->
+                                <!--<%= LANG('解锁ZT') %>-->
                                 <!--</a>-->
                                 <a v-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 0"
                                    :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值') %></a>
@@ -722,6 +722,7 @@
                         return item.name.indexOf('xt') !== -1
                     }).sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
+                            console.log(this.assistPrice, 'this.assistPricethis.assistPrice')
                             return this.assistPrice.cny[x.name] - this.assistPrice.cny[y.name];
                         }
                         /*if (sortBy == 'rateUp') {
@@ -739,7 +740,7 @@
                         } else if(sortBy == 'lastPrice') {
                             return y.lastPrice - x.lastPrice;
                         }*/
-                    })
+                    }.bind(this))
                     // console.log(markets, 'marketsmarketsmarketsmarkets')
                     markets.sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
