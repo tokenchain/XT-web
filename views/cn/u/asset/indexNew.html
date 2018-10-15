@@ -722,6 +722,7 @@
                         return item.name.indexOf('xt') !== -1
                     }).sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
+                            console.log(this.assistPrice, 'this.assistPricethis.assistPrice')
                             return this.assistPrice.cny[x.name] - this.assistPrice.cny[y.name];
                         }
                         /*if (sortBy == 'rateUp') {
@@ -739,7 +740,7 @@
                         } else if(sortBy == 'lastPrice') {
                             return y.lastPrice - x.lastPrice;
                         }*/
-                    })
+                    }.bind(this))
                     // console.log(markets, 'marketsmarketsmarketsmarkets')
                     markets.sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
