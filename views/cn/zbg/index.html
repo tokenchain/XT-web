@@ -1572,7 +1572,7 @@
         "code": "2jgf16i7",
         "link": "https://13632735345.udesk.cn/im_client/?web_plugin_id=57038"
     });
-    (function() {
+    /*(function() {
         var token = "" + (token = new Date()).getFullYear() + token.getMonth() + token.getDate() + Math.floor(Math.random(4)*10000);
 
         /!* if your website does not introduce jQuery ,please cancel the ollowing annotation code.*!/
@@ -1595,6 +1595,47 @@
                 signature: '166342693c74f01390152ef176a584a49ca9b533',//SHA1('c020dc2c911a5552&' + this.email + '&' + this.content + '&' + '003aebf8e32694eef4cdc675375fc789'),
                 content:'content',
             })
+        }, false);
+    })();*/
+    (function() {
+        var token = "" + (token = new Date()).getFullYear() + token.getMonth() + token.getDate() + Math.floor(Math.random(4) * 10000);
+        /* if your website does not introduce jQuery ,please cancel the ollowing annotation code.*/
+        // var scriptDom = document.createElement("script");
+        // scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/static/vendor/js/jquery.min.js?t="+token;
+        // document.body.appendChild(scriptDom);
+        var scriptDom = document.createElement("script");
+        scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/js/sdk.min.js?t=" + token;
+        document.body.appendChild(scriptDom);
+        var styleDom = document.createElement("link");
+        styleDom.rel = "stylesheet";
+        styleDom.href = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/css/sdk.min.css?t=" + token;
+        document.body.appendChild(styleDom);
+        scriptDom.addEventListener('load', function() {
+            var udesk = UdeskSDK.ticketSDK.init({
+                // [Required] Must provide subdomain.
+                subdomain: '13632735345',
+                // [Required] Must provide client appId.
+                appid: 'c020dc2c911a5552',
+                // [Required] Must provide signature.
+                signature: '9bcded77bcff20171c8a7dff0b7cf14129a9fc26',
+                // [Required] Must provide type.
+                type: 'email',
+                // [Required] Must provide content.
+                content: '1054518712@qq.com'
+            });
+            // Your code goes here...
+            //工单创建
+            udesk.create({
+                type: 'new',
+                height: "100%",
+                width: "100%",
+            });
+            //工单列表
+            udesk.create({
+                type: 'list',
+                height: "100%",
+                width: "100%",
+            });
         }, false);
     })();
 </script>
