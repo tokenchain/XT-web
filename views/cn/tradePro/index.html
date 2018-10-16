@@ -314,6 +314,15 @@
 </script>
 <section class="tradeNew" id="app-trade-pro">
     <div class="tradeNew-container">
+        <!--左侧市场盒子-->
+        <div class="market-trade">
+            <div class="market-title">
+                市场
+
+            </div>
+        </div>
+
+        <!--k线 盒子-->
         <div class="chartEntrust-area">
             <div class="chart-area">
                 <div class="trade-navbar" v-cloak="">
@@ -580,6 +589,8 @@
                 </div>
             </div>
         </div>
+
+        <!--盘口+交易记录盒子-->
         <div class="plateFill-area">
             <div class="plate-area">
                 <dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"

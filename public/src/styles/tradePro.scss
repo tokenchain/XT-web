@@ -1,3 +1,5 @@
+@import "./new_theme.scss";
+
 @media (max-width: 768px) {
   .trading-dark .header {
     //background: #1d1d3c !important;
@@ -104,7 +106,7 @@
 }
 
 body.trading-dark {
-  background: #161633;
+  background: #202020;
   font-size: 12px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -464,12 +466,17 @@ body.trading-dark {
   display: block;
 }
 
+//交易大盒子
 .tradeNew-container {
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 63px);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   padding-top: 4px;
+  .market-trade {
+    width: 280px;
+    background: $trade_background_theme;
+  }
 }
 
 .tradeNew-table .tr.add {
