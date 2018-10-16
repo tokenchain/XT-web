@@ -287,18 +287,22 @@
 
         .swiper-container {
             width: 100%;
-            height: 800px;
-            height: 500px;
         }
         .swiper-container-horizontal>.swiper-pagination-bullets{
             bottom: 45px;
         }
 
         .swiper-pagination-bullet{
-            background: #ddd;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background: #FFBE3F;
+            opacity: 1;
         }
         .swiper-pagination-bullet-active{
-            background: #007aff;
+            background: #FFBE3F;
+            width: 68px;
+            border-radius: 15px;
         }
     </style>
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
@@ -663,9 +667,9 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="swiper-slide">
-                    <img src="/src/images/banner2.jpg" alt="">
-                    <div class="topHeader">
+                <div class="swiper-slide banner01">
+                    <img src="/src/images/banner01.png" alt="">
+                    <!-- <div class="topHeader">
                         <h2><%=LANG('全球领先的数字资产交易平台')%></h2>
                         <p><span><%=LANG('买价值币 只选 XT')%></span></p>
                         <ul>
@@ -674,14 +678,14 @@
                             <li><%=LANG('快速')%></li>
                             <li><%=LANG('高效')%></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="swiper-slide">
-                    <img src="/src/images/banner3.jpg" alt="">
-                    <div class="bannerTop">
+                <div class="swiper-slide banner01">
+                    <img src="/src/images/banner02.png" alt="">
+                    <!-- <div class="bannerTop">
                         <h2><%=LANG('X网会员即将震撼发布')%></h2>
-                        <!--<p>敬请期待</p>-->
-                    </div>
+                        <p>敬请期待</p>
+                    </div> -->
                 </div>
 
                 <!--<div class="swiper-slide" v-for="item in bannerList">
@@ -692,18 +696,16 @@
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
 
-            <!-- 如果需要导航按钮 -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            
         </div>
 
         <div class="bottom">
+            <p class="title">官方公告</p>
             <div class="box">
-                <div class="title"><i class="icon iconfont icon-gonggao1" style="font-size: 24px;vertical-align: sub;margin-top:5px;"></i>公告</div>
                 <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                     <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
                         <li :key="item.articleId" v-cloak v-for="item in notices">
-                            <a href="#" v-text="item.articleTitle"></a>
+                            公告：<a href="#" v-text="item.articleTitle"></a>
                         </li>
                     </transition-group>
                 </div>
@@ -1818,10 +1820,10 @@
                         },
 
                         // 如果需要前进后退按钮
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        }
+                        // navigation: {
+                        //     nextEl: '.swiper-button-next',
+                        //     prevEl: '.swiper-button-prev',
+                        // }
                     });
                 },
                 // 获取公告信息
