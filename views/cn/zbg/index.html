@@ -888,7 +888,7 @@
                             @click="goExchange(1, data.market.replace('/','_'))" v-cloak="">
                             <li class="coin-name">
                                 <img
-                                        v-if="data.market.split('_')[0] === 'bch' ||data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
+                                        v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
                                      :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
                                 <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
                                 {{data.market.split('_')[0].toUpperCase()}}
@@ -1424,11 +1424,11 @@
                             </h5>
                             <ul class="footer-nav">
 
-                                <!--<li>
-                                    <a onclick="return false" href="" target="_Blank">
+                                <li>
+                                    <a href="https://13632735345.udesk.cn/hc/submit_a_request" target="_Blank">
                                         <%= LANG('提交工单') %>
                                     </a>
-                                </li>-->
+                                </li>
 
                                 <li>
                                     <a href="https://13632735345.udesk.cn/hc" target="_Blank">
@@ -1572,31 +1572,6 @@
         "code": "2jgf16i7",
         "link": "https://13632735345.udesk.cn/im_client/?web_plugin_id=57038"
     });
-    /*(function() {
-        var token = "" + (token = new Date()).getFullYear() + token.getMonth() + token.getDate() + Math.floor(Math.random(4)*10000);
-
-        /!* if your website does not introduce jQuery ,please cancel the ollowing annotation code.*!/
-        // var scriptDom = document.createElement("script");
-        // scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/static/vendor/js/jquery.min.js?t="+token;
-        // document.body.appendChild(scriptDom);
-
-        var scriptDom = document.createElement("script");
-        scriptDom.src = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/js/sdk.min.js?t="+token;
-        document.body.appendChild(scriptDom);
-        var styleDom = document.createElement("link");
-        styleDom.rel = "stylesheet";
-        styleDom.href = "https://assets-cli.udesk.cn/ticket_js_sdk/1.0.1/css/sdk.min.css?t="+token;
-        document.body.appendChild(styleDom);
-        scriptDom.addEventListener('load', function() {
-            var udesk = UdeskSDK.ticketSDK.init({
-                subdomain: '13632735345.udesk.cn',
-                appid:'c020dc2c911a5552',
-                type: 'email',
-                signature: '166342693c74f01390152ef176a584a49ca9b533',//SHA1('c020dc2c911a5552&' + this.email + '&' + this.content + '&' + '003aebf8e32694eef4cdc675375fc789'),
-                content:'content',
-            })
-        }, false);
-    })();*/
 </script>
 </html>
 
