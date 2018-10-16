@@ -890,7 +890,7 @@
                             @click="goExchange(1, data.market.replace('/','_'))" v-cloak="">
                             <li class="coin-name">
                                 <img
-                                        v-if="data.market.split('_')[0] === 'bch' ||data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
+                                        v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
                                      :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
                                 <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
                                 {{data.market.split('_')[0].toUpperCase()}}
@@ -1426,11 +1426,11 @@
                             </h5>
                             <ul class="footer-nav">
 
-                                <!--<li>
-                                    <a href="" target="_Blank">
+                                <li>
+                                    <a href="https://13632735345.udesk.cn/hc/submit_a_request" target="_Blank">
                                         <%= LANG('提交工单') %>
                                     </a>
-                                </li>-->
+                                </li>
 
                                 <li>
                                     <a href="https://13632735345.udesk.cn/hc" target="_Blank">
