@@ -787,7 +787,7 @@
                         }
                     }.bind(this));
                     return xtArr.concat(markets.filter(function (item, i) {
-                        return item.name !== 'xt'
+                        return item.name !== 'xt' && item.name !== 'xtz'
                     }));
                 },
                 //搜索过滤
