@@ -1703,6 +1703,41 @@ button {
 
   // 夏彬 2018/9/20  end
 
+
+  .user-container {
+    .exchangeModal {
+      color: #2b2b2f;
+      .num-info {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .exchangNum, .passWord {
+        text-align: center;
+        margin: 20px 0;
+        span {
+          text-align: right;
+          display: inline-block;
+          width: 100px;
+        }
+        input {
+          width: 200px;
+          height: 35px;
+          line-height: 35px;
+          background: #f2f2f2;
+          border: 1px solid #f2f2f2;
+          padding-left: 10px;
+          &:-webkit-autofill {
+            box-shadow: 0 0 0px 1000px #f2f2f2 inset;
+            border: 1px solid #f2f2f2 !important;
+          }
+        }
+      }
+      .btn-ok {
+        background-color: #5a7ff5;
+      }
+    }
+  }
+
   .user-container, #user-api {
     -webkit-box-flex: 1;
     -ms-flex: 1;

@@ -337,55 +337,76 @@
 
                 <div class="filter">
                     <search-box v-model="keyWord"></search-box>
-                    <div class="cd-select"><p><%= LANG('隐藏0资产币种') %></p><a role="button" @click="hideZero = !hideZero"
-                                                                           :class="{'on' : hideZero}"></a></div>
+                    <div class="cd-select">
+                        <p>
+                            <%= LANG('隐藏0资产币种') %>
+                        </p><a role="button" @click="hideZero = !hideZero" :class="{'on' : hideZero}"></a>
+                    </div>
                 </div>
                 <div class="head">
                     <ul>
-                        <li class="coin-name"><%= LANG('币种') %></li>
-                        <li><%= LANG('总额') %></li>
-                        <li><%= LANG('可用') %></li>
-                        <li><%= LANG('冻结') %></li>
-                        <li class="oper"><%= LANG('操作') %></li>
+                        <li class="coin-name">
+                            <%= LANG('币种') %>
+                        </li>
+                        <li>
+                            <%= LANG('总额') %>
+                        </li>
+                        <li>
+                            <%= LANG('可用') %>
+                        </li>
+                        <li>
+                            <%= LANG('冻结') %>
+                        </li>
+                        <li class="oper">
+                            <%= LANG('操作') %>
+                        </li>
                     </ul>
                 </div>
                 <div class="body">
-                    <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)"
-                        v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
+                    <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)" v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
                         <li class="coin-name">
-                            <img
-                                    v-if="item.name =='dcr'||item.name =='sc'||item.name =='xc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'"
-                                    :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
-                                    class="icon-coin"/>
+                            <img v-if="item.name =='dcr'||item.name =='sc'||item.name =='xc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
+                                :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
+                                class="icon-coin" />
                             <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
-                                 class="icon-coin"/><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
-                        <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) | filterNum}}</span>
+                                class="icon-coin" /><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
+                        <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) |
+                                filterNum}}</span>
                         </li>
-                        <li><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8) | filterNum}}</span>
+                        <li><span class="hint--top" :aria-label="showAvailableAssistHint(item)">{{fixAvailableDecimal(item,8)
+                                | filterNum}}</span>
                         </li>
-                        <li><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8) | filterNum}}</span>
+                        <li><span class="hint--top" :aria-label="showFreezeAssistHint(item)">{{fixFreezeDecimal(item,8)
+                                | filterNum}}</span>
                         </li>
                         <li class="oper">
-                            <template v-if="loginUser.userType == 1"><!--onclick="transFromZb('btc')"-->
+                            <template v-if="loginUser.userType == 1">
+                                <!--onclick="transFromZb('btc')"-->
                                 <!--2018年07月25日 新增功能-->
                                 <!--<a class="hint&#45;&#45;top" :aria-label="'当前锁仓'+ getuserfeetotalData.totalLockAmount" v-if="item.name.toUpperCase() == 'ZT'"-->
                                 <!--@click="unlockZT()">-->
                                 <!--<%= LANG('解锁ZT') %>-->
                                 <!--</a>-->
-                                <a v-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 0"
-                                   :href="'/u/payin/' + item.name" target="_self"><%= LANG('充值') %></a>
-                                <a v-else-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 1"
-                                   :href="'/u/payin/legaltender/' + item.name"><%= LANG('充值') %></a>
-                                <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled"><%= LANG('充值')
+                                <a v-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 0" :href="'/u/payin/' + item.name"
+                                    target="_self">
+                                    <%= LANG('充值') %></a>
+                                <a v-else-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 1" :href="'/u/payin/legaltender/' + item.name">
+                                    <%= LANG('充值') %></a>
+                                <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
+                                    <%= LANG('充值')
                                     %></a>
-                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0" :href="'/u/payout/' + item.name"><%=
+                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0" :href="'/u/payout/' + item.name">
+                                    <%=
                                     LANG('提币') %></a>
-                                <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1"
-                                   :href="'/u/payout/legaltender/' + item.name"><%= LANG('提币') %></a>
-                                <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled"><%= LANG('提币')
+                                <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
+                                    <%= LANG('提币') %></a>
+                                <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
+                                    <%= LANG('提币')
                                     %></a>
+                                <a @click='changeModel(item)' v-if="item.name == 'btc' || item.name == 'iq'">{{item.name == 'iq' ? '兑换XC' : '兑换QC'}}</a>
                             </template>
-                            <a :href="'/u/bill/' + item.name"><%= LANG('账单') %></a>
+                            <a :href="'/u/bill/' + item.name">
+                                <%= LANG('账单') %></a>
                         </li>
                     </ul>
                 </div>
@@ -395,76 +416,81 @@
         <div class="trade-form-modal" v-if="isShowIntoModle" v-cloak>
             <div class="trade-form-verification">
                 <span class="verification-close" @click="closeInto">X</span>
-                <div class="verification-title">XT<%= LANG('转入')%></div>
-                <input id="verification-input-2" type="number" min="0" placeholder="<%= LANG('请输入数量') %>"
-                       v-model="intoNum">
-                <button class="" @click="AssetsInto(intoNum)"><%= LANG('确定')%></button>
+                <div class="verification-title">XT
+                    <%= LANG('转入')%>
+                </div>
+                <input id="verification-input-2" type="number" min="0" placeholder="<%= LANG('请输入数量') %>" v-model="intoNum">
+                <button class="" @click="AssetsInto(intoNum)">
+                    <%= LANG('确定')%></button>
             </div>
         </div>
     </div>
     <modal :open="showModal == 'userAction'" @close="showModal = false">
-        <user-action :params="userParams" :done="userActionSuccess()"/>
+        <user-action :params="userParams" :done="userActionSuccess()" />
     </modal>
 
     <modal :open="showModal == 'toggleUserAction'" @close="showModal = false">
-        <toggle-user-action :params="userParams" :done="userActionSuccess()"/>
+        <toggle-user-action :params="userParams" :done="userActionSuccess()" />
     </modal>
 
     <modal :open="showModal == 'setMobile'" @close="showModal = false">
-        <set-mobile :done="setMobileSuccess()"/>
+        <set-mobile :done="setMobileSuccess()" />
     </modal>
 
     <modal :open="showModal == 'payMobileAuth'" @close="showModal = false">
-        <paymobile/>
+        <paymobile />
     </modal>
 
     <modal :open="showModal == 'setGoogle'" @close="showModal = false">
-        <set-google/>
+        <set-google />
     </modal>
 
     <modal :open="showModal == 'setEmail'" @close="showModal = false">
-        <set-email/>
+        <set-email />
     </modal>
 
     <modal :open="showModal == 'safepassword'" @close="showModal = false">
-        <safepassword/>
+        <safepassword />
     </modal>
 
     <modal :open="showModal == 'addMarket'" @close="showModal = false">
-        <add-market :params="marketParams"/>
+        <add-market :params="marketParams" />
     </modal>
 
     <modal :open="showModal == 'addCoin'" @close="showModal = false">
-        <add-coin :params="coinParams"/>
+        <add-coin :params="coinParams" />
     </modal>
 
     <modal :open="showModal == 'transfer'" @close="showModal = false">
-        <transfer :info="transferInfo" :done="transferSuccess"/>
+        <transfer :info="transferInfo" :done="transferSuccess" />
     </modal>
 
     <modal :open="showModal == 'payin'" @close="showModal = false">
-        <modal-payin :coin="payinCoin" :done="callCloseModal()"/>
+        <modal-payin :coin="payinCoin" :done="callCloseModal()" />
     </modal>
 
     <modal :open="showModal == 'payout'" @close="showModal = false">
-        <modal-payout ref="payout" :coin="payoutCoin"/>
+        <modal-payout ref="payout" :coin="payoutCoin" />
     </modal>
 
     <modal :open="showModal == 'bill'" @close="showModal = false">
-        <bill :params="billParams" theme="light"/>
+        <bill :params="billParams" theme="light" />
     </modal>
 
     <modal :open="showModal == 'refund'" @close="showModal = false">
-        <modal-refund :params="refundParams" :user-asset="userAssets.getObject('userId', currentAccountId)"
-                      :done="callCloseModal()"/>
+        <modal-refund :params="refundParams" :user-asset="userAssets.getObject('userId', currentAccountId)" :done="callCloseModal()" />
     </modal>
 
     <modal :open="showModal == 'safeset'" @close="showModal = false">
-        <safeset/>
+        <safeset />
     </modal>
 
     <modal :open="showModal == 'setloginpwd'" @close="showModal = false">
-        <setloginpwd/>
+        <setloginpwd />
+    </modal>
+
+    <modal v-cloak :open="showModal == 'exchangeModal'" @close="showModal = false">
+        <exchange-modal :params="exchangParams"/>
     </modal>
 </div>
 
@@ -488,6 +514,7 @@
 <%-include("../model/insideDebit.html")%>
 <%-include("../model/payin.html")%>
 <%-include("../model/payout.html")%>
+<%-include("../model/exchange.html")%>
 <%-include("../model/bill.html")%>
 <%-include("../model/refund.html")%>
 <%-include("../model/safeset.html")%>
@@ -510,7 +537,6 @@
 
 
 <script>
-
     $(function () {
         $.fn.peity.defaults.bar = {
             delimiter: ",",
@@ -553,7 +579,7 @@
                     currentPriceType: MONEY,
                     userAssets: EXX.userNav.userAssets, //旧的逻辑是 用户头部基本信息和各种货币金额信息，现在改为金额不为零的货币的信息
                     mainUserAssets: [],
-                    coinConfig: EXX.userNav.coinConfig,  //从顶部vue实例获取数据
+                    coinConfig: EXX.userNav.coinConfig, //从顶部vue实例获取数据
                     assistPrice: {
                         'btc': {
                             btc: 0,
@@ -596,15 +622,21 @@
                     MONEY: 'usd',
                     // MONEY: MONEY == 'none' ? '<%= UNIT %>' : MONEY,
 
-                    currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
+                    currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(
+                        ENV + 'uid')),
                     keyWord: '',
-                    xt_eth_exchangeList: ["xt", "ink", "chat", "topc", "bat", "1st", "qun", "true", "cdc", "ddm", "hotc", "xuc", "gram", "omg", "btm", "snt", "ae", "icx", "zrx", "edo", "fun", "mana", "rcn", "mco", "mith", "knc", "gnt", "mtl", "sub", "eosdac", "kan"],
+                    xt_eth_exchangeList: ["xt", "ink", "chat", "topc", "bat", "1st", "qun", "true",
+                        "cdc", "ddm", "hotc", "xuc", "gram", "omg", "btm", "snt", "ae", "icx",
+                        "zrx", "edo", "fun", "mana", "rcn", "mco", "mith", "knc", "gnt", "mtl",
+                        "sub", "eosdac", "kan"
+                    ],
                     getuserfeetotalData: '',
-                    todayminerstatDta:'',
-                    getuserfeetotalData:{
-                        totalLockAmount:'--'
-                    },//个人ZT资产数据
-                    sortBy: 'lastPrice',   //'rateDown',
+                    todayminerstatDta: '',
+                    getuserfeetotalData: {
+                        totalLockAmount: '--'
+                    }, //个人ZT资产数据
+                    sortBy: 'lastPrice', //'rateDown',
+                    exchangParams: {}
                 }
             },
             computed: {
@@ -660,6 +692,11 @@
                 }
             },
             methods: {
+                changeModel: function (item) {
+                    this.showModal = 'exchangeModal'
+                    this.exchangParams =  item
+                    
+                },
                 //查询zb支持充值的币种
                 findCurrency: function (name) {
                     var bool = false;
@@ -688,13 +725,14 @@
                     }
                     var that = this;
                     var data = {
-                        "currency": this.curIntoCurrency,             // 币种
-                        "amount": num,                // 数量
-                        "zbUserId": this.loginUser.externalUserId     // zb平台的用户ID
+                        "currency": this.curIntoCurrency, // 币种
+                        "amount": num, // 数量
+                        "zbUserId": this.loginUser.externalUserId // zb平台的用户ID
                     }
                     this.closeInto();
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/fundTransfer",
+                        url: DOMAIN_DEV +
+                            "/exchange/fund/controller/website/FundController/fundTransfer",
                         data: data,
                         success: function (res) {
                             JuaBox.success("<%= LANG('成功')%>", function () {
@@ -722,7 +760,8 @@
                         return item.name.indexOf('xt') !== -1
                     }).sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
-                            console.log(this.assistPrice, 'this.assistPricethis.assistPrice')
+                            console.log(this.assistPrice,
+                                'this.assistPricethis.assistPrice')
                             return this.assistPrice.cny[x.name] - this.assistPrice.cny[y.name];
                         }
                         /*if (sortBy == 'rateUp') {
@@ -762,7 +801,8 @@
                     var nObj = [];
                     objs.forEach(function (coin, index) {
                         var coinName = coin.name;
-                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) != -1 && coinName !== 'qtum') {
+                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) !=
+                            -1 && coinName !== 'qtum') {
                             nObj.push(coin);
                         }
                     });
@@ -795,7 +835,8 @@
                 },
                 moneyPrice: function (money, coin) {
                     var money = money || 'usd';
-                    return Number(this.assistPrice[money] && this.assistPrice[money][coin] ? this.assistPrice[money][coin] : 1)
+                    return Number(this.assistPrice[money] && this.assistPrice[money][coin] ? this.assistPrice[
+                        money][coin] : 1)
                 },
                 userEnabledCoin: function (user) {
                     var coinFundMap = user.coinFundMap;
@@ -885,7 +926,8 @@
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(amount, 4);
                     } else {
-                        return Methods.fixNumber(parseFloat(amount) * parseFloat(this.assistPrice[assistCoin][coin.name]), 4) || '--';
+                        return Methods.fixNumber(parseFloat(amount) * parseFloat(this.assistPrice[
+                            assistCoin][coin.name]), 4) || '--';
                     }
                 },
                 //获取指定辅助货币折算的价格-ok price-要折算的价格
@@ -898,7 +940,8 @@
                         if (assistCoin == 'none' || assistCoin == '') {
                             return Methods.fixNumber(price, 4);
                         } else {
-                            return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin.name.toLowerCase()]), 4) || '--';
+                            return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[
+                                assistCoin][coin.name.toLowerCase()]), 4) || '--';
                         }
                     } else {
                         return '--'
@@ -917,17 +960,20 @@
                 //总金额
                 showTotalAssistHint: function (coin) {
                     var price = this.fixTotalDecimal(coin, 8);
-                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " +
+                        this.showAssistCoin();
                 },
                 //可用价格折合的提示内容
                 showAvailableAssistHint: function (coin) {
                     var price = this.fixAvailableDecimal(coin, 8);
-                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " +
+                        this.showAssistCoin();
                 },
                 //冻结价格折合的提示内容
                 showFreezeAssistHint: function (coin) {
                     var price = this.fixFreezeDecimal(coin, 8);
-                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " + this.showAssistCoin();
+                    return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " +
+                        this.showAssistCoin();
                 },
                 fixFloat: function (value, unit) {
                     return Methods.fixFloat(value, unit);
@@ -971,7 +1017,9 @@
                 // 获取币价汇率
                 getPriceRate: function (callback) {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV +
+                            "/exchange/config/controller/website/pricecontroller/" +
+                            'getassistprice',
                         success: function (res) {
                             this.loaded = true;
 
@@ -986,13 +1034,12 @@
                                 callback();
                             }
                         }.bind(this),
-                        error: function () {
-                        }
+                        error: function () {}
                     });
                 },
                 /*
-                * 获取所有货币信息
-                * */
+                 * 获取所有货币信息
+                 * */
                 getCoinConfig: function () {
                     var data = {
                         // webId: 100
@@ -1001,7 +1048,9 @@
                         type: 'GET',
                         //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV +
+                            "/exchange/config/controller/website/currencycontroller/" +
+                            'getCurrencyList',
                         success: function (res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
@@ -1016,15 +1065,16 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        url: DOMAIN_DEV +
+                            "/exchange/fund/controller/website/fundcontroller/" +
+                            'findbypage',
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.datas.list) {
                                 this.userAssets = res.datas.list;
                             }
                         }.bind(this),
-                        error: function () {
-                        }
+                        error: function () {}
                     });
                 },
                 //置顶货币 接口暂无
@@ -1070,7 +1120,9 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV +
+                            "/exchange/user/controller/website/usercontroller/" +
+                            'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
@@ -1127,25 +1179,27 @@
                     this.showCurrencyList = false;
                 },
                 //个人加速池接口
-                getuserfeetotal:function(){
+                getuserfeetotal: function () {
                     if (!ISLOGIN) {
                         return
                     }
-                    var that=this;
+                    var that = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
+                        url: DOMAIN_DEV +
+                            "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
                         success: function (res) {
-                            that.getuserfeetotalData=res.datas
+                            that.getuserfeetotalData = res.datas
                         }
                     })
                 },
                 //公共加速池接口
-                todayminerstat: function(){
-                    var that=this;
+                todayminerstat: function () {
+                    var that = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/todayminerstat",
+                        url: DOMAIN_DEV +
+                            "/exchange/fund/controller/website/FundMinerStatController/todayminerstat",
                         success: function (res) {
-                            that.todayminerstatDta=res.datas
+                            that.todayminerstatDta = res.datas
                         },
                         error: function (res) {
                             var resMsg = res.resMsg;
@@ -1153,8 +1207,8 @@
                         }
                     })
                 },
-                unlockZT:function () {
-                    if (Number(this.getuserfeetotalData.totalLockAmount) <=0){
+                unlockZT: function () {
+                    if (Number(this.getuserfeetotalData.totalLockAmount) <= 0) {
                         Alert({
                             title: "<%= LANG('提示') %>",
                             //text: "<%= LANG('您还未投入ZT到加速池中') %>",
@@ -1164,10 +1218,11 @@
                         return
                     }
 
-                    var that=this;
+                    var that = this;
                     Alert({
                             title: "<%= LANG('解锁ZT') %>",
-                            text: "<%= LANG('您当前加速池中拥有') %>" + that.getuserfeetotalData.totalLockAmount +",<%= LANG('是否解锁ZT，解锁用户无法收到交易当天的ZT分红和手续费返还。') %>",
+                            text: "<%= LANG('您当前加速池中拥有') %>" + that.getuserfeetotalData.totalLockAmount +
+                                ",<%= LANG('是否解锁ZT，解锁用户无法收到交易当天的ZT分红和手续费返还。') %>",
                             showCancelButton: true,
                             closeOnConfirm: false,
                             animation: "slide-from-top",
@@ -1175,7 +1230,8 @@
                         },
                         function () {
                             Methods.ajax({
-                                url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/closeminer",
+                                url: DOMAIN_DEV +
+                                    "/exchange/fund/controller/website/FundMinerStatController/closeminer",
                                 success: function (res) {
                                     that.getuserfeetotal()
                                     that.todayminerstat()
@@ -1199,18 +1255,21 @@
                             })
                         });
                 },
-                getuserfeetotal:function(){
+                getuserfeetotal: function () {
                     if (!ISLOGIN) {
                         return
                     }
-                    var that=this;
+                    var that = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
+                        url: DOMAIN_DEV +
+                            "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
                         success: function (res) {
-                            that.getuserfeetotalData=res.datas
-                            if (that.getuserfeetotalData.totalLockAmount){
-                                that.getuserfeetotalData.totalLockAmount = Math.floor((that.getuserfeetotalData.totalLockAmount)*1000000)/1000000
-                            }else {
+                            that.getuserfeetotalData = res.datas
+                            if (that.getuserfeetotalData.totalLockAmount) {
+                                that.getuserfeetotalData.totalLockAmount = Math.floor((
+                                        that.getuserfeetotalData.totalLockAmount) *
+                                    1000000) / 1000000
+                            } else {
                                 that.getuserfeetotalData.totalLockAmount = "--"
                             }
                         },
@@ -1254,8 +1313,6 @@
             }
         })
     });
-
-
 </script>
 <script type="text/javascript" src="<%= STATIC %>/scripts/slider.js"></script>
 <script type="text/javascript" src="<%= STATIC %>/scripts/xulei-v1.js"></script>
