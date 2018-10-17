@@ -174,9 +174,9 @@ input::-webkit-input-placeholder {
     -ms-flex-align: center;
     align-items: center;
     height: 100%;
-    color: $theme_color;
+    color: $home_color;
     .right-A a {
-      color: $theme_color;
+      color: $home_color;
     }
     > ul {
       -webkit-box-flex: 0;
@@ -196,7 +196,7 @@ input::-webkit-input-placeholder {
         height: 100%;
         &:hover {
           a {
-            color: $theme_color;
+            color: $home_color;
           }
         }
         > [role="button"] {
@@ -2639,7 +2639,7 @@ input::-webkit-inner-spin-button {
   
   .bottom {
     .title {
-      color: $theme_color;
+      color: $home_color;
       font-size: 30px;
       text-align: center;
     }

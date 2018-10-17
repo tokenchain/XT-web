@@ -704,7 +704,7 @@
             <div class="box">
                 <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                     <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
-                        <li :key="item.articleId" v-cloak v-for="item in notices">
+                        <li :key="item" v-cloak v-for="item in notices">
                             公告：<a href="#" v-text="item.articleTitle"></a>
                         </li>
                     </transition-group>
@@ -1780,7 +1780,7 @@
                         url: DOMAIN_DEV + '/exchange/support/controller/website/articlecontroller/getArticles',
                         data: data,
                         success: function (res) {
-                            that.notices = res.datas.list
+                            that.notices = res.datas.list || ''
                         }
                     })
                 },
