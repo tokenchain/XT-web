@@ -54,8 +54,8 @@
                 console.log(this.params)
                 this.$nextTick(function () {
                     this.exchangOrigin = this.params.name.toUpperCase()
-                    this.title = this.params.name == 'btc' ? '<%= LANG("XC兑换QC") %>' : '<%= LANG("QC兑换XC") %>'
-                    this.exchangTarget = this.params.name == 'btc' ? 'IQ' : 'BTC'
+                    this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' : '<%= LANG("QC兑换XC") %>'
+                    this.exchangTarget = this.params.name == 'xc' ? 'QC' : 'XC'
                 })
             },
         })

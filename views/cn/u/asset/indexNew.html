@@ -403,7 +403,7 @@
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('提币')
                                     %></a>
-                                <a @click='changeModel(item)' v-if="item.name == 'btc' || item.name == 'iq'">{{item.name == 'iq' ? '兑换XC' : '兑换QC'}}</a>
+                                <a @click='changeModel(item)' v-if="item.name == 'xc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换XC' : '兑换QC'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
                                 <%= LANG('账单') %></a>
