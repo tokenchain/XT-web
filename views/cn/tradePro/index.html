@@ -315,10 +315,26 @@
 <section class="tradeNew" id="app-trade-pro">
     <div class="tradeNew-container">
         <!--左侧市场盒子-->
-        <div class="market-trade">
+        <div class="market-trade" :class="mkSwitch ? 'open': ''">
             <div class="market-title">
-                市场
-                <img src="./" alt="">
+                <span>市场</span>
+                <img @click="marketSwitch" src="/src/images/trade_market.png" alt="">
+            </div>
+            <div class="market-zone">
+                <ul>
+                    <li>
+                        <span>自选</span>
+                    </li>
+                    <li>
+                        <span>XC</span>
+                    </li>
+                    <li>
+                        <span>USDT</span>
+                    </li>
+                    <li>
+                        <span>BTC</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
