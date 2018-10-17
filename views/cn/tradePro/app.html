@@ -115,6 +115,7 @@
                     allMarkets: null,
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
+                    mkSwitch: false
                 }
             },
             computed: {
@@ -506,6 +507,9 @@
                 }
             },
             methods: {
+                marketSwitch: function() {
+                    this.mkSwitch = !this.mkSwitch
+                },
                 marketsForCoin: function (type) {
                     var all = this.allMarkets || []
                     var type = this.hoverActive
@@ -1467,7 +1471,7 @@
                         } else if (sortBy == 'volumeDown') {
                             // return y.convertVolume - x.convertVolume;
                             return y.convertVolume - x.convertVolume;
-                        } else if(sortBy == 'lastPrice') {
+                        } else if (sortBy == 'lastPrice') {
                             return y.lastPrice - x.lastPrice;
                         }
                     })

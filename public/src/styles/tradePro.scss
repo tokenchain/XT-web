@@ -475,7 +475,57 @@ body.trading-dark {
   padding-top: 4px;
   .market-trade {
     width: 280px;
+    padding: 0px 20px;
     background: $trade_background_theme;
+    transition: all 0.2s;
+    &.open {
+      width: 60px;
+      .market-title span {
+        display: none;
+      }
+    }
+    .market-title {
+      padding: 20px 0 15px 0;
+      span {
+        color: rgba(184, 139, 0, 1);
+        font-size: 20px;
+      }
+      img {
+        float: right;
+        margin-top: 5px;
+        cursor: pointer;
+      }
+    }
+    .market-zone {
+      flex-wrap: nowrap;
+      ul {
+        display: flex;
+        padding: 0 10px;
+        justify-content: space-between;
+        width: 100%;
+        li {
+          width: 100px;
+          opacity: 0.7;
+          text-align: center;
+          color: $white_font_opacity;
+          cursor: pointer;
+          box-sizing: border-box;
+          &.active{
+            span{
+              font-size: 19px;
+            }
+          }
+          span{
+            font-size: 14px;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            &:hover {
+              font-size: 19px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 

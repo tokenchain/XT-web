@@ -315,10 +315,26 @@
 <section class="tradeNew" id="app-trade-pro">
     <div class="tradeNew-container">
         <!--左侧市场盒子-->
-        <div class="market-trade">
+        <div class="market-trade" :class="mkSwitch ? 'open': ''">
             <div class="market-title">
-                市场
-                <img src="./" alt="">
+                <span>市场</span>
+                <img @click="marketSwitch" src="/src/images/trade_market.png" alt="">
+            </div>
+            <div class="market-zone">
+                <ul>
+                    <li>
+                        <span>自选</span>
+                    </li>
+                    <li>
+                        <span>XC</span>
+                    </li>
+                    <li>
+                        <span>USDT</span>
+                    </li>
+                    <li>
+                        <span>BTC</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -403,7 +419,7 @@
                                         <li v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
                                             <p>
                                                 <img
-                                                        v-if="data.market.split('_')[0] === 'bch' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt'|| data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
+                                                        v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt'|| data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
                                                      :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
                                                 <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
                                                 <b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b>
