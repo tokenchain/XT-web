@@ -550,7 +550,9 @@
                             _this.cnyprice = _this.assistPrice.cny[mname]
                             _this.usdprice = _this.assistPrice.usd[mname]
                             try {
-                                _this.$refs.dishPart.flushAssistPrice();
+                                _this.$refs.dishPartAsks.flushAssistPrice();
+                                _this.$refs.dishPartBids.flushAssistPrice();
+
                                 _this.$refs.dealRecord.flushAssistPrice();
                             } catch (err) {
                                 // console.log('miss dish part component.')
@@ -862,7 +864,8 @@
                             Vue.set(_this.lastDepth, 'bids', datas.bids)
 
                             try {
-                                _this.$refs.dishPart.updateDepth(_this.lastDepth);
+                                _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
+                                _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                             } catch (err) {
                                 console.log('miss dishpartDark component.')
                             }
@@ -967,7 +970,8 @@
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
-                            _this.$refs.dishPart.updateDepth(_this.lastDepth);
+                            _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
+                            _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                         } catch (err) {
                             console.log('miss dishpartDark component.')
                         }

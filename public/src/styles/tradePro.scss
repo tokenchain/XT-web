@@ -118,19 +118,19 @@ body.trading-dark {
 }
 
 .buyColor {
-  color: #32c39f !important;
+  color: $buyColor !important;
 }
 
 .buyBgColor {
-  background: #32c39f;
+  background: $buyColor;
 }
 
 .sellColor {
-  color: #ff5353 !important;
+  color: $sellColor !important;
 }
 
 .sellBgColor {
-  background: #ff5353;
+  background: $sellColor;
 }
 
 .trade-navbar {
@@ -472,15 +472,14 @@ body.trading-dark {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding-top: 8px;
+  margin: 8px;
   flex-wrap: wrap;
   .market-trade {
+    height: 820px;
     width: 280px;
-    padding: 0px 20px;
     background: $trade_background_theme;
     transition: all 0.2s;
     margin-right: 8px;
-    height: 820px;
     &.open {
       width: 60px;
       .market-title span {
@@ -488,7 +487,7 @@ body.trading-dark {
       }
     }
     .market-title {
-      padding: 20px 0 15px 0;
+      padding: 20px 20px 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -520,6 +519,7 @@ body.trading-dark {
           box-sizing: border-box;
           &.active {
             span {
+              color: #fff;
               font-size: 19px;
             }
           }
@@ -578,33 +578,34 @@ body.trading-dark {
           }
         }
         .title {
+          padding: 0px 20px;
           li p {
             color: $theme_color;
             font-size: 16px;
           }
         }
         .list {
-          padding: 8px 0;
-          /*max-height: 400px;
-          overflow-y: scroll;*/
+          height: 698px;
+          overflow-y: scroll;
           &::-webkit-scrollbar {
             width: 10px;
             height: 10px;
           }
           &::-webkit-scrollbar-track-piece {
-            background-color: #29295f;
+            background-color: $trade_background_theme;
           }
           &::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: $theme_color;
             background-clip: padding-box;
             border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid $theme_color;
             min-height: 50px;
           }
           &::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: $theme_color;
           }
           li {
+            padding: 0 20px;
             cursor: pointer;
             p {
               color: #dcdce4;
@@ -628,13 +629,13 @@ body.trading-dark {
     }
   }
   .plateFill-area {
-    height: 370px;
+    min-height: 370px;
     -webkit-box-flex: 0;
     -ms-flex: none;
     flex: none;
     width: 602px;
     position: relative;
-    margin-left: 4px;
+    margin-top: 8px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -643,6 +644,48 @@ body.trading-dark {
     -ms-flex-direction: column;
     flex-direction: column;
     flex: 0 1 100%;
+    .plate-area {
+      display: flex;
+      justify-content: space-between;
+      .fill-area {
+        height: 366px;
+        background: $trade_background_theme;
+        width: 600px;
+        margin: 0 8px;
+        .body .box .form-group .form-control {
+          input {
+            background: $trade_input_background;
+            border-radius: 4px;
+            border: none;
+            padding: 0 10px;
+          }
+        }
+        .body .box .form-group .form-control .current-num {
+          color: #AAAEC1;
+          left: 10px;
+        }
+        .body .box .assets-num{
+          font-size: 14px;
+          padding: 20px 0;
+          color: $white_font_opacity;
+        }
+        .body .box .btn{
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+  .tradeRecordBox {
+    width: 100%;
+    height: 366px;
+    margin: 8px 0;
+    .plateInside-area {
+      .title {
+        li{
+          background: $trade_list_title!important;
+        }
+      }
+    }
   }
 }
 
@@ -852,7 +895,7 @@ body.trading-dark {
 }
 
 .more {
-  position: absolute;
+  //position: absolute;
   bottom: 0px;
   width: 100%;
   height: 40px;
@@ -874,13 +917,10 @@ body.trading-dark {
 }
 
 .plateInside-area {
-  -webkit-box-flex: 0;
-  -ms-flex: none;
-  flex: none;
-  width: 299px;
-  background: #23234c;
+  background: $trade_background_theme;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .plateInside-area li {
@@ -909,14 +949,31 @@ body.trading-dark {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  flex-basis: 100px;
+}
+
+.plateInside-area .asks-title {
+  color: $theme_color;
+  font-size: 20px;
+  padding: 20px;
 }
 
 .plateInside-area .title li {
-  background: #323267;
+  background: $trade_background_theme;
 }
 
 .plateInside-area .title li p {
   height: 40px;
+  font-size: 14px;
+  color: $white_font_opacity;
+}
+
+.plateInside-area .title li p.buy-title {
+  color: $buyColor;
+}
+
+.plateInside-area .title li p.sell-title {
+  color: $sellColor;
 }
 
 .plateInside-area .tradeNew-table li {
@@ -924,16 +981,17 @@ body.trading-dark {
 }
 
 .plateInside-area .tradeNew-table li:hover {
-  background: #323267;
+  background: $trade_bottom_color;
 }
 
 .plateInside-area .tradeNew-table li p {
-  color: #dcdce4;
+  color: $white_font_opacity;
+  font-size: 14px;
   padding: 6px 0;
 }
 
 .plateInside-area div.body {
-  position: absolute;
+  //position: absolute;
   top: 40px;
   bottom: 0px;
   left: 0;
@@ -941,7 +999,7 @@ body.trading-dark {
 }
 
 .plateInside-area div.body .box {
-  position: absolute;
+  //position: absolute;
   height: calc(50% - 24px);
   left: 0;
   width: 100%;
@@ -953,7 +1011,7 @@ body.trading-dark {
 }
 
 .plateInside-area div.body .box.sell-disc ul {
-  position: absolute;
+  //position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -976,12 +1034,14 @@ body.trading-dark {
   color: #fff;
 }
 
-.plateInside-area .sell-disc li p.price {
-  color: rgba(255, 83, 83, 1);
+/*.plateInside-area .sell-disc li p.price,*/
+.plateInside-area .sell-disc li p.type {
+  color: $sellColor;
 }
 
-.plateInside-area .buy-disc li p.price {
-  color: #32c39f;
+/*.plateInside-area .buy-disc li p.price,*/
+.plateInside-area .buy-disc li p.type {
+  color: $buyColor;
 }
 
 .notLogin {
@@ -1378,7 +1438,7 @@ body.trading-dark {
 }
 
 .dishWrap_container {
-  position: absolute;
+  //position: absolute;
   top: 0px;
   bottom: 40px;
   left: 0;

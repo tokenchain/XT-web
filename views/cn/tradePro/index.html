@@ -634,28 +634,38 @@
         <!--盘口+交易记录盒子-->
         <div class="plateFill-area">
             <div class="plate-area">
-                <dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                           :assist-price="assistPrice" ref="dishPart"></dish-part>
-                <deal-record :deal-record="dealRecord" :market-config="currentMarketConfig"
-                             :current-market="currentMarket" ref="dealRecord"></deal-record>
-            </div>
-            <div class="fill-area" v-cloak="">
-                <!--<div class="head">-->
+                <!--盘口数据-->
+                <!--<dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                           :assist-price="assistPrice" ref="dishPart"></dish-part>-->
+                <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                           :assist-price="assistPrice" ref="dishPartAsks"></dish-part-asks>
+                <!--交易表单-->
+                <div class="fill-area" v-cloak="">
+                    <!--<div class="head">-->
                     <!--<div class="cd-select">-->
-                        <!--&lt;!&ndash;<p><%= LANG('价格输入转换')%></p>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a :class="{'on': inputPriceMode != 0}" @click="toggleInputPriceMode"></a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<p><%= LANG('价格输入转换')%></p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a :class="{'on': inputPriceMode != 0}" @click="toggleInputPriceMode"></a>&ndash;&gt;-->
                     <!--</div>-->
-                <!--</div>-->
-                <div class="body" v-show="!showLeverInfo">
-                    <trade-form :trade-type="1" :current-user-asset="currentUserAsset"
-                                :market-config="currentMarketConfig" :current-market="currentMarket"
-                                :assist-price="assistPrice" ref="tradeFormBuy"></trade-form>
-                    <trade-form :trade-type="0" :current-user-asset="currentUserAsset"
-                                :market-config="currentMarketConfig" :current-market="currentMarket"
-                                :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
+                    <!--</div>-->
+                    <div class="body" v-show="!showLeverInfo">
+                        <trade-form :trade-type="1" :current-user-asset="currentUserAsset"
+                                    :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="tradeFormBuy"></trade-form>
+                        <trade-form :trade-type="0" :current-user-asset="currentUserAsset"
+                                    :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
+                    </div>
                 </div>
+                <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                                :assist-price="assistPrice" ref="dishPartBids"></dish-part-bids>
             </div>
         </div>
+        <div class="tradeRecordBox">
+            <!--交易记录-->
+            <deal-record :deal-record="dealRecord" :market-config="currentMarketConfig"
+                         :current-market="currentMarket" ref="dealRecord"></deal-record>
+        </div>
+
     </div>
     <div class="plate-time flex flex-lr-center flex-tb-center" v-cloak="" v-if="marketOpenStatus">
         <div class="time">
@@ -700,7 +710,12 @@
     </modal>
 </section>
 <%-include("../tradePro/app/siderBar.html")%>
+
 <%-include("app/dishPartDark.html")%>
+<!--改版盘口 2018-10-18 by czh-->
+<%-include("app/dishPartDarkAsks.html")%>
+<%-include("app/dishPartDarkBids.html")%>
+
 <%-include("app/lastTradeDark.html")%>
 <%-include("app/tradeFormDark.html")%>
 <%-include("app/batchCancel.html")%>
