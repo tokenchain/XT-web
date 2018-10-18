@@ -3335,11 +3335,30 @@ input::-webkit-inner-spin-button {
   }
 }
 
-
+@media screen and (max-width: 768px) {
+  .timeLine-img01{ 
+    display:none;
+  }
+  .timeLine-img02{ 
+    position: absolute;
+      top: 0px;
+      left: 40%;
+      height: 100%;
+      padding-bottom: 25px;
+      img {
+        height: 100%;
+        display: block;
+      }
+  }
+}
+@media screen and (min-width: 768px) {
+  .timeLine-img02{ 
+    display:none; 
+  }
+}
 .timeLine {
   margin-top: 180px;
   background: #FFFCF7;
-  height: 585px;
   padding-top: 116px;
   .container {
     > h2 {
@@ -3354,6 +3373,15 @@ input::-webkit-inner-spin-button {
     text-align: center;
     font-size: 14px;
     color: #546682;
+    margin-bottom: 104px;
+  }
+  .timeLine-img01{
+    img {
+      position: absolute;
+      top: -175px;
+      left: 0;
+    }
+    
   }
   .timeBox {
     position: relative;

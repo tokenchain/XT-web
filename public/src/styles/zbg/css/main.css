@@ -2793,7 +2793,7 @@ button.icon-btn:hover {
 
 .roadmap-container {
     position: relative;
-    padding: 0 0 4.5rem;
+    padding: 0 7rem;
 }
 
 .roadmap-line {
@@ -2819,20 +2819,18 @@ button.icon-btn:hover {
     position: relative;
     font-size: 1.6rem;
     line-height: 2rem;
-    color: #4FD3D3;
-    font-weight: 300;
+    color: #666;
     text-align: center;
-    opacity: 0;
     cursor: pointer;
     transition: all .5s;
 }
 
 .roadmap-label.active {
-    opacity: 1;
+    color: #FFB700;
 }
 
 .roadmap-label:nth-last-of-type(odd) {
-    margin-bottom: 115px;
+    margin-bottom: 90px;
 }
 
 .roadmap-label:nth-last-of-type(even) {
@@ -2841,9 +2839,9 @@ button.icon-btn:hover {
 
 .roadmap-label span {
     display: block;
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 1.8rem;
-    color: #e9e7ff;
+    color: #7291A1;
     font-weight: 400;
     margin-top: 8px;
 }
@@ -2939,7 +2937,7 @@ button.icon-btn:hover {
     height: 160px;
 }
 
-.roadmap-label::before,
+/* .roadmap-label::before,
 .roadmap-label::after {
     content: " ";
     position: absolute;
@@ -2964,7 +2962,7 @@ button.icon-btn:hover {
     background-color: transparent;
     border: 1px solid #4FD3D3;
     bottom: -31px;
-}
+} */
 
 .roadmap-label.glow::before {
     background-color: #061649;
