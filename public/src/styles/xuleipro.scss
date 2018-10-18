@@ -3233,7 +3233,7 @@ input::-webkit-inner-spin-button {
 }
 
 .advantage {
-  padding: 80px 0;
+  // padding: 80px 0;
   background: #fff;
   background-size: 500px 500px;
   li {
@@ -3256,14 +3256,16 @@ input::-webkit-inner-spin-button {
   .slideInLeft {
     background: url('../images/bg-yinqing.png') no-repeat center center;
     background-size: 300px 600px;
-    // width: 374px;
-    // height: 666px;
-    // margin-right: 70px;
+    height: 600px;
+    margin: 60px 0;
   }
   .slideInDown {
     background: url('../images/bg-fanghu.png') no-repeat center center;
-    width: 452px;
-    height: 806px;
+    background-size: 340px 720px;
+    height: 720px;
+    h3 {
+      margin-top: 460px;
+    }
   }
   .slideInRight {
     background: url('../images/bg-jiaoyi.png') no-repeat center center;
@@ -3271,6 +3273,8 @@ input::-webkit-inner-spin-button {
     // height: 666px;
     // margin-left: 70px;
     background-size: 300px 600px;
+    height: 600px;
+    margin: 60px 0;
   }
   ul {
     /*display: -webkit-box;
@@ -3283,18 +3287,16 @@ input::-webkit-inner-spin-button {
     li {
       text-align: center;
       //width: calc((100% - 100px) / 3);
-      padding: 24px 56px;
+      // padding: 24px 56px;
       transition: all 0.3s;
       //border: 1px solid rgba(23,24,55,0.2);
       h3 {
-        //font-size: 22px;
+        font-size: 20px;
         //font-weight: 500;
-        padding-bottom: 20px;
-        margin-top: 60px;
+        margin-top: 400px;
         position: relative;
-        color: #000;
+        color: #FFBE3F;
         text-align: center;
-
         /*&:after {
           content: "";
           position: absolute;
@@ -3315,7 +3317,11 @@ input::-webkit-inner-spin-button {
         line-height: 1.8;
         margin-top: 25px;
         font-size: 14px;
-        color: #546682;
+        color: #B0B0B0;
+        width: 300px;
+        margin: auto;
+        padding: 0 30px;
+        
       }
       &:hover {
         // box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
@@ -3324,16 +3330,17 @@ input::-webkit-inner-spin-button {
   }
 }
 
-.timeLine {
 
-  padding: 80px 0 150px 0;
-  background: #fff;
-  background-size: 500px 500px;
+.timeLine {
+  margin-top: 180px;
+  background: #FFFCF7;
+  height: 585px;
+  padding-top: 116px;
   .container {
     > h2 {
-      //font-size: 44px;
-      font-weight: bold;
-      margin-bottom: 40px;
+      height: 52px;
+      line-height: 52px;
+      margin-bottom: 30px;
       color: #000;
     }
   }
@@ -3345,10 +3352,6 @@ input::-webkit-inner-spin-button {
   }
   .timeBox {
     position: relative;
-    margin-top: 100px;
-    .timePic {
-
-    }
     ul {
       position: absolute;
       height: 310px;
