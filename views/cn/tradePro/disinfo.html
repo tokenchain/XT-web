@@ -48,7 +48,7 @@
         }
         #info_desh{
             width: 1110px;
-            margin: 0 auto;
+            margin: 100px auto;
         }
         .container_info{
             color: #dcdce4;
@@ -181,7 +181,7 @@
                 </li>
                 <li class="active" v-for="(item,index) in bidslist  " :key="index">
                     <span class="buygears"><%= LANG('买') %> {{index+1}}</span>
-                    <span>{{Number(item[0]).toFixed(float)}}</span>
+                    <span>{{Number(item[0]).toFixed(priceDecimal)}}</span>
                     <span>{{Number(item[1]).toFixed(float)}}</span>
                 </li>
 
@@ -198,7 +198,7 @@
                 </li>
                 <li class="active" v-for="(item,index) in askslist " :key="index">
                     <span class="sellgears"><%= LANG('卖') %> {{index+1}}</span>
-                    <span>{{ Number(item[0]).toFixed(float)}}</span>
+                    <span>{{ Number(item[0]).toFixed(priceDecimal)}}</span>
                     <span>{{Number(item[1]).toFixed(float)}}</span>
                 </li>
             </ul>
@@ -401,7 +401,8 @@
                     marketId:'',
                     priceunit:'',
                     sumunit:'',
-                    float:'',//价格精度
+                    float:'',//数量精度
+                    priceDecimal: '', //价格精度
 
                 }
             },
@@ -522,6 +523,8 @@
                                 var el = res.datas[i]
                                 if (el.marketId ==_this.marketId.split("=")[1] ){
                                     _this.float = el.amountDecimal
+                                    _this.priceDecimal = el.priceDecimal
+                                    console.log(el)
                                     _this.priceunit = el.name.split('_')[1].toUpperCase()
                                     _this.sumunit = el.name.split('_')[0].toUpperCase()
                                     break
