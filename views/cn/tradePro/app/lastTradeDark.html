@@ -2,9 +2,10 @@
     <div class="plateInside-area">
             <ul class="title">
                 <li>
+                    <p class="item time"><span><%= LANG('时间')%></span></p>
+                    <p class="item time"><span><%= LANG('买/卖')%></span></p>
                     <p class="item price"><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
                     <p class="item num"><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
-                    <p class="item time"><span><%= LANG('时间')%></span></p>
                 </li>
             </ul>
             <div class="body" id="tradeRecord">
@@ -109,13 +110,15 @@
                     var price = this.$parent.showMoney(item.price).split(".");
                     var assist = this.$parent.getPriceByAssist(item.price).split(".");
                     var amount = this.$parent.showCoin(item.amount);
-                    var newclass = newclass||''
-                    var amountClass = item.type == 'buy' ? 'sellColor' : 'buyColor';
+                    var newclass = newclass || ''
+                    var trade_type = item.trade_type == 'bid' ? "<%= LANG('买')%>" : "<%= LANG('卖')%>"
+                    var amountClass = item.type == 'sell' ? 'sellColor' : 'buyColor';
                     var html = "";
                     html += "<li class='tr body "+ newclass +"'>";
+                    html += "   <p class=\"td time\">"+ dateStr +"</p>";
+                    html += "   <p class=\"td type " + amountClass +"\">"+ trade_type +"</p>";
                     html += "   <p class=\"td price " + amountClass +"\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></p>";
                     html += "   <p class=\"td num\"><span>"+ amount +"</span></p>";
-                    html += "   <p class=\"td time\">"+ dateStr +"</p>";
                     html += "</li>";
                     return html;
                 },

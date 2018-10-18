@@ -142,8 +142,9 @@ body.trading-dark {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-image: linear-gradient(0deg, #232250 2%, #323266 99%);
+  //background-image: linear-gradient(0deg, #232250 2%, #323266 99%);
   min-width: 554px;
+  background: $trade_background_theme;
   .market-menu {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -648,10 +649,47 @@ body.trading-dark {
       display: flex;
       justify-content: space-between;
       .fill-area {
-        height: 366px;
+        height: 385px;
         background: $trade_background_theme;
         width: 600px;
         margin: 0 8px;
+        .body {
+          flex-wrap: wrap;
+          .box {
+            padding: 15px 25px 0px 25px;
+            .btn {
+              border-radius: 4px;
+            }
+          }
+          .asks-bids-shifts {
+            flex: 0 1 100%;
+            padding-top: 25px;
+            ul {
+              display: flex;
+              justify-content: center;
+              width: 280px;
+              margin: 0 auto;
+              li {
+                color: $white_font_opacity;
+                font-size: 14px;
+                padding: 9px 15px;
+                justify-content: space-between;
+                background-color: $trade_input_background;
+                margin: 0 1px;
+                cursor: pointer;
+                &:first-child {
+                  border-radius: 4px 0 0 4px;
+                }
+                &:last-child {
+                  border-radius: 0 4px 4px 0;
+                }
+                &.active, &:hover {
+                  color: $theme_color;
+                }
+              }
+            }
+          }
+        }
         .body .box .form-group .form-control {
           input {
             background: $trade_input_background;
@@ -664,13 +702,10 @@ body.trading-dark {
           color: #AAAEC1;
           left: 10px;
         }
-        .body .box .assets-num{
+        .body .box .assets-num {
           font-size: 14px;
           padding: 20px 0;
           color: $white_font_opacity;
-        }
-        .body .box .btn{
-          border-radius: 4px;
         }
       }
     }
@@ -679,10 +714,18 @@ body.trading-dark {
     width: 100%;
     height: 366px;
     margin: 8px 0;
+    background: $trade_background_theme;
+    .head {
+      color: $theme_color;
+      font-size: 20px;
+      height: 50px;
+      line-height: 50px;
+      padding: 0 20px;
+    }
     .plateInside-area {
       .title {
-        li{
-          background: $trade_list_title!important;
+        li {
+          background: $trade_list_title !important;
         }
       }
     }
@@ -728,7 +771,7 @@ body.trading-dark {
   flex: none;
   width: 100%;
   height: 278px;
-  background: #23234c;
+  background: $trade_background_theme;
   overflow: hidden;
   margin-top: 2px;
   display: -webkit-box;
@@ -745,7 +788,7 @@ body.trading-dark {
   -ms-flex: none;
   flex: none;
   width: 100%;
-  background: #323267;
+  //background: $trade_list_title;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -755,6 +798,10 @@ body.trading-dark {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  ul li {
+    color: $theme_color;
+    font-size: 20px;
+  }
 }
 
 .entrust-area .head .tab {
@@ -764,7 +811,7 @@ body.trading-dark {
 }
 
 .entrust-area .head .tab li {
-  height: 40px;
+  height: 50px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -775,10 +822,10 @@ body.trading-dark {
   cursor: pointer;
 }
 
-.entrust-area .head .tab li.on {
+/*.entrust-area .head .tab li.on {
   background: #23234c;
   color: #fff;
-}
+}*/
 
 .entrust-area .head .oper {
   padding-right: 20px;
@@ -807,6 +854,14 @@ body.trading-dark {
   flex: 1;
   width: 100%;
   position: relative;
+}
+
+.entrust-list .title {
+  background: $trade_list_title;
+  li p {
+    color: $white_font_opacity;
+    font-size: 14px;
+  }
 }
 
 .entrust-list li {
@@ -878,6 +933,9 @@ body.trading-dark {
 .entrust-area .body .norecord {
   text-align: center;
   padding: 80px 0;
+  color: $trade_nodata;
+  font-size: 12px;
+
 }
 
 .plate-area {
