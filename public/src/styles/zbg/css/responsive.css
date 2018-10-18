@@ -465,7 +465,7 @@
 		margin-top: 0;
 		position: relative;
 	}
-	.roadmap-container::after {
+	/* .roadmap-container::after {
 		content: " ";
 		position: absolute;
 		top: 21px;
@@ -476,7 +476,7 @@
 		background-repeat: repeat-x;
 		width: 1px;
 		margin-left: -.5px;
-	}
+	} */
 	.roadmap-container .row {
 		display: block;
 	}
@@ -573,7 +573,7 @@
 		box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
 	}
 	.roadmap-label span {
-		font-size: 16px;
+		font-size: 1.2rem;
 	}
 	.accordion .card h4 a i {
 		font-size: 1.6rem;

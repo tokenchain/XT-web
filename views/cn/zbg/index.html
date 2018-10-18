@@ -303,337 +303,6 @@
             width: 68px;
             border-radius: 15px;
         }
-
-
-        .roadmap-container {
-            position: relative;
-            padding: 0 0 4.5rem;
-        }
-
-        .roadmap-line {
-            fill: none;
-            stroke-miterlimit: 10;
-            stroke-width: 2px;
-            width: 100%;
-            height: 2px;
-            stroke: url(#linear-gradient);
-            position: relative;
-            z-index: 9;
-        }
-
-        .roadmap-line-path {
-            opacity: 0;
-            height: 2px;
-            fill: none;
-            stroke-width: 4px;
-            width: 100%;
-        }
-
-        .roadmap-label {
-            position: relative;
-            font-size: 1.6rem;
-            line-height: 2rem;
-            color: #4FD3D3;
-            font-weight: 300;
-            text-align: center;
-            opacity: 0;
-            cursor: pointer;
-            transition: all .5s;
-        }
-
-        .roadmap-label.active {
-            opacity: 1;
-        }
-
-        .roadmap-label:nth-last-of-type(odd) {
-            margin-bottom: 115px;
-        }
-
-        .roadmap-label:nth-last-of-type(even) {
-            margin-bottom: 175px;
-        }
-
-        .roadmap-label span {
-            display: block;
-            font-size: 1.4rem;
-            line-height: 1.8rem;
-            color: #e9e7ff;
-            font-weight: 400;
-            margin-top: 8px;
-        }
-
-        .roadmap-label .data {
-            width: 100%;
-            z-index: 7;
-        }
-
-        .roadmap-label .data .line {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: calc(100% + 25px);
-            left: 50%;
-            width: 1px;
-            height: 100px;
-            background: #4FD3D3;
-            transition: all .5s;
-            z-index: 7;
-        }
-
-        .roadmap-label .data .card {
-            position: absolute;
-            top: calc(100% + 56px);
-            left: 50%;
-            width: 44.5rem;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            transition: all .5;
-            z-index: 10;
-            display: none;
-            border: none;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            -ms-border-radius: 10px;
-            border-radius: 10px;
-            -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .roadmap-label .data .card .img-container {
-            display: block;
-        }
-
-        .roadmap-label .data .card .img-container img {
-            -webkit-border-radius: 0;
-            -moz-border-radius: 0;
-            -ms-border-radius: 0;
-            border-radius: 0;
-        }
-
-        .roadmap-label .data .card .card-header {
-            background: transparent;
-            padding: 2.4rem 3rem 1rem;
-            border: none;
-        }
-
-        .roadmap-label .data .card .card-header a {
-            color: #4039D4;
-        }
-
-        .roadmap-label .data .card .card-header a:hover {
-            color: #4FD3D3;
-        }
-
-        .roadmap-label .data .card .card-body {
-            padding: 0 3rem 2.6rem;
-        }
-
-        .roadmap-label .data .card .card-body p {
-            color: #4a4a4a;
-            margin-bottom: 1rem;
-        }
-
-        .roadmap-label .data .card .card-body .btn-link {
-            font-size: 1.5rem;
-        }
-
-        .roadmap-label .data .card .card-body .btn-link i {
-            font-size: 1.2rem;
-            position: relative;
-            top: 1px;
-        }
-
-        .roadmap-label:nth-last-of-type(odd) .data .line {
-            height: 100px;
-        }
-
-        .roadmap-label:nth-last-of-type(even) .data .line {
-            height: 160px;
-        }
-
-        .roadmap-label::before,
-        .roadmap-label::after {
-            content: " ";
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            width: 8px;
-            height: 8px;
-            display: block;
-            background-color: #4FD3D3;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            border-radius: 50%;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            transition: all .5s;
-        }
-
-        .roadmap-label::after {
-            width: 20px;
-            height: 20px;
-            background-color: transparent;
-            border: 1px solid #4FD3D3;
-            bottom: -31px;
-        }
-
-        .roadmap-label.glow::before {
-            background-color: #061649;
-        }
-
-        .roadmap-label.glow::after {
-            background-color: #4FD3D3;
-            border-color: #4FD3D3;
-            z-index: -1;
-        }
-
-        .roadmap-label:first-child .card {
-            left: 3rem;
-            transform: translateX(0);
-        }
-
-        .roadmap-label:last-child .card {
-            left: auto;
-            right: 3rem;
-            transform: translateX(0);
-        }
-
-        .roadmap-label:hover::before {
-            background-color: #061649;
-        }
-
-        .roadmap-label:hover::after {
-            background-color: #4FD3D3;
-            border-color: #4FD3D3;
-            z-index: -1;
-    }
-
-
-
-    @media screen and (max-width: 767px){
-        .roadmap-line {
-            display: none;
-        }
-        .roadmap-container {
-            padding-top: 0;
-            padding-bottom: 2.1rem;
-            margin-top: 0;
-            position: relative;
-        }
-        .roadmap-container::after {
-            content: " ";
-            position: absolute;
-            top: 21px;
-            bottom: 40px;
-            left: 50%;
-            display: block;
-            background-image: linear-gradient(to bottom, #f8a4d8, #6a63ff);
-            background-repeat: repeat-x;
-            width: 1px;
-            margin-left: -.5px;
-        }
-        .roadmap-container .row {
-            display: block;
-        }
-        .roadmap-label {
-            font-size: 14px;
-            position: initial;
-            padding: 0 15px !important;
-            margin-bottom: 3rem !important;
-            text-align: left;
-            opacity: 1;
-        }
-        .roadmap-label .text-content {
-            display: inline-block;
-            text-align: right;
-            width: 50%;
-            padding-right: 3rem;
-        }
-        .roadmap-label:last-child {
-            margin-bottom: 0 !important;
-        }
-        .roadmap-label .data {
-            position: relative;
-            top: -37px;
-            left: 0;
-            -webkit-transform: translateX(0);
-            transform: translateX(0);
-        }
-        .roadmap-label .data .line {
-            display: none;
-        }
-        .roadmap-label .data .card {
-            position: relative;
-            top: 50px;
-            left: 0;
-            width: 100%;
-            max-width: 100%;
-            -webkit-transform: translateX(0);
-            transform: translateX(0);
-        }
-        .roadmap-label .data .card .card-header {
-            padding: 2.4rem 1.5rem 1rem;
-        }
-        .roadmap-label .data .card .card-body {
-            padding: 0 1.5rem 2.6rem;
-        }
-        .roadmap-label .data .card img {
-            width: 100%;
-        }
-        .roadmap-label:nth-of-type(even) {
-            text-align: right;
-        }
-        .roadmap-label:nth-of-type(even) .text-content {
-            text-align: left;
-            padding-left: 3rem;
-            padding-right: 0;
-        }
-        .roadmap-label:nth-of-type(even) .line {
-            margin-left: 0;
-        }
-        .roadmap-to-success {
-            padding-bottom: 0;
-        }
-        .roadmap-label::before,
-        .roadmap-label::after {
-            display: none;
-        }
-        .roadmap-label .data::before,
-        .roadmap-label .data::after {
-            content: " ";
-            position: absolute;
-            top: 9px;
-            left: 50%;
-            width: 8px;
-            height: 8px;
-            display: block;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            background-color: #4FD3D3;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            border-radius: 50%;
-        }
-        .roadmap-label .data::after {
-            top: 3px;
-            width: 20px;
-            height: 20px;
-            background-color: transparent;
-            border: 1px solid #4FD3D3;
-        }
-        .roadmap-label.glow .data::after {
-            -webkit-box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
-            -moz-box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
-            box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
-        }
-        .roadmap-label span {
-            font-size: 16px;
-        }
-    }
     </style>
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
     <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
@@ -1538,42 +1207,6 @@
                 <p>
                     <%=LANG('XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区')%>
                 </p>
-                <!-- <div class="timeBox wow fadeIn" data-wow-duration="2.5s" style="text-align: center;">
-                <ul>
-                    <li class="active">
-                        <h2><%=LANG('2018年7月')%></h2>
-                        <p><%=LANG('XT.COM顶级域名正式成为平台统一对外域名')%></p>
-                    </li>
-                    <li class="active">
-                        <h2><%=LANG('2018年8月')%></h2>
-                        <p><%=LANG('项目内测')%></p>
-                    </li>
-                    <li class="active">
-                        <h2><%=LANG('2018年10月18日')%></h2>
-                        <p><%=LANG('项目开启外测β版本')%></p>
-                    </li>
-                    <li>
-                        <h2><%=LANG('2020年')%></h2>
-                        <p><%=LANG('XT 平台TOP计划')%></p>
-                    </li>
-                    <li>
-                        <h2><%=LANG('2019年')%></h2>
-                        <p><%=LANG('XT2.0升级计划')%></p>
-                    </li>
-                    <li>
-                        <h2><%=LANG('2018年12月')%></h2>
-                        <p><%=LANG('全球创新项目遴选计划')%></p>
-                    </li>
-                    <li>
-                        <h2><%=LANG('2018年11月')%></h2>
-                        <p><%=LANG('多语言版本支持计划')%></p>
-                    </li>
-                    <li>
-                        <h2><%=LANG('2018年11月')%></h2>
-                        <p><%=LANG('XT生态合伙人计划')%></p>
-                    </li>
-                </ul>
-            </div> -->
             </div>
             <div class="roadmap-container">
                 <div class="row align-items-end no-gutters">
@@ -1584,9 +1217,6 @@
                                 <%=LANG('开启内测')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
                     <div title="Click to open" class="col-md roadmap-label l-2 active">
                         <div class="text-content">
@@ -1595,86 +1225,63 @@
                                 <%=LANG('XT平台开放交易公测')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
                     <div title="Click to open" class="col-md roadmap-label l-3 active">
                         <div class="text-content">
                             <%=LANG('2018年8月28日')%>
                             <span>
-                                确立ZT初始交易价格，ZB以ZBG作为样板站正式运营
+                                <%=LANG('开启会员抢购')%>
                             </span>
-                        </div>
-                        <div class="data">
-                            <div class="line"></div>
                         </div>
                     </div>
                     <div title="Click to open" class="col-md roadmap-label l-4 active">
                         <div class="text-content">
                             <%=LANG('2018年9月')%>
                             <span>
-                                正式接受全球交易站合作伙伴申请
+                                <%=LANG('XT生态合伙人计划')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
-                    <div title="Click to open" class="col-md roadmap-label l-5 active">
+                    <div title="Click to open" class="col-md roadmap-label l-5">
                         <div class="text-content">
                             <%=LANG('2018年10月')%>
                             <span>
-                                推进轻量级独立联盟站建站系统
+                                <%=LANG('全球创新项目遴选计划')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
-                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                    <div title="Click to open" class="col-md roadmap-label l-6">
                         <div class="text-content">
                             <%=LANG('2018年11月')%>
                             <span>
-                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                                <%=LANG('XT平台多语言支持计划')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
-                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                    <div title="Click to open" class="col-md roadmap-label l-6">
                         <div class="text-content">
                             <%=LANG('2018年12月')%>
                             <span>
-                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                                <%=LANG('首届社区治理峰会')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
-                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                    <div title="Click to open" class="col-md roadmap-label l-6">
                         <div class="text-content">
                             <%=LANG('2019年')%>
                             <span>
-                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                                <%=LANG('XT平台2.0计划')%>
                             </span>
                         </div>
-                        <div class="data">
-                            <div class="line"></div>
-                        </div>
                     </div>
-                </div> <svg width="3000" class="roadmap-line">
-                    <defs>
-                        <linearGradient id="linear-gradient" y1="42.22" x2="1920.75" y2="42.22" gradientTransform="matrix(1, 0, 0, -1, 0, 82)"
-                            gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stop-color="#3023ae"></stop>
-                            <stop offset="1" stop-color="#c86dd7"></stop>
-                        </linearGradient>
-                    </defs>
-                    <path d="M -290 0 l3000 0" class="roadmap-line-path" style="opacity: 1; stroke-dashoffset: 0px; stroke-dasharray: 3000px;"></path>
-                </svg>
+                    
+                </div>
+                <div class="col-md l-6 timeLine-img01">
+                    <img src="/src/images/timeLine.png" alt="">
+                </div>
+                <div class="col-md l-6 timeLine-img02">
+                    <img src="/src/images/timeLine02.png" alt="">
+                </div>
             </div>
         </section>
         <!-- End of .roadmap-to-success -->
