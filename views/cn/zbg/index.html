@@ -44,8 +44,7 @@
 
     <!-- Icon fonts
     ======================================== -->
-    <link rel="stylesheet" type="text/css"
-          href="<%= STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
 
     <!-- css links
     ======================================== -->
@@ -304,6 +303,337 @@
             width: 68px;
             border-radius: 15px;
         }
+
+
+        .roadmap-container {
+            position: relative;
+            padding: 0 0 4.5rem;
+        }
+
+        .roadmap-line {
+            fill: none;
+            stroke-miterlimit: 10;
+            stroke-width: 2px;
+            width: 100%;
+            height: 2px;
+            stroke: url(#linear-gradient);
+            position: relative;
+            z-index: 9;
+        }
+
+        .roadmap-line-path {
+            opacity: 0;
+            height: 2px;
+            fill: none;
+            stroke-width: 4px;
+            width: 100%;
+        }
+
+        .roadmap-label {
+            position: relative;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            color: #4FD3D3;
+            font-weight: 300;
+            text-align: center;
+            opacity: 0;
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        .roadmap-label.active {
+            opacity: 1;
+        }
+
+        .roadmap-label:nth-last-of-type(odd) {
+            margin-bottom: 115px;
+        }
+
+        .roadmap-label:nth-last-of-type(even) {
+            margin-bottom: 175px;
+        }
+
+        .roadmap-label span {
+            display: block;
+            font-size: 1.4rem;
+            line-height: 1.8rem;
+            color: #e9e7ff;
+            font-weight: 400;
+            margin-top: 8px;
+        }
+
+        .roadmap-label .data {
+            width: 100%;
+            z-index: 7;
+        }
+
+        .roadmap-label .data .line {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: calc(100% + 25px);
+            left: 50%;
+            width: 1px;
+            height: 100px;
+            background: #4FD3D3;
+            transition: all .5s;
+            z-index: 7;
+        }
+
+        .roadmap-label .data .card {
+            position: absolute;
+            top: calc(100% + 56px);
+            left: 50%;
+            width: 44.5rem;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            transition: all .5;
+            z-index: 10;
+            display: none;
+            border: none;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .roadmap-label .data .card .img-container {
+            display: block;
+        }
+
+        .roadmap-label .data .card .img-container img {
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            -ms-border-radius: 0;
+            border-radius: 0;
+        }
+
+        .roadmap-label .data .card .card-header {
+            background: transparent;
+            padding: 2.4rem 3rem 1rem;
+            border: none;
+        }
+
+        .roadmap-label .data .card .card-header a {
+            color: #4039D4;
+        }
+
+        .roadmap-label .data .card .card-header a:hover {
+            color: #4FD3D3;
+        }
+
+        .roadmap-label .data .card .card-body {
+            padding: 0 3rem 2.6rem;
+        }
+
+        .roadmap-label .data .card .card-body p {
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-label .data .card .card-body .btn-link {
+            font-size: 1.5rem;
+        }
+
+        .roadmap-label .data .card .card-body .btn-link i {
+            font-size: 1.2rem;
+            position: relative;
+            top: 1px;
+        }
+
+        .roadmap-label:nth-last-of-type(odd) .data .line {
+            height: 100px;
+        }
+
+        .roadmap-label:nth-last-of-type(even) .data .line {
+            height: 160px;
+        }
+
+        .roadmap-label::before,
+        .roadmap-label::after {
+            content: " ";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            display: block;
+            background-color: #4FD3D3;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            border-radius: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            transition: all .5s;
+        }
+
+        .roadmap-label::after {
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+            border: 1px solid #4FD3D3;
+            bottom: -31px;
+        }
+
+        .roadmap-label.glow::before {
+            background-color: #061649;
+        }
+
+        .roadmap-label.glow::after {
+            background-color: #4FD3D3;
+            border-color: #4FD3D3;
+            z-index: -1;
+        }
+
+        .roadmap-label:first-child .card {
+            left: 3rem;
+            transform: translateX(0);
+        }
+
+        .roadmap-label:last-child .card {
+            left: auto;
+            right: 3rem;
+            transform: translateX(0);
+        }
+
+        .roadmap-label:hover::before {
+            background-color: #061649;
+        }
+
+        .roadmap-label:hover::after {
+            background-color: #4FD3D3;
+            border-color: #4FD3D3;
+            z-index: -1;
+    }
+
+
+
+    @media screen and (max-width: 767px){
+        .roadmap-line {
+            display: none;
+        }
+        .roadmap-container {
+            padding-top: 0;
+            padding-bottom: 2.1rem;
+            margin-top: 0;
+            position: relative;
+        }
+        .roadmap-container::after {
+            content: " ";
+            position: absolute;
+            top: 21px;
+            bottom: 40px;
+            left: 50%;
+            display: block;
+            background-image: linear-gradient(to bottom, #f8a4d8, #6a63ff);
+            background-repeat: repeat-x;
+            width: 1px;
+            margin-left: -.5px;
+        }
+        .roadmap-container .row {
+            display: block;
+        }
+        .roadmap-label {
+            font-size: 14px;
+            position: initial;
+            padding: 0 15px !important;
+            margin-bottom: 3rem !important;
+            text-align: left;
+            opacity: 1;
+        }
+        .roadmap-label .text-content {
+            display: inline-block;
+            text-align: right;
+            width: 50%;
+            padding-right: 3rem;
+        }
+        .roadmap-label:last-child {
+            margin-bottom: 0 !important;
+        }
+        .roadmap-label .data {
+            position: relative;
+            top: -37px;
+            left: 0;
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+        .roadmap-label .data .line {
+            display: none;
+        }
+        .roadmap-label .data .card {
+            position: relative;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            max-width: 100%;
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+        .roadmap-label .data .card .card-header {
+            padding: 2.4rem 1.5rem 1rem;
+        }
+        .roadmap-label .data .card .card-body {
+            padding: 0 1.5rem 2.6rem;
+        }
+        .roadmap-label .data .card img {
+            width: 100%;
+        }
+        .roadmap-label:nth-of-type(even) {
+            text-align: right;
+        }
+        .roadmap-label:nth-of-type(even) .text-content {
+            text-align: left;
+            padding-left: 3rem;
+            padding-right: 0;
+        }
+        .roadmap-label:nth-of-type(even) .line {
+            margin-left: 0;
+        }
+        .roadmap-to-success {
+            padding-bottom: 0;
+        }
+        .roadmap-label::before,
+        .roadmap-label::after {
+            display: none;
+        }
+        .roadmap-label .data::before,
+        .roadmap-label .data::after {
+            content: " ";
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            display: block;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            background-color: #4FD3D3;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .roadmap-label .data::after {
+            top: 3px;
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+            border: 1px solid #4FD3D3;
+        }
+        .roadmap-label.glow .data::after {
+            -webkit-box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
+            -moz-box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
+            box-shadow: 0 2px 7px rgba(79, 211, 211, 0.6);
+        }
+        .roadmap-label span {
+            font-size: 16px;
+        }
+    }
     </style>
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
     <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
@@ -316,46 +646,46 @@
 
 
 <body class="home">
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
-<%-include("../include/head.html")%>
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+    <%-include("../include/head.html")%>
 
 
-<!-- jQuery -->
+    <!-- jQuery -->
 
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
-<!-- Bootstrap js -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
-<!-- font awesome -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
-<!-- jQuery Countdown plugin -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
-<!-- jQuery Easing Plugin -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
-<!-- jQuery progressbar plugin -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
-<!-- Bootstrap Progressbar -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
-<!-- ImagesLoaded js -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
-<!-- Slick carousel js -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
-<!-- Magnific popup -->
-<script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
-<script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
-<!-- pie chart -->
-<script src="/src/js/highcharts.js"></script>
-<script src="/src/js/highcharts-3d.js"></script>
-<script src="/src/js/exporting.js"></script>
-<script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
-<!-- Custom js -->
-<!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
-<!--2018年06月26日16:18:09-->
-<script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
-<script src="/lib/requirejs/require.js"></script>
-<script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+    <!-- jQuery Countdown plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+    <!-- jQuery Easing Plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+    <!-- jQuery progressbar plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+    <!-- Bootstrap Progressbar -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+    <!-- ImagesLoaded js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <!-- Slick carousel js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
+    <!-- Magnific popup -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
+    <!-- pie chart -->
+    <script src="/src/js/highcharts.js"></script>
+    <script src="/src/js/highcharts-3d.js"></script>
+    <script src="/src/js/exporting.js"></script>
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <!-- Custom js -->
+    <!--<script src="<%= STATIC %>/scripts/zbg/js/main.js"></script>-->
+    <!--2018年06月26日16:18:09-->
+    <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="/lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
 
-<script>
-    window.onload = function () {
+    <script>
+        window.onload = function () {
         var language = getCookie('wlan')
 
         //首页图表字体自适应
@@ -427,9 +757,9 @@
     }
 </script>
 
-<div id="zbg-index">
-    <!-- Preloader -->
-    <!--<div class="o-preloader">
+    <div id="zbg-index">
+        <!-- Preloader -->
+        <!--<div class="o-preloader">
         &lt;!&ndash;<div class="o-preloader_inner"></div>&ndash;&gt;
         <div class="loader vertical-bars-1">
             <div class="layer-1 color-1"></div>
@@ -445,11 +775,11 @@
         </div>
     </div>-->
 
-    <!--<div class="radial-bg radial-bg__banner"></div>-->
-    <!-- End of .radial-bg -->
-    <!-- banner starts
+        <!--<div class="radial-bg radial-bg__banner"></div>-->
+        <!-- End of .radial-bg -->
+        <!-- banner starts
 ============================================ -->
-    <!--<section class="banner">
+        <!--<section class="banner">
         <div class="container">
             <div class="banner-wrapper d-flex align-items-center">
                 <div class="banner-txt">
@@ -587,10 +917,10 @@
         &lt;!&ndash; End of .container &ndash;&gt;
 
     </section>-->
-    <section class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <!--<div class="swiper-slide">
+        <section class="banner">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!--<div class="swiper-slide">
                     <img src="/src/images/banner.jpg" alt="">
                     <div class="container max-min">
                         <div class="banner-wrapper">
@@ -667,9 +997,9 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="swiper-slide banner01">
-                    <img src="/src/images/banner01.png" alt="">
-                    <!-- <div class="topHeader">
+                    <div class="swiper-slide banner01">
+                        <img src="/src/images/banner01.png" alt="">
+                        <!-- <div class="topHeader">
                         <h2><%=LANG('全球领先的数字资产交易平台')%></h2>
                         <p><span><%=LANG('买价值币 只选 XT')%></span></p>
                         <ul>
@@ -679,42 +1009,42 @@
                             <li><%=LANG('高效')%></li>
                         </ul>
                     </div> -->
-                </div>
-                <div class="swiper-slide banner01">
-                    <img src="/src/images/banner02.png" alt="">
-                    <!-- <div class="bannerTop">
+                    </div>
+                    <div class="swiper-slide banner01">
+                        <img src="/src/images/banner02.png" alt="">
+                        <!-- <div class="bannerTop">
                         <h2><%=LANG('X网会员即将震撼发布')%></h2>
                         <p>敬请期待</p>
                     </div> -->
-                </div>
+                    </div>
 
-                <!--<div class="swiper-slide" v-for="item in bannerList">
+                    <!--<div class="swiper-slide" v-for="item in bannerList">
                     <img :src="'/home/appl/website/public/src/images/banner/'+item.picture" alt="">
                 </div>-->
 
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+
+
             </div>
-            <!-- 如果需要分页器 -->
-            <div class="swiper-pagination"></div>
 
-            
-        </div>
-
-        <div class="bottom">
-            <p class="title">官方公告</p>
-            <div class="box">
-                <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
-                    <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul" >
-                        <li :key="item" v-cloak v-for="item in notices">
-                            公告：<a href="#" v-text="item.articleTitle"></a>
-                        </li>
-                    </transition-group>
+            <div class="bottom">
+                <p class="title">官方公告</p>
+                <div class="box">
+                    <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
+                        <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul">
+                            <li :key="item.articleId" v-cloak v-for="item in notices">
+                                公告：<a href="#" v-text="item.articleTitle"></a>
+                            </li>
+                        </transition-group>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End of .banner -->
+        </section>
+        <!-- End of .banner -->
 
-    <!--<div class="token-slider-wrapper" style="display: none">
+        <!--<div class="token-slider-wrapper" style="display: none">
         <div class="countdown-box">
             <div class="container">
                 &lt;!&ndash;<div class="token-box">&ndash;&gt;
@@ -822,10 +1152,10 @@
         &lt;!&ndash; End of .token-slider &ndash;&gt;
     </div>-->
 
-    <!--市场列表-->
-    <section class="index-market">
-        <div class="container">
-            <!--<div class="market-navwrapper">
+        <!--市场列表-->
+        <section class="index-market">
+            <div class="container">
+                <!--<div class="market-navwrapper">
                 <div class="market-navcontent">
                     <div @click="markerShow='ZBG'" class="market-nav2" :class="{active:markerShow=='ZBG'}"><%=
                         LANG('ZBG市场')%>
@@ -833,92 +1163,95 @@
                     &lt;!&ndash;<div @click="markerShow='ALL'" class="market-nav2" :class="{active:markerShow=='ALL'}"> <%= LANG('全球主要行情')%></div>&ndash;&gt;
                 </div>
             </div>-->
-            <!-- zbg市场 -->
-            <div class="index-market-wrapper" v-show="markerShow=='XT'">
-                <div class="navWrapper">
-                    <div class="navContent">
-                        <div @click="changeMarketsTab('hot')" class="market-nav" :class="{active:navActive=='hot'}">
-                            <%= LANG('全部')%>
+                <!-- zbg市场 -->
+                <div class="index-market-wrapper" v-show="markerShow=='XT'">
+                    <div class="navWrapper">
+                        <div class="navContent">
+                            <div @click="changeMarketsTab('hot')" class="market-nav" :class="{active:navActive=='hot'}">
+                                <%= LANG('全部')%>
+                            </div>
+                            <div @click="changeMarketsTab('xc')" class="market-nav" :class="{active:navActive=='xc'}">
+                                XC
+                                <%= LANG('区')%>
+                            </div>
+                            <div @click="changeMarketsTab('usdt')" class="market-nav" :class="{active:navActive=='usdt'}">
+                                USDT
+                                <%= LANG('区')%>
+                            </div>
+                            <div @click="changeMarketsTab('btc')" class="market-nav" :class="{active:navActive=='btc'}">
+                                BTC
+                                <%= LANG('区')%>
+                            </div>
                         </div>
-                        <div @click="changeMarketsTab('xc')" class="market-nav" :class="{active:navActive=='xc'}">
-                            XC
-                            <%= LANG('区')%>
-                        </div>
-                        <div @click="changeMarketsTab('usdt')" class="market-nav" :class="{active:navActive=='usdt'}">
-                            USDT
-                            <%= LANG('区')%>
-                        </div>
-                        <div @click="changeMarketsTab('btc')" class="market-nav" :class="{active:navActive=='btc'}">
-                            BTC
-                            <%= LANG('区')%>
+                        <div class="tab market-filter-tab">
+                            <div class="market-filter">
+                                <input v-model="keyWord" placeholder="<%=LANG('搜索币种')%>"><i @click="keyWord ? emptySearch() : null"
+                                    class="icon iconfont" :class="keyWord == '' ? 'icon-msnui-search' : 'icon-shanchu1'"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab market-filter-tab">
-                        <div class="market-filter">
-                            <input v-model="keyWord" placeholder="<%=LANG('搜索币种')%>"><i @click="keyWord ? emptySearch() : null" class="icon iconfont"
-                                                                                        :class="keyWord == '' ? 'icon-msnui-search' : 'icon-shanchu1'"></i>
+                    <div class="market-list">
+                        <div class="title">
+                            <ul>
+                                <li class="coin-name">
+                                    <%= LANG('币种')%>
+                                </li>
+                                <li class="new-price">
+                                    <%= LANG('最新价')%>
+                                </li>
+                                <li>
+                                    24H
+                                    <%= LANG('涨跌幅')%>
+                                    <em></em>
+                                </li>
+                                <li>
+                                    <%= LANG('24H 高/低')%>
+                                </li>
+                                <li>
+                                    <%= LANG('24H 成交量')%>
+                                </li>
+                                <li>
+                                    <%= LANG('操作')%>
+                                    <em></em>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
-                <div class="market-list">
-                    <div class="title">
-                        <ul>
-                            <li class="coin-name">
-                                <%= LANG('币种')%>
-                            </li>
-                            <li class="new-price">
-                                <%= LANG('最新价')%>
-                            </li>
-                            <li>
-                                24H <%= LANG('涨跌幅')%>
-                                <em></em>
-                            </li>
-                            <li>
-                                <%= LANG('24H 高/低')%>
-                            </li>
-                            <li>
-                                <%= LANG('24H 成交量')%>
-                            </li>
-                            <li>
-                                <%= LANG('操作')%>
-                                <em></em>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body" v-show="displayMarkets.length">
-                        <ul role="button" v-for="(data, index) in displayMarkets"
-                            @click="goExchange(1, data.market.replace('/','_'))" v-cloak="">
-                            <li class="coin-name">
-                                <img
-                                        v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
-                                     :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'"/>
-                                <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'"/>
-                                {{data.market.split('_')[0].toUpperCase()}}
-                                <span>
-                                            <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
-                            </li>
-                            <li class="new-price">{{showMoney(data.lastPrice, data.market)}}</li>
-                            <li>
-                                <span :class="data.rate >= 0 ? 'green' : 'red'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span>
-                            </li>
-                            <li>{{data.highPrice}}/{{data.lowPrice}}</li>
-                            <li>{{data.volume}}</li>
-                            <li style="color:#5a7ff5"><%= LANG('去交易')%></li>
-                        </ul>
-                    </div>
-                    <div class="noData" v-show="!displayMarkets.length">
-                        <%= LANG('暂无数据')%>
+                        <div class="body" v-show="displayMarkets.length">
+                            <ul role="button" v-for="(data, index) in displayMarkets" @click="goExchange(1, data.market.replace('/','_'))"
+                                v-cloak="">
+                                <li class="coin-name">
+                                    <img v-if="data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'xc'|| data.market.split('_')[0] === 'xtz'"
+                                        :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                                    <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
+                                    {{data.market.split('_')[0].toUpperCase()}}
+                                    <span>
+                                        <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
+                                </li>
+                                <li class="new-price">{{showMoney(data.lastPrice, data.market)}}</li>
+                                <li>
+                                    <span :class="data.rate >= 0 ? 'green' : 'red'">{{ data.rate >= 0 ? '+' +
+                                        showRate(data.rate) : '' + showRate(data.rate) }}%</span>
+                                </li>
+                                <li>{{data.highPrice}}/{{data.lowPrice}}</li>
+                                <li>{{data.volume}}</li>
+                                <li style="color:#FFB700">
+                                    <%= LANG('去交易')%>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="noData" v-show="!displayMarkets.length">
+                            <%= LANG('暂无数据')%>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-    </section>
+        </section>
 
 
-    <!-- benefits-of-solution starts============================================ -->
-    <!--<section class="section advantage">
+        <!-- benefits-of-solution starts============================================ -->
+        <!--<section class="section advantage">
         <div class="container">
             <div class="benefits-of-solution section-padding">
                 <div class="section-heading text-center">
@@ -995,34 +1328,46 @@
         </div>
         &lt;!&ndash; End of .container &ndash;&gt;
     </section>-->
-    <section class="advantage">
-        <div class="container">
-            <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT平台优势')%></h2>
-            <!--<p><%=LANG('XT继承了ZB交易系统的高性能、安全稳定等优点，同时系统分离了币 ，能更好的保证交易者的资产安全。')%></p>-->
-            <ul class="row">
-                <li class="wow slideInLeft col-md-4" data-wow-duration="1.5s">
-                    <img src="/src/images/bt3.png" alt="">
-                    <h3><%=LANG('高性能撮合引擎')%></h3>
-                    <p><%=LANG('自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。')%></p>
-                </li>
-                <li class="wow slideInDown col-md-4" data-wow-duration="1.5s">
-                    <img src="/src/images/bt2.png" alt="">
-                    <h3><%=LANG('金融级安全防护')%></h3>
-                    <p><%=LANG('无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。')%></p>
-                </li>
-                <li class="wow slideInRight col-md-4" data-wow-duration="1.5s">
-                    <img src="/src/images/bt1.png" alt="">
-                    <h3><%=LANG('OTC场外交易')%></h3>
-                    <p><%=LANG('支持多种法币交易')%><div><%=LANG('平台担保、快速安全')%></div></p>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- End of section -->
+        <section class="advantage">
+            <div class="container">
+                <!-- <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT平台优势')%></h2> -->
+                <!--<p><%=LANG('XT继承了ZB交易系统的高性能、安全稳定等优点，同时系统分离了币 ，能更好的保证交易者的资产安全。')%></p>-->
+                <ul class="row">
+                    <li class="wow slideInLeft col-md-4" data-wow-duration="1.5s">
+                        <!-- <img src="/src/images/bt3.png" alt=""> -->
+                        <h3>
+                            <%=LANG('高性能撮合引擎')%>
+                        </h3>
+                        <p>
+                            <%=LANG('自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。')%>
+                        </p>
+                    </li>
+                    <li class="wow slideInDown col-md-4" data-wow-duration="1.5s">
+                        <!-- <img src="/src/images/bt2.png" alt=""> -->
+                        <h3>
+                            <%=LANG('金融级安全防护')%>
+                        </h3>
+                        <p>
+                            <%=LANG('无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。')%>
+                        </p>
+                    </li>
+                    <li class="wow slideInRight col-md-4" data-wow-duration="1.5s">
+                        <!-- <img src="/src/images/bt1.png" alt=""> -->
+                        <h3>
+                            <%=LANG('OTC场外交易')%>
+                        </h3>
+                        <p>
+                            <%=LANG('支持多种法币交易 平台担保、快速安全')%>
+                            <P>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- End of section -->
 
-    <!-- roadmap-to-success starts
+        <!-- roadmap-to-success starts
 ============================================ -->
-    <!--<section class="section timeLine">
+        <!--<section class="section timeLine">
         <div class="radial-bg radial-bg__roadmap">
         </div>
         &lt;!&ndash; End of .radial-bg &ndash;&gt;
@@ -1185,12 +1530,15 @@
         </div>
         &lt;!&ndash; End of .roadmap-container &ndash;&gt;
     </section>-->
-    <section class="timeLine">
-        <div class="container">
-            <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('路线图')%></h2>
-            <p><%=LANG('XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区')%></p>
-            <div class="timeBox wow fadeIn" data-wow-duration="2.5s" style="text-align: center;">
-                <img class="timePic" src="/src/images/timeLime.png" alt="">
+        <section class="timeLine">
+            <div class="container timeBox">
+                <h2 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center">
+                    <%=LANG('路线图')%>
+                </h2>
+                <p>
+                    <%=LANG('XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区')%>
+                </p>
+                <!-- <div class="timeBox wow fadeIn" data-wow-duration="2.5s" style="text-align: center;">
                 <ul>
                     <li class="active">
                         <h2><%=LANG('2018年7月')%></h2>
@@ -1225,14 +1573,115 @@
                         <p><%=LANG('XT生态合伙人计划')%></p>
                     </li>
                 </ul>
+            </div> -->
             </div>
-        </div>
-    </section>
-    <!-- End of .roadmap-to-success -->
+            <div class="roadmap-container">
+                <div class="row align-items-end no-gutters">
+                    <div title="Click to open" class="col-md roadmap-label l-1 active">
+                        <div class="text-content">
+                            <%=LANG('2018年8月8日')%>
+                            <span>
+                                <%=LANG('开启内测')%>
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-2 active">
+                        <div class="text-content">
+                            <%=LANG('2018年8月中旬')%>
+                            <span>
+                                <%=LANG('XT平台开放交易公测')%>
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-3 active">
+                        <div class="text-content">
+                            <%=LANG('2018年8月28日')%>
+                            <span>
+                                确立ZT初始交易价格，ZB以ZBG作为样板站正式运营
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-4 active">
+                        <div class="text-content">
+                            <%=LANG('2018年9月')%>
+                            <span>
+                                正式接受全球交易站合作伙伴申请
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-5 active">
+                        <div class="text-content">
+                            <%=LANG('2018年10月')%>
+                            <span>
+                                推进轻量级独立联盟站建站系统
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                        <div class="text-content">
+                            <%=LANG('2018年11月')%>
+                            <span>
+                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                        <div class="text-content">
+                            <%=LANG('2018年12月')%>
+                            <span>
+                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div title="Click to open" class="col-md roadmap-label l-6 active">
+                        <div class="text-content">
+                            <%=LANG('2019年')%>
+                            <span>
+                                全球建立100家重量级交易平台，1000家敏捷型独立交易平台
+                            </span>
+                        </div>
+                        <div class="data">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div> <svg width="3000" class="roadmap-line">
+                    <defs>
+                        <linearGradient id="linear-gradient" y1="42.22" x2="1920.75" y2="42.22" gradientTransform="matrix(1, 0, 0, -1, 0, 82)"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#3023ae"></stop>
+                            <stop offset="1" stop-color="#c86dd7"></stop>
+                        </linearGradient>
+                    </defs>
+                    <path d="M -290 0 l3000 0" class="roadmap-line-path" style="opacity: 1; stroke-dashoffset: 0px; stroke-dasharray: 3000px;"></path>
+                </svg>
+            </div>
+        </section>
+        <!-- End of .roadmap-to-success -->
 
-    <!-- crowdsale starts
+        <!-- crowdsale starts
 ============================================ -->
-    <!--<section class="section" v-show=0>
+        <!--<section class="section" v-show=0>
         <div class="container">
             <div class="crowdsale section-padding">
                 <div class="section-heading text-center">
@@ -1296,7 +1745,7 @@
         </div>
         &lt;!&ndash; End of .container &ndash;&gt;
     </section>-->
-    <!--<section class="section chartHichart">
+        <!--<section class="section chartHichart">
         <div class="container">
             <h1 class="wow fadeIn" data-wow-duration="2.5s" style="text-align: center"><%=LANG('XT概况')%></h1>
             <p><%=LANG('XT是XT.COM平台的通证，用户通过持有XT，可以在平台的生态系统内获得相关服务和获取收益。')%></p>
@@ -1311,159 +1760,163 @@
             </div>
         </div>
     </section>-->
-    <!-- End of .crowdsale -->
+        <!-- End of .crowdsale -->
 
-    <!-- Team Modal -->
-    <div class="team-modal modal fade" id="team-modal" tabindex="-1" role="dialog" aria-labelledby="team-modal"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <!-- Team Modal -->
+        <div class="team-modal modal fade" id="team-modal" tabindex="-1" role="dialog" aria-labelledby="team-modal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
-                <div class="modal-body">
-                    <div class="row align-items-center text-center">
-                        <div class="col-md-12">
-                            <div class="img-container">
-                                <img src="<%= STATIC %>/images/zbg/images/team/members/team-1.jpg"
-                                     alt="team modal image" class="img-fluid">
-                            </div>
-                            <!-- End of .img-container -->
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="member-details">
-                                <h3>Randall Jenkins
-                                    <span>Founder &amp; CEO</span>
-                                </h3>
-                                <p>Morbi porttitor fermentum faucibus. Nullam feugiat egestas lacus in bibendum. Morbi
-                                    sed augue at arcu viverra rhoncus eget condimentum arcu. Aliquam aliquet laoreet
-                                    tortor, quis mattis arcu pulvinar vitae. Mauris.</p>
-                                <div class="social-icons social-icons__team-details">
-                                    <a href="https://www.facebook.com" target="_blank" rel="noopener">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="https://www.twitter.com" target="_blank" rel="noopener">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    <a href="https://www.instagram.com" target="_blank" rel="noopener">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                    <a href="https://www.youtube.com" target="_blank" rel="noopener">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    <a href="https://www.pinterest.com" target="_blank" rel="noopener">
-                                        <i class="fab fa-pinterest-p"></i>
-                                    </a>
+                    <div class="modal-body">
+                        <div class="row align-items-center text-center">
+                            <div class="col-md-12">
+                                <div class="img-container">
+                                    <img src="<%= STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
+                                        class="img-fluid">
                                 </div>
-                                <!-- End of .social-icons -->
+                                <!-- End of .img-container -->
                             </div>
-                            <!-- End of .member-details -->
+
+                            <div class="col-md-12">
+                                <div class="member-details">
+                                    <h3>Randall Jenkins
+                                        <span>Founder &amp; CEO</span>
+                                    </h3>
+                                    <p>Morbi porttitor fermentum faucibus. Nullam feugiat egestas lacus in bibendum.
+                                        Morbi
+                                        sed augue at arcu viverra rhoncus eget condimentum arcu. Aliquam aliquet
+                                        laoreet
+                                        tortor, quis mattis arcu pulvinar vitae. Mauris.</p>
+                                    <div class="social-icons social-icons__team-details">
+                                        <a href="https://www.facebook.com" target="_blank" rel="noopener">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                        <a href="https://www.twitter.com" target="_blank" rel="noopener">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                        <a href="https://www.instagram.com" target="_blank" rel="noopener">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                        <a href="https://www.youtube.com" target="_blank" rel="noopener">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                        <a href="https://www.pinterest.com" target="_blank" rel="noopener">
+                                            <i class="fab fa-pinterest-p"></i>
+                                        </a>
+                                    </div>
+                                    <!-- End of .social-icons -->
+                                </div>
+                                <!-- End of .member-details -->
+                            </div>
+                            <!-- End of .col-md-6 -->
                         </div>
-                        <!-- End of .col-md-6 -->
+                        <!-- End of .row -->
                     </div>
-                    <!-- End of .row -->
+                    <!-- End of .modal-body -->
                 </div>
-                <!-- End of .modal-body -->
+                <!-- End of .modal-content -->
             </div>
-            <!-- End of .modal-content -->
+            <!-- End of .modal-dialogue -->
         </div>
-        <!-- End of .modal-dialogue -->
-    </div>
-    <!-- End of .team-modal -->
+        <!-- End of .team-modal -->
 
-    <div class="partner">
-        <h2><%=LANG('合作伙伴')%></h2>
-        <div class="box">
-            <ul class="first">
-                <li><img src="/src/images/work/work08.png"></li>
-                <li><img src="/src/images/work/work02.png"></li>
-                <li><img src="/src/images/work/work03.png"></li>
-                <li><img src="/src/images/work/work04.png"></li>
-                <li><img src="/src/images/work/work05.png"></li>
-                <li style="padding-left: 20px;"><img src="/src/images/work/work01.png"></li>
-            </ul>
-            <ul class="second" style="margin-top: 5px;">
-                <li><img src="/src/images/work/work07.png"></li>
-                <li><img src="/src/images/work/work06.png"></li>
-                <li><img src="/src/images/work/work09.png"></li>
-                <li><img style="height: 24px;" src="/src/images/work/work10.png"></li>
-                <li><img style="height: 24px;" src="/src/images/work/work11.png"></li>
-                <li><img style="height: 24px;" src="/src/images/work/work12.png"></li>
-            </ul>
+        <div class="partner">
+            <h2>
+                <%=LANG('合作伙伴')%>
+            </h2>
+            <div class="box">
+                <ul class="first">
+                    <li><img src="/src/images/work/work08.png"></li>
+                    <li><img src="/src/images/work/work02.png"></li>
+                    <li><img src="/src/images/work/work03.png"></li>
+                    <li><img src="/src/images/work/work04.png"></li>
+                    <li><img src="/src/images/work/work05.png"></li>
+                    <li style="padding-left: 20px;"><img src="/src/images/work/work01.png"></li>
+                </ul>
+                <ul class="second" style="margin-top: 5px;">
+                    <li><img src="/src/images/work/work07.png"></li>
+                    <li><img src="/src/images/work/work06.png"></li>
+                    <li><img src="/src/images/work/work09.png"></li>
+                    <li><img style="height: 24px;" src="/src/images/work/work10.png"></li>
+                    <li><img style="height: 24px;" src="/src/images/work/work11.png"></li>
+                    <li><img style="height: 24px;" src="/src/images/work/work12.png"></li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <!-- footer starts
+        <!-- footer starts
 ============================================ -->
-    <footer class="footer">
-        <!-- <div class="radial-bg radial-bg__footer">
+        <footer class="footer">
+            <!-- <div class="radial-bg radial-bg__footer">
         </div> -->
-        <!-- End of .radial-bg -->
-        <div class="container">
-            <div class="page-footer">
-                <div class="footer-menu">
-                    <div class="row">
-                        <div class="tips col-md-4" style="margin-top: 10px;">
-                            <a href="/" class="d-block">
-                                        <span class="logoImg" style="padding-left: 2rem;">
-                                            <img src="<%= STATIC %>/images/logo.png"
-                                                 style="width: 140px; border-radius: 0;" alt="footer logo">
-                                        </span>
-                                <a class="timer" href="#">基于社区化自治的交易平台</a>
-                            </a>
+            <!-- End of .radial-bg -->
+            <div class="container">
+                <div class="page-footer">
+                    <div class="footer-menu">
+                        <div class="row">
+                            <div class="tips col-md-4" style="margin-top: 10px;">
+                                <a href="/" class="d-block">
+                                    <span class="logoImg" style="padding-left: 2rem;">
+                                        <img src="<%= STATIC %>/images/logo.png" style="width: 140px; border-radius: 0;"
+                                            alt="footer logo">
+                                    </span>
+                                    <a class="timer" href="#">基于社区化自治的交易平台</a>
+                                </a>
 
-                        </div>
-                        <!-- End of .col -->
+                            </div>
+                            <!-- End of .col -->
 
-                        <div class="col-md">
-                            <h5>
-                                <%= LANG('客户服务') %>
-                            </h5>
-                            <ul class="footer-nav">
-                                <li>
-                                    <a href="https://xt.udesk.cn/hc/submit_a_request" target="_Blank">
-                                        <%= LANG('提交工单') %>
-                                    </a>
-                                </li>
+                            <div class="col-md">
+                                <h5>
+                                    <%= LANG('客户服务') %>
+                                </h5>
+                                <ul class="footer-nav">
+                                    <li>
+                                        <a href="https://xt.udesk.cn/hc/submit_a_request" target="_Blank">
+                                            <%= LANG('提交工单') %>
+                                        </a>
+                                    </li>
 
-                                <li>
-                                    <a href="https://xt.udesk.cn" target="_Blank">
-                                        <%= LANG('常见问题') %>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://xt.udesk.cn" target="_Blank">
-                                        <%= LANG('公告') %>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/help/rate" target="_self">
-                                        <%= LANG('费率') %>
-                                    </a>
-                                </li>
-                                <!--<li>-->
-                                <!--<a href="/app" target="_self">APP</a>-->
-                                <!--</li>-->
-                            </ul>
-                            <!-- End of .footer-nav -->
-                        </div>
-                        <!-- End of .col -->
+                                    <li>
+                                        <a href="https://xt.udesk.cn" target="_Blank">
+                                            <%= LANG('常见问题') %>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://xt.udesk.cn" target="_Blank">
+                                            <%= LANG('公告') %>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/help/rate" target="_self">
+                                            <%= LANG('费率') %>
+                                        </a>
+                                    </li>
+                                    <!--<li>-->
+                                    <!--<a href="/app" target="_self">APP</a>-->
+                                    <!--</li>-->
+                                </ul>
+                                <!-- End of .footer-nav -->
+                            </div>
+                            <!-- End of .col -->
 
-                        <div class="col-md">
-                            <h5>
-                                <%= LANG('工具支持') %>
-                            </h5>
-                            <ul class="footer-nav">
-                                <li>
-                                    <a href="/help/restApi" target="_self">API</a>
-                                </li>
-                                <!--xt 不需要-->
-                                <!--<li>
+                            <div class="col-md">
+                                <h5>
+                                    <%= LANG('工具支持') %>
+                                </h5>
+                                <ul class="footer-nav">
+                                    <li>
+                                        <a href="/help/restApi" target="_self">API</a>
+                                    </li>
+                                    <!--xt 不需要-->
+                                    <!--<li>
                                     <a href="/apply" target="_self">
                                         <%= LANG('上币申请') %>
                                     </a>
@@ -1473,107 +1926,119 @@
                                         <%= LANG('全球行情') %>
                                     </a>
                                 </li>-->
-                            </ul>
-                            <!-- End of .footer-nav -->
-                        </div>
-                        <!-- End of .col -->
+                                </ul>
+                                <!-- End of .footer-nav -->
+                            </div>
+                            <!-- End of .col -->
 
-                        <div class="col-md-2">
-                            <h5>
-                                <%= LANG('条款协议') %>
-                            </h5>
-                            <ul class="footer-nav">
-                                <li>
-                                    <a href="/help/privacy">
-                                        <%= LANG('隐私保护XT') %>
+                            <div class="col-md-2">
+                                <h5>
+                                    <%= LANG('条款协议') %>
+                                </h5>
+                                <ul class="footer-nav">
+                                    <li>
+                                        <a href="/help/privacy">
+                                            <%= LANG('隐私保护XT') %>
+                                        </a>
+                                    </li>
+                                    <!--<li>-->
+                                    <!--<a href="/help/escape"><%= LANG('ZB换码协议') %></a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                    <!--<%= LANG('团队') %>：<%= LANG('澳大利亚') %>-->
+                                    <!--</li>-->
+                                    <li>
+                                        <a href="/help/agreement">
+                                            <%= LANG('用户协议') %>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- End of .footer-nav -->
+                            </div>
+                            <!-- End of .col -->
+
+                            <div class="col-md">
+                                <h5>
+                                    <%= LANG('联系我们') %>
+                                </h5>
+                                <p>support@xt.com</p>
+
+                                <div class="social-icons">
+                                    <a href="https://www.facebook.com/xt.xt.1401" target="_blank" rel="noopener">
+                                        <i class="fab fa-facebook-f"></i>
                                     </a>
-                                </li>
-                                <!--<li>-->
-                                <!--<a href="/help/escape"><%= LANG('ZB换码协议') %></a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                <!--<%= LANG('团队') %>：<%= LANG('澳大利亚') %>-->
-                                <!--</li>-->
-                                <li>
-                                    <a href="/help/agreement">
-                                        <%= LANG('用户协议') %>
+                                    <a href="https://mobile.twitter.com/XT11944686" target="_blank" rel="noopener">
+                                        <i class="fab fa-twitter"></i>
                                     </a>
-                                </li>
-                            </ul>
-                            <!-- End of .footer-nav -->
-                        </div>
-                        <!-- End of .col -->
-
-                        <div class="col-md">
-                            <h5>
-                                <%= LANG('联系我们') %>
-                            </h5>
-                            <p>support@xt.com</p>
-
-                            <div class="social-icons">
-                                <a href="https://www.facebook.com/xt.xt.1401" target="_blank" rel="noopener">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="https://mobile.twitter.com/XT11944686" target="_blank" rel="noopener">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <!--<a href="https://www.linkedin.com/company/zbglobal/" target="_blank" rel="noopener">
+                                    <!--<a href="https://www.linkedin.com/company/zbglobal/" target="_blank" rel="noopener">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>-->
-                                <a href="https://t.me/XtChinsesGroup" target="_blank" rel="noopener">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                                <a class="weixin" href="javascript:;" target="_blank" rel="noopener">
-                                    <img src="/src/images/zbg/images/WechatIMG260.jpeg"/>
-                                    <i class="fab fa-weixin"></i>
-                                </a>
+                                    <a href="https://t.me/XtChinsesGroup" target="_blank" rel="noopener">
+                                        <i class="fab fa-telegram"></i>
+                                    </a>
+                                    <a class="weixin" href="javascript:;" target="_blank" rel="noopener">
+                                        <img src="/src/images/zbg/images/WechatIMG260.jpeg" />
+                                        <i class="fab fa-weixin"></i>
+                                    </a>
+                                </div>
+
+                                <!-- End of .social-icons -->
                             </div>
-
-                            <!-- End of .social-icons -->
+                            <!-- End of .col -->
                         </div>
-                        <!-- End of .col -->
+                        <!-- End of .row -->
                     </div>
-                    <!-- End of .row -->
-                </div>
-                <!-- End of .footer-menu -->
+                    <!-- End of .footer-menu -->
 
-                <!--<div class="footer-bottom">-->
-                <!--<p>©2017-2018-->
-                <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
-                <!--</p>-->
-                <!--<div class="dropdown text-xs-right ml-auto">-->
-                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
-                <!--<span>English</span>-->
-                <!--<i class="fa fa-angle-up"></i>-->
-                <!--</a>-->
-                <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
-                <!--</div>-->
-                <!-- End of .dropdown -->
-                <!--</div>-->
-                <!-- End of .footer-copyright -->
+                    <!--<div class="footer-bottom">-->
+                    <!--<p>©2017-2018-->
+                    <!--<a href="https://www.ZBG.com">ZBG.com</a>-->
+                    <!--</p>-->
+                    <!--<div class="dropdown text-xs-right ml-auto">-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
+                    <!--<span>English</span>-->
+                    <!--<i class="fa fa-angle-up"></i>-->
+                    <!--</a>-->
+                    <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
+                    <!--</div>-->
+                    <!-- End of .dropdown -->
+                    <!--</div>-->
+                    <!-- End of .footer-copyright -->
+                </div>
+                <!-- End of .page-footer -->
             </div>
-            <!-- End of .page-footer -->
-        </div>
-        <!-- End of .container -->
-    </footer>
-    <!-- End of page-footer -->
-</div>
+            <!-- End of .container -->
+        </footer>
+        <!-- End of page-footer -->
+    </div>
 
 </body>
 <!--客服 udesk-->
 <script>
-    (function(a,h,c,b,f,g){a["UdeskApiObject"]=f;a[f]=a[f]||function(){(a[f].d=a[f].d||[]).push(arguments)};g=h.createElement(c);g.async=1;g.charset="utf-8";g.src=b;c=h.getElementsByTagName(c)[0];c.parentNode.insertBefore(g,c)})(window,document,"script","//assets-cli.udesk.cn/im_client/js/udeskApi.js","ud");
+    (function (a, h, c, b, f, g) {
+        a["UdeskApiObject"] = f;
+        a[f] = a[f] || function () {
+            (a[f].d = a[f].d || []).push(arguments)
+        };
+        g = h.createElement(c);
+        g.async = 1;
+        g.charset = "utf-8";
+        g.src = b;
+        c = h.getElementsByTagName(c)[0];
+        c.parentNode.insertBefore(g, c)
+    })(window, document, "script", "//assets-cli.udesk.cn/im_client/js/udeskApi.js", "ud");
     ud({
         "code": "2jgf16i7",
         "link": "https://xt.udesk.cn/im_client/?web_plugin_id=57038"
     });
 </script>
+
 </html>
 
 <%-include("../component/inline_chart.html")%>
@@ -1588,7 +2053,7 @@
                     keyWord: '',
                     mLength: 0,
                     //rateUp,rateDown,volumeUp,volumeDown
-                    sortBy: 'lastPrice',   //'rateDown',
+                    sortBy: 'lastPrice', //'rateDown',
                     assistPrice: null,
                     dWidth: window.document.body.offsetWidth,
                     markets: [],
@@ -1737,14 +2202,14 @@
             },
             methods: {
                 initSwiper: function () {
-                    var mySwiper = new Swiper ('.swiper-container', {
+                    var mySwiper = new Swiper('.swiper-container', {
                         // direction: 'vertical',
-                        speed: 2000,  //轮播滑动速度
-                        loop: true,   //循环
+                        speed: 2000, //轮播滑动速度
+                        loop: true, //循环
                         autoplay: {
                             autoplay: true,
-                            delay: 5000,   //轮播等待时间
-                            disableOnInteraction: false,  //点击之后还能继续轮播
+                            delay: 5000, //轮播等待时间
+                            disableOnInteraction: false, //点击之后还能继续轮播
                         },
                         // 如果需要分页器
                         pagination: {
@@ -1769,7 +2234,7 @@
                         kr: '3',
                         jp: '4',
                         hk: '5'
-                    }[language]
+                    } [language]
                     var data = {
                         pageIndex: 1,
                         pageSize: 4,
@@ -1777,7 +2242,8 @@
                         lanType: lanType
                     }
                     Methods.ajax({
-                        url: DOMAIN_DEV + '/exchange/support/controller/website/articlecontroller/getArticles',
+                        url: DOMAIN_DEV +
+                            '/exchange/support/controller/website/articlecontroller/getArticles',
                         data: data,
                         success: function (res) {
                             that.notices = res.datas.list || ''
@@ -1792,14 +2258,14 @@
                         kr: '3',
                         jp: '4',
                         hk: '5'
-                    }[language]
+                    } [language]
                     Methods.ajax({
                         // type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/banner/controller/website/BannerController/getByLanType",
+                            "/exchange/banner/controller/website/BannerController/getByLanType",
                         data: {
                             showType: '1', // 1 web  0 app
-                            lanType: lanType  // 1-简体中文、2-英文、3-韩文、4-日文、5-繁体中文
+                            lanType: lanType // 1-简体中文、2-英文、3-韩文、4-日文、5-繁体中文
                         },
                         success: function (res) {
                             this.bannerList = res.datas
@@ -1872,7 +2338,7 @@
                     if (money == 'btc' || money == 'usd' || money == '<%= UNIT %>') {
                         return Number(this.assistPrice[money][coin] ? this.assistPrice[money][
                             coin
-                            ] : 1)
+                        ] : 1)
                     } else {
                         return 1;
                     }
@@ -1925,8 +2391,8 @@
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
-                        "/exchange/config/controller/website/marketcontroller/" +
-                        'getByWebId',
+                            "/exchange/config/controller/website/marketcontroller/" +
+                            'getByWebId',
                         success: function (res) {
 
                             _this.marketConfig = res.datas;
@@ -1968,7 +2434,8 @@
                                 markets.push(item);
                             }
                         } else {
-                            if (currMarketName.indexOf(keyword) != -1 && currMarketName.indexOf(marketsTab)!= -1) {
+                            if (currMarketName.indexOf(keyword) != -1 && currMarketName.indexOf(
+                                    marketsTab) != -1) {
                                 //过滤后的数组
                                 markets.push(item);
                             }
@@ -2032,7 +2499,7 @@
                         } else if (sortBy == 'volumeDown') {
                             // return y.convertVolume - x.convertVolume;
                             return y.convertVolume - x.convertVolume;
-                        } else if(sortBy == 'lastPrice') {
+                        } else if (sortBy == 'lastPrice') {
                             return y.lastPrice - x.lastPrice;
                         }
                     })
@@ -2056,12 +2523,13 @@
                         } else if (sortBy == 'volumeDown') {
                             // return y.convertVolume - x.convertVolume;
                             return y.convertVolume - x.convertVolume;
-                        } else if(sortBy == 'lastPrice') {
+                        } else if (sortBy == 'lastPrice') {
                             return y.lastPrice - x.lastPrice;
                         }
                     });
                     return xtArr.concat(markets.filter(function (item, i) {
-                        return item.market.split('_')[0] !== 'xt' && item.market.split('_')[0] !== 'xtz'
+                        return item.market.split('_')[0] !== 'xt' && item.market.split(
+                            '_')[0] !== 'xtz'
                     }));
                 },
                 changeSort: function (name) {
@@ -2104,16 +2572,15 @@
                 getPriceRate: function (callback) {
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        "/exchange/config/controller/website/pricecontroller/" +
-                        'getassistprice',
+                            "/exchange/config/controller/website/pricecontroller/" +
+                            'getassistprice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if (typeof callback == 'function') {
                                 callback();
                             }
                         }.bind(this),
-                        error: function () {
-                        }
+                        error: function () {}
                     });
                 },
                 getHomeMarket: function () {
@@ -2169,14 +2636,14 @@
                                 autoplay: true,
                                 autoplaySpeed: 3000,
                                 responsive: [{
-                                    breakpoint: 2347,
-                                    settings: {
-                                        slidesToShow: 4,
-                                        slidesToScroll: 1,
-                                        infinite: true,
-                                        dots: true
-                                    }
-                                },
+                                        breakpoint: 2347,
+                                        settings: {
+                                            slidesToShow: 4,
+                                            slidesToScroll: 1,
+                                            infinite: true,
+                                            dots: true
+                                        }
+                                    },
                                     {
                                         breakpoint: 1940,
                                         settings: {
@@ -2299,8 +2766,8 @@
                 getMarketAreaListByWebId: function () {
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        "/exchange/config/controller/website/MarketController/" +
-                        'getMarketAreaListByWebId',
+                            "/exchange/config/controller/website/MarketController/" +
+                            'getMarketAreaListByWebId',
                         success: function (res) {
                             this.marketAreaList = res.datas
                         }.bind(this)
@@ -2310,7 +2777,7 @@
                     var that = this;
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        "/exchange/fund/controller/website/FundMinerStatController/statistic",
+                            "/exchange/fund/controller/website/FundMinerStatController/statistic",
                         success: function (res) {
                             that.statisticData = res.datas
                         },
@@ -2324,8 +2791,8 @@
                 minerSummary: function () {
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        "/exchange/fund/controller/website/MinerTransactionController/" +
-                        'minerSummary',
+                            "/exchange/fund/controller/website/MinerTransactionController/" +
+                            'minerSummary',
                         success: function (res) {
                             // console.log(res)
                             this.minerSummaryData = res.datas
@@ -2372,7 +2839,7 @@
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV +
-                        "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                            "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
                         success: function (res) {
                             var total = res.datas.totalAmount;
                             var progressNum = parseInt((total / 100000000) * 100);
@@ -2387,7 +2854,7 @@
                     var _this = this
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
+                            '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
                         success: function (res) {
                             _this.android = res.datas.url
                         }
@@ -2397,7 +2864,7 @@
                     var _this = this
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        '/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
+                            '/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
                         success: function (res) {
                             _this.ios = res.datas.url
                         }
@@ -2441,7 +2908,7 @@
                     window.localStorage.removeItem(ENV + "userInfo");
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        "/exchange/user/controller/admin/usercontroller/godlogin",
+                            "/exchange/user/controller/admin/usercontroller/godlogin",
                         data: this.webUrlInfo(queryObj.g, queryObj.u),
                         success: function (res) {
                             this.requestLocked = false;
@@ -2551,9 +3018,9 @@
                         mainClass: 'mfp-with-zoom',
                         iframe: {
                             markup: '<div class="mfp-iframe-scaler">' +
-                            '<div class="mfp-close"></div>' +
-                            '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
-                            '</div>',
+                                '<div class="mfp-close"></div>' +
+                                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
+                                '</div>',
                             patterns: {
                                 youtube: {
                                     index: 'youtube.com/',
@@ -2675,7 +3142,7 @@
                                                 "<%= LANG('团队持有并锁定') %>" +
                                                 Math.floor(
                                                     that.statisticData
-                                                        .totalFounderLockPercent *
+                                                    .totalFounderLockPercent *
                                                     10000) /
                                                 100 + "%",
                                                 Number(that
@@ -2687,7 +3154,7 @@
                                                 "<%= LANG('团队持有并解锁') %>" +
                                                 Math.floor(
                                                     that.statisticData
-                                                        .totalFounderReleasePercent *
+                                                    .totalFounderReleasePercent *
                                                     10000) /
                                                 100 + "%",
                                                 Number(that
@@ -2699,7 +3166,7 @@
                                                 "<%= LANG('换码ZT并锁定') %> " +
                                                 Math.floor(
                                                     that.statisticData
-                                                        .totalMarketLockPercent *
+                                                    .totalMarketLockPercent *
                                                     10000) /
                                                 100 + "%",
                                                 Number(that
@@ -2711,7 +3178,7 @@
                                                 "<%= LANG('换码ZT已解锁') %>" +
                                                 Math.floor(
                                                     that.statisticData
-                                                        .totalMarketReleasePercent *
+                                                    .totalMarketReleasePercent *
                                                     10000) /
                                                 100 + "%",
                                                 Number(that
@@ -2723,7 +3190,7 @@
                                                 " <%= LANG('已销毁') %>" +
                                                 Math.floor(
                                                     that.statisticData
-                                                        .totalDestroyPercent *
+                                                    .totalDestroyPercent *
                                                     10000) /
                                                 100 + "%",
                                                 Number(that
@@ -2746,7 +3213,7 @@
                         $(this).waypoint(function () {
                             var _svgPath = $('.roadmap-line-path'),
                                 _svgPathLength = $('.roadmap-line-path')
-                                    .get(0).getTotalLength(),
+                                .get(0).getTotalLength(),
                                 _labelLength = $('.roadmap-label').length;
 
                             _svgPath.css({
@@ -2767,16 +3234,16 @@
                                         step: function () {
                                             var
                                                 a =
-                                                    parseInt(
-                                                        _svgPath
-                                                            .css(
-                                                                "stroke-dashoffset"
-                                                            )
-                                                    );
+                                                parseInt(
+                                                    _svgPath
+                                                    .css(
+                                                        "stroke-dashoffset"
+                                                    )
+                                                );
                                             for (
                                                 var
                                                     i =
-                                                        0; i <
+                                                    0; i <
                                                 _svgPathLength; i++
                                             ) {
                                                 if (
@@ -2789,13 +3256,13 @@
                                                     _labelLength
                                                 ) {
                                                     $
-                                                    (
-                                                        ".roadmap-label.l-" +
                                                         (
-                                                            i +
-                                                            1
+                                                            ".roadmap-label.l-" +
+                                                            (
+                                                                i +
+                                                                1
+                                                            )
                                                         )
-                                                    )
                                                         .fadeIn()
                                                         .addClass(
                                                             "active"
