@@ -794,15 +794,15 @@
                 filterUserCoinFunds: function (objs) {
                     var _this = this;
                     if (!_this.keyWord) {
-                        return this.doSortMarket(objs.filter(function (item, i) {
-                            return item.name !== 'qtum'
-                        }))
+                        return this.doSortMarket(objs);
+                        // return this.doSortMarket(objs.filter(function (item, i) {
+                        //     return item.name !== 'qtum'
+                        // }))
                     }
                     var nObj = [];
                     objs.forEach(function (coin, index) {
                         var coinName = coin.name;
-                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) !=
-                            -1 && coinName !== 'qtum') {
+                        if (coinName.toLowerCase().indexOf(_this.keyWord.toLowerCase()) !=-1) {
                             nObj.push(coin);
                         }
                     });
