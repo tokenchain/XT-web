@@ -1724,11 +1724,16 @@ button {
         color: #fff;
       }
       ul {
-        margin: 110px 0 15px 0;
+        margin: 90px 0 15px 0;
       }
       .exchangNum, .passWord {
         text-align: center;
         margin-bottom: 10px;
+        p {
+          color: red;
+          text-align: left;
+          margin: 10px 0 0 168px;
+        }
         span {
           text-align: left;
           display: inline-block;
