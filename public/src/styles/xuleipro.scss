@@ -3038,7 +3038,7 @@ input::-webkit-inner-spin-button {
           ul {
             margin-bottom: 0 !important;
             li {
-              color: rgb(155, 167, 187);
+              color: #666;
               //font-size: 14px;
             }
           }
@@ -3055,7 +3055,7 @@ input::-webkit-inner-spin-button {
           max-height: 723px;
           overflow-y: scroll;
           overflow-x: hidden;
-          padding: 5px 0px 0px 0px;
+          // padding: 5px 0px 0px 0px;
           //border: 1px solid #3932a3;
           //border-radius: 7px;
 
@@ -3072,14 +3072,14 @@ input::-webkit-inner-spin-button {
             position: relative;
             z-index: 1;
             border-radius: 5px;
-            margin-bottom: 5px;
+            margin-bottom: 0px;
             -webkit-transition: all .3s;
             transition: all .3s;
             &:nth-child(odd) {
               background: #f5f7fa;
             }
             li {
-              padding: 16px 0;
+              padding: 15px 0;
               -webkit-transition: all .3s;
               transition: all .3s;
               font-size: 13px;
@@ -3132,22 +3132,23 @@ input::-webkit-inner-spin-button {
       border-bottom: 1px solid #e5e5e5;
       //margin-bottom: 20px;
       position: relative;
+      background: #FFF4DD;
       .tab.market-filter-tab {
         position: absolute;
         right: 8px;
         top: 10px;
         .market-filter {
           position: relative;
-          width: 85%;
           float: right;
           background: #f2f2f2;
           border: 1px solid #f2f2f2;
           input {
             border: 0;
-            padding: 7px 6px;
+            padding-left: 10px;
             background: #f2f2f2;
             outline: none;
-            width: 100%;
+            width: 145px;
+            height: 32px;
             color: #999;
           }
           i {
@@ -3182,13 +3183,13 @@ input::-webkit-inner-spin-button {
           font-size: 14px;
           color: #333; //#C0C0EC;
           transition: all 0.3s;
-          &:hover {
-            color: #C0C0EC;
-          }
+          // &:hover {
+          //   color: #C0C0EC;
+          // }
           &.active {
             /*border-bottom: 2px solid #8256FF;
             color: #8256FF*/
-            background: linear-gradient(60deg, #5a7ff5, #5ae5f5);
+            background: #FFBE3F;
             color: #fff;
           }
         }
@@ -3252,6 +3253,25 @@ input::-webkit-inner-spin-button {
     color: #546682;
     font-size: 14px;
   }
+  .slideInLeft {
+    background: url('../images/bg-yinqing.png') no-repeat center center;
+    background-size: 300px 600px;
+    // width: 374px;
+    // height: 666px;
+    // margin-right: 70px;
+  }
+  .slideInDown {
+    background: url('../images/bg-fanghu.png') no-repeat center center;
+    width: 452px;
+    height: 806px;
+  }
+  .slideInRight {
+    background: url('../images/bg-jiaoyi.png') no-repeat center center;
+    // width: 374px;
+    // height: 666px;
+    // margin-left: 70px;
+    background-size: 300px 600px;
+  }
   ul {
     /*display: -webkit-box;
     display: -ms-flexbox;
@@ -3298,7 +3318,7 @@ input::-webkit-inner-spin-button {
         color: #546682;
       }
       &:hover {
-        box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
+        // box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       }
     }
   }
