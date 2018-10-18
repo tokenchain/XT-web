@@ -1504,7 +1504,7 @@
                     });
 
                     return xtArr.concat(markets.filter(function (item, i) {
-                        return item.market.split('_')[0] !== 'xt'
+                        return item.market.split('_')[0] !== 'xt' && item.market.split('_')[0] !== 'xtz'
                     }));
                 },
                 Refresh() {
