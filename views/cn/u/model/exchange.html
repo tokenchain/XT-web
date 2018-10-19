@@ -6,8 +6,8 @@
         <p class="num-info">可用{{exchangOrigin.toUpperCase()}}：{{amount}}</p>
         <ul>
             <li class="exchangNum">
-                <span>兑换{{exchangTarget.toUpperCase()}}数量：</span><input type="number" :placeholder="'最多可兑换2000' + exchangTarget.toUpperCase()" v-model="exchangVal" @change="changeIputVal">
-                <p v-show="warnTips">* 兑换数量不能超过2000</p>
+                <span>兑换{{exchangTarget.toUpperCase()}}数量：</span><input type="number" :placeholder="'最多可兑换' + amount + exchangTarget.toUpperCase()" v-model="exchangVal" @change="changeIputVal">
+                <p v-show="warnTips">* 兑换数量不能超过{{amount}}</p>
             </li>
             <li class="passWord">
                 <span>登录密码：</span><input type="passWord" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal">
@@ -115,7 +115,7 @@
                     this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' :
                         '<%= LANG("QC兑换XC") %>'
                     this.exchangTarget = this.params.name == 'xc' ? 'qc' : 'xc'
-                    this.amount = this.params.amount
+                    this.amount = parseFloat(this.params.amount)
                 })
             },
         })

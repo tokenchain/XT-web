@@ -1022,7 +1022,7 @@ button {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      // padding: 0 20px;
+      padding: 0 20px;
       p {
         @extend %flex1;
         @extend %display-flex;
@@ -1275,6 +1275,7 @@ button {
 .dropdown-group {
   @extend %display-flex;
   @extend %align-center;
+  padding-right: 20px;
   .dropdown {
     position: relative;
     z-index: 12;
@@ -1735,7 +1736,7 @@ button {
         p {
           color: red;
           text-align: left;
-          margin: 10px 0 0 168px;
+          margin: 10px 0 0 176px;
         }
         span {
           text-align: left;
@@ -1782,7 +1783,7 @@ button {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    padding: 50px 20px 50px 40px;
+    padding: 50px 20px;
     background: #ffffff;
     box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
     h1 {
