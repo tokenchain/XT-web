@@ -39,6 +39,11 @@
     <script src="/src/js/exporting.js"></script>
 
     <style type="text/css">
+        #info_desh .box{
+            width: 1110px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
         html{
             overflow: auto;
 
@@ -47,8 +52,8 @@
             background-color: #161633;
         }
         #info_desh{
-            width: 1110px;
-            margin: 100px auto;
+            background-color: #161633;
+            height: 100%;
         }
         .container_info{
             color: #dcdce4;
@@ -150,11 +155,6 @@
         }
         .footer{
             width: 100%;
-            margin-top: 200px;
-            /*position: absolute;*/
-            /*bottom: 0px;*/
-            /*left: 0;*/
-            /*right: 0;*/
         }
         @media all {
 
@@ -165,50 +165,48 @@
 
 <%-include("../include/head.html")%>
 
-
-
-
 <section class="section" id="info_desh" v-cloak="">
-    <h5 class="buyorsell"><%= LANG('买卖盘') %> </h5>
-    <div class="container_info">
-        <div class="buy">
-            <h6><%= LANG('买盘') %></h6>
-            <ul>
-                <li class="titel">
-                    <span><%= LANG('档位') %></span>
-                    <span><%= LANG('买入价') %>({{priceunit}})</span>
-                    <span><%= LANG('买入量') %>({{sumunit}})</span>
-                </li>
-                <li class="active" v-for="(item,index) in bidslist  " :key="index">
-                    <span class="buygears"><%= LANG('买') %> {{index+1}}</span>
-                    <span>{{Number(item[0]).toFixed(priceDecimal)}}</span>
-                    <span>{{Number(item[1]).toFixed(float)}}</span>
-                </li>
+    <div class="box">
+        <h5 class="buyorsell"><%= LANG('买卖盘') %> </h5>
+        <div class="container_info">
+            <div class="buy">
+                <h6><%= LANG('买盘') %></h6>
+                <ul>
+                    <li class="titel">
+                        <span><%= LANG('档位') %></span>
+                        <span><%= LANG('买入价') %>({{priceunit}})</span>
+                        <span><%= LANG('买入量') %>({{sumunit}})</span>
+                    </li>
+                    <li class="active" v-for="(item,index) in bidslist  " :key="index">
+                        <span class="buygears"><%= LANG('买') %> {{index+1}}</span>
+                        <span>{{Number(item[0]).toFixed(priceDecimal)}}</span>
+                        <span>{{Number(item[1]).toFixed(float)}}</span>
+                    </li>
 
-            </ul>
-        </div>
+                </ul>
+            </div>
 
-        <div class="sell">
-            <h6><%= LANG('卖盘') %></h6>
-            <ul>
-                <li class="titel">
-                    <span ><%= LANG('档位') %></span>
-                    <span class="price"><%= LANG('卖出价') %>({{priceunit}})</span>
-                    <span class="sum"><%= LANG('卖出量') %>({{sumunit}})</span>
-                </li>
-                <li class="active" v-for="(item,index) in askslist " :key="index">
-                    <span class="sellgears"><%= LANG('卖') %> {{index+1}}</span>
-                    <span>{{ Number(item[0]).toFixed(priceDecimal)}}</span>
-                    <span>{{Number(item[1]).toFixed(float)}}</span>
-                </li>
-            </ul>
+            <div class="sell">
+                <h6><%= LANG('卖盘') %></h6>
+                <ul>
+                    <li class="titel">
+                        <span ><%= LANG('档位') %></span>
+                        <span class="price"><%= LANG('卖出价') %>({{priceunit}})</span>
+                        <span class="sum"><%= LANG('卖出量') %>({{sumunit}})</span>
+                    </li>
+                    <li class="active" v-for="(item,index) in askslist " :key="index">
+                        <span class="sellgears"><%= LANG('卖') %> {{index+1}}</span>
+                        <span>{{ Number(item[0]).toFixed(priceDecimal)}}</span>
+                        <span>{{Number(item[1]).toFixed(float)}}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-
 </section>
-<footer class="footer">
+<!--<footer class="footer">
     </div>
-    <!-- End of .radial-bg -->
+    &lt;!&ndash; End of .radial-bg &ndash;&gt;
     <div class="container">
         <div class="page-footer">
             <div class="footer-menu">
@@ -220,15 +218,15 @@
                         </a>
 
                     </div>
-                    <!-- End of .col -->
+                    &lt;!&ndash; End of .col &ndash;&gt;
 
                     <div class="col-md">
                         <h5><%= LANG('客户服务') %></h5>
                         <ul class="footer-nav">
 
-                            <!--<li>
+                            &lt;!&ndash;<li>
                                 <a href="https://zbg.zendesk.com/hc/zh-cn/requests/new" target="_Blank"><%= LANG('提交工单') %></a>
-                            </li>-->
+                            </li>&ndash;&gt;
 
                             <li>
                                 <a href="https://zbg.zendesk.com/hc/zh-cn/sections/360001359833-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" target="_Blank"><%= LANG('常见问题') %></a>
@@ -239,13 +237,13 @@
                             <li>
                                 <a href="/help/rate" target="_self"><%= LANG('费率') %></a>
                             </li>
-                            <!--<li>-->
-                            <!--<a href="/app" target="_self">APP</a>-->
-                            <!--</li>-->
+                            &lt;!&ndash;<li>&ndash;&gt;
+                            &lt;!&ndash;<a href="/app" target="_self">APP</a>&ndash;&gt;
+                            &lt;!&ndash;</li>&ndash;&gt;
                         </ul>
-                        <!-- End of .footer-nav -->
+                        &lt;!&ndash; End of .footer-nav &ndash;&gt;
                     </div>
-                    <!-- End of .col -->
+                    &lt;!&ndash; End of .col &ndash;&gt;
 
                     <div class="col-md">
                         <h5><%= LANG('工具支持') %></h5>
@@ -260,9 +258,9 @@
                                 <a href="/marketglobal" target="_self"> <%= LANG('全球行情') %></a>
                             </li>
                         </ul>
-                        <!-- End of .footer-nav -->
+                        &lt;!&ndash; End of .footer-nav &ndash;&gt;
                     </div>
-                    <!-- End of .col -->
+                    &lt;!&ndash; End of .col &ndash;&gt;
 
                     <div class="col-md-2">
                         <h5><%= LANG('条款协议') %></h5>
@@ -270,29 +268,29 @@
                             <li>
                                 <a href="/help/privacy"><%= LANG('隐私保护XT') %></a>
                             </li>
-                            <!--<li>-->
-                            <!--<a href="/help/escape"><%= LANG('ZB换码协议') %></a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                            <!--<%= LANG('团队') %>：<%= LANG('澳大利亚') %>-->
-                            <!--</li>-->
+                            &lt;!&ndash;<li>&ndash;&gt;
+                            &lt;!&ndash;<a href="/help/escape"><%= LANG('ZB换码协议') %></a>&ndash;&gt;
+                            &lt;!&ndash;</li>&ndash;&gt;
+                            &lt;!&ndash;<li>&ndash;&gt;
+                            &lt;!&ndash;<%= LANG('团队') %>：<%= LANG('澳大利亚') %>&ndash;&gt;
+                            &lt;!&ndash;</li>&ndash;&gt;
                             <li>
                                 <a href="/help/agreement"><%= LANG('用户协议') %></a>
                             </li>
                         </ul>
-                        <!-- End of .footer-nav -->
+                        &lt;!&ndash; End of .footer-nav &ndash;&gt;
                     </div>
-                    <!-- End of .col -->
+                    &lt;!&ndash; End of .col &ndash;&gt;
 
                     <div class="col-md">
                         <h5><%= LANG('联系我们') %></h5>
                         <p>sp@xt.com</p>
-                        <!--<form class="footer-form" action="#" method="post">-->
-                        <!--<input type="email" class="form-control" placeholder="Enter email address…">-->
-                        <!--<button class="icon-btn" type="submit">-->
-                        <!--<i class="icon-arrow-right-1"></i>-->
-                        <!--</button>-->
-                        <!--</form>-->
+                        &lt;!&ndash;<form class="footer-form" action="#" method="post">&ndash;&gt;
+                        &lt;!&ndash;<input type="email" class="form-control" placeholder="Enter email address…">&ndash;&gt;
+                        &lt;!&ndash;<button class="icon-btn" type="submit">&ndash;&gt;
+                        &lt;!&ndash;<i class="icon-arrow-right-1"></i>&ndash;&gt;
+                        &lt;!&ndash;</button>&ndash;&gt;
+                        &lt;!&ndash;</form>&ndash;&gt;
 
                         <div class="social-icons">
                             <a href="https://www.facebook.com/ZBG.coin" target="_blank" rel="noopener">
@@ -312,42 +310,39 @@
                                 <i class="fab fa-weixin"></i>
                             </a>
                         </div>
-                        <!-- End of .social-icons -->
+                        &lt;!&ndash; End of .social-icons &ndash;&gt;
                     </div>
-                    <!-- End of .col -->
+                    &lt;!&ndash; End of .col &ndash;&gt;
                 </div>
-                <!-- End of .row -->
+                &lt;!&ndash; End of .row &ndash;&gt;
             </div>
-            <!-- End of .footer-menu -->
+            &lt;!&ndash; End of .footer-menu &ndash;&gt;
 
             <div class="footer-bottom">
-                <!--<p>©2017-2018-->
-                <!--<a href="https://www.XT.com">XT.com</a>-->
-                <!--</p>-->
-                <!--<div class="dropdown text-xs-right ml-auto">-->
-                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:-->
-                <!--<span>English</span>-->
-                <!--<i class="fa fa-angle-up"></i>-->
-                <!--</a>-->
-                <!--&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash; End of .dropdown-menu &ndash;&gt;-->
-                <!--</div>-->
-                <!-- End of .dropdown -->
+                &lt;!&ndash;<p>©2017-2018&ndash;&gt;
+                &lt;!&ndash;<a href="https://www.XT.com">XT.com</a>&ndash;&gt;
+                &lt;!&ndash;</p>&ndash;&gt;
+                &lt;!&ndash;<div class="dropdown text-xs-right ml-auto">&ndash;&gt;
+                &lt;!&ndash;<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language:&ndash;&gt;
+                &lt;!&ndash;<span>English</span>&ndash;&gt;
+                &lt;!&ndash;<i class="fa fa-angle-up"></i>&ndash;&gt;
+                &lt;!&ndash;</a>&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<div class="dropdown-menu">&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<a class="dropdown-item" href="#">English US</a>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<a class="dropdown-item" href="#">English Uk</a>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<a class="dropdown-item" href="#">French</a>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;<a class="dropdown-item" href="#">Bangla</a>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;&lt;!&ndash; End of .dropdown-menu &ndash;&gt;&ndash;&gt;
+                &lt;!&ndash;</div>&ndash;&gt;
+                &lt;!&ndash; End of .dropdown &ndash;&gt;
             </div>
-            <!-- End of .footer-copyright -->
+            &lt;!&ndash; End of .footer-copyright &ndash;&gt;
         </div>
-        <!-- End of .page-footer -->
+        &lt;!&ndash; End of .page-footer &ndash;&gt;
     </div>
-    <!-- End of .container -->
-</footer>
-
-
-
+    &lt;!&ndash; End of .container &ndash;&gt;
+</footer>-->
 </body>
 
 <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico?<%= VERSION %>">
@@ -563,3 +558,4 @@
     });
 
 </script>
+<%-include("../include/footer.html")%>
