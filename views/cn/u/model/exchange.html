@@ -3,14 +3,14 @@
         <div class="exx-modal-header">
           <h3>{{title}}</h3>
         </div>
-        <p class="num-info">可用{{exchangOrigin}}：{{amount | numFilter}}</p>
+        <p class="num-info">可用{{exchangOrigin.toUpperCase()}}：{{amount}}</p>
         <ul>
             <li class="exchangNum">
-                <span>兑换{{exchangTarget}}数量：</span><input type="number" :placeholder="'最多可兑换2000' + exchangTarget" v-model="exchangVal">
+                <span>兑换{{exchangTarget.toUpperCase()}}数量：</span><input type="number" :placeholder="'最多可兑换2000' + exchangTarget.toUpperCase()" v-model="exchangVal" @change="changeIputVal">
                 <p v-show="warnTips">* 兑换数量不能超过2000</p>
             </li>
             <li class="passWord">
-                <span>登录密码：</span><input type="passWord" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal" v-on:focus="clearPwdInputError($event)" autocomplete="new-password">
+                <span>登录密码：</span><input type="passWord" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal">
             </li>
         </ul>
     
@@ -30,6 +30,10 @@
                     type: Object,
                     default: {}
                 },
+                // getAccountAssets: {
+                //     type: Function,
+                //     default: null
+                // }
             },
             data: function () {
                 return {
@@ -40,7 +44,8 @@
                     exchangOrigin: '', // 兑换的基础货币
                     exchangTarget: '', // 兑换的目标货币
                     rsaKeyId: '',
-                    passWordVal: ''
+                    passWordVal: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo') //用户信息
                 }
             },
             filters: {
@@ -56,22 +61,24 @@
                 //         this.warnTips = true
                 //     }
                 // },
-
-                //清除输入框错误信息-ok
-                clearPwdInputError: function (e) {
-                    var target = e.target || e.currentTarget || e.srcElement;
-                    Methods.showLineError(target, "")
-                    this.pwdState = true;
+                changeIputVal: function (e) {
+                    var num = Number(this.exchangVal)
+                    if (this.exchangVal.indexOf('.') == -1) {
+                        this.exchangVal = num.toFixed(2)
+                    }
+                    console.log(this.exchangVal)
                 },
 
                 //获取公钥-ok
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV +
+                            "/exchange/user/controller/website/baseapicontroller/" +
+                            'getpubkey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
-                            this.rsaKeyId= res.datas.keyId;
+                            this.rsaKeyId = res.datas.keyId;
                         }.bind(this)
                     });
                 },
@@ -82,33 +89,33 @@
                     }
                     var encryptionPwd = Methods.encryptPwd(this.passWordVal, this.pubKey);
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/xtfundcontroller",
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/fund/controller/website/xtfundcontroller/exChangeCurrencyAmount",
                         data: {
+                            Userid: this.loginUser.userId,
                             rsaKeyId: this.rsaKeyId,
-                            passWord: encryptionPwd,
+                            password: encryptionPwd,
                             subCurrencyTypeName: this.exchangOrigin,
                             addCurrencyTypeName: this.exchangTarget,
                             amount: this.exchangVal
                         },
                         success: function (res) {
-                            console.log(res)
-                        },
-                        error: function (res) {
-                            var resMsg = res.resMsg;
-                        }
+                            if (res.resMsg.code == 1) {
+                                this.$parent.close();
+                                this.$emit('fetch')
+                            }
+                        }.bind(this)
                     })
                 }
             },
             created: function () {
-                console.log(this.params)
                 this.$nextTick(function () {
                     this.getPubKey();
-                    this.exchangOrigin = this.params.name.toUpperCase()
+                    this.exchangOrigin = this.params.name
                     this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' :
                         '<%= LANG("QC兑换XC") %>'
-                    this.exchangTarget = this.params.name == 'xc' ? 'QC' : 'XC'
+                    this.exchangTarget = this.params.name == 'xc' ? 'qc' : 'xc'
                     this.amount = this.params.amount
-                    console.log(this.amount)
                 })
             },
         })
