@@ -93,7 +93,7 @@
         }
 
         .header.sticky {
-            background: #262a42;
+            background: #3E3E3E;
             padding: 0 25px;
             height: 60px;
         }
@@ -302,6 +302,20 @@
             background: #FFBE3F;
             width: 68px;
             border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .swiper-container-horizontal>.swiper-pagination-bullets {
+                bottom: 0px;
+            }
+            .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+            }
+            .swiper-pagination-bullet-active{
+                width: 38px;
+                border-radius: 10px;
+            }
         }
     </style>
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
@@ -1434,29 +1448,6 @@
         </div>
         <!-- End of .team-modal -->
 
-        <div class="partner">
-            <h2>
-                <%=LANG('合作伙伴')%>
-            </h2>
-            <div class="box">
-                <ul class="first">
-                    <li><img src="/src/images/work/work08.png"></li>
-                    <li><img src="/src/images/work/work02.png"></li>
-                    <li><img src="/src/images/work/work03.png"></li>
-                    <li><img src="/src/images/work/work04.png"></li>
-                    <li><img src="/src/images/work/work05.png"></li>
-                    <li style="padding-left: 20px;"><img src="/src/images/work/work01.png"></li>
-                </ul>
-                <ul class="second" style="margin-top: 5px;">
-                    <li><img src="/src/images/work/work07.png"></li>
-                    <li><img src="/src/images/work/work06.png"></li>
-                    <li><img src="/src/images/work/work09.png"></li>
-                    <li><img style="height: 24px;" src="/src/images/work/work10.png"></li>
-                    <li><img style="height: 24px;" src="/src/images/work/work11.png"></li>
-                    <li><img style="height: 24px;" src="/src/images/work/work12.png"></li>
-                </ul>
-            </div>
-        </div>
 
         <!-- footer starts
 ============================================ -->
@@ -1466,13 +1457,33 @@
             <!-- End of .radial-bg -->
             <div class="container">
                 <div class="page-footer">
+                    <div class="partner">
+                        <h2>
+                            <%=LANG('合作伙伴')%>
+                        </h2>
+                        <ul>
+                            <li style="margin-right: 20px"><img src="/src/images/partner/zbcaptal.png"></li>
+                            <li><img src="/src/images/partner/bitbank.png"></li>
+                            <li><img src="/src/images/partner/vebtc.png"></li>
+                            <li><img src="/src/images/partner/Poolgpu.png"></li>
+                            <li><img src="/src/images/partner/weiheng.png"></li>
+                            <li><img src="/src/images/partner/FIBTC.png"></li>
+                        </ul>
+                        <ul>
+                            <li><img src="/src/images/partner/iebtc.png"></li>
+                            <li><img src="/src/images/partner/zb.png"></li>
+                            <li><img src="/src/images/partner/world.png"></li>
+                            <li><img src="/src/images/partner/coinNews.png"></li>
+                            <li><img src="/src/images/partner/caijing.png"></li>
+                            <li><img src="/src/images/partner/babite.png"></li>
+                        </ul>
+                    </div>
                     <div class="footer-menu">
                         <div class="row">
                             <div class="tips col-md-4" style="margin-top: 10px;">
                                 <a href="/" class="d-block">
-                                    <span class="logoImg" style="padding-left: 2rem;">
-                                        <img src="<%= STATIC %>/images/logo.png" style="width: 140px; border-radius: 0;"
-                                            alt="footer logo">
+                                    <span class="logoImg">
+                                        <img src="<%= STATIC %>/images/logo02.png" alt="footer logo">
                                     </span>
                                     <a class="timer" href="#">基于社区化自治的交易平台</a>
                                 </a>
@@ -1853,7 +1864,7 @@
                             '/exchange/support/controller/website/articlecontroller/getArticles',
                         data: data,
                         success: function (res) {
-                            that.notices = res.datas.list || ''
+                            that.notices = res.datas.list
                         }
                     })
                 },
@@ -1891,6 +1902,9 @@
                 scrollNotices: function () {
                     var _this = this
                     clearInterval(_this.noticeTimer)
+                    if(_this.notices.length == 0) {
+                        return false 
+                    }
                     _this.noticeTimer = setInterval(function () {
                         var tmp = _this.notices.shift()
                         setTimeout(function () {
