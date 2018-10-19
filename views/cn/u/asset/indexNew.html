@@ -490,7 +490,7 @@
     </modal>
 
     <modal v-cloak :open="showModal == 'exchangeModal'" @close="showModal = false">
-        <exchange-modal :params="exchangParams"/>
+        <exchange-modal :params="exchangParams" @fetch="getAccountAssets"/>
     </modal>
 </div>
 
@@ -1058,6 +1058,7 @@
                 },
                 // 获取用户总额不为零的货币信息(财务中心)
                 getAccountAssets: function () {
+                    // debugger
                     var data = {
                         // webId: 100,
                         userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId,

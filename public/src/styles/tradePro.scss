@@ -622,7 +622,7 @@ body.trading-dark {
               }
             }
             &:hover {
-              //background: #33336d;
+              background: $trade_bottom_color;
             }
           }
         }
@@ -631,6 +631,7 @@ body.trading-dark {
   }
   .plateFill-area {
     min-height: 370px;
+    //background: $trade_background_theme;
     -webkit-box-flex: 0;
     -ms-flex: none;
     flex: none;
@@ -692,14 +693,15 @@ body.trading-dark {
         }
         .body .box .form-group .form-control {
           input {
-            background: $trade_input_background;
+            background: $trade_list_title;
             border-radius: 4px;
             border: none;
             padding: 0 10px;
+            opacity: 0.7;
           }
         }
         .body .box .form-group .form-control .current-num {
-          color: #AAAEC1;
+          color: #fff;
           left: 10px;
         }
         .body .box .assets-num {
@@ -760,7 +762,7 @@ body.trading-dark {
   -ms-flex: 1;
   flex: 1;
   width: 100%;
-  background: #161633;
+  background: $trade_background_theme;
   //overflow: hidden;
   position: relative;
 }

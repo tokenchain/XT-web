@@ -55,9 +55,9 @@ input::-webkit-input-placeholder {
 //全站Header
 .header {
   position: relative;
-  position: fixed;
+  /*position: fixed;
   left: 0;
-  top: 0;
+  top: 0;*/
   width: 100%;
   height: 60px;
   background: transparent;
@@ -1022,7 +1022,7 @@ button {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      padding: 0 20px;
+      // padding: 0 20px;
       p {
         @extend %flex1;
         @extend %display-flex;
