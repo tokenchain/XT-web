@@ -115,7 +115,8 @@
                     allMarkets: null,
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
-                    mkSwitch: false
+                    mkSwitch: false,
+                    askAndBidsGrade: 5  //挂单记录档位
                 }
             },
             computed: {
@@ -507,6 +508,9 @@
                 }
             },
             methods: {
+                switchGrades: function (num) {//切换 挂单档位
+                    this.askAndBidsGrade = num
+                },
                 marketSwitch: function() {
                     this.mkSwitch = !this.mkSwitch
                 },

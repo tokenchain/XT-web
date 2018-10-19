@@ -638,7 +638,7 @@
                 <!--<dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                            :assist-price="assistPrice" ref="dishPart"></dish-part>-->
                 <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                           :assist-price="assistPrice" ref="dishPartAsks"></dish-part-asks>
+                           :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
                 <!--交易表单-->
                 <div class="fill-area" v-cloak="">
                     <!--<div class="head">-->
@@ -650,11 +650,11 @@
                     <div class="body" v-show="!showLeverInfo">
                         <div class="asks-bids-shifts">
                             <ul>
-                                <li>默认档位</li>
-                                <li>5 </li>
-                                <li>10</li>
-                                <li>20</li>
-                                <li>50</li>
+                                <li @click="switchGrades(5)">默认档位</li>
+                                <li :class="askAndBidsGrade == 5 ? 'active' : ''" @click="switchGrades(5)">5 </li>
+                                <li :class="askAndBidsGrade == 10 ? 'active' : ''" @click="switchGrades(10)">10</li>
+                                <li :class="askAndBidsGrade == 20 ? 'active' : ''" @click="switchGrades(20)">20</li>
+                                <li :class="askAndBidsGrade == 50 ? 'active' : ''" @click="switchGrades(50)">50</li>
                             </ul>
                         </div>
                         <trade-form :trade-type="1" :current-user-asset="currentUserAsset"
@@ -666,7 +666,7 @@
                     </div>
                 </div>
                 <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                :assist-price="assistPrice" ref="dishPartBids"></dish-part-bids>
+                                :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
             </div>
         </div>
 
