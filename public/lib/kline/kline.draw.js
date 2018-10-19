@@ -4900,7 +4900,7 @@ LightTheme.prototype.__construct = function() {
         this._colors[Theme.Color.NegativeDark] = "#31c871";
         this._colors[Theme.Color.Unchanged] = "#fff";
         //非常难找的背景颜色
-        this._colors[Theme.Color.Background] = "#161633";
+        this._colors[Theme.Color.Background] = "#130E00";
         this._colors[Theme.Color.Cursor] = "rgba(255,255,255,.3)"; //鼠标十字线颜色
         this._colors[Theme.Color.RangeMark] = "#4039D4";  //坐标轴最新价颜色
         this._colors[Theme.Color.LineFillColorTop] 		= "rgba(255,255,255,.04)";

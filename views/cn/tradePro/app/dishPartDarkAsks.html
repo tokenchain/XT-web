@@ -256,25 +256,25 @@
                     }
 
                     var parentBids = $("#bidsWrap .tradeNew-table");
-                    var asks = data.asks.slice(0);
+                    // var asks = data.asks.slice(0);
                     var bids = data.bids.slice(0);
                     if (this.lastDepth == '') {
                         this.lastDepth = {};
-                        this.depthInit(asks, parentAsks);
+                        // this.depthInit(asks, parentAsks);
                         this.depthInit(bids, parentBids);
                     } else {
-                        var oldasks = this.lastDepth.asks.slice(0);
+                        // var oldasks = this.lastDepth.asks.slice(0);
                         var oldbids = this.lastDepth.bids.slice(0);
 
-                        parentAsks.find(".body.remove").remove();
+                        /*parentAsks.find(".body.remove").remove();
                         parentAsks.find(".body.add").removeClass("add");
-                        this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
+                        this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
                     }
-                    Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
+                    // Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
                     Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
 
 
