@@ -30,6 +30,10 @@
                     type: Object,
                     default: {}
                 },
+                // getAccountAssets: {
+                //     type: Function,
+                //     default: null
+                // }
             },
             data: function () {
                 return {
@@ -96,8 +100,9 @@
                             amount: this.exchangVal
                         },
                         success: function (res) {
-                            if(res.resMsg.code == 1) {
+                            if (res.resMsg.code == 1) {
                                 this.$parent.close();
+                                this.$emit('fetch')
                             }
                         }.bind(this)
                     })
@@ -107,7 +112,8 @@
                 this.$nextTick(function () {
                     this.getPubKey();
                     this.exchangOrigin = this.params.name
-                    this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' : '<%= LANG("QC兑换XC") %>'
+                    this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' :
+                        '<%= LANG("QC兑换XC") %>'
                     this.exchangTarget = this.params.name == 'xc' ? 'qc' : 'xc'
                     this.amount = this.params.amount
                 })
