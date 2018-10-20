@@ -929,8 +929,6 @@
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(amount, 4);
                     } else {
-                        
-                        console.log(parseFloat(this.assistPrice[assistCoin][coin.name]))
                         return Methods.fixNumber(parseFloat(amount) * parseFloat(this.assistPrice[
                             assistCoin][coin.name]), 4) || '--';
                     } 
