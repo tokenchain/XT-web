@@ -59,6 +59,10 @@
                 currentMarket: {
                     type: String,
                     default: ''
+                },
+                askAndBidsGrade: {
+                    type: Number,
+                    default: 0
                 }
             },
             data: function () {
@@ -66,8 +70,8 @@
                     dishLength: 50,
                     assistList: this.$parent.assistList,
                     lastDepth: '',
-                    buyh:0,
-                    sellh:0,
+                    buyh: 0,
+                    sellh: 0,
                 }
             },
             computed: {
@@ -94,6 +98,7 @@
                             }
                         }.bind(this));
                     }
+                    console.log(nArray)
                     return nArray;
                 },
                 asks: function () {
@@ -180,17 +185,17 @@
                     this.$parent.$refs.tradeFormBuy.inputPrice = price;
                     this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    if (depth == 0){
-                        this.$parent.$refs.tradeFormBuy.inputNumber  =''
-                    } else{
+                    if (depth == 0) {
+                        this.$parent.$refs.tradeFormBuy.inputNumber = ''
+                    } else {
                         this.$parent.$refs.tradeFormBuy.inputNumber = depth;
                     }
 
                     this.$parent.$refs.tradeFormSell.inputPrice = price;
                     this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
-                    if (depth == 0){
-                        this.$parent.$refs.tradeFormSell.inputNumber =''
-                    } else{
+                    if (depth == 0) {
+                        this.$parent.$refs.tradeFormSell.inputNumber = ''
+                    } else {
                         this.$parent.$refs.tradeFormSell.inputNumber = depth;
                     }
                 },
@@ -205,20 +210,19 @@
                     this.$parent.$refs.tradeFormBuy.inputPrice = price;
                     this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    if (depth == 0){
-                        this.$parent.$refs.tradeFormBuy.inputNumber  =''
-                    } else{
+                    if (depth == 0) {
+                        this.$parent.$refs.tradeFormBuy.inputNumber = ''
+                    } else {
                         this.$parent.$refs.tradeFormBuy.inputNumber = depth;
                     }
-
 
 
                     this.$parent.$refs.tradeFormSell.inputPrice = price;
                     this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    if (depth == 0){
-                        this.$parent.$refs.tradeFormSell.inputNumber =''
-                    } else{
+                    if (depth == 0) {
+                        this.$parent.$refs.tradeFormSell.inputNumber = ''
+                    } else {
                         this.$parent.$refs.tradeFormSell.inputNumber = depth;
                     }
                 },
@@ -278,13 +282,12 @@
                     Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
 
 
-
                     //刷新辅助货币的价格
                     this.flushAssistPrice();
 
-                    if(this.BrowserType=='FF'){
+                    if (this.BrowserType == 'FF') {
 
-                        Vue.nextTick(function(){
+                        Vue.nextTick(function () {
                             $("#parent_direction-downs").scrollTop(1000)
                         })
                     }
@@ -313,7 +316,6 @@
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
-
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
                         var isExist = false;
@@ -338,7 +340,7 @@
                         //若价格不存在则标识要移除
                         if (!isExist) {
                             tbDiv.find(".body:eq(" + i + ")").addClass("remove");
-                            tbDiv.find(".body:eq(" + i + ")").slideUp(500,function () {
+                            tbDiv.find(".body:eq(" + i + ")").slideUp(500, function () {
                                 oldasks[i][2] = -1;//标识该数据对应div被移除
                             })
                             // tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
@@ -350,7 +352,7 @@
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
                             if (parseFloat(addasks[i][0]) > parseFloat(oldasks[j][0])) {
-                                var html = this.getRowHtml(addasks[i], addasks, "add", i);
+                                var html = this.getRowHtml(addasks[i], addasks, "add", j);
                                 tbDiv.find(".body:eq(" + i + ")").slideDown(500)
 
                                 tbDiv.find(".body:eq(" + j + ")").before(html);
@@ -367,11 +369,12 @@
                         totalDiv += this.getRowHtml(addasks[i], addasks, 'add', i)
                     }
                     if (totalDiv != '') {
+                        console.log(tbDiv)
                         tbDiv.append(totalDiv);
                     }
                     //执行动画效果
-                    tbDiv.find(".body.add").css({height:'0'});
-                    tbDiv.find(".body.add").stop().animate({height:'24'},500);
+                    tbDiv.find(".body.add").css({height: '0'});
+                    tbDiv.find(".body.add").stop().animate({height: '24'}, 500);
                     setTimeout((function ($remove, $add) {
 
                         return function () {
@@ -443,7 +446,7 @@
 
                     return html;
                 },
-                goinfo(){
+                goinfo() {
                     window.location.href = `/info?marketId=${this.marketConfig.marketId}`
                 },
 
