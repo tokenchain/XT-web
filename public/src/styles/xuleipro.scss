@@ -926,7 +926,7 @@ button {
           }
           .unit {
             @include general-style;
-            right: 0;
+            right: 10px;
             font-size: 12px;
           }
         }
