@@ -315,10 +315,12 @@
 <section class="tradeNew" id="app-trade-pro">
     <div class="tradeNew-container">
         <!--左侧市场盒子-->
-        <div class="market-trade" :class="mkSwitch ? 'open': ''">
+        <div class="market-trade" :class="mkSwitch ? 'close': ''">
             <div class="market-title">
                 <span>市场</span>
-                <img @click="marketSwitch" src="/src/images/trade_market.png" alt="">
+                <div class="img-box" @click="marketSwitch" >
+                    <img src="/src/images/trade_market.png" alt="">
+                </div>
             </div>
             <div class="market-zone">
                 <ul>
@@ -353,6 +355,31 @@
         <!--k线 盒子-->
         <div class="chartEntrust-area">
             <div class="chart-area">
+                <!--<div class="item-list" v-cloak="">
+                    <ul>
+                        <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']">
+                            <%= LANG('周') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']">
+                            <%= LANG('日') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">
+                            1<%= LANG('小时') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">
+                            30<%= LANG('分') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">
+                            15<%= LANG('分') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">
+                            1<%= LANG('分') %>
+                        </li>
+                        <li role="button" @click="switchPeriod('line')"
+                            :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %>
+                        </li>
+                    </ul>
+                </div>-->
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
@@ -637,10 +664,11 @@
                 <!--盘口数据-->
                 <!--<dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                            :assist-price="assistPrice" ref="dishPart"></dish-part>-->
-                <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                           :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
-                <!--交易表单-->
-                <div class="fill-area" v-cloak="">
+                <div class="asks-box">
+                    <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
+                </div>
+                <div class="fill-area">
                     <!--<div class="head">-->
                     <!--<div class="cd-select">-->
                     <!--&lt;!&ndash;<p><%= LANG('价格输入转换')%></p>&ndash;&gt;-->
@@ -657,21 +685,31 @@
                                 <li :class="askAndBidsGrade == 50 ? 'active' : ''" @click="switchGrades(50)">50</li>
                             </ul>
                         </div>
-                        <trade-form :trade-type="1" :current-user-asset="currentUserAsset"
+                        <div class="login-trade" v-if="!isLogin">
+                            <p>登录后方可进行交易，现在去</p>
+                            <div class="btn"><a role="button" href="/login" class="buyBgColor disabled">登录 XT</a></div>
+                            <div class="btn"><a role="button" href="/login" class="sellBgColor disabled">注册 XT</a></div>
+                        </div>
+                        <trade-form v-if="isLogin" :trade-type="1" :current-user-asset="currentUserAsset"
                                     :market-config="currentMarketConfig" :current-market="currentMarket"
                                     :assist-price="assistPrice" ref="tradeFormBuy"></trade-form>
-                        <trade-form :trade-type="0" :current-user-asset="currentUserAsset"
+                        <trade-form v-if="isLogin" :trade-type="0" :current-user-asset="currentUserAsset"
                                     :market-config="currentMarketConfig" :current-market="currentMarket"
                                     :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
                     </div>
                 </div>
-                <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
+                <!--交易表单-->
+                <div class="bids-box">
+                    <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
+                </div>
+
+
             </div>
         </div>
 
         <!--自己的 挂单历史 需要登录  当前委托-->
-        <div class="entrust-area" v-if="isLogin" v-cloak="">
+        <div class="entrust-area" v-if="isLogin">
             <div class="head">
                 <ul class="tab">
                     <li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>
@@ -759,7 +797,7 @@
         </div>
 
         <!--自己的 挂单历史 需要登录  委托历史-->
-        <div class="entrust-area" v-if="isLogin" v-cloak="">
+        <div class="entrust-area" v-if="isLogin">
             <div class="head">
                 <ul class="tab">
                     <!--<li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>-->
