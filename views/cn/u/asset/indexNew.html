@@ -343,7 +343,7 @@
                         </p><a role="button" @click="hideZero = !hideZero" :class="{'on' : hideZero}"></a>
                     </div>
                 </div>
-                <div class="head">
+                <div class="head" style="padding: 0 20px">
                     <ul>
                         <li class="coin-name">
                             <%= LANG('币种') %>
@@ -395,14 +395,16 @@
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('充值')
                                     %></a>
-                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0" :href="'/u/payout/' + item.name">
+                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'xc'" :href="'/u/payout/' + item.name">
                                     <%=
                                     LANG('提币') %></a>
                                 <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
                                     <%= LANG('提币') %></a>
+                                
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('提币')
                                     %></a>
+                                
                                 <a @click='changeModel(item)' v-if="item.name == 'xc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换XC' : '兑换QC'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
@@ -410,7 +412,6 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </div>
         <div class="trade-form-modal" v-if="isShowIntoModle" v-cloak>
@@ -918,6 +919,8 @@
                 },
                 //获取指定辅助货币的总价格-ok
                 getTotalPriceByAssist: function (coin) {
+                    console.log(coin, "66")
+                    // debugger
                     if (!coin || !this.assistPrice) {
                         return ''
                     }
@@ -926,9 +929,11 @@
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(amount, 4);
                     } else {
+                        
+                        console.log(parseFloat(this.assistPrice[assistCoin][coin.name]))
                         return Methods.fixNumber(parseFloat(amount) * parseFloat(this.assistPrice[
                             assistCoin][coin.name]), 4) || '--';
-                    }
+                    } 
                 },
                 //获取指定辅助货币折算的价格-ok price-要折算的价格
                 getConvertPriceByAssist: function (coin, price) {
@@ -1053,6 +1058,7 @@
                             'getCurrencyList',
                         success: function (res) {
                             this.coinConfig = res.datas;
+
                         }.bind(this)
                     });
                 },
@@ -1303,10 +1309,10 @@
             mounted: function () {
                 document.addEventListener('click', this.handleClickOutsideSelect, true);
                 window.addEventListener('resize', this.getWindowWidth, true);
-                $('[data-toggle="tooltip"]').tooltip();
+                // $('[data-toggle="tooltip"]').tooltip();
             },
             updated: function () {
-                $('[data-toggle="tooltip"]').tooltip();
+                // $('[data-toggle="tooltip"]').tooltip();
             },
             beforeDestroy: function () {
                 document.removeEventListener('click', this.handleClickOutsideSelect, true)

@@ -1759,6 +1759,10 @@ button {
       .btn-ok {
         background-color: #FFB700;
       }
+      .isdisabled {
+        background: #F5F5F5;
+        color: #898989;
+      }
       .exx-modal-button {
         display: inline-block;
         text-align: right;
@@ -1777,6 +1781,13 @@ button {
         color: #898989;
       }
     }
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"]{
+    -moz-appearance: textfield;
   }
 
   .user-container, #user-api {
