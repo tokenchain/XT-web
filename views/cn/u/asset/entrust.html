@@ -1,126 +1,137 @@
 <div class="user-container">
     <div class="assets-panel" id="app-entrust">
-            <div class="assets-record">
-                <div class="assets-list">
-                    <div class="head" style="padding-left: 20px;">
-                        <h2><%= LANG('委托记录') %></h2>
-                        <div class="dropdown-group">
-                            <div class="dropdown" v-cloak="">
-                                <p role="button" data-toggle="dropdown"><%= LANG('市场') %>：<em>{{coinName}}</em><i>/</i>{{moneyName}}
-                                </p>
-                                <div class="dropdown-menu" style="width: 370px;right: -163px;">
-                                    <ul class="dropdown-list" v-for="tab,index in marketGroupTab" style="float: left;width: 120px"
-                                        :class="{'block' : index == curIndex}">
-                                        <li v-for="market,key in getGroupMarket(tab)"
-                                            :class="{'active': market.name == currentMarket}"><a
-                                                @click="changeMarket(market.name)" role="button">{{market.name.replace('_',
+        <div class="assets-record">
+            <div class="assets-list">
+                <div class="head" style="padding-left: 20px;">
+                    <h2>
+                        <%= LANG('委托记录') %>
+                    </h2>
+                    <div class="dropdown-group">
+                        <div class="dropdown" v-cloak="">
+                            <p role="button" data-toggle="dropdown">
+                                <%= LANG('市场') %>：<em>{{coinName}}</em><i>/</i>{{moneyName}}
+                            </p>
+                            <div class="dropdown-menu" style="width: 370px;right: -163px;">
+                                <ul class="dropdown-list" v-for="tab,index in marketGroupTab" style="float: left;width: 120px"
+                                    :class="{'block' : index == curIndex}">
+                                    <li v-for="market,key in getGroupMarket(tab)" :class="{'active': market.name == currentMarket}"><a
+                                            @click="changeMarket(market.name)" role="button">{{market.name.replace('_',
                                             '/').toUpperCase()}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="dropdown" v-cloak="" v-if="!isAll">
-                                <p role="button" data-toggle="dropdown"><%= LANG('类型') %>：<em>{{tradeTypeObj[tradeType]}}</em>
-                                </p>
-                                <div class="dropdown-menu">
-                                    <ul class="dropdown-list">
-                                        <li :class="{'active': tradeType == key}" v-for="item, key in tradeTypeObj"><a
-                                                role="button" @click="changeTradeType(key)">{{item}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="dropdown" v-cloak="" v-if="!isAll">
-                                <p role="button" data-toggle="dropdown"><%= LANG('状态') %>：<em>{{tradeStatusObj[tradeStatus]}}</em>
-                                </p>
-                                <div class="dropdown-menu">
-                                    <ul class="dropdown-list">
-                                        <li :class="{'active': tradeStatus == key}" v-for="item, key in tradeStatusObj">
-                                            <a role="button" @click="changeTradeStatus(key)">{{item}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!--<div class="dropdown" v-cloak="" v-if="!isAll">-->
-                            <!--<p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>-->
-                            <!--<div class="dropdown-menu">-->
-                            <!--<ul class="dropdown-list">-->
-                            <!--<li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>-->
-                            <!--</ul>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                        </div>
-                    </div>
-                    <div class="body">
-                        <ul class="title" v-cloak="">
-                            <li>
-                                <p><%= LANG('市场') %></p>
-                                <p><%= LANG('类型') %></p>
-                                <p><%= LANG('时间') %></p>
-                                <p><%= LANG('委托价') %>/<%= LANG('成交均价') %></p>
-                                <p><%= LANG('委托量') %>/<%= LANG('成交量') %></p>
-                                <p><%= LANG('成交额') %></p>
-                                <p><%= LANG('状态') %>/<%= LANG('操作') %></p>
-                            </li>
-                        </ul>
-                        <div v-if="!userEntrustListSwitch" class="cd-loading">
-                            <div class="vertical-bars">
-                                <p class="layer-1"></p>
-                                <p class="layer-2"></p>
-                                <p class="layer-3"></p>
-                                <p class="layer-4"></p>
-                                <p class="layer-5"></p>
-                                <p class="layer-6"></p>
-                                <p class="layer-7"></p>
-                                <p class="layer-8"></p>
-                                <p class="layer-9"></p>
+                                </ul>
                             </div>
                         </div>
-                        <ul v-else class="list">
-                            <li v-if="records.length > 0" v-for="item in records" v-cloak="">
-                                <p>{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</p>
-                                <p>
-                                    <span class="buyColor"><template
-                                            v-if="item.type == 1"><%= LANG('买') %></template></span><span
-                                        class="sellColor"><template
-                                        v-if="item.type == 0"><%= LANG('卖') %></template></span>
-                                </p>
-                                <p>{{showTime(item.createTime)}}</p>
-
-                                <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}">
-
-                                    <span class="hint--top"
-                                          :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price, switchIds[item.marketId])}}</span>
-
-
-                                    /
-
-
-                                    <span class="hint--top"
-                                          :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])}}</span>
-
-
-                                </p>
-                                <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}"><span
-                                        :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</span>/
-                                    {{showCoin(item.completeAmount,switchIds[item.marketId])}}</p>
-                                <p><span class="hint--top"
-                                         :aria-label="showAssistHint(item.completeTotalMoney,switchIds[item.marketId])">{{showAmount(item.completeTotalMoney,switchIds[item.marketId])}}</span>
-                                </p>
-                                <p v-if="item.status == 3 || item.status == 0"><span
-                                        v-html="showStatus(item.status)"></span> | <a role="button"
-                                                                                      @click="doCancelEntrust(item.entrustId, item.marketId)"><%=
-                                    LANG('取消') %></a></p>
-                                <p v-if="item.status != 3 && item.status != 0"><span
-                                        v-html="showStatus(item.status)"></span></p>
-                            </li>
-                            <li class="norecord" v-if="records.length == 0"><%= LANG('暂无记录')%></li>
-                        </ul>
+                        <div class="dropdown" v-cloak="" v-if="!isAll">
+                            <p role="button" data-toggle="dropdown">
+                                <%= LANG('类型') %>：<em>{{tradeTypeObj[tradeType]}}</em>
+                            </p>
+                            <div class="dropdown-menu">
+                                <ul class="dropdown-list">
+                                    <li :class="{'active': tradeType == key}" v-for="item, key in tradeTypeObj"><a role="button"
+                                            @click="changeTradeType(key)">{{item}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown" v-cloak="" v-if="!isAll">
+                            <p role="button" data-toggle="dropdown">
+                                <%= LANG('状态') %>：<em>{{tradeStatusObj[tradeStatus]}}</em>
+                            </p>
+                            <div class="dropdown-menu">
+                                <ul class="dropdown-list">
+                                    <li :class="{'active': tradeStatus == key}" v-for="item, key in tradeStatusObj">
+                                        <a role="button" @click="changeTradeStatus(key)">{{item}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--<div class="dropdown" v-cloak="" v-if="!isAll">-->
+                        <!--<p role="button" data-toggle="dropdown"><%= LANG('时间') %>：<em>{{timeTypeObj[timeType]}}</em></p>-->
+                        <!--<div class="dropdown-menu">-->
+                        <!--<ul class="dropdown-list">-->
+                        <!--<li :class="{'active': timeType == key}" v-for="item, key in timeTypeObj"><a role="button" @click="changeTimeType(key)">{{item}}</a></li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
+                <div class="body">
+                    <ul class="title" v-cloak="">
+                        <li>
+                            <p>
+                                <%= LANG('市场') %>
+                            </p>
+                            <p>
+                                <%= LANG('类型') %>
+                            </p>
+                            <p>
+                                <%= LANG('时间') %>
+                            </p>
+                            <p>
+                                <%= LANG('委托价') %>/
+                                <%= LANG('成交均价') %>
+                            </p>
+                            <p>
+                                <%= LANG('委托量') %>/
+                                <%= LANG('成交量') %>
+                            </p>
+                            <p>
+                                <%= LANG('成交额') %>
+                            </p>
+                            <p>
+                                <%= LANG('状态') %>/
+                                <%= LANG('操作') %>
+                            </p>
+                        </li>
+                    </ul>
+                    <div v-if="!userEntrustListSwitch" class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                    <ul v-else class="list">
+                        <li v-if="records.length > 0" v-for="item in records" v-cloak="">
+                            <p>{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</p>
+                            <p>
+                                <span class="buyColor"><template v-if="item.type == 1">
+                                        <%= LANG('买') %></template></span><span class="sellColor"><template v-if="item.type == 0">
+                                        <%= LANG('卖') %></template></span>
+                            </p>
+                            <p>{{showTime(item.createTime)}}</p>
+
+                            <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}">
+
+                                <span class="hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price,switchIds[item.marketId])}}</span>
+                                /
+                                <span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount),switchIds[item.marketId])}}</span>
+                            </p>
+                            <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}"><span :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</span>/
+                                {{showCoin(item.completeAmount,switchIds[item.marketId])}}</p>
+                            <p><span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney,switchIds[item.marketId])">{{showAmount(item.completeTotalMoney,switchIds[item.marketId])}}</span>
+                            </p>
+                            <p v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span>
+                                | <a role="button" @click="doCancelEntrust(item.entrustId, item.marketId)">
+                                    <%=
+                                    LANG('取消') %></a></p>
+                            <p v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></p>
+                        </li>
+                        <li class="norecord" v-if="records.length == 0">
+                            <%= LANG('暂无记录')%>
+                        </li>
+                    </ul>
+                </div>
             </div>
-
-
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"
-                       :turn-page="getUserEntrustList" v-if="records.length > 0 && !isAll"></page-lite>
         </div>
+
+
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+            v-if="records.length > 0 && !isAll"></page-lite>
+    </div>
 </div>
 
 
@@ -166,9 +177,21 @@
                         '1': "<%= LANG('历史委托') %>"
                     },
                     assistList: {
-                        'none': {key: 'none', name: "<%= LANG('默认')%>", icon: '', symbol: '฿', decimal: 6},
+                        'none': {
+                            key: 'none',
+                            name: "<%= LANG('默认')%>",
+                            icon: '',
+                            symbol: '฿',
+                            decimal: 6
+                        },
                         /*'btc': {key: 'btc', name: 'BTC', icon: 'icon-btc', symbol: '฿',decimal : 6},*/
-                        'usd': {key: 'usd', name: 'USD', icon: 'icon-meiyuan', symbol: '$', decimal: 3},
+                        'usd': {
+                            key: 'usd',
+                            name: 'USD',
+                            icon: 'icon-meiyuan',
+                            symbol: '$',
+                            decimal: 3
+                        },
                         '<%= UNIT %>': {
                             key: '<%= UNIT %>',
                             name: '<%= LEGAL[UNIT].unit %>',
@@ -215,7 +238,8 @@
                 },
                 currentAccountId: function () {
                     if (this.isLogin) {
-                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid');
+                        return Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV +
+                            'uid');
                     }
                 },
                 currentMarketConfig: function () {
@@ -267,13 +291,14 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV +
+                            "/exchange/config/controller/website/pricecontroller/" +
+                            'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);
                         },
-                        error: function () {
-                        }
+                        error: function () {}
                     });
                 },
                 // 获取市场配置
@@ -281,7 +306,9 @@
                     var _this = this;
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        url: DOMAIN_DEV +
+                            "/exchange/config/controller/website/marketcontroller/" +
+                            'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -292,27 +319,29 @@
                 getUserEntrustList: function (marketid) {
                     var _this = this;
 
-                        var data = {
-                            // type: _this.tradeType,
-                            // status: _this.tradeStatus,
-                            // isBackup: _this.timeType,
-                            // market: _this.currentMarket,
-                            // userId: _this.currentAccountId,
-                            pageIndex: _this.pageIndex,
-                            pageSize: _this.pageSize,
-                            userId: this.loginUser.userId,
-                            marketId: marketid || _this.switchMarkets[_this.currentMarket]
-                        };
-                    if( _this.tradeType ) {
-                        data.type=_this.tradeType
+                    var data = {
+                        // type: _this.tradeType,
+                        // status: _this.tradeStatus,
+                        // isBackup: _this.timeType,
+                        // market: _this.currentMarket,
+                        // userId: _this.currentAccountId,
+                        pageIndex: _this.pageIndex,
+                        pageSize: _this.pageSize,
+                        userId: this.loginUser.userId,
+                        marketId: marketid || _this.switchMarkets[_this.currentMarket]
+                    };
+                    if (_this.tradeType) {
+                        data.type = _this.tradeType
                     }
-                    if( _this.tradeStatus ) {
-                        data.status=_this.tradeStatus
+                    if (_this.tradeStatus) {
+                        data.status = _this.tradeStatus
                     }
                     _this.requestLocked = true;
                     _this.records = []
                     Methods.ajax({
-                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'getUserEntrustList',
+                        url: DOMAIN_DEV +
+                            '/exchange/entrust/controller/website/EntrustController/' +
+                            'getUserEntrustList',
                         data: data,
                         success: function (res) {
                             //数组更新（取消轮询）
@@ -341,7 +370,8 @@
                 filterRecord: function (record) {
                     return record.filter(function (currentValue, index, arr) {
                         if (this.tradeStatus != '-2' && this.tradeType != '-1') {
-                            return currentValue.status == this.tradeStatus && currentValue.type == this.tradeType
+                            return currentValue.status == this.tradeStatus && currentValue.type ==
+                                this.tradeType
                         } else if (this.tradeStatus != '-2') {
                             return currentValue.status == this.tradeStatus
                         } else if (this.tradeType != '-1') {
@@ -371,7 +401,9 @@
                     Methods.ajax({
                         type: 'GET',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getMarketByWebId',
+                        url: DOMAIN_DEV +
+                            "/exchange/config/controller/website/marketcontroller/" +
+                            'getMarketByWebId',
                         success: function (res) {
                             _this.openMarkets = res.datas;
 
@@ -399,7 +431,9 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_TRADE + API_PREFIX + 'doCancelEntrust',
-                        url: DOMAIN_DEV + '/exchange/entrust/controller/website/EntrustController/' + 'cancelEntrust',
+                        url: DOMAIN_DEV +
+                            '/exchange/entrust/controller/website/EntrustController/' +
+                            'cancelEntrust',
                         data: JSON.stringify(data),
                         success: function (res) {
                             _this.getRecord();
@@ -448,7 +482,8 @@
                     if (assistCoin == 'none' || assistCoin == '') {
                         return Methods.fixNumber(price, 4);
                     } else {
-                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[
+                            assistCoin][money]), this.assistList[assistCoin].decimal) || '--';
                     }
                 },
                 //获取指定分组的市场列表
@@ -500,21 +535,21 @@
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return val
+                        return parseFloat(val)
                     }
                 },
                 showMoney: function (val, market) {
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return val
+                        return parseFloat(val)
                     }
                 },
                 showAmount: function (val, market) {
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return val
+                        return parseFloat(val)
                     }
                 },
                 showRate: function (val) {
@@ -542,7 +577,8 @@
                 },
                 //价格折合的提示内容
                 showAssistHint: function (price, market) {
-                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price, market) + " " + this.showAssistCoin(market);
+                    return "<%= LANG('折合')%>:" + this.getPriceByAssist(price, market) + " " + this.showAssistCoin(
+                        market);
                 },
                 getCoin: function (market) {
                     return market.split('_')[0];

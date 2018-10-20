@@ -122,6 +122,9 @@
                     return this.myBrowser()
                 }
             },
+            created() {
+                console.log(this.$parent,"5")
+            },
             methods: {
                 myBrowser() {
                     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
@@ -296,6 +299,7 @@
                 },
                 //初始化盘口
                 depthInit: function (data, $obj) {
+                    
                     $obj.empty();
                     //console.log(data);
                     if (data && data.length > 0) {
@@ -429,6 +433,9 @@
                 },
                 getRowHtml: function (arr, data, style, index) {
                     var price = this.getPrice(arr[0]);
+                    console.log(data)
+
+                    
                     var amount = this.getAmount(arr[1]);
                     var assist = this.getAssistPrice(arr[0]);
                     //var depth = this.getDepth(arr[1], data);
