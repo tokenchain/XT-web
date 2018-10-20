@@ -338,7 +338,9 @@
                         Methods.ajax({
                             url:DOMAIN_DEV +'/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
                             success:function(res){
-                                _this.ios = res.datas.url
+                                if(res.datas) {
+                                    _this.ios = res.datas.url
+                                }
                             }
                         })
                     }

@@ -16,7 +16,7 @@
     
       <div class="exx-modal-button">
         <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
-        <button class="exxbtn btn-ok" @click="submitExchange"><span><%= LANG('确定') %></span></button>
+        <button class="exxbtn btn-ok" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitExchange"><span><%= LANG('确定') %></span></button>
       </div>
     </div>
 </script>
@@ -45,7 +45,8 @@
                     exchangTarget: '', // 兑换的目标货币
                     rsaKeyId: '',
                     passWordVal: '',
-                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo') //用户信息
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    disabled: false,
                 }
             },
             filters: {
@@ -65,6 +66,9 @@
                     var num = Number(this.exchangVal)
                     if (this.exchangVal.indexOf('.') == -1) {
                         this.exchangVal = num.toFixed(2)
+                    }
+                    if(num < 0 || num > this.amount) {
+                        this.disabled = true
                     }
                     console.log(this.exchangVal)
                 },
