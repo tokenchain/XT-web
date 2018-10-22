@@ -520,9 +520,6 @@ $link-color: #8b8bec;
       color: #fff;
       border-bottom: 3px solid #6a6ada;
       @include transition(all .3s ease);
-      &:focus {
-        border-bottom-color: #5f55ff !important;
-      }
     }
     .control-link, .code-num {
       position: absolute;
@@ -530,6 +527,9 @@ $link-color: #8b8bec;
       top: 0;
       bottom: 0;
       z-index: 2;
+      padding-right: 20px;
+      color: #fff;
+      opacity: 0.6;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -606,12 +606,14 @@ button {
   color: #fff;
   z-index: 1;
   overflow: hidden;
-  background-color: #5a7ff5;
+  background-color: #FFBE3F;
 }
 
 .form-other {
   margin-top: 30px;
   text-align: center;
+  color: #fff;
+  opacity: 0.6;
 }
 
 //登录注册区
@@ -624,7 +626,7 @@ button {
   background: #000;
   position: relative;
   overflow: hidden;
-  background: url(../images/loginBg.png) center center no-repeat;
+  background: url(../images/login-background.png) center center no-repeat;
   background-size: 100% 100%;
   @-webkit-keyframes infiniteStats {
     0% {
@@ -761,12 +763,12 @@ button {
     .form-group {
       .form-control {
         input[type=text], input[type=password] {
-          background: #302e4c;
+          background: #8F8F90;
           opacity: 0.6;
           padding: 0 0 0 50px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          &:focus {
-            border-color: #5a7ff5;
+          border: 1px solid #8F8F90;
+          &::-webkit-input-placeholder {
+            color: #fff !important;
           }
         }
         > img {
@@ -792,6 +794,9 @@ button {
     @extend %align-center;
     padding: 0 15px;
     height: 100%;
+    color: #fff;
+    opacity: 0.6;
+    margin-right: 20px;
     cursor: pointer;
   }
 }
@@ -801,7 +806,7 @@ button {
   width: 5px;
   height: 5px;
   position: absolute;
-  right: 3px;
+  right: 23px;
   top: 20px;
   border-right: 1px solid currentColor;
   border-bottom: 1px solid currentColor;
@@ -1064,6 +1069,8 @@ button {
       padding: 100px 0;
       @extend %space-center;
       background: none;
+      color: #898989;
+      opacity: 0.6;
     }
   }
 }
@@ -1087,7 +1094,7 @@ button {
     margin-bottom: 40px;
     a {
       display: inline-block;
-      background: #5a7ff5;
+      background: #FFBE3F;
       color: #fff;
       border-radius: 3px;
       padding: 12px 0;
@@ -1106,7 +1113,7 @@ button {
         width: 0;
         height: 100%;
         display: block;
-        background-color: #846af7;
+        background-color: #FFBE3F;
         opacity: 0;
         z-index: -1;
         border-radius: 30px;
@@ -1114,7 +1121,7 @@ button {
       }
       &:hover {
         color: #fff;
-        background-color: #846af7;
+        background-color: #FFBE3F;
         -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
         -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
@@ -1295,7 +1302,7 @@ button {
         border-top-color: currentColor;
       }
       em {
-        color: #5a7ff5;
+        color: #FFBE3F;
       }
     }
     .dropdown-menu {
@@ -1409,7 +1416,7 @@ button {
             padding-right: 10px;
           }
           &:hover {
-            color: #5a7ff5;
+            color: #FFBE3F;
           }
         }
         &.active {
@@ -1417,7 +1424,7 @@ button {
           > a {
             color: $white-color;
             //background: rgba(36, 185, 255, 0.08);
-            background: #5a7ff5;
+            background: #FFBE3F;
             font-weight: 500;
           }
         }
@@ -1826,7 +1833,7 @@ button {
           border: solid 1px #cccccc;
           color: #666;
           &:focus {
-            border-color: #5a7ff5;
+            border-color: #FFBE3F;
           }
         }
         > img {
@@ -1848,7 +1855,7 @@ button {
     background: #fff;
     .exx-modal-header {
       height: 60px;
-      background-color: #5a7ff5;
+      background-color: #FFBE3F;
       h3 {
         font-size: 18px;
         color: #fff;
@@ -2218,9 +2225,9 @@ button {
     background: rgba(239, 239, 239, 1);
     border-radius: 4px;
     &:hover {
-      border-color: $button-color;
+      border-color: #FFBE3F;
       color: $white-color;
-      background: $button-color;
+      background: #FFBE3F;
     }
     &.disabled {
       pointer-events: none;
@@ -3554,13 +3561,19 @@ input::-webkit-inner-spin-button {
   .footer-menu {
     h5 {color: #D2D2D2;}
     li a {
-      color: #D2D2D2
+      color: #D2D2D2;
+      &:hover {
+        color: #D2D2D2;
+      }
     }
     .social-icons a {
       color: #D2D2D2
     }
     .timer {
       color: #D2D2D2;
+      margin-top: 20px;
+      margin-left: 0;
+      display: block;
     }
   }
   @media (max-width: 768px) {

@@ -5,14 +5,14 @@
         <div class="safe-info" v-if="loginUser.userType == 1">
             <ul v-cloak>
                 <li>
-                    <div class="icon"><img src="/src/images/webDevelopmentIcon.svg"></div>
+                    <div class="icon"><img src="/src/images/webDevelopmentIcon.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('账号') %></h3>
                         <p>{{loginUser.loginName}}</p>
                     </div>
                 </li>
                 <li>
-                    <div class="icon"><img src="/src/images/emailmarketingIcon.svg"></div>
+                    <div class="icon"><img src="/src/images/emailmarketingIcon.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('邮箱') %></h3>
                         <p>{{loginUser.email}}</p>
@@ -21,7 +21,7 @@
                     <div class="oper"><a class="btn btn-primary" @click="setEmail" v-if="loginUser.emailAuth == 0"><%= LANG('认证') %></a></div>
                 </li>
                 <li>
-                    <div class="icon"><img src="/src/images/mobileOptimizationIcon.svg"></div>
+                    <div class="icon"><img src="/src/images/mobileOptimizationIcon.png" style="width:26px;height:39px;"></div>
                     <div class="info">
                         <h3><%= LANG('手机') %></h3>
                         <span class="danger-color" v-if="loginUser.mobileAuth == 0"><%= LANG('未认证') %></span>
@@ -34,7 +34,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="icon"><img src="/src/images/keywordResearchIcon.svg"></div>
+                    <div class="icon"><img src="/src/images/keywordResearchIcon.png" style="width:37px;height:37px;"></div>
                     <div class="info">
                         <h3><%= LANG('登录密码') %></h3>
                         <span class="danger-color" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
@@ -49,7 +49,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="icon"><img src="/src/images/pageSpeedIcon.svg"></div>
+                    <div class="icon"><img src="/src/images/pageSpeedIcon.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('Google验证') %></h3>
                         <span class="danger-color" v-if="loginUser.googleAuth == 0"><%= LANG('未认证') %></span>

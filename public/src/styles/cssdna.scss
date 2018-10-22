@@ -428,7 +428,9 @@ $error: #ff4a68;
   position: relative;
   min-height: calc(100vh - 60px);
   padding: 50px 0;
-  background: url(../images/rate.jpg) top center no-repeat #f7f7f7;
+  background: url(../images/rate.png) top center no-repeat #f7f7f7;
+  background-size: 100% 400px;
+  margin-top: -60px;
   .cd-h1 {
     position: absolute;
     top: 150px;
@@ -572,7 +574,7 @@ $error: #ff4a68;
     padding: 5px;
     border-radius: 30px;
     position: relative;
-    background: #5a7ff5;
+    background: #FFBE3F;
     &:after {
       content: "";
       display: block;
@@ -584,7 +586,7 @@ $error: #ff4a68;
       transition: all .1s ease;
     }
     &.on {
-      background: #6a6ada;
+      background: #F8E71C;
       &:after {
         margin-left: 20px;
       }
@@ -729,10 +731,10 @@ $error: #ff4a68;
     border-radius: 5px;
     ul {
       &:nth-child(2n) {
-        background: #f3f3f9;
+        background: #FFFBF2;
       }
       &:hover {
-        background: #e6e6f9;
+        background: #FFFBF2;
       }
       li {
         height: 50px;
@@ -770,7 +772,7 @@ $error: #ff4a68;
           }
         }
         a {
-          color: #5f55ff;
+          color: #FFBE3F;
           & + a {
             margin-left: 20px;
           }
@@ -845,7 +847,7 @@ $error: #ff4a68;
     padding: 12px 35px;
     color: #fff;
     font-size: 14px;
-    background-color: #5a7ff5;
+    background-color: #FFBE3F;
     border-radius: 40px;
   }
   .tip {
@@ -866,13 +868,13 @@ $error: #ff4a68;
       display: -ms-inline-flexbox;
       display: inline-flex;
       a {
-        background: #5a7ff5;
+        background: #FFBE3F;
         color: #fff;
         border-radius: 3px;
         padding: 8px 18px;
         margin: 0 10px;
         &.cancel {
-          background: #5a7ff5;
+          background: #FFBE3F;
         }
       }
     }

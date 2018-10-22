@@ -11,14 +11,18 @@
     <style type="text/css">
 
         .header {
-            background: #060f22;
+            opacity: 0.45;
+            background-color: rgba(19, 14, 0, 1);
+            border: 1px solid rgba(19, 14, 0, 1);
         }
         p{
             font-size: 14px!important;
         }
         .wsApi{
             position: relative;
-            background: url(/src/images/API.jpg) top center no-repeat #f7f7f7;
+            background: url(/src/images/rate.png) top center no-repeat;
+            background-size: 100% 400px;
+            margin-top: -60px;
         }
         .wsApi .title{
             position: absolute;
@@ -35,7 +39,25 @@
 
         .wsApi .cd-nav ul li a{
             font-size: 14px;
+            color: #FFBE3F;
             text-decoration: none;
+        }
+
+        .wsApi .cd-nav ul li a:hover{
+            text-decoration: none!important;
+        }
+
+        .cd-nav ul {
+            border: 2px solid #FFBE3F;
+        }
+
+        .cd-nav ul li+li {
+            border-left: 0;
+        }
+
+        .cd-nav ul li.active a {
+            color: #fff;
+            background: #FFBE3F;
         }
 
         .wsApi .cd-nav ul li a:hover{

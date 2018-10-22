@@ -9,10 +9,10 @@
             LAN = GLOBAL['LAN'] = '<%= LAN %>',
             MONEY = GLOBAL['MONEY'] = '<%= MONEY || "usd" %>',
             ISLOGIN = GLOBAL['ISLOGIN'] = <%= Boolean(isLogin) %>,
-                VERSION = GLOBAL['VERSION'] = '<%= VERSION %>',
-                DOMAIN_BASE = GLOBAL['DOMAIN_BASE'] = '<%= DOMAIN_BASE %>',
-                DOMAIN_DEV = GLOBAL['DOMAIN_DEV'] = '<%= DOMAIN_DEV %>',
-                WEBSOCKET = GLOBAL['WEBSOCKET'] = '<%= WEBSOCKET %>';
+            VERSION = GLOBAL['VERSION'] = '<%= VERSION %>',
+            DOMAIN_BASE = GLOBAL['DOMAIN_BASE'] = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV = GLOBAL['DOMAIN_DEV'] = '<%= DOMAIN_DEV %>',
+            WEBSOCKET = GLOBAL['WEBSOCKET'] = '<%= WEBSOCKET %>';
 
         document.domain = DOMAIN_BASE;
     </script>
@@ -29,6 +29,19 @@
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
     <style>
+        .app-bg {
+            background: url('/src/images/app/appstore-BG.png') no-repeat center center;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            height: 740px;
+        }
+
+        body {
+            background: #fff;
+            height: 100%;
+        }
+
         .header {
             position: fixed;
             left: 0;
@@ -36,50 +49,58 @@
             width: 100%;
             background: transparent;
         }
+
         .download-button {
             display: -webkit-inline-box;
             display: -ms-inline-flexbox;
             display: inline-flex;
         }
+
         .download-button a {
             border: 2px solid;
             border-radius: 5px;
-            color: #8256ff;
+            color: #FFCC69;
             position: relative;
-            padding: 15px 15px 15px 55px;
+            padding: 25px 55px;
             font-size: 12px;
             text-align: left;
         }
+
         .download-button a+a {
             margin-left: 20px;
         }
+
         .download-button a svg {
             position: absolute;
             left: 15px;
             width: 30px;
+            height: 26px;
             top: 50%;
             -webkit-transform: translateY(-50%);
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
         }
+
         .download-button a p span {
             display: block;
             font-size: 20px;
             font-weight: 500;
         }
+
         .download-button a:hover,
         .download-button a.active {
-            background: #8256ff none repeat scroll 0 0;
-            border-color: #8256ff;
-            -webkit-box-shadow: 0 15px 50px rgba(130, 86, 255, 0.4);
-            box-shadow: 0 15px 50px rgba(130, 86, 255, 0.4);
+            background: #FFCC69 none repeat scroll 0 0;
+            border-color: #FFCC69;
+            /* -webkit-box-shadow: 0 15px 50px #FFCC69;
+            box-shadow: 0 15px 50px #FFCC69; */
             color: #fff;
         }
-        .app-download {
+
+        /* .app-download {
             height: 100vh;
-        }
+        } */
         .app-download .container {
-            height: 70%;
+            height: 680px;
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -87,6 +108,7 @@
             -ms-flex-align: center;
             align-items: center;
         }
+
         .download-wrapper {
             -webkit-box-flex: 1;
             -ms-flex: 1;
@@ -97,28 +119,40 @@
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
+            width: 100%;
+            height: 100%;
+            z-index: 99;
         }
+
         .download-txt {
             -webkit-box-flex: 1;
             -ms-flex: 1;
             flex: 1;
+            width: 100%;
+            height: 100%;
         }
+
         .download-txt h1 {
             font-size: 40px;
             line-height: 1.5;
-            color: #fff;
+            color: #ffbe3f;
             font-weight: 500;
+            margin-bottom: 56px;
+            margin-top: 180px;
         }
+
         .download-txt .slogan {
             margin: 20px 0 50px 0;
             padding-right: 200px;
             line-height: 1.8;
         }
+
         .download-img {
             -webkit-box-flex: 0;
             -ms-flex: none;
             flex: none;
         }
+
         .appcode {
             margin-top: 50px;
         }
@@ -127,6 +161,7 @@
             border-radius: 5px;
             width: 150px;
         }
+
         .iphonex {
             width: 320px;
             color: #181a23;
@@ -136,11 +171,13 @@
             border-radius: 50px;
             position: relative;
         }
+
         .iphonex .side-btn {
             position: absolute;
             width: 3px;
             background: currentColor;
         }
+
         .iphonex .iphonex-top {
             position: absolute;
             left: 50%;
@@ -150,17 +187,18 @@
             transform: translateX(-50%);
             z-index: 2;
         }
+
         .iphonex img {
             border-radius: 35px;
         }
-        .app_course{
+
+        .app_course {
             width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto 138px;
             background-color: #fff;
-            padding: 50px 30px;
-            margin-bottom: 100px;
         }
-        .app_course h4{
+
+        .app_course h4 {
             text-align: center;
             font-size: 32px;
             font-weight: 300;
@@ -174,26 +212,32 @@
                 padding-top: 100px;
                 text-align: center;
             }
+
             .download-txt h1 {
                 font-size: 20px;
             }
+
             .download-txt .slogan {
                 padding-right: 0;
                 font-size: 12px;
             }
+
             .download-button {
                 -webkit-box-orient: vertical;
                 -webkit-box-direction: normal;
                 -ms-flex-direction: column;
                 flex-direction: column;
             }
+
             .download-button a+a {
                 margin: 20px 0 0 0;
             }
+
             .download-button a p span {
                 font-size: 14px;
                 margin-top: 5px;
             }
+
             .download-img {
                 position: fixed;
                 bottom: 0;
@@ -202,85 +246,100 @@
                 -ms-transform: translate(-50%, 50%);
                 transform: translate(-50%, 50%);
             }
+
             .iphonex {
                 width: 200px;
                 border-radius: 30px;
             }
+
             .iphonex img {
                 border-radius: 15px;
             }
+
             .iphonex .iphonex-top {
                 top: 8px;
             }
+
             .iphonex .iphonex-top svg {
                 -webkit-transform: scale(.7);
                 -ms-transform: scale(.7);
                 transform: scale(.7);
             }
+
             .appcode {
                 display: none;
             }
-            .app_course{
+
+            .app_course {
                 display: none;
             }
         }
-        @media (max-width: 320px){
-            .download-txt .slogan{
+
+        @media (max-width: 320px) {
+            .download-txt .slogan {
                 margin-bottom: 20px;
             }
-            .download-img{
+
+            .download-img {
                 bottom: -10px;
             }
-            .app-download .container{
+
+            .app-download .container {
                 padding-top: 70px;
             }
-            .download-button a{
+
+            .download-button a {
                 padding: 5px 5px 5px 50px;
             }
         }
     </style>
 </head>
+
 <body class="home">
     <%-include("../include/head.html")%>
     <%-include("../include/headMeta.html")%>
-        <!-- Preloader -->
-        <!--<div class="o-preloader">-->
-        <!--<div class="o-preloader_inner"></div>-->
-        <!--</div>-->
-        <!-- banner starts
+    <!-- Preloader -->
+    <!--<div class="o-preloader">-->
+    <!--<div class="o-preloader_inner"></div>-->
+    <!--</div>-->
+    <!-- banner starts
 ============================================ -->
-        <section class="app-download" id="App">
-            <div class="container">
-                <div class="download-wrapper">
-                    <div class="download-txt">
-                        <h1> <%= LANG('全面业务支持的移动APP，随时随地') %> </h1>
-                        <p class="slogan"><%= LANG('XT的APP经过了超过5年时间的更新迭代Z') %></p>
-                        <div class="download-button">
-                            <a :href="android">
-                                <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M963.615 347.084q23.342 0 39.58 14.716t16.238 36.028v299.385q0 20.297-16.238 35.013t-39.58 14.716h-18.267q-23.342 0-39.58-14.716t-16.238-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m-823.056 0q23.342 0 38.565 14.716t15.223 36.028v299.385q0 20.297-15.223 35.013t-38.565 14.716h-18.268q-23.342 0-39.58-14.716t-16.237-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m560.206-235.449q18.268 8.12 38.058 22.327t38.057 33.49 31.968 42.118 19.79 48.206H252.194q16.238-53.788 51.251-88.293t70.533-54.803L322.22 33.49q-2.03-2.03-0.507-7.61t10.656-11.672q8.119-7.104 15.223-6.597t9.133 2.538L409.5 93.368q28.416-13.194 59.877-20.298t64.951-7.104q69.011 0 128.888 28.417l53.788-84.234q2.03-2.03 7.611-2.03t16.746 6.09q10.148 5.073 11.67 9.133t-0.507 6.09z m-283.148 87.279q13.194 0 22.327-9.134t9.134-22.327-9.134-22.327-22.327-9.134-22.327 9.134-9.133 22.327 9.133 22.327 22.327 9.134z m249.658-4.06q13.193 0 22.327-9.133t9.133-22.328-9.133-22.327-22.327-9.133-22.328 9.133-9.133 22.327 9.133 22.328 22.328 9.133z m161.363 126.859l1.015 456.69q0 22.326-14.715 37.55t-36.028 15.222h-14.208v142.082q0 20.297-14.716 35.52T713.958 1024h-29.43q-20.298 0-35.014-15.223t-14.715-35.52V831.175H448.063v142.082q0 20.297-14.715 35.52T397.32 1024H367.89q-20.297 0-35.013-15.223t-14.715-35.52V831.175h-11.164q-21.312 0-36.028-15.223t-14.715-37.55v-456.69h572.384z"></path>
-                                </svg>
-                                <p>Available on the
-                                    <span>Google Store</span>
-                                </p>
-                            </a>
-                            <a class="active" :href="ios">
-                                <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M781.152 517.547c1.35 140.502 129.231 187.259 130.72 187.907-1.162 3.216-20.492 66.642-67.481 132.167-40.604 56.626-82.659 112.933-149.023 114.093-65.292 1.165-86.199-36.882-160.801-36.882-74.562 0-97.891 35.723-159.597 38.048-63.984 2.329-112.789-61.102-153.729-117.497-83.732-115.399-147.627-326.037-61.751-468.213 42.612-70.649 118.847-115.307 201.509-116.514 62.918-1.073 122.337 40.467 160.71 40.467 38.513 0 110.649-49.921 186.511-42.612 31.716 1.26 120.898 12.201 178.13 92.025-4.563 2.839-106.41 59.285-105.201 177.010v0zM514.026 237.942c-7.358-53.414 20.211-108.929 51.695-143.808 35.161-39.259 94.487-68.457 143.481-70.32 6.287 54.393-16.716 109.020-50.667 148.37-34.043 39.216-89.836 69.81-144.507 65.758v0zM514.026 237.942z"></path>
-                                </svg>
-                                <p>Available on the
-                                    <span>Apple Store</span>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="appcode">
-                            <img src="/src/images/app/appcode.png">
-                        </div>
+    <section class="app-download" id="App">
+        <div class="app-bg"></div>
+        <div class="container">
+            <div class="download-wrapper">
+                <div class="download-txt">
+                    <h1>
+                        <%= LANG('全面业务支持的移动APP，随时随地') %>
+                    </h1>
+                    <!-- <p class="slogan"><%= LANG('XT的APP经过了超过5年时间的更新迭代Z') %></p> -->
+                    <div class="download-button">
+                        <a class="active" :href="ios">
+                            <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
+                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M781.152 517.547c1.35 140.502 129.231 187.259 130.72 187.907-1.162 3.216-20.492 66.642-67.481 132.167-40.604 56.626-82.659 112.933-149.023 114.093-65.292 1.165-86.199-36.882-160.801-36.882-74.562 0-97.891 35.723-159.597 38.048-63.984 2.329-112.789-61.102-153.729-117.497-83.732-115.399-147.627-326.037-61.751-468.213 42.612-70.649 118.847-115.307 201.509-116.514 62.918-1.073 122.337 40.467 160.71 40.467 38.513 0 110.649-49.921 186.511-42.612 31.716 1.26 120.898 12.201 178.13 92.025-4.563 2.839-106.41 59.285-105.201 177.010v0zM514.026 237.942c-7.358-53.414 20.211-108.929 51.695-143.808 35.161-39.259 94.487-68.457 143.481-70.32 6.287 54.393-16.716 109.020-50.667 148.37-34.043 39.216-89.836 69.81-144.507 65.758v0zM514.026 237.942z"></path>
+                            </svg>
+                            <p>Available on the
+                                <!-- <span>Apple Store</span> -->
+                            </p>
+                        </a>
+                        <a :href="android">
+                            <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
+                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M963.615 347.084q23.342 0 39.58 14.716t16.238 36.028v299.385q0 20.297-16.238 35.013t-39.58 14.716h-18.267q-23.342 0-39.58-14.716t-16.238-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m-823.056 0q23.342 0 38.565 14.716t15.223 36.028v299.385q0 20.297-15.223 35.013t-38.565 14.716h-18.268q-23.342 0-39.58-14.716t-16.237-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m560.206-235.449q18.268 8.12 38.058 22.327t38.057 33.49 31.968 42.118 19.79 48.206H252.194q16.238-53.788 51.251-88.293t70.533-54.803L322.22 33.49q-2.03-2.03-0.507-7.61t10.656-11.672q8.119-7.104 15.223-6.597t9.133 2.538L409.5 93.368q28.416-13.194 59.877-20.298t64.951-7.104q69.011 0 128.888 28.417l53.788-84.234q2.03-2.03 7.611-2.03t16.746 6.09q10.148 5.073 11.67 9.133t-0.507 6.09z m-283.148 87.279q13.194 0 22.327-9.134t9.134-22.327-9.134-22.327-22.327-9.134-22.327 9.134-9.133 22.327 9.133 22.327 22.327 9.134z m249.658-4.06q13.193 0 22.327-9.133t9.133-22.328-9.133-22.327-22.327-9.133-22.328 9.133-9.133 22.327 9.133 22.328 22.328 9.133z m161.363 126.859l1.015 456.69q0 22.326-14.715 37.55t-36.028 15.222h-14.208v142.082q0 20.297-14.716 35.52T713.958 1024h-29.43q-20.298 0-35.014-15.223t-14.715-35.52V831.175H448.063v142.082q0 20.297-14.715 35.52T397.32 1024H367.89q-20.297 0-35.013-15.223t-14.715-35.52V831.175h-11.164q-21.312 0-36.028-15.223t-14.715-37.55v-456.69h572.384z"></path>
+                            </svg>
+                            <p>Available on the
+                                <!-- <span>Google Store</span> -->
+                            </p>
+                        </a>
+
                     </div>
-                    <!-- End of .banner-txt -->
-                    <div class="download-img">
+                    <div class="appcode">
+                        <!-- <img src="/src/images/app/appcode.png"> -->
+                    </div>
+                </div>
+                <!-- End of .banner-txt -->
+                <!-- <div class="download-img">
                         <div class="iphonex">
                             <div class="iphonex-top">
                                 <svg width="173px" height="28px" viewBox="0 0 173 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -297,60 +356,66 @@
                             <span class="side-btn" style="right: -3px;top: 150px; height: 70px; border-radius: 0 2px 2px 0;"></span>
                             <img src="/src/images/app/trading.png">
                         </div>
-                    </div>
-                </div>
+                    </div> -->
             </div>
-            <div class="app_course" id="AppPic">
-                <h4><%= LANG('安装教程') %></h4>
-                <div class="img_con">
-                    <img :src="picSourse" alt="">
-                </div>
+        </div>
+        <div class="app_course" id="AppPic">
+            <h4>
+                <%= LANG('安装教程') %>
+            </h4>
+            <div class="img_con">
+                <img :src="picSourse" alt="">
             </div>
-        </section>
-        <script src="/src/js/ribbons.js"></script>
+        </div>
+    </section>
+    <!-- <script src="/src/js/ribbons.js"></script> -->
 </body>
 
 </html>
 <script>
-        $(document).ready(function(){
-        require(['vue','common/methods'], function (VUE,Methods) {
+    $(document).ready(function () {
+        require(['vue', 'common/methods'], function (VUE, Methods) {
             var app = new VUE({
-                el:'#App',
-                data:function(){
+                el: '#App',
+                data: function () {
                     return {
-                        picSourse:'/src/images/zbg/images/couser.png',
-                        android:'',
-                        ios:''
+                        picSourse: '/src/images/zbg/images/couser.png',
+                        android: '',
+                        ios: ''
                     }
                 },
                 methods: {
-                    getAndroidLink(){
+                    getAndroidLink() {
                         var _this = this
                         Methods.ajax({
-                            url:DOMAIN_DEV +'/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
-                            success:function(res){
+                            url: DOMAIN_DEV +
+                                '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
+                            success: function (res) {
                                 _this.android = res.datas.url
                             }
                         })
                     },
-                    getIosLink(){
+                    getIosLink() {
                         var _this = this
                         Methods.ajax({
-                            url:DOMAIN_DEV +'/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
-                            success:function(res){
-                                if(res.datas) {
+                            url: DOMAIN_DEV +
+                                '/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
+                            success: function (res) {
+                                if (res.datas) {
                                     _this.ios = res.datas.url
                                 }
                             }
                         })
                     }
                 },
-                created(){
-                    this.picSourse = Methods.getCookie(ENV + "lan") == "cn"?'/src/images/zbg/images/couser.png':'/src/images/zbg/images/couserEn.png'
+                created() {
+                    this.picSourse = Methods.getCookie(ENV + "lan") == "cn" ?
+                        '/src/images/zbg/images/couser.png' :
+                        '/src/images/zbg/images/couserEn.png'
                     // this.getAndroidLink()
                     this.getIosLink()
                 }
             })
-    })
+        })
     });
 </script>
