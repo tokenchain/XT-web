@@ -123,7 +123,7 @@
                 }
             },
             created() {
-                console.log(this.$parent,"5")
+
             },
             methods: {
                 myBrowser() {
@@ -299,7 +299,7 @@
                 },
                 //初始化盘口
                 depthInit: function (data, $obj) {
-                    
+
                     $obj.empty();
                     //console.log(data);
                     if (data && data.length > 0) {
@@ -373,7 +373,6 @@
                         totalDiv += this.getRowHtml(addasks[i], addasks, 'add', i)
                     }
                     if (totalDiv != '') {
-                        console.log(tbDiv)
                         tbDiv.append(totalDiv);
                     }
                     //执行动画效果
@@ -433,9 +432,9 @@
                 },
                 getRowHtml: function (arr, data, style, index) {
                     var price = this.getPrice(arr[0]);
-                    console.log(data)
+                    // console.log(data)
 
-                    
+
                     var amount = this.getAmount(arr[1]);
                     var assist = this.getAssistPrice(arr[0]);
                     //var depth = this.getDepth(arr[1], data);

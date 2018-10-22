@@ -168,15 +168,16 @@ body.trading-dark {
         p {
           font-weight: 500;
           font-size: 14px;
+          opacity: 0.7;
           .denominator {
-            color: #918EC9;
+            color: $white_font_opacity;
             i {
               display: inline-block;
               margin: 0 2px;
             }
           }
           &:after {
-            content: "";
+            /*content: "";
             display: inline-block;
             vertical-align: middle;
             height: 0;
@@ -184,7 +185,7 @@ body.trading-dark {
             border-right: 4px solid transparent;
             border-left: 4px solid transparent;
             border-top: 4px solid;
-            margin-left: 3px;
+            margin-left: 3px;*/
           }
 
         }
@@ -326,10 +327,17 @@ body.trading-dark {
 
 @media (max-width: 1630px) {
   .trade-navbar .market-menu .statistics li {
+    opacity: 0.7;
+    color: $white_font_opacity;
     margin-left: 20px;
     font-size: 12px;
     text-align: right;
   }
+}
+
+.trade-navbar .market-menu .statistics li {
+  opacity: 0.7;
+  color: $white_font_opacity;
 }
 
 .trade-navbar .market-menu .statistics li:first-child {
@@ -343,6 +351,7 @@ body.trading-dark {
 
 .trade-navbar .market-menu .statistics li p {
   color: #fff;
+  opacity: 0.7;
   font-size: 14px;
   text-align: right;
   line-height: 20px;
@@ -389,6 +398,8 @@ body.trading-dark {
 }
 
 .chart-oper .item > p {
+  opacity: 0.7;
+  color: $white_font_opacity;
   position: relative;
   cursor: pointer;
 }
@@ -419,7 +430,7 @@ body.trading-dark {
 }
 
 .chart-oper .item .item-list ul {
-  background: #302e4c;
+  background: $trade_bottom_color;
   padding: 10px 0;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .3);
   box-shadow: 0 0 10px rgba(0, 0, 0, .3);
@@ -428,15 +439,17 @@ body.trading-dark {
 .chart-oper .item .item-list li {
   padding: 15px 20px;
   cursor: pointer;
+  color: #fff;
+  opacity: 0.7;
 }
 
 .chart-oper .item .item-list li:hover {
-  background: #3b395b;
+  background: $trade_background_theme;
 }
 
 .chart-oper .item .item-list li.active {
   color: #fff;
-  background: #3b395b;
+  background: $trade_nodata;
 }
 
 .chart-oper .item .item-list.more li {
@@ -687,7 +700,7 @@ body.trading-dark {
     }
   }
   .chartEntrust-area {
-    .chart-title{
+    .chart-title {
       color: $sellColor;
       padding: 20px;
       font-size: 18px;
@@ -720,6 +733,7 @@ body.trading-dark {
     flex: 0 1 100%;
     .plate-area {
       display: flex;
+      //flex-wrap: wrap;
       justify-content: space-between;
       .asks-box, .bids-box {
         width: 100%;
@@ -1086,7 +1100,8 @@ body.trading-dark {
 }
 
 .more a {
-  color: #c0c0ec;
+  opacity: 0.7;
+  color: $white_font_opacity;
   padding-right: 20px;
   font-size: 14px;
 }

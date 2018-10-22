@@ -355,36 +355,10 @@
         <!--k线 盒子-->
         <div class="chartEntrust-area">
             <div class="chart-area">
-                <!--<div class="chart-title">K线图</div>-->
-                <!--<div class="item-list" v-cloak="">
-                    <ul>
-                        <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']">
-                            <%= LANG('周') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']">
-                            <%= LANG('日') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">
-                            1<%= LANG('小时') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">
-                            30<%= LANG('分') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">
-                            15<%= LANG('分') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">
-                            1<%= LANG('分') %>
-                        </li>
-                        <li role="button" @click="switchPeriod('line')"
-                            :class="[kline.period == 'line' ? 'active' : '']"><%= LANG('分时') %>
-                        </li>
-                    </ul>
-                </div>-->
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
-                            <div class="current" data-toggle="dropdown" >
+                            <div class="current" >
                                 <!--<h3><%= LANG('市场')%></h3>-->
                                 <p>{{coinName}}/ <span class="denominator">{{moneyName}}</span></p>
                             </div>
@@ -414,18 +388,18 @@
                                         <template v-if="allMarketLoading">
                                             <li>
                                                 <p>ZB/BTC</p>
-                                                <p>&#45;&#45;</p>
-                                                <p>&#45;&#45;</p>
+                                                <p>--</p>
+                                                <p>--</p>
                                             </li>
                                             <li>
                                                 <p>ZB/USDT</p>
-                                                <p>&#45;&#45;</p>
-                                                <p>&#45;&#45;</p>
+                                                <p>--</p>
+                                                <p>--</p>
                                             </li>
                                             <li>
                                                 <p>BTC/USDT</p>
-                                                <p>&#45;&#45;</p>
-                                                <p>&#45;&#45;</p>
+                                                <p>--</p>
+                                                <p>--</p>
                                             </li>
                                         </template>
                                     </ul>
@@ -445,7 +419,7 @@
                                     </ul>
                                 </div>
                             </div>-->
-                            <div class="market-box">
+                            <!--<div class="market-box">
                                 <ul class="tabBox">
                                     <li :class="hoverActive === 'xc' ? 'active' : ''" @mouseover="overTab('xc')">XC区</li>
                                     <li :class="hoverActive === 'usdt' ? 'active' : ''" @mouseover="overTab('usdt')">USDT区</li>
@@ -455,7 +429,7 @@
                                     <ul class="title">
                                         <li><p><%=LANG('交易对')%></p><p><%=LANG('最新价')%></p><p><%=LANG('涨跌幅')%></p></li>
                                     </ul>
-                                    <!--<div v-if="!loaded" class="cd-loading">
+                                    &lt;!&ndash;<div v-if="!loaded" class="cd-loading">
                                         <div class="vertical-bars">
                                             <p class="layer-1"></p>
                                             <p class="layer-2"></p>
@@ -467,7 +441,7 @@
                                             <p class="layer-8"></p>
                                             <p class="layer-9"></p>
                                         </div>
-                                    </div>-->
+                                    </div>&ndash;&gt;
                                     <ul class="list">
                                         <li v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
                                             <p>
@@ -482,7 +456,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <ul class="statistics" v-cloak="">
                             <li v-if="!selectlan"><p class="price"> {{currentPrice}}

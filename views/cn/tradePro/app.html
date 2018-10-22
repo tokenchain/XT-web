@@ -510,6 +510,7 @@
             methods: {
                 switchGrades: function (num) {//切换 挂单档位
                     this.askAndBidsGrade = num
+                    this.getDishListData(this.currentMarketId)
                 },
                 marketSwitch: function() {
                     this.mkSwitch = !this.mkSwitch
@@ -864,9 +865,15 @@
                             var datas = res.datas
                             _this.lastDepth = {};
 
-                            Vue.set(_this.lastDepth, 'asks', datas.asks)
-                            Vue.set(_this.lastDepth, 'bids', datas.bids)
+                            var askSlice = datas.asks.slice(0, this.askAndBidsGrade)
+                            var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
 
+                            //2018 -10-22 档位
+                            // Vue.set(_this.lastDepth, 'asks', datas.asks)
+                            // Vue.set(_this.lastDepth, 'bids', datas.bids)
+
+                            Vue.set(_this.lastDepth, 'asks', askSlice)
+                            Vue.set(_this.lastDepth, 'bids', bidSlice)
                             try {
                                 _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                                 _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
@@ -967,10 +974,13 @@
                          *  Email:csz.seven@gmail.com
                          *  描述:增量-多余逻辑已去除
                          */
-                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
-                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
-                        //_this.lastDepth.asks = resultAsksArray;
-                        //_this.lastDepth.bids = resultBidsArray;
+
+                        //2018-10-22 档位
+                        // resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
+                        // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
+
+                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask").slice(0, this.askAndBidsGrade);
+                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid").slice(0, this.askAndBidsGrade);
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
