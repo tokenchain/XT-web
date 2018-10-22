@@ -24,10 +24,20 @@
             width: 100%;
         }
     }
+    .yidun_tips{
+        background: #E3E6E7;
+    }
+    .yidun.yidun--light .yidun_slider {
+        background: #EBEFF0;
+    }
+    .yidun_tips__text {
+        color: #414141;
+        opacity: 0.6;
+    }
 </style>
 <section class="entrance-area">
     <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
+        <!-- <canvas id="demo-canvas"></canvas> -->
     </div>
     <div class="box">
         <!--<div class="head">
@@ -76,9 +86,9 @@
                 </button>
             </div>
             <div class="form-other">
-                <%= LANG('还没账号？') %>
-                <a href="/register">
-                    <%= LANG('立即注册') %>
+                <%= LANG('还没账号？立即') %>
+                <a href="/register" style="color: #FFBE3F">
+                    <%= LANG('注册') %>
                 </a>
             </div>
 

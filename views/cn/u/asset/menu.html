@@ -75,7 +75,7 @@
                     <p><%= LANG('安全')%></p>
                 </a>
             </li>
-            <li class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
+            <!-- <li class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
                 <i style="font-size: 24px;top: 19px;left:15px;"
                    class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'icon iconfont icon-tuijianren active' : 'icon iconfont icon-tuijianren'%>"></i>
                 <a @click="slideDown"><%= LANG('合伙人')%></a>
@@ -85,7 +85,7 @@
                     <li><a class="<%= PATH.indexOf('/u/earnings') != -1 ? 'active' : ''%>" href="/u/earnings"><%= LANG('收益详情')%></a></li>
                     <li><a class="<%= PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" href="/u/userDetails"><%= LANG('用户数详情')%></a></li>
                 </ul>
-            </li>
+            </li> -->
             <li class="<%= PATH.indexOf('/u/api') != -1 ? 'active' : ''%>">
                 <i class="<%= PATH.indexOf('/u/api') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
                 <a href="/u/api" class="apiStyle">API</a>
