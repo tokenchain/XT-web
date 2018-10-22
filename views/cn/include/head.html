@@ -42,7 +42,7 @@
                     <%= LANG('币币交易') %>
                 </a>
             </li>
-            <li><a role="button" href="/appstore" >App</a></li>
+            <li><a role="button" href="/appstore">App</a></li>
             <!--<li><a role="button" href="/appstore" >App</a></li>-->
             <!-- <li><a role="button" href="/market" id="menu_market"><%= LANG('市场') %></a></li> -->
             <!-- <li class="dropdown" onclick="showLoginList('ztmenu_list',0,event)">
@@ -105,7 +105,7 @@
                     <%= LANG('资产管理') %>
                 </a>
             </li>
-            
+
 
             <li class="dropdown" id="menu_loginedList" style="display: none;" onclick="showLoginList('dropdown_menuLogin',2,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
@@ -136,19 +136,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="signup" id="menu_signInLi">
-                <a href="/login" id="menu_signin" style="color: #FFBE3F;">
-                    <%= LANG('登录') %>
-                </a>
-            </li>
-            <li id="menu_signUpLi">
-                <a href="/register" role="button" id="menu_signup">
-                    <%= LANG('注册') %>
-                </a>
-            </li>
             <li class="dropdown" onclick="showLoginList('dropdown_menuLanguage',1,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
-                    <!-- <img src="/src/images/icon/language-icon.svg" /> -->
+                    <img src="/src/images/icon/language-icon.png" />
                     <span id="menuLanguage">简体中文</span>
                 </p>
                 <ul class="dropdown-menu" id="dropdown_menuLanguage">
@@ -160,7 +150,16 @@
                     </li>
                 </ul>
             </li>
-            
+            <li class="signup" id="menu_signInLi">
+                <a role="button" href="/login" id="menu_signin">
+                    <%= LANG('登录') %>
+                </a>
+            </li>
+            <li id="menu_signUpLi">
+                <a role="button" href="/register" role="button" id="menu_signup">
+                    <%= LANG('注册') %>
+                </a>
+            </li>
         </ul>
 
     </div>
@@ -397,44 +396,43 @@
             }).find("li:first").appendTo(this);
         });
     }
+    
     $(document).ready(function () {
-        require(['common/methods','vue'], function (Methods,Vue) {
-            new Vue(
-                {
-                    el:'#header-navigator',
-                    data:function(){
-                        return {
-                            activeNav:''
+        require(['common/methods', 'vue'], function (Methods, Vue) {
+            new Vue({
+                el: '#header-navigator',
+                data: function () {
+                    return {
+                        activeNav: ''
+                    }
+                },
+                mounted: function () {
+                    //监听滚动事件
+                    /*$(window).scroll(function(event){
+                        var winPos = $(window).scrollTop();
+                        if (winPos > 60) {
+                            $('#header_menu_he').addClass('active')
+                        } else if (winPos < 60) {
+                            $('#header_menu_he').removeClass('active')
                         }
-                    },
-                    mounted: function () {
-                        //监听滚动事件
-                        /*$(window).scroll(function(event){
-                            var winPos = $(window).scrollTop();
-                            if (winPos > 60) {
-                                $('#header_menu_he').addClass('active')
-                            } else if (winPos < 60) {
-                                $('#header_menu_he').removeClass('active')
-                            }
-                        })*/
-                    },
-                    created(){
-                        var href = window.location.href
-                        var arr = ['trade','ztminer','newmarket','appstore']
-                        var _this = this
-                        arr.forEach(function(val){
-                            if(href.indexOf(val)!=-1){
+                    })*/
+                },
+                created() {
+                    var href = window.location.href
+                    var arr = ['trade', 'ztminer', 'newmarket', 'appstore']
+                    var _this = this
+                    arr.forEach(function (val) {
+                        if (href.indexOf(val) != -1) {
                             _this.activeNav = val
                         }
-                        })
-                    },
-                    methods: {
-                        logout: function () {
-                            Methods.logout()
-                        }
+                    })
+                },
+                methods: {
+                    logout: function () {
+                        Methods.logout()
                     }
                 }
-            )
+            })
         })
     });
 </script>
