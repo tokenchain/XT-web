@@ -327,8 +327,8 @@
                     <!--<li :class="{active: hoverActive === 'hot'}" @click="overTab('hot')">
                         <span>自选</span>
                     </li>-->
-                    <li :class="{active: hoverActive === 'xc'}" @click="overTab('xc')">
-                        <span>XC</span>
+                    <li :class="{active: hoverActive === 'sxc'}" @click="overTab('sxc')">
+                        <span>SXC</span>
                     </li>
                     <li :class="{active: hoverActive === 'usdt'}" @click="overTab('usdt')">
                         <span>USDT</span>
@@ -353,8 +353,9 @@
         </div>
 
         <!--k线 盒子-->
-        <div class="chartEntrust-area">
+        <div class="chartEntrust-area" id="chartEntrust-area">
             <div class="chart-area">
+                <p @click="fullScreeActive">全屏</p>
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">

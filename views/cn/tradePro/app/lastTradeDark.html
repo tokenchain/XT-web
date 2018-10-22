@@ -1,21 +1,21 @@
 <script type="text/x-template" id="deal-record">
     <div class="plateInside-area">
-            <ul class="title">
-                <li>
-                    <p class="item time"><span><%= LANG('时间')%></span></p>
-                    <p class="item time"><span><%= LANG('买/卖')%></span></p>
-                    <p class="item price"><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
-                    <p class="item num"><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
-                </li>
-            </ul>
-            <div class="body" id="tradeRecord">
-                <ul class="tradeNew-table" :class="{'showAssistPrice' : showAssistPrice}"></ul>
-            </div>
+        <ul class="title">
+            <li>
+                <p class="item time"><span><%= LANG('时间')%></span></p>
+                <p class="item time"><span><%= LANG('买/卖')%></span></p>
+                <p class="item price"><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
+                <p class="item num"><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
+            </li>
+        </ul>
+        <div class="body" id="tradeRecord">
+            <ul class="tradeNew-table" :class="{'showAssistPrice' : showAssistPrice}"></ul>
+        </div>
     </div>
 </script>
 
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods){
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         return Vue.component('deal-record', {
             template: "#deal-record",
             props: {
@@ -31,19 +31,18 @@
                         return []
                     }
                 },
-                currentMarket : {
+                currentMarket: {
                     type: String,
                     default: ''
                 }
             },
             data: function () {
                 return {
-                    tradeDate:new Date(),
-                    showAssistPrice : false
+                    tradeDate: new Date(),
+                    showAssistPrice: false
                 }
             },
-            computed: {
-            },
+            computed: {},
             methods: {
                 dateFormatTf: function (i) {
                     return (i < 10 ? '0' : '') + i;
@@ -90,19 +89,19 @@
                     if ($this.$parent.last_trade_tid != 0) {
 
                         $trades.prepend(totalUls);//插入在最开始位置
-                        $trades.find(".newclass").css({height:'0'})
+                        $trades.find(".newclass").css({height: '0'})
                     } else {
                         $trades.append(totalUls);
                     }
                     totalUls = null;
-                    $trades.find(".newclass").stop().animate({height:'24'},500, function () {
+                    $trades.find(".newclass").stop().animate({height: '24'}, 500, function () {
                         $(this).removeClass("newclass");
 
                     });
                     //删除大于100条的数据
                     $trades.find(".tr:gt(" + (this.$parent.tradesLimit - 1) + ")").remove();
                 },
-                getRowHtml : function (item, newclass) {
+                getRowHtml: function (item, newclass) {
                     this.tradeDate.setTime(item.date * 1000);
                     var dateStr = this.dateFormatTf(this.tradeDate.getHours())
                         + ":" + this.dateFormatTf(this.tradeDate.getMinutes())
@@ -114,20 +113,22 @@
                     var trade_type = item.trade_type == 'bid' ? "<%= LANG('买')%>" : "<%= LANG('卖')%>"
                     var amountClass = item.type == 'sell' ? 'sellColor' : 'buyColor';
                     var html = "";
-                    html += "<li class='tr body "+ newclass +"'>";
-                    html += "   <p class=\"td time\">"+ dateStr +"</p>";
-                    html += "   <p class=\"td type " + amountClass +"\">"+ trade_type +"</p>";
-                    html += "   <p class=\"td price " + amountClass +"\"><span class=\"cor1\">"+ price[0] +"</span><span class=\"cor2\">."+ price[1] +"</span></p>";
-                    html += "   <p class=\"td num\"><span>"+ amount +"</span></p>";
+                    html += "<li class='tr body " + newclass + "'>";
+                    html += "   <p class=\"td time\">" + dateStr + "</p>";
+                    html += "   <p class=\"td type " + amountClass + "\">" + trade_type + "</p>";
+                    html += "   <p class=\"td price " + amountClass + "\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
+                    html += "   <p class=\"td num\"><span>" + amount + "</span></p>";
                     html += "</li>";
                     return html;
                 },
-                clickRow : function (price) {
-                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
-                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                clickRow: function (price) {
+                    if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
+                        this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                        this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    this.$parent.$refs.tradeFormSell.inputPrice = price;
-                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                        this.$parent.$refs.tradeFormSell.inputPrice = price;
+                        this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                    }
                 },
                 bindSetPrice: function () {
                     var _this = this;
@@ -137,7 +138,7 @@
                     });
                 },
                 //刷新交易记录的辅助货币价格
-                flushAssistPrice : function () {
+                flushAssistPrice: function () {
                     var _this = this;
                     $("#tradeRecord .tradeNew-table .tr").each(function (i) {
                         var price = $(this).find('.price').text();
@@ -147,10 +148,8 @@
                     });
                 }
             },
-            watch: {
-
-            },
-            mounted: function() {
+            watch: {},
+            mounted: function () {
                 /*var _this = this;
                 this.updateRecord(this.dealRecord, function () {
                     setInterval(function () {
@@ -159,13 +158,13 @@
                 });*/
                 this.bindSetPrice();
             },
-            updated : function () {
+            updated: function () {
 
             },
-            beforeUpdate: function() {
+            beforeUpdate: function () {
 
             },
-            beforeDestroy: function() {
+            beforeDestroy: function () {
 
             }
         });

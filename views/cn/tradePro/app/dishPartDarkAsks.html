@@ -98,7 +98,6 @@
                             }
                         }.bind(this));
                     }
-                    console.log(nArray)
                     return nArray;
                 },
                 asks: function () {
@@ -172,66 +171,38 @@
                     this.dishLength = len;
                     this.$parent.dishLength = len;
                 },
-                clickAsksRow: function (price, index) {
-                    console.log(index)
-                    var depth = 0,
-                        _this = this,
-                        len = Math.min(_this.dishLength, _this.asks.length);
-
-                    for (var i = index; i < len; i++) {
-                        depth += parseFloat(_this.asks[i][1]);
-
-                    }
-
-                    this.$parent.$refs.tradeFormBuy.flashInput();
-
-                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
-                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
-
-                    if (depth == 0) {
-                        this.$parent.$refs.tradeFormBuy.inputNumber = ''
-                    } else {
-                        this.$parent.$refs.tradeFormBuy.inputNumber = depth;
-                    }
-
-                    this.$parent.$refs.tradeFormSell.inputPrice = price;
-                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
-                    if (depth == 0) {
-                        this.$parent.$refs.tradeFormSell.inputNumber = ''
-                    } else {
-                        this.$parent.$refs.tradeFormSell.inputNumber = depth;
-                    }
-                },
                 clickBidsRow: function (price, index) {
-                    var depth = 0,
-                        _this = this;
-                    for (var i = 0; i <= index; i++) {
-                        depth += parseFloat(_this.bids[i][1]);
-                    }
-                    this.$parent.$refs.tradeFormSell.flashInput();
+                    if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
+                        var depth = 0,
+                            _this = this;
+                        for (var i = 0; i <= index; i++) {
+                            depth += parseFloat(_this.bids[i][1]);
+                        }
+                        this.$parent.$refs.tradeFormSell && this.$parent.$refs.tradeFormSell.flashInput();
 
-                    this.$parent.$refs.tradeFormBuy.inputPrice = price;
-                    this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                        this.$parent.$refs.tradeFormBuy.inputPrice = price;
+                        this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    if (depth == 0) {
-                        this.$parent.$refs.tradeFormBuy.inputNumber = ''
-                    } else {
-                        this.$parent.$refs.tradeFormBuy.inputNumber = depth;
-                    }
+                        if (depth == 0) {
+                            this.$parent.$refs.tradeFormBuy.inputNumber = ''
+                        } else {
+                            this.$parent.$refs.tradeFormBuy.inputNumber = depth;
+                        }
 
 
-                    this.$parent.$refs.tradeFormSell.inputPrice = price;
-                    this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
+                        this.$parent.$refs.tradeFormSell.inputPrice = price;
+                        this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                    if (depth == 0) {
-                        this.$parent.$refs.tradeFormSell.inputNumber = ''
-                    } else {
-                        this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                        if (depth == 0) {
+                            this.$parent.$refs.tradeFormSell.inputNumber = ''
+                        } else {
+                            this.$parent.$refs.tradeFormSell.inputNumber = depth;
+                        }
                     }
                 },
                 bindSetPrice: function () {
                     var _this = this;
-                    $("#asksWrap").on('click', '.body', function () {
+                    /*$("#asksWrap").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
 
 
@@ -239,7 +210,7 @@
 
                         _this.clickAsksRow(price, index);
                         // console.log(price)
-                    });
+                    });*/
                     $("#parent_direction-downs").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
@@ -264,7 +235,7 @@
 
                     var parentBids = $("#bidsWrap .tradeNew-table");
                     // var asks = data.asks.slice(0);
-                    var bids = data.bids.slice(0);
+                    var bids = data.bids.slice(0, this.$parent.askAndBidsGrade);
                     if (this.lastDepth == '') {
                         this.lastDepth = {};
                         // this.depthInit(asks, parentAsks);
@@ -272,7 +243,6 @@
                     } else {
                         // var oldasks = this.lastDepth.asks.slice(0);
                         var oldbids = this.lastDepth.bids.slice(0);
-
                         /*parentAsks.find(".body.remove").remove();
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
@@ -320,6 +290,7 @@
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
+                    var _this = this
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
                         var isExist = false;
@@ -383,6 +354,7 @@
                         return function () {
                             $remove.slideUp(500, function () {
                                 $(this).remove();
+                                // _this.$parent.getDishListData(_this.$parent.currentMarketId)
                             });
                             $add.removeClass("add");
                         };

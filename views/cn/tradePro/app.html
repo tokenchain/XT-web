@@ -111,12 +111,13 @@
                     cnyprice: [],//转换价格
                     usdprice: [],//转换价格
                     selectlan: false,
-                    hoverActive: 'xc',  //xc  usdt  btc   悬浮激活样式
+                    hoverActive: 'sxc',  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
                     mkSwitch: false,
-                    askAndBidsGrade: 5  //挂单记录档位
+                    askAndBidsGrade: 5,  //挂单记录档位
+                    fullScreen: false //全屏
                 }
             },
             computed: {
@@ -508,11 +509,55 @@
                 }
             },
             methods: {
+                fullScreeActive: function () {
+                    var a = document.getElementById('chartEntrust-area')
+                    if (this.fullScreen) {
+                        this.exitFullScreen(a)
+                    } else {
+                        this.requestFullScreen(a)
+                    }
+                    this.fullScreen = !this.fullScreen
+                },
+                //全屏
+                requestFullScreen: function (el) {
+                    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen, wscript;
+
+                    if (typeof rfs != "undefined" && rfs) {  ////////
+                        rfs.call(el);
+                        return;
+                    }
+
+                    if (typeof window.ActiveXObject != "undefined") {
+                        wscript = new ActiveXObject("WScript.Shell");
+                        if (wscript) {
+                            wscript.SendKeys("{F11}");
+                        }
+                    }
+                },
+                //退出全屏
+                exitFullScreen: function (el) {
+                    var el = document,
+                        cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen,
+                        wscript;
+
+                    if (typeof cfs != "undefined" && cfs) {
+                        cfs.call(el);
+                        return;
+                    }
+
+                    if (typeof window.ActiveXObject != "undefined") {
+                        wscript = new ActiveXObject("WScript.Shell");
+                        if (wscript != null) {
+                            wscript.SendKeys("{F11}");
+                        }
+                    }
+                },
                 switchGrades: function (num) {//切换 挂单档位
                     this.askAndBidsGrade = num
+                    this.lastDepth
                     this.getDishListData(this.currentMarketId)
                 },
-                marketSwitch: function() {
+                marketSwitch: function () {
                     this.mkSwitch = !this.mkSwitch
                 },
                 marketsForCoin: function (type) {
@@ -964,6 +1009,7 @@
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks)
                         Vue.set(_this.lastDepth, 'bids', data.bids)
+
                         _this.dishFull = true
                     } else {
                         //处理增量推送
@@ -981,6 +1027,7 @@
 
                         resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask").slice(0, this.askAndBidsGrade);
                         resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid").slice(0, this.askAndBidsGrade);
+
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
@@ -1618,6 +1665,7 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
+                var a = document.getElementById('app-trade-pro')
             },
             filters: {
                 capitalizecny: function (value) {
