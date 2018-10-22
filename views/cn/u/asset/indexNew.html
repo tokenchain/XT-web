@@ -365,7 +365,7 @@
                 <div class="body">
                     <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)" v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
                         <li class="coin-name">
-                            <img v-if="item.name =='dcr'||item.name =='sc'||item.name =='xc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
+                            <img v-if="item.name =='dcr'||item.name =='sc'||item.name =='sxc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
                                 :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
                                 class="icon-coin" />
                             <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
@@ -395,7 +395,7 @@
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('充值')
                                     %></a>
-                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'xc'" :href="'/u/payout/' + item.name">
+                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'sxc'" :href="'/u/payout/' + item.name">
                                     <%=
                                     LANG('提币') %></a>
                                 <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
@@ -405,7 +405,7 @@
                                     <%= LANG('提币')
                                     %></a>
                                 
-                                <a @click='changeModel(item)' v-if="item.name == 'xc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换XC' : '兑换QC'}}</a>
+                                <a @click='changeModel(item)' v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换SXC' : '兑换QC'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
                                 <%= LANG('账单') %></a>

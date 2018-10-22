@@ -118,9 +118,9 @@
                 this.$nextTick(function () {
                     this.getPubKey();
                     this.exchangOrigin = this.params.name
-                    this.title = this.params.name == 'xc' ? '<%= LANG("XC兑换QC") %>' :
-                        '<%= LANG("QC兑换XC") %>'
-                    this.exchangTarget = this.params.name == 'xc' ? 'qc' : 'xc'
+                    this.title = this.params.name == 'sxc' ? '<%= LANG("SXC兑换QC") %>' :
+                        '<%= LANG("QC兑换SXC") %>'
+                    this.exchangTarget = this.params.name == 'sxc' ? 'qc' : 'sxc'
                     this.amount = parseFloat(this.params.amount)
                 })
             },
