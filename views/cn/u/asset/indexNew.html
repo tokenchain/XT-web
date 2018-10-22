@@ -395,7 +395,7 @@
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('充值')
                                     %></a>
-                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'xc'" :href="'/u/payout/' + item.name">
+                                <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'sxc'" :href="'/u/payout/' + item.name">
                                     <%=
                                     LANG('提币') %></a>
                                 <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
