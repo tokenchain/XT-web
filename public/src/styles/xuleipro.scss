@@ -564,17 +564,17 @@ $link-color: #8b8bec;
   }
   ::-moz-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
     opacity: 1;
   }
   :-ms-input-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
   }
 
   ::-webkit-input-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
   }
   ::-ms-expand {
     font-size: 14px;
@@ -991,18 +991,18 @@ button {
         &::-moz-placeholder {
           font-size: 14px;
           font-weight: 500;
-          color: #8c8cb9;
+          color: #999;
           opacity: 1;
         }
         &:-ms-input-placeholder {
           font-size: 14px;
-          color: #8c8cb9;
+          color: #999;
           font-weight: 500;
         }
 
         &::-webkit-input-placeholder {
           font-size: 14px;
-          color: #8c8cb9;
+          color: #999;
           font-weight: 500;
         }
         &::-ms-expand {
@@ -2747,9 +2747,9 @@ input::-webkit-inner-spin-button {
       display: inline-block;
       margin-right: 10px
     }
-    .list-complete-enter, .notices-container .list-complete-leave-to {
+    list-complete-enter, .notices-container .list-complete-leave-to {
       opacity: 0;
-      transform: translateY(-47px)
+      transform: translateY(-60px)
     }
     .list-complete-leave-active {
       position: absolute;
@@ -2762,7 +2762,7 @@ input::-webkit-inner-spin-button {
         font-size: 14px;
         text-align: center;
         line-height: 47px;
-        height: 60px;
+        height: 47px;
         width: 773px;
         transition: all 0.5s ease;
         a {
@@ -2786,6 +2786,8 @@ input::-webkit-inner-spin-button {
         line-height: 35px;
         ul li {
           width: 100%;
+          height: 35px;
+          line-height: 35px;
         }
       }
     }
