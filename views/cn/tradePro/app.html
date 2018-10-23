@@ -111,12 +111,12 @@
                     cnyprice: [],//转换价格
                     usdprice: [],//转换价格
                     selectlan: false,
-                    hoverActive: 'sxc',  //sxc  usdt  btc   悬浮激活样式
+                    hoverActive: Methods.getCookie('hoverActive'),  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
                     mkSwitch: false,
-                    askAndBidsGrade: 50,  //挂单记录档位
+                    askAndBidsGrade: 5,  //挂单记录档位
                     fullScreen: false //全屏
                 }
             },
@@ -573,6 +573,7 @@
                 },
                 overTab: function (type) {
                     this.hoverActive = type
+                    Methods.setCookie('hoverActive', type)
                 },
                 // 获取服务器时间
                 getServerTime: function (callback) {

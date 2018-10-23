@@ -1,6 +1,7 @@
 <style>
     .header {
-        position: relative!important;
+        position: fixed;
+        top: 0;
     }
 </style>
 <link rel="stylesheet" href="/src/styles/tradePro.css?<%= VERSION %>">
@@ -312,46 +313,47 @@
         })
     })
 </script>
-<section class="tradeNew" id="app-trade-pro">
-    <div class="tradeNew-container">
-        <!--左侧市场盒子-->
-        <div class="market-trade" :class="mkSwitch ? 'close': ''">
-            <div class="market-title">
-                <span>市场</span>
-                <div class="img-box" @click="marketSwitch" >
-                    <img src="/src/images/trade_market.png" alt="">
-                </div>
-            </div>
-            <div class="market-zone">
-                <ul>
-                    <!--<li :class="{active: hoverActive === 'hot'}" @click="overTab('hot')">
-                        <span>自选</span>
-                    </li>-->
-                    <li :class="{active: hoverActive === 'sxc'}" @click="overTab('sxc')">
-                        <span>SXC</span>
-                    </li>
-                    <li :class="{active: hoverActive === 'usdt'}" @click="overTab('usdt')">
-                        <span>USDT</span>
-                    </li>
-                    <li :class="{active: hoverActive === 'btc'}" @click="overTab('btc')">
-                        <span>BTC</span>
-                    </li>
-                </ul>
-                <div class="mark-list">
-                    <ul class="title">
-                        <li><p>币种</p><p>最新价</p><p>涨跌幅</p></li>
-                    </ul>
-                    <ul class="list">
-                        <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
-                            <p><b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b></p>
-                            <p>{{showPrice(data.lastPrice,data.market)}}</p>
-                            <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' + showRate(data.rate) : '' + showRate(data.rate) }}%</p>
-                        </li>
-                    </ul>
-                </div>
+<section class="tradeNew" id="app-trade-pro" :class="mkSwitch ? 'close': ''">
+    <!--左侧市场盒子-->
+    <div class="market-trade" :class="mkSwitch ? 'close': ''">
+        <div class="market-title">
+            <span>市场</span>
+            <div class="img-box" @click="marketSwitch" >
+                <img src="/src/images/trade_market.png" alt="">
             </div>
         </div>
+        <div class="market-zone">
+            <ul>
+                <!--<li :class="{active: hoverActive === 'hot'}" @click="overTab('hot')">
+                    <span>自选</span>
+                </li>-->
+                <li :class="{active: hoverActive === 'sxc'}" @click="overTab('sxc')">
+                    <span>SXC</span>
+                </li>
+                <li :class="{active: hoverActive === 'usdt'}" @click="overTab('usdt')">
+                    <span>USDT</span>
+                </li>
+                <li :class="{active: hoverActive === 'btc'}" @click="overTab('btc')">
+                    <span>BTC</span>
+                </li>
+            </ul>
+            <div class="mark-list">
+                <ul class="title">
+                    <li><p>币种</p><p>最新价</p><p>涨跌幅</p></li>
+                </ul>
+                <ul class="list">
+                    <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
+                        <p v-if="!mkSwitch"><b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b></p>
+                        <p v-if="mkSwitch"><b>{{showCoinNew(data.market)}}</b></p>
+                        <p>{{showPrice(data.lastPrice,data.market)}}</p>
+                        <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' + showRate(data.rate) : '' + showRate(data.rate) }}%</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
+    <div class="tradeNew-container">
         <!--k线 盒子-->
         <div class="chartEntrust-area" id="chartEntrust-area">
             <div class="chart-area">
@@ -536,7 +538,7 @@
                         <!--</div>-->
                         <!--</div>-->
                     </div>
-                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'" @click="fullScreeActive" alt="">
+                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'" @click="fullScreeActive" :title="fullScreen ? '退出全屏' : '全屏'" alt="">
                 </div>
 
                 <div style="position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px;" v-show="chartType === 'kline'">

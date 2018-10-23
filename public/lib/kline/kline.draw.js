@@ -4902,7 +4902,7 @@ LightTheme.prototype.__construct = function() {
         //非常难找的背景颜色
         this._colors[Theme.Color.Background] = "#130E00";
         this._colors[Theme.Color.Cursor] = "rgba(255,255,255,.3)"; //鼠标十字线颜色
-        this._colors[Theme.Color.RangeMark] = "#4039D4";  //坐标轴最新价颜色
+        this._colors[Theme.Color.RangeMark] = "#322B27";  //坐标轴最新价颜色
         this._colors[Theme.Color.LineFillColorTop] 		= "rgba(255,255,255,.04)";
         this._colors[Theme.Color.LineFillColorBottom] 	= "rgba(255,255,255,0)";
         this._colors[Theme.Color.Indicator0] = "#7d7dc6";  //主线颜色
