@@ -2375,13 +2375,16 @@
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        var reg = /^-?\d+$/; //添加一个判断，当小数点后面前4位都为0的时候，截取到第五位  以此类推
-                        if (reg.test(Methods.fixDecimal(val, 4))) {
-                            return Methods.fixDecimal(val, 5);
-                        } else {
-                            return Methods.fixDecimal(val, 4);
-                        }
+                        // var reg = /^-?\d+$/; //添加一个判断，当小数点后面前4位都为0的时候，截取到第五位  以此类推
+                        // if (reg.test(Methods.fixDecimal(val, 4))) {
+                        //     console.log(val,"ok")
+                        //     return Methods.fixDecimal(val, 5);
+                        // } else {
+                        //     return Methods.fixDecimal(val, 4);
+                        // }
+                        return val;
                     }
+                    
                 },
                 getMarketAreaListByWebId: function () {
                     Methods.ajax({
