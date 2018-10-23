@@ -125,6 +125,12 @@
 
             },
             methods: {
+                sortUpdate: function () { //序号处理
+                    $('#bidsWrap .tradeNew-table li').each(function (index, item) {
+                        var num = index + 1
+                        $(item).find("p:first-child").html('买' + num)
+                    })
+                },
                 myBrowser() {
                     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
                     var isOpera = userAgent.indexOf('Opera') > -1;
@@ -222,7 +228,7 @@
                         _this.clickBidsRow(price, index);
                     });
                 },
-                //盘口处理方法
+                //盘口处理方法  连续刷新10次
                 updateDepth: function (data, callback) {
                     if (!data) {
                         return false;
@@ -248,6 +254,7 @@
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
+                        this.sortUpdate()
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
                     }
@@ -279,6 +286,7 @@
                             view += this.getRowHtml(data[i], data, null, i);
                         }
                         $obj.append(view);
+                        this.sortUpdate()
 
                         view = null;
                         //绑定盘口点击事件
@@ -345,6 +353,7 @@
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
+                        this.sortUpdate()
                     }
                     //执行动画效果
                     tbDiv.find(".body.add").css({height: '0'});
@@ -354,6 +363,7 @@
                         return function () {
                             $remove.slideUp(500, function () {
                                 $(this).remove();
+                                _this.sortUpdate()
                                 // _this.$parent.getDishListData(_this.$parent.currentMarketId)
                             });
                             $add.removeClass("add");
@@ -414,9 +424,9 @@
                     var html = '';
                     html += "<li class=\"tr body " + style + "\" style=\"display: flex;\">";
                     if (this.marketConfig.amountDecimal == 0) {
-                        html += "   <p class=\"type\">买" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
+                        html += "   <p class=\"type\">买" + index + 1 + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
                     } else {
-                        html += "   <p class=\"type\">买" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
+                        html += "   <p class=\"type\">买" + index + 1 + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
                     }
                     // html += "   <p class=\"td foldPrice\">" + assist + "</p>";
                     html += "   <p class=\"td num\"><span>" + amount + "</span></p>";

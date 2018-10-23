@@ -355,7 +355,6 @@
         <!--k线 盒子-->
         <div class="chartEntrust-area" id="chartEntrust-area">
             <div class="chart-area">
-                <p @click="fullScreeActive">全屏</p>
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
@@ -537,6 +536,7 @@
                         <!--</div>-->
                         <!--</div>-->
                     </div>
+                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'" @click="fullScreeActive" alt="">
                 </div>
 
                 <div style="position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px;" v-show="chartType === 'kline'">
@@ -644,6 +644,7 @@
                     <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                                     :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
                 </div>
+                <!--交易表单-->
                 <div class="fill-area">
                     <!--<div class="head">-->
                     <!--<div class="cd-select">-->
@@ -674,13 +675,11 @@
                                     :assist-price="assistPrice" ref="tradeFormSell"></trade-form>
                     </div>
                 </div>
-                <!--交易表单-->
+                <!--盘口数据-->
                 <div class="bids-box">
                     <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                                     :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
                 </div>
-
-
             </div>
         </div>
 
@@ -914,7 +913,7 @@
 </section>
 <%-include("../tradePro/app/siderBar.html")%>
 
-<%-include("app/dishPartDark.html")%>
+<!--<%-include("app/dishPartDark.html")%>-->
 <!--改版盘口 2018-10-18 by czh-->
 <%-include("app/dishPartDarkAsks.html")%>
 <%-include("app/dishPartDarkBids.html")%>

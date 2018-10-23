@@ -122,6 +122,13 @@
                 }
             },
             methods: {
+                sortUpdate: function () { //序号处理
+                    var dom = this.BrowserType != 'FF' ? $('#asksWrap .tradeNew-table li') : $('#parent_direction-downs .tradeNew-table1 li')
+                    dom.each(function (index, item) {
+                        var num = index + 1
+                        $(item).find("p:first-child").html('买' + num)
+                    })
+                },
                 myBrowser() {
                     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
                     var isOpera = userAgent.indexOf('Opera') > -1;
@@ -245,6 +252,7 @@
                         // var oldbids = this.lastDepth.bids.slice(0);
 
                         parentAsks.find(".body.remove").remove();
+                        this.sortUpdate()
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
 
@@ -280,7 +288,7 @@
                             view += this.getRowHtml(data[i], data, null, i);
                         }
                         $obj.append(view);
-
+                        this.sortUpdate()
                         view = null;
                         //绑定盘口点击事件
                         this.bindSetPrice();
@@ -291,7 +299,7 @@
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
-
+                    var _this = this
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
                         var isExist = false;
@@ -346,6 +354,7 @@
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
+                        _this.sortUpdate()
                     }
                     //执行动画效果
                     tbDiv.find(".body.add").css({height:'0'});
@@ -355,6 +364,7 @@
                         return function () {
                             $remove.slideUp(500, function () {
                                 $(this).remove();
+                                _this.sortUpdate()
                             });
                             $add.removeClass("add");
                         };

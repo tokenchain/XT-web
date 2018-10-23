@@ -307,6 +307,13 @@ body.trading-dark {
       }
     }
   }
+  > img {
+    position: absolute;
+    right: 18px;
+    top: 13px;
+    width: 25px;
+    cursor: pointer;
+  }
 }
 
 .trade-navbar .market-menu .statistics {
