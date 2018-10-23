@@ -564,17 +564,17 @@ $link-color: #8b8bec;
   }
   ::-moz-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
     opacity: 1;
   }
   :-ms-input-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
   }
 
   ::-webkit-input-placeholder {
     font-size: 14px;
-    color: #918ebd;
+    color: #999;
   }
   ::-ms-expand {
     font-size: 14px;
@@ -991,18 +991,18 @@ button {
         &::-moz-placeholder {
           font-size: 14px;
           font-weight: 500;
-          color: #8c8cb9;
+          color: #999;
           opacity: 1;
         }
         &:-ms-input-placeholder {
           font-size: 14px;
-          color: #8c8cb9;
+          color: #999;
           font-weight: 500;
         }
 
         &::-webkit-input-placeholder {
           font-size: 14px;
-          color: #8c8cb9;
+          color: #999;
           font-weight: 500;
         }
         &::-ms-expand {
