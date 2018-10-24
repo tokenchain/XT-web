@@ -969,8 +969,7 @@ body.trading-dark {
   -ms-flex-align: center;
   align-items: center;
   ul li {
-    color: $theme_color;
-    font-size: 20px;
+    @include title-style;
   }
 }
 
