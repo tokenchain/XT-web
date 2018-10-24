@@ -24,23 +24,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>APP XT.COM</title>
     <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="<%= STATIC %>/images/zbg/icon/favicon.ico" type="image/x-icon">
+    <!-- <link rel="icon" href="<%= STATIC %>/images/zbg/icon/favicon.ico" type="image/x-icon"> -->
     <!-- Custom styles -->
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
     <style>
-        .app-bg {
-            position: absolute;
-            top: 0px;
-            width: 100%;
-        }
-
-        .app-bg img {
-            width: 100%;
+        html {
+            background: #F0F0F2 !important;
         }
 
         body {
-            background: #fff;
+            background: #F0F0F2;
             height: 100%;
         }
 
@@ -50,6 +44,16 @@
             top: 0;
             width: 100%;
             background: transparent;
+        }
+
+        .app-bg {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+        }
+
+        .app-bg img {
+            width: 100%;
         }
 
         .download-button {
@@ -98,11 +102,12 @@
             color: #fff;
         }
 
-        /* .app-download {
+        .app-download {
             height: 100vh;
-        } */
+        }
         .app-download .container {
-            height: 680px;
+            width: unset;
+            height: 54%;
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -121,8 +126,6 @@
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
             z-index: 99;
         }
 
@@ -130,8 +133,6 @@
             -webkit-box-flex: 1;
             -ms-flex: 1;
             flex: 1;
-            width: 100%;
-            height: 100%;
         }
 
         .download-txt h1 {
@@ -139,8 +140,7 @@
             line-height: 1.5;
             color: #ffbe3f;
             font-weight: 500;
-            margin-bottom: 48px;
-            margin-top: 180px;
+            margin-bottom: 30px;
         }
 
         .download-txt .slogan {
@@ -196,8 +196,10 @@
 
         .app_course {
             width: 1200px;
-            margin: 0 auto 138px;
-            background-color: #fff;
+            margin: 0 auto;
+            background-color: #F0F0F2;
+            padding: 50px 30px;
+            margin-bottom: 100px;
         }
 
         .app_course h4 {
@@ -339,9 +341,9 @@
                         </a>
 
                     </div>
-                    <div class="appcode">
-                        <!-- <img src="/src/images/app/appcode.png"> -->
-                    </div>
+                    <!-- <div class="appcode">
+                        <img src="/src/images/app/appcode.png">
+                    </div> -->
                 </div>
                 <!-- End of .banner-txt -->
                 <!-- <div class="download-img">
