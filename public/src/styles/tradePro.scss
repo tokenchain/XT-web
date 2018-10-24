@@ -487,6 +487,12 @@ body.trading-dark {
   display: block;
 }
 
+@mixin title-style {
+  color: $theme_color;
+  font-size: 16px;
+  font-family: MicrosoftYaHei-Bold;
+}
+
 //交易大盒子  2018-10-16  czh
 .tradeNew {
   display: flex;
@@ -571,7 +577,7 @@ body.trading-dark {
       flex-wrap: wrap-reverse;
       span {
         color: rgba(184, 139, 0, 1);
-        font-size: 18px;
+        font-size: 16px;
       }
       .img-box {
         background: $scollor_color;
@@ -723,13 +729,15 @@ body.trading-dark {
     flex-wrap: wrap;
     .chartEntrust-area {
       min-height: 400px;
+      padding: 0 40px 40px 40px;
+      background: $trade_background_theme;
       .chart-title {
         color: $sellColor;
         padding: 20px;
         font-size: 18px;
       }
       .chart-area {
-        height: 400px;
+        height: 290px;
       }
       /*.item-list {
         ul {
@@ -741,7 +749,7 @@ body.trading-dark {
       }*/
     }
     .plateFill-area {
-      min-height: 385px;
+      //min-height: 385px;
       //background: $trade_background_theme;
       -webkit-box-flex: 0;
       -ms-flex: none;
@@ -763,7 +771,7 @@ body.trading-dark {
         justify-content: space-between;
         .asks-box, .bids-box {
           width: 100%;
-          min-height: 385px;
+          height: 100%;
           background: $trade_background_theme;
           .title li P {
             justify-content: flex-start;
@@ -809,7 +817,7 @@ body.trading-dark {
               }
             }
             .box {
-              padding: 15px 15px 0px 15px;
+              padding: 15px;
               .btn {
                 border-radius: 4px;
               }
@@ -871,8 +879,7 @@ body.trading-dark {
       margin-top: 8px;
       background: $trade_background_theme;
       .head {
-        color: $theme_color;
-        font-size: 20px;
+        @include title-style;
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
@@ -1177,8 +1184,7 @@ body.trading-dark {
 }
 
 .plateInside-area .asks-title {
-  color: $theme_color;
-  font-size: 18px;
+  @include title-style;
   padding: 20px;
   line-height: 22px;
 }

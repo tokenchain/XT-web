@@ -910,10 +910,8 @@
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
-
                             var askSlice = datas.asks.slice(0, this.askAndBidsGrade)
                             var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
-
                             //2018 -10-22 档位
                             // Vue.set(_this.lastDepth, 'asks', datas.asks)
                             // Vue.set(_this.lastDepth, 'bids', datas.bids)
@@ -1000,9 +998,9 @@
                      */
                     result.datas.asks = res.asks;
                     result.datas.bids = res.bids;
-
+                    console.log(res, 'resresres')
                     //倒序
-                    // res.datas.asks.reverse();
+                    // result.datas.asks.reverse();
                     //合并盘口数据
                     var data = result.datas;
 
@@ -1222,7 +1220,8 @@
                     if (isNaN(val)) {
                         return '--'
                     } else {
-                        return Methods.fixDecimal(val, this.currentMarketConfig.priceDecimal)
+                        return val
+                        //return Methods.fixDecimal(val, this.currentMarketConfig.priceDecimal)
                     }
                 },
                 showAmount: function (val) {

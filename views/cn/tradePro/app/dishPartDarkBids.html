@@ -1,6 +1,6 @@
 <script type="text/x-template" id="dish-part-bids">
     <div class="plateInside-area">
-        <div class="asks-title">卖盘 最新价 {{currentPrice}} {{$parent.moneyName}}≈</div>
+        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈</div>
         <ul class="title">
             <li>
                 <p class="sell-title"><span>卖盘</span></p>
@@ -440,6 +440,7 @@
             mounted: function () {
                 this.bindSetPrice();
                 this.quickInitTen();
+                console.log(this.lastDepth, 'console.log(askSlice, \'askSlice\')console.log(askSlice, \'askSlice\')')
             },
             updated: function () {
 
