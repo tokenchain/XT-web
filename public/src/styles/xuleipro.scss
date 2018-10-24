@@ -3293,63 +3293,55 @@ input::-webkit-inner-spin-button {
   }
   .slideInLeft {
     background: url('../images/bg-yinqing.png') no-repeat center center;
-    background-size: 300px 600px;
-    height: 600px;
-    margin: 60px 0;
+    width: 273px !important;
+    height: 484px !important;
+    margin-top: 43px;
     @media screen and (max-width: 768px) {
-      margin-top: 0;
+      margin: 0 35px;
     }
   }
   .slideInDown {
     background: url('../images/bg-fanghu.png') no-repeat center center;
-    background-size: 340px 720px;
-    height: 720px;
+    width: 319px !important;
+    height: 569px !important;
+    margin: 0 100px;
     h3 {
-      margin-top: 460px;
+      margin-top: 374px;
+    }
+    p {
+      padding: 0 50px;
+    }
+    @media screen and (max-width: 768px) {
+      margin: 20px 10px;
     }
   }
   .slideInRight {
     background: url('../images/bg-jiaoyi.png') no-repeat center center;
-    // width: 374px;
-    // height: 666px;
-    // margin-left: 70px;
-    background-size: 300px 600px;
-    height: 600px;
-    margin: 60px 0;
+    margin-top: 43px;
+    width: 273px !important;
+    height: 484px !important;
+    @media screen and (max-width: 768px) {
+      margin: 0 35px 20px 35px;
+    }
   }
   ul {
-    /*display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;*/
-    margin-top: 40px;
+    margin: 0 22px;
     @media screen and (max-width: 768px) {
       margin-top: 0;
     }
     li {
       text-align: center;
-      //width: calc((100% - 100px) / 3);
-      // padding: 24px 56px;
       transition: all 0.3s;
-      //border: 1px solid rgba(23,24,55,0.2);
+      padding: 0;
+      flex: none;
       h3 {
         font-size: 20px;
-        //font-weight: 500;
-        margin-top: 400px;
+        margin-top: 331px;
         position: relative;
         color: #FFBE3F;
         text-align: center;
-        /*&:after {
-          content: "";
-          position: absolute;
-          height: 3px;
-          left: 0;
-          bottom: 0;
-          width: 50px;
-          background-color: $blue-color;
-        }*/
+        line-height: normal;
+        margin-bottom: 20px;
       }
       &:nth-child(2) h2:after {
         background-color: $green-color;
@@ -3359,16 +3351,13 @@ input::-webkit-inner-spin-button {
       }
       p {
         line-height: 1.8;
-        margin-top: 25px;
         font-size: 14px;
         color: #B0B0B0;
-        width: 300px;
-        margin: auto;
-        padding: 0 30px;
-        
+        margin: 0;
+        padding: 0 28px;
       }
       &:hover {
-        // box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
+        box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       }
     }
   }
