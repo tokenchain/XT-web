@@ -1764,8 +1764,7 @@
                             for (var b = 0; b < this.marketConfig.length; b++) {
                                 if (this.markets[a][0] == this.marketConfig[b].marketId) {
                                     // if ((this.markets[a][0] + 2) == this.marketConfig[b].marketId){
-                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[
-                                        b].name; //格式: '1': btc/qtum
+                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name; //格式: '1': btc/qtum
                                 }
                             }
                         }
@@ -2004,6 +2003,7 @@
                     this.keyWord = '';
                     this.marketsTab = type;
                     this.navActive = type
+                    console.log(this.marketsTab)
                 },
                 // 获取市场配置
                 getMarketConfig: function (callback) {
