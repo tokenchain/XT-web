@@ -30,11 +30,11 @@
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
     <style>
         html {
-            background: #F0F0F2 !important;
+            background: #fff !important;
         }
 
         body {
-            background: #F0F0F2;
+            background: #fff url(/src/images/app/appstore-BG.png) no-repeat top center;
             height: 100%;
         }
 
@@ -44,16 +44,6 @@
             top: 0;
             width: 100%;
             background: transparent;
-        }
-
-        .app-bg {
-            position: absolute;
-            top: 0px;
-            width: 100%;
-        }
-
-        .app-bg img {
-            width: 100%;
         }
 
         .download-button {
@@ -67,7 +57,7 @@
             border-radius: 5px;
             color: #FFCC69;
             position: relative;
-            padding: 25px 55px;
+            padding: 16px 55px;
             font-size: 12px;
             text-align: left;
         }
@@ -87,10 +77,9 @@
             transform: translateY(-50%);
         }
 
-        .download-button a p span {
+        .download-button a span {
             display: block;
             font-size: 20px;
-            font-weight: 500;
         }
 
         .download-button a:hover,
@@ -100,14 +89,15 @@
             /* -webkit-box-shadow: 0 15px 50px #FFCC69;
             box-shadow: 0 15px 50px #FFCC69; */
             color: #fff;
+            text-decoration: none;
         }
 
-        .app-download {
-            height: 100vh;
+        .loadBox {
+            height: 62vh;
         }
         .app-download .container {
             width: unset;
-            height: 54%;
+            height: 100%;
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -197,9 +187,7 @@
         .app_course {
             width: 1200px;
             margin: 0 auto;
-            background-color: #F0F0F2;
             padding: 50px 30px;
-            margin-bottom: 100px;
         }
 
         .app_course h4 {
@@ -238,7 +226,7 @@
                 margin: 20px 0 0 0;
             }
 
-            .download-button a p span {
+            .download-button a span {
                 font-size: 14px;
                 margin-top: 5px;
             }
@@ -310,60 +298,55 @@
     <!-- banner starts
 ============================================ -->
     <section class="app-download" id="App">
-        <div class="app-bg">
-            <img src="/src/images/app/appstore-BG.png">
-        </div>
-        <div class="container">
-            <div class="download-wrapper">
-                <div class="download-txt">
-                    <h1>
-                        <%= LANG('全面业务支持的移动APP，随时随地') %>
-                    </h1>
-                    <!-- <p class="slogan"><%= LANG('XT的APP经过了超过5年时间的更新迭代Z') %></p> -->
-                    <div class="download-button">
-                        <a class="active" :href="ios">
-                            <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
-                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M781.152 517.547c1.35 140.502 129.231 187.259 130.72 187.907-1.162 3.216-20.492 66.642-67.481 132.167-40.604 56.626-82.659 112.933-149.023 114.093-65.292 1.165-86.199-36.882-160.801-36.882-74.562 0-97.891 35.723-159.597 38.048-63.984 2.329-112.789-61.102-153.729-117.497-83.732-115.399-147.627-326.037-61.751-468.213 42.612-70.649 118.847-115.307 201.509-116.514 62.918-1.073 122.337 40.467 160.71 40.467 38.513 0 110.649-49.921 186.511-42.612 31.716 1.26 120.898 12.201 178.13 92.025-4.563 2.839-106.41 59.285-105.201 177.010v0zM514.026 237.942c-7.358-53.414 20.211-108.929 51.695-143.808 35.161-39.259 94.487-68.457 143.481-70.32 6.287 54.393-16.716 109.020-50.667 148.37-34.043 39.216-89.836 69.81-144.507 65.758v0zM514.026 237.942z"></path>
-                            </svg>
-                            <p>
-                                <span>Available</span>
-                            </p>
-                        </a>
-                        <a :href="android">
-                            <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
-                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M963.615 347.084q23.342 0 39.58 14.716t16.238 36.028v299.385q0 20.297-16.238 35.013t-39.58 14.716h-18.267q-23.342 0-39.58-14.716t-16.238-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m-823.056 0q23.342 0 38.565 14.716t15.223 36.028v299.385q0 20.297-15.223 35.013t-38.565 14.716h-18.268q-23.342 0-39.58-14.716t-16.237-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m560.206-235.449q18.268 8.12 38.058 22.327t38.057 33.49 31.968 42.118 19.79 48.206H252.194q16.238-53.788 51.251-88.293t70.533-54.803L322.22 33.49q-2.03-2.03-0.507-7.61t10.656-11.672q8.119-7.104 15.223-6.597t9.133 2.538L409.5 93.368q28.416-13.194 59.877-20.298t64.951-7.104q69.011 0 128.888 28.417l53.788-84.234q2.03-2.03 7.611-2.03t16.746 6.09q10.148 5.073 11.67 9.133t-0.507 6.09z m-283.148 87.279q13.194 0 22.327-9.134t9.134-22.327-9.134-22.327-22.327-9.134-22.327 9.134-9.133 22.327 9.133 22.327 22.327 9.134z m249.658-4.06q13.193 0 22.327-9.133t9.133-22.328-9.133-22.327-22.327-9.133-22.328 9.133-9.133 22.327 9.133 22.328 22.328 9.133z m161.363 126.859l1.015 456.69q0 22.326-14.715 37.55t-36.028 15.222h-14.208v142.082q0 20.297-14.716 35.52T713.958 1024h-29.43q-20.298 0-35.014-15.223t-14.715-35.52V831.175H448.063v142.082q0 20.297-14.715 35.52T397.32 1024H367.89q-20.297 0-35.013-15.223t-14.715-35.52V831.175h-11.164q-21.312 0-36.028-15.223t-14.715-37.55v-456.69h572.384z"></path>
-                            </svg>
-                            <p>
-                                <span>Available</span>
-                            </p>
-                        </a>
-
-                    </div>
-                    <!-- <div class="appcode">
-                        <img src="/src/images/app/appcode.png">
-                    </div> -->
-                </div>
-                <!-- End of .banner-txt -->
-                <!-- <div class="download-img">
-                        <div class="iphonex">
-                            <div class="iphonex-top">
-                                <svg width="173px" height="28px" viewBox="0 0 173 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g id="iPhone8" transform="translate(-51.000000, -3.000000)" fill="currentColor">
-                                            <path d="M51,3 L202,3 L223.22998,3 L223.22998,6.9453125 L209,6.9453125 C205.134007,6.9453125 202,10.0793193 202,13.9453125 L202,19 C202,25.627417 196.627417,31 190,31 L86,31 C79.372583,31 74,25.627417 74,19 L74,13.8599444 C74,10.0274511 70.9180934,6.90749529 67.0858886,6.86047137 L51,6.66308594 L51,3 Z M116.5,13 C115.671573,13 115,13.6715729 115,14.5 C115,15.3284271 115.671573,16 116.5,16 L148.5,16 C149.328427,16 150,15.3284271 150,14.5 C150,13.6715729 149.328427,13 148.5,13 L116.5,13 Z M156.5,12 C155.119288,12 154,13.1192881 154,14.5 C154,15.8807119 155.119288,17 156.5,17 C157.880712,17 159,15.8807119 159,14.5 C159,13.1192881 157.880712,12 156.5,12 Z" id="Combined-Shape"></path>
-                                        </g>
-                                    </g>
+        <div class="loadBox">
+            <div class="container">
+                <div class="download-wrapper">
+                    <div class="download-txt">
+                        <h1>
+                            <%= LANG('全面业务支持的移动APP，随时随地') %>
+                        </h1>
+                        <!-- <p class="slogan"><%= LANG('XT的APP经过了超过5年时间的更新迭代Z') %></p> -->
+                        <div class="download-button">
+                            <a class="active" :href="ios">
+                                <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
+                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M781.152 517.547c1.35 140.502 129.231 187.259 130.72 187.907-1.162 3.216-20.492 66.642-67.481 132.167-40.604 56.626-82.659 112.933-149.023 114.093-65.292 1.165-86.199-36.882-160.801-36.882-74.562 0-97.891 35.723-159.597 38.048-63.984 2.329-112.789-61.102-153.729-117.497-83.732-115.399-147.627-326.037-61.751-468.213 42.612-70.649 118.847-115.307 201.509-116.514 62.918-1.073 122.337 40.467 160.71 40.467 38.513 0 110.649-49.921 186.511-42.612 31.716 1.26 120.898 12.201 178.13 92.025-4.563 2.839-106.41 59.285-105.201 177.010v0zM514.026 237.942c-7.358-53.414 20.211-108.929 51.695-143.808 35.161-39.259 94.487-68.457 143.481-70.32 6.287 54.393-16.716 109.020-50.667 148.37-34.043 39.216-89.836 69.81-144.507 65.758v0zM514.026 237.942z"></path>
                                 </svg>
-                            </div>
-                            <span class="side-btn" style="left: -3px;top: 80px; height: 30px; border-radius: 2px 0 0 2px;"></span>
-                            <span class="side-btn" style="left: -3px;top: 130px; height: 55px; border-radius: 2px 0 0 2px;"></span>
-                            <span class="side-btn" style="left: -3px;top: 205px; height: 55px; border-radius: 2px 0 0 2px;"></span>
-                            <span class="side-btn" style="right: -3px;top: 150px; height: 70px; border-radius: 0 2px 2px 0;"></span>
-                            <img src="/src/images/app/trading.png">
+                                <span>Available</span>
+                            </a>
+                            <a :href="android">
+                                <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;"
+                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M963.615 347.084q23.342 0 39.58 14.716t16.238 36.028v299.385q0 20.297-16.238 35.013t-39.58 14.716h-18.267q-23.342 0-39.58-14.716t-16.238-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m-823.056 0q23.342 0 38.565 14.716t15.223 36.028v299.385q0 20.297-15.223 35.013t-38.565 14.716h-18.268q-23.342 0-39.58-14.716t-16.237-35.013V397.828q0-21.313 16.238-36.028t39.58-14.716h18.267z m560.206-235.449q18.268 8.12 38.058 22.327t38.057 33.49 31.968 42.118 19.79 48.206H252.194q16.238-53.788 51.251-88.293t70.533-54.803L322.22 33.49q-2.03-2.03-0.507-7.61t10.656-11.672q8.119-7.104 15.223-6.597t9.133 2.538L409.5 93.368q28.416-13.194 59.877-20.298t64.951-7.104q69.011 0 128.888 28.417l53.788-84.234q2.03-2.03 7.611-2.03t16.746 6.09q10.148 5.073 11.67 9.133t-0.507 6.09z m-283.148 87.279q13.194 0 22.327-9.134t9.134-22.327-9.134-22.327-22.327-9.134-22.327 9.134-9.133 22.327 9.133 22.327 22.327 9.134z m249.658-4.06q13.193 0 22.327-9.133t9.133-22.328-9.133-22.327-22.327-9.133-22.328 9.133-9.133 22.327 9.133 22.328 22.328 9.133z m161.363 126.859l1.015 456.69q0 22.326-14.715 37.55t-36.028 15.222h-14.208v142.082q0 20.297-14.716 35.52T713.958 1024h-29.43q-20.298 0-35.014-15.223t-14.715-35.52V831.175H448.063v142.082q0 20.297-14.715 35.52T397.32 1024H367.89q-20.297 0-35.013-15.223t-14.715-35.52V831.175h-11.164q-21.312 0-36.028-15.223t-14.715-37.55v-456.69h572.384z"></path>
+                                </svg>
+                                <span>Available</span>
+                            </a>
+    
                         </div>
-                    </div> -->
+                        <!-- <div class="appcode">
+                            <img src="/src/images/app/appcode.png">
+                        </div> -->
+                    </div>
+                    <!-- End of .banner-txt -->
+                    <!-- <div class="download-img">
+                            <div class="iphonex">
+                                <div class="iphonex-top">
+                                    <svg width="173px" height="28px" viewBox="0 0 173 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="iPhone8" transform="translate(-51.000000, -3.000000)" fill="currentColor">
+                                                <path d="M51,3 L202,3 L223.22998,3 L223.22998,6.9453125 L209,6.9453125 C205.134007,6.9453125 202,10.0793193 202,13.9453125 L202,19 C202,25.627417 196.627417,31 190,31 L86,31 C79.372583,31 74,25.627417 74,19 L74,13.8599444 C74,10.0274511 70.9180934,6.90749529 67.0858886,6.86047137 L51,6.66308594 L51,3 Z M116.5,13 C115.671573,13 115,13.6715729 115,14.5 C115,15.3284271 115.671573,16 116.5,16 L148.5,16 C149.328427,16 150,15.3284271 150,14.5 C150,13.6715729 149.328427,13 148.5,13 L116.5,13 Z M156.5,12 C155.119288,12 154,13.1192881 154,14.5 C154,15.8807119 155.119288,17 156.5,17 C157.880712,17 159,15.8807119 159,14.5 C159,13.1192881 157.880712,12 156.5,12 Z" id="Combined-Shape"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <span class="side-btn" style="left: -3px;top: 80px; height: 30px; border-radius: 2px 0 0 2px;"></span>
+                                <span class="side-btn" style="left: -3px;top: 130px; height: 55px; border-radius: 2px 0 0 2px;"></span>
+                                <span class="side-btn" style="left: -3px;top: 205px; height: 55px; border-radius: 2px 0 0 2px;"></span>
+                                <span class="side-btn" style="right: -3px;top: 150px; height: 70px; border-radius: 0 2px 2px 0;"></span>
+                                <img src="/src/images/app/trading.png">
+                            </div>
+                        </div> -->
+                </div>
             </div>
         </div>
         <div class="app_course" id="AppPic">
@@ -426,3 +409,5 @@
         })
     });
 </script>
+
+<%-include("../include/footer.html")%>
