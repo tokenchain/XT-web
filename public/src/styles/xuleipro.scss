@@ -2741,6 +2741,10 @@ input::-webkit-inner-spin-button {
       height: 47px;
       line-height: 47px;
       width: 773px;
+      .notices-container {
+        height: 100%;
+        overflow: hidden;
+      }
     }
     .list-complete-item {
       transition: all 1s;
