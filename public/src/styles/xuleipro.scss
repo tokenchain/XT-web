@@ -39,7 +39,7 @@ a, [role="button"] {
 }
 
 input::-webkit-input-placeholder {
-  color: #fff ;
+  color: #999 ;
 }
 
 //bootstrp-datapicker  重置样式
@@ -564,17 +564,17 @@ $link-color: #8b8bec;
   }
   ::-moz-placeholder {
     font-size: 14px;
-    color: #fff;
+    color: #999;
     opacity: 1;
   }
   :-ms-input-placeholder {
     font-size: 14px;
-    color: #fff;
+    color: #999;
   }
 
   ::-webkit-input-placeholder {
     font-size: 14px;
-    color: #fff;
+    color: #999;
   }
   ::-ms-expand {
     font-size: 14px;
