@@ -239,7 +239,7 @@
                     } else {
                         var parentAsks = $(".tradeNew-table1");
                     }
-
+                    console.log(data, 'data')
                     var parentBids = $("#bidsWrap .tradeNew-table");
                     var asks = data.asks.slice(0, this.$parent.askAndBidsGrade);
                     // var bids = data.bids.slice(0);
@@ -250,6 +250,7 @@
                     } else {
                         var oldasks = this.lastDepth.asks.slice(0);
                         // var oldbids = this.lastDepth.bids.slice(0);
+                        console.log(this.lastDepth, 'this.lastDepth')
 
                         parentAsks.find(".body.remove").remove();
                         this.sortUpdate()
@@ -375,6 +376,7 @@
                     var _this = this;
                     //为了加快盘口显示速度连续刷10秒，后面数据更新在获取数据的接口回调中
                     this.updateDepth(this.dishData, function () {
+                        console.log(this.dishData, 'this.dishData')
                         var timeOut = 0;
                         var dishInterval = setInterval(function () {
                             _this.updateDepth(_this.dishData);

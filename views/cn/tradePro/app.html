@@ -116,7 +116,7 @@
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
                     mkSwitch: false,
-                    askAndBidsGrade: 5,  //挂单记录档位
+                    askAndBidsGrade: 50,  //挂单记录档位
                     fullScreen: false //全屏
                 }
             },
@@ -553,8 +553,19 @@
                     }
                 },
                 switchGrades: function (num) {//切换 挂单档位
+
+                    /*this.lastDepth.asks.forEach(function (item, index) {
+                        console.log(item)
+                    })
+
+                    var askData = this.lastDepth.asks.splice(0).sort(function (x, y) {
+                        // console.log(x)
+                        return Number(y[0]) - Number(x[0])
+                    })*/
+
+                    // Vue.set(this.lastDepth, 'asks', askData);
+                    console.log(this.lastDepth, '切换 挂单档位')
                     this.askAndBidsGrade = num
-                    this.lastDepth
                     this.getDishListData(this.currentMarketId)
                 },
                 marketSwitch: function () {
@@ -910,15 +921,16 @@
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
-                            var askSlice = datas.asks.slice(0, this.askAndBidsGrade)
+                            var askSlice = datas.asks.reverse().slice(0, this.askAndBidsGrade)
                             var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
                             //2018 -10-22 档位
                             // Vue.set(_this.lastDepth, 'asks', datas.asks)
                             // Vue.set(_this.lastDepth, 'bids', datas.bids)
-
+                            // console.log(askSlice, 'askSliceaskSlice')
                             Vue.set(_this.lastDepth, 'asks', askSlice)
                             Vue.set(_this.lastDepth, 'bids', bidSlice)
                             try {
+                                // console.log(askSlice, '获取 全量数据')
                                 _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                                 _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                             } catch (err) {
@@ -998,7 +1010,6 @@
                      */
                     result.datas.asks = res.asks;
                     result.datas.bids = res.bids;
-                    console.log(res, 'resresres')
                     //倒序
                     // result.datas.asks.reverse();
                     //合并盘口数据
@@ -1008,7 +1019,6 @@
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks)
                         Vue.set(_this.lastDepth, 'bids', data.bids)
-
                         _this.dishFull = true
                     } else {
                         //处理增量推送
@@ -1024,12 +1034,12 @@
                         // resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
                         // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
 
-                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask").slice(0, this.askAndBidsGrade);
+                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask").reverse().slice(0, this.askAndBidsGrade);
                         resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid").slice(0, this.askAndBidsGrade);
-
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
+                            // console.log(_this.lastDepth, '推送得到')
                             _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                             _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                         } catch (err) {
@@ -1665,7 +1675,9 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
-                var a = document.getElementById('app-trade-pro')
+                /*setInterval(function () {
+                    console.log(this.lastDepth, '刷新')
+                }.bind(this), 1000)*/
             },
             filters: {
                 capitalizecny: function (value) {
