@@ -323,7 +323,7 @@
                         //若价格不存在则标识要移除
                         if (!isExist) {
                             tbDiv.find(".body:eq(" + i + ")").addClass("remove");
-                            tbDiv.find(".body:eq(" + i + ")").slideUp(500, function () {
+                            tbDiv.find(".body:eq(" + i + ")").slideUp(0, function () {
                                 oldasks[i][2] = -1;//标识该数据对应div被移除
                             })
                             // tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
@@ -361,7 +361,7 @@
                     setTimeout((function ($remove, $add) {
 
                         return function () {
-                            $remove.slideUp(500, function () {
+                            $remove.slideUp(0, function () {
                                 $(this).remove();
                                 _this.sortUpdate()
                                 // _this.$parent.getDishListData(_this.$parent.currentMarketId)
