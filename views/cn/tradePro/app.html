@@ -111,7 +111,7 @@
                     cnyprice: [],//转换价格
                     usdprice: [],//转换价格
                     selectlan: false,
-                    hoverActive: Methods.getCookie('hoverActive'),  //sxc  usdt  btc   悬浮激活样式
+                    hoverActive: Methods.getCookie('hoverActive') || 'sxc',  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
@@ -564,7 +564,7 @@
                     })*/
 
                     // Vue.set(this.lastDepth, 'asks', askData);
-                    console.log(this.lastDepth, '切换 挂单档位')
+                    // console.log(this.lastDepth, '切换 挂单档位')
                     this.askAndBidsGrade = num
                     this.getDishListData(this.currentMarketId)
                 },
@@ -921,7 +921,7 @@
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
-                            var askSlice = datas.asks.reverse().slice(0, this.askAndBidsGrade)
+                            var askSlice = datas.asks.reverse()
                             var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
                             //2018 -10-22 档位
                             // Vue.set(_this.lastDepth, 'asks', datas.asks)
@@ -948,9 +948,13 @@
                 //[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]
                 //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
+                    console.log(res, 'resres')
                     var _this = this;
                     //增量更新的合并盘口方法
                     var mixArray = function (oldArray, newArray, type) {
+                        if (type == "Ask") {
+                            console.log(oldArray, newArray, '处理前')
+                        }
                         var m = new top.hashMap();
                         var n = new top.hashMap();
                         var resultArray = [];
@@ -989,7 +993,8 @@
                         // resultArray.reverse()
                         if (type == "Ask") {
                             resultArray.splice(50)
-                            return resultArray.reverse();
+                            console.log(resultArray, '处理后')
+                            return resultArray;
 
                         } else {
                             resultArray.reverse().splice(50)
@@ -1034,13 +1039,16 @@
                         // resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
                         // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
 
-                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask").reverse().slice(0, this.askAndBidsGrade);
-                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid").slice(0, this.askAndBidsGrade);
+                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
+                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
+                        /*Vue.set(_this.lastDepth, 'asks', [])
+                        Vue.set(_this.lastDepth, 'bids', [])*/
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
+                        console.log(_this.lastDepth.asks, '_this.lastDepth')
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
                             // console.log(_this.lastDepth, '推送得到')
-                            _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
+                            // _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                             _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                         } catch (err) {
                             console.log('miss dishpartDark component.')

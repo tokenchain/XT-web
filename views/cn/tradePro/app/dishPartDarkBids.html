@@ -239,9 +239,8 @@
                     } else {
                         var parentAsks = $(".tradeNew-table1");
                     }
-                    console.log(data, 'data')
                     var parentBids = $("#bidsWrap .tradeNew-table");
-                    var asks = data.asks.slice(0, this.$parent.askAndBidsGrade);
+                    var asks = data.asks.slice(0);
                     // var bids = data.bids.slice(0);
                     if (this.lastDepth == '') {
                         this.lastDepth = {};
@@ -250,7 +249,7 @@
                     } else {
                         var oldasks = this.lastDepth.asks.slice(0);
                         // var oldbids = this.lastDepth.bids.slice(0);
-                        console.log(this.lastDepth, 'this.lastDepth')
+                        // console.log(this.lastDepth, 'this.lastDepth')
 
                         parentAsks.find(".body.remove").remove();
                         this.sortUpdate()
@@ -376,7 +375,7 @@
                     var _this = this;
                     //为了加快盘口显示速度连续刷10秒，后面数据更新在获取数据的接口回调中
                     this.updateDepth(this.dishData, function () {
-                        console.log(this.dishData, 'this.dishData')
+                        // console.log(this.dishData, 'this.dishData')
                         var timeOut = 0;
                         var dishInterval = setInterval(function () {
                             _this.updateDepth(_this.dishData);
@@ -442,7 +441,6 @@
             mounted: function () {
                 this.bindSetPrice();
                 this.quickInitTen();
-                console.log(this.lastDepth, 'console.log(askSlice, \'askSlice\')console.log(askSlice, \'askSlice\')')
             },
             updated: function () {
 
