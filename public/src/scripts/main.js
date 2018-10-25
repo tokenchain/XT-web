@@ -516,7 +516,7 @@ function transDishData(oldData) {
     // }
 
     result.asks.reverse()  //2018-10-24 币币交易页面 改版后，卖盘排序反转
-    console.log(result.asks, 'main.js')
+    // console.log(result.asks, 'main.js')
     return result;
 }
 
