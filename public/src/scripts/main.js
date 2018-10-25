@@ -514,7 +514,6 @@ function transDishData(oldData) {
     //     result.bids.concat(oldData[i][5].bids);
     //     result.currentPrice = oldData[i][4].asks[0][0]; //当前价格 字段暂无
     // }
-
     // result.asks.reverse()  //2018-10-24 币币交易页面 改版后，卖盘排序反转
     return result;
 }

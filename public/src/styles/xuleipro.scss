@@ -38,6 +38,10 @@ a, [role="button"] {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: none !important;
+}
+
 input::-webkit-input-placeholder {
   color: #999 ;
 }
@@ -2744,6 +2748,7 @@ input::-webkit-inner-spin-button {
       .notices-container {
         height: 100%;
         overflow: hidden;
+        color: #fff;
       }
     }
     .list-complete-item {
@@ -3372,15 +3377,15 @@ input::-webkit-inner-spin-button {
     display:none;
   }
   .timeLine-img02{ 
-    position: absolute;
-      top: 0px;
-      left: 40%;
+    position: absolute !important;
+    top: 0px;
+    left: 40%;
+    height: 100%;
+    padding-bottom: 25px;
+    img {
       height: 100%;
-      padding-bottom: 25px;
-      img {
-        height: 100%;
-        display: block;
-      }
+      display: block;
+    }
   }
 }
 @media screen and (min-width: 768px) {
