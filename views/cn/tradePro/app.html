@@ -943,6 +943,7 @@
                 //[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]
                 //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
+                    // debugger
                     var _this = this;
                     //增量更新的合并盘口方法
                     var mixArray = function (oldArray, newArray, type) {
@@ -982,9 +983,7 @@
                          */
                         if (type == "Ask") {
                             resultArray.splice(50)
-                            // console.log(resultArray, 'resultArrayresultArray')
                             return resultArray;
-
                         } else {
                             resultArray.reverse().splice(50)
                             return resultArray
@@ -1011,7 +1010,7 @@
 
                     if (_this.lastDepth.asks.length == 0 && _this.lastDepth.bids.length == 0 && !_this.dishFull) {
                         _this.lastDepth = {};
-                        Vue.set(_this.lastDepth, 'asks', data.asks)
+                        Vue.set(_this.lastDepth, 'asks', data.asks.reverse())
                         Vue.set(_this.lastDepth, 'bids', data.bids)
                         _this.dishFull = true
                     } else {
@@ -1034,7 +1033,7 @@
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
-                            // console.log(_this.lastDepth, '推送得到')
+                            console.log(_this.lastDepth, '推送得到')
                             _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                             _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                         } catch (err) {
