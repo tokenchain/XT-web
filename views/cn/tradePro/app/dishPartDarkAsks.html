@@ -231,6 +231,7 @@
                 },
                 //盘口处理方法
                 updateDepth: function (data, callback) {
+                    // console.log(data.asks, 'data')
                     if (!data) {
                         return false;
                     }
@@ -274,10 +275,10 @@
                         })
                     }
                     callback && callback();
-
                 },
                 //初始化盘口
                 depthInit: function (data, $obj) {
+                    // console.log(data, '初始化盘口')
                     $obj.empty();
                     if (data && data.length > 0) {
                         var view = "";
