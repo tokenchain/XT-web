@@ -326,9 +326,9 @@
                             tbDiv.find(".body:eq(" + i + ")").slideUp(500, function () {
                                 oldasks[i][2] = -1;//标识该数据对应div被移除
                             })
-                            // tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
-                            //
-                            // })
+                            tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
+                            
+                            })
                         }
                     }
                     //第二步将新价格插入
