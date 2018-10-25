@@ -643,8 +643,8 @@
                 <!--<dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                            :assist-price="assistPrice" ref="dishPart"></dish-part>-->
                 <div class="asks-box">
-                    <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                    :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
+                    <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
                 </div>
                 <!--交易表单-->
                 <div class="fill-area">
@@ -679,8 +679,8 @@
                 </div>
                 <!--盘口数据-->
                 <div class="bids-box">
-                    <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                    :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
+                    <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
                 </div>
             </div>
         </div>

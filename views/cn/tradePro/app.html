@@ -553,12 +553,7 @@
                     }
                 },
                 switchGrades: function (num) {//切换 挂单档位
-
-                    /*this.lastDepth.asks.forEach(function (item, index) {
-                        console.log(item)
-                    })
-
-                    var askData = this.lastDepth.asks.splice(0).sort(function (x, y) {
+                    /*var askData = this.lastDepth.asks.splice(0).sort(function (x, y) {
                         // console.log(x)
                         return Number(y[0]) - Number(x[0])
                     })*/
@@ -921,12 +916,12 @@
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
-                            var askSlice = datas.asks.reverse()
+                            var askSlice = datas.asks.reverse().slice(0, this.askAndBidsGrade)
                             var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
                             //2018 -10-22 档位
                             // Vue.set(_this.lastDepth, 'asks', datas.asks)
                             // Vue.set(_this.lastDepth, 'bids', datas.bids)
-                            // console.log(askSlice, 'askSliceaskSlice')
+
                             Vue.set(_this.lastDepth, 'asks', askSlice)
                             Vue.set(_this.lastDepth, 'bids', bidSlice)
                             try {
@@ -948,13 +943,9 @@
                 //[数据类型, 市场ID, 币种信息, 时间戳, 开盘数据, 最高价, 最低价, 收盘价, 成交量, 涨跌幅度, 美元汇率, K线周期, 是否经过转换]
                 //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
-                    console.log(res, 'resres')
                     var _this = this;
                     //增量更新的合并盘口方法
                     var mixArray = function (oldArray, newArray, type) {
-                        if (type == "Ask") {
-                            console.log(oldArray, newArray, '处理前')
-                        }
                         var m = new top.hashMap();
                         var n = new top.hashMap();
                         var resultArray = [];
@@ -989,11 +980,9 @@
                          *  Email:csz.seven@gmail.com
                          *  描述:控制盘口档位大小为50
                          */
-                        // console.log(resultArray)
-                        // resultArray.reverse()
                         if (type == "Ask") {
                             resultArray.splice(50)
-                            console.log(resultArray, '处理后')
+                            // console.log(resultArray, 'resultArrayresultArray')
                             return resultArray;
 
                         } else {
@@ -1041,14 +1030,12 @@
 
                         resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
                         resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
-                        /*Vue.set(_this.lastDepth, 'asks', [])
-                        Vue.set(_this.lastDepth, 'bids', [])*/
+
                         Vue.set(_this.lastDepth, 'asks', resultAsksArray);
-                        console.log(_this.lastDepth.asks, '_this.lastDepth')
                         Vue.set(_this.lastDepth, 'bids', resultBidsArray);
                         try {
                             // console.log(_this.lastDepth, '推送得到')
-                            // _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
+                            _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                             _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
                         } catch (err) {
                             console.log('miss dishpartDark component.')
@@ -1683,9 +1670,6 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
-                /*setInterval(function () {
-                    console.log(this.lastDepth, '刷新')
-                }.bind(this), 1000)*/
             },
             filters: {
                 capitalizecny: function (value) {

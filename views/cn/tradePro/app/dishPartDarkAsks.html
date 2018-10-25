@@ -3,31 +3,31 @@
         <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈</div>
         <ul class="title">
             <li>
-                <p class="buy-title"><span>买盘</span></p>
+                <p class="sell-title"><span>卖盘</span></p>
                 <p><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
                 <p><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
             </li>
         </ul>
         <div class="body" id="dishWrap">
             <div class="dishWrap_container">
-                <!--<div class="box sell-disc" id="asksWrap" v-if="BrowserType!='FF'">
+                <div class="box sell-disc" id="asksWrap" v-if="BrowserType!='FF'">
                     <ul class="tradeNew-table"></ul>
                 </div>
 
-                &lt;!&ndash;火狐浏览器 买入&ndash;&gt;
+                <!--火狐浏览器-->
                 <div v-if="BrowserType=='FF'" class="box parent_direction-downs" id="parent_direction-downs">
                     <div class="direction-downss">
                         <ul class="tradeNew-table1"></ul>
                     </div>
-                </div>-->
+                </div>
 
                 <!--<div class="current-price">
                     <template v-if="!isNaN(assistPrice)">{{currentPrice}} {{$parent.moneyName}}</template>
                 </div>-->
 
-                <div class="box buy-disc" id="bidsWrap">
+                <!--<div class="box buy-disc" id="bidsWrap">
                     <ul class="tradeNew-table"></ul>
-                </div>
+                </div>-->
             </div>
             <div class="more">
                 <a href="javascript:;" @click="goinfo"> <%= LANG('更多')%> </a>
@@ -70,8 +70,8 @@
                     dishLength: 50,
                     assistList: this.$parent.assistList,
                     lastDepth: '',
-                    buyh: 0,
-                    sellh: 0,
+                    buyh:0,
+                    sellh:0,
                 }
             },
             computed: {
@@ -121,14 +121,12 @@
                     return this.myBrowser()
                 }
             },
-            created() {
-
-            },
             methods: {
                 sortUpdate: function () { //序号处理
-                    $('#bidsWrap .tradeNew-table li').each(function (index, item) {
+                    var dom = this.BrowserType != 'FF' ? $('#asksWrap .tradeNew-table li') : $('#parent_direction-downs .tradeNew-table1 li')
+                    dom.each(function (index, item) {
                         var num = index + 1
-                        $(item).find("p:first-child").html('买' + num)
+                        $(item).find("p:first-child").html('卖' + num)
                     })
                 },
                 myBrowser() {
@@ -177,38 +175,41 @@
                     this.dishLength = len;
                     this.$parent.dishLength = len;
                 },
-                clickBidsRow: function (price, index) {
+                clickAsksRow: function (price, index) {
                     if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
+                        console.log(index)
                         var depth = 0,
-                            _this = this;
-                        for (var i = 0; i <= index; i++) {
-                            depth += parseFloat(_this.bids[i][1]);
+                            _this = this,
+                            len = Math.min(_this.dishLength, _this.asks.length);
+
+                        for (var i = index; i < len; i++) {
+                            depth += parseFloat(_this.asks[i][1]);
+
                         }
-                        this.$parent.$refs.tradeFormSell && this.$parent.$refs.tradeFormSell.flashInput();
+
+                        this.$parent.$refs.tradeFormBuy.flashInput();
 
                         this.$parent.$refs.tradeFormBuy.inputPrice = price;
                         this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                        if (depth == 0) {
-                            this.$parent.$refs.tradeFormBuy.inputNumber = ''
-                        } else {
+                        if (depth == 0){
+                            this.$parent.$refs.tradeFormBuy.inputNumber  =''
+                        } else{
                             this.$parent.$refs.tradeFormBuy.inputNumber = depth;
                         }
 
-
                         this.$parent.$refs.tradeFormSell.inputPrice = price;
                         this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
-
-                        if (depth == 0) {
-                            this.$parent.$refs.tradeFormSell.inputNumber = ''
-                        } else {
+                        if (depth == 0){
+                            this.$parent.$refs.tradeFormSell.inputNumber =''
+                        } else{
                             this.$parent.$refs.tradeFormSell.inputNumber = depth;
                         }
                     }
                 },
                 bindSetPrice: function () {
                     var _this = this;
-                    /*$("#asksWrap").on('click', '.body', function () {
+                    $("#asksWrap").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
 
 
@@ -216,19 +217,19 @@
 
                         _this.clickAsksRow(price, index);
                         // console.log(price)
-                    });*/
+                    });
                     $("#parent_direction-downs").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
                         _this.clickAsksRow(price, index);
                     });
-                    $("#bidsWrap").on('click', '.body', function () {
+                    /*$("#bidsWrap").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
                         _this.clickBidsRow(price, index);
-                    });
+                    });*/
                 },
-                //盘口处理方法  连续刷新10次
+                //盘口处理方法
                 updateDepth: function (data, callback) {
                     if (!data) {
                         return false;
@@ -238,36 +239,37 @@
                     } else {
                         var parentAsks = $(".tradeNew-table1");
                     }
-
                     var parentBids = $("#bidsWrap .tradeNew-table");
-                    // var asks = data.asks.slice(0);
-                    var bids = data.bids.slice(0, this.$parent.askAndBidsGrade);
+                    var asks = data.asks.slice(0, this.$parent.askAndBidsGrade);
+                    // var bids = data.bids.slice(0);
                     if (this.lastDepth == '') {
                         this.lastDepth = {};
-                        // this.depthInit(asks, parentAsks);
-                        this.depthInit(bids, parentBids);
+                        this.depthInit(asks, parentAsks);
+                        // this.depthInit(bids, parentBids);
                     } else {
-                        // var oldasks = this.lastDepth.asks.slice(0);
-                        var oldbids = this.lastDepth.bids.slice(0);
-                        /*parentAsks.find(".body.remove").remove();
-                        parentAsks.find(".body.add").removeClass("add");
-                        this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
+                        var oldasks = this.lastDepth.asks.slice(0);
+                        // var oldbids = this.lastDepth.bids.slice(0);
 
-                        parentBids.find(".body.remove").remove();
+                        parentAsks.find(".body.remove").remove();
                         this.sortUpdate()
+                        parentAsks.find(".body.add").removeClass("add");
+                        this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
+
+                        /*parentBids.find(".body.remove").remove();
                         parentBids.find(".body.add").removeClass("add");
-                        this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
+                        this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));*/
                     }
-                    // Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
-                    Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
+                    Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
+                    // Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
+
 
 
                     //刷新辅助货币的价格
                     this.flushAssistPrice();
 
-                    if (this.BrowserType == 'FF') {
+                    if(this.BrowserType=='FF'){
 
-                        Vue.nextTick(function () {
+                        Vue.nextTick(function(){
                             $("#parent_direction-downs").scrollTop(1000)
                         })
                     }
@@ -276,28 +278,26 @@
                 },
                 //初始化盘口
                 depthInit: function (data, $obj) {
-
                     $obj.empty();
-                    //console.log(data);
                     if (data && data.length > 0) {
                         var view = "";
 
                         for (var i = 0; i < data.length; i++) {
+
                             view += this.getRowHtml(data[i], data, null, i);
                         }
                         $obj.append(view);
                         this.sortUpdate()
-
                         view = null;
                         //绑定盘口点击事件
                         this.bindSetPrice();
 
                     }
-
-
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
+                    // console.log(addasks[0], 'addasks,,,')
+                    // console.log(oldasks[0], 'oldasks,,,')
                     var _this = this
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
@@ -323,7 +323,7 @@
                         //若价格不存在则标识要移除
                         if (!isExist) {
                             tbDiv.find(".body:eq(" + i + ")").addClass("remove");
-                            tbDiv.find(".body:eq(" + i + ")").slideUp(500, function () {
+                            tbDiv.find(".body:eq(" + i + ")").slideUp(500,function () {
                                 oldasks[i][2] = -1;//标识该数据对应div被移除
                             })
                             // tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},1000,function () {
@@ -353,18 +353,17 @@
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
-                        this.sortUpdate()
+                        _this.sortUpdate()
                     }
                     //执行动画效果
-                    tbDiv.find(".body.add").css({height: '0'});
-                    tbDiv.find(".body.add").stop().animate({height: '24'}, 500);
+                    tbDiv.find(".body.add").css({height:'0'});
+                    tbDiv.find(".body.add").stop().animate({height:'24'},500);
                     setTimeout((function ($remove, $add) {
 
                         return function () {
                             $remove.slideUp(500, function () {
                                 $(this).remove();
                                 _this.sortUpdate()
-                                // _this.$parent.getDishListData(_this.$parent.currentMarketId)
                             });
                             $add.removeClass("add");
                         };
@@ -414,9 +413,6 @@
                 },
                 getRowHtml: function (arr, data, style, index) {
                     var price = this.getPrice(arr[0]);
-                    // console.log(data)
-
-
                     var amount = this.getAmount(arr[1]);
                     var assist = this.getAssistPrice(arr[0]);
                     //var depth = this.getDepth(arr[1], data);
@@ -424,9 +420,9 @@
                     var html = '';
                     html += "<li class=\"tr body " + style + "\" style=\"display: flex;\">";
                     if (this.marketConfig.amountDecimal == 0) {
-                        html += "   <p class=\"type\">买" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
+                        html += "   <p class=\"type\">卖" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
                     } else {
-                        html += "   <p class=\"type\">买" + index  + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
+                        html += "   <p class=\"type\">卖" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
                     }
                     // html += "   <p class=\"td foldPrice\">" + assist + "</p>";
                     html += "   <p class=\"td num\"><span>" + amount + "</span></p>";
@@ -434,7 +430,7 @@
 
                     return html;
                 },
-                goinfo() {
+                goinfo(){
                     window.location.href = `/info?marketId=${this.marketConfig.marketId}`
                 },
 
