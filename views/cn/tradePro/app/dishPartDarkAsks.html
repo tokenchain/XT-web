@@ -231,7 +231,6 @@
                 },
                 //盘口处理方法
                 updateDepth: function (data, callback) {
-                    // debugger
                     if (!data) {
                         return false;
                     }
@@ -335,7 +334,6 @@
                     //第二步将新价格插入
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
-                            debugger
                             if (parseFloat(addasks[i][0]) < parseFloat(oldasks[j][0])) {
                                 var html = this.getRowHtml(addasks[i], addasks, "add", j);
                                 tbDiv.find(".body:eq(" + i + ")").slideDown(500)
