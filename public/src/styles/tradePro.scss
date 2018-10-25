@@ -1207,15 +1207,15 @@ body.trading-dark {
   color: $sellColor;
 }
 
-.plateInside-area .tradeNew-table li {
+.plateInside-area .tradeNew-table li, .plateInside-area .tradeNew-table1 li {
   cursor: pointer;
 }
 
-.plateInside-area .tradeNew-table li:hover {
+.plateInside-area .tradeNew-table li:hover, .plateInside-area .tradeNew-table1 li:hover {
   background: $trade_bottom_color;
 }
 
-.plateInside-area .tradeNew-table li p {
+.plateInside-area .tradeNew-table li p, .plateInside-area .tradeNew-table1 li p {
   color: $white_font_opacity;
   font-size: 14px;
   padding: 6px 0;
@@ -1641,7 +1641,8 @@ body.trading-dark {
 }
 
 .tradeNew-table1 li p.price {
-  color: rgba(255, 83, 83, 1);
+  // color: rgba(255, 83, 83, 1);
+  color: #D8D8D8 !important;
 }
 
 #parent_direction-downs {
@@ -1662,6 +1663,7 @@ body.trading-dark {
 
 #dishWrap .tradeNew-table1 li.tr p {
   font-size: 14px;
+  color: #ff5353;
 }
 
 #dishWrap .tradeNew-table1 li.tr p.num {
