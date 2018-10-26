@@ -233,7 +233,6 @@
                 },
                 canUseCoin: function () {
                     if (this.isLogin) {
-                        console.log(this.currentMarketConfig,"2")
                         return this.showCoin(this.getUseable(this.coin));
                         // return parseFloat(this.getUseable(this.coin))
                     } else {
@@ -242,7 +241,6 @@
                 },
                 canUseMoney: function () {
                     if (this.isLogin) {
-                        console.log(this.showMoney(this.getUseable(this.money)))
                         return this.showMoney(this.getUseable(this.money));
                     } else {
                         return "0";
@@ -607,6 +605,9 @@
                             try {
                                 _this.$refs.dishPartAsks.flushAssistPrice();
                                 _this.$refs.dishPartBids.flushAssistPrice();
+
+                                _this.$refs.dishPartAsks.getCoinPrice(_this.cnyprice);
+                                _this.$refs.dishPartBids.getCoinPrice(_this.cnyprice);
 
                                 _this.$refs.dealRecord.flushAssistPrice();
                             } catch (err) {
@@ -1678,7 +1679,6 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
-                console.log(this.assistPrice)
             },
             filters: {
                 capitalizecny: function (value) {
@@ -1691,22 +1691,5 @@
                 },
             }
         })
-    });
-    // 客服功能
-    (function (a, h, c, b, f, g) {
-        a["UdeskApiObject"] = f;
-        a[f] = a[f] || function () {
-            (a[f].d = a[f].d || []).push(arguments)
-        };
-        g = h.createElement(c);
-        g.async = 1;
-        g.charset = "utf-8";
-        g.src = b;
-        c = h.getElementsByTagName(c)[0];
-        c.parentNode.insertBefore(g, c)
-    })(window, document, "script", "//assets-cli.udesk.cn/im_client/js/udeskApi.js", "ud");
-    ud({
-        "code": "2jgf16i7",
-        "link": "https://xt.udesk.cn/im_client/?web_plugin_id=57038"
     });
 </script>

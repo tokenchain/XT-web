@@ -1,6 +1,6 @@
 <script type="text/x-template" id="dish-part-asks">
     <div class="plateInside-area">
-        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈</div>
+        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin * currentPrice).toFixed(2)}}</div>
         <ul class="title">
             <li>
                 <p class="sell-title"><span>卖盘</span></p>
@@ -77,12 +77,15 @@
                     assistList: this.$parent.assistList,
                     lastDepth: '',
                     buyh: 0,
-                    sellh: 0
+                    sellh: 0,
+                    priceCoin: 0 //折合之后的价格
                 }
             },
             computed: {
                 currentPrice: function () {
-                    return this.$parent.showMoney(this.$parent.currentPrice);
+                    var asksCurrtPrice = this.asks.length > 0 ? this.asks[0][0] : '--'
+                    // return this.$parent.showMoney(this.$parent.currentPrice);
+                    return this.$parent.showMoney(asksCurrtPrice) == '--' ? 0 : this.$parent.showMoney(asksCurrtPrice);
                 },
                 assistPrice: function () {
                     return this.$parent.getPriceByAssist(this.currentPrice);
@@ -404,9 +407,12 @@
                     $("#dishWrap .tradeNew-table .tr").each(function (i) {
                         var price = $(this).find('.price').text();
                         var assistPrice = _this.$parent.getPriceByAssist(price);
-                        // console.log(assistPrice)
+                        // console.log(assistPrice, 'flushAssistPrice')
                         $(this).find('.foldPrice').text(assistPrice);
                     });
+                },
+                getCoinPrice: function(cnyprice) {
+                    this.priceCoin = this.getAssistPrice(cnyprice)
                 },
                 getPrice: function (val) {
                     var price = this.$parent.showMoney(val) + '';

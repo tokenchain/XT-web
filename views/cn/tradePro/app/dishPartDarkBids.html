@@ -1,6 +1,6 @@
 <script type="text/x-template" id="dish-part-bids">
     <div class="plateInside-area">
-        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈</div>
+        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin * currentPrice).toFixed(2)}}</div>
         <ul class="title">
             <li>
                 <p class="buy-title"><span>买盘</span></p>
@@ -72,11 +72,13 @@
                     lastDepth: '',
                     buyh: 0,
                     sellh: 0,
+                    priceCoin: '' //折合之后的价格
                 }
             },
             computed: {
                 currentPrice: function () {
-                    return this.$parent.showMoney(this.$parent.currentPrice);
+                    return this.$parent.showMoney(this.$parent.currentPrice) == '--' ? 0 : this.$parent.showMoney(this.$parent.currentPrice);
+                    // return this.$parent.showMoney(this.$parent.currentPrice);
                 },
                 assistPrice: function () {
                     return this.$parent.getPriceByAssist(this.currentPrice);
@@ -394,6 +396,9 @@
                         var assistPrice = _this.$parent.getPriceByAssist(price);
                         $(this).find('.foldPrice').text(assistPrice);
                     });
+                },
+                getCoinPrice: function(cnyprice) {
+                    this.priceCoin = this.getAssistPrice(cnyprice)
                 },
                 getPrice: function (val) {
                     var price = this.$parent.showMoney(val) + '';
