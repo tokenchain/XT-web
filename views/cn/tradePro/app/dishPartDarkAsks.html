@@ -304,9 +304,7 @@
                         var view = "";
 
                         for (var i = 0; i < data.length; i++) {
-                            var index = i + 1
-                            console.log(index)
-                            view += this.getRowHtml(data[i], data, null, index);
+                            view += this.getRowHtml(data[i], data, null, i);
                         }
                         $obj.append(view);
                         // this.sortUpdate()
@@ -355,9 +353,7 @@
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
                             if (parseFloat(addasks[i][0]) < parseFloat(oldasks[j][0])) {
-                                var index = j + 1
-                                console.log(index)
-                                var html = this.getRowHtml(addasks[i], addasks, "add", index);
+                                var html = this.getRowHtml(addasks[i], addasks, "add", j);
                                 tbDiv.find(".body:eq(" + i + ")").slideDown(500)
 
                                 tbDiv.find(".body:eq(" + j + ")").before(html);
@@ -371,8 +367,7 @@
                     var totalDiv = "";
                     for (var i = 0; i < addasks.length; i++) {
                         oldasks.push(addasks[i]);
-                        var index = i + 1
-                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add', index)
+                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add', i)
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
