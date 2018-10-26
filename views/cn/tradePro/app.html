@@ -602,12 +602,21 @@
 
                             _this.cnyprice = _this.assistPrice.cny[mname]
                             _this.usdprice = _this.assistPrice.usd[mname]
+                            var language = getCookie('wlan')
+                            var lanType = {
+                                cn: 'cny',
+                                en: 'usd',
+                                kr: 'krw',
+                                jp: 'jpy'
+                            } [language]
+                            console.log(lanType)
+                            var lanagePrice = _this.assistPrice[lanType][mname]
                             try {
                                 _this.$refs.dishPartAsks.flushAssistPrice();
                                 _this.$refs.dishPartBids.flushAssistPrice();
 
-                                _this.$refs.dishPartAsks.getCoinPrice(_this.cnyprice);
-                                _this.$refs.dishPartBids.getCoinPrice(_this.cnyprice);
+                                _this.$refs.dishPartAsks.getCoinPrice(lanagePrice, lanType);
+                                _this.$refs.dishPartBids.getCoinPrice(lanagePrice, lanType);
 
                                 _this.$refs.dealRecord.flushAssistPrice();
                             } catch (err) {
