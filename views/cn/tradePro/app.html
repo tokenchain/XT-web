@@ -233,15 +233,16 @@
                 },
                 canUseCoin: function () {
                     if (this.isLogin) {
-                        return this.showCoin(this.getUseable(this.coin));
-                        // return parseFloat(this.getUseable(this.coin))
+                        // return this.showCoin(this.getUseable(this.coin));
+                        return Methods.fixDecimal(this.getUseable(this.coin), 8);
                     } else {
                         return "0";
                     }
                 },
                 canUseMoney: function () {
                     if (this.isLogin) {
-                        return this.showMoney(this.getUseable(this.money));
+                        // return this.showMoney(this.getUseable(this.money));
+                        return Methods.fixDecimal(this.getUseable(this.money), 8);
                     } else {
                         return "0";
                     }
