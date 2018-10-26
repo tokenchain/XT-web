@@ -116,7 +116,7 @@
                     //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     sortBy: 'lastPrice',
                     mkSwitch: false,
-                    askAndBidsGrade: 50,  //挂单记录档位
+                    askAndBidsGrade: 5,  //挂单记录档位
                     fullScreen: false //全屏
                 }
             },
@@ -556,13 +556,7 @@
                     }
                 },
                 switchGrades: function (num) {//切换 挂单档位
-                    /*var askData = this.lastDepth.asks.splice(0).sort(function (x, y) {
-                        // console.log(x)
-                        return Number(y[0]) - Number(x[0])
-                    })*/
-
-                    // Vue.set(this.lastDepth, 'asks', askData);
-                    // console.log(this.lastDepth, '切换 挂单档位')
+                    // debugger
                     this.askAndBidsGrade = num
                     this.getDishListData(this.currentMarketId)
                 },
@@ -912,6 +906,7 @@
                 },
                 //获取 全量数据
                 getDishListData: function (marketId) {
+                    // debugger
                     var _this = this;
                     Methods.ajax({
                         type: "get",
@@ -947,51 +942,6 @@
                 //[["K","90","btc_qc","1522849560","50.000000","50.000000","50.000000","50.000000","1.00","0.00","6.29","1M","false"]]
                 mixDishArray: function (res) {
                     var _this = this;
-                    //增量更新的合并盘口方法
-                    var mixArray = function (oldArray, newArray, type) {
-                        var m = new top.hashMap();
-                        var n = new top.hashMap();
-                        var resultArray = [];
-                        for (var i = 0, ilength = oldArray.length; i < ilength; i++) {
-                            m.put(parseFloat(oldArray[i][0]), oldArray[i][1]);
-                        }
-                        for (var i = 0, ilength = newArray.length; i < ilength; i++) {
-                            n.put(parseFloat(newArray[i][0]), newArray[i][1]);
-                        }
-
-                        m.each(function (key, value, index) {
-                            var na = n.get(key);
-                            if (na) {
-                                m.put(key, na);
-                            }
-                        });
-                        n.each(function (key, value, index) {
-                            if (value == 0) {
-                                m.remove(key);
-                            } else {
-                                m.put(key, value);
-                            }
-                        });
-                        m.each(function (key, value, index) {
-                            resultArray[index] = []
-                            resultArray[index][0] = key;
-                            resultArray[index][1] = value;
-                        });
-                        /**
-                         *  作者:Seven
-                         *  时间:2018/8/10 17:46
-                         *  Email:csz.seven@gmail.com
-                         *  描述:控制盘口档位大小为50
-                         */
-                        if (type == "Ask") {
-                            resultArray.splice(50)
-                            return resultArray;
-                        } else {
-                            resultArray.reverse().splice(50)
-                            return resultArray
-                        }
-
-                    }
                     //封装为统一的结构
                     var result = {
                         datas: {}
@@ -1017,30 +967,7 @@
                         _this.dishFull = true
                     } else {
                         //处理增量推送
-                        var resultAsksArray, resultBidsArray;
-                        /**
-                         *  作者:Seven
-                         *  时间:2018/8/10 16:43
-                         *  Email:csz.seven@gmail.com
-                         *  描述:增量-多余逻辑已去除
-                         */
-
-                        //2018-10-22 档位
-                        // resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
-                        // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
-
-                        resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
-                        resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
-
-                        Vue.set(_this.lastDepth, 'asks', resultAsksArray);
-                        Vue.set(_this.lastDepth, 'bids', resultBidsArray);
-                        try {
-                            console.log(_this.lastDepth, '推送得到')
-                            _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
-                            _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
-                        } catch (err) {
-                            console.log('miss dishpartDark component.')
-                        }
+                        this.mergeLastDeth(data)
                     }
                     //计算最大深度值
                     var getMaxDepth = function (depth) {
@@ -1057,6 +984,85 @@
                     Vue.set(_this.lastDepth, 'maxbBids', getMaxDepth(_this.lastDepth.bids));
                     Vue.set(_this.lastDepth, 'maxAsks', getMaxDepth(_this.lastDepth.asks));
 
+                },
+                //增量更新的合并盘口方法
+                mixArray: function (oldArray, newArray, type) {
+                    var m = new top.hashMap();
+                    var n = new top.hashMap();
+                    var resultArray = [];
+                    for (var i = 0, ilength = oldArray.length; i < ilength; i++) {
+                        m.put(parseFloat(oldArray[i][0]), oldArray[i][1]);
+                    }
+                    for (var i = 0, ilength = newArray.length; i < ilength; i++) {
+                        n.put(parseFloat(newArray[i][0]), newArray[i][1]);
+                    }
+
+                    m.each(function (key, value, index) {
+                        var na = n.get(key);
+                        if (na) {
+                            m.put(key, na);
+                        }
+                    });
+                    n.each(function (key, value, index) {
+                        if (value == 0) {
+                            m.remove(key);
+                        } else {
+                            m.put(key, value);
+                        }
+                    });
+                    m.each(function (key, value, index) {
+                        resultArray[index] = []
+                        resultArray[index][0] = key;
+                        resultArray[index][1] = value;
+                    });
+                    /**
+                     *  作者:Seven
+                     *  时间:2018/8/10 17:46
+                     *  Email:csz.seven@gmail.com
+                     *  描述:控制盘口档位大小为50
+                     */
+                    if (type == "Ask") {
+                        resultArray.splice(50)
+                        return resultArray;
+                    } else {
+                        resultArray.reverse().splice(50)
+                        return resultArray
+                    }
+
+                },
+                //推动 接收到新数据 再合并，排序，赋值
+                mergeLastDeth: function (data) {
+                    var resultAsksArray, resultBidsArray;
+                    if (data.asks.length > 0) {
+                        //处理增量推送
+                        /**
+                         *  作者:Seven
+                         *  时间:2018/8/10 16:43
+                         *  Email:csz.seven@gmail.com
+                         *  描述:增量-多余逻辑已去除
+                         */
+
+                        //2018-10-22 档位
+                        // resultAsksArray = mixArray(_this.lastDepth.asks, data.asks, "Ask");
+                        // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
+
+                        resultAsksArray = this.mixArray(this.lastDepth.asks, data.asks, "Ask");
+                        Vue.set(this.lastDepth, 'asks', resultAsksArray);
+                        try {
+                            this.$refs.dishPartAsks.updateDepth(this.lastDepth);
+                        } catch (err) {
+                            console.log('miss asks component.')
+                        }
+                    }
+                    if (data.bids.length > 0) {
+                        resultBidsArray = this.mixArray(this.lastDepth.bids, data.bids, "Bid");
+                        Vue.set(this.lastDepth, 'bids', resultBidsArray);
+                        try {
+                            this.$refs.dishPartBids.updateDepth(this.lastDepth);
+                        } catch (err) {
+                            console.log('miss bids component.')
+                        }
+                    }
                 },
                 //获取币种的可用资金（不包括杠杆）
                 getUseable: function (coin) {
