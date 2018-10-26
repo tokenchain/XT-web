@@ -60,18 +60,24 @@
                     type: String,
                     default: ''
                 },
+                assist: {
+                    type: Object,
+                    default: function () {
+                        return {}
+                    }
+                },
                 askAndBidsGrade: {
                     type: Number,
                     default: 0
-                }
+                },
             },
             data: function () {
                 return {
                     dishLength: 50,
                     assistList: this.$parent.assistList,
                     lastDepth: '',
-                    buyh:0,
-                    sellh:0,
+                    buyh: 0,
+                    sellh: 0
                 }
             },
             computed: {
@@ -176,33 +182,42 @@
                     this.$parent.dishLength = len;
                 },
                 clickAsksRow: function (price, index) {
+                    // console.log(price, index)
                     if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
-                        console.log(index)
                         var depth = 0,
                             _this = this,
                             len = Math.min(_this.dishLength, _this.asks.length);
 
-                        for (var i = index; i < len; i++) {
+                        // console.log(this.asks, len)
+                        for (var i = 0; i <= index; i++) {
                             depth += parseFloat(_this.asks[i][1]);
 
                         }
+                        /**
+                         * 2018-10-26 ui改版后累加 反序
+                         * by czh
+                         */
+                        /*for (var i = index; i < len; i++) {
+                            depth += parseFloat(_this.asks[i][1]);
 
+                        }*/
+                        // console.log(depth, 'depth')
                         this.$parent.$refs.tradeFormBuy.flashInput();
 
                         this.$parent.$refs.tradeFormBuy.inputPrice = price;
                         this.$parent.$refs.tradeFormBuy.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
-                        if (depth == 0){
-                            this.$parent.$refs.tradeFormBuy.inputNumber  =''
-                        } else{
+                        if (depth == 0) {
+                            this.$parent.$refs.tradeFormBuy.inputNumber = ''
+                        } else {
                             this.$parent.$refs.tradeFormBuy.inputNumber = depth;
                         }
 
                         this.$parent.$refs.tradeFormSell.inputPrice = price;
                         this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
-                        if (depth == 0){
-                            this.$parent.$refs.tradeFormSell.inputNumber =''
-                        } else{
+                        if (depth == 0) {
+                            this.$parent.$refs.tradeFormSell.inputNumber = ''
+                        } else {
                             this.$parent.$refs.tradeFormSell.inputNumber = depth;
                         }
                     }
@@ -264,13 +279,12 @@
                     // Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
 
 
-
                     //刷新辅助货币的价格
                     this.flushAssistPrice();
 
-                    if(this.BrowserType=='FF'){
+                    if (this.BrowserType == 'FF') {
 
-                        Vue.nextTick(function(){
+                        Vue.nextTick(function () {
                             $("#parent_direction-downs").scrollTop(1000)
                         })
                     }
@@ -297,8 +311,6 @@
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
-                    // console.log(addasks[0], 'addasks,,,')
-                    // console.log(oldasks[0], 'oldasks,,,')
                     var _this = this
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
@@ -324,11 +336,11 @@
                         //若价格不存在则标识要移除
                         if (!isExist) {
                             tbDiv.find(".body:eq(" + i + ")").addClass("remove");
-                            tbDiv.find(".body:eq(" + i + ")").slideUp(500,function () {
+                            tbDiv.find(".body:eq(" + i + ")").slideUp(500, function () {
                                 oldasks[i][2] = -1;//标识该数据对应div被移除
                             })
-                            tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity:'0',height:'0'},500,function () {
-                            
+                            tbDiv.find(".body:eq(" + i + ")").stop().animate({opacity: '0', height: '0'}, 500, function () {
+
                             })
                         }
                     }
@@ -357,8 +369,8 @@
                         _this.sortUpdate()
                     }
                     //执行动画效果
-                    tbDiv.find(".body.add").css({height:'0'});
-                    tbDiv.find(".body.add").stop().animate({height:'24'},500);
+                    tbDiv.find(".body.add").css({height: '0'});
+                    tbDiv.find(".body.add").stop().animate({height: '24'}, 500);
                     setTimeout((function ($remove, $add) {
 
                         return function () {
@@ -392,6 +404,7 @@
                     $("#dishWrap .tradeNew-table .tr").each(function (i) {
                         var price = $(this).find('.price').text();
                         var assistPrice = _this.$parent.getPriceByAssist(price);
+                        // console.log(assistPrice)
                         $(this).find('.foldPrice').text(assistPrice);
                     });
                 },
@@ -431,7 +444,7 @@
 
                     return html;
                 },
-                goinfo(){
+                goinfo() {
                     window.location.href = `/info?marketId=${this.marketConfig.marketId}`
                 },
 
@@ -440,6 +453,7 @@
             mounted: function () {
                 this.bindSetPrice();
                 this.quickInitTen();
+                // console.log(this.assistPrice)
             },
             updated: function () {
 
