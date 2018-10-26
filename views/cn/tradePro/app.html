@@ -233,13 +233,16 @@
                 },
                 canUseCoin: function () {
                     if (this.isLogin) {
+                        console.log(this.currentMarketConfig,"2")
                         return this.showCoin(this.getUseable(this.coin));
+                        // return parseFloat(this.getUseable(this.coin))
                     } else {
                         return "0";
                     }
                 },
                 canUseMoney: function () {
                     if (this.isLogin) {
+                        console.log(this.showMoney(this.getUseable(this.money)))
                         return this.showMoney(this.getUseable(this.money));
                     } else {
                         return "0";
