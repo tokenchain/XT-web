@@ -273,7 +273,7 @@
                         // var oldbids = this.lastDepth.bids.slice(0);
 
                         parentAsks.find(".body.remove").remove();
-                        this.sortUpdate()
+                        // this.sortUpdate()
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
 
@@ -304,11 +304,12 @@
                         var view = "";
 
                         for (var i = 0; i < data.length; i++) {
-
-                            view += this.getRowHtml(data[i], data, null, i);
+                            var index = i + 1
+                            console.log(index)
+                            view += this.getRowHtml(data[i], data, null, index);
                         }
                         $obj.append(view);
-                        this.sortUpdate()
+                        // this.sortUpdate()
                         view = null;
                         //绑定盘口点击事件
                         this.bindSetPrice();
@@ -354,7 +355,9 @@
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
                             if (parseFloat(addasks[i][0]) < parseFloat(oldasks[j][0])) {
-                                var html = this.getRowHtml(addasks[i], addasks, "add", j);
+                                var index = j + 1
+                                console.log(index)
+                                var html = this.getRowHtml(addasks[i], addasks, "add", index);
                                 tbDiv.find(".body:eq(" + i + ")").slideDown(500)
 
                                 tbDiv.find(".body:eq(" + j + ")").before(html);
@@ -368,11 +371,12 @@
                     var totalDiv = "";
                     for (var i = 0; i < addasks.length; i++) {
                         oldasks.push(addasks[i]);
-                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add', i)
+                        var index = i + 1
+                        totalDiv += this.getRowHtml(addasks[i], addasks, 'add', index)
                     }
                     if (totalDiv != '') {
                         tbDiv.append(totalDiv);
-                        _this.sortUpdate()
+                        // _this.sortUpdate()
                     }
                     //执行动画效果
                     tbDiv.find(".body.add").css({height: '0'});
@@ -382,7 +386,7 @@
                         return function () {
                             $remove.slideUp(500, function () {
                                 $(this).remove();
-                                _this.sortUpdate()
+                                // _this.sortUpdate()
                             });
                             $add.removeClass("add");
                         };
@@ -438,6 +442,7 @@
                     return parseFloat(val) / parseFloat(this.getMaxDepth(data)) * 100;
                 },
                 getRowHtml: function (arr, data, style, index) {
+                    // console.log(index)
                     var price = this.getPrice(arr[0]);
                     var amount = this.getAmount(arr[1]);
                     var assist = this.getAssistPrice(arr[0]);
