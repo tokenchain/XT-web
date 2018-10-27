@@ -729,6 +729,7 @@ body.trading-dark {
     margin: 0 8px 8px 8px;
     flex-wrap: wrap;
     .chartEntrust-area {
+      width: 100%;
       min-height: 400px;
       padding: 0 40px 40px 40px;
       background: $trade_background_theme;

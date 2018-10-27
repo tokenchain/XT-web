@@ -353,7 +353,8 @@
                     for (var j = 0; j < oldasks.length; j++) {
                         for (var i = 0; i < addasks.length; i++) {
                             if (parseFloat(addasks[i][0]) < parseFloat(oldasks[j][0])) {
-                                var html = this.getRowHtml(addasks[i], addasks, "add", j);
+                                var index = j == 0 ? 1 : j
+                                var html = this.getRowHtml(addasks[i], addasks, "add", index);
                                 tbDiv.find(".body:eq(" + i + ")").slideDown(500)
 
                                 tbDiv.find(".body:eq(" + j + ")").before(html);
