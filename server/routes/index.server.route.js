@@ -82,6 +82,12 @@ router.get('/login/success', function(req, res, next) {
     });
 });
 
+router.get('/regSuccess', function(req, res, next) {
+    res.render(TEMP_FULL_NEW,{
+        templateMain:'user/regSuccess.html'
+    });
+});
+
 
 router.get('/zt', function(req, res, next) {
     res.render('cn/zt/zt.html')

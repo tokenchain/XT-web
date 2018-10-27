@@ -7,61 +7,48 @@
             </ul>
         </div>
         <div class="body" id="regForm">
-                <div class="form-group">
-          <div class="form-control" id="nikeForm">
-              <input autocomplete="off" placeholder="<%= LANG('手机号码/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)" v-on:focus="clearInputError($event)" type="text">
-              <country-code v-if="showCountry" :selected="selectCountry" />
-          </div>
-          </div>
-          <div class="form-group">
-          <div class="form-control" id="passwordForm">
-            <input autocomplete="new-password" placeholder="<%= LANG('设置登录密码') %>" v-on:keyup="handleCheckPwdStrength" v-on:focus="clearInputError($event)" v-model="password" type="password">
-              <ul v-show="password.length" class="exx-grade" v-cloak="">
-                  <li :class="[{active: pwdStrength == 0 }]"><%= LANG('不合格') %></li>
-                  <li :class="[{active: pwdStrength == 1 }]"><%= LANG('弱') %></li>
-                  <li :class="[{active: pwdStrength == 2 }]"><%= LANG('中') %></li>
-                  <li :class="[{active: pwdStrength > 2 }]"><%= LANG('强') %></li>
-              </ul>
+            <div class="form-group">
+                <div class="form-control" id="nikeForm">
+                    <input autocomplete="off" placeholder="<%= LANG('手机号码/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)" v-on:focus="clearInputError($event)" type="text">
+                    <country-code v-if="showCountry" :selected="selectCountry" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control" id="passwordForm">
+                    <input autocomplete="new-password" placeholder="<%= LANG('设置登录密码') %>" v-on:keyup="handleCheckPwdStrength" v-on:focus="clearInputError($event)" v-model="password" type="password">
+                    <ul v-show="password.length" class="exx-grade" v-cloak="">
+                        <li :class="[{active: pwdStrength == 0 }]"><%= LANG('不合格') %></li>
+                        <li :class="[{active: pwdStrength == 1 }]"><%= LANG('弱') %></li>
+                        <li :class="[{active: pwdStrength == 2 }]"><%= LANG('中') %></li>
+                        <li :class="[{active: pwdStrength > 2 }]"><%= LANG('强') %></li>
+                    </ul>
+                </div>
+                <div class="input-alert hide">
+                    <span><%- LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control" id="confirmPwdForm">
+                    <input autocomplete="new-password" placeholder="<%= LANG('重复输入密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)" v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control hint--top" aria-label="<%- LANG('请输入图中验证码')%>" style="display: block !important;">
+                    <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
+                    <div class="code-img" v-cloak=""><img :src="imageCodeUrl" v-on:click="handleRegister" onclick="" alt="<%= LANG('点击刷新验证码') %>"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control" id="msgCodeForm">
+                    <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" type="text">
+                    <send-code :code-type="2" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId" :bus-type="1" :error-fun="handleRefreshImgcode" />
+                </div>
 
-          </div>
-              <div class="input-alert hide"><span><%- LANG('密码格式为8~20位，且为字母、数字、符号等任意2种以上组合') %></span></div>
-
-
-          </div>
-          <div class="form-group">
-          <div class="form-control" id="confirmPwdForm">
-              <input autocomplete="new-password" placeholder="<%= LANG('重复输入密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)" v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
-          </div>
-          </div>
-          <div class="form-group">
-              <div class="form-control hint--top" aria-label="<%- LANG('请输入图中验证码')%>" style="display: block !important;">
-              <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
-              <div class="code-img" v-cloak=""><img :src="imageCodeUrl" v-on:click="handleRegister" onclick="" alt="<%= LANG('点击刷新验证码') %>"></div>
-          </div>
-          </div>
-          <div class="form-group">
-          <div class="form-control" id="msgCodeForm">
-            <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" type="text">
-             <send-code :code-type="2"
-                        :user-name="userName"
-                        :country-code="countryCode"
-                        :img-code="imgCode"
-                        :img-code-id="imgCodeId"
-                        :bus-type="1"
-                        :error-fun="handleRefreshImgcode" />
-          </div>
-
-          </div>
-
-                <div class="form-button">
-                  <button id="submitBtn" type="button" v-on:click="handleRegister" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('注册') %></span></button>
-
-
-              </div>
-
-
-
-      </div>
+            </div>
+            <div class="form-button">
+                <button id="submitBtn" type="button" v-on:click="handleRegister" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('注册') %></span></button>
+            </div>
+        </div>
     </div>
   </section>
 <%-include("../component/send_code/index.html")%>

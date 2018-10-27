@@ -197,6 +197,27 @@ router.get('/recommend', function(req, res, next) {
     });
 });
 
+router.get('/realName', function(req, res, next) {
+    res.render(TEMP_MANAGE_NEW,{
+        templateMain:'u/account/realName.html',
+        column : 1
+    });
+});
+
+router.get('/invite', function(req, res, next) {
+    res.render(TEMP_MANAGE_NEW,{
+        templateMain:'u/account/invite.html',
+        column : 1
+    });
+});
+
+router.get('/certify', function(req, res, next) {
+    res.render(TEMP_MANAGE_NEW,{
+        templateMain:'u/account/certify.html',
+        column : 1
+    });
+});
+
 /**
  *作者: GongQi
  *时间: 2018/5/23

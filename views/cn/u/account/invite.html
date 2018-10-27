@@ -1,0 +1,83 @@
+<style>
+    #partnerBox .share-info .info {
+        padding-top: 60px;
+    }
+    #partnerBox span  {
+        font-weight: 600;
+    }
+    #partnerBox .inviteText {
+        letter-spacing: 1px;
+        margin: 30px 88px;
+        line-height: 2;
+        text-align: left;
+    }
+</style>
+<div class="partner-container" id="partnerBox" v-cloak>
+    <div class="share-info" style="height: 100%">
+        <p>
+            <%= LANG('我的邀请码') %>
+        </p>
+        <div class="info">
+            <div class="code">
+                <span>
+                    <%= LANG('邀请二维码') %></span>
+                <canvas class="codeimg" id="canvas" style="margin-top: 20px;"></canvas>
+            </div>
+            <div class="copyUrl-info">
+                <span>
+                    <%= LANG('邀请链接地址') %></span>
+                <textarea rows="2" :value="reommendUrl" id="commendInput" readonly="readonly"></textarea>
+                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(1)">
+                    <%= LANG('复制') %> </a>
+            </div>
+            <div class="invite-info">
+                <span>
+                    <%= LANG('邀请码') %></span>
+                <textarea rows="2" :value="recommendCode" id="recommendCode" readonly="readonly"></textarea>
+                <a class="copyBtn" href="javascript:void(0)" @click="copyUrl(2)">
+                    <%= LANG('复制') %> </a>
+            </div>
+        </div>
+        <p class="inviteText"><%= LANG('在2018-11-18 00:00 ～ 2018-12-18 00:00 期间，邀请好友注册XT平台账户比在规定时间内完成实名认证，可以获得2XT奖励！') %></p>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
+        Clipboard, QRCode) {
+        var recommend = new Vue({
+            el: "#partnerBox",
+            data: function () {
+                return {
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
+                        .recommendCode || ''),
+                    isLogin: ISLOGIN,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
+                }
+            },
+            created() {},
+            mounted: function () {
+                QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
+                    width: 150,
+                    height: 150
+                }, function (error) {})
+            },
+            methods: {
+                copyUrl: function (type) {
+                    if (type == 1) {
+                        var Url = document.getElementById("commendInput");
+                        Url.select(); // 选择对象
+                        document.execCommand("Copy"); // 执行浏览器复制命令
+                        JuaBox.info("<%= LANG('复制邀请链接地址成功!') %>");
+                    } else if (type == 2) {
+                        var Url = document.getElementById("recommendCode");
+                        Url.select();
+                        document.execCommand("Copy");
+                        JuaBox.info("<%= LANG('复制成功!') %>");
+                    }
+                }
+            },
+        })
+    });
+</script>

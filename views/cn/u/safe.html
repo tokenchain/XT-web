@@ -12,6 +12,14 @@
                     </div>
                 </li>
                 <li>
+                    <div class="icon"><img src="/src/images/nickName.png" style="width:42px;height:30px;"></div>
+                    <div class="info">
+                        <h3><%= LANG('昵称') %></h3>
+                        <p>{{loginUser.loginName}}</p>
+                    </div>
+                    <div class="oper"><a class="btn btn-primary"  @click="setNickname"><%= LANG('认证') %></a></div>
+                </li>
+                <li>
                     <div class="icon"><img src="/src/images/emailmarketingIcon.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('邮箱') %></h3>
@@ -62,7 +70,14 @@
                         <a class="btn btn-primary" v-if="loginUser.googleStatus == 1"><%= LANG('审核中') %></a>
                     </div>
                 </li>
-
+                <li>
+                    <div class="icon"><img src="/src/images/realname.png" style="width:42px;height:30px;"></div>
+                    <div class="info">
+                        <h3><%= LANG('实名/高级实名认证') %></h3>
+                        <p>{{loginUser.loginName}}</p>
+                    </div>
+                    <div class="oper"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                </li>
             </ul>
             <!--<ul class="info">
                 <li>
@@ -238,6 +253,10 @@
         <set-email/>
     </modal>
 
+    <modal v-cloak :open="showModal == 'setNickname'" @close="showModal = false">
+        <set-nickname/>
+    </modal>
+
     <modal v-cloak :open="showModal == 'safepassword'" @close="showModal = false">
         <safepassword/>
     </modal>
@@ -299,6 +318,7 @@
 <%-include("model/payMobileAuth.html")%>
 <%-include("model/setgoogle.html")%>
 <%-include("model/email.html")%>
+<%-include("model/setNickname.html")%>
 <%-include("model/addcoin.html")%>
 <%-include("model/safePassword.html")%>
 <%-include("model/insideDebit.html")%>
@@ -643,6 +663,9 @@
                             allPriceRate: this.allPriceRate
                         };
                         this.showModal = 'addCoin';
+                    },
+                    setNickname: function () {
+                        this.showModal = 'setNickname';
                     },
                     setEmail: function () {
                         if (this.loginUser.emailAuth == 1) {

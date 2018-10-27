@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.render(TEMP_FULL,{
         templateMain:'user/login.html',
-        templateMenu:'user/register.html'
+        templateMenu:'user/register.html',
+        templateMenu:'user/regSuccess.html'
     });
 });
 
@@ -21,6 +22,7 @@ router.get('/register', function(req, res, next) {
         templateMain:'user/register.html'
     });
 });
+
 
 
 module.exports = router;
