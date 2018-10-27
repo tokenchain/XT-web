@@ -384,7 +384,7 @@
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
                                 
                                 // 判断当前时间是否在活动时间内，如果是则跳转至活动页，否则跳转至个人中心页
-                                var startTime = '2018-09-11 13:50:52',
+                                var startTime = '2018-10-29 00:00:00',
                                     endTime = '2018-12-29 23:59',
                                     newTime = new Date().getTime();
                                 if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
@@ -413,7 +413,7 @@
                     time = time.getTime();
                     return time;
                 },
-                
+
                 //初始化滑动验证码
                 initMoveCoder: function () {
                     this.puzzleValidateString = ''
