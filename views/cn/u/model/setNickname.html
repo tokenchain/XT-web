@@ -1,0 +1,40 @@
+<script type="text/x-template" id="set-nickname">
+    <div class="exx-modal-container setNickname">
+        <div class="exx-modal-header">
+          <h3>设置昵称</h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box" style="margin:30px;">
+                <div class="form-box">
+                    <div class="form-group">
+                        <label class="control-label" style="width:20%"><%= LANG('昵称') %>：</label>
+                        <div class="form-control" id="nikeForm">
+                            <input autocomplete="off" placeholder="<%= LANG('请输入昵称') %>" v-model="nickname" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="exx-modal-button">
+            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+            <button class="exxbtn btn-ok"><span><%= LANG('确定') %></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('set-nickname', {
+            template: "#set-nickname",
+            data: function () {
+                return {
+                    nickname: ''
+                }
+            },
+            methods: {},
+            created: function () {
+                this.$nextTick(function () {})
+            },
+        })
+    })
+</script>

@@ -1,0 +1,84 @@
+<style>
+    #certify {
+        padding: 70px 72px 38px 72px;
+        color: #898989;
+    }
+    .step {
+        text-align: center;
+    }
+    #certify h4 {
+        font-size: 16px;
+        margin: 30px 0;
+        color: #666;
+    }
+    #certify p {
+        line-height: 28px;
+    }
+    #certify p:last-of-type {
+        text-align: center;
+        margin-top: 40px;
+    }
+    .textColor {
+        color: #FFBE3F;
+        font-weight: 600;
+    }
+    #certify .form-button {
+        margin-top: 40px;
+    }
+    #certify .form-button button {
+        width: 154px;
+        height: 44px;
+        line-height: 44px;
+        padding: 0;
+        border-radius: 30px;
+    }
+    #certify .fail {
+        margin-bottom: 50px;
+    }
+    #certify .fail h4 {
+        font-weight: 600;
+        color: red;
+    }
+    #certify .fail p {
+        text-align: left;
+        margin-top: 0;
+    }
+</style>
+<div class="user-container certify" id="certify">
+    <div class="step">
+        <img src="/src/images/step-two.png" alt="">
+    </div>
+    <div class="fail" v-show="warn">
+        <h4>审核未通过</h4>
+        <p>原因：申请资料未按要求提交，请按要求提交资料后再次点击申请</p>
+    </div>
+    <h4><%= LANG('') %>步骤一：准备资料</h4>
+    <p><%= LANG('1.请下载') %><span class="textColor"><%= LANG('《高级实名认证申请资料模板》') %></span>，<%= LANG('按照要求填写申请资料。') %></p>
+    <p><%= LANG('2.录制视频资料，要求如下：') %></p>
+    <p><%= LANG('手持本人身份证正面进行录制，保持录制过程中声音和影像都清晰。') %></p>
+    <p><%= LANG('录制时要求诵读：本人（姓名），身份证号（身份证号码），我充分了解数字货币及潜在风险，本人具有抗风险的能力并愿意承担一切风险，在此申请高级实名认证。') %></p>
+    <h4><%= LANG('步骤二：发送申请邮件') %></h4>
+    <p><%= LANG('请将以上申请资料和视频资料发送邮件至support@xt.com，邮件主题为“申请高级实名认证”。') %></p>
+    <h4><%= LANG('步骤三：提交申请') %></h4>
+    <p><%= LANG('发送邮件后，请在页面点击“确认申请”按钮提交申请。') %></p>
+    <h4><%= LANG('步骤三：资料审核') %></h4>
+    <p><%= LANG('我们将在3个工作日内对您的申请资料进行审核。我们会主动与您取得联系，请保持通讯畅通。') %></p>
+    <p><%= LANG('提交申请高级实名认证即代表已阅读并同意') %><span class="textColor"><%= LANG('《OTC交易协议》') %></span></p>
+    <div class="form-button"><button class="button"><span><%= LANG('提交申请') %></span></button></div>    
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
+        Clipboard, QRCode) {
+        var recommend = new Vue({
+            el: "#certify",
+            data: function () {
+                return {
+                    warn: false
+                }
+            },
+            created() {},
+            methods: {},
+        })
+    });
+</script>

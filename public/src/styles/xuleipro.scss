@@ -1096,6 +1096,10 @@ button {
     font-size: 14px;
     padding-bottom: 40px;
     margin-bottom: 40px;
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
     a {
       display: inline-block;
       background: #FFBE3F;
@@ -1454,10 +1458,10 @@ button {
                 padding-right: 10px;
               }
               &:hover {
-                color: #5a7ff5;
+                color: #FFBE3F;
               }
               &.active {
-                color: #5a7ff5;
+                color: #FFBE3F;
               }
             }
             &.active {
@@ -1465,7 +1469,7 @@ button {
               > a {
                 color: $white-color;
                 //background: rgba(36, 185, 255, 0.08);
-                background: #5a7ff5;
+                background: #FFBE3F;
                 font-weight: 500;
               }
             }
@@ -1562,6 +1566,9 @@ button {
     .share-info {
       height: 292px;
       color: #333;
+      p{
+        text-align: center;
+      }
       .info {
         height: 230px;
         padding: 22px 88px;
@@ -1603,7 +1610,7 @@ button {
           text-align: center;
           line-height: 40px;
           // display: block;
-          background-color: #5a7ff5;
+          background-color: #FFBE3F;
           padding: 8px 18px;
           border-radius: 3px;
           color: #fff;
@@ -1717,10 +1724,29 @@ button {
   }
 
   // 夏彬 2018/9/20  end
+  .setNickname {
+    width: 360px;
+    .exxbtn {
+      width: 120px;
+      height: 43px;
+      line-height: 43px;
+      padding: 0;
+      font-size: 16px;
+    }
+    .btn-cancel {
+      background: #F5F5F5;
+      color: #898989;
+    }
+    .btn-ok {
+      background-color: #FFB700;
+    }
+    input{
+      padding-left: 10px !important;
+    }
+  }
 
-
-  .user-container {
-    .exchangeModal {
+  .user-center .user-container {
+    .exchangeModal, {
       color: #898989;
       background: url('../images/bg-exchange.png') no-repeat center center;
       width: 621px;
@@ -1805,7 +1831,7 @@ button {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    padding: 50px 20px;
+    padding: 50px 20px 0 20px;
     background: #ffffff;
     box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
     h1 {

@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<%-include("../include/head.html")%>
 
-</body>
-</html>
+<style>
+    .activity {
+        width: 900px;
+        height: 600px;
+        overflow: hidden;
+        margin: 0 auto;
+        background: url('/src/images/activity/active-reg.png') no-repeat center center;
+    }
+
+    .activity h2 {
+        color: #FFB600;
+        font-weight: 600;
+        font-size: 28px;
+        margin: 78px 0 0 58px;
+    }
+
+    .activity .time {
+        margin-top: 140px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .activity .time span {
+        color: #888888;
+    }
+
+    .activity .time p {
+        color: #FFB600;
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 40px;
+        padding: 0 200px;
+        line-height: 1.5;
+    }
+
+    .activity .form-button {
+        margin-top: 93px 0 100px 0;
+    }
+
+    .activity .form-button a {
+        width: 270px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        background: #FFB600;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 4px;
+        box-shadow: 0 2px 2px 0 #D0D0D0;   
+    }
+
+    .activity .form-button a:first-child {
+        margin-right: 158px;
+    }
+</style>
+
+<section class="entrance-area">
+    <div class="box">
+        <div class="activity">
+            <h2><%= LANG('恭喜注册成功') %></h2>
+            <div class="time">
+                <span><%= LANG('请妥善保管您的账户信息') %></span>
+                <p><%= LANG('在2018-10-29 00:00～ 2018-12-29 23:59完成实名认证可获得10XT') %></p>
+            </div>
+            <div class="form-button">
+                <a href="/u/realName"><%= LANG('去实名认证') %></a>
+                <a href="/"><%= LANG('进入首页') %></a>
+            </div>
+        </div>
+    </div>
+</section>
