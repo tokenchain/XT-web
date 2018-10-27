@@ -111,10 +111,9 @@
                     cnyprice: [],//转换价格
                     usdprice: [],//转换价格
                     selectlan: false,
-                    hoverActive: Methods.getCookie('hoverActive') || 'sxc',  //sxc  usdt  btc   悬浮激活样式
+                    hoverActive: Methods.getCookie('hoverActive') || '<%= market.split("_")[1] %>',  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
-                    //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
-                    sortBy: 'lastPrice',
+                    sortBy: 'lastPrice',   //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
                     mkSwitch: false,
                     askAndBidsGrade: 50,  //挂单记录档位
                     fullScreen: false //全屏
@@ -610,7 +609,6 @@
                                 kr: 'krw',
                                 jp: 'jpy'
                             } [language]
-                            console.log(lanType)
                             var lanagePrice = _this.assistPrice[lanType][mname]
                             try {
                                 _this.$refs.dishPartAsks.flushAssistPrice();
@@ -1699,6 +1697,9 @@
                     if (!value || value == null || value == 0 || value == NaN) return '--'
                     return Number(value).toFixed(4)
                 },
+            },
+            destroyed: function () {
+                Methods.setCookie('hoverActive', '')
             }
         })
     });

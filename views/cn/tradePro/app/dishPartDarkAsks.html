@@ -188,7 +188,7 @@
                     this.$parent.dishLength = len;
                 },
                 clickAsksRow: function (price, index) {
-                    // console.log(price, index)
+                    console.log(price, index)
                     if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
                         var depth = 0,
                             _this = this,
@@ -207,7 +207,7 @@
                             depth += parseFloat(_this.asks[i][1]);
 
                         }*/
-                        // console.log(depth, 'depth')
+                        // console.log(price, depth, 'depth')
                         this.$parent.$refs.tradeFormBuy.flashInput();
 
                         this.$parent.$refs.tradeFormBuy.inputPrice = price;

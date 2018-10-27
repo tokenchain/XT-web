@@ -183,6 +183,7 @@
                     this.$parent.dishLength = len;
                 },
                 clickBidsRow: function (price, index) {
+                    console.log(price)
                     if (this.$parent.$refs.tradeFormBuy && this.$parent.$refs.tradeFormSell) {
                         var depth = 0,
                             _this = this;
@@ -200,7 +201,7 @@
                             this.$parent.$refs.tradeFormBuy.inputNumber = depth;
                         }
 
-
+                        // console.log(price, depth, 'depth')
                         this.$parent.$refs.tradeFormSell.inputPrice = price;
                         this.$parent.$refs.tradeFormSell.inputPriceConvert = this.$parent.getPriceByAssist(price);
 
