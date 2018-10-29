@@ -1687,6 +1687,19 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
+
+                /*$('#market-scllor-box').hover(
+                    function () {
+                        $('body').css('overflow', null);
+                        $('#market-scllor-box').scroll(function (e) {
+                            // console.log(e.target)
+                            e.stopPropagation();
+                        })
+                    },
+                    function () {
+                        $('body').css('overflow', 'auto');
+                    }
+                )*/
             },
             filters: {
                 capitalizecny: function (value) {

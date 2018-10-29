@@ -104,7 +104,7 @@
     function loginSuccessUi(redirect) {
         swal({
             title: "<%= LANG('登录成功') %>",
-            text: "<%= LANG('即将跳转到账户中心') %>",
+            text: "<%= LANG('即将跳转...') %>",
             icon: "success",
             buttons: ["<%= LANG('立即跳转') %>", isZbLogin && passIsSet ? "<%= LANG('设置密码') %>" : false],
             dangerMode: false,
@@ -113,7 +113,7 @@
             window.location.href = redirect;
         }).then(function (willDelete) {
             sessionStorage.setItem('ljtz', true)
-            window.location.href = '/u/account';
+            window.location.href = redirect;
         });
         window.setTimeout(function () {
             window.location.href = redirect;
@@ -312,7 +312,9 @@
                                 Methods.setCookie(ENV + 'uname', res.datas.loginName);
 
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
-
+                                var pathArr = document.referrer.split('/')
+                                var path = document.referrer ? pathArr[pathArr.length - 1] == 'findLoginPwd' || pathArr[pathArr.length - 1] == 'register' ? '/u' : document.referrer : '/u'
+                                console.log(path)
                                 /*if (res.datas.userInfo.thirdAssetMove == '-1') {
                                     window.location.href = DOMAIN_WEB + '/u/welcome'
                                 } else {
@@ -324,7 +326,7 @@
                                 }*/
                                 isZbLogin = false;
                                 //跳转页面提示
-                                loginSuccessUi('/u');
+                                loginSuccessUi(path);
                             },
                             error: function (res) {
                                 _this.requestLocked = false;
@@ -472,24 +474,6 @@
 
         });
     })
-</script>
-<script>
-    (function (a, h, c, b, f, g) {
-        a["UdeskApiObject"] = f;
-        a[f] = a[f] || function () {
-            (a[f].d = a[f].d || []).push(arguments)
-        };
-        g = h.createElement(c);
-        g.async = 1;
-        g.charset = "utf-8";
-        g.src = b;
-        c = h.getElementsByTagName(c)[0];
-        c.parentNode.insertBefore(g, c)
-    })(window, document, "script", "//assets-cli.udesk.cn/im_client/js/udeskApi.js", "ud");
-    ud({
-        "code": "2jgf16i7",
-        "link": "https://xt.udesk.cn/im_client/?web_plugin_id=57038"
-    });
 </script>
 <script>
     (function (a, h, c, b, f, g) {
