@@ -919,7 +919,6 @@
                 },
                 //获取指定辅助货币的总价格-ok
                 getTotalPriceByAssist: function (coin) {
-                    console.log(coin, "66")
                     // debugger
                     if (!coin || !this.assistPrice) {
                         return ''
@@ -975,6 +974,7 @@
                 //冻结价格折合的提示内容
                 showFreezeAssistHint: function (coin) {
                     var price = this.fixFreezeDecimal(coin, 8);
+                    console.log(coin, '6')
                     return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " +
                         this.showAssistCoin();
                 },
@@ -986,10 +986,10 @@
                 },
                 //总资金
                 fixTotalDecimal: function (coin, unit) {
-                    var amount = parseFloat(coin.amount || 0);
-                    var freeze = parseFloat(coin.freeze || 0);
-                    // console.log(freeze);
-
+                    // var amount = parseFloat(coin.amount || 0);
+                    // var freeze = parseFloat(coin.freeze || 0);
+                    var amount = Methods.fixDecimal(coin.amount || 0, unit);
+                    var freeze = Methods.fixDecimal(coin.freeze || 0, unit);
                     return Methods.fixDecimal(amount + freeze, unit);
                 },
 
@@ -997,14 +997,14 @@
                 fixAvailableDecimal: function (coin, unit) {
                     var amount = coin.amount || 0;
                     var freeze = coin.freeze || 0;
-                    var value = parseFloat(amount - freeze);
-
+                    // var value = parseFloat(amount - freeze);
+                    var value = parseFloat(amount);
+                    
                     return Methods.fixDecimal(value, unit);
                 },
                 //冻结资金
                 fixFreezeDecimal: function (coin, unit) {
                     var freeze = parseFloat(coin.freeze || 0);
-
                     return Methods.fixDecimal(freeze, unit);
                 },
                 //去掉虚拟市场货币的D字符

@@ -69,8 +69,7 @@
 </div>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
-        Clipboard, QRCode) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var recommend = new Vue({
             el: "#realName",
             data: function () {
@@ -80,9 +79,22 @@
                     IDcard: '',
                 }
             },
-            created() {},
+            created() {
+
+            },
             methods: {
                 submit: function () {
+                    var nameReg = /^[\u0391-\uFFE5A-Za-z]+$/; // 姓名正则验证，除去数字以及特殊字符
+                    var idcardReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; // 身份证号正则
+                    if(this.name == '') {
+                        return JuaBox.info('<%= LANG("姓名不能为空") %>');
+                    }else if(!nameReg.test(this.name)) {
+                        return JuaBox.info('<%= LANG("姓名不能含有特殊字符") %>');
+                    }else if(this.IDcard == '') {
+                        return JuaBox.info('<%= LANG("身份证号不能为空") %>');
+                    }else if(!idcardReg.test(this.IDcard)) {
+                        return JuaBox.info('<%= LANG("请输入正确的身份证号") %>');
+                    }
                     window.location.href= '/u/certify'
                 }
             },
