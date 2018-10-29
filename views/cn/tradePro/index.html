@@ -778,7 +778,7 @@
             <div class="head">
                 <ul class="tab">
                     <!--<li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>-->
-                    <li @click="changeEntrustTab('all')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('委托历史')%></li>
+                    <li @click="changeEntrustTab('history')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('委托历史')%></li>
                 </ul>
                 <div class="oper" v-if="isLogin">
                     <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
@@ -803,8 +803,8 @@
                         </li>
                     </ul>
                     <ul class="list">
-                        <li v-if="isLogin && getGroupEntrust('all').length > 0  &&  !loading"
-                            v-for="item in getGroupEntrust('all')">
+                        <li v-if="isLogin && getGroupEntrust('history').length > 0  &&  !loading"
+                            v-for="item in getGroupEntrust('history')">
                             <template v-if="item.type == 1">
                                 <p>{{showTime(item.createTime)}}</p>
                                 <p class="buyColor"><%=LANG('买')%></p>
@@ -848,7 +848,7 @@
                         </li>
 
                     </ul>
-                    <div class="norecord" v-if="isLogin && getGroupEntrust('all').length == 0 && !loading "><%=LANG('暂无数据')%></div>
+                    <div class="norecord" v-if="isLogin && getGroupEntrust('history').length == 0 && !loading "><%=LANG('暂无数据')%></div>
                     <div class="spinner" v-else-if="isLogin && loading " >
                         <div class="rect1"></div>
                         <div class="rect2"></div>
