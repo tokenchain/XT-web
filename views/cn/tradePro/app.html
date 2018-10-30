@@ -1138,7 +1138,9 @@
                             result = this.entrustingRecord
                             break;
                         case "history":
-                            result = this.entrustRecord
+                            result = this.entrustRecord.filter(function (item, index) {  //过滤掉 status 为0和3的情况
+                                return item.status != 3 && item.status != 0
+                            })
                             break;
                     }
                     return result;
