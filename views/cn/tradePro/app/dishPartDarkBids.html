@@ -260,6 +260,7 @@
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
+                        this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
                         this.sortUpdate()
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));

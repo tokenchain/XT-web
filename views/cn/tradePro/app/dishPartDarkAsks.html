@@ -252,7 +252,6 @@
                 },
                 //盘口处理方法
                 updateDepth: function (data, callback) {
-                    console.log(data, 'updateDepth')
                     if (!data) {
                         return false;
                     }
@@ -273,6 +272,7 @@
                         // var oldbids = this.lastDepth.bids.slice(0);
 
                         parentAsks.find(".body.remove").remove();
+                        this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
                         this.sortUpdate()
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
