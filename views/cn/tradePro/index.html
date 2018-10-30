@@ -689,7 +689,7 @@
         <div class="entrust-area" v-if="isLogin">
             <div class="head">
                 <ul class="tab">
-                    <li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>
+                    <li :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>
                     <!--<li @click="changeEntrustTab('history')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('成交历史')%></li>-->
                 </ul>
                 <div class="oper" v-if="isLogin">
@@ -778,7 +778,7 @@
             <div class="head">
                 <ul class="tab">
                     <!--<li @click="changeEntrustTab('doing')" :class="{'on' : currentEntrustTab == 'doing'}"><%= LANG('当前委托')%></li>-->
-                    <li @click="changeEntrustTab('history')" :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('委托历史')%></li>
+                    <li :class="{'on' : currentEntrustTab == 'history'}"><%=LANG('委托历史')%></li>
                 </ul>
                 <div class="oper" v-if="isLogin">
                     <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
