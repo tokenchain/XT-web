@@ -98,26 +98,20 @@
                         <li v-if="records.length > 0" v-for="item in records" v-cloak="">
                             <p>{{switchIds[item.marketId].replace('_', '/').toUpperCase()}}</p>
                             <p>
-                                <span class="buyColor"><template v-if="item.type == 1">
-                                        <%= LANG('买') %></template></span><span class="sellColor"><template v-if="item.type == 0">
-                                        <%= LANG('卖') %></template></span>
+                                <span class="buyColor"><template v-if="item.type == 1"><%= LANG('买') %></template></span>
+                                <span class="sellColor"><template v-if="item.type == 0"><%= LANG('卖') %></template></span>
                             </p>
                             <p>{{showTime(item.createTime)}}</p>
 
                             <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}">
-
-                                <span class="hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price,switchIds[item.marketId])}}</span>
-                                /
-                                <span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount),switchIds[item.marketId])}}</span>
+                                <span class="hint--top" :aria-label="showAssistHint(item.price, switchIds[item.marketId])">{{showMoney(item.price,switchIds[item.marketId])}}</span>/<span class="hint--top" :aria-label="showAssistHint((item.completeTotalMoney/item.completeAmount), switchIds[item.marketId])">{{showMoney((item.completeTotalMoney/item.completeAmount),switchIds[item.marketId])}}</span>
                             </p>
-                            <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}"><span :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</span>/
-                                {{showCoin(item.completeAmount,switchIds[item.marketId])}}</p>
+                            <p :class="{'buyColor':item.type == 1, 'sellColor':item.type == 0}"><span :class="[item.type == 1 ? 'buyColor' : 'sellColor']">{{showCoin(item.amount,switchIds[item.marketId])}}</span>/{{showCoin(item.completeAmount,switchIds[item.marketId])}}</p>
                             <p><span class="hint--top" :aria-label="showAssistHint(item.completeTotalMoney,switchIds[item.marketId])">{{showAmount(item.completeTotalMoney,switchIds[item.marketId])}}</span>
                             </p>
                             <p v-if="item.status == 3 || item.status == 0"><span v-html="showStatus(item.status)"></span>
-                                | <a role="button" @click="doCancelEntrust(item.entrustId, item.marketId)">
-                                    <%=
-                                    LANG('取消') %></a></p>
+                                | <a role="button" @click="doCancelEntrust(item.entrustId, item.marketId)"><%=LANG('取消') %></a>
+                            </p>
                             <p v-if="item.status != 3 && item.status != 0"><span v-html="showStatus(item.status)"></span></p>
                         </li>
                         <li class="norecord" v-if="records.length == 0">

@@ -1056,12 +1056,13 @@ button {
     }
   }
   .title li p {
-    padding: 20px 0;
+    padding: 20px 10px;
   }
   .list li {
     p {
       height: 60px;
       color: #666;
+      padding: 0 10px;
       &:first-child {
         font-size: 16px;
       }
@@ -1745,12 +1746,12 @@ button {
     }
   }
 
-  .user-center .user-container {
-    .exchangeModal, {
+  #user-index {
+    .exchangeModal{
       color: #898989;
       background: url('../images/bg-exchange.png') no-repeat center center;
       width: 621px;
-      height: 374px;
+      height: 360px;
       .exx-modal-header {
         height: auto;
         padding: 0;
@@ -1831,7 +1832,7 @@ button {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    padding: 50px 20px 0 20px;
+    padding: 50px 20px;
     background: #ffffff;
     box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
     h1 {
