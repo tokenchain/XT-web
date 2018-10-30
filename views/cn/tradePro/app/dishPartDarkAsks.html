@@ -252,7 +252,7 @@
                 },
                 //盘口处理方法
                 updateDepth: function (data, callback) {
-                    // console.log(data.asks, 'data')
+                    console.log(data, 'updateDepth')
                     if (!data) {
                         return false;
                     }
@@ -281,7 +281,7 @@
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));*/
                     }
-                    Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
+                    Vue.set(this.lastDepth, 'asks', data.asks.slice(0, this.$parent.askAndBidsGrade));
                     // Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
 
 
@@ -316,6 +316,7 @@
                 },
                 //盘口动画效果
                 asksAndBids: function (addasks, oldasks, tbDiv, maxDepth) {
+                    // console.log(addasks, oldasks)
                     var _this = this
                     //第一步比对价格相等的行，对比数量
                     for (var i = 0; i < oldasks.length; i++) {
