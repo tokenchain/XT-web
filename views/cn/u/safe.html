@@ -15,7 +15,7 @@
                     <div class="icon"><img src="/src/images/nickName.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('昵称') %></h3>
-                        <p>{{loginUser.loginName}}</p>
+                        <p>{{loginUser.nickName}}</p>
                     </div>
                     <div class="oper"><a class="btn btn-primary"  @click="setNickname"><%= LANG('设置') %></a></div>
                 </li>
@@ -74,7 +74,7 @@
                     <div class="icon"><img src="/src/images/realname.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('实名/高级实名认证') %></h3>
-                        <p>{{loginUser.loginName}}</p>
+                        <p v-if="identifyStatus == 0 ? '未实名认证' : 0"></p>
                     </div>
                     <div class="oper"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
                 </li>
@@ -439,7 +439,8 @@
                             }
                         },
                         currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
-                        bindAccountSwitch: false
+                        bindAccountSwitch: false,
+                        identifyStatus: '' // 0,"未实名认证"，1,"普通实名认证"，2,"高级实名认证待审核"，3,"高级实名认证审核未通过"，4,"高级实名认证审核通过"
                     }
                 },
                 computed: {
@@ -866,6 +867,22 @@
                             }
                         });
                     },
+
+
+                    // 获取用户实名状态
+                    getUserStatus: function () {
+                        Methods.ajax({
+                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" + 'userIdentifyStatus',
+                            data: {
+                                Userid: this.loginUser.userId
+                            },
+                            success: function (res) {
+                                this.identifyStatus = res.datas || 0
+                                console.log(this.identifyStatus,"00")
+                            }
+                        });
+                    },
+
                     createGuid: function () {
                         var S4 = this.createS4
                         // return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
@@ -899,6 +916,8 @@
                 },
                 created: function () {
                     this.getPubKey();
+                    this.getUserStatus()
+                    console.log(this.loginUser)
                 },
                 mounted: function () {
                     var that = this;
@@ -906,8 +925,6 @@
                     window.addEventListener('resize', this.getWindowWidth, true);
                     // $('[data-toggle="tooltip"]').tooltip();
                     this.getUserInfo()
-
-
 
                 },
                 updated: function () {
