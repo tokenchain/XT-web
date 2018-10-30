@@ -260,12 +260,13 @@
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
+                        // this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
                         this.sortUpdate()
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
                     }
                     // Vue.set(this.lastDepth, 'asks', data.asks.slice(0));
-                    Vue.set(this.lastDepth, 'bids', data.bids.slice(0));
+                    Vue.set(this.lastDepth, 'bids', data.bids.slice(0, this.$parent.askAndBidsGrade));
 
 
                     //刷新辅助货币的价格

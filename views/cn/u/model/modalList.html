@@ -92,7 +92,7 @@
                     var parms = this.mode === 'income' ? {
                         userId: this.loginUser.userId,
                         pageIndex: this.pageIndex,
-                        days: this.cashBackTime
+                        time: this.addZore(this.cashBackTime)
                     } : {
                         queryTime: this.addZore(this.cashBackTime),    //'2018-09-25 00:00:00',
                         pageNum: this.pageIndex,
