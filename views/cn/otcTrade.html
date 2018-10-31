@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zxx">
+<!--<![endif]-->
+
+<head>
+    <script type="text/javascript">
+        var GLOBAL             = {},
+            EXX = {},
+            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
+            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
+            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
+            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
+            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
+            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
+            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OTC交易</title>
+    <link rel="icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+</head>
+<body>
+<%-include("./include/head.html")%>
+<section class="home-otcTrade" id="home-otcTrade">
+    home-otcTrade
+</section>
+
+</body>
+</html>
+<script>
+    require(['vue', 'common/methods'], function(Vue, Methods) {
+        var otcTrade = new Vue({
+            el: "#home-otcTrade",
+            data: function() {
+                return {
+
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+
+            },
+            updated : function () {
+
+            },
+            created: function(){
+
+            },
+            mounted : function () {
+
+            },
+            filters: {
+
+            }
+        })
+    })
+
+</script>
+
+
+
+

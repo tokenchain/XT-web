@@ -253,15 +253,15 @@
                         // this.depthInit(asks, parentAsks);
                         this.depthInit(bids, parentBids);
                     } else {
-                        // var oldasks = this.lastDepth.asks.slice(0);
                         var oldbids = this.lastDepth.bids.slice(0);
                         /*parentAsks.find(".body.remove").remove();
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
-                        // alert(JSON.stringify(this.lastDepth))
-                        // this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
+
+                        // console.log(bids, oldbids, this.lastDepth.bids, this.$parent.allDepth.bids)
+
                         this.sortUpdate()
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
