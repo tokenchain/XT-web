@@ -74,9 +74,14 @@
                     <div class="icon"><img src="/src/images/realname.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('实名/高级实名认证') %></h3>
-                        <p v-if="identifyStatus == 0 ? '未实名认证' : 0"></p>
+                        <p v-if="identifyStatus == 0">未实名认证</p>
+                        <p v-else-if="identifyStatus == 1">已普通实名认证</p>
+                        <p v-else-if="identifyStatus == 2">已普通实名认证/高级实名认证审核中</p>
+                        <p v-else-if="identifyStatus == 3">已普通实名认证/高级实名认证未通过</p>
+                        <p v-else-if="identifyStatus == 4">已高级实名认证，认证姓名：{{realName}}</p>
                     </div>
-                    <div class="oper"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                    <div class="oper" v-if="identifyStatus == 0"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                    <div class="oper" v-else><a :href="'/u/certify?status=' + identifyStatus" class="btn btn-primary"><%= LANG('去认证') %></a></div>
                 </li>
             </ul>
             <!--<ul class="info">
@@ -254,7 +259,7 @@
     </modal>
 
     <modal v-cloak :open="showModal == 'setNickname'" @close="showModal = false">
-        <set-nickname/>
+        <set-nickname @update="getUserInfo"/>
     </modal>
 
     <modal v-cloak :open="showModal == 'safepassword'" @close="showModal = false">
@@ -440,7 +445,8 @@
                         },
                         currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
                         bindAccountSwitch: false,
-                        identifyStatus: '' // 0,"未实名认证"，1,"普通实名认证"，2,"高级实名认证待审核"，3,"高级实名认证审核未通过"，4,"高级实名认证审核通过"
+                        identifyStatus: '', // 0,"未实名认证"，1,"普通实名认证"，2,"高级实名认证待审核"，3,"高级实名认证审核未通过"，4,"高级实名认证审核通过"
+                        realName: ''
                     }
                 },
                 computed: {
@@ -871,14 +877,16 @@
 
                     // 获取用户实名状态
                     getUserStatus: function () {
+                        var that = this;
                         Methods.ajax({
                             url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" + 'userIdentifyStatus',
                             data: {
-                                Userid: this.loginUser.userId
+                                Userid: that.loginUser.userId
                             },
                             success: function (res) {
-                                this.identifyStatus = res.datas || 0
-                                console.log(this.identifyStatus,"00")
+                                that.identifyStatus = res.datas.status
+                                that.realName = res.datas.realName
+                                console.log(res.datas,"00")
                             }
                         });
                     },

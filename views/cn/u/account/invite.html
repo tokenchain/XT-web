@@ -1,19 +1,30 @@
 <style>
-    #partnerBox .share-info .info {
-        padding-top: 60px;
+    #partnerBox .share-info {
+        height: auto;
     }
     #partnerBox span  {
         font-weight: 600;
     }
+    #partnerBox .partner-details .pieChart ul li:nth-child(even) span:first-of-type {
+        margin: 76px 0 10px 0;
+    }
+    #partnerBox .partner-details .pieChart ul li:nth-child(even) span:last-of-type {
+        margin: 10px 0 10px 0;
+    }
     #partnerBox .inviteText {
         letter-spacing: 1px;
-        margin: 30px 88px;
+        padding: 10px 88px;
         line-height: 2;
         text-align: left;
     }
+    #partnerBox .earnings table tr:hover td {
+        font-size: 14px;
+        transform: none;
+        cursor: initial;
+    }
 </style>
 <div class="partner-container" id="partnerBox" v-cloak>
-    <div class="share-info" style="height: 100%">
+    <div class="share-info">
         <p>
             <%= LANG('我的邀请码') %>
         </p>
@@ -40,6 +51,70 @@
         </div>
         <p class="inviteText"><%= LANG('在2018-11-18 00:00 ～ 2018-12-18 00:00 期间，邀请好友注册XT平台账户比在规定时间内完成实名认证，可以获得2XT奖励！') %></p>
     </div>
+    <div class="partner-details">
+        <p>
+            <%= LANG('邀请概览') %>
+        </p>
+        <div class="pieChart clearfix">
+            <ul>
+                <li>
+                    <span><%= LANG('邀请注册用户总数') %></span>
+                    <em>600<%= LANG('人') %></em>
+                </li>
+                <li>
+                    <span><%= LANG('实名用户总数') %></span>
+                    <em>10<%= LANG('人') %></em>
+                    <span><%= LANG('总获得') %></span>
+                    <em>100XT</em>
+                </li>
+                <li>
+                    <span><%= LANG('本月邀请注册用户数') %></span>
+                    <em>100<%= LANG('人') %></em>
+                </li>
+                <li>
+                    <span><%= LANG('本月实名用户数') %></span>
+                    <em>50<%= LANG('人') %></em>
+                    <span><%= LANG('获得') %></span>
+                    <em>100XT</em>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="earnings">
+        <p class="">
+            <%= LANG('每日详情') %>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <%= LANG('日期') %>
+                    </th>
+                    <th>
+                        <%= LANG('邀请用户(人)') %>
+                    </th>
+                    <th>
+                        <%= LANG('邀请已实名用户(人)') %>
+                    </th>
+                    <th>
+                        <%= LANG('获得XT') %>
+                    </th>
+                    <th>
+                        <%= LANG('操作') %>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2018.10.01</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>24</td>
+                    <td><a href="#">用户详情</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -49,14 +124,15 @@
             el: "#partnerBox",
             data: function () {
                 return {
-                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
-                        .recommendCode || ''),
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
                 }
             },
-            created() {},
+            created() {
+                console.log(Methods.getLocalUserInfo())
+            },
             mounted: function () {
                 QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
                     width: 150,
