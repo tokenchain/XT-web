@@ -1516,35 +1516,20 @@ button {
             margin-right: 30px;
             float: left;
             color: #fff;
+            font-weight: 600;
             background-blend-mode: normal, normal;
             &:first-child {
-              background-image: linear-gradient(0deg,
-                      #a1c4fd 0%,
-                      #8aeceb 100%),
-              linear-gradient(#9bbb58,
-                              #9bbb58);
+              background-image: linear-gradient(0deg,#FFB064 0%,#FFE35A 100%)
             }
             &:nth-child(2) {
-              background-image: linear-gradient(0deg,
-                      #c8b7f9 0%,
-                      #f7b6f0 100%),
-              linear-gradient(#9bbb58,
-                              #9bbb58);
+              background-image: linear-gradient(0deg,#F95C81 0%,#F8BF66 100%)
             }
             &:nth-child(3) {
-              background-image: linear-gradient(0deg,
-                      #8ec5fc 0%,
-                      #e0c3fc 100%),
-              linear-gradient(#9bbb58,
-                              #9bbb58);
+              background-image: linear-gradient(0deg,#A7DA7C 0%,#E5EBA3 100%)
             }
             &:last-child {
               margin-right: 0;
-              background-image: linear-gradient(0deg,
-                      #a18cd1 0%,
-                      #fbc2eb 100%),
-              linear-gradient(#9bbb58,
-                              #9bbb58);
+              background-image: linear-gradient(0deg,#8ADCEB 0%,#B7F2EB 100%)
             }
             span {
               display: block;
@@ -1676,12 +1661,17 @@ button {
           transition: all .3s;
           cursor: pointer;
           &:nth-child(even) {
-            background-color: #f5f7fa;
+            background-color: #FFFBF2;
           }
           td {
             -webkit-transition: all .3s;
             transition: all .3s;
             padding: 0 20px;
+            span {
+              color: #FFBE3F;
+              font-weight: 600;
+              cursor: pointer;
+            }
           }
           &:hover {
             td {
@@ -1751,7 +1741,7 @@ button {
       color: #898989;
       background: url('../images/bg-exchange.png') no-repeat center center;
       width: 621px;
-      height: 360px;
+      padding-bottom: 15px;
       .exx-modal-header {
         height: auto;
         padding: 0;
@@ -2255,6 +2245,7 @@ button {
     color: #999999;
     background: rgba(239, 239, 239, 1);
     border-radius: 4px;
+    margin-right: 6px;
     &:hover {
       border-color: #FFBE3F;
       color: $white-color;
@@ -2267,7 +2258,19 @@ button {
     }
   }
   span {
-    margin: 0 10px;
+    // width: 38px;
+    // height: 38px;
+    // text-align: center;
+    // line-height: 38px;
+    // background: #efefef;
+    color: #666;
+    // border: 1px solid #F5F5F5;
+    margin: 0 5px 0 0;
+    // border-radius: 4px;
+  }
+  .active {
+    background: #FFBE3F;
+    color: $white-color;
   }
 }
 
