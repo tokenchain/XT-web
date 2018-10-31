@@ -43,7 +43,7 @@ a:hover {
 }
 
 input::-webkit-input-placeholder {
-  color: #999 ;
+  color: #999;
 }
 
 //bootstrp-datapicker  重置样式
@@ -214,7 +214,7 @@ input::-webkit-input-placeholder {
           text-decoration: none;
           position: relative;
           height: 100%;
-          
+
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
@@ -1567,7 +1567,7 @@ button {
     .share-info {
       height: 292px;
       color: #333;
-      p{
+      p {
         text-align: center;
       }
       .info {
@@ -1741,13 +1741,13 @@ button {
     .btn-ok {
       background-color: #FFB700;
     }
-    input{
+    input {
       padding-left: 10px !important;
     }
   }
 
   #user-index {
-    .exchangeModal{
+    .exchangeModal {
       color: #898989;
       background: url('../images/bg-exchange.png') no-repeat center center;
       width: 621px;
@@ -1824,7 +1824,7 @@ button {
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-  input[type="number"]{
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 
@@ -2758,7 +2758,7 @@ input::-webkit-inner-spin-button {
       width: 87%;
     }
   }
-  
+
   .bottom {
     .title {
       color: $home_color;
@@ -2768,7 +2768,7 @@ input::-webkit-inner-spin-button {
     .box {
       margin: 0 auto;
       text-align: center;
-      background: #FFBE3F; 
+      background: #FFBE3F;
       height: 47px;
       line-height: 47px;
       width: 773px;
@@ -2808,8 +2808,9 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
 @media (max-width: 768px) {
-  .banner{
+  .banner {
     margin-top: 69px;
     .bottom {
       margin-top: 40px;
@@ -3309,7 +3310,7 @@ input::-webkit-inner-spin-button {
   // padding: 80px 0;
   background: #fff;
   background-size: 500px 500px;
-  
+
   li {
     list-style: none;
   }
@@ -3400,10 +3401,10 @@ input::-webkit-inner-spin-button {
 }
 
 @media screen and (max-width: 768px) {
-  .timeLine-img01{ 
-    display:none;
+  .timeLine-img01 {
+    display: none;
   }
-  .timeLine-img02{ 
+  .timeLine-img02 {
     position: absolute !important;
     top: 0px;
     left: 40%;
@@ -3415,11 +3416,13 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
 @media screen and (min-width: 768px) {
-  .timeLine-img02{ 
-    display:none; 
+  .timeLine-img02 {
+    display: none;
   }
 }
+
 .timeLine {
   margin-top: 180px;
   background: #FFFCF7;
@@ -3442,13 +3445,13 @@ input::-webkit-inner-spin-button {
     color: #546682;
     margin-bottom: 104px;
   }
-  .timeLine-img01{
+  .timeLine-img01 {
     img {
       position: absolute;
       top: -175px;
       left: 0;
     }
-    
+
   }
   .timeBox {
     position: relative;
@@ -3580,13 +3583,15 @@ input::-webkit-inner-spin-button {
       flex: 0 1 16.6%;
     }
   }
-  
+
 }
 
 .footer {
   background-color: #3E3E3E;
   .footer-menu {
-    h5 {color: #D2D2D2;}
+    h5 {
+      color: #D2D2D2;
+    }
     li a {
       color: #D2D2D2;
       &:hover {
@@ -3704,4 +3709,23 @@ input::-webkit-inner-spin-button {
 
 .clearfix {
   zoom: 1;
+}
+
+.home-otcTrade {
+  background: #fff;
+  height: 100%;
+  .title {
+    display: flex;
+    justify-content: flex-start;
+    .tab-box {
+      justify-content: flex-start;
+      flex: 1;
+    }
+    > a {
+      justify-content: flex-end;
+    }
+    .search {
+      justify-content: flex-end;
+    }
+  }
 }

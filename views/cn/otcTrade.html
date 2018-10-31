@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="zxx">
 <!--<![endif]-->
@@ -18,6 +21,7 @@
             DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
             DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
             WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
+
         document.domain = DOMAIN_BASE;
     </script>
     <meta charset="utf-8">
@@ -25,7 +29,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OTC交易</title>
+    <title><%=LANG('OTC交易')%></title>
     <link rel="icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>">
@@ -36,38 +40,96 @@
 <body>
 <%-include("./include/head.html")%>
 <section class="home-otcTrade" id="home-otcTrade">
-    home-otcTrade
+    <div class="title">
+        <div class="tab-box">
+            <span>购买</span>
+            <span>出售</span>
+        </div>
+        <a href="#">发布广告</a>
+        <div class="search">
+            <input type="text" placeholder="中国，人民币，全部支付方式">
+        </div>
+    </div>
+    <div class="coinList">
+
+    </div>
+    <div class="otclist">
+        <table>
+            <thead>
+            <tr>
+                <td><%=LANG('商家(30日成单 | 30日完成率)')%></td>
+                <td><%=LANG('数量')%></td>
+                <td><%=LANG('限额')%></td>
+                <td><%=LANG('单价')%></td>
+                <td><%=LANG('支付方式')%></td>
+                <td><%=LANG('操作')%></td>
+            </tr>
+            <tr>
+                <td>嘿呀嘿呀 (147 | 97%)</td>
+                <td>0.100000 BTC</td>
+                <td>4,444-4,444 CNY</td>
+                <td>44,440.00 CNY</td>
+                <td>支付宝 信用卡</td>
+                <td>购买otc</td>
+            </tr>
+            <tr>
+                <td>嘿呀嘿呀 (147 | 97%)</td>
+                <td>0.100000 BTC</td>
+                <td>4,444-4,444 CNY</td>
+                <td>44,440.00 CNY</td>
+                <td>支付宝 信用卡</td>
+                <td>购买otc</td>
+            </tr>
+            <tr>
+                <td>嘿呀嘿呀 (147 | 97%)</td>
+                <td>0.100000 BTC</td>
+                <td>4,444-4,444 CNY</td>
+                <td>44,440.00 CNY</td>
+                <td>支付宝 信用卡</td>
+                <td>购买otc</td>
+            </tr>
+            <tr>
+                <td>嘿呀嘿呀 (147 | 97%)</td>
+                <td>0.100000 BTC</td>
+                <td>4,444-4,444 CNY</td>
+                <td>44,440.00 CNY</td>
+                <td>支付宝 信用卡</td>
+                <td>购买otc</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr></tr>
+            </tbody>
+        </table>
+        <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+                   v-if="records.length > 0 && !isAll"></page-lite>-->
+    </div>
 </section>
 
 </body>
 </html>
+
+<%-include("./component/page_lite.html")%>
+
 <script>
-    require(['vue', 'common/methods'], function(Vue, Methods) {
+    require(['vue', 'common/methods'], function (Vue, Methods) {
         var otcTrade = new Vue({
             el: "#home-otcTrade",
-            data: function() {
-                return {
-
-                }
+            data: function () {
+                return {}
             },
-            computed: {
-
-            },
-            methods: {
+            computed: {},
+            methods: {},
+            updated: function () {
 
             },
-            updated : function () {
+            created: function () {
 
             },
-            created: function(){
+            mounted: function () {
 
             },
-            mounted : function () {
-
-            },
-            filters: {
-
-            }
+            filters: {}
         })
     })
 
