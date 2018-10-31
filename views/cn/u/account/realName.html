@@ -41,15 +41,15 @@
         border-radius: 30px;
     }
 </style>
-<div class="user-container realName" id="realName">
+<div class="user-container realName" id="realName" v-cloak>
     <div class="step">
         <img src="/src/images/step-one.png" alt="">
     </div>
     <div class="form-Box">
-        <div class="form-group">
+        <div class="form-group" v-if="!nickname">
             <label class="control-label"><%= LANG('昵称') %>：</label>
             <div class="form-control">
-                <input autocomplete="off" placeholder="<%= LANG('请输入昵称') %>" v-model="nickname" type="text">
+                <input autocomplete="off" placeholder="<%= LANG('请输入昵称') %>" v-model="nickname" type="text" maxlength="8">
             </div>
         </div>
         <div class="form-group">
@@ -77,10 +77,12 @@
                     nickname: '',
                     name: '',
                     IDcard: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
             },
             created() {
-
+                this.nickname = this.loginUser.nickName
+                console.log(this.loginUser)
             },
             methods: {
                 submit: function () {
@@ -95,7 +97,19 @@
                     }else if(!idcardReg.test(this.IDcard)) {
                         return JuaBox.info('<%= LANG("请输入正确的身份证号") %>');
                     }
-                    window.location.href= '/u/certify'
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/generalIdentify",
+                        data: {
+                            nickName: this.nickname || '',
+                            Userid: this.loginUser.userId,
+                            realName: this.name,
+                            idNumber: this.IDcard
+                        },
+                        success: function (res) {
+                            window.location.href= '/u/certify'
+                        }.bind(this)
+                    });
                 }
             },
         })
