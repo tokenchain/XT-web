@@ -1,21 +1,18 @@
+<%-include("../../component/modal.html")%>
+<%-include("../model/inviteList.html")%>
+
 <style>
     #partnerBox .share-info {
         height: auto;
     }
-    #partnerBox span  {
-        font-weight: 600;
-    }
     #partnerBox .partner-details .pieChart ul li:nth-child(even) span:first-of-type {
-        margin: 76px 0 10px 0;
+        margin: 76px 0 16px 0;
     }
     #partnerBox .partner-details .pieChart ul li:nth-child(even) span:last-of-type {
-        margin: 10px 0 10px 0;
+        margin-top: 0;
     }
     #partnerBox .inviteText {
-        letter-spacing: 1px;
-        padding: 10px 88px;
-        line-height: 2;
-        text-align: left;
+        padding-bottom: 20px;
     }
     #partnerBox .earnings table tr:hover td {
         font-size: 14px;
@@ -62,20 +59,16 @@
                     <em>600<%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span><%= LANG('实名用户总数') %></span>
-                    <em>10<%= LANG('人') %></em>
-                    <span><%= LANG('总获得') %></span>
-                    <em>100XT</em>
+                    <span><%= LANG('实名用户总数')%>10<%= LANG('人') %></span>
+                    <span><%= LANG('总获得') %>100XT</span>
                 </li>
                 <li>
                     <span><%= LANG('本月邀请注册用户数') %></span>
                     <em>100<%= LANG('人') %></em>
                 </li>
                 <li>
-                    <span><%= LANG('本月实名用户数') %></span>
-                    <em>50<%= LANG('人') %></em>
-                    <span><%= LANG('获得') %></span>
-                    <em>100XT</em>
+                    <span><%= LANG('本月实名用户数') %>50<%= LANG('人') %></span>
+                    <span><%= LANG('获得') %>100XT</span>
                 </li>
             </ul>
         </div>
@@ -110,11 +103,16 @@
                     <td>10</td>
                     <td>10</td>
                     <td>24</td>
-                    <td><a href="#">用户详情</a></td>
+                    <td><span @click="lookDetails">用户详情</span></td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <!--查看详情-->
+    <modal v-cloak :open="showModal == 'inviteList'" @close="showModal = false">
+        <invite-list/>
+    </modal>
 </div>
 
 <script>
@@ -124,6 +122,7 @@
             el: "#partnerBox",
             data: function () {
                 return {
+                    showModal: false,
                     reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
@@ -152,6 +151,9 @@
                         document.execCommand("Copy");
                         JuaBox.info("<%= LANG('复制成功!') %>");
                     }
+                },
+                lookDetails: function () {
+                    this.showModal = 'inviteList'
                 }
             },
         })
