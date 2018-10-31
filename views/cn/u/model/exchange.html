@@ -10,7 +10,8 @@
                 <p v-show="warnTips">* 兑换数量不能超过{{amount}}</p>
             </li>
             <li class="passWord">
-                <span>登录密码：</span><input type="passWord" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal">
+                <span>登录密码：</span>
+                <input type="text" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal" autocomplete = 'new-password' onfocus="this.type='password'">
             </li>
         </ul>
     
@@ -55,22 +56,23 @@
                     return Number(realVal)
                 }
             },
+            watch: {
+                // 监听输入的数量
+                exchangVal(newInputs) {
+                    if (this.exchangVal < 0 || this.exchangVal > this.amount) {
+                        this.warnTips = true
+                        this.disabled = true
+                    }else {
+                        this.warnTips = false
+                        this.disabled = false
+                    }
+                }
+            },
             methods: {
-                // listenKeyword: function () {
-                //     console.log(this.exchangVal)
-                //     if (this.exchangVal >= 2000) {
-                //         this.warnTips = true
-                //     }
-                // },
                 changeIputVal: function (e) {
                     var num = Number(this.exchangVal)
                     if (this.exchangVal.indexOf('.') == -1) {
                         this.exchangVal = num.toFixed(2)
-                    }
-                    if(num <= 0 || num > this.amount) {
-                        this.disabled = true
-                    }else {
-                        this.disabled = false
                     }
                     console.log(this.exchangVal)
                 },
