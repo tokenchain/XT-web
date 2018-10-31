@@ -269,11 +269,11 @@
                         // this.depthInit(bids, parentBids);
                     } else {
                         var oldasks = this.lastDepth.asks.slice(0);
-                        // var oldbids = this.lastDepth.bids.slice(0);
 
                         parentAsks.find(".body.remove").remove();
-                        // this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
+                        // console.log(asks, oldasks, this.lastDepth.asks, this.$parent.allDepth.asks)
                         this.sortUpdate()
+
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
 
@@ -415,7 +415,7 @@
                         $(this).find('.foldPrice').text(assistPrice);
                     });
                 },
-                getCoinPrice: function(price, lanType) {
+                getCoinPrice: function (price, lanType) {
                     this.priceCoin = {
                         price: this.getAssistPrice(price),
                         lanType: lanType
