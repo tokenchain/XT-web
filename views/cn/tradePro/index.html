@@ -343,7 +343,7 @@
                 </ul>
                 <ul class="list" id="market-scllor-box">
                     <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
-                        <p v-if="!mkSwitch"><b>{{showCoinNew(data.market)}}/{{showMoneyNew(data.market)}}</b></p>
+                        <p v-if="!mkSwitch"><b>{{showCoinNew(data.market)}}</b></p>
                         <p v-if="mkSwitch"><b>{{showCoinNew(data.market)}}</b></p>
                         <p>{{showPrice(data.lastPrice, data.market)}}</p>
                         <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' + showRate(data.rate) : '' + showRate(data.rate) }}%</p>

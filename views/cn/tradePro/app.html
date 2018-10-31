@@ -114,7 +114,7 @@
                     hoverActive: Methods.getCookie('hoverActive') || '<%= market.split("_")[1] %>',  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
                     sortBy: 'lastPrice',   //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
-                    mkSwitch: false,
+                    mkSwitch: document.body.clientWidth > 1200 ? false : true,
                     askAndBidsGrade: 5,  //挂单记录档位
                     fullScreen: false //全屏
                 }
