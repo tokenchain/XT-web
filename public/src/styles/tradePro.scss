@@ -513,6 +513,33 @@ body.trading-dark {
   }
 }
 
+@media only screen and (max-width: 1200px) {
+  .tradeNew-container {
+    .trade-navbar {
+      display: none;
+    }
+    .plateFill-area .plate-area {
+      flex-wrap: wrap;
+      .asks-box{
+        height: unset!important;
+      }
+      .fill-area{
+        width: 100%!important;
+        height: unset!important;
+        margin: 8px 0!important;
+      }
+    }
+    .entrust-area{
+      .entrust-list li p:nth-child(2){
+        width: unset!important;
+      }
+      .entrust-list li p:last-child{
+        width: unset!important;
+      }
+    }
+  }
+}
+
 //交易大盒子  2018-10-16  czh
 .tradeNew {
   display: flex;
@@ -585,12 +612,12 @@ body.trading-dark {
     left: 0;
     z-index: 99;
     height: 100%;
-    width: 280px;
+    width: 230px;
     background: $trade_background_theme;
     transition: all 0.2s;
     margin-right: 8px;
     .market-title {
-      padding: 20px 20px 15px 20px;
+      padding: 20px 10px 15px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -673,7 +700,7 @@ body.trading-dark {
             justify-content: flex-end;
             font-size: 14px;
             &:first-child {
-              width: 40%;
+              width: 30%;
               justify-content: flex-start;
               img {
                 width: 20px;
@@ -681,7 +708,8 @@ body.trading-dark {
               }
             }
             &:nth-child(2) {
-              width: 30%;
+              width: 40%;
+              justify-content: flex-start;
             }
             &:last-child {
               width: 30%;
@@ -689,7 +717,7 @@ body.trading-dark {
           }
         }
         .title {
-          padding: 0px 20px;
+          padding: 0px 10px;
           li p {
             color: $theme_color;
             font-size: 14px;
@@ -700,7 +728,7 @@ body.trading-dark {
           overflow-y: scroll;
           @include web-kit-scroll;
           li {
-            padding: 0 20px;
+            padding: 0 10px;
             cursor: pointer;
             p {
               color: $white_font_opacity;
@@ -726,7 +754,7 @@ body.trading-dark {
   .tradeNew-container {
     transition: all 0.2s;
     //min-height: calc(100vh - 63px);
-    width: calc(100% - 296px);
+    width: calc(100% - 246px);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
