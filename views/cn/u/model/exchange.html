@@ -7,11 +7,14 @@
         <ul>
             <li class="exchangNum">
                 <span>兑换{{exchangTarget.toUpperCase()}}数量：</span><input type="number" :placeholder="'最多可兑换' + amount + exchangTarget.toUpperCase()" v-model="exchangVal" @change="changeIputVal">
-                <p v-show="warnTips">* 兑换数量不能超过{{amount}}</p>
+                <p v-show="warnTips">* 兑换数量不能小于0或者超过{{amount}}</p>
+                <p v-show="ifAmount">* 数量不能为空</p>
             </li>
             <li class="passWord">
                 <span>登录密码：</span>
                 <input type="text" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal" autocomplete = 'new-password' onfocus="this.type='password'">
+                <p v-show="ifPassword">* 密码不能为空</p>
+                <p v-show="surePwd">* 请输入正确的密码</p>
             </li>
         </ul>
     
@@ -48,6 +51,9 @@
                     passWordVal: '',
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     disabled: false,
+                    ifAmount: false,
+                    ifPassword: false,
+                    surePwd: false
                 }
             },
             filters: {
@@ -58,13 +64,22 @@
             },
             watch: {
                 // 监听输入的数量
-                exchangVal(newInputs) {
+                exchangVal() {
                     if (this.exchangVal < 0 || this.exchangVal > this.amount) {
                         this.warnTips = true
                         this.disabled = true
                     }else {
                         this.warnTips = false
                         this.disabled = false
+                    }
+                    if(this.exchangVal) {
+                        this.ifAmount = false
+                    }
+                    
+                },
+                passWordVal() {
+                    if(this.passWordVal) {
+                        this.ifPassword = false
                     }
                 }
             },
@@ -95,7 +110,14 @@
                     if (this.pubKey == "" || this.rsaKeyId == "") {
                         this.getPubKey();
                     }
+                    if(!this.exchangVal) {
+                        return this.ifAmount = true
+                    }
+                    if(!this.passWordVal) {
+                        return this.ifPassword = true
+                    }
                     var encryptionPwd = Methods.encryptPwd(this.passWordVal, this.pubKey);
+                    var _this = this;
                     Methods.ajax({
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/fund/controller/website/xtfundcontroller/exChangeCurrencyAmount",
@@ -108,11 +130,12 @@
                             amount: this.exchangVal
                         },
                         success: function (res) {
-                            if (res.resMsg.code == 1) {
-                                this.$parent.close();
-                                this.$emit('fetch')
-                            }
-                        }.bind(this)
+                                _this.$parent.close();
+                                _this.$emit('fetch')
+                        },
+                        error:function(res){
+                            _this.surePwd = true
+                        }
                     })
                 }
             },
