@@ -923,18 +923,17 @@
                         success: function (res) {
                             var datas = res.datas
                             _this.lastDepth = {};
-                            var askSlice = datas.asks.reverse()
-                            var bidSlice = datas.bids
+                            var askSlice = datas.asks.reverse().slice(0, this.askAndBidsGrade)
+                            var bidSlice = datas.bids.slice(0, this.askAndBidsGrade)
                             //2018 -10-22 档位
                             // Vue.set(_this.lastDepth, 'asks', datas.asks)
                             // Vue.set(_this.lastDepth, 'bids', datas.bids)
                             if (res) {
                                 Vue.set(_this.lastDepth, 'asks', askSlice)
                                 Vue.set(_this.lastDepth, 'bids', bidSlice)
-                                Vue.set(_this.allDepth, 'asks', res.datas.asks.reverse())
-                                Vue.set(_this.allDepth, 'bids', res.datas.bids)
+                                /*Vue.set(_this.allDepth, 'asks', res.datas.asks.reverse())
+                                Vue.set(_this.allDepth, 'bids', res.datas.bids)*/
                             }
-
                             try {
                                 _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                                 _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
@@ -976,8 +975,8 @@
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks.reverse())
                         Vue.set(_this.lastDepth, 'bids', data.bids)
-                        Vue.set(_this.allDepth, 'asks', res.asks.reverse())
-                        Vue.set(_this.allDepth, 'bids', res.bids)
+                        /*Vue.set(_this.allDepth, 'asks', res.asks.reverse())
+                        Vue.set(_this.allDepth, 'bids', res.bids)*/
                         _this.dishFull = true
                     } else {
                         //处理增量推送
@@ -1061,9 +1060,9 @@
                         // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
 
                         resultAsksArray = this.mixArray(this.lastDepth.asks, data.asks, "Ask");
-                        allResultAsksArray = this.mixArray(this.allDepth.asks, data.asks, "Ask");
+                        //allResultAsksArray = this.mixArray(this.allDepth.asks, data.asks, "Ask");
                         Vue.set(this.lastDepth, 'asks', resultAsksArray);
-                        Vue.set(this.allDepth, 'asks', allResultAsksArray)
+                        //Vue.set(this.allDepth, 'asks', allResultAsksArray)
                         try {
                             this.$refs.dishPartAsks.updateDepth(this.lastDepth);
                         } catch (err) {
@@ -1072,9 +1071,9 @@
                     }
                     if (data.bids.length > 0) {
                         resultBidsArray = this.mixArray(this.lastDepth.bids, data.bids, "Bid");
-                        allResultBidsArray = this.mixArray(this.allDepth.bids, data.bids, "Bid");
+                        //allResultBidsArray = this.mixArray(this.allDepth.bids, data.bids, "Bid");
                         Vue.set(this.lastDepth, 'bids', resultBidsArray);
-                        Vue.set(this.allDepth, 'bids', allResultBidsArray)
+                        //Vue.set(this.allDepth, 'bids', allResultBidsArray)
                         try {
                             this.$refs.dishPartBids.updateDepth(this.lastDepth);
                         } catch (err) {
