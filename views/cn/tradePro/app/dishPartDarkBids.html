@@ -405,8 +405,9 @@
                     });
                 },
                 getCoinPrice: function(price, lanType) {
+                    console.log(price, lanType)
                     this.priceCoin = {
-                        price: this.getAssistPrice(price),
+                        price: price ? price : 0,
                         lanType: lanType
                     }
                 },

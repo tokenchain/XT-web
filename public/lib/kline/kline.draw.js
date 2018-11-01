@@ -4517,7 +4517,14 @@ MainDataSource.prototype.getDecimalDigits = function () {
     return this._decimalDigits;
 };
 MainDataSource.prototype.calcDecimalDigits = function (v) {
-    var str = "" + v;
+    var patt1 = new RegExp("e");
+    var result = patt1.test(v);
+
+    if (result) {
+        var str = "" + v.toFixed(8);
+    } else {
+        var str = "" + v;
+    }
     var i = str.indexOf('.');
     if (i < 0)
         return 0;
@@ -4591,6 +4598,7 @@ MainDataSource.prototype.update = function (data) {
     // 刷新k线
     this.setUpdateMode(DataSource.UpdateMode.Refresh);
     this._dataItems = [];
+
     var d, n, e, i, cnt = data.length;
     for (i = 0; i < cnt; i++) {
         e = data[i];
@@ -5636,6 +5644,7 @@ MainInfoPlotter.prototype.Draw = function(context) {
         return;
     var data = ds.getDataAt(selIndex);
     var digits = ds.getDecimalDigits();
+    // console.log(digits, 'digitsdigits')
     var time = new Date(data.date);
     var year = time.getFullYear();
     var month = format_time(time.getMonth() + 1);

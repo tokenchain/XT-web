@@ -1,8 +1,8 @@
 <div class="exx-blog" id="blog">
     <div class="container">
-        <div style="margin-top: -8px; float: right">
+        <!--<div style="margin-top: -8px; float: right">
             <search-box v-model="keyWord" :submit="getKeywordNews"></search-box>
-        </div>
+        </div>-->
         <h3><%= LANG('公告') %></h3>
         <div class="blog-list" :class="{'loading loading-light-bg' : !news}" style="min-height: 435px;">
             <a :href="'/blog/display?articleId=' + item.articleId" class="blog-item" v-for="item in news" v-cloak="" v-if="news.length > 0">
