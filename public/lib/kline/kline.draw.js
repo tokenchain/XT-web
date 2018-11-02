@@ -6226,7 +6226,7 @@ RangePlotter.prototype.getRequiredWidth = function(context, v) {
     var theme = mgr.getTheme(this.getFrameName());
     context.font = theme.getFont(Theme.Font.Default);
     //Y轴边距
-    return context.measureText((Math.floor(v) + 0.88).toString()).width + 60;
+    return context.measureText((Math.floor(v) + 0.88).toString()).width + 100;
 };
 RangePlotter.prototype.Draw = function(context) {
     var mgr = ChartManager.getInstance();
