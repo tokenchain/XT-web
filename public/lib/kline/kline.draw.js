@@ -4519,12 +4519,12 @@ MainDataSource.prototype.getDecimalDigits = function () {
 MainDataSource.prototype.calcDecimalDigits = function (v) {
     var patt1 = new RegExp("e");
     var result = patt1.test(v);
-
     if (result) {
         var str = "" + v.toFixed(8);
     } else {
         var str = "" + v;
     }
+    // var str = "" + v;
     var i = str.indexOf('.');
     if (i < 0)
         return 0;
@@ -6226,7 +6226,7 @@ RangePlotter.prototype.getRequiredWidth = function(context, v) {
     var theme = mgr.getTheme(this.getFrameName());
     context.font = theme.getFont(Theme.Font.Default);
     //Y轴边距
-    return context.measureText((Math.floor(v) + 0.88).toString()).width + 50;
+    return context.measureText((Math.floor(v) + 0.88).toString()).width + 60;
 };
 RangePlotter.prototype.Draw = function(context) {
     var mgr = ChartManager.getInstance();
