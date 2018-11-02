@@ -38,12 +38,12 @@
     <div class="header-nav" id="header-navigator">
         <ul class="main-nav">
             <li>
-                <a role="button" href="/trade/btc_usdt" id="menu_exchange" :class="{active:activeNav=='trade'}">
+                <a role="button" href="/trade/btc_usdt" id="menu_exchange" :class="{active: activeNav=='trade'}">
                     <%= LANG('币币交易') %>
                 </a>
             </li>
-            <li><a role="button" href="/otcTrade"><%= LANG('OTC交易') %></a></li>
-            <li><a role="button" href="/appstore">App</a></li>
+            <li><a role="button" href="/otcTrade" :class="{active:activeNav=='otcTrade'}"><%= LANG('OTC交易') %></a></li>
+            <li><a role="button" href="/appstore" :class="{active:activeNav=='appstore'}">App</a></li>
 
             <!--<li><a role="button" href="/appstore" >App</a></li>-->
             <!-- <li><a role="button" href="/market" id="menu_market"><%= LANG('市场') %></a></li> -->
@@ -421,7 +421,7 @@
                 },
                 created() {
                     var href = window.location.href
-                    var arr = ['trade', 'ztminer', 'newmarket', 'appstore']
+                    var arr = ['trade', 'otcTrade', 'newmarket', 'appstore']
                     var _this = this
                     arr.forEach(function (val) {
                         if (href.indexOf(val) != -1) {
