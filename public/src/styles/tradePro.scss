@@ -814,6 +814,7 @@ body.trading-dark {
             }
           }
           .tradeNew-table, .tradeNew-table1 {
+            overflow: hidden;
             li p {
               justify-content: flex-start;
               &:last-child {
