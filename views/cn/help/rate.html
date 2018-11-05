@@ -44,7 +44,7 @@
                     <ul v-for="coin,key in coinMap" v-if="coin.isLegalCoin==0" style="padding:0 20px">
                         <li class="coin-name">
                             <img
-                                    v-if="coin.name == 'fil'||coin.name == 'dcr'||coin.name == 'sc'||coin.name == 'sxc'||coin.name == 'xtz'||coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'||coin.name == 'xt'||coin.name == 'doge'"
+                                    v-if="coin.name == 'scc'||coin.name == 'fil'||coin.name == 'dcr'||coin.name == 'sc'||coin.name == 'sxc'||coin.name == 'xtz'||coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'||coin.name == 'xt'||coin.name == 'doge'"
                                  :src="'/src/images/icon/coin/'+coin.name+'.png'"
                                  class="icon-coin">
                             <img v-else :src="'/src/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}

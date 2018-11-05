@@ -521,7 +521,7 @@
                                 v-cloak="">
                                 <li class="coin-name">
                                     <img
-                                            v-if="data.market.split('_')[0] === 'fil' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'sxc'|| data.market.split('_')[0] === 'xtz'"
+                                            v-if="data.market.split('_')[0] === 'scc' || data.market.split('_')[0] === 'fil' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'sxc'|| data.market.split('_')[0] === 'xtz'"
                                         :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
                                     <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
                                     {{data.market.split('_')[0].toUpperCase()}}
