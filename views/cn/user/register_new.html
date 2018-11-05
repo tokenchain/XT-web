@@ -124,12 +124,12 @@
             </div>
             
             <!-- 邀请码 -->
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <div class="form-control">
                     <img src="/src/images/pass.png" class="title" alt="">
-                    <input autocomplete="new-password" placeholder="<%= LANG('请输入邀请码') %>" v-on:focus="clearInputError($event)"  type="text">
+                    <input autocomplete="off" placeholder="<%= LANG('请输入邀请码') %>" v-model="recommendCode" v-on:focus="clearInputError($event)"  type="text" maxlength="6">
                 </div>
-            </div> -->
+            </div>
 
             <div class="form-group">
                 <div id="captcha"></div>
@@ -213,6 +213,7 @@
                     imgCodeId: '',
                     imageCodeUrl: '',
                     puzzleValidateString: '',
+                    recommendCode: '' // 邀请码
                 }
             },
             methods: {
@@ -352,7 +353,8 @@
                         //recommId: Methods.getCookie(ENV + 'recommendCode'),
                         countryCode: this.countryCode,
                         pwdLevel: this.pwdStrength, //密码强度，前端计算
-                        puzzleValidateString: this.puzzleValidateString
+                        puzzleValidateString: this.puzzleValidateString,
+                        recommendCode: this.recommendCode
                     };
                     if (Methods.getCookie(ENV + "recommendCode")) {
                         data.recommendCode = decodeURIComponent(Methods.getCookie(ENV +
