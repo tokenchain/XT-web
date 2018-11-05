@@ -1519,17 +1519,17 @@ button {
             font-weight: 600;
             background-blend-mode: normal, normal;
             &:first-child {
-              background-image: linear-gradient(0deg,#FFB064 0%,#FFE35A 100%)
+              background-image: linear-gradient(0deg, #FFB064 0%, #FFE35A 100%)
             }
             &:nth-child(2) {
-              background-image: linear-gradient(0deg,#F95C81 0%,#F8BF66 100%)
+              background-image: linear-gradient(0deg, #F95C81 0%, #F8BF66 100%)
             }
             &:nth-child(3) {
-              background-image: linear-gradient(0deg,#A7DA7C 0%,#E5EBA3 100%)
+              background-image: linear-gradient(0deg, #A7DA7C 0%, #E5EBA3 100%)
             }
             &:last-child {
               margin-right: 0;
-              background-image: linear-gradient(0deg,#8ADCEB 0%,#B7F2EB 100%)
+              background-image: linear-gradient(0deg, #8ADCEB 0%, #B7F2EB 100%)
             }
             span {
               display: block;
@@ -3717,18 +3717,82 @@ input::-webkit-inner-spin-button {
 .home-otcTrade {
   background: #fff;
   height: 100%;
-  .title {
-    display: flex;
-    justify-content: flex-start;
-    .tab-box {
+  clear: both;
+  overflow: hidden;
+  color: #000;
+  .otcTrade-continer {
+    padding: 0 10%;
+    margin: 30px auto 10px auto;
+    .title {
+      display: flex;
       justify-content: flex-start;
-      flex: 1;
+      align-items: center;
+      .tab-box {
+        justify-content: flex-start;
+        flex: 1;
+        padding: 20px 0px;
+        span {
+          padding: 10px 25px;
+          background: #E44A5D;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+      > a {
+        justify-content: flex-end;
+        padding: 8px 15px;
+        background: #E44A5D;
+        border-radius: 4px;
+        margin-right: 10px;
+        color: #fff;
+      }
+      .search {
+        justify-content: flex-end;
+        input {
+          width: 200px;
+          padding: 8px 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+      }
     }
-    > a {
-      justify-content: flex-end;
+    .coinList {
+      display: flex;
+      padding: 10px 0px 15px 0;
+      .coin {
+        margin-right: 40px;
+      }
     }
-    .search {
-      justify-content: flex-end;
+    .otclist {
+      table {
+        width: 100%;
+        border-collapse:collapse;
+        tr {
+          td {
+            padding: 22px 0;
+          }
+          td:last-child {
+            text-align: right;
+          }
+        }
+        tbody {
+          tr {
+            &:last-child td{
+              border-bottom: 1px solid #ddd;
+            }
+            td {
+              border-top: 1px solid #ddd;
+              span.btn{
+                padding: 8px 12px;
+                background: #E44A5D;
+                border-radius: 4px;
+                color: #fff;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

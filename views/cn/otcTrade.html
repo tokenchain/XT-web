@@ -11,17 +11,16 @@
 
 <head>
     <script type="text/javascript">
-        var GLOBAL             = {},
+        var GLOBAL = {},
             EXX = {},
-            ENV               = GLOBAL['ENV']       = '<%= ENV %>',
-            LAN               = GLOBAL['LAN']       = '<%= LAN %>',
-            MONEY               = GLOBAL['MONEY']       = '<%= MONEY || "usd" %>',
-            ISLOGIN               = GLOBAL['ISLOGIN']       = <%= Boolean(isLogin) %>,
-            VERSION            = GLOBAL['VERSION']           = '<%= VERSION %>',
-            DOMAIN_BASE        = GLOBAL['DOMAIN_BASE']       = '<%= DOMAIN_BASE %>',
-            DOMAIN_DEV        = GLOBAL['DOMAIN_DEV']       = '<%= DOMAIN_DEV %>',
-            WEBSOCKET        = GLOBAL['WEBSOCKET']       = '<%= WEBSOCKET %>';
-
+            ENV = GLOBAL['ENV'] = '<%= ENV %>',
+            LAN = GLOBAL['LAN'] = '<%= LAN %>',
+            MONEY = GLOBAL['MONEY'] = '<%= MONEY || "usd" %>',
+            ISLOGIN = GLOBAL['ISLOGIN'] = <%= Boolean(isLogin)%>,
+            VERSION = GLOBAL['VERSION'] = '<%= VERSION %>',
+            DOMAIN_BASE = GLOBAL['DOMAIN_BASE'] = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV = GLOBAL['DOMAIN_DEV'] = '<%= DOMAIN_DEV %>',
+            WEBSOCKET = GLOBAL['WEBSOCKET'] = '<%= WEBSOCKET %>';
         document.domain = DOMAIN_BASE;
     </script>
     <meta charset="utf-8">
@@ -40,69 +39,84 @@
 <body>
 <%-include("./include/head.html")%>
 <section class="home-otcTrade" id="home-otcTrade">
-    <div class="title">
-        <div class="tab-box">
-            <span>购买</span>
-            <span>出售</span>
+    <div class="otcTrade-continer">
+        <div class="title">
+            <div class="tab-box">
+                <span>购买</span>
+                <span>出售</span>
+            </div>
+            <a href="#">发布广告</a>
+            <div class="search">
+                <input type="text" placeholder="中国，人民币，全部支付方式">
+            </div>
         </div>
-        <a href="#">发布广告</a>
-        <div class="search">
-            <input type="text" placeholder="中国，人民币，全部支付方式">
+        <div class="coinList">
+            <div class="coin">
+                BTC
+            </div>
+            <div class="coin">
+                XC
+            </div>
+            <div class="coin">
+                ETH
+            </div>
+            <div class="coin">
+                EOS
+            </div>
+            <div class="coin">
+                XT
+            </div>
         </div>
-    </div>
-    <div class="coinList">
-
-    </div>
-    <div class="otclist">
-        <table>
-            <thead>
-            <tr>
-                <td><%=LANG('商家(30日成单 | 30日完成率)')%></td>
-                <td><%=LANG('数量')%></td>
-                <td><%=LANG('限额')%></td>
-                <td><%=LANG('单价')%></td>
-                <td><%=LANG('支付方式')%></td>
-                <td><%=LANG('操作')%></td>
-            </tr>
-            <tr>
-                <td>嘿呀嘿呀 (147 | 97%)</td>
-                <td>0.100000 BTC</td>
-                <td>4,444-4,444 CNY</td>
-                <td>44,440.00 CNY</td>
-                <td>支付宝 信用卡</td>
-                <td>购买otc</td>
-            </tr>
-            <tr>
-                <td>嘿呀嘿呀 (147 | 97%)</td>
-                <td>0.100000 BTC</td>
-                <td>4,444-4,444 CNY</td>
-                <td>44,440.00 CNY</td>
-                <td>支付宝 信用卡</td>
-                <td>购买otc</td>
-            </tr>
-            <tr>
-                <td>嘿呀嘿呀 (147 | 97%)</td>
-                <td>0.100000 BTC</td>
-                <td>4,444-4,444 CNY</td>
-                <td>44,440.00 CNY</td>
-                <td>支付宝 信用卡</td>
-                <td>购买otc</td>
-            </tr>
-            <tr>
-                <td>嘿呀嘿呀 (147 | 97%)</td>
-                <td>0.100000 BTC</td>
-                <td>4,444-4,444 CNY</td>
-                <td>44,440.00 CNY</td>
-                <td>支付宝 信用卡</td>
-                <td>购买otc</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr></tr>
-            </tbody>
-        </table>
-        <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
-                   v-if="records.length > 0 && !isAll"></page-lite>-->
+        <div class="otclist">
+            <table>
+                <thead>
+                <tr>
+                    <td><%=LANG('商家(30日成单 | 30日完成率)')%></td>
+                    <td><%=LANG('数量')%></td>
+                    <td><%=LANG('限额')%></td>
+                    <td><%=LANG('单价')%></td>
+                    <td><%=LANG('支付方式')%></td>
+                    <td><%=LANG('操作')%></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>嘿呀嘿呀 (147 | 97%)</td>
+                    <td>0.100000 BTC</td>
+                    <td>4,444-4,444 CNY</td>
+                    <td>44,440.00 CNY</td>
+                    <td>支付宝 信用卡</td>
+                    <td><span class="btn">购买otc</span></td>
+                </tr>
+                <tr>
+                    <td>嘿呀嘿呀 (147 | 97%)</td>
+                    <td>0.100000 BTC</td>
+                    <td>4,444-4,444 CNY</td>
+                    <td>44,440.00 CNY</td>
+                    <td>支付宝 信用卡</td>
+                    <td><span class="btn">购买otc</span></td>
+                </tr>
+                <tr>
+                    <td>嘿呀嘿呀 (147 | 97%)</td>
+                    <td>0.100000 BTC</td>
+                    <td>4,444-4,444 CNY</td>
+                    <td>44,440.00 CNY</td>
+                    <td>支付宝 信用卡</td>
+                    <td><span class="btn">购买otc</span></td>
+                </tr>
+                <tr>
+                    <td>嘿呀嘿呀 (147 | 97%)</td>
+                    <td>0.100000 BTC</td>
+                    <td>4,444-4,444 CNY</td>
+                    <td>44,440.00 CNY</td>
+                    <td>支付宝 信用卡</td>
+                    <td><span class="btn">购买otc</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+                       v-if="records.length > 0 && !isAll"></page-lite>-->
+        </div>
     </div>
 </section>
 
