@@ -366,7 +366,7 @@
                     <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)" v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
                         <li class="coin-name">
                             <img
-                                    v-if="item.name =='scc'||item.name =='fil'||item.name =='dcr'||item.name =='sc'||item.name =='sxc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'||item.name =='bch'"
+                                    v-if="item.name =='scc'||item.name =='fil'||item.name =='dcr'||item.name =='sc'||item.name =='sxc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'"
                                 :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
                                 class="icon-coin" />
                             <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
@@ -973,7 +973,6 @@
                 //冻结价格折合的提示内容
                 showFreezeAssistHint: function (coin) {
                     var price = this.fixFreezeDecimal(coin, 8);
-                    console.log(coin, '6')
                     return "<%= LANG('折合')%>:" + this.getConvertPriceByAssist(coin, price) + " " +
                         this.showAssistCoin();
                 },
