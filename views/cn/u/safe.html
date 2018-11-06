@@ -81,7 +81,7 @@
                         <p v-else-if="identifyStatus == 4">已高级实名认证，认证姓名：{{realName}}</p>
                     </div>
                     <div class="oper" v-if="identifyStatus == 0"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
-                    <div class="oper" v-else><a :href="'/u/certify?status=' + identifyStatus" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                    <div class="oper" v-else><a href="/u/certify" class="btn btn-primary"><%= LANG('去认证') %></a></div>
                 </li>
             </ul>
             <!--<ul class="info">
@@ -925,7 +925,6 @@
                 created: function () {
                     this.getPubKey();
                     this.getUserStatus()
-                    console.log(this.loginUser)
                 },
                 mounted: function () {
                     var that = this;
