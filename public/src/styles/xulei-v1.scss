@@ -3627,11 +3627,15 @@ p.exx-prompt {
 .exx-blog {
   padding: 20px 0;
   background: #f2f3f5;
+<<<<<<< HEAD
+=======
+  min-height: 70vh;
+>>>>>>> hotfix/blog-page
 }
 
 .exx-blog .container {
   margin: 0 auto;
-  max-width: 1100px;
+  //max-width: 1100px;
   border-radius: 3px;
   padding: 50px;
   background: #fff;

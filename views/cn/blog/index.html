@@ -1,3 +1,8 @@
+<style>
+    .header{
+        background: #3E3E3E;
+    }
+</style>
 <div class="exx-blog" id="blog">
     <div class="container">
         <!--<div style="margin-top: -8px; float: right">
@@ -14,8 +19,8 @@
 
         <div class="more-button" v-cloak="" v-if="news && news.length > 0">
             <button class="exxbtn btn-cancel" class="btn-cancel" v-if="loading" type="button" style="width:100%" disabled="disabled">Loading...</button>
-            <button class="exxbtn btn-cancel" v-if="!loading && pageCount < pageSize" type="button" style="width:100%" disabled="disabled">No More</button>
-            <button class="exxbtn btn-ok" v-if="!loading && pageCount >= pageSize" @click="getNewsList" type="button" style="width:100%">Load More</button>
+            <button class="exxbtn btn-cancel" v-if="!loading && totalPage < pageSize" type="button" style="width:100%" disabled="disabled">No More</button>
+            <button class="exxbtn btn-ok" v-if="!loading && totalPage >= pageSize" @click="loadMore" type="button" style="width:100%">Load More</button>
         </div>
     </div>
 </div>
@@ -39,7 +44,12 @@
                     pageSize: 10,
                     pageCount: 0,
                     loading: false,
+<<<<<<< HEAD
                     keyWord: ''
+=======
+                    keyWord: '',
+                    totalPage: 1
+>>>>>>> hotfix/blog-page
                 }
             },
             computed: {},
@@ -121,7 +131,11 @@
                     } [language]
                     var data = {
                         pageIndex: 1,
+<<<<<<< HEAD
                         pageSize: 4,
+=======
+                        pageSize: this.pageSize,
+>>>>>>> hotfix/blog-page
                         categoryId: '7cZulbgB624',
                         lanType: lanType
                     }
@@ -132,9 +146,20 @@
                         success: function (res) {
                             var list = res.datas.list;
                             that.news = list
+<<<<<<< HEAD
                             that.loading = false;
                         }
                     });
+=======
+                            that.totalPage = res.datas.totalPage
+                            that.loading = false;
+                        }
+                    });
+                },
+                loadMore: function () {
+                    this.pageSize += 10;
+                    this.getNewsList();
+>>>>>>> hotfix/blog-page
                 },
                 changeNewsType: function (type) {
                     this.newsType = type;

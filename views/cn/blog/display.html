@@ -1,7 +1,12 @@
+<style>
+    .header{
+        background: #3E3E3E;
+    }
+</style>
 <section class="exx-blog" id="blog">
-    <div class="container" v-cloak="" v-if="view == 'display'">
+    <div class="container" v-if="view == 'display'">
         <h2 v-cloak="">
-            {{newsContent.articleTitle}}
+            {{newsContent.article.articleTitle}}
             <p class="time">
                 <%= LANG('发布时间：') %>
                 <!--{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}-->
@@ -9,13 +14,13 @@
                 {{getDateTime(newsContent.article.createTime)}}
             </p>
         </h2>
-        <div v-cloak="" class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
+        <div class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
     </div>
 
 
     <div class="container" style="display: none;">
 
-        <div class="help-ld" v-cloak>
+        <div class="help-ld">
             <div class="news-ldlist">
                 <div class="list" v-for="category in categories" @click="changeNewsType(category)"
                      :class="{active: newsType == category.code}">
@@ -27,7 +32,7 @@
         </div>
 
         <div class="help-rd">
-            <transition name="fade" mode="out-in" v-cloak>
+            <transition name="fade" mode="out-in">
                 <div v-if="view == 'list'" class="help-cont news-list">
                     <h3>
                         <template>{{typeName}}<%= LANG('列表') %></template>
@@ -157,7 +162,7 @@
                 },
             },
             // this.getCategory();
-        created: function () {
+            created: function () {
 
                 // if (!params.articleId) {
                 //     this.newsType = params.type;
