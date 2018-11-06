@@ -22,18 +22,29 @@
         transform: none;
         cursor: initial;
     }
-    #partnerBox .earnings .header {
+    #partnerBox .earnings .head {
+        position: relative;
+        width: 100%;
+        height: 62px;
         padding: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
     }
-    #partnerBox .earnings .header h3 {
+    #partnerBox .earnings .head h3 {
         font-size: 16px;
         color: #333;
         margin-right: 28px;
     }
-    #partnerBox .earnings .header .form-group {
+    #partnerBox .earnings .head .form-group {
         margin-bottom: 0;
     }
-    #partnerBox .earnings .header input {
+    #partnerBox .earnings .head input {
         width: 206px;
         height: 33px;
         line-height: 33px;
@@ -44,7 +55,7 @@
         font-size: 14px;
         padding: 0 16px;
     }
-    #partnerBox .earnings .header .icon {
+    #partnerBox .earnings .head .icon {
         position: absolute;
         right: 16px;
         top: 10px;
@@ -85,7 +96,7 @@
             </div>
         </div>
         <p class="inviteText">
-            <%= LANG('在2018-11-18 00:00 ～ 2018-12-18 00:00 期间，邀请好友注册XT平台账户比在规定时间内完成实名认证，可以获得2XT奖励！') %>
+            <%= LANG(' 在2018-10-30 00:00 ～ 2018-12-31 00:00 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
         </p>
     </div>
     <div class="partner-details">
@@ -97,34 +108,34 @@
                 <li>
                     <span>
                         <%= LANG('邀请注册用户总数') %></span>
-                    <em>{{invitingUserData.totalRegisterCount}}
+                    <em>{{invitingUserData.totalRegisterCount || 0}}
                         <%= LANG('人') %></em>
                 </li>
                 <li>
                     <span>
-                        <%= LANG('实名用户总数')%> {{invitingUserData.totalRealCount}}
+                        <%= LANG('实名用户总数')%> {{invitingUserData.totalRealCount || 0}}
                         <%= LANG('人') %></span>
                     <span>
-                        <%= LANG('总获得') %> {{invitingUserData.totalRealCount * 2}} XT</span>
+                        <%= LANG('总获得') %> {{invitingUserData.totalRealCount * 2 || 0}} XT</span>
                 </li>
                 <li>
                     <span>
                         <%= LANG('本月邀请注册用户数') %></span>
-                    <em>{{invitingUserData.monthRegisterCount}}
+                    <em>{{invitingUserData.monthRegisterCount || 0}}
                         <%= LANG('人') %></em>
                 </li>
                 <li>
                     <span>
-                        <%= LANG('本月实名用户数') %> {{invitingUserData.monthRealCount}}
+                        <%= LANG('本月实名用户数') %> {{invitingUserData.monthRealCount || 0}}
                         <%= LANG('人') %></span>
                     <span>
-                        <%= LANG('获得') %> {{invitingUserData.monthRealCount * 2}} XT</span>
+                        <%= LANG('获得') %> {{invitingUserData.monthRealCount * 2 || 0}} XT</span>
                 </li>
             </ul>
         </div>
     </div>
     <div class="earnings">
-        <div class="header">
+        <div class="head">
             <h3>
                 <%= LANG('每日详情') %>
             </h3>
@@ -170,7 +181,7 @@
 
     <!--查看详情-->
     <modal v-cloak :open="showModal == 'inviteList'" @close="showModal = false">
-        <invite-list :params="detailsList"/>
+        <invite-list :params="detailsList" />
     </modal>
 </div>
 
