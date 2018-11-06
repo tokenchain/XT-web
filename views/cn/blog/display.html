@@ -6,7 +6,7 @@
 <section class="exx-blog" id="blog">
     <div class="container" v-if="view == 'display'">
         <h2 v-cloak="">
-            {{newsContent.articleTitle}}
+            {{newsContent.article.articleTitle}}
             <p class="time">
                 <%= LANG('发布时间：') %>
                 <!--{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}-->
