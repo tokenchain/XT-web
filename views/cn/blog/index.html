@@ -44,12 +44,8 @@
                     pageSize: 10,
                     pageCount: 0,
                     loading: false,
-<<<<<<< HEAD
-                    keyWord: ''
-=======
                     keyWord: '',
                     totalPage: 1
->>>>>>> hotfix/blog-page
                 }
             },
             computed: {},
@@ -131,11 +127,7 @@
                     } [language]
                     var data = {
                         pageIndex: 1,
-<<<<<<< HEAD
-                        pageSize: 4,
-=======
                         pageSize: this.pageSize,
->>>>>>> hotfix/blog-page
                         categoryId: '7cZulbgB624',
                         lanType: lanType
                     }
@@ -146,11 +138,6 @@
                         success: function (res) {
                             var list = res.datas.list;
                             that.news = list
-<<<<<<< HEAD
-                            that.loading = false;
-                        }
-                    });
-=======
                             that.totalPage = res.datas.totalPage
                             that.loading = false;
                         }
@@ -159,7 +146,6 @@
                 loadMore: function () {
                     this.pageSize += 10;
                     this.getNewsList();
->>>>>>> hotfix/blog-page
                 },
                 changeNewsType: function (type) {
                     this.newsType = type;
