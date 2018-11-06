@@ -165,7 +165,7 @@
                 </tr>
             </tbody>
         </table>
-        <p class="noData" v-if="invitingUserData.length == 0">暂无数据</p>
+        <p class="noData" v-if="invitingUserData.length == 0 || !invitingUserData">暂无数据</p>
     </div>
 
     <!--查看详情-->
