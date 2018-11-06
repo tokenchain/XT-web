@@ -101,6 +101,12 @@
     var passIsSet = false;
     var easyLoginSetTimeout
 
+    // alert(<%= Boolean(isLogin) %>)
+    if (<%= Boolean(isLogin) %>) {
+        var path = document.referrer ? pathArr[pathArr.length - 1] == 'findLoginPwd' || pathArr[pathArr.length - 1] == 'register' ? '/u' : document.referrer : '/u'
+        window.location.href = path
+    }
+
     function loginSuccessUi(redirect) {
         swal({
             title: "<%= LANG('登录成功') %>",
