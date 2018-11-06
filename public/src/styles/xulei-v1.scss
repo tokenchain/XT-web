@@ -3625,17 +3625,18 @@ p.exx-prompt {
 }
 
 .exx-blog {
-  padding: 30px 20px;
+  padding: 20px 0;
   background: #f2f3f5;
-
+  min-height: 70vh;
 }
 
 .exx-blog .container {
   margin: 0 auto;
-  max-width: 1100px;
+  //max-width: 1100px;
   border-radius: 3px;
   padding: 50px;
   background: #fff;
+  min-height: 600px;
 }
 
 .exx-blog .return {
@@ -6423,7 +6424,7 @@ p.exx-prompt {
     }
     .form-control {
       flex: 1;
-      input[type=text], input[type=password], input[type=number]{
+      input[type=text], input[type=password], input[type=number] {
         padding: 0 0 0 35px;
         height: 40px;
         border-radius: 4px;
