@@ -1,5 +1,10 @@
+<style>
+    .header{
+        background: #3E3E3E;
+    }
+</style>
 <section class="exx-blog" id="blog">
-    <div class="container" v-cloak="" v-if="view == 'display'">
+    <div class="container" v-if="view == 'display'">
         <h2 v-cloak="">
             {{newsContent.articleTitle}}
             <p class="time">
@@ -9,13 +14,13 @@
                 {{getDateTime(newsContent.article.createTime)}}
             </p>
         </h2>
-        <div v-cloak="" class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
+        <div class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
     </div>
 
 
     <div class="container" style="display: none;">
 
-        <div class="help-ld" v-cloak>
+        <div class="help-ld">
             <div class="news-ldlist">
                 <div class="list" v-for="category in categories" @click="changeNewsType(category)"
                      :class="{active: newsType == category.code}">
@@ -27,7 +32,7 @@
         </div>
 
         <div class="help-rd">
-            <transition name="fade" mode="out-in" v-cloak>
+            <transition name="fade" mode="out-in">
                 <div v-if="view == 'list'" class="help-cont news-list">
                     <h3>
                         <template>{{typeName}}<%= LANG('列表') %></template>
@@ -47,7 +52,7 @@
         </div>
     </div>
 </section>
-
+<%-include("../include/footer.html")%>
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
         EXX.helpDisplay = new Vue({
@@ -157,7 +162,7 @@
                 },
             },
             // this.getCategory();
-        created: function () {
+            created: function () {
 
                 // if (!params.articleId) {
                 //     this.newsType = params.type;

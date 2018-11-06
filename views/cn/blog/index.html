@@ -1,8 +1,13 @@
+<style>
+    .header{
+        background: #3E3E3E;
+    }
+</style>
 <div class="exx-blog" id="blog">
     <div class="container">
-        <div style="margin-top: -8px; float: right">
+        <!--<div style="margin-top: -8px; float: right">
             <search-box v-model="keyWord" :submit="getKeywordNews"></search-box>
-        </div>
+        </div>-->
         <h3><%= LANG('公告') %></h3>
         <div class="blog-list" :class="{'loading loading-light-bg' : !news}" style="min-height: 435px;">
             <a :href="'/blog/display?articleId=' + item.articleId" class="blog-item" v-for="item in news" v-cloak="" v-if="news.length > 0">
@@ -14,11 +19,14 @@
 
         <div class="more-button" v-cloak="" v-if="news && news.length > 0">
             <button class="exxbtn btn-cancel" class="btn-cancel" v-if="loading" type="button" style="width:100%" disabled="disabled">Loading...</button>
-            <button class="exxbtn btn-cancel" v-if="!loading && pageCount < pageSize" type="button" style="width:100%" disabled="disabled">No More</button>
-            <button class="exxbtn btn-ok" v-if="!loading && pageCount >= pageSize" @click="getNewsList" type="button" style="width:100%">Load More</button>
+            <button class="exxbtn btn-cancel" v-if="!loading && totalPage < pageSize" type="button" style="width:100%" disabled="disabled">No More</button>
+            <button class="exxbtn btn-ok" v-if="!loading && totalPage >= pageSize" @click="loadMore" type="button" style="width:100%">Load More</button>
         </div>
     </div>
 </div>
+
+<%-include("../component/search_box.html")%>
+
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
         EXX.helpDisplay = new Vue({
@@ -30,13 +38,14 @@
                     view: 'list',
                     newsType: '102',
                     typeName: '<%= LANG("新闻")%>',
-                    news: '',
+                    news: [],
                     newsContent: {},
-                    pageNo : 1,
-                    pageSize : 10,
-                    pageCount : 0,
-                    loading : false,
-                    keyWord : ''
+                    pageNo: 1,
+                    pageSize: 10,
+                    pageCount: 0,
+                    loading: false,
+                    keyWord: '',
+                    totalPage: 1
                 }
             },
             computed: {},
@@ -61,8 +70,8 @@
                     //     }.bind(this)
                     // });
                 },
-                getKeywordNews : function () {
-                    if(this.keyWord == ''){
+                getKeywordNews: function () {
+                    if (this.keyWord == '') {
                         return false;
                     }
                     this.pageNo = 1;
@@ -103,75 +112,40 @@
                     });
                 },
                 getNewsList: function (type) {
-                    if(this.loading){
+                    if (this.loading) {
                         return false;
                     }
                     this.loading = true;
-
+                    var language = getCookie('wlan')
                     var that = this
-                    var lanNum = 1
-                    switch (LAN) {
-                        case "cn":
-                            lanNum = 1
-                            break;
-                        case "en":
-                            lanNum = 2
-                            break;
-                        case "kr":
-                            lanNum = 3
-                            break;
-                        case "jp":
-                            lanNum = 4
-                            break;
-                    }
+                    var lanType = {
+                        cn: '1',
+                        en: '2',
+                        kr: '3',
+                        jp: '4',
+                        hk: '5'
+                    } [language]
                     var data = {
-                        type: 2,
-                        lanType: lanNum,
-                        isPage:false
-                    };
+                        pageIndex: 1,
+                        pageSize: this.pageSize,
+                        categoryId: '7cZulbgB624',
+                        lanType: lanType
+                    }
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecategorycontroller/" + 'getCategoryByType',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/articlecontroller/" + 'getArticles',
                         data: data,
                         success: function (res) {
-                            if (res.datas.length > 0) {
-                                var list=res.datas[0].subsetCategory;
-                                var new_length=list.length;
-                                that.news=[]
-                                for(var i=0;i<new_length;i++){
-                                    if(list[i].subArticle.length!=0){
-                                       var arr=list[i].subArticle
-                                        that.news.push(arr)
-
-                                    }
-                                }
-
-                                that.news=([].concat.apply([],that.news))
-                            }
+                            var list = res.datas.list;
+                            that.news = list
+                            that.totalPage = res.datas.totalPage
                             that.loading = false;
                         }
                     });
-                    // Methods.ajax({
-                    //     type: 'GET',
-                    //     url: DOMAIN_MAIN + API_PREFIX + 'getProblemTitleList',
-                    //     data: data,
-                    //     success: function (res) {
-                    //         var news = res.datas.titelList;
-                    //         if(_this.pageNo == 1){
-                    //             _this.news = news;
-                    //         }else{
-                    //             for(var i = 0, ilen = news.length; i < ilen; i++){
-                    //                 _this.news.push(news[i]);
-                    //             }
-                    //         }
-                    //         _this.pageCount = news.length || 0;
-                    //         _this.pageNo += 1;
-                    //         _this.loading = false;
-                    //     },
-                    //     error : function () {
-                    //         _this.loading = false;
-                    //     }
-                    // });
+                },
+                loadMore: function () {
+                    this.pageSize += 10;
+                    this.getNewsList();
                 },
                 changeNewsType: function (type) {
                     this.newsType = type;
@@ -227,10 +201,10 @@
             updated: function () {
 
             },
-            watch: {
-
-            }
+            watch: {}
         })
     })
 </script>
+
+<%-include("../include/footer.html")%>
 
