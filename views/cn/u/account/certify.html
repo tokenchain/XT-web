@@ -53,6 +53,7 @@
         text-align: left;
         margin-top: 0;
     }
+
     .isdisabled {
         background: #F5F5F5;
         color: #898989;
@@ -64,13 +65,19 @@
         <img src="/src/images/step-two.png" alt="">
     </div>
     <div class="fail" v-show="warn">
-        <h4><%= LANG('审核未通过') %></h4>
-        <p><%= LANG('原因：申请资料未按要求提交，请按要求提交资料后再次点击申请') %></p>
+        <h4>
+            <%= LANG('审核未通过') %>
+        </h4>
+        <p>
+            <%= LANG('原因：申请资料未按要求提交，请按要求提交资料后再次点击申请') %>
+        </p>
     </div>
     <h4>
-        <%= LANG('步骤一：准备资料') %></h4>
+        <%= LANG('步骤一：准备资料') %>
+    </h4>
     <p>
-        <%= LANG('1.请下载') %><span class="textColor"><%= LANG('《高级实名认证申请资料模板》') %></span>，
+        <%= LANG('1.请下载') %><span class="textColor">
+            <%= LANG('《高级实名认证申请资料模板》') %></span>，
         <%= LANG('按照要求填写申请资料。') %>
     </p>
     <p>
@@ -101,10 +108,12 @@
         <%= LANG('我们将在3个工作日内对您的申请资料进行审核。我们会主动与您取得联系，请保持通讯畅通。') %>
     </p>
     <p>
-        <%= LANG('提交申请高级实名认证即代表已阅读并同意') %><span class="textColor"><%= LANG('《OTC交易协议》') %></span>
+        <%= LANG('提交申请高级实名认证即代表已阅读并同意') %><a href="/help/OTCagreement" class="textColor">
+            <%= LANG('《OTC交易协议》') %></a>
     </p>
     <div class="form-button">
-        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitIdentify"><span><%= LANG('提交申请') %></span></button>
+        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitIdentify"><span>
+                <%= LANG('提交申请') %></span></button>
     </div>
 </div>
 
@@ -122,30 +131,52 @@
                 }
             },
             created() {
-                this.status = this.GetQueryString('status')
-                if (this.status != null && this.status.toString().length > 1) {
-                    this.status = this.GetQueryString('status')
-                }
-                // status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
-                if(this.status == 2) {
-                    this.disabled = true
-                }else if (this.status == 3) {
-                    this.warn = true
-                }
-                console.log(this.status)
+                // this.status = this.GetQueryString('status')
+                // if (this.status != null && this.status.toString().length > 1) {
+                //     this.status = this.GetQueryString('status')
+                // }
+                this.$nextTick(function () {
+                    this.getUserStatus();
+                })
             },
             methods: {
                 // 获取url携带参数方法
-                GetQueryString: function (name) {
-                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                    var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
-                    if (r != null) return unescape(r[2]);
-                    return null;
+                // GetQueryString: function (name) {
+                //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                //     var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+                //     if (r != null) return unescape(r[2]);
+                //     return null;
+                // },
+                // 获取用户实名状态
+                getUserStatus: function () {
+                    var that = this
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" +
+                            'userIdentifyStatus',
+                        data: {
+                            Userid: that.loginUser.userId
+                        },
+                        success: function (res) {
+                            that.status = res.datas.status
+                            // status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
+                            if (that.status == 2) {
+                                that.disabled = true
+                            } else if (that.status == 3) {
+                                that.warn = true
+                            }else if(that.status == 1) {
+                                JuaBox.info('<%= LANG("请先进行实名认证") %>');
+                                window.location.href = '/u/realName'
+                            }
+                            console.log(res.datas, "status")
+                        }
+                    });
                 },
                 submitIdentify: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/seniorIdentify",
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/seniorIdentify",
                         data: {
                             Userid: this.loginUser.userId,
                         },
@@ -154,7 +185,7 @@
                         }.bind(this)
                     });
                 }
-            },
+            }
         })
     });
 </script>
