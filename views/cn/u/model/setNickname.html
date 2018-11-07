@@ -33,13 +33,19 @@
                 }
             },
             created: function () {
-                this.$nextTick(function () {})
+                this.$nextTick(function () {
+                    console.log(this.loginUser)
+                })
             },
             methods: {
                 updateNickname: function () {
                     var pat = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i"); 
                     if(pat.test(this.nickname)) {   
                         return JuaBox.info('<%= LANG("名称中含有非法字符") %>');
+                    }else if(!this.nickname) {
+                        return JuaBox.info('<%= LANG("昵称不能为空") %>');
+                    }else if(this.nickname == this.loginUser.nickName) {
+                        return JuaBox.info('<%= LANG("昵称不能与旧昵称相同") %>');
                     }  
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/updateNickname",

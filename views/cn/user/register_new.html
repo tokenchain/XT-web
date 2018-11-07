@@ -341,6 +341,16 @@
                         }
                     }
                 },
+
+                // 时间戳转换
+                getUnixTimestamp: function (nowTime) {
+                    var thisTime = nowTime;
+                    thisTime = thisTime.replace(/-/g, '/');
+                    var time = new Date(thisTime);
+                    time = time.getTime();
+                    return time;
+                },
+
                 handleRegister: function () {
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
@@ -403,7 +413,7 @@
                                 }else {
                                     window.location.replace('/u');
                                 }
-                            },
+                            }.bind(this),
                             error: function (res) {
                                 this.requestLocked = false;
                                 JuaBox.showWrong(EXX.L(res.resMsg.code));
@@ -414,15 +424,6 @@
                             }.bind(this)
                         });
                     }
-                },
-                
-                // 时间戳转换
-                getUnixTimestamp: function (nowTime) {
-                    var thisTime = nowTime;
-                    thisTime = thisTime.replace(/-/g, '/');
-                    var time = new Date(thisTime);
-                    time = time.getTime();
-                    return time;
                 },
 
                 //初始化滑动验证码

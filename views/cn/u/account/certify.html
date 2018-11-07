@@ -112,8 +112,7 @@
             <%= LANG('《OTC交易协议》') %></a>
     </p>
     <div class="form-button">
-        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitIdentify"><span>
-                <%= LANG('提交申请') %></span></button>
+        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitIdentify"><span>{{status == 2 ? '<%= LANG('已提交申请') %>' : '<%= LANG('提交申请') %>'}}</span></button>
     </div>
 </div>
 
@@ -180,7 +179,7 @@
                         success: function (res) {
                             // JuaBox.info('<%= LANG("申请成功，等待审核") %>');
                             // window.location.href = '/u/account'
-                            if (res.datas.resMsg.code == 1) {
+                            if (res.resMsg.code == 1) {
                                 return JuaBox.info('<%= LANG("申请成功，等待审核") %>', function () {
                                     window.location.href = '/u/account'
                                 })
