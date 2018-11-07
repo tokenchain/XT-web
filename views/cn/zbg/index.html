@@ -898,6 +898,31 @@
                 }
             },
             methods: {
+                getBanner: function () {
+                    var that = this
+                    var language = getCookie('wlan')
+                    var lanType = {
+                        cn: '1',
+                        en: '2',
+                        kr: '3',
+                        jp: '4',
+                        hk: '5'
+                    } [language]
+                    var data = {
+                        showType: 1, //1：首页，2：帮助中心
+                        platform: 1, //1-web 2-app
+                        lanType: lanType
+                    }
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                        '/exchange/banner/controller/website/BannerController/getByLanType',
+                        data: data,
+                        success: function (res) {
+                            console.log(res)
+                            //that.notices = res.datas.list
+                        }
+                    })
+                },
                 initSwiper: function () {
                     var mySwiper = new Swiper('.swiper-container', {
                         // direction: 'vertical',
@@ -1586,7 +1611,7 @@
                 this.getNoticeList()
                 this.noticeStart = true
                 this.scrollNotices()
-
+this.getBanner()
                 //获取banner
                 this.getBannerList()
 
