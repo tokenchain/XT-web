@@ -116,6 +116,9 @@
         .swiper-pagination-bullet-active{
             background: #007aff;
         }
+        .banner01 a{
+            display: block;
+        }
         li{
             list-style: none;
         }
@@ -435,12 +438,17 @@
         <section class="banner">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide banner01">
+                    <div class="swiper-slide banner01" v-for="item in bannerList">
+                        <a :href="item.forwardUrl" target="_blank">
+                            <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' + item.picture" alt="">
+                        </a>
+                    </div>
+                    <!--<div class="swiper-slide banner01">
                         <img src="/src/images/banner01.png" alt="">
                     </div>
                     <div class="swiper-slide banner01">
                         <img src="/src/images/banner02.png" alt="">
-                    </div>
+                    </div>-->
                 </div>
                 <!-- 如果需要分页器 -->
                 <div class="swiper-pagination"></div>
@@ -903,6 +911,8 @@
                         // direction: 'vertical',
                         speed: 2000, //轮播滑动速度
                         loop: true, //循环
+                        observer: true,
+                        observeParents: true,//修改swiper的父元素时，自动初始化swiper
                         autoplay: {
                             autoplay: true,
                             delay: 5000, //轮播等待时间
@@ -961,8 +971,9 @@
                         url: DOMAIN_DEV +
                             "/exchange/banner/controller/website/BannerController/getByLanType",
                         data: {
-                            showType: '1', // 1 web  0 app
-                            lanType: lanType // 1-简体中文、2-英文、3-韩文、4-日文、5-繁体中文
+                            showType: 1, //1：首页，2：帮助中心
+                            platform: 1, //1-web 2-app
+                            lanType: lanType
                         },
                         success: function (res) {
                             this.bannerList = res.datas
@@ -1586,7 +1597,6 @@
                 this.getNoticeList()
                 this.noticeStart = true
                 this.scrollNotices()
-
                 //获取banner
                 this.getBannerList()
 
