@@ -48,10 +48,10 @@
                     <tbody>
                         <tr v-for="(item, index) in detailsList" :key="index">
                             <td>{{item.account}}</td>
-                            <td>{{item.identifyDate}}</td>
+                            <td>{{item.registerDate}}</td>
                             <td>{{item.xtAmount}}</td>
                             <td>{{item.realNameFlag ? '是' : '否'}}</td>
-                            <td>{{item.registerDate}}</td>
+                            <td>{{item.identifyDate || '--'}}</td>
                         </tr>
                     </tbody>
                 </table>

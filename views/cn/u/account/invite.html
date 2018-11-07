@@ -108,7 +108,7 @@
                 <li>
                     <span>
                         <%= LANG('邀请注册用户总数') %></span>
-                    <em>{{invitingUserData.totalRegisterCount || 0}}
+                    <em>{{invitingUserData.totalRegisterCount}}
                         <%= LANG('人') %></em>
                 </li>
                 <li>
@@ -167,7 +167,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in invitingUserData" :key="index">
+                <tr v-for="(item, index) in invitingUserDataList" :key="index">
                     <td>{{item.date}}</td>
                     <td>{{item.inviteCount}}</td>
                     <td>{{item.realNameCount}}</td>
@@ -176,7 +176,7 @@
                 </tr>
             </tbody>
         </table>
-        <p class="noData" v-if="invitingUserData.length == 0 || !invitingUserData">暂无数据</p>
+        <p class="noData" v-if="invitingUserDataList.length == 0 || !invitingUserData">暂无数据</p>
     </div>
 
     <!--查看详情-->
@@ -200,7 +200,8 @@
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
                     month: '',
                     invitingUserData: {},
-                    detailsList: {}
+                    detailsList: {},
+                    invitingUserDataList: []
                 }
             },
             created() {
@@ -241,7 +242,8 @@
                             month: this.month
                         },
                         success: function (res) {
-                            this.invitingUserData = res.datas.list;
+                            this.invitingUserData = res.datas;
+                            this.invitingUserDataList = this.invitingUserData.list
                             console.log(res.datas)
                         }.bind(this)
                     });
