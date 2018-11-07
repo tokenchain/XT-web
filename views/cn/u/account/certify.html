@@ -159,14 +159,11 @@
                         },
                         success: function (res) {
                             that.status = res.datas.status
-                            // status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
+                            // status=1,已经普通实名认证；status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
                             if (that.status == 2) {
                                 that.disabled = true
                             } else if (that.status == 3) {
                                 that.warn = true
-                            }else if(that.status == 1) {
-                                JuaBox.info('<%= LANG("请先进行实名认证") %>');
-                                window.location.href = '/u/realName'
                             }
                             console.log(res.datas, "status")
                         }

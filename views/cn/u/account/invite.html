@@ -96,7 +96,7 @@
             </div>
         </div>
         <p class="inviteText">
-            <%= LANG(' 在2018-10-30 00:00 ～ 2018-12-31 00:00 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
+            <%= LANG(' 在2018-10-30 00:00:00 ～ 2018-12-31 00:00:00 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
         </p>
     </div>
     <div class="partner-details">
@@ -194,8 +194,7 @@
             data: function () {
                 return {
                     showModal: false,
-                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
-                        .recommendCode || ''),
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
