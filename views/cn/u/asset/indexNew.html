@@ -280,7 +280,7 @@
                 getMarketClass: function (item, index) {
                     var index = index
                     if (index == 0) {
-                        console.log(item)
+                        // console.log(item)
                         return item.name + ' block'
                     } else {
                         return 'block'
@@ -673,7 +673,7 @@
 
                     this.userCoinFunds.forEach(function (coin, index) {
                         var amount = coin.amount || 0;
-                        console.log(parseFloat(amount * _this.moneyPrice(money, coin.name)))
+                        // console.log(parseFloat(amount * _this.moneyPrice(money, coin.name)))
                         alltotal += parseFloat(amount * _this.moneyPrice(money, coin.name));
 
                     });

@@ -88,7 +88,7 @@
                             <li v-for="(record,index) in address" :class="{'selected' : selectedAddress.userFundAddressId == record.userFundAddressId}" @click="CheckboxAddress(record,index)">
                                 <p><i><input type="checkbox" v-model="record.isChecked"></i></p>
                                 <p>{{record.remark}}</p>
-                                <p>{{record.address}}</p>
+                                <p style="word-break: break-all;padding: unset;">{{record.address}}</p>
                                 <p>
                                     <a role="button" @click.stop="openEditAddress('edit',record)"><%= LANG('修改备注') %></a>
                                     <a role="button" @click.stop="openEditAddress('dele',record)"><%= LANG('删除') %></a>
@@ -259,7 +259,7 @@
                                 <p>{{ record.verifyStatus == 0 && record.state == -1 ? '<%= LANG('已取消') %>' : (record.verifyStatus == 0 ? '<%= LANG('待审核') %>' : (record.verifyStatus == 1 ? '<%= LANG('已完成') %>' : '<%= LANG('审核不通过') %>' )) }}</p>
                                 <p style="text-align: right;">
                                     <a role="button" v-if="record.verifyStatus == 0 && record.state == 1" @click="cancelPayout(record.userApplyWithdrawId)"><%= LANG('取消') %></a>
-                                    <a role="button" v-else-if="record.verifyStatus == 1 && record.state == 1" @click="viewDetail(record.userApplyWithdrawId)"><%= LANG('查看详情') %></a>
+                                    <a role="button" v-else-if="record.verifyStatus == 1 && record.state == 1" @click="viewDetail(record)"><%= LANG('查看详情') %></a>
                                     <a role="button" v-else="">--</a>
                                 </p>
                             </li>
@@ -281,6 +281,11 @@
         <modal v-cloak :open="showModal == 'addAddress'" @close="showModal = false" >
             <modal-address :coin="currentCoin" :address="selectedAddress" :type="editType" :done="getPayoutAddress"/>
         </modal>
+
+        <!--查看详情-->
+        <modal v-cloak :open="showModal == 'seeDetails'" @close="showModal = false">
+            <modal-seedetails :coin="currentCoin" :record="record" @date="showDate"/>
+        </modal>
     </div>
 </div>
 <%-include("../../component/search_box.html")%>
@@ -288,6 +293,7 @@
 <%-include("../../component/send_code/index.html")%>
 <%-include("../../component/page_lite.html")%>
 <%-include("../model/editAddress.html")%>
+<%-include("../model/seePayoutDetails.html")%>
 
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
@@ -327,7 +333,8 @@
                     loaded: false,
                     imgCode: '',
                     imgCodeId: '',
-                    imageCodeUrl: ''
+                    imageCodeUrl: '',
+                    record: {} //查看提笔详情 信息
                 }
             },
             computed: {
@@ -347,13 +354,11 @@
                 blockChianUrl: function () {
                     var blockChianUrl = '';
                     var _this = this;
-                    console.log(this.coinConfig, 'this.coinConfig')
                     this.coinConfig.forEach(function (coin, index, arr) {
                         if (coin.name == _this.currentCoin) {
                             blockChianUrl = coin.blockChainUrl;
                         }
                     });
-                    console.log(blockChianUrl, 'blockChianUrl')
                     return blockChianUrl;
                 },
                 /**
@@ -549,7 +554,6 @@
                             for(var i=0;i<addressLength;i++){
                                 this.address[i].isChecked=false;
                             }
-                            console.log(this.address)
                         }.bind(this)
                     });
                 },
@@ -703,23 +707,23 @@
                     });
                 },
                 // 查看详情
-                viewDetail: function (id) {
+                viewDetail: function (record) {
                     var that = this
                     var data = {
-                        userApplyWithdrawId: id
+                        userApplyWithdrawId: record.userApplyWithdrawId
                     };
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaltxid',
                         data: data,
                         success: function (res) {
                             var txid = res.datas;
+                            this.record = Object.assign(record, {'TXID': txid})
                             var webUrl = that.blockChianUrl + txid;
-
-                            console.log(that.blockChianUrl, 'blockChianUrl')
-                            console.log(webUrl, 'webUrl')
-
-                            this.openWin(webUrl);
-
+                            if (!that.blockChianUrl) {
+                                this.showModal = 'seeDetails'
+                            } else {
+                                this.openWin(webUrl);
+                            }
                         }.bind(this)
                     });
                 },
