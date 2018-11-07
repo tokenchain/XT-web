@@ -1,7 +1,7 @@
 <script type="text/x-template" id="page-lite">
         <div class="paging">
             <a role="button" @click="turnPrev" :class="{'disabled': isFirstPage }"><%= LANG('上一页')%></a>
-            <span>{{LANG('第n页',pageIndex)}}</span>
+            <span><%= LANG('共{{totalPage}}页')%> / {{LANG('第n页',pageIndex)}}</span>
             <a role="button" @click="turnNext" :class="{'disabled': isLastPage }"><%= LANG('下一页')%></a>
         </div>
 </script>
@@ -29,6 +29,10 @@
                 pageCount : {
                     type: Number,
                     default:0
+                },
+                totalPage : {
+                    type: Number,
+                    default: 0
                 },
                 turnPage : {
                     type : Function,
@@ -80,7 +84,7 @@
 
             },
             mounted: function() {
-
+                console.log(this.totalPage)
             },
             beforeUpdate: function() {
 
