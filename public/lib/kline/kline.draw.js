@@ -4142,8 +4142,10 @@ Timeline.prototype.startMove = function() {
 };
 Timeline.prototype.scale = function(s) {
     this._scale += s;
-    if (this._scale < 0)
-        this._scale = 0;
+    // if (this._scale < 0)
+    //     this._scale = 0;
+    if (this._scale < 6)
+        this._scale = 6;
     else if (this._scale >= Timeline._ItemWidth.length)
         this._scale = Timeline._ItemWidth.length - 1;
     this.updateMaxItemCount();
@@ -6132,8 +6134,19 @@ TimelinePlotter.prototype.Draw = function(context) {
     var ds = mgr.getDataSource(this.getDataSourceName());
     if (ds.getDataCount() < 2)
         return;
-    var timeInterval = ds.getDataAt(1).date - ds.getDataAt(0).date;
+    //var timeInterval = ds.getDataAt(1).date - ds.getDataAt(0).date;
     var n, cnt = TimelinePlotter.TIME_INTERVAL.length;
+
+    var ms = {
+        '1week': 604800000,
+        '1day': 86400000,
+        '1hour': 3600000,
+        '30min': 1800000,
+        '15min': 900000,
+        '1min': 60000
+    }
+    var timeInterval = ms[GLOBAL_VAR.time_type];
+
     for (n = 0; n < cnt; n++) {
         if (timeInterval < TimelinePlotter.TIME_INTERVAL[n])
             break;
@@ -6170,12 +6183,13 @@ TimelinePlotter.prototype.Draw = function(context) {
                 TimelinePlotter.TP_DAY,
                 TimelinePlotter.TIME_INTERVAL[n]);
             if (localDate % m == 0) {
-                if (lang == "zh-cn")
-                    text = month.toString() + "月" + date.toString() + "日";
-                else if (lang == "zh-tw")
-                    text = month.toString() + "月" + date.toString() + "日";
-                else if (lang == "en-us")
-                    text = TimelinePlotter.MonthConvert[month] + " " + date.toString();
+                // if (lang == "zh-cn")
+                //     text = month.toString() + "月" + date.toString() + "日";
+                // else if (lang == "zh-tw")
+                //     text = month.toString() + "月" + date.toString() + "日";
+                // else if (lang == "en-us")
+                //     text = TimelinePlotter.MonthConvert[month] + " " + date.toString();
+                text = month.toString() + "-" + date.toString();
                 context.fillStyle = theme.getColor(Theme.Color.Text4);
             }
             else if (localDate % TimelinePlotter.TIME_INTERVAL[n] == 0) {
