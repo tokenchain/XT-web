@@ -1614,7 +1614,9 @@ svg.icon {
   position: relative;
   -webkit-box-flex: 0;
   -ms-flex: none;
-  flex: none
+  flex: none;
+  color: #fff;
+  opacity: 0.6;
 }
 
 .exx-checkbox label i {
@@ -1634,8 +1636,8 @@ svg.icon {
   top: 3px;
   width: 2px;
   height: 6px;
-  border-bottom: 2px solid #8b8bec;
-  border-right: 2px solid #8b8bec;
+  border-bottom: 2px solid#FFBE3F;
+  border-right: 2px solid #FFBE3F;
   opacity: 0;
   -webkit-transform: scale(0) rotate(40deg);
   transform: scale(0) rotate(40deg)
@@ -1659,7 +1661,7 @@ svg.icon {
 }
 
 .exx-checkbox input[type=checkbox]:checked ~ i:after {
-  border-color: #8b8bec;
+  border-color: #FFBE3F;
 }
 
 .exx-slideselect {
