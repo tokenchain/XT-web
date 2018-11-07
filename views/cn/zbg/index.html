@@ -68,6 +68,47 @@
     <!-- <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
     <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/juabox.css?<%= VERSION %>">
 
+    <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
+    <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
+</head>
+
+
+<body class="home">
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+    <%-include("../include/head.html")%>
+
+    <!-- jQuery -->
+
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
+    <!-- jQuery Countdown plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+    <!-- jQuery Easing Plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+    <!-- jQuery progressbar plugin -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+    <!-- Bootstrap Progressbar -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+    <!-- ImagesLoaded js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <!-- Slick carousel js -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
+    <!-- Magnific popup -->
+    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
+    <!-- pie chart -->
+    <script src="/src/js/highcharts.js"></script>
+    <script src="/src/js/highcharts-3d.js"></script>
+    <script src="/src/js/exporting.js"></script>
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="/lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
     <style>
         .swiper-pagination-bullet{
             background: #ddd;
@@ -317,47 +358,6 @@
             }
         }
     </style>
-    <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
-    <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
-</head>
-
-
-<body class="home">
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
-    <%-include("../include/head.html")%>
-
-    <!-- jQuery -->
-
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
-    <!-- font awesome -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
-    <!-- jQuery Countdown plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
-    <!-- jQuery Easing Plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
-    <!-- jQuery progressbar plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
-    <!-- Bootstrap Progressbar -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
-    <!-- ImagesLoaded js -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
-    <!-- Slick carousel js -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
-    <!-- Magnific popup -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
-    <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
-    <!-- pie chart -->
-    <script src="/src/js/highcharts.js"></script>
-    <script src="/src/js/highcharts-3d.js"></script>
-    <script src="/src/js/exporting.js"></script>
-    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
-    <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
-    <script src="/lib/requirejs/require.js"></script>
-    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
-
     <script>
         window.onload = function () {
         var language = getCookie('wlan')
