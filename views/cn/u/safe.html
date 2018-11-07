@@ -81,7 +81,9 @@
                         <p v-else-if="identifyStatus == 4">已高级实名认证，认证姓名：{{realName}}</p>
                     </div>
                     <div class="oper" v-if="identifyStatus == 0"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
-                    <div class="oper" v-else><a href="/u/certify" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                    <div class="oper" v-else-if="identifyStatus != 4">
+                        <a href="/u/certify" class="btn btn-primary">{{identifyStatus == 1 ? '<%= LANG('高级认证') %>' : identifyStatus == 2 || identifyStatus ==3 ? '<%= LANG('去查看') %>' : ''}}</a>
+                    </div>
                 </li>
             </ul>
             <!--<ul class="info">

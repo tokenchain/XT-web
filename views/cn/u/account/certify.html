@@ -178,7 +178,13 @@
                             Userid: this.loginUser.userId,
                         },
                         success: function (res) {
-                            JuaBox.info('<%= LANG("申请成功，等待审核") %>');
+                            // JuaBox.info('<%= LANG("申请成功，等待审核") %>');
+                            // window.location.href = '/u/account'
+                            if (res.datas.resMsg.code == 1) {
+                                return JuaBox.info('<%= LANG("申请成功，等待审核") %>', function () {
+                                    window.location.href = '/u/account'
+                                })
+                            }
                         }.bind(this)
                     });
                 }
