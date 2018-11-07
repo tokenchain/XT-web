@@ -202,6 +202,14 @@
                     var address;
                     if ((this.needMemoCoinList.indexOf(this.coin)>-1) && this.selectedAddress.btsMemo != '' && this.selectedAddress.btsMemo) {
                         // console.log(this.selectedAddress, 'this.selectedAddress')
+                        if (this.coin == 'xrp') {  //xrp 币 memo 必须为数字
+                            var patt1 = new RegExp("^[0-9]*$");
+                            console.log(!patt1.test(this.selectedAddress.btsMemo))
+                            if (!patt1.test(this.selectedAddress.btsMemo)) {
+                                JuaBox.info("<%= LANG('xrp币memo必须为数字')%>")
+                                return;
+                            }
+                        }
                         address = [this.selectedAddress.address.replace(/\s+|_/g, ""), this.selectedAddress.btsMemo ? this.selectedAddress.btsMemo.replace(/\s+|_/g, "") : ''].join('_');
                     } else {
                         address = this.selectedAddress.address;
@@ -229,10 +237,11 @@
                     } else if (this.sendCodeType == "email") {
                         data.emailCode = this.dynamicCode;
                     }
-                    if (this.selectedAddress.id != '') {
+                    if (this.selectedAddress.id && this.selectedAddress.id != '') {
                         data.id = this.selectedAddress.id;
                     }
                     this.requestLocked = true;
+                    // console.log(this.selectedAddress.id, data)
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetAddress',
