@@ -156,7 +156,7 @@
                         data: data,
                         success: function (res) {
                             this.view = 'display';
-                            this.newsContent = res.datas
+                            this.newsContent = res.datas ? res.datas : {}
                         }.bind(this)
                     });
                 },
