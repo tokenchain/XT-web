@@ -85,7 +85,7 @@
             Methods.ajax({
                 type: 'GET',
                 data: data,
-                url: DOMAIN_DEV + '/exchange/config/controller/website/currencycontroller/' + 'getCurrencyList',
+                url: DOMAIN_DEV + '/exchange/config/controller/website/CurrencyController/' + 'getCurrencyList',
             success: function(res) {
               if (res.datas) {
                 this.articles = res.datas;
@@ -102,7 +102,7 @@
             Methods.ajax({
                 type: 'GET',
                 // url: DOMAIN_MAIN + API_PREFIX + 'getCoinContent',
-                url: DOMAIN_DEV + '/exchange/config/controller/website/currencycontroller/' + 'getCurrencyContent',
+                url: DOMAIN_DEV + '/exchange/config/controller/website/CurrencyController/' + 'getCurrencyContent',
                 data: data,
                 success: function(res) {
                     if (res.datas) {
