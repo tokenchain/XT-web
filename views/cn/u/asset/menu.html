@@ -71,7 +71,7 @@
                 <i class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
                 <ul class="nav-children" v-if="childNav">
                     <li><a class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'active' : ''%>" href="/u/account"><%= LANG('账号信息')%></a></li>
-                    <!-- <li><a class="<%= PATH.indexOf('/u/invite') != -1 ? 'active' : ''%>" href="/u/invite"><%= LANG('邀请有礼')%></a></li> -->
+                    <li><a class="<%= PATH.indexOf('/u/invite') != -1 ? 'active' : ''%>" href="/u/invite"><%= LANG('邀请有礼')%></a></li>
                 </ul>
             </li>
             <li class="hide">
