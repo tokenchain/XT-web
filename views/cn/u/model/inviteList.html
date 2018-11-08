@@ -1,0 +1,108 @@
+<%-include("../../component/page_lite.html")%>
+
+<style>
+    .user-center .exx-modal-container .exx-modal-header {
+        height: 60px;
+        background-color: #fff;
+    }
+    .user-center .exx-modal-container .exx-modal-header h3 {
+        color: #666;
+        text-align: left;
+    }
+    .user-center .partner-container .inviteList {
+        width: 640px;
+        padding-bottom: 30px;
+    }
+    .user-center .partner-container .inviteList .earnings {
+        box-shadow: none;
+        padding: 0;
+    }
+    .user-center .earnings table {
+        width: 100%;
+        margin-top: 0;
+    }
+    .exx-modal-wrap .closebutton {
+        color: #666;
+    }
+    .user-center .earnings table th {
+        padding: 0;
+    }
+</style>
+<script type="text/x-template" id="inviteList">
+    <div class="exx-modal-container inviteList">
+        <div class="exx-modal-header">
+            <h3><%= LANG('查看详情') %></h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="earnings">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><%= LANG('被邀请人账号') %></th>
+                        <th><%= LANG('注册时间') %></th>
+                        <th><%= LANG('获得XT') %></th>
+                        <th><%= LANG('是否实名') %></th>
+                        <th><%= LANG('实名时间') %></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in detailsList" :key="index">
+                            <td>{{item.account}}</td>
+                            <td>{{item.registerDate}}</td>
+                            <td>{{item.xtAmount}}</td>
+                            <td>{{item.realNameFlag ? '是' : '否'}}</td>
+                            <td>{{item.identifyDate || '--'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getDetailsList"></page-lite>
+        </div>
+    </div>
+</script>
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('inviteList', {
+            template: "#inviteList",
+            props: {
+                params: {
+                    type: Object,
+                    default: {}
+                },
+            },
+            data: function () {
+                return {
+                    pageIndex: 1, // 默认第一页
+                    pageSize: 10, // 默认每页10条
+                    pageCount: 0,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    detailsList: []
+                }
+            },
+            created: function () {
+                this.$nextTick(function () {
+                    this.getDetailsList()
+                })
+            },
+            methods: {
+                getDetailsList() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/dateStatisticsList",
+                        data: {
+                            userId: this.loginUser.userId,
+                            date: this.params.date,
+                            pageIndex: this.pageIndex,
+                            pageSize: this.pageSize
+                        },
+                        success: function (res) {
+                            this.detailsList = res.datas.results
+                            this.pageCount = res.datas.totalRow;
+                            console.log(res.datas)
+                        }.bind(this)
+                    });
+                },
+            },
+        })
+    })
+</script>

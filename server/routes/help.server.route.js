@@ -134,6 +134,11 @@ router.get('/agreement', function (req, res, next) {
         templateMain: 'help/agreement.html'
     });
 });
+router.get('/OTCagreement', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'help/OTCagreement.html'
+    });
+});
 
 module.exports = router;
 

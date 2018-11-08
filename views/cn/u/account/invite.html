@@ -1,19 +1,76 @@
+<%-include("../../component/modal.html")%>
+<%-include("../model/inviteList.html")%>
+
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">
+
 <style>
-    #partnerBox .share-info .info {
-        padding-top: 60px;
+    #partnerBox .share-info {
+        height: auto;
     }
-    #partnerBox span  {
-        font-weight: 600;
+    #partnerBox .partner-details .pieChart ul li:nth-child(even) span:first-of-type {
+        margin: 76px 0 16px 0;
+    }
+    #partnerBox .partner-details .pieChart ul li:nth-child(even) span:last-of-type {
+        margin-top: 0;
     }
     #partnerBox .inviteText {
-        letter-spacing: 1px;
-        margin: 30px 88px;
-        line-height: 2;
-        text-align: left;
+        padding-bottom: 20px;
+    }
+    #partnerBox .earnings table tr:hover td {
+        font-size: 14px;
+        transform: none;
+        cursor: initial;
+    }
+    #partnerBox .earnings .head {
+        position: relative;
+        width: 100%;
+        height: 62px;
+        padding: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+    }
+    #partnerBox .earnings .head h3 {
+        font-size: 16px;
+        color: #333;
+        margin-right: 28px;
+    }
+    #partnerBox .earnings .head .form-group {
+        margin-bottom: 0;
+    }
+    #partnerBox .earnings .head input {
+        width: 206px;
+        height: 33px;
+        line-height: 33px;
+        border-radius: 4px;
+        background: #f2f2f2;
+        border: 0;
+        color: #666;
+        font-size: 14px;
+        padding: 0 16px;
+    }
+    #partnerBox .earnings .head .icon {
+        position: absolute;
+        right: 16px;
+        top: 10px;
+        z-index: 99;
+    }
+    .datepicker.dropdown-menu {
+        top: 840px !important;
+    }
+    .noData {
+        text-align: center;
+        padding-top: 20px;
     }
 </style>
 <div class="partner-container" id="partnerBox" v-cloak>
-    <div class="share-info" style="height: 100%">
+    <div class="share-info">
         <p>
             <%= LANG('我的邀请码') %>
         </p>
@@ -38,32 +95,159 @@
                     <%= LANG('复制') %> </a>
             </div>
         </div>
-        <p class="inviteText"><%= LANG('在2018-11-18 00:00 ～ 2018-12-18 00:00 期间，邀请好友注册XT平台账户比在规定时间内完成实名认证，可以获得2XT奖励！') %></p>
+        <p class="inviteText">
+            <%= LANG(' 在2018-10-30 00:00:00 ～ 2018-12-31 00:00:00 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
+        </p>
     </div>
+    <div class="partner-details">
+        <p>
+            <%= LANG('邀请概览') %>
+        </p>
+        <div class="pieChart clearfix">
+            <ul>
+                <li>
+                    <span>
+                        <%= LANG('邀请注册用户总数') %></span>
+                    <em>{{invitingUserData.totalRegisterCount}}
+                        <%= LANG('人') %></em>
+                </li>
+                <li>
+                    <span>
+                        <%= LANG('实名用户总数')%> {{invitingUserData.totalRealCount || 0}}
+                        <%= LANG('人') %></span>
+                    <span>
+                        <%= LANG('总获得') %> {{invitingUserData.totalRealCount * 2 || 0}} XT</span>
+                </li>
+                <li>
+                    <span>
+                        <%= LANG('本月邀请注册用户数') %></span>
+                    <em>{{invitingUserData.monthRegisterCount || 0}}
+                        <%= LANG('人') %></em>
+                </li>
+                <li>
+                    <span>
+                        <%= LANG('本月实名用户数') %> {{invitingUserData.monthRealCount || 0}}
+                        <%= LANG('人') %></span>
+                    <span>
+                        <%= LANG('获得') %> {{invitingUserData.monthRealCount * 2 || 0}} XT</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="earnings">
+        <div class="head">
+            <h3>
+                <%= LANG('每日详情') %>
+            </h3>
+            <div class="form-group">
+                <div class="form-control">
+                    <input v-model="month" type="text" class="form-control" id="dataPicker" placeholder="请选择">
+                    <i class="icon iconfont icon-shijian1"></i>
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <%= LANG('日期') %>
+                    </th>
+                    <th>
+                        <%= LANG('邀请用户(人)') %>
+                    </th>
+                    <th>
+                        <%= LANG('邀请已实名用户(人)') %>
+                    </th>
+                    <th>
+                        <%= LANG('获得XT') %>
+                    </th>
+                    <th>
+                        <%= LANG('操作') %>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in invitingUserDataList" :key="index">
+                    <td>{{item.date}}</td>
+                    <td>{{item.inviteCount}}</td>
+                    <td>{{item.realNameCount}}</td>
+                    <td>{{item.xtAmount}}</td>
+                    <td><span @click="lookDetails(item)">用户详情</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="noData" v-if="invitingUserDataList.length == 0 || !invitingUserData">暂无数据</p>
+    </div>
+
+    <!--查看详情-->
+    <modal v-cloak :open="showModal == 'inviteList'" @close="showModal = false">
+        <invite-list :params="detailsList" />
+    </modal>
 </div>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
+    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode', 'datepicker'], function (Vue, Methods,
+        JuaBox,
         Clipboard, QRCode) {
         var recommend = new Vue({
             el: "#partnerBox",
             data: function () {
                 return {
-                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
-                        .recommendCode || ''),
+                    showModal: false,
+                    reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo().recommendCode || ''),
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
+                    month: '',
+                    invitingUserData: {},
+                    detailsList: {},
+                    invitingUserDataList: []
                 }
             },
-            created() {},
+            created() {
+                this.$nextTick(function () {
+                    this.getInvitinguserList()
+                })
+            },
             mounted: function () {
+                // 选择时间 yyyy-mm
+                $('#dataPicker').datepicker({
+                    orientation: "bottom left",
+                    language: {
+                        en: 'en',
+                        cn: "zh-CN",
+                    } [getCookie('wlan')],
+                    autoclose: true,
+                    format: 'yyyy-mm',
+                    startView: 0,
+                    minViewMode: 1,
+                }).on('changeDate', function (ev) {
+                    this.month = $('#dataPicker').val()
+                    this.getInvitinguserList()
+                }.bind(this))
+
+                // 获取二维码
                 QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
                     width: 150,
                     height: 150
                 }, function (error) {})
             },
             methods: {
+                getInvitinguserList() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyStatisticsList",
+                        data: {
+                            userId: this.loginUser.userId,
+                            month: this.month
+                        },
+                        success: function (res) {
+                            this.invitingUserData = res.datas;
+                            this.invitingUserDataList = this.invitingUserData.list
+                            console.log(res.datas)
+                        }.bind(this)
+                    });
+                },
                 copyUrl: function (type) {
                     if (type == 1) {
                         var Url = document.getElementById("commendInput");
@@ -76,6 +260,10 @@
                         document.execCommand("Copy");
                         JuaBox.info("<%= LANG('复制成功!') %>");
                     }
+                },
+                lookDetails: function (item) {
+                    this.showModal = 'inviteList';
+                    this.detailsList = item
                 }
             },
         })

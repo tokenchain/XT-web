@@ -15,7 +15,7 @@
                     <div class="icon"><img src="/src/images/nickName.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('昵称') %></h3>
-                        <p>{{loginUser.loginName}}</p>
+                        <p>{{loginUser.nickName}}</p>
                     </div>
                     <div class="oper"><a class="btn btn-primary"  @click="setNickname"><%= LANG('设置') %></a></div>
                 </li>
@@ -70,14 +70,21 @@
                         <a class="btn btn-primary" v-if="loginUser.googleStatus == 1"><%= LANG('审核中') %></a>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="icon"><img src="/src/images/realname.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('实名/高级实名认证') %></h3>
-                        <p>{{loginUser.loginName}}</p>
+                        <p v-if="identifyStatus == 0">未实名认证</p>
+                        <p v-else-if="identifyStatus == 1">已普通实名认证</p>
+                        <p v-else-if="identifyStatus == 2">已普通实名认证/高级实名认证审核中</p>
+                        <p v-else-if="identifyStatus == 3">已普通实名认证/高级实名认证未通过</p>
+                        <p v-else-if="identifyStatus == 4">已高级实名认证，认证姓名：{{realName}}</p>
                     </div>
-                    <div class="oper"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
-                </li>
+                    <div class="oper" v-if="identifyStatus == 0"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
+                    <div class="oper" v-else-if="identifyStatus != 4">
+                        <a href="/u/certify" class="btn btn-primary">{{identifyStatus == 1 ? '<%= LANG('高级认证') %>' : identifyStatus == 2 || identifyStatus ==3 ? '<%= LANG('去查看') %>' : ''}}</a>
+                    </div>
+                </li> -->
             </ul>
             <!--<ul class="info">
                 <li>
@@ -254,7 +261,7 @@
     </modal>
 
     <modal v-cloak :open="showModal == 'setNickname'" @close="showModal = false">
-        <set-nickname/>
+        <set-nickname @update="getUserInfo"/>
     </modal>
 
     <modal v-cloak :open="showModal == 'safepassword'" @close="showModal = false">
@@ -439,7 +446,9 @@
                             }
                         },
                         currentAccountId: (Methods.getCookie(ENV + 'currentAccountId') || Methods.getCookie(ENV + 'uid')),
-                        bindAccountSwitch: false
+                        bindAccountSwitch: false,
+                        identifyStatus: '', // 0,"未实名认证"，1,"普通实名认证"，2,"高级实名认证待审核"，3,"高级实名认证审核未通过"，4,"高级实名认证审核通过"
+                        realName: ''
                     }
                 },
                 computed: {
@@ -866,6 +875,24 @@
                             }
                         });
                     },
+
+
+                    // 获取用户实名状态
+                    getUserStatus: function () {
+                        var that = this;
+                        Methods.ajax({
+                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" + 'userIdentifyStatus',
+                            data: {
+                                Userid: that.loginUser.userId
+                            },
+                            success: function (res) {
+                                that.identifyStatus = res.datas.status
+                                that.realName = res.datas.realName
+                                console.log(res.datas,"00")
+                            }
+                        });
+                    },
+
                     createGuid: function () {
                         var S4 = this.createS4
                         // return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
@@ -899,6 +926,7 @@
                 },
                 created: function () {
                     this.getPubKey();
+                    this.getUserStatus()
                 },
                 mounted: function () {
                     var that = this;
@@ -906,8 +934,6 @@
                     window.addEventListener('resize', this.getWindowWidth, true);
                     // $('[data-toggle="tooltip"]').tooltip();
                     this.getUserInfo()
-
-
 
                 },
                 updated: function () {

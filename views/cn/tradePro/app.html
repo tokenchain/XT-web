@@ -114,9 +114,10 @@
                     hoverActive: Methods.getCookie('hoverActive') || '<%= market.split("_")[1] %>',  //sxc  usdt  btc   悬浮激活样式
                     allMarkets: null,
                     sortBy: 'lastPrice',   //rateUp,rateDown,volumeUp,volumeDown,nameUp,nameDown,priceUp,priceDown
-                    mkSwitch: false,
-                    askAndBidsGrade: 5,  //挂单记录档位
-                    fullScreen: false //全屏
+                    mkSwitch: document.body.clientWidth > 1200 ? false : true,
+                    askAndBidsGrade: 10,  //挂单记录档位
+                    fullScreen: false, //全屏
+                    allDepth: {}  //全部深度，用于成交之后，更新深度
                 }
             },
             computed: {
@@ -598,7 +599,6 @@
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             //币种对qc的价格
-
                             _this.cnyprice = _this.assistPrice.cny[mname]
                             _this.usdprice = _this.assistPrice.usd[mname]
                             var language = getCookie('wlan')
@@ -931,8 +931,9 @@
                             if (res) {
                                 Vue.set(_this.lastDepth, 'asks', askSlice)
                                 Vue.set(_this.lastDepth, 'bids', bidSlice)
+                                /*Vue.set(_this.allDepth, 'asks', res.datas.asks.reverse())
+                                Vue.set(_this.allDepth, 'bids', res.datas.bids)*/
                             }
-
                             try {
                                 _this.$refs.dishPartAsks.updateDepth(_this.lastDepth);
                                 _this.$refs.dishPartBids.updateDepth(_this.lastDepth);
@@ -974,6 +975,8 @@
                         _this.lastDepth = {};
                         Vue.set(_this.lastDepth, 'asks', data.asks.reverse())
                         Vue.set(_this.lastDepth, 'bids', data.bids)
+                        /*Vue.set(_this.allDepth, 'asks', res.asks.reverse())
+                        Vue.set(_this.allDepth, 'bids', res.bids)*/
                         _this.dishFull = true
                     } else {
                         //处理增量推送
@@ -1042,7 +1045,7 @@
                 },
                 //推动 接收到新数据 再合并，排序，赋值
                 mergeLastDeth: function (data) {
-                    var resultAsksArray, resultBidsArray;
+                    var resultAsksArray, resultBidsArray, allResultBidsArray, allResultAsksArray;
                     if (data.asks.length > 0) {
                         //处理增量推送
                         /**
@@ -1057,7 +1060,9 @@
                         // resultBidsArray = mixArray(_this.lastDepth.bids, data.bids, "Bid");
 
                         resultAsksArray = this.mixArray(this.lastDepth.asks, data.asks, "Ask");
+                        //allResultAsksArray = this.mixArray(this.allDepth.asks, data.asks, "Ask");
                         Vue.set(this.lastDepth, 'asks', resultAsksArray);
+                        //Vue.set(this.allDepth, 'asks', allResultAsksArray)
                         try {
                             this.$refs.dishPartAsks.updateDepth(this.lastDepth);
                         } catch (err) {
@@ -1066,7 +1071,9 @@
                     }
                     if (data.bids.length > 0) {
                         resultBidsArray = this.mixArray(this.lastDepth.bids, data.bids, "Bid");
+                        //allResultBidsArray = this.mixArray(this.allDepth.bids, data.bids, "Bid");
                         Vue.set(this.lastDepth, 'bids', resultBidsArray);
+                        //Vue.set(this.allDepth, 'bids', allResultBidsArray)
                         try {
                             this.$refs.dishPartBids.updateDepth(this.lastDepth);
                         } catch (err) {

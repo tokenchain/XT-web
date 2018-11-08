@@ -26,7 +26,7 @@
                 </div>-->
 
                 <div class="box buy-disc" id="bidsWrap">
-                    <ul class="tradeNew-table" :style="{height: askAndBidsGrade == '20'? '480px' : askAndBidsGrade == '50' ? '1200px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
+                    <ul class="tradeNew-table" :style="{height: askAndBidsGrade == '20'? '520px' : askAndBidsGrade == '50' ? '1250px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
                 </div>
             </div>
             <div class="more">
@@ -253,14 +253,15 @@
                         // this.depthInit(asks, parentAsks);
                         this.depthInit(bids, parentBids);
                     } else {
-                        // var oldasks = this.lastDepth.asks.slice(0);
                         var oldbids = this.lastDepth.bids.slice(0);
                         /*parentAsks.find(".body.remove").remove();
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));*/
 
                         parentBids.find(".body.remove").remove();
-                        // this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
+
+                        // console.log(bids, oldbids, this.lastDepth.bids, this.$parent.allDepth.bids)
+
                         this.sortUpdate()
                         parentBids.find(".body.add").removeClass("add");
                         this.asksAndBids(bids, oldbids, parentBids, this.getMaxDepth(bids));
@@ -404,8 +405,9 @@
                     });
                 },
                 getCoinPrice: function(price, lanType) {
+                    console.log(price, lanType)
                     this.priceCoin = {
-                        price: this.getAssistPrice(price),
+                        price: price ? price : 0,
                         lanType: lanType
                     }
                 },

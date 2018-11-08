@@ -391,8 +391,7 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         }
 
         var result = transKlineData(data.data);
-        // console.log(win.updateKlineData, 'win.updateKlineData  main.js  394行')
-        // console.log(result, 'result   main.js  395行')
+        // console.log(result, 'result')
         win.updateKlineData(result);
     } else if (type == 2) {
         var result = transDishData(data.data);
@@ -452,6 +451,19 @@ function transKlineData(oldData) {
         } else if (unit == 'usd') {
             currRate = usd_krate;
         }
+
+        // console.log(Methods.math.format((parseFloat(item[4]).toFixed(8) * currRate).toFixed(8), {precision: 14}))
+
+        /**
+         * 2018-11-1 修改doge_btc  类似0.0000006的数据，格式化为科学计数法的bug
+         * by czh
+         */
+
+        //console.log('0.0000006'.indexOf('000000') != -1) //true
+        /*tmpdata[1] = parseFloat(Methods.math.format(parseFloat(item[4]) * currRate, {precision: 14})).toFixed(8);
+        tmpdata[2] = parseFloat(Methods.math.format(parseFloat(item[5]) * currRate, {precision: 14})).toFixed(8);
+        tmpdata[3] = parseFloat(Methods.math.format(parseFloat(item[6]) * currRate, {precision: 14})).toFixed(8);
+        tmpdata[4] = parseFloat(Methods.math.format(parseFloat(item[7]) * currRate, {precision: 14})).toFixed(8);*/
 
         tmpdata[1] = parseFloat(Methods.math.format(parseFloat(item[4]) * currRate, {precision: 14}));
         tmpdata[2] = parseFloat(Methods.math.format(parseFloat(item[5]) * currRate, {precision: 14}));

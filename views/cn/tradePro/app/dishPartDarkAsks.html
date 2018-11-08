@@ -11,13 +11,13 @@
         <div class="body" id="dishWrap">
             <div class="dishWrap_container">
                 <div class="box sell-disc" id="asksWrap" v-if="BrowserType!='FF'">
-                    <ul class="tradeNew-table" :style="{height: askAndBidsGrade == '20'? '480px' : askAndBidsGrade == '50' ? '1200px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
+                    <ul class="tradeNew-table" :style="{height: askAndBidsGrade == '20'? '520px' : askAndBidsGrade == '50' ? '1250px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
                 </div>
 
                 <!--火狐浏览器-->
                 <div v-if="BrowserType=='FF'" class="box parent_direction-downs" id="parent_direction-downs">
                     <div class="direction-downss">
-                        <ul class="tradeNew-table1" :style="{height: askAndBidsGrade == '20'? '480px' : askAndBidsGrade == '50' ? '1200px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
+                        <ul class="tradeNew-table1" :style="{height: askAndBidsGrade == '20'? '520px' : askAndBidsGrade == '50' ? '1250px' : askAndBidsGrade == '10' ? '240px' : '120px'}"></ul>
                     </div>
                 </div>
 
@@ -269,11 +269,11 @@
                         // this.depthInit(bids, parentBids);
                     } else {
                         var oldasks = this.lastDepth.asks.slice(0);
-                        // var oldbids = this.lastDepth.bids.slice(0);
 
                         parentAsks.find(".body.remove").remove();
-                        // this.$parent.getDishListData(this.$parent.currentMarketId)  //移除后，补全档位数据
+                        // console.log(asks, oldasks, this.lastDepth.asks, this.$parent.allDepth.asks)
                         this.sortUpdate()
+
                         parentAsks.find(".body.add").removeClass("add");
                         this.asksAndBids(asks, oldasks, parentAsks, this.getMaxDepth(asks));
 
@@ -415,9 +415,9 @@
                         $(this).find('.foldPrice').text(assistPrice);
                     });
                 },
-                getCoinPrice: function(price, lanType) {
+                getCoinPrice: function (price, lanType) {
                     this.priceCoin = {
-                        price: this.getAssistPrice(price),
+                        price: price ? price : 0,
                         lanType: lanType
                     }
                 },

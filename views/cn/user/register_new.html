@@ -19,8 +19,6 @@
         top: 0px;
         width: 5px;
         height: 12px;
-        border-bottom: 2px solid #8b8bec;
-        border-right: 2px solid #8b8bec;
         opacity: 0;
         -webkit-transform: scale(0) rotate(40deg);
         transform: scale(0) rotate(40deg);
@@ -124,12 +122,12 @@
             </div>
             
             <!-- 邀请码 -->
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <div class="form-control">
-                    <img src="/src/images/pass.png" class="title" alt="">
-                    <input autocomplete="new-password" placeholder="<%= LANG('请输入邀请码') %>" v-on:focus="clearInputError($event)"  type="text">
+                    <img src="/src/images/recommendCode.png" class="title" alt="">
+                    <input autocomplete="off" placeholder="<%= LANG('请输入邀请码') %>" v-model="recommendCode" v-on:focus="clearInputError($event)"  type="text">
                 </div>
-            </div> -->
+            </div>
 
             <div class="form-group">
                 <div id="captcha"></div>
@@ -148,7 +146,7 @@
 
             <div class="form-group">
                 <div class="form-control" id="msgCodeForm">
-                    <img src="/src/images/pass.png" class="title" alt="">
+                    <img src="/src/images/msgCode.png" class="title" alt="">
                     <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)"
                            v-on:focus="clearInputError($event)" type="text">
                     <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId"
@@ -167,7 +165,7 @@
                             </span>
                     </label>
                     <p>
-                        <a href="/help/agreement" target="_blank">
+                        <a href="/help/agreement" target="_blank" style="color:#FFBE3F;opacity: 0.66;">
                             <%= LANG('《用户服务协议》') %>
                         </a>
                     </p>
@@ -177,7 +175,7 @@
             <div class="form-button">
                 <button class="button" id="submitBtn" type="button" v-on:click="handleRegister" :class="requestLocked ? 'btn-loading' : ''">
                         <span>
-                            <%= LANG('注册') %>
+                            <%= LANG('立即注册') %>
                         </span>
                 </button>
             </div>
@@ -213,6 +211,7 @@
                     imgCodeId: '',
                     imageCodeUrl: '',
                     puzzleValidateString: '',
+                    recommendCode: '' // 邀请码
                 }
             },
             methods: {
@@ -340,6 +339,16 @@
                         }
                     }
                 },
+
+                // 时间戳转换
+                getUnixTimestamp: function (nowTime) {
+                    var thisTime = nowTime;
+                    thisTime = thisTime.replace(/-/g, '/');
+                    var time = new Date(thisTime);
+                    time = time.getTime();
+                    return time;
+                },
+
                 handleRegister: function () {
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
@@ -352,7 +361,8 @@
                         //recommId: Methods.getCookie(ENV + 'recommendCode'),
                         countryCode: this.countryCode,
                         pwdLevel: this.pwdStrength, //密码强度，前端计算
-                        puzzleValidateString: this.puzzleValidateString
+                        puzzleValidateString: this.puzzleValidateString,
+                        recommendCode: this.recommendCode
                     };
                     if (Methods.getCookie(ENV + "recommendCode")) {
                         data.recommendCode = decodeURIComponent(Methods.getCookie(ENV +
@@ -393,15 +403,15 @@
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
                                 
                                 // 判断当前时间是否在活动时间内，如果是则跳转至活动页，否则跳转至个人中心页
-                                var startTime = '2018-10-29 00:00:00',
-                                    endTime = '2018-12-29 23:59',
+                                var startTime = '2018-10-30 00:00:00',
+                                    endTime = '2018-12-31 00:00:00',
                                     newTime = new Date().getTime();
                                 if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
                                     window.location.replace('/regSuccess');
                                 }else {
                                     window.location.replace('/u');
                                 }
-                            },
+                            }.bind(this),
                             error: function (res) {
                                 this.requestLocked = false;
                                 JuaBox.showWrong(EXX.L(res.resMsg.code));
@@ -412,15 +422,6 @@
                             }.bind(this)
                         });
                     }
-                },
-                
-                // 时间戳转换
-                getUnixTimestamp: function (nowTime) {
-                    var thisTime = nowTime;
-                    thisTime = thisTime.replace(/-/g, '/');
-                    var time = new Date(thisTime);
-                    time = time.getTime();
-                    return time;
                 },
 
                 //初始化滑动验证码
