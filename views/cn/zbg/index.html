@@ -948,6 +948,7 @@
                         lanType: lanType
                     }
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/support/controller/website/articlecontroller/getArticles',
                         data: data,
@@ -966,7 +967,7 @@
                         hk: '5'
                     } [language]
                     Methods.ajax({
-                        // type: 'GET',
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/banner/controller/website/BannerController/getByLanType",
                         data: {
@@ -1100,10 +1101,9 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
-                        // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
-                            'getByWebId',
+                            "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
                         success: function (res) {
 
                             _this.marketConfig = res.datas;
@@ -1282,6 +1282,7 @@
                 // 获取币价汇率 -ok
                 getPriceRate: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/config/controller/website/pricecontroller/" +
                             'getassistprice',
@@ -1479,6 +1480,7 @@
                 },
                 getMarketAreaListByWebId: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/config/controller/website/MarketController/" +
                             'getMarketAreaListByWebId',
@@ -1490,6 +1492,7 @@
                 statistic: function () {
                     var that = this;
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/fund/controller/website/FundMinerStatController/statistic",
                         success: function (res) {
@@ -1504,6 +1507,7 @@
                 //获取预计分配折合
                 minerSummary: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/fund/controller/website/MinerTransactionController/" +
                             'minerSummary',
