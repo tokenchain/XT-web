@@ -211,7 +211,7 @@
                     imgCodeId: '',
                     imageCodeUrl: '',
                     puzzleValidateString: '',
-                    recommendCode: '' // 邀请码
+                    recommendCode: '', // 邀请码
                 }
             },
             methods: {
@@ -339,16 +339,8 @@
                         }
                     }
                 },
-
-                // 时间戳转换
-                getUnixTimestamp: function (nowTime) {
-                    var thisTime = nowTime;
-                    thisTime = thisTime.replace(/-/g, '/');
-                    var time = new Date(thisTime);
-                    time = time.getTime();
-                    return time;
-                },
-
+                
+                // 点击立即注册
                 handleRegister: function () {
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
@@ -403,14 +395,20 @@
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
                                 
                                 // 判断当前时间是否在活动时间内，如果是则跳转至活动页，否则跳转至个人中心页
-                                var startTime = '2018-10-30 00:00:00',
-                                    endTime = '2018-12-31 00:00:00',
-                                    newTime = new Date().getTime();
-                                if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
+                                // var startTime = this.activityStartTime,
+                                //     endTime = this.activityEndTime,
+                                //     newTime = new Date().getTime();
+                                // if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
+                                //     window.location.replace('/regSuccess');
+                                // }else {
+                                //     JuaBox.info('<%= LANG("恭喜注册成功，请妥善保管您的账户信息") %>', function () {
+                                //         window.location.replace('/u');
+                                //     })
+                                // }
+                                JuaBox.info('<%= LANG("恭喜注册成功，请妥善保管您的账户信息") %>', function () {
                                     window.location.replace('/regSuccess');
-                                }else {
-                                    window.location.replace('/u');
-                                }
+                                })
+                                
                             }.bind(this),
                             error: function (res) {
                                 this.requestLocked = false;

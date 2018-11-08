@@ -8,6 +8,7 @@
         left: 0;
         right: 0;
     }
+
     .activity {
         width: 900px;
         height: 600px;
@@ -55,26 +56,90 @@
         color: #fff;
         font-size: 16px;
         border-radius: 4px;
-        box-shadow: 0 2px 2px 0 #D0D0D0;   
+        box-shadow: 0 2px 2px 0 #D0D0D0;
     }
 
-    .activity .form-button a:first-child {
+    .activity .form-button .realName {
         margin-right: 158px;
     }
 </style>
 
 <section class="entrance-area">
-    <div class="box">
+    <div class="box" id="regSuccess" v-cloak>
         <div class="activity">
-            <h2><%= LANG('恭喜注册成功') %></h2>
+            <h2>
+                <%= LANG('恭喜注册成功') %>
+            </h2>
             <div class="time">
-                <span><%= LANG('请妥善保管您的账户信息') %></span>
-                <p><%= LANG('在2018-10-30 00:00:00 ～ 2018-12-31 00:00:00完成实名认证可获得10XT') %></p>
+                <span>
+                    <%= LANG('请妥善保管您的账户信息') %></span>
+                <p v-if="ifActivity">
+                    <%= LANG('在{{activityStartTime}} ～ {{activityEndTime}}完成实名认证可获得10XT') %>
+                </p>
             </div>
             <div class="form-button">
-                <a href="/u/realName"><%= LANG('去实名认证') %></a>
-                <a href="/"><%= LANG('进入首页') %></a>
+                <a href="/u/realName" class="realName" v-if="ifActivity">
+                    <%= LANG('去实名认证') %></a>
+                <a href="/">
+                    <%= LANG('进入首页') %></a>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var recommend = new Vue({
+            el: "#regSuccess",
+            data: function () {
+                return {
+                    nickname: '',
+                    name: '',
+                    IDcard: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    loginName: '',
+                    nickName: '',
+                    ifActivity: false,
+                    activityStartTime: '',  // 活动开始时间
+                    activityEndTime: ''  // 活动结束时间
+                }
+            },
+            created() {
+                this.$nextTick(function () {
+                    this.getActivityTime()
+                })
+            },
+            methods: {
+                // 转换时间戳格方法
+                getUnixTimestamp: function (nowTime) {
+                    var thisTime = nowTime;
+                    thisTime = thisTime.replace(/-/g, '/');
+                    var time = new Date(thisTime);
+                    time = time.getTime();
+                    return time;
+                },
+
+                // 获取活动时间
+                getActivityTime() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyActivityTime",
+                        success: function (res) {
+                            this.activityStartTime = res.datas.activityStartTime
+                            this.activityEndTime = res.datas.activityEndTime
+                            // 判断当前时间是否在活动时间内，如果是则显示出活动详情，否则点击按钮跳转首页
+                            var startTime = this.activityStartTime,
+                                endTime = this.activityEndTime,
+                                newTime = new Date().getTime();
+                            if (this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
+                                this.ifActivity = true
+                            } else {
+                                this.ifActivity = false
+                            }
+                        }.bind(this)
+                    })
+                },
+            }
+        })
+    });
+</script>

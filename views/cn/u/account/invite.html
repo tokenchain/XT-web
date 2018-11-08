@@ -96,7 +96,7 @@
             </div>
         </div>
         <p class="inviteText">
-            <%= LANG(' 在2018-10-30 00:00:00 ～ 2018-12-31 00:00:00 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
+            <%= LANG(' 在 {{activityStartTime}} ～ {{activityEndTime}} 期间，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以获得2XT奖励！') %>
         </p>
     </div>
     <div class="partner-details">
@@ -201,12 +201,15 @@
                     month: '',
                     invitingUserData: {},
                     detailsList: {},
-                    invitingUserDataList: []
+                    invitingUserDataList: [],
+                    activityStartTime: '',  // 活动开始时间
+                    activityEndTime: ''  // 活动结束时间
                 }
             },
             created() {
                 this.$nextTick(function () {
                     this.getInvitinguserList()
+                    this.getActivityTime()
                 })
             },
             mounted: function () {
@@ -233,6 +236,18 @@
                 }, function (error) {})
             },
             methods: {
+                // 获取活动时间
+                getActivityTime() {
+                    Methods.ajax({
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyActivityTime",
+                        success: function (res) {
+                            this.activityStartTime = res.datas.activityStartTime
+                            this.activityEndTime = res.datas.activityEndTime
+                            console.log(res)
+                        }.bind(this)
+                    })
+                },
                 getInvitinguserList() {
                     Methods.ajax({
                         url: DOMAIN_DEV +
