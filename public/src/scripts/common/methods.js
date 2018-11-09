@@ -363,13 +363,14 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
 
             $.ajaxSetup({
                 //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/x-www-form-urlencoded'},
                 xhrFields: {
                     withCredentials: true
                 },
                 crossDomain: true
             });
             if (options.url != '') {
-                options.headers['Content-Type'] = options.contentType
+                // options.headers['Content-Type'] = options.contentType
                 $.ajax({
                     url: options.url,
                     type: options.type,
