@@ -163,7 +163,7 @@
     <div class="banner">
 
         <div class="info">
-            <div class="logo"><img src="/src/images/home/sexc/logo.png" style="width: 200px;"/></div>
+            <div class="logo"><img src="<%= IMG_STATIC %>/images/home/sexc/logo.png" style="width: 200px;"/></div>
             <h2>SEXC<%= LANG('空投福利')%></h2>
             <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;"><%= LANG('满足条件的EXX用户可随机领取x', '1~20',
                 'SEXC')%>
@@ -236,7 +236,7 @@
                         <use xlink:href="#lei-close"></use>
                     </svg>
                     <%- LANG('关闭') %></a>
-                <img src="/src/images/home/winning.png"/>
+                <img src="<%= IMG_STATIC %>/images/home/winning.png"/>
                 <div class="info">
                     <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
                     <a href="/u/bill" target="_self"><%- LANG('立即查看') %></a>

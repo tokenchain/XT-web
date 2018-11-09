@@ -368,9 +368,9 @@
                         <li class="coin-name">
                             <img
                                     v-if="item.name =='scc'||item.name =='fil'||item.name =='dcr'||item.name =='sc'||item.name =='sxc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'"
-                                :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
+                                :src="'<%= IMG_STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
                                 class="icon-coin" />
-                            <img v-else :src="'<%= STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
+                            <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
                                 class="icon-coin" /><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
                         <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) |
                                 filterNum}}</span>

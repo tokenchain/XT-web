@@ -16,31 +16,31 @@
         <div class="trading-tab">
             <ul>
                 <li role="button" @click="changeTab('user')" :class="{'active' : currentTab == 'user' && keyWord == ''}" v-if="isLogin">
-                    <img v-if="currentUserAsset.photo" :src="'/src/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
+                    <img v-if="currentUserAsset.photo" :src="'<%= IMG_STATIC %>/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
                     <p><%- LANG('自选')%></p>
                 </li>
                 <li role="button" @click="changeTab('_<%= LEGAL[UNIT].alias %>')" :class="{'active' : currentTab == '_<%= LEGAL[UNIT].alias %>' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-<%= LEGAL[UNIT].alias %>.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-<%= LEGAL[UNIT].alias %>.png">
                     <p><%= LEGAL[UNIT].alias.toUpperCase() %></p>
                 </li>
                 <li role="button" @click="changeTab('_usdt')" :class="{'active' : currentTab == '_usdt' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-usdt.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-usdt.png">
                     <p>USDT</p>
                 </li>
                 <li role="button" @click="changeTab('_btc')" :class="{'active' : currentTab == '_btc' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-btc.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-btc.png">
                     <p>BTC</p>
                 </li>
                 <li role="button" @click="changeTab('_eth')" :class="{'active' : currentTab == '_eth' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-eth.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-eth.png">
                     <p>ETH</p>
                 </li>
                 <li role="button" @click="changeTab('_qtum')" :class="{'active' : currentTab == '_qtum' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-qtum.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-qtum.png">
                     <p>QTUM</p>
                 </li>
                 <li role="button" @click="changeTab('_hsr')" :class="{'active' : currentTab == '_hsr' && keyWord == ''}">
-                    <img src="/src/images/icon/market-icon/market-hsr.png">
+                    <img src="<%= IMG_STATIC %>/images/icon/market-icon/market-hsr.png">
                     <p>HSR</p>
                 </li>
             </ul>
@@ -64,7 +64,7 @@
                 </li>
                 <li role="button" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" :class="{'active' : data.market == currentMarket}" >
                     <p class="coin-name">
-                        <img :src="'/src/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
+                        <img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
                         <!--<span class="text-icon" v-if="data.leverRate > 0"><i>{{data.leverRate}}X</i></span>-->
                     </p>
                     <p class="hint--top" :aria-label="showAssistHint(data.lastPrice,data.market)">
@@ -75,10 +75,10 @@
                     </p>
                     <p style="width: 18px; flex:none;" v-if="isLogin && userMarket">
                         <a v-if="checkUserMarket(data.marketId)" @click.stop="editUserMarket(0, data.marketId)" role="button" title="<%- LANG('取消自选')%>">
-                            <img src="/src/images/icon/star_active.png" style="width: 14px;" />
+                            <img src="<%= IMG_STATIC %>/images/icon/star_active.png" style="width: 14px;" />
                         </a>
                         <a v-if="!checkUserMarket(data.marketId)" @click.stop="editUserMarket(1, data.marketId)" role="button" title="<%- LANG('添加自选')%>">
-                            <img src="/src/images/icon/star_gray.png" style="width: 14px;" />
+                            <img src="<%= IMG_STATIC %>/images/icon/star_gray.png" style="width: 14px;" />
                         </a>
                     </p>
                 </li>

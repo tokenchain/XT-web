@@ -69,7 +69,7 @@
                     </div>
                     <div class="body">
                             <ul @click="goExchange(1, data.market.replace('/','_'))" v-for="(data, index) in displayMarkets" v-if="marketConfig && assistPrice" v-cloak  role="button">
-                                <li class="coin-name"><img class="icon-coin" :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" /><b>{{data.market.split('_')[0].toUpperCase()}} <span>/ {{data.market.split('_')[1].toUpperCase()}}</span></b></li>
+                                <li class="coin-name"><img class="icon-coin" :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" /><b>{{data.market.split('_')[0].toUpperCase()}} <span>/ {{data.market.split('_')[1].toUpperCase()}}</span></b></li>
                                 <li class="new-price" :class="data.rate >= 0 ? 'red-color' : 'green-color'" >{{showMoney(data.lastPrice, data.market)}}</li>
                                 <li class="increase"><span :class="data.rate >= 0 ? 'green-color' : 'red-color'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span></li>
                                 <li>{{data.highPrice |capitalize}} / {{data.lowPrice |capitalize}}</li>

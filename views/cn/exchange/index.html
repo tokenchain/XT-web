@@ -31,7 +31,7 @@
                         <td>
                             <a class="userinfo" @click="gotoOtherInfo(ad.user.id)">
                                 <span class="avatar-wrap">
-                                    <img :src="'/src/images/userhead/' + ad.user.avatar" style="border-radius: 50%; width: 42px;">
+                                    <img :src="'<%= IMG_STATIC %>/images/userhead/' + ad.user.avatar" style="border-radius: 50%; width: 42px;">
                                 </span>
                                 <span class="name">{{ad.user.name}}</span>
                             </a>

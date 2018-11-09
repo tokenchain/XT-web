@@ -1,7 +1,7 @@
 <script type="text/x-template" id="modal-payout">
   <div class="modal-payout">
     <div class="exx-modal-container exx-light" v-if="!showAddressForm">
-      <div class="exx-modal-header"><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3><%= LANG('提币') %><span>{{coin.toUpperCase()}}</span></h3></div>
+      <div class="exx-modal-header"><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3><%= LANG('提币') %><span>{{coin.toUpperCase()}}</span></h3></div>
       <div class="exx-modal-body">
 
         <div class="exx-tab">
@@ -101,7 +101,7 @@
     </div>
 
     <div class="exx-modal-container" style="width: 500px;" v-cloak v-if="showAddressForm">
-      <div class="exx-modal-header"><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3>{{modalTitle}}</h3></div>
+      <div class="exx-modal-header"><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" /><h3>{{modalTitle}}</h3></div>
       <div class="exx-modal-body">
         <div class="exx-form-box">
           <div class="exx-form-group" :class="{valueyes: addressFormType == 'dele'}">

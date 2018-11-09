@@ -1,5 +1,5 @@
 <!--<link href="<%= STATIC %>/styles/components.css" rel="stylesheet" type="text/css">-->
-<link href="<%= STATIC %>/styles/activity.css" rel="stylesheet" type="text/css">
+<link href="<%= STYLE_STATIC %>/styles/activity.css" rel="stylesheet" type="text/css">
 <section id="million" class="million-content">
 
     <div class="million-banner">
@@ -39,7 +39,7 @@
             <ul>
               <li  v-for="account in targetAccounts" @click="handleSelectSub(account)" :class="{on: selectedSub.userId == account.userId}" >
                 <a>
-                  <img :src="'<%= STATIC %>/images/userhead/' + account.photo">
+                  <img :src="'<%= IMG_STATIC %>/images/userhead/' + account.photo">
                   {{account.nickName}}
                 </a>
               </li>
@@ -60,7 +60,7 @@
               <div class="avatar">
                 <div v-if="account.userType == 3" class="gray-mask"><%= LANG('模拟') %></div>
                 <img v-if="account.photo" :src="'<%= STATIC %>/images/userhead/' + account.photo">
-                <img v-else src="<%= STATIC %>/images/userhead/default.jpg">
+                <img v-else src="<%= IMG_STATIC %>/images/userhead/default.jpg">
               </div>
               <div class="memo">
                 {{account.nickName}}

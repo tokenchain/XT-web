@@ -16,7 +16,7 @@
         <div class="trading-tab">
             <ul v-cloak="">
                 <li role="button" @click="changeTab('user')" :class="{'active' : currentTab == 'user' && keyWord == ''}" v-if="isLogin">
-                    <img v-if="currentUserAsset.photo" :src="'/src/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
+                    <img v-if="currentUserAsset.photo" :src="'<%= IMG_STATIC %>/images/userhead/' + currentUserAsset.photo" style="border-radius: 50%">
                     <p><%- LANG('自选')%></p>
                 </li>
                 <!--<li role="button" @click="changeTab('_<%= LEGAL[UNIT].alias %>')" :class="{'active' : currentTab == '_<%= LEGAL[UNIT].alias %>' && keyWord == ''}">-->
@@ -24,7 +24,7 @@
                     <!--<p><%= LEGAL[UNIT].alias.toUpperCase() %></p>-->
                 <!--</li>-->
                 <li v-for="item in marketAreaList" role="button" @click="changeTab('_' + item.name)" :class="{'active' : currentTab == '_' + item && keyWord == ''}">
-                    <img :src="'/src/images/icon/market-icon/' + item.logo">
+                    <img :src="'<%= IMG_STATIC %>/images/icon/market-icon/' + item.logo">
                     <p>{{item.name.toUpperCase()}}</p>
                 </li>
             </ul>
@@ -48,7 +48,7 @@
                 </li>
                 <li role="button" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" :class="{'active' : data.market == currentMarket}" >
                     <p class="coin-name">
-                        <img :src="'/src/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
+                        <img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-'+data.market.split('_')[0]+'.png'">{{showCoin(data.market)}}/{{showMoney(data.market)}}
                         <!--<span class="text-icon" v-if="data.leverRate > 0"><i>{{data.leverRate}}X</i></span>-->
                     </p>
                     <p class="hint--top" :aria-label="showAssistHint(data.lastPrice,data.market)">
@@ -59,10 +59,10 @@
                     </p>
                     <p style="width: 18px; flex:none;" v-if="isLogin && userMarket">
                         <a v-if="checkUserMarket(data.marketId)" @click.stop="editUserMarket(0, data.marketId)" role="button" title="<%- LANG('取消自选')%>">
-                            <img src="/src/images/icon/star_active.png" style="width: 14px;" />
+                            <img src="<%= IMG_STATIC %>/images/icon/star_active.png" style="width: 14px;" />
                         </a>
                         <a v-if="!checkUserMarket(data.marketId)" @click.stop="editUserMarket(1, data.marketId)" role="button" title="<%- LANG('添加自选')%>">
-                            <img src="/src/images/icon/star_gray.png" style="width: 14px;" />
+                            <img src="<%= IMG_STATIC %>/images/icon/star_gray.png" style="width: 14px;" />
                         </a>
                     </p>
                 </li>

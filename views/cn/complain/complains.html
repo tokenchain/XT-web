@@ -41,7 +41,7 @@
         <div>
             <ul class="complainUl" v-for="item in dataList" :key="item.complainId">
                 <li class="complainLi top" v-cloak>
-                    <img class="avtar" src="/src/images/user.svg" alt="">
+                    <img class="avtar" src="<%= IMG_STATIC %>/images/user.svg" alt="">
                     <span class="complainFl">{{item.userName}}</span>
                     <span class="complainFr">{{item.createTime}}</span>
                 </li>

@@ -33,7 +33,7 @@
 </style>
 <header class="header" onclick="closeMenu();" id="header_menu_he">
     <a href="/" class="logo">
-        <img src="/src/images/logo.png" />
+        <img src="<%= IMG_STATIC %>/images/logo.png" />
     </a>
     <div class="header-nav" id="header-navigator">
         <ul class="main-nav">
@@ -111,7 +111,7 @@
 
             <li class="dropdown" id="menu_loginedList" style="display: none;" onclick="showLoginList('dropdown_menuLogin',2,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
-                    <img src="/src/images/icon/user-icon.png" />
+                    <img src="<%= IMG_STATIC %>/images/icon/user-icon.png" />
                     <span id="menuUsername">-</span>
                 </p>
                 <ul class="dropdown-menu" id="dropdown_menuLogin">
@@ -140,7 +140,7 @@
             </li>
             <li class="dropdown" onclick="showLoginList('dropdown_menuLanguage',1,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
-                    <img src="/src/images/icon/language-icon.png" />
+                    <img src="<%= IMG_STATIC %>/images/icon/language-icon.png" />
                     <span id="menuLanguage">简体中文</span>
                 </p>
                 <ul class="dropdown-menu" id="dropdown_menuLanguage">

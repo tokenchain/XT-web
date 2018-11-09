@@ -75,7 +75,7 @@
                 <div class="sideScrollbar">
                     <div class="market-box" :class="{'active' : currentMarket == data.market}" v-for="(data,index) in getGroupMarket(currentTab)" @click="gotoTrade(data.market)" v-if="showSider">
                         <div class="market-box-head">
-                            <h3><img :src="'/src/images/icon/market-icon/market-' +data.market.split('_')[0]+ '.png'"><b>{{showCoin(data.market)}}</b><i>/</i>{{showMoney(data.market)}}</h3>
+                            <h3><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' +data.market.split('_')[0]+ '.png'"><b>{{showCoin(data.market)}}</b><i>/</i>{{showMoney(data.market)}}</h3>
                             <div class="ups"><span :class="data.rate >= 0 ? 'red' : 'green'">{{ data.rate >= 0 ? '+' + showRate(data.rate) : '' + showRate(data.rate) }}%</span></div>
                         </div>
                         <a class="market-top" role="button" @click.stop="topUserMarket(data.market)" v-if="index != 0 && currentShow && currentTab == 'user' && keyWord == '' && sortBy == ''"><%= LANG('置顶')%></a>

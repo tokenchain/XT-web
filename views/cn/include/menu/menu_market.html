@@ -11,7 +11,7 @@
                 <!--<ul class="<%= LEGAL[UNIT].alias %> block">-->
                     <!--<li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == '<%= LEGAL[UNIT].alias.toUpperCase() %>'">-->
                         <!--<a :href="'/tradePro/' + getTradeName(market)" target="_self">-->
-                            <!--<span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
+                            <!--<span class="coinimg"><img :src='"<%= IMG_STATIC %>/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>-->
                             <!--<b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}-->
                             <!--&lt;!&ndash;<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>&ndash;&gt;-->
                         <!--</a>-->
@@ -20,7 +20,7 @@
                 <ul :class="{'block':marketIndex==0}" v-for="(marketItem,marketIndex) in marketAreaList" v-cloak="">
                     <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == marketItem.name.toUpperCase()" >
                         <a :href="'/tradePro/' + getTradeName(market)" target="_self">
-                            <span class="coinimg"><img :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                            <span class="coinimg"><img :src='"<%= IMG_STATIC %>/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
                             <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
                             <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>

@@ -41,37 +41,37 @@
 
     <!-- links for favicon
     ======================================== -->
-    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
 
     <!-- Icon fonts
     ======================================== -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
 
     <!-- css links
     ======================================== -->
     <!-- Bootstrap link -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
 
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/slick-theme.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick-theme.css?<%= VERSION %>">
 
     <!-- Magnific popup -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/magnific-popup.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/magnific-popup.css?<%= VERSION %>">
 
     <!-- Custom styles -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/main.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/index.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/main.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/index.css?<%= VERSION %>">
 
     <!-- Responsive styling -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/responsive.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
-    <!-- <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/juabox.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/responsive.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <!-- <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/juabox.css?<%= VERSION %>">
 
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
-    <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <link href="<%= STYLE_STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 </head>
 
@@ -456,10 +456,10 @@
                         </a>
                     </div>
                     <!--<div class="swiper-slide banner01">
-                        <img src="/src/images/banner01.png" alt="">
+                        <img src="<%= IMG_STATIC %>/images/banner01.png" alt="">
                     </div>
                     <div class="swiper-slide banner01">
-                        <img src="/src/images/banner02.png" alt="">
+                        <img src="<%= IMG_STATIC %>/images/banner02.png" alt="">
                     </div>-->
                 </div>
                 <!-- 如果需要分页器 -->
@@ -542,8 +542,8 @@
                                 <li class="coin-name">
                                     <img
                                             v-if="data.market.split('_')[0] === 'scc' || data.market.split('_')[0] === 'fil' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'sxc'|| data.market.split('_')[0] === 'xtz'"
-                                        :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
-                                    <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
+                                        :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                                    <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
                                     {{data.market.split('_')[0].toUpperCase()}}
                                     <span>
                                         <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
@@ -680,10 +680,10 @@
                     
                 </div>
                 <div class="col-md l-6 timeLine-img01">
-                    <img src="/src/images/timeLine.png" alt="">
+                    <img src="<%= IMG_STATIC %>/images/timeLine.png" alt="">
                 </div>
                 <div class="col-md l-6 timeLine-img02">
-                    <img src="/src/images/timeLine02.png" alt="">
+                    <img src="<%= IMG_STATIC %>/images/timeLine02.png" alt="">
                 </div>
             </div>
         </section>
@@ -702,7 +702,7 @@
                         <div class="row align-items-center text-center">
                             <div class="col-md-12">
                                 <div class="img-container">
-                                    <img src="<%= STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
+                                    <img src="<%= IMG_STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
                                         class="img-fluid">
                                 </div>
                                 <!-- End of .img-container -->

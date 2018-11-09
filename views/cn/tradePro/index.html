@@ -4,8 +4,8 @@
         top: 0;
     }
 </style>
-<link rel="stylesheet" href="/src/styles/tradePro.css?<%= VERSION %>">
-<link rel="stylesheet" href="/src/styles/temporary.css?<%= VERSION %>">
+<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/tradePro.css?<%= VERSION %>">
+<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/temporary.css?<%= VERSION %>">
 <script src="/lib/others/jquery.range.js" type="application/javascript"></script>
 <%-include("../include/head.html")%>
 
@@ -321,7 +321,7 @@
         <div class="market-title">
             <span>市场</span>
             <div class="img-box" @click="marketSwitch">
-                <img src="/src/images/trade_market.png" alt="">
+                <img src="<%= IMG_STATIC %>/images/trade_market.png" alt="">
             </div>
         </div>
         <div class="market-zone">
@@ -550,7 +550,7 @@
                         <!--</div>-->
                         <!--</div>-->
                     </div>
-                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'"
+                    <img :src="!fullScreen ? '<%= IMG_STATIC %>/images/fullscreen.png' : '<%= IMG_STATIC %>/images/exitscreen.png'"
                          @click="fullScreeActive" :title="fullScreen ? '退出全屏' : '全屏'" alt="">
                 </div>
 
@@ -806,7 +806,7 @@
                 <div class="oper" v-if="isLogin">
                     <a href="/u/bill" target="_blank" role="button"><%=LANG('综合账单')%></a>
                     <a :href="'/u/entrust/' + currentMarket" target="_blank" role="button"><%=LANG('更多委托')%></a>
-                    <img @click="Refresh" class="Refresh" src="/src/images/zbg/images/Refresh@2x.png" alt="">
+                    <img @click="Refresh" class="Refresh" src="<%= IMG_STATIC %>/images/zbg/images/Refresh@2x.png" alt="">
                     <!--<a @click="showModal = 'batchCancel'" role="button"><%= LANG('批量撤单')%></a>-->
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <header class="header" id="user-nav">
-    <a href="/" class="logo"><img src="/src/images/logo.png"/></a>
+    <a href="/" class="logo"><img src="<%= IMG_STATIC %>/images/logo.png"/></a>
     <ul class="main-nav">
         <li><a role="button" :href="'/trade/'+ marketConfig[0].name" v-if="marketConfig.length > 0">交易</a></li>
         <li><a role="button" href="/market">市场</a></li>
@@ -28,7 +28,7 @@
     <ul class="user-nav">
         <li class="dropdown">
             <p role="button" data-toggle="dropdown">
-                <img src="/src/images/icon/language-icon.svg"/>
+                <img src="<%= IMG_STATIC %>/images/icon/language-icon.svg"/>
                 <%= WEB.LAN[LAN] %>
             </p>
             <ul class="dropdown-menu">
@@ -42,7 +42,7 @@
         <% if(isLogin){ %>
             <li class="dropdown">
                 <p role="button" data-toggle="dropdown">
-                    <img src="/src/images/icon/user-icon.svg"/>
+                    <img src="<%= IMG_STATIC %>/images/icon/user-icon.svg"/>
                     <span v-text="userInfo.nickName || userInfo.loginName"></span></p>
                     <ul class="dropdown-menu">
                         <!--<li v-if="userInfo.userType == 1" v-cloak><a style="padding-left: 20px;" role="button" href="/u/recommend"><%= LANG('推荐分享') %></a></li>-->

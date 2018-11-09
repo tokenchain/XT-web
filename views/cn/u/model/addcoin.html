@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr v-for="coin in availableCoins">
-              <td><img :src="'<%= STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" class="market-icon">{{coin}}</td>
+              <td><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'" class="market-icon">{{coin}}</td>
               <td>{{currencyInfo(params.account.assistCoin).symbol + coinToMoney(coin, params.account.assistCoin)}}</td>
               <td>
                 <a v-if="isCoinEnabled(coin)" @click="setUserCoins('remove', coin)" class="remove"><%= LANG('删除') %></a>
@@ -43,7 +43,7 @@
             </tr>
             <!--
             <tr>
-              <td><img src="/src/images/icon/market-icon/market-eth.png" class="market-icon">BTC</td>
+              <td><img src="<%= IMG_STATIC %>/images/icon/market-icon/market-eth.png" class="market-icon">BTC</td>
               <td>¥1243434.12</td>
               <td><a href="#" class="remove">移除</a></td>
             </tr>
