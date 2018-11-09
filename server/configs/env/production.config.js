@@ -7,6 +7,8 @@ module.exports = {
     ENV: "z",
     //静态目录
     STATIC: "/src",
+    IMG_STATIC: "http://img.xt.com/src",   //图片资源地址
+    STYLE_STATIC: "http://assets.xt.com/src", //样式请求地址
     //默认语言
     LAN: "cn",
     //法币单位
