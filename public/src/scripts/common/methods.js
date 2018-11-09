@@ -279,7 +279,6 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             // 登录状态下 设置header(UserId,ClientType,Timestamp,Sign)
             // Sign:UserId+timestamp+parametersContent+token
             if (Methods.getLocalUserInfo() && Methods.getLocalUserInfo().godLogin != 1) {
-
                 var timestamp = (new Date()).getTime();
                 var header = {
                     Userid: Methods.getLocalUserInfo().userId,

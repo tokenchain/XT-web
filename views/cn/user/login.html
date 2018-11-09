@@ -301,6 +301,7 @@
                     } else {
                         _this.requestLocked = true;
                         Methods.ajax({
+
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
                             url: DOMAIN_DEV +
                             "/exchange/user/controller/website/usercontroller/" +
@@ -331,8 +332,8 @@
                                     }
                                 }*/
                                 isZbLogin = false;
-                                //跳转页面提示
-                                loginSuccessUi(path);
+                                //跳转页面提示                             
+                                // loginSuccessUi(path);
                             },
                             error: function (res) {
                                 _this.requestLocked = false;
