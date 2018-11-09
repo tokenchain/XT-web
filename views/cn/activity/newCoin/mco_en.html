@@ -163,7 +163,7 @@
     <div class="banner">
 
         <div class="info">
-            <div class="logo"><img src="/src/images/home/mco/logo.svg" style="width: 100px;"/></div>
+            <div class="logo"><img src="<%= IMG_STATIC %>/images/home/mco/logo.svg" style="width: 100px;"/></div>
             <h2>MCO</h2>
             <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;"><%= LANG('EXX注册用户可随机领取0.1~1 MCO')%>
             </div>
@@ -217,7 +217,7 @@
                 <p>Spend, save and earn with stunning Monaco Platinum cards</p>
                 <p>Up to 2% cryptocurrency cashback</p>
                 <p>US $500,000 travel insurance</p>
-                <div style="width: 500px;margin-top: 50px;"><img src="/src/images/home/mco/banner.png"/></div>
+                <div style="width: 500px;margin-top: 50px;"><img src="<%= IMG_STATIC %>/images/home/mco/banner.png"/></div>
             </div>
         </div>
 
@@ -226,7 +226,7 @@
             <div class="info">
                 <h3>Spend with Monaco card anywhere</h3>
                 <p>Midnight Blue, Ruby Steel, Precious Metal and Obsidian Black,</p>
-                <div style="width: 800px;margin-top: 50px;"><img src="/src/images/home/mco/visa.png"/></div>
+                <div style="width: 800px;margin-top: 50px;"><img src="<%= IMG_STATIC %>/images/home/mco/visa.png"/></div>
             </div>
         </div>
 
@@ -266,7 +266,7 @@
                         <use xlink:href="#lei-close"></use>
                     </svg>
                     <%- LANG('关闭') %></a>
-                <img src="/src/images/home/winning.png"/>
+                <img src="<%= IMG_STATIC %>/images/home/winning.png"/>
                 <div class="info">
                     <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
                     <a href="/u/asset" target="_self"><%- LANG('立即查看') %></a>

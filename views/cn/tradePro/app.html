@@ -581,8 +581,9 @@
                     var _this = this;
                     // console.log('获取服务器时间')
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
-                        url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'getservertime',
+                        url: DOMAIN_DEV + '/exchange/user/controller/website/UserController/' + 'getServerTime',
                         success: function (res) {
                             this.serverTime = res.datas;
                             callback && callback(res.datas);
@@ -630,8 +631,9 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);
@@ -647,7 +649,7 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/CurrencyController/" + 'getCurrencyList',
                         success: function (res) {
                             this.coinConfig = res.datas;
                         }.bind(this)

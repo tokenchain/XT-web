@@ -27,10 +27,10 @@
             </div>
             <div class="control">
                 <a role="button" @click="showAsksOrBids('asks')">
-                    <img :src="'/src/images/icon/show_bids' + (!showAsks ? '_on' : '') + '.jpg'" />
+                    <img :src="'<%= IMG_STATIC %>/images/icon/show_bids' + (!showAsks ? '_on' : '') + '.jpg'" />
                 </a>
                 <a role="button" @click="showAsksOrBids('bids')">
-                    <img :src="'/src/images/icon/show_asks' + (!showBids ? '_on' : '') + '.jpg'" />
+                    <img :src="'<%= IMG_STATIC %>/images/icon/show_asks' + (!showBids ? '_on' : '') + '.jpg'" />
                 </a>
             </div>
         </div>

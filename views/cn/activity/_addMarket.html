@@ -33,7 +33,7 @@
 
                             <tr v-for="(market,key) in allMarketsData" v-if="account.userType == 3 && market[9]">
                                 <td style="font-size: 14px"><img
-                                        :src="'/src/images/icon/market-icon/market-' + key.split('_')[0] + '.png'"
+                                        :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + key.split('_')[0] + '.png'"
                                         class="market-icon"><b>{{getRealCoinName(key.split("_")[0]).toUpperCase()}}</b>
                                     / {{getRealCoinName(key.split("_")[1]).toUpperCase()}}
                                 </td>
@@ -50,7 +50,7 @@
 
                             <tr v-for="(market,key) in allMarketsData" v-if="account.userType != 3 && !market[9]">
                                 <td style="font-size: 14px"><img
-                                        :src="'/src/images/icon/market-icon/market-' + key.split('_')[0] + '.png'"
+                                        :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + key.split('_')[0] + '.png'"
                                         class="market-icon"><b>{{getRealCoinName(key.split("_")[0]).toUpperCase()}}</b>
                                     / {{getRealCoinName(key.split("_")[1]).toUpperCase()}}
                                 </td>

@@ -299,9 +299,10 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
+                            "/exchange/config/controller/website/MarketController/" +
                             'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
@@ -397,7 +398,7 @@
                         type: 'GET',
                         data: data,
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
+                            "/exchange/config/controller/website/MarketController/" +
                             'getMarketByWebId',
                         success: function (res) {
                             _this.openMarkets = res.datas;

@@ -20,7 +20,7 @@
                     <li v-for="(market,index) in marketConfig" v-if="getMoneyName(market) == marketItem.name.toUpperCase()">
                         <a :href="'/trade/' + getTradeName(market)" target="_self">
                             <span class="coinimg"><img
-                                    :src='"/src/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
+                                    :src='"<%= IMG_STATIC %>/images/icon/market-icon/market-" + getCoinMinName(market) + ".png?<%= VERSION%>"'></span>
                             <b>{{getCoinName(market)}}</b><em>/</em>{{getMoneyName(market)}}
                             <!--<span class="text-icon" v-if="market.leverRate > 0"><i>{{market.leverRate}}X</i></span>-->
                         </a>

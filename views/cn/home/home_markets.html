@@ -33,7 +33,7 @@
                     v-for="(data, index) in displayMarkets"
                     v-if="marketConfig && assistPrice" v-cloak>
                     <div class="item currency">
-                        <img :src="'<%= STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                        <img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
                         <em>{{data.market.split('_')[0].toUpperCase()}}</em>/{{data.market.split('_')[1].toUpperCase()}}
                         <!--<p class="text-icon"><i v-if="marketConfig[data.market].leverRate > 0">{{marketConfig[data.market].leverRate}}X</i></p>-->
                     </div>
@@ -216,8 +216,9 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                             callback && callback(res.datas);

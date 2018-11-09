@@ -79,7 +79,7 @@
             <h2><%= LANG('注册') %></h2>
             <div class="form-group">
                 <div class="form-control" id="nikeForm">
-                    <img src="/src/images/user.png" class="title" alt="">
+                    <img src="<%= IMG_STATIC %>/images/user.png" class="title" alt="">
                     <input autocomplete="off" placeholder="<%= LANG('请输入您的手机/邮箱') %>" v-model.trim="userName" v-on:blur="handleCheckUserName($event)"
                            v-on:focus="clearInputError($event)" type="text">
                     <country-code v-if="showCountry" :selected="selectCountry"/>
@@ -87,7 +87,7 @@
             </div>
             <div class="form-group">
                 <div class="form-control" id="passwordForm">
-                    <img src="/src/images/pass.png" class="title" alt="">
+                    <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
                     <input autocomplete="new-password" placeholder="<%= LANG('设置密码') %>" v-on:keyup="handleCheckPwdStrength($event)" v-on:focus="clearInputError($event)"
                            v-model="password" type="password">
                     <ul v-show="password.length" class="exx-grade" v-cloak="">
@@ -115,7 +115,7 @@
 
             <div class="form-group">
                 <div class="form-control" id="confirmPwdForm">
-                    <img src="/src/images/pass.png" class="title" alt="">
+                    <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
                     <input autocomplete="new-password" placeholder="<%= LANG('确认密码') %>" v-on:keyup="handleComparedPwd($event)" v-on:blur="handleComparedPwd($event)"
                            v-on:focus="clearInputError($event)" v-model="passwordConfirmation" type="password">
                 </div>
@@ -124,7 +124,7 @@
             <!-- 邀请码 -->
             <div class="form-group">
                 <div class="form-control">
-                    <img src="/src/images/recommendCode.png" class="title" alt="">
+                    <img src="<%= IMG_STATIC %>/images/recommendCode.png" class="title" alt="">
                     <input autocomplete="off" placeholder="<%= LANG('请输入邀请码') %>" v-model="recommendCode" v-on:focus="clearInputError($event)"  type="text">
                 </div>
             </div>
@@ -146,7 +146,7 @@
 
             <div class="form-group">
                 <div class="form-control" id="msgCodeForm">
-                    <img src="/src/images/msgCode.png" class="title" alt="">
+                    <img src="<%= IMG_STATIC %>/images/msgCode.png" class="title" alt="">
                     <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)"
                            v-on:focus="clearInputError($event)" type="text">
                     <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId"
@@ -211,7 +211,7 @@
                     imgCodeId: '',
                     imageCodeUrl: '',
                     puzzleValidateString: '',
-                    recommendCode: '' // 邀请码
+                    recommendCode: '', // 邀请码
                 }
             },
             methods: {
@@ -339,16 +339,8 @@
                         }
                     }
                 },
-
-                // 时间戳转换
-                getUnixTimestamp: function (nowTime) {
-                    var thisTime = nowTime;
-                    thisTime = thisTime.replace(/-/g, '/');
-                    var time = new Date(thisTime);
-                    time = time.getTime();
-                    return time;
-                },
-
+                
+                // 点击立即注册
                 handleRegister: function () {
                     var encryptionPwd = Methods.encryptPwd(this.password, this.pubKey);
                     var data = {
@@ -403,14 +395,20 @@
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
                                 
                                 // 判断当前时间是否在活动时间内，如果是则跳转至活动页，否则跳转至个人中心页
-                                var startTime = '2018-10-30 00:00:00',
-                                    endTime = '2018-12-31 00:00:00',
-                                    newTime = new Date().getTime();
-                                if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
+                                // var startTime = this.activityStartTime,
+                                //     endTime = this.activityEndTime,
+                                //     newTime = new Date().getTime();
+                                // if(this.getUnixTimestamp(startTime) <= newTime <= this.getUnixTimestamp(endTime)) {
+                                //     window.location.replace('/regSuccess');
+                                // }else {
+                                //     JuaBox.info('<%= LANG("恭喜注册成功，请妥善保管您的账户信息") %>', function () {
+                                //         window.location.replace('/u');
+                                //     })
+                                // }
+                                JuaBox.info('<%= LANG("恭喜注册成功，请妥善保管您的账户信息") %>', function () {
                                     window.location.replace('/regSuccess');
-                                }else {
-                                    window.location.replace('/u');
-                                }
+                                })
+                                
                             }.bind(this),
                             error: function (res) {
                                 this.requestLocked = false;

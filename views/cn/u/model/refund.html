@@ -24,7 +24,7 @@
                             </thead>
                             <tbody>
                             <tr v-if="loanInfo.length > 0" v-for="(loan, index) in loanInfo">
-                                <td class="amount "><img :src="'<%= STATIC %>/images/icon/market-icon/market-'+loan.coint+'.png'" style="height: 20px;vertical-align: middle;"/> {{ loan.amount }} {{loan.coint.toUpperCase()}}
+                                <td class="amount "><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-'+loan.coint+'.png'" style="height: 20px;vertical-align: middle;"/> {{ loan.amount }} {{loan.coint.toUpperCase()}}
                                 </td>
                                 <td class="lx ">{{loan.lx}}</td>
                                 <td class="shouldRepayBX ">{{loan.shouldRepayBX}}</td>
@@ -155,7 +155,7 @@
                         },
                         {
                             label: "<%= LANG('借入本金') %>", key: "amount", cell: function (item) {
-                            return "<img src='<%= STATIC %>/images/icon/market-icon/market-" + item.coint.toLowerCase() + ".png' style='height: 20px;vertical-align: middle;' /> " + Methods.fixFloat((Number(item.totalAmount)), 8) + " " + item.coint.toUpperCase();
+                            return "<img src='<%= IMG_STATIC %>/images/icon/market-icon/market-" + item.coint.toLowerCase() + ".png' style='height: 20px;vertical-align: middle;' /> " + Methods.fixFloat((Number(item.totalAmount)), 8) + " " + item.coint.toUpperCase();
                         }
                         },
                         {label: "<%= LANG('借入利率') %>", key: "rate"},

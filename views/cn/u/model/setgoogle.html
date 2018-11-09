@@ -24,14 +24,14 @@
           <div class="form-group" v-if="isOpen && (type == 1 || type == 2)">
             <label class="control-label"><%= LANG('密钥') %>：</label>
             <div class="form-control" id="nikeForm">
-              <img src="/src/images/pass.png" class="title" alt="">
+              <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
               <input v-model="googleSecret" placeholder="<%= LANG('密钥') %>" readonly type="text">
             </div>
           </div>
           <div class="form-group">
             <label class="control-label"><%= LANG('图形验证码') %>：</label>
             <div class="form-control" style="display: block !important;">
-              <img src="/src/images/pass.png" class="title" alt="">
+              <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
               <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
               <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
             </div>
@@ -39,7 +39,7 @@
           <div class="form-group">
             <label class="control-label"><%= LANG('动态验证码') %>：</label>
             <div class="form-control">
-              <img src="/src/images/pass.png" class="title" alt="">
+              <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
               <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode" type="text">
               <send-code :code-type="3"
                          :user-name="userInfo.loginName"
@@ -55,7 +55,7 @@
           <div class="form-group">
             <label class="control-label"><%= LANG('Google验证码') %>：</label>
             <div class="form-control">
-              <img src="/src/images/pass.png" class="title" alt="">
+              <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
               <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" type="text"  maxlength="6"  @keyup="googleCode=googleCode.replace(/[^\d]/g,'')">
             </div>
           </div>

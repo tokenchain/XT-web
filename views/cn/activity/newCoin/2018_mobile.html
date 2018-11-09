@@ -167,7 +167,7 @@
         <div class="info">
             <div class="logo">
                 <div style="height: 80px;"></div>
-                <!--<img src="/src/images/home/2018/logo.png" style="height: 80px;" />--></div>
+                <!--<img src="<%= IMG_STATIC %>/images/home/2018/logo.png" style="height: 80px;" />--></div>
             <h2>　<!--<%= LANG('每天登录抽大奖')%>--></h2>
             <div class="subtitle" style="margin-bottom: 15px; margin-top: 15px;">　
                 <!--<%= LANG('活动时间：2018年2月12日-2018年2月25日')%>--></div>
@@ -218,10 +218,10 @@
                         <use xlink:href="#lei-close"></use>
                     </svg>
                     <%- LANG('关闭') %></a>
-                <img src="/src/images/home/winning.png"/>
+                <img src="<%= IMG_STATIC %>/images/home/winning.png"/>
                 <div class="info">
                     <a href="javascript:;">
-                        <img v-if="coin" :src="'/src/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'">
+                        <img v-if="coin" :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + coin.toLowerCase() + '.png'">
                     </a>
                     <p>{{parseFloat(amount)}} {{coin.toUpperCase()}}</p>
                 </div>

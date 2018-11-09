@@ -27,7 +27,7 @@
                     <div class="td"><%= LANG('操作')%></div>
                 </div>
                 <div class="tr" v-for="(item,key) in userAsset.coinFundMap" v-if="item.showCoin && ((hideZero && item.total > 0) || !hideZero)">
-                    <div class="td"><img :src="'<%= STATIC%>/images/icon/market-icon/market-' + key.toLowerCase() + '.png'" class="market-icon">{{getRealCoinName(key).toUpperCase()}}</div>
+                    <div class="td"><img :src="'<%= IMG_STATIC %>/images/icon/market-icon/market-' + key.toLowerCase() + '.png'" class="market-icon">{{getRealCoinName(key).toUpperCase()}}</div>
                     <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.available,key)">{{fixDecimal(item.available,8)}}</span></div>
                     <div class="td"><span class="hint--top" :aria-label="showAssistHint(item.freez,key)">{{fixDecimal(item.freez,8)}}</span></div>
                     <div class="td" v-if="loginUser.userType == 1 && userAsset.userType == 1">
@@ -99,7 +99,7 @@
                         type: 'GET',
                         // url: DOMAIN_DEVMAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/CurrencyController/" + 'getCurrencyList',
                         success: function(res) {
                             this.coinConfig = res.datas;
                             this.initScroll();

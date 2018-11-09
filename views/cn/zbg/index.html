@@ -34,76 +34,88 @@
     ======================================== -->
     <title>XT.com</title>
 
-    <link rel="stylesheet" type="text/css" href="/lib/swiper/swiper-4.3.3.min.css">
-    <script type="text/javascript" src="/lib/swiper/swiper-4.3.3.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="/lib/swiper/swiper-4.3.3.min.css"> -->
+    <link href="https://cdn.bootcss.com/Swiper/4.3.3/css/swiper.min.css" rel="stylesheet">
+    <!-- <script type="text/javascript" src="/lib/swiper/swiper-4.3.3.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/Swiper/4.3.3/js/swiper.min.js"></script>
 
     <!-- links for favicon
     ======================================== -->
-    <link rel="shortcut icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="<%= STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
 
     <!-- Icon fonts
     ======================================== -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/cryptowallet-argon.css?<%= VERSION %>?<%= VERSION %>">
 
     <!-- css links
     ======================================== -->
     <!-- Bootstrap link -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
 
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/slick-theme.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick-theme.css?<%= VERSION %>">
 
     <!-- Magnific popup -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/vendor/magnific-popup.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/magnific-popup.css?<%= VERSION %>">
 
     <!-- Custom styles -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/main.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/index.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/main.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/index.css?<%= VERSION %>">
 
     <!-- Responsive styling -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/zbg/css/responsive.css?<%= VERSION %>">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/xuleipro.css?<%= VERSION %>">
-    <!-- <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
-    <link rel="stylesheet" type="text/css" href="<%= STATIC %>/styles/juabox.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/responsive.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <!-- <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/juabox.css?<%= VERSION %>">
 
     <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
-    <link href="<%= STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
+    <link href="<%= STYLE_STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 </head>
 
-
 <body class="home">
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <%-include("../include/head.html")%>
 
     <!-- jQuery -->
 
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery-migrate/1.4.1/jquery-migrate.min.js"></script>
     <!-- Bootstrap js -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
     <!-- font awesome -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
     <!-- jQuery Countdown plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
     <!-- jQuery Easing Plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery-easing/1.3/jquery.easing.min.js"></script>
     <!-- jQuery progressbar plugin -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <!-- Bootstrap Progressbar -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/bootstrap-progressbar/0.9.0/bootstrap-progressbar.min.js"></script>
     <!-- ImagesLoaded js -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js"></script>
     <!-- Slick carousel js -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
     <!-- Magnific popup -->
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>
+    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>-->
+    <script src="https://cdn.bootcss.com/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
     <!-- pie chart -->
-    <script src="/src/js/highcharts.js"></script>
-    <script src="/src/js/highcharts-3d.js"></script>
-    <script src="/src/js/exporting.js"></script>
+    <!-- <script src="/src/js/highcharts.js"></script>-->
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <!-- <script src="/src/js/highcharts-3d.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.2/highcharts-3d.js"></script>
+    <!-- <script src="/src/js/exporting.js"></script> -->
+    <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
     <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
     <script src="/lib/requirejs/require.js"></script>
@@ -444,10 +456,10 @@
                         </a>
                     </div>
                     <!--<div class="swiper-slide banner01">
-                        <img src="/src/images/banner01.png" alt="">
+                        <img src="<%= IMG_STATIC %>/images/banner01.png" alt="">
                     </div>
                     <div class="swiper-slide banner01">
-                        <img src="/src/images/banner02.png" alt="">
+                        <img src="<%= IMG_STATIC %>/images/banner02.png" alt="">
                     </div>-->
                 </div>
                 <!-- 如果需要分页器 -->
@@ -530,8 +542,8 @@
                                 <li class="coin-name">
                                     <img
                                             v-if="data.market.split('_')[0] === 'scc' || data.market.split('_')[0] === 'fil' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'sxc'|| data.market.split('_')[0] === 'xtz'"
-                                        :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
-                                    <img v-else :src="'<%= STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
+                                        :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
+                                    <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
                                     {{data.market.split('_')[0].toUpperCase()}}
                                     <span>
                                         <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
@@ -668,10 +680,10 @@
                     
                 </div>
                 <div class="col-md l-6 timeLine-img01">
-                    <img src="/src/images/timeLine.png" alt="">
+                    <img src="<%= IMG_STATIC %>/images/timeLine.png" alt="">
                 </div>
                 <div class="col-md l-6 timeLine-img02">
-                    <img src="/src/images/timeLine02.png" alt="">
+                    <img src="<%= IMG_STATIC %>/images/timeLine02.png" alt="">
                 </div>
             </div>
         </section>
@@ -690,7 +702,7 @@
                         <div class="row align-items-center text-center">
                             <div class="col-md-12">
                                 <div class="img-container">
-                                    <img src="<%= STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
+                                    <img src="<%= IMG_STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
                                         class="img-fluid">
                                 </div>
                                 <!-- End of .img-container -->
@@ -903,8 +915,9 @@
                             return this.marketsForCoin(type);
                         }
                     }
-                }
+                },
             },
+            
             methods: {
                 initSwiper: function () {
                     var mySwiper = new Swiper('.swiper-container', {
@@ -949,6 +962,7 @@
                         lanType: lanType
                     }
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/support/controller/website/articlecontroller/getArticles',
                         data: data,
@@ -967,7 +981,7 @@
                         hk: '5'
                     } [language]
                     Methods.ajax({
-                        // type: 'GET',
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/banner/controller/website/BannerController/getByLanType",
                         data: {
@@ -1101,6 +1115,7 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
                             "/exchange/config/controller/website/marketcontroller/" +
@@ -1283,6 +1298,7 @@
                 // 获取币价汇率 -ok
                 getPriceRate: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/config/controller/website/pricecontroller/" +
                             'getassistprice',
@@ -1480,6 +1496,7 @@
                 },
                 getMarketAreaListByWebId: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/config/controller/website/MarketController/" +
                             'getMarketAreaListByWebId',
@@ -1491,6 +1508,7 @@
                 statistic: function () {
                     var that = this;
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/fund/controller/website/FundMinerStatController/statistic",
                         success: function (res) {
@@ -1505,6 +1523,7 @@
                 //获取预计分配折合
                 minerSummary: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/fund/controller/website/MinerTransactionController/" +
                             'minerSummary',
