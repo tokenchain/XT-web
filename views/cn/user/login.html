@@ -102,10 +102,11 @@
     var easyLoginSetTimeout
 
     // alert(<%= Boolean(isLogin) %>)
-    if (<%= Boolean(isLogin) %>) {
+    /*if (<%= Boolean(isLogin) %>) {
+        var pathArr = document.referrer.split('/')
         var path = document.referrer ? pathArr[pathArr.length - 1] == 'findLoginPwd' || pathArr[pathArr.length - 1] == 'register' ? '/u' : document.referrer : '/u'
         window.location.href = path
-    }
+    }*/
 
     function loginSuccessUi(redirect) {
         swal({
@@ -301,7 +302,6 @@
                     } else {
                         _this.requestLocked = true;
                         Methods.ajax({
-
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
                             url: DOMAIN_DEV +
                             "/exchange/user/controller/website/usercontroller/" +
@@ -320,7 +320,8 @@
 
                                 Methods.setCookie(ENV + 'utoken', res.datas.token);
                                 var pathArr = document.referrer.split('/')
-                                var path = document.referrer ? pathArr[pathArr.length - 1] == 'findLoginPwd' || pathArr[pathArr.length - 1] == 'register' ? '/u' : document.referrer : '/u'
+                                var lastPath = pathArr[pathArr.length - 1]
+                                var path = document.referrer ? lastPath == 'login' || lastPath == 'findLoginPwd' || lastPath == 'register' ? '/u' : document.referrer : '/u'
                                 console.log(path)
                                 /*if (res.datas.userInfo.thirdAssetMove == '-1') {
                                     window.location.href = DOMAIN_WEB + '/u/welcome'
@@ -333,7 +334,7 @@
                                 }*/
                                 isZbLogin = false;
                                 //跳转页面提示                             
-                                // loginSuccessUi(path);
+                                loginSuccessUi(path);
                             },
                             error: function (res) {
                                 _this.requestLocked = false;

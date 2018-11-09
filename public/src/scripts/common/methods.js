@@ -369,6 +369,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 crossDomain: true
             });
             if (options.url != '') {
+                options.headers['Content-Type'] = options.contentType
                 $.ajax({
                     url: options.url,
                     type: options.type,
