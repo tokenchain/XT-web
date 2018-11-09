@@ -21,9 +21,9 @@
                     // topNews: [],
                     hasReadNews: [],
                     showTopNews: false,
-                    showAssetDrop : false,
-                    assetInterVal : null,
-                    lastAssetTime : 0,
+                    showAssetDrop: false,
+                    assetInterVal: null,
+                    lastAssetTime: 0,
                     isMobile: Methods.isMobile(),
                     ExchangeMode: [
                         "<%= LANG('模拟交易')%>",
@@ -31,10 +31,10 @@
                     ],
                     currentExchangeMode: Methods.getCookie(ENV + 'ExchangeMode') || 1,
                     tradeTheme: 'dark',
-                    showModal : false,
-                    transferInfo : {},
-                    payinCoin : '',
-                    marketConfig:'',
+                    showModal: false,
+                    transferInfo: {},
+                    payinCoin: '',
+                    marketConfig: '',
                     userInfo: '',
                     userAssets: [],
                     coinConfig: '',
@@ -42,10 +42,10 @@
                     marketAreaList: [],
                 }
             },
-            watch : {
-                showAssetDrop : function (newVal,oldVal) {
+            watch: {
+                showAssetDrop: function (newVal, oldVal) {
                     //下拉展开资产的时候立即获取资产并且开启定时器
-                    if(this.showAssetDrop && this.isLogin){
+                    if (this.showAssetDrop && this.isLogin) {
                         //获取汇率
                         this.getAssistPrice();
                         //获取用户资金
@@ -60,15 +60,15 @@
                             this.getAccountAssets();
                             //获取货币信息
                             this.getCoinConfig();
-                        }.bind(this),3000)
-                    }else{
+                        }.bind(this), 3000)
+                    } else {
                         window.clearInterval(this.assetInterVal);
                     }
                 },
-                showTopNews : function () {
-                    if(!this.showTopNews){
+                showTopNews: function () {
+                    if (!this.showTopNews) {
                         $('body').removeClass('notice-open');
-                    }else{
+                    } else {
                         $('body').addClass('notice-open');
                     }
                 }
@@ -83,7 +83,7 @@
                  * 格式化用户资产数据
                  * 将金额不为0的货币与所有货币列表整合
                  */
-                userCoinFunds: function() {
+                userCoinFunds: function () {
                     var coins = this.coinConfig || [];
                     var userAssets = this.userAssets;
 
@@ -108,7 +108,7 @@
                     Methods.logout();
                 },
                 //获取大写货币名称
-                getCoinName : function (market) {
+                getCoinName: function (market) {
                     // return !market ? '' :  market.split('_')[0].toUpperCase();
                     if (market.name.split('_').length > 1) {
                         return !market ? '' : market.name.split('_')[0].toUpperCase();
@@ -118,7 +118,7 @@
                     }
                 },
                 //获取小写货币名称
-                getCoinMinName : function (market) {
+                getCoinMinName: function (market) {
                     // return !market ? '' :  market.split('_')[0].toLowerCase();
                     if (market.name.split('_').length > 1) {
                         return !market ? '' : market.name.split('_')[0].toLowerCase();
@@ -128,7 +128,7 @@
                     }
                 },
                 //获取交易所属类型
-                getMoneyName : function (market) {
+                getMoneyName: function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
                     if (market.name.split('_').length > 1) {
                         return !market ? '' : market.name.split('_')[1].toUpperCase();
@@ -138,7 +138,7 @@
                     }
                 },
                 //获取交易名称
-                getTradeName : function (market) {
+                getTradeName: function (market) {
                     // return !market ? '' :  market.split('_')[1].toUpperCase();
                     if (market.name.split('_').length > 1) {
                         return !market ? '' : market.name.split('_')[0].toLowerCase() + '_' + market.name.split('_')[1].toLowerCase();
@@ -150,9 +150,9 @@
                 goToExchange: function (type, market) {
                     Methods.setCookie(ENV + 'ExchangeMode', 1, 7);
 
-                    if(type == 2){
+                    if (type == 2) {
                         window.location.href = '/trade/' + market;
-                    }else{
+                    } else {
                         window.location.href = '/tradePro/' + market;
                         //window.location.href = DOMAIN_MAIN + '/trade?market=' + market;
                     }
@@ -164,11 +164,11 @@
                     Methods.setCookie(name, lan);
                     top.location.reload();
                 },
-                openPayin: function(coin) {
+                openPayin: function (coin) {
                     this.payinCoin = coin;
                     this.showModal = 'payin';
                 },
-                openTransfer: function(type, userId, coin) {
+                openTransfer: function (type, userId, coin) {
                     this.transferInfo = {
                         type: type,
                         userId: userId,
@@ -179,7 +179,7 @@
                 /*
                 * 获取所有货币信息
                 * */
-                getCoinConfig: function() {
+                getCoinConfig: function () {
                     var data = {
                         // webId: 100
                     };
@@ -187,8 +187,8 @@
                         type: 'GET',
                         //url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
-                        success: function(res) {
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/CurrencyController/" + 'getCurrencyList',
+                        success: function (res) {
                             this.coinConfig = res.datas;
                         }.bind(this)
                     });
@@ -204,14 +204,14 @@
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
                         data: JSON.stringify(data),
-                        success: function(res) {
+                        success: function (res) {
                             this.loaded = true;
 
-                            if(res.datas.list){
+                            if (res.datas.list) {
                                 this.userAssets = res.datas.list;
                             }
                         }.bind(this),
-                        error : function(){
+                        error: function () {
                         }
                     });
                 },
@@ -224,7 +224,7 @@
                             this.assistPrice = res.datas;
                             callback && callback();
                         }.bind(this),
-                        error : function(){
+                        error: function () {
                         }
                     });
                 },
@@ -232,7 +232,7 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type:'POST',
+                        type: 'POST',
                         url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
@@ -242,7 +242,7 @@
                     });
                 },
 
-                initSwiftTrade : function () {
+                initSwiftTrade: function () {
                     $(".group-list.l1").on('mouseover', '.group-tab li', function () {
                         $(".group-list.l1 .group-tab li").removeClass('active');
                         $(this).addClass('active');
@@ -265,25 +265,27 @@
                     var _this = this;
 
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/marketcontroller/" + 'getByWebId',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;
                         }
                     });
                 },
-                getMarketAreaListByWebId: function() {
+                getMarketAreaListByWebId: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
                         success: function (res) {
-                            this.marketAreaList=res.datas
+                            this.marketAreaList = res.datas
                         }.bind(this)
                     });
                 },
-                getMarketClass:function (item,index) {
+                getMarketClass: function (item, index) {
                     var index = index
                     if (index == 0) {
                         console.log(item)
-                        return item.name +' block'
+                        return item.name + ' block'
                     } else {
                         return 'block'
                     }
@@ -308,7 +310,7 @@
                 // this.getTopNewsList();
                 // this.getHasReadNews();
             },
-            created : function () {
+            created: function () {
             }
         })
     })
@@ -318,7 +320,7 @@
     <div class="market-trade" :class="mkSwitch ? 'close': ''">
         <div class="market-title">
             <span>市场</span>
-            <div class="img-box" @click="marketSwitch" >
+            <div class="img-box" @click="marketSwitch">
                 <img src="/src/images/trade_market.png" alt="">
             </div>
         </div>
@@ -339,14 +341,18 @@
             </ul>
             <div class="mark-list">
                 <ul class="title">
-                    <li><p>币种</p><p>最新价</p><p>涨跌幅</p></li>
+                    <li><p>币种</p>
+                        <p>最新价</p>
+                        <p>涨跌幅</p></li>
                 </ul>
                 <ul class="list" id="market-scllor-box">
-                    <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)" v-if="data.market!=undefined">
+                    <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)"
+                        v-if="data.market!=undefined">
                         <p v-if="!mkSwitch"><b>{{showCoinNew(data.market)}}</b></p>
                         <p v-if="mkSwitch"><b>{{showCoinNew(data.market)}}</b></p>
                         <p>{{showPrice(data.lastPrice, data.market)}}</p>
-                        <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' + showRate(data.rate) : '' + showRate(data.rate) }}%</p>
+                        <p :class="data.rate >= 0 ? 'buyColor' : 'sellColor'">{{ data.rate >= 0 ? '' +
+                            showRate(data.rate) : '' + showRate(data.rate) }}%</p>
                     </li>
                 </ul>
             </div>
@@ -360,7 +366,7 @@
                 <div class="trade-navbar" v-cloak="">
                     <div class="market-menu">
                         <div class="current-market">
-                            <div class="current" >
+                            <div class="current">
                                 <!--<h3><%= LANG('市场')%></h3>-->
                                 <p>{{coinName}}/ <span class="denominator">{{moneyName}}</span></p>
                             </div>
@@ -462,7 +468,7 @@
                         </div>
                         <ul class="statistics" v-cloak="">
                             <li v-if="!selectlan"><p class="price"> {{currentPrice}}
-                               <span> ≈ {{currentPrice*usdprice | capitalizeusd }} USD</span></p></li>
+                                <span> ≈ {{currentPrice*usdprice | capitalizeusd }} USD</span></p></li>
                             <li v-else><p class="price"> {{currentPrice}}
                                 <span> ≈ {{currentPrice*cnyprice | capitalizecny }} CNY</span></p></li>
                             <li>24H <%= LANG('涨跌幅')%><p :class="rateClass">{{riseRate}}%</p></li>
@@ -482,22 +488,28 @@
                             <p v-if="kline.period == 'line'"><%= LANG('分时') %></p>
                             <div class="item-list" v-cloak="">
                                 <ul>
-                                    <li role="button" @click="switchPeriod('1w')" :class="[kline.period == '1w' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('1w')"
+                                        :class="[kline.period == '1w' ? 'active' : '']">
                                         <%= LANG('周') %>
                                     </li>
-                                    <li role="button" @click="switchPeriod('1d')" :class="[kline.period == '1d' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('1d')"
+                                        :class="[kline.period == '1d' ? 'active' : '']">
                                         <%= LANG('日') %>
                                     </li>
-                                    <li role="button" @click="switchPeriod('1h')" :class="[kline.period == '1h' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('1h')"
+                                        :class="[kline.period == '1h' ? 'active' : '']">
                                         1<%= LANG('小时') %>
                                     </li>
-                                    <li role="button" @click="switchPeriod('30m')" :class="[kline.period == '30m' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('30m')"
+                                        :class="[kline.period == '30m' ? 'active' : '']">
                                         30<%= LANG('分') %>
                                     </li>
-                                    <li role="button" @click="switchPeriod('15m')" :class="[kline.period == '15m' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('15m')"
+                                        :class="[kline.period == '15m' ? 'active' : '']">
                                         15<%= LANG('分') %>
                                     </li>
-                                    <li role="button" @click="switchPeriod('1m')" :class="[kline.period == '1m' ? 'active' : '']">
+                                    <li role="button" @click="switchPeriod('1m')"
+                                        :class="[kline.period == '1m' ? 'active' : '']">
                                         1<%= LANG('分') %>
                                     </li>
                                     <li role="button" @click="switchPeriod('line')"
@@ -538,11 +550,15 @@
                         <!--</div>-->
                         <!--</div>-->
                     </div>
-                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'" @click="fullScreeActive" :title="fullScreen ? '退出全屏' : '全屏'" alt="">
+                    <img :src="!fullScreen ? '/src/images/fullscreen.png' : '/src/images/exitscreen.png'"
+                         @click="fullScreeActive" :title="fullScreen ? '退出全屏' : '全屏'" alt="">
                 </div>
 
-                <div style="position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px;" v-show="chartType === 'kline'">
-                    <iframe :src="'/kline/lite/' + currentMarket + '?money=' + assistCoin.toLowerCase()" id="marketFrame" class="marketFrame" name="marketFrame" onload="" frameborder="0" width="100%" style="height:100%" hspace="0" scrolling="no"></iframe>
+                <div style="position: absolute; top: 50px; bottom: 0px; left: 0px; right: 0px;"
+                     v-show="chartType === 'kline'">
+                    <iframe :src="'/kline/lite/' + currentMarket + '?money=' + assistCoin.toLowerCase()"
+                            id="marketFrame" class="marketFrame" name="marketFrame" onload="" frameborder="0"
+                            width="100%" style="height:100%" hspace="0" scrolling="no"></iframe>
                 </div>
                 <div style="height: 100%;" v-if="chartType === 'depth'">
                     <exx-highchart class="depth-chart" :options="depthChartOptions" ref="depth"></exx-highchart>
@@ -643,8 +659,10 @@
                 <!--<dish-part :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
                            :assist-price="assistPrice" ref="dishPart"></dish-part>-->
                 <div class="asks-box">
-                    <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                    :assist-price="assistPrice" ref="dishPartBids" :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
+                    <dish-part-bids :dish-data="lastDepth" :market-config="currentMarketConfig"
+                                    :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartBids"
+                                    :ask-and-bids-grade="askAndBidsGrade"></dish-part-bids>
                 </div>
                 <!--交易表单-->
                 <div class="fill-area" style="min-height: 258px;">
@@ -658,7 +676,7 @@
                         <div class="asks-bids-shifts">
                             <ul>
                                 <li @click="switchGrades(5)">默认档位</li>
-                                <li :class="askAndBidsGrade == 5 ? 'active' : ''" @click="switchGrades(5)">5 </li>
+                                <li :class="askAndBidsGrade == 5 ? 'active' : ''" @click="switchGrades(5)">5</li>
                                 <li :class="askAndBidsGrade == 10 ? 'active' : ''" @click="switchGrades(10)">10</li>
                                 <li :class="askAndBidsGrade == 20 ? 'active' : ''" @click="switchGrades(20)">20</li>
                                 <li :class="askAndBidsGrade == 50 ? 'active' : ''" @click="switchGrades(50)">50</li>
@@ -667,7 +685,8 @@
                         <div class="login-trade" v-if="!isLogin" v-cloak="">
                             <p>登录后方可进行交易，现在去</p>
                             <div class="btn"><a role="button" href="/login" class="buyBgColor disabled">登录 XT</a></div>
-                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled">注册 XT</a></div>
+                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled">注册 XT</a>
+                            </div>
                         </div>
                         <trade-form v-if="isLogin" :trade-type="1" :current-user-asset="currentUserAsset"
                                     :market-config="currentMarketConfig" :current-market="currentMarket"
@@ -679,8 +698,10 @@
                 </div>
                 <!--盘口数据-->
                 <div class="bids-box">
-                    <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig" :current-market="currentMarket"
-                                    :assist-price="assistPrice" ref="dishPartAsks" :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
+                    <dish-part-asks :dish-data="lastDepth" :market-config="currentMarketConfig"
+                                    :current-market="currentMarket"
+                                    :assist-price="assistPrice" ref="dishPartAsks"
+                                    :ask-and-bids-grade="askAndBidsGrade"></dish-part-asks>
                 </div>
             </div>
         </div>
@@ -760,8 +781,10 @@
                         </li>
 
                     </ul>
-                    <div class="norecord" v-if="isLogin && getGroupEntrust(currentEntrustTab).length == 0 && !loading "><%=LANG('暂无数据')%></div>
-                    <div class="spinner" v-else-if="isLogin && loading " >
+                    <div class="norecord" v-if="isLogin && getGroupEntrust(currentEntrustTab).length == 0 && !loading ">
+                        <%=LANG('暂无数据')%>
+                    </div>
+                    <div class="spinner" v-else-if="isLogin && loading ">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
                         <div class="rect3"></div>
@@ -848,8 +871,10 @@
                         </li>
 
                     </ul>
-                    <div class="norecord" v-if="isLogin && getGroupEntrust('history').length == 0 && !loading "><%=LANG('暂无数据')%></div>
-                    <div class="spinner" v-else-if="isLogin && loading " >
+                    <div class="norecord" v-if="isLogin && getGroupEntrust('history').length == 0 && !loading ">
+                        <%=LANG('暂无数据')%>
+                    </div>
+                    <div class="spinner" v-else-if="isLogin && loading ">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
                         <div class="rect3"></div>
@@ -893,15 +918,15 @@
         </div>
     </div>
     <!-- 账单 -->
-    <modal v-cloak class="modal-bill" :open="showModal == 'bill'"  @close="showModal = false" >
-        <bill :params="billParams" theme="light" />
+    <modal v-cloak class="modal-bill" :open="showModal == 'bill'" @close="showModal = false">
+        <bill :params="billParams" theme="light"/>
     </modal>
     <!-- 委托记录 -->
-    <modal v-cloak class="modal-entrust" :open="showModal == 'entrust'"  @close="showModal = false" >
-        <modal-entrust :params="entrustParams" theme="light" />
+    <modal v-cloak class="modal-entrust" :open="showModal == 'entrust'" @close="showModal = false">
+        <modal-entrust :params="entrustParams" theme="light"/>
     </modal>
     <!-- 开启关闭杠杆 -->
-    <modal v-cloak :open= "showModal == 'toggleUserAction'" @close="showModal = false">
+    <modal v-cloak :open="showModal == 'toggleUserAction'" @close="showModal = false">
         <toggle-user-action :params="userParams" :done="userActionSuccess()" theme="light"/>
     </modal>
     <!-- 批量取消委托 -->
@@ -909,8 +934,8 @@
     <!--<batch-cancel :market-config="currentMarketConfig" theme="light"/>-->
     <!--</modal>-->
     <!--还款-->
-    <modal v-cloak :open= "showModal == 'refund'" @close="showModal = false">
-        <modal-refund :params="refundParams" :user-asset="currentUserAsset" />
+    <modal v-cloak :open="showModal == 'refund'" @close="showModal = false">
+        <modal-refund :params="refundParams" :user-asset="currentUserAsset"/>
     </modal>
 </section>
 <%-include("../tradePro/app/siderBar.html")%>

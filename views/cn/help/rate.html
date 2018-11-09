@@ -94,7 +94,7 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getCoinMaps',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/currencycontroller/" + 'getCurrencyList',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/CurrencyController/" + 'getCurrencyList',
                         success: function (res) {
                             this.loaded = true
                             this.coinMap = res.datas.filter(function (item, i) {
