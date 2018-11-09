@@ -596,6 +596,7 @@
                     var mname = _this.moneyName.toLowerCase()
 
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
