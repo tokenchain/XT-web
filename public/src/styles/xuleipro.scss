@@ -332,11 +332,11 @@ input::-webkit-input-placeholder {
     padding-top: 8rem;
   }
   .header {
-    background: #565656;
+    background: #565656!important;
     position: fixed;
     left: 0;
     top: 0;
-    padding: 0 15px;
+    padding: 0 25px!important;
     width: 100%;
     height: 70px;
     .header-button {
@@ -352,13 +352,13 @@ input::-webkit-input-placeholder {
       }
     }
     .notice-nav {
-      display: none;
+      display: none!important;
     }
     .header-nav {
       position: absolute;
       left: 0;
       right: 0;
-      top: 70px;
+      top: 60px;
       height: auto;
       display: none;
       background: #3E3E3E;
@@ -2832,7 +2832,7 @@ input::-webkit-inner-spin-button {
 
 @media (max-width: 768px) {
   .banner {
-    margin-top: 69px;
+    margin-top: 60px;
     .bottom {
       margin-top: 40px;
       .title {
