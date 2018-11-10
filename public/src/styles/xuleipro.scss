@@ -838,18 +838,23 @@ button {
 
 .country-code .country-list {
   position: absolute;
-  width: 350px;
+  width: 400px;
   right: 0;
   top: 100%;
   height: 322px;
   white-space: nowrap;
-  background: #302e4c;
+  background: #565656;
   @include box-show(0 0 10px rgba(0, 0, 0, .3));
   padding: 10px 0;
   overflow-y: auto;
   overflow-x: hidden;
   display: none;
+  color: #FFBE3F;
+  @media screen and (max-width: 768px) {
+    width: 345px;
+  }
 }
+
 
 .country-code .country-list::-webkit-scrollbar {
   width: 10px;
@@ -857,14 +862,14 @@ button {
 }
 
 .country-code .country-list::-webkit-scrollbar-track-piece {
-  background-color: #27253f;
+  background-color: #565656;
 }
 
 .country-code .country-list::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, .6);
   background-clip: padding-box;
   border-radius: 20px;
-  border: 2px solid #27253f;
+  border: 2px solid #565656;
   min-height: 50px;
 }
 
@@ -880,7 +885,7 @@ button {
 }
 
 .country-code .country-list li a:hover {
-  background: #3b395b;
+  background: #565656;
   color: #fff
 }
 
