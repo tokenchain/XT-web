@@ -556,15 +556,15 @@ $link-color: #8b8bec;
   }
   &.error {
     .form-control input {
-      border-bottom-color: #ff4a68;
+      border-bottom-color: red;
     }
   }
 
   .input-alert {
-    color: #ff4a68;
+    color: red;
     position: absolute;
     left: 0;
-    bottom: -24px;
+    bottom: -20px;
   }
   ::-moz-placeholder {
     font-size: 14px;
@@ -1187,7 +1187,7 @@ button {
       margin-top: 15px;
       color: #546682;
       &.not-auth {
-        color: #ff4a68;
+        color: red;
       }
     }
     .oper {
