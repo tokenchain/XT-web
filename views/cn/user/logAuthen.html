@@ -25,7 +25,7 @@
                 <%= LANG('登录验证') %>
             </h3>
         </div>
-        <div class="body" id="logAuth">
+        <div class="body" id="logAuth" v-cloak="">
             <div id="logBox">
                 <div id="vipLogin" style="margin: 0 35px;">
                     <div class="form-group" v-if="loginUser.code == '6038' || loginUser.code == '6061' || loginUser.code == '6063' || loginUser.code == '6064'">
@@ -113,7 +113,7 @@
             el: '#logAuth',
             data: function () {
                 return {
-                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
+                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo') || {},
                     dynamicCode: '',
                     emailCode: '',
                     googleCode: '',
@@ -125,7 +125,7 @@
                     remoteCode: '',
                     requestLocked: false,
                     sendCodeType: '',
-                    puzzleValidateString:'',
+                    puzzleValidateString: '',
                     moveCoder:''
                 }
             },
@@ -185,34 +185,38 @@
                             break
                     }
                     _this.requestLocked = true;
-                    Methods.ajax({
-                        // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
-                        url: DOMAIN_DEV +
-                        "/exchange/user/controller/website/usercontroller/" +
-                        'loginauth',
-                        data: JSON.stringify(data),
-                        success: function (res) {
-                            _this.requestLocked = false;
-                            Methods.deleLocalStorage(ENV + 'noLoginUserInfo');
-                            //存储个人信息
-                            Methods.setLocalUserInfo(res.datas);
+                    if (!this.puzzleValidateString) {
+                        return JuaBox.info('<%= LANG("滑动验证未通过") %>');
+                    } else {
+                        Methods.ajax({
+                            // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
+                            url: DOMAIN_DEV +
+                            "/exchange/user/controller/website/usercontroller/" +
+                            'loginauth',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                _this.requestLocked = false;
+                                Methods.deleLocalStorage(ENV + 'noLoginUserInfo');
+                                //存储个人信息
+                                Methods.setLocalUserInfo(res.datas);
 
-                            //设置登录状态 cookie
-                            Methods.setCookie(ENV + 'uon', 1);
-                            Methods.setCookie(ENV + 'uid', res.datas.userId);
-                            Methods.setCookie(ENV + 'uname', res.datas.loginName);
+                                //设置登录状态 cookie
+                                Methods.setCookie(ENV + 'uon', 1);
+                                Methods.setCookie(ENV + 'uid', res.datas.userId);
+                                Methods.setCookie(ENV + 'uname', res.datas.loginName);
 
-                            Methods.setCookie(ENV + 'utoken', res.datas.token);
+                                Methods.setCookie(ENV + 'utoken', res.datas.token);
 
-                            loginSuccessUi('/u')
-                            //window.location.href = '/u';
-                        },
-                        error: function (res) {
-                            _this.requestLocked = false;
-                            var resMsg = res.resMsg;
-                            authErrorUi(EXX.L(resMsg.message));
-                        }
-                    });
+                                loginSuccessUi('/u')
+                                //window.location.href = '/u';
+                            },
+                            error: function (res) {
+                                _this.requestLocked = false;
+                                var resMsg = res.resMsg;
+                                authErrorUi(EXX.L(resMsg.message));
+                            }
+                        });
+                    }
                 },
                 initMoveCoder: function () {
                     this.puzzleValidateString = ''
@@ -258,7 +262,9 @@
             },
             mounted: function () {
                 Methods.checkMobileStyle();
-                this.initMoveCoder()
+                if (this.loginUser.code == '6065' || this.loginUser.code == '6066') {
+                    this.initMoveCoder()
+                }
                 this.bindEnter();
             }
         })
