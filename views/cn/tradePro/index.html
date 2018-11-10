@@ -1,11 +1,35 @@
+
+<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/tradePro.css?<%= VERSION %>">
+<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/temporary.css?<%= VERSION %>">
 <style>
     .header {
         position: fixed;
         top: 0;
     }
+    @media (max-width: 768px) {
+        .trading-dark .header {
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 0 15px;
+            width: 100%;
+            height: 60px;
+            background: #130E00 !important;
+        }
+        .trading-dark .header .header-nav {
+            top: 60px;
+            background: #130E00 !important;
+        }
+        .trading-dark .header .dropdown .dropdown-menu {
+            background: #130E00;
+            border: 2px solid #130E00;
+            position: absolute;
+        }
+        .trading-dark .header .dropdown .dropdown-menu li a {
+            color: #FFBE3F;
+        }
+    }
 </style>
-<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/tradePro.css?<%= VERSION %>">
-<link rel="stylesheet" href="<%= STYLE_STATIC %>/styles/temporary.css?<%= VERSION %>">
 <script src="/lib/others/jquery.range.js" type="application/javascript"></script>
 <%-include("../include/head.html")%>
 

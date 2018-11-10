@@ -8,8 +8,8 @@ module.exports = {
     ENV: "w",
     //静态目录
     STATIC: "/src",
-    IMG_STATIC: "https://img.xt.com/src",   //图片资源地址
-    STYLE_STATIC: "https://assets.xt.com/src", //样式请求地址
+    IMG_STATIC: "/src",   //图片资源地址
+    STYLE_STATIC: "/src", //样式请求地址
     STATIC2: "../views/cn/service/",
     //默认语言
     LAN: "cn",
