@@ -27,7 +27,7 @@
     @media (max-width: 768px) {
         .entrance-area {
             padding: 30px 15px;
-            margin-top: 70px;
+            margin-top: 60px;
             /*overflow:visible;*/
         }
 
@@ -150,8 +150,7 @@
                     <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="smsCode" maxlength="6" v-on:blur="handleCheckLength($event)"
                            v-on:focus="clearInputError($event)" type="text">
                     <send-code :code-type="1" :user-name="userName" :country-code="countryCode" :img-code="imgCode" :img-code-id="imgCodeId"
-                               :bus-type="1" :error-fun="handleRefreshImgcode" :puzzle-validate-string="puzzleValidateString" :error-slide="initMoveCoder"
-                    />
+                               :bus-type="1" :error-fun="handleRefreshImgcode" :puzzle-validate-string="puzzleValidateString" :error-slide="initMoveCoder"/>
                 </div>
             </div>
 

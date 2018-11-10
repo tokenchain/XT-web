@@ -377,9 +377,9 @@ input::-webkit-input-placeholder {
             }
           }
           &.signup > [role="button"] {
-            padding: 0;
+            padding: 0 !important; 
+            color: #FFBE3F !important;
             background: transparent !important;
-            color: #a3adc7 !important;
           }
         }
       }
@@ -790,7 +790,7 @@ button {
           top: 12px;
           width: 22px;
           height: 22px;
-          z-index: 99;
+          z-index: 2;
         }
         .code-num {
           color: #fff;
