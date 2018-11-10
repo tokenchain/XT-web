@@ -1,56 +1,72 @@
 <style>
-.header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-}
-.entrance-area .head {
-    border: 0;
-}
-@media (max-width: 768px){
-    #logAuth {
-        padding: 0 30px;
+    .header {
+        position: fixed;
+        width: 100%;
+        top: 0;
     }
-}
+
+    .entrance-area .head {
+        border: 0;
+    }
+
+    @media (max-width: 768px) {
+        #logAuth {
+            padding: 0 30px;
+        }
+    }
 </style>
 
 <section class="entrance-area">
+    <!-- <div class="logo"><a href="/"><img alt="ZBG.COM" src="/src/images/logo.png"></a></div> -->
+
     <div class="box">
         <div class="head">
-            <h3><%= LANG('登录验证') %></h3>
+            <h3>
+                <%= LANG('登录验证') %>
+            </h3>
         </div>
-        <div class="body" id="logAuth" v-cloak>
+        <div class="body" id="logAuth">
             <div id="logBox">
-                <div id="vipLogin">
+                <div id="vipLogin" style="margin: 0 35px;">
                     <div class="form-group" v-if="loginUser.code == '6038' || loginUser.code == '6061' || loginUser.code == '6063' || loginUser.code == '6064'">
-                    <div class="form-control">
-                    <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
-                    <send-code class="text-nowrap" :code-type="1" :user-name="loginUser.userName" :country-code="loginUser.countryCode" :bus-type="6"/>
-                    </div>
+                        <div class="form-control">
+                            <input v-model="emailCode" autocomplete="off" placeholder="<%= LANG('邮件验证码') %>" type="text"
+                                   @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                            <send-code class="text-nowrap" :code-type="1" :user-name="loginUser.userName" :country-code="loginUser.countryCode"
+                                       :bus-type="6" />
+                        </div>
                     </div>
 
                     <div class="form-group" v-if="loginUser.code == '6037' || loginUser.code == '6062' || loginUser.code == '6063' || loginUser.code == '6064'">
-                    <div class="form-control">
-                    <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
-                    <send-code class="text-nowrap" :code-type="2" :user-name="loginUser.userName" :country-code="loginUser.countryCode" :bus-type="6" />
-                    </div>
-                    </div>
-
-                    <div class="form-group"
-                         v-if="loginUser.code == '6065' || loginUser.code == '6066'">
                         <div class="form-control">
-                            <input v-model="remoteCode" placeholder="<%= LANG('异地登录验证码') %>" autocomplete="off" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
-                            <send-code class="text-nowrap" :code-type="3" :user-name="loginUser.userName" :country-code="loginUser.countryCode" :bus-type="6" @type="editSendCodeType"/>
+                            <input v-model="dynamicCode" placeholder="<%= LANG('短信验证码') %>" autocomplete="off" type="text"
+                                   @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                            <send-code class="text-nowrap" :code-type="2" :user-name="loginUser.userName" :country-code="loginUser.countryCode"
+                                       :bus-type="6" />
                         </div>
                     </div>
-                    <div class="form-group"
-                         v-if="loginUser.code == '6011' || loginUser.code == '6061' || loginUser.code == '6062' || loginUser.code == '6064' || loginUser.code == '6065'">
+
+                    <div class="form-group" v-if="loginUser.code == '6065' || loginUser.code == '6066'">
+                        <div class="form-group">
+                            <div id="captcha"></div>
+                            <!-- 验证码容器元素 -->
+                        </div>
                         <div class="form-control">
-                            <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                            <input v-model="remoteCode" placeholder="<%= LANG('异地登录验证码') %>" autocomplete="off" type="text"
+                                   @blur="handleCheckLength($event)" @focus="clearInputError($event)">
+                            <send-code :error-fun="refreshMoveCoder" class="text-nowrap" :code-type="3" :user-name="loginUser.userName" :country-code="loginUser.countryCode"
+                                       :bus-type="6" :puzzle-validate-string="puzzleValidateString"  @type="editSendCodeType" />
+                        </div>
+                    </div>
+                    <div class="form-group" v-if="loginUser.code == '6011' || loginUser.code == '6061' || loginUser.code == '6062' || loginUser.code == '6064' || loginUser.code == '6065'">
+                        <div class="form-control">
+                            <input v-model="googleCode" placeholder="<%= LANG('谷歌验证码') %>" type="text" @blur="handleCheckLength($event)"
+                                   @focus="clearInputError($event)">
                         </div>
                     </div>
                     <div class="form-button">
-                        <button id="submitBtn" type="button" @click="handleSubmit" class="button" :class="requestLocked ? 'btn-loading' : ''"><span><%= LANG('立即验证') %></span></button>
+                        <button id="submitBtn" type="button" @click="handleSubmit" class="button" :class="requestLocked ? 'btn-loading' : ''"><span>
+                                <%= LANG('立即验证') %></span></button>
                     </div>
                 </div>
             </div>
@@ -97,7 +113,7 @@
             el: '#logAuth',
             data: function () {
                 return {
-                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo') || {},
+                    loginUser: Methods.getLocalStorage(ENV + 'noLoginUserInfo'),
                     dynamicCode: '',
                     emailCode: '',
                     googleCode: '',
@@ -109,6 +125,8 @@
                     remoteCode: '',
                     requestLocked: false,
                     sendCodeType: '',
+                    puzzleValidateString:'',
+                    moveCoder:''
                 }
             },
             methods: {
@@ -144,6 +162,7 @@
                 },
                 //登录验证
                 handleSubmit: function () {
+
                     if (this.requestLocked) {
                         return false;
                     }
@@ -153,7 +172,7 @@
                         // userKey: this.loginUser.userKey,
                         userName: this.loginUser.userName,
                         userNameType: this.loginUser.userType,
-                        password: this.loginUser.password,
+                        password: `${this.loginUser.password}`,
                         countryCode: this.loginUser.countryCode, //暂无该参数
                         googleCode: this.googleCode,
                     }
@@ -168,7 +187,9 @@
                     _this.requestLocked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'loginAuth',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'loginauth',
+                        url: DOMAIN_DEV +
+                        "/exchange/user/controller/website/usercontroller/" +
+                        'loginauth',
                         data: JSON.stringify(data),
                         success: function (res) {
                             _this.requestLocked = false;
@@ -192,10 +213,52 @@
                             authErrorUi(EXX.L(resMsg.message));
                         }
                     });
+                },
+                initMoveCoder: function () {
+                    this.puzzleValidateString = ''
+                    var captchaIns;
+                    var _this = this
+                    // initNECaptcha为全局函数，可直接调用
+                    initNECaptcha({
+                        // config对象，参数配置
+                        captchaId: '<%= USER.captchaId %>',
+                        element: '#captcha',
+                        mode: 'float',
+                        width: 'auto',
+                        lang: _this.getLang(),
+                        onReady: function (instance) {},
+                        onVerify: function (err, data) {
+
+                            if (data) {
+                                _this.puzzleValidateString = data.validate
+                            }
+                        }
+                    }, function (instance) {
+                        // 初始化成功后得到验证实例instance，可以调用实例的方法
+                        _this.moveCoder = instance
+                    }, function (err) {
+                        // 初始化失败后触发该函数，err对象描述当前错误信息
+                    })
+                },
+                getLang: function () {
+                    var lan = Methods.getCookie(ENV +
+                        "lan")
+                    switch (lan) {
+                        case 'cn':
+                            return 'zh-CN';
+                            break;
+                        case 'en':
+                            return 'en';
+                            break;
+                    }
+                },
+                refreshMoveCoder(){
+                    this.moveCoder.refresh()
                 }
             },
             mounted: function () {
                 Methods.checkMobileStyle();
+                this.initMoveCoder()
                 this.bindEnter();
             }
         })
