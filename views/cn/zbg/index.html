@@ -474,12 +474,12 @@
             </div>
 
             <div class="bottom">
-                <p class="title">官方公告</p>
+                <p class="title"><%= LANG('官方公告')%></p>
                 <div class="box">
                     <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                         <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul">
                             <li :key="item.articleId" v-cloak v-for="item in notices">
-                                公告：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
+                                <%= LANG('公告')%>：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
                             </li>
                         </transition-group>
                     </div>
@@ -602,7 +602,7 @@
                         </h3>
                         <p>
                             <%=LANG('支持多种法币交易 平台担保、快速安全')%>
-                            <P>
+                        <P>
                     </li>
                 </ul>
             </div>
