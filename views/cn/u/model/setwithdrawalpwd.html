@@ -148,7 +148,7 @@
                         //通过headers传参，使用ajax原生方法
                         Methods.ajax({
                             type: "POST",
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'setsecuritypassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 sessionStorage.smsOremail='';

@@ -129,7 +129,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'checkUserName',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'checkUserName',
                         data: data,
                         success: function (res) {
 
@@ -220,7 +220,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'register',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'register',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'register',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.requestLocked = false;
