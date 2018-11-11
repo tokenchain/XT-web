@@ -446,7 +446,7 @@
                     _this.showcode = false
                     _this.timeout = ' <%= LANG("发送中") %> ...'
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userVerifyController/" + 'sendcode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'sendcode',
                         data: JSON.stringify(data),
                         success: function (res) {
 
@@ -509,7 +509,7 @@
                 //                 code: _this.code,
                 //                 imageCodeKey: _this.imgCodeId
                 //             },
-                //             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userVerifyController/checkImgCode",
+                //             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/checkImgCode",
                 //             success: function (res) {
                 //                 console.log(res)
                 //                 console.log(2222)
@@ -528,7 +528,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userVerifyController/" + 'getValiDateCode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;

@@ -240,6 +240,7 @@
                 // 获取活动时间
                 getActivityTime() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyActivityTime",
                         success: function (res) {
@@ -251,6 +252,7 @@
                 },
                 getInvitinguserList() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyStatisticsList",
                         data: {
