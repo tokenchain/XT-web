@@ -545,6 +545,7 @@
                         pageSize: 9999
                     };
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getWithdrawAddress',
                         data: data,
