@@ -821,7 +821,7 @@
                     marketAreaList: [],
                     kLineBoxWidth: 300,
                     itemComplete: false,
-                    minerSummaryData: {}, //今日折合数据
+                    // minerSummaryData: {}, //今日折合数据
                     minerDetailData: '0',
                     todaySum: '--', //今日待分配折合每百万zt折合价
                     hourSum: '',
@@ -1125,7 +1125,7 @@
                         type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
+                            "/exchange/config/controller/website/marketController/" +
                             'getByWebId',
                         success: function (res) {
 
@@ -1528,30 +1528,30 @@
                     })
                 },
                 //获取预计分配折合
-                minerSummary: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/MinerTransactionController/" +
-                            'minerSummary',
-                        success: function (res) {
-                            // console.log(res)
-                            this.minerSummaryData = res.datas
-                            // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
-                            // for(key in this.assistPrice ){
-                            //     if(key == "usd"){
-                            //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
-                            //     }
-                            // }
-                            // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
-                            // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
-                            // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
-                            // console.log(this.yesterdayMinerCount)
+                // minerSummary: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV +
+                //             "/exchange/fund/controller/website/MinerTransactionController/" +
+                //             'minerSummary',
+                //         success: function (res) {
+                //             // console.log(res)
+                //             this.minerSummaryData = res.datas
+                //             // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
+                //             // for(key in this.assistPrice ){
+                //             //     if(key == "usd"){
+                //             //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
+                //             //     }
+                //             // }
+                //             // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
+                //             // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
+                //             // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
+                //             // console.log(this.yesterdayMinerCount)
 
 
-                        }.bind(this)
-                    });
-                },
+                //         }.bind(this)
+                //     });
+                // },
                 //留小数点后6位方法
                 spliceFloat(num) {
                     return (Math.floor(num * 1000000)) / 1000000
@@ -1686,7 +1686,7 @@
                 $("#progressId").css("width", num + "%");
 
                 this.getPriceRate();
-                this.minerSummary()
+                // this.minerSummary()
                 this.statistic()
                 this.getMarketAreaListByWebId();
 

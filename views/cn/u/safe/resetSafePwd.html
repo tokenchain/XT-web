@@ -73,7 +73,7 @@
           getImageCode: function () {
               Methods.ajax({
                   type: 'GET',
-                  url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                  url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userVerifyController/" + 'getValiDateCode',
                   success: function (res) {
                       this.imageCodeUrl = res.datas.img;
                       this.imgCodeId = res.datas.imgCodeId;

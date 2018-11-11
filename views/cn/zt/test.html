@@ -993,7 +993,7 @@
     document.querySelector('ul.examples li.input button').onclick = function(){
 
         $.ajax({
-            url: "https://www.xt.com/exchange/verifycode/controller/website/userverifycontroller/getvalidatecode",
+            url: "https://www.xt.com/exchange/verifycode/controller/website/userVerifyController/getValiDateCode",
             type: 'get',
             dataType: 'json',
             timeout: 5000,
@@ -1027,7 +1027,7 @@
 
                         imageCode=inputValue;
                         $.ajax({
-                            url: "/exchange/verifycode/controller/website/userverifycontroller/sendcodezb",
+                            url: "/exchange/verifycode/controller/website/userVerifyController/sendcodezb",
                             type: 'post',
 							data:'{"codeType":"3","busType":"16","imgCode":"'+imageCode+'","imgCodeId":"'+imageCodeId+'"}',
                             dataType: 'html',
