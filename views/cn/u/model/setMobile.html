@@ -299,10 +299,10 @@
                         rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
-                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doAuthMobile';
+                    var url = DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'doAuthMobile';
 
                     if (this.userInfo.mobileAuth == 1) {
-                        url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'domodifymobile';
+                        url = DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'domodifymobile';
                         data = {
                             // userId: this.userInfo.userId,
                             countryCode: this.countryCode,

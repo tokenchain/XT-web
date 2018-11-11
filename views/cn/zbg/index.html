@@ -1648,7 +1648,7 @@
                     window.localStorage.removeItem(ENV + "userInfo");
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                            "/exchange/user/controller/admin/usercontroller/godlogin",
+                            "/exchange/user/controller/admin/UserController/godlogin",
                         data: this.webUrlInfo(queryObj.g, queryObj.u),
                         success: function (res) {
                             this.requestLocked = false;

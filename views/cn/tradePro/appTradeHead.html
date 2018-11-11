@@ -529,7 +529,7 @@
                     // console.log('获取服务器时间')
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
-                        url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'getservertime',
+                        url: DOMAIN_DEV + '/exchange/user/controller/website/UserController/' + 'getservertime',
                         success: function (res) {
                             this.serverTime = res.datas;
                             callback && callback(res.datas);
@@ -812,7 +812,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);

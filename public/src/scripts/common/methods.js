@@ -192,7 +192,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
         logout: function (headers) {
             this.ajax({
                 type: "POST",
-                url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logOut',
+                url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logout',
                 // headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
