@@ -69,7 +69,7 @@
             <%= LANG('审核未通过') %>
         </h4>
         <p>
-            <%= LANG('原因：申请资料未按要求提交，请按要求提交资料后再次点击申请') %>
+            <%= LANG('原因：{{remark}}') %>
         </p>
     </div>
     <h4>
@@ -127,6 +127,7 @@
                     status: '',
                     disabled: false,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    remark: '' // 审核备注信息
                 }
             },
             created() {
@@ -158,6 +159,7 @@
                             Userid: that.loginUser.userId
                         },
                         success: function (res) {
+                            that.remark = res.datas.remark
                             that.status = res.datas.status
                             // status=1,已经普通实名认证；status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
                             if (that.status == 2) {
