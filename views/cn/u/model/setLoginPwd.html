@@ -315,8 +315,8 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type:'POST',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        type:'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息

@@ -132,7 +132,8 @@
                         return false;
                     }
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);

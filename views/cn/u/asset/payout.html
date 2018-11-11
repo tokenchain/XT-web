@@ -506,7 +506,8 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.loaded = true;

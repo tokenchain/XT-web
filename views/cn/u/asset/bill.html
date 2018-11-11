@@ -308,6 +308,7 @@
                     }
                     this.requestLocked = true;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundChangeController/" + 'findByPage',
                         data: JSON.stringify(data),

@@ -760,7 +760,8 @@
                     // 获取币价汇率
                     getPriceRate: function (callback) {
                         Methods.ajax({
-                            url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                            type: 'GET',
+                            url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                             success: function (res) {
                                 this.allPriceRate = res.datas;
                                 //var oriPrice = res.datas.prices[this.moneyType];
@@ -865,8 +866,8 @@
                     getUserInfo: function () {
                         var that = this;
                         Methods.ajax({
-                            type: 'POST',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                            type: 'GET',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                             success: function (res) {
                                 that.userInfo = res.datas;
                                 //更新用户信息

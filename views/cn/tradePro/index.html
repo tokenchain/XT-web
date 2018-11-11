@@ -226,7 +226,8 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.loaded = true;
@@ -242,8 +243,9 @@
                 // 获取币价汇率
                 getAssistPrice: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
@@ -256,8 +258,8 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息

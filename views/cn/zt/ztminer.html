@@ -297,7 +297,8 @@
                     }
                     var that=this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundMinerStatController/getUserFeeTotal",
                         success: function (res) {
                             that.getuserfeetotalData=res.datas
                         },

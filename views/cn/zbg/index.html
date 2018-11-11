@@ -1307,8 +1307,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/pricecontroller/" +
-                            'getassistprice',
+                            "/exchange/config/controller/website/PriceController/" +
+                            'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if (typeof callback == 'function') {
