@@ -335,6 +335,7 @@
                     _this.requestLocked = true;
                     _this.records = []
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/entrust/controller/website/EntrustController/' +
                             'getUserEntrustList',

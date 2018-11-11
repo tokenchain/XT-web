@@ -783,6 +783,7 @@
                         pageIndex: 1
                     };
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
                         data: data,
                         success: function (res) {
