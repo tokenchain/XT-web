@@ -329,6 +329,7 @@
                 // 获取市场配置
                 getMarketConfig: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {

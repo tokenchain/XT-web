@@ -270,7 +270,7 @@
                     };
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinAddress',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinAddress',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.payin = res.datas;
@@ -285,7 +285,7 @@
                     };
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getAddress ',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getAddress ',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.payin = res.datas;
@@ -303,7 +303,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
-                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinCoinRecord',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinCoinRecord',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.payinRecords = res.datas.list;
@@ -319,7 +319,7 @@
                 },
                 getBankaccountSearch: function () {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'bankaccountsearch',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'bankAccountSearch',
                         success: function (res) {
                             this.bankInfo = res.datas
                         }.bind(this)

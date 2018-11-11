@@ -270,7 +270,7 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
-                        data: JSON.stringify(data),
+                        data: data,
                         success: function(res) {
                             this.loaded = true;
 
@@ -396,6 +396,7 @@
                     var _this = this;
 
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {
                             _this.marketConfig = res.datas;

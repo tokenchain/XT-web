@@ -486,7 +486,7 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_15">4.1 <%= LANG('获取充币地址') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/getPayinAddress<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/getPayinAddress<br>
             <%= LANG('请求方式') %>：post<br>
             <%= LANG('请求报文') %></p>
 
@@ -514,7 +514,7 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_16">4.2 <%= LANG('查询充币记录') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/getPayinCoinRecord<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/getPayinCoinRecord<br>
             <%= LANG('请求方式') %>：post<br>
             <%= LANG('请求报文') %></p>
 
@@ -560,7 +560,7 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_17">4.3 <%= LANG('查询提币记录') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundwebsitecontroller/getpayoutcoinrecord<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundWebSiteController/getPayoutCoinRecord<br>
             <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %></p>
 
@@ -661,7 +661,7 @@ pageSize=10     // <%= LANG('可选, 默认') %> 10</code></pre>
 
         <h3 id="toc_19">4.5 <%= LANG('查询提币地址') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundwebsitecontroller/getwithdrawaddress<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundWebSiteController/getWithdrawAddress<br>
             <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %></p>
 
@@ -704,7 +704,7 @@ pageSize=10           // <%= LANG('(可选, 默认10)') %></code></pre>
 
         <!--
         ### 4.6获取提币地址id 处于安全考虑暂时封禁
-        path:/exchange/fund/controller/website/fundwebsitecontroller/getaddressid
+        path:/exchange/fund/controller/website/FundWebSiteController/getaddressid
         请求方式：get
         请求报文
 
@@ -728,7 +728,7 @@ pageSize=10           // <%= LANG('(可选, 默认10)') %></code></pre>
         }
         ```
         ### 4.7提币申请 处于安全考虑暂时封禁
-        path:/exchange/fund/controller/website/fundwebsitecontroller/dopayoutcoin
+        path:/exchange/fund/controller/website/FundWebSiteController/dopayoutcoin
         请求方式：post
         请求报文
 

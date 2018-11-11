@@ -1580,7 +1580,7 @@
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                            "/exchange/fund/controller/website/FundController/getInvestTotal",
                         success: function (res) {
                             var total = res.datas.totalAmount;
                             var progressNum = parseInt((total / 100000000) * 100);
