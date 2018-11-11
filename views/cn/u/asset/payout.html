@@ -775,6 +775,7 @@
                 },
                 getBankaccountSearch: function () {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'bankAccountSearch',
                         success: function (res) {
                             this.bankInfo = res.datas
