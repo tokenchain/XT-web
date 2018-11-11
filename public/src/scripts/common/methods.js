@@ -490,7 +490,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             Methods.ajax({
                 type:'POST',
                 data: data,
-                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                 success: function (res) {
                     //更新用户信息
                     this.setLocalUserInfo(res.datas);
