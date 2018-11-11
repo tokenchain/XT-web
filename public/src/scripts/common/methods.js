@@ -363,7 +363,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
 
             $.ajaxSetup({
                 //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/json'},
                 xhrFields: {
                     withCredentials: true
                 },
