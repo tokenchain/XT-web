@@ -750,7 +750,7 @@
                     getPubKey: function () {
                         Methods.ajax({
                             type: 'GET',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                             success: function (res) {
                                 this.pubKey = res.datas.pubKey;
                                 this.rsaKeyId = res.datas.keyId;
@@ -882,7 +882,8 @@
                     getUserStatus: function () {
                         var that = this;
                         Methods.ajax({
-                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" + 'userIdentifyStatus',
+                            type: 'GET',
+                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" + 'userIdentifyStatus',
                             data: {
                                 Userid: that.loginUser.userId
                             },

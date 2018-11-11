@@ -219,8 +219,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/verifycode/controller/website/userverifycontroller/" +
-                        'getvalidatecode',
+                        "/exchange/verifycode/controller/website/userVerifyController/" +
+                        'getValiDateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -231,8 +231,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/user/controller/website/baseapicontroller/" +
-                        'getpubkey',
+                        "/exchange/user/controller/website/BaseApiController/" +
+                        'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
