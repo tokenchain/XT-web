@@ -249,7 +249,7 @@
                         _this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'loginbypassword',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'loginByPassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 _this.requestLocked = false;

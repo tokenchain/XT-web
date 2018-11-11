@@ -142,7 +142,8 @@
                         this.countDown();
                         this.requestLocked = true;
                         Methods.ajax({
-                            url: _this.isMoveIde?DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'sendcodebeforelogin':DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'sendcode',
+                            url: _this.isMoveIde?DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'sendCodeBeforeLogin':DOMAIN_DEV +
+                                "/exchange/verifycode/controller/website/UserVerifyController/" + 'sendCode',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 var resMsg = res.resMsg;
