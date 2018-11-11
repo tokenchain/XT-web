@@ -150,8 +150,9 @@
                 getUserStatus: function () {
                     var that = this
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" +
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" +
                             'userIdentifyStatus',
                         data: {
                             Userid: that.loginUser.userId
@@ -172,7 +173,7 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/seniorIdentify",
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/seniorIdentify",
                         data: {
                             Userid: this.loginUser.userId,
                         },

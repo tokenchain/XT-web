@@ -882,7 +882,8 @@
                     getUserStatus: function () {
                         var that = this;
                         Methods.ajax({
-                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/" + 'userIdentifyStatus',
+                            type: 'GET',
+                            url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" + 'userIdentifyStatus',
                             data: {
                                 Userid: that.loginUser.userId
                             },
