@@ -51,7 +51,8 @@
     <!-- css links
     ======================================== -->
     <!-- Bootstrap link -->
-    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+    <!--<link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css?<%= VERSION %>">
 
     <!-- Slick slider -->
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
@@ -120,7 +121,7 @@
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 
     <!--<script src="/lib/requirejs/require.js"></script>-->
-    <script src="https://cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
 
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
 
@@ -473,12 +474,12 @@
             </div>
 
             <div class="bottom">
-                <p class="title">官方公告</p>
+                <p class="title"><%= LANG('官方公告')%></p>
                 <div class="box">
                     <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                         <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul">
                             <li :key="item.articleId" v-cloak v-for="item in notices">
-                                公告：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
+                                <%= LANG('公告')%>：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
                             </li>
                         </transition-group>
                     </div>
@@ -601,7 +602,7 @@
                         </h3>
                         <p>
                             <%=LANG('支持多种法币交易 平台担保、快速安全')%>
-                            <P>
+                        <P>
                     </li>
                 </ul>
             </div>
@@ -820,7 +821,7 @@
                     marketAreaList: [],
                     kLineBoxWidth: 300,
                     itemComplete: false,
-                    minerSummaryData: {}, //今日折合数据
+                    // minerSummaryData: {}, //今日折合数据
                     minerDetailData: '0',
                     todaySum: '--', //今日待分配折合每百万zt折合价
                     hourSum: '',
@@ -970,7 +971,7 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/support/controller/website/articlecontroller/getArticles',
+                            '/exchange/support/controller/website/ArticleController/getArticles',
                         data: data,
                         success: function (res) {
                             that.notices = res.datas.list
@@ -1124,7 +1125,7 @@
                         type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
+                            "/exchange/config/controller/website/MarketController/" +
                             'getByWebId',
                         success: function (res) {
 
@@ -1306,8 +1307,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/pricecontroller/" +
-                            'getassistprice',
+                            "/exchange/config/controller/website/PriceController/" +
+                            'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if (typeof callback == 'function') {
@@ -1527,30 +1528,30 @@
                     })
                 },
                 //获取预计分配折合
-                minerSummary: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/MinerTransactionController/" +
-                            'minerSummary',
-                        success: function (res) {
-                            // console.log(res)
-                            this.minerSummaryData = res.datas
-                            // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
-                            // for(key in this.assistPrice ){
-                            //     if(key == "usd"){
-                            //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
-                            //     }
-                            // }
-                            // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
-                            // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
-                            // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
-                            // console.log(this.yesterdayMinerCount)
+                // minerSummary: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV +
+                //             "/exchange/fund/controller/website/MinerTransactionController/" +
+                //             'minerSummary',
+                //         success: function (res) {
+                //             // console.log(res)
+                //             this.minerSummaryData = res.datas
+                //             // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
+                //             // for(key in this.assistPrice ){
+                //             //     if(key == "usd"){
+                //             //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
+                //             //     }
+                //             // }
+                //             // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
+                //             // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
+                //             // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
+                //             // console.log(this.yesterdayMinerCount)
 
 
-                        }.bind(this)
-                    });
-                },
+                //         }.bind(this)
+                //     });
+                // },
                 //留小数点后6位方法
                 spliceFloat(num) {
                     return (Math.floor(num * 1000000)) / 1000000
@@ -1647,7 +1648,7 @@
                     window.localStorage.removeItem(ENV + "userInfo");
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                            "/exchange/user/controller/admin/usercontroller/godlogin",
+                            "/exchange/user/controller/admin/UserController/godlogin",
                         data: this.webUrlInfo(queryObj.g, queryObj.u),
                         success: function (res) {
                             this.requestLocked = false;
@@ -1685,7 +1686,7 @@
                 $("#progressId").css("width", num + "%");
 
                 this.getPriceRate();
-                this.minerSummary()
+                // this.minerSummary()
                 this.statistic()
                 this.getMarketAreaListByWebId();
 

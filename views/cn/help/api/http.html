@@ -211,7 +211,7 @@
         <!--
         ### 1.3获取加密公钥接口
         此接口请注意访问不要过于频繁，秘钥有一定有效时间，建议使用秘钥时如果一分钟内获取过则继续用原来的秘钥，超过一分钟再次获取。
-        path:/exchange/user/controller/website/baseapicontroller/getpubkey
+        path:/exchange/user/controller/website/baseapicontroller/getPubKey
         请求方式：post
         请求报文
 
@@ -240,8 +240,8 @@
 
         <h3 id="toc_7">2.1<%= LANG('获取用户信息接口') %></h3>
 
-        <p>path:https://www.xt.com/exchange/user/controller/website/usercontroller/getuserinfo<br>
-            <%= LANG('请求方式') %>：post<br>
+        <p>path:https://www.xt.com/exchange/user/controller/website/UserController/getUserInfo<br>
+            <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %> </p>
 
         <div>
@@ -612,8 +612,8 @@ pageSize=10     // <%= LANG('可选, 默认') %> 10</code></pre>
 
         <h3 id="toc_18">4.4 <%= LANG('获取用户所有资金信息') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/findbypage<br>
-            <%= LANG('请求方式') %>：post<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/findByPage<br>
+            <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %> </p>
 
         <div><pre><code class="language-none">

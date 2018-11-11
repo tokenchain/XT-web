@@ -22,7 +22,7 @@ define(['vue', 'text!./template.html', 'css!./style.css'], function (Vue, templa
                 Methods.ajax({
                     type: "GET",
                     // url: DOMAIN_MAIN + API_PREFIX + 'getCountry',
-                    url: DOMAIN_DEV + '/exchange/config/controller/website/countrycontroller/' + 'getcountrylist',
+                    url: DOMAIN_DEV + '/exchange/config/controller/website/CountryController/' + 'getCountryList',
                     success: function (res) {
                         var resMsg = res.resMsg;
                         // if (resMsg.code === 1000) {

@@ -45,7 +45,7 @@
                         <li>
                             <p><%= LANG('币种')%></p>
                             <p><%= LANG('时间')%></p>
-                            <p><%= LANG('操作')%></p>
+                            <p><%= LANG('类型')%></p>
                             <p><%= LANG('发生金额')%></p>
                             <p><%= LANG('手续费')%></p>
                         </li>
@@ -308,6 +308,7 @@
                     }
                     this.requestLocked = true;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getBill',
                         url: DOMAIN_DEV + "/exchange/fund/controller/website/FundChangeController/" + 'findByPage',
                         data: JSON.stringify(data),

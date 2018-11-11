@@ -180,8 +180,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/verifycode/controller/website/userverifycontroller/" +
-                        'getvalidatecode',
+                        "/exchange/verifycode/controller/website/UserVerifyController/" +
+                        'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -304,8 +304,8 @@
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
                             url: DOMAIN_DEV +
-                            "/exchange/user/controller/website/usercontroller/" +
-                            'loginbypassword',
+                            "/exchange/user/controller/website/UserController/" +
+                            'loginByPassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 _this.requestLocked = false;

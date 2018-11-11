@@ -240,7 +240,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -253,7 +253,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -299,10 +299,10 @@
                         rsaEncodePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         googleCode: this.googleCode
                     };
-                    var url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doAuthMobile';
+                    var url = DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'doAuthMobile';
 
                     if (this.userInfo.mobileAuth == 1) {
-                        url = DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'domodifymobile';
+                        url = DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'domodifymobile';
                         data = {
                             // userId: this.userInfo.userId,
                             countryCode: this.countryCode,

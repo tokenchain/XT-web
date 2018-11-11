@@ -84,7 +84,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -94,7 +94,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -129,7 +129,7 @@
                     Methods.ajax({
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'checkUserName',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'checkUserName',
                         data: data,
                         success: function (res) {
 
@@ -220,7 +220,7 @@
                         this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'register',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'register',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'register',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.requestLocked = false;

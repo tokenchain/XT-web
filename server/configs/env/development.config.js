@@ -24,7 +24,7 @@ module.exports = {
     DOMAIN_BASE : "ww.xt.com",
 
     DOMAIN_DEV : "",  //后端接口 域
-    WEBSOCKET : "wss://ws.xt.com",     //WEBSOCKET 服务地址
+    WEBSOCKET : "ws://47.75.206.53:18080/",        //"wss://ws.xt.com",     //WEBSOCKET 服务地址
 
     DISH_API: "https://ws.xt.com"     //盘口数据地址
 }

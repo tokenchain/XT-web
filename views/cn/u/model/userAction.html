@@ -103,7 +103,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -158,7 +158,7 @@
                         Methods.ajax({
                             type: 'POST',
                             // url: DOMAIN_MAIN + API_PREFIX + 'saveUserInfo',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'saveuserinfo',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'saveuserinfo',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 this.locked = false;

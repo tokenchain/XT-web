@@ -118,7 +118,7 @@
                     if(this.googleSecret == ''){
                         return ''
                     }else{
-                        return DOMAIN_DEV + '/exchange/verifycode/controller/website/userverifycontroller/getgoogleauthqr?userId=' + this.userInfo.userId +'&secret=' + this.googleSecret;
+                        return DOMAIN_DEV + '/exchange/verifycode/controller/website/UserVerifyController/getgoogleauthqr?userId=' + this.userInfo.userId +'&secret=' + this.googleSecret;
                     }
                 },
                 /*type: function () {
@@ -153,7 +153,7 @@
                 },
                 getGoogleSecret: function () {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getgooglesecret',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getGoogleSecret',
                         success: function (res) {
                             this.googleSecret = res.datas.secret;
 
@@ -197,7 +197,7 @@
                     this.locked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'dosetgoogleauth',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'dosetgoogleauth',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.locked = false;
@@ -222,7 +222,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;

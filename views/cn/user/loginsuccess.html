@@ -135,7 +135,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -197,7 +197,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -249,7 +249,7 @@
                         _this.requestLocked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'login',
-                            url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'loginbypassword',
+                            url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'loginByPassword',
                             data: JSON.stringify(data),
                             success: function (res) {
                                 _this.requestLocked = false;
@@ -346,7 +346,7 @@
                     Methods.ajax({
                         type: 'GET',
                         data: data,
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'thirdLogin',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'thirdLogin',
                         success: function (res) {
                             var state = res.datas.state
 

@@ -240,8 +240,9 @@
                 // 获取活动时间
                 getActivityTime() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyActivityTime",
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyActivityTime",
                         success: function (res) {
                             this.activityStartTime = res.datas.activityStartTime
                             this.activityEndTime = res.datas.activityEndTime
@@ -251,8 +252,9 @@
                 },
                 getInvitinguserList() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyStatisticsList",
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyStatisticsList",
                         data: {
                             userId: this.loginUser.userId,
                             month: this.month

@@ -192,7 +192,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
         logout: function (headers) {
             this.ajax({
                 type: "POST",
-                url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logOut',
+                url: DOMAIN_DEV + '/exchange/user/controller/website/UserController/' + 'logout',
                 // headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
@@ -363,7 +363,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
 
             $.ajaxSetup({
                 //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/json'},
                 xhrFields: {
                     withCredentials: true
                 },
@@ -490,7 +490,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             Methods.ajax({
                 type:'POST',
                 data: data,
-                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                 success: function (res) {
                     //更新用户信息
                     this.setLocalUserInfo(res.datas);

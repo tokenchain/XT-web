@@ -226,7 +226,8 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.loaded = true;
@@ -242,8 +243,9 @@
                 // 获取币价汇率
                 getAssistPrice: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
@@ -256,8 +258,8 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息
@@ -343,7 +345,7 @@
     <!--左侧市场盒子-->
     <div class="market-trade" :class="mkSwitch ? 'close': ''">
         <div class="market-title">
-            <span>市场</span>
+            <span><%= LANG('市场')%></span>
             <div class="img-box" @click="marketSwitch">
                 <img src="<%= IMG_STATIC %>/images/trade_market.png" alt="">
             </div>
@@ -365,9 +367,9 @@
             </ul>
             <div class="mark-list">
                 <ul class="title">
-                    <li><p>币种</p>
-                        <p>最新价</p>
-                        <p>涨跌幅</p></li>
+                    <li><p><%= LANG('币种')%></p>
+                        <p><%= LANG('最新价')%></p>
+                        <p><%= LANG('涨跌幅')%></p></li>
                 </ul>
                 <ul class="list" id="market-scllor-box">
                     <li v-cloak="" v-for="(data, index) in displayMarkets" @click="gotoTrade(data.market)"
@@ -699,7 +701,7 @@
                     <div class="body" v-show="!showLeverInfo">
                         <div class="asks-bids-shifts">
                             <ul>
-                                <li @click="switchGrades(5)">默认档位</li>
+                                <li @click="switchGrades(5)"><%= LANG('默认档位')%></li>
                                 <li :class="askAndBidsGrade == 5 ? 'active' : ''" @click="switchGrades(5)">5</li>
                                 <li :class="askAndBidsGrade == 10 ? 'active' : ''" @click="switchGrades(10)">10</li>
                                 <li :class="askAndBidsGrade == 20 ? 'active' : ''" @click="switchGrades(20)">20</li>

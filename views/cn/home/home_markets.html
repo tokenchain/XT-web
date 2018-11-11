@@ -369,7 +369,8 @@
                 // 获取币价汇率 -ok
                 getPriceRate: function(callback) {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if(typeof callback == 'function'){
@@ -528,6 +529,7 @@
                 },
                 getMarketAreaListByWebId: function() {
                     Methods.ajax({
+                        type: "GET",
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
                         success: function (res) {
                             this.marketAreaList=res.datas
