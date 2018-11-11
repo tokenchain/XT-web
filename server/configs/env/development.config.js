@@ -21,7 +21,7 @@ module.exports = {
     VERSION: Date.now(),
 
     //域配置
-    DOMAIN_BASE : "ww.xt.com",
+    DOMAIN_BASE : "localhost",
 
     DOMAIN_DEV : "",  //后端接口 域
     WEBSOCKET : "wss://ws.xt.com",     //WEBSOCKET 服务地址
