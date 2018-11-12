@@ -253,7 +253,8 @@
                             this.safePwd = '';
                             this.dynamicCode = '';
                             this.googleCode = '';
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            // JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.info(EXX.L(res.resMsg.code))
                             this.$parent.close();
                             this.done()
                         }.bind(this),
