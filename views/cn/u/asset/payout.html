@@ -619,7 +619,7 @@
                     this.requestLocked = true;
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doPayoutCoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
@@ -664,7 +664,7 @@
                     }
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doPayoutCoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
