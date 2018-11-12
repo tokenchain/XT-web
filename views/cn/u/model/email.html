@@ -206,7 +206,8 @@
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
                             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'authEmail',
-                            data: JSON.stringify(data),
+                            contentType:"application/x-www-form-urlencoded",
+                            data: data,
                             success: function (res) {
                                 this.locked = false;
                                 // Methods.setLocalUserInfo(res.datas.getUserInfo);
