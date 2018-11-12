@@ -677,6 +677,7 @@
                         entrustType: 0
                     };
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getUserEntrustRecordFromCache',
                         data: data,
                         success: function (res) {
@@ -710,7 +711,7 @@
                     };
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
+                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getUserEntrustList',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
