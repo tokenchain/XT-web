@@ -197,7 +197,7 @@
                     this.locked = true;
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetGoogleAuth',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'dosetgoogleauth',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'doSetGoogleAuth',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.locked = false;
