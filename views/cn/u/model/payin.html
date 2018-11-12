@@ -159,7 +159,8 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
                         url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinAddress',
-                        data: JSON.stringify(data),
+                        //data: JSON.stringify(data),
+                        data: data,
                         success: function (res) {
                             this.payin = res.datas;
                         }.bind(this)
