@@ -287,7 +287,7 @@
                         currencyTypeName: this.currentCoin
                     };
                     Methods.ajax({
-                        type: 'POST',
+                        type: 'GET',
                         url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinAddress',
                         data: JSON.stringify(data),
                         success: function (res) {
