@@ -111,7 +111,8 @@
                         return JuaBox.info('<%= LANG("请输入正确的身份证号") %>');
                     }
                     Methods.ajax({
-                        type: 'GET',
+                        type: 'POST',
+                        contentType:"application/x-www-form-urlencoded",
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/generalIdentify",
                         data: {
