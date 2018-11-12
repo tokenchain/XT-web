@@ -102,6 +102,8 @@
                         _this.timeout--;
                         if (_this.timeout > 0) {
                             setTimeout(tick, 1000);
+                        } else if (_this.timeout == 0) {
+                            _this.requestLocked = false
                         }
                     }
 
@@ -129,6 +131,7 @@
                         busType: this.busType
                         };
                     }
+                    console.log(this.timeout, this.requestLocked)
                     if (this.timeout > 0 || this.requestLocked) {
                         return false;
                     } else if (!this.userName) {
