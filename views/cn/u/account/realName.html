@@ -95,11 +95,13 @@
                 submit: function () {
                     var nameReg = /^[\u0391-\uFFE5A-Za-z]+$/; // 姓名正则验证，除去数字以及特殊字符
                     var idcardReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; // 身份证号正则
-                    var pat = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i"); 
-                    if(!this.nickName) {
-                        return JuaBox.info('<%= LANG("昵称不能为空") %>');
-                    }else if(pat.test(this.nickName)) {   
-                        return JuaBox.info('<%= LANG("昵称不能含有特殊字符") %>');
+                    var pat = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]", "i");
+                    if (this.nickname == this.loginName) {
+                        if (!this.nickName) {
+                            return JuaBox.info('<%= LANG("昵称不能为空") %>');
+                        } else if (pat.test(this.nickName)) {
+                            return JuaBox.info('<%= LANG("昵称不能含有特殊字符") %>');
+                        }
                     }
                     if (this.name == '') {
                         return JuaBox.info('<%= LANG("姓名不能为空") %>');
@@ -112,11 +114,15 @@
                     }
                     Methods.ajax({
                         type: 'POST',
-                        contentType:"application/x-www-form-urlencoded",
+                        contentType: "application/x-www-form-urlencoded",
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/generalIdentify",
-                        data: {
+                        data: this.nickname == this.loginName ? {
                             nickName: this.nickName,
+                            Userid: this.loginUser.userId,
+                            realName: this.name,
+                            idNumber: this.IDcard
+                        } : {
                             Userid: this.loginUser.userId,
                             realName: this.name,
                             idNumber: this.IDcard
