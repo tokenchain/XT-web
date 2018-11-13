@@ -202,7 +202,7 @@
                         success: function (res) {
                             this.locked = false;
 
-                            JuaBox.info(EXX.L(res.resMsg.message), function () {
+                            JuaBox.info(EXX.L(res.resMsg.code), function () {
                                 top.location.reload();
                             });
                             Methods.getUserInfo(function (datas) {//重新获取用户信息并保存到本地用户信息

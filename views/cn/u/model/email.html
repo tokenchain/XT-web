@@ -214,7 +214,7 @@
                                 Methods.getUserInfo(function (datas) {
                                     Vue.set(EXX.userIndex.$data, "loginUser", datas);//更新用户中心Vue实例
                                 });
-                                JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                JuaBox.info(EXX.L(res.resMsg.code), function () {
                                     //reload page
                                     top.location.reload();
                                 });
