@@ -75,7 +75,7 @@
                     priceCoin: {
                         price: 0,
                         lanType: ''
-                    } //折合之后的价格
+                    }, //折合之后的价格
                 }
             },
             computed: {
@@ -133,7 +133,7 @@
                 sortUpdate: function () { //序号处理
                     $('#bidsWrap .tradeNew-table li').each(function (index, item) {
                         var num = index + 1
-                        $(item).find("p:first-child").html('买' + num)
+                        $(item).find("p:first-child").html('<%=LANG('买')%>' + num)
                     })
                 },
                 myBrowser() {

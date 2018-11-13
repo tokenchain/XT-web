@@ -709,9 +709,9 @@
                             </ul>
                         </div>
                         <div class="login-trade" v-if="!isLogin" v-cloak="">
-                            <p>登录后方可进行交易，现在去</p>
-                            <div class="btn"><a role="button" href="/login" class="buyBgColor disabled">登录 XT</a></div>
-                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled">注册 XT</a>
+                            <p><%= LANG('登录后方可进行交易，现在去')%></p>
+                            <div class="btn"><a role="button" href="/login" class="buyBgColor disabled"><%= LANG('登录 XT')%></a></div>
+                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled"><%= LANG('注册 XT')%></a>
                             </div>
                         </div>
                         <trade-form v-if="isLogin" :trade-type="1" :current-user-asset="currentUserAsset"
@@ -915,7 +915,7 @@
         <!--全行情的 成交历史-->
         <div class="tradeRecordBox">
             <div class="head">
-                历史成交
+                <%= LANG('历史成交')%>
             </div>
             <!--交易记录-->
             <deal-record :deal-record="dealRecord" :market-config="currentMarketConfig"

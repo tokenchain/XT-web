@@ -138,7 +138,7 @@
                     var dom = this.BrowserType != 'FF' ? $('#asksWrap .tradeNew-table li') : $('#parent_direction-downs .tradeNew-table1 li')
                     dom.each(function (index, item) {
                         var num = index + 1
-                        $(item).find("p:first-child").html('卖' + num)
+                        $(item).find("p:first-child").html('<%=LANG('卖')%>' + num)
                     })
                 },
                 myBrowser() {

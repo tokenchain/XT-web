@@ -410,7 +410,7 @@
                                     <%= LANG('提币')
                                     %></a>
                                 
-                                <a @click='changeModel(item)' v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换SXC' : '兑换QC'}}</a>
+                                <a @click='changeModel(item)' v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '<%= LANG('兑换SXC') %>' : '<%= LANG('兑换QC') %>'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
                                 <%= LANG('账单') %></a>
