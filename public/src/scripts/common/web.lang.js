@@ -2022,6 +2022,188 @@ EXX.pack = {
         jp: '',
         kr: ''
     },
+    "success !": {
+        "cn": "操作成功!",
+        "en": "success !"
+    },
+    "1": {
+        "cn": "操作成功!",
+        "en": "success !",
+        jp: '',
+        kr: ''
+    },
+    "999": {
+        "cn": "验签不通过!",
+        "en": "sign is invalid!",
+        jp: '',
+        kr: ''
+    },
+    "1000": {
+        "cn": "请刷新界面或检查网络",
+        "en": "Please refresh or check the network interface"
+    },
+    /**
+     *  作者:Seven
+     *  时间:2018/8/17 16:35
+     *  Email:csz.seven@gmail.com
+     *  描述:错误码更新
+     */
+    "2000": {
+        "cn": "参数错误",
+        "en": "parameter error",
+        jp: '',
+        kr: ''
+    },
+    "2001": {
+        "cn": "委托价格类型为空",
+        "en": "entrust price range type null",
+        jp: '',
+        kr: ''
+    },
+    "2002": {
+        "cn": "委托类型错误",
+        "en": "rangeType [ 0,1]  error",
+        jp: '',
+        kr: ''
+    },
+    "2003": {
+        "cn": "委托价格异常",
+        "en": "entrust price abnormal",
+        jp: '',
+        kr: ''
+    },
+    "2004": {
+        "cn": "市场ID不能为空",
+        "en": "market id null",
+        jp: '',
+        kr: ''
+    },
+    "2005": {
+        "cn": "用户ID不能为空",
+        "en": "user id null",
+        jp: '',
+        kr: ''
+    },
+    "2006": {
+        "cn": "站点ID不能为空",
+        "en": "webId null",
+        jp: '',
+        kr: ''
+    },
+    "2007": {
+        "cn": "webId配置有误",
+        "en": "webId not in service",
+        jp: '',
+        kr: ''
+    },
+    "2008": {
+        "cn": "买卖类型不能为空",
+        "en": "type[ buy :type=1 or sell: type=1]  null",
+        jp: '',
+        kr: ''
+    },
+    "2009": {
+        "cn": "买卖类型错误",
+        "en": "type[ buy :type=1 or sell: type=1]  error",
+        jp: '',
+        kr: ''
+    },
+    "2010": {
+        "cn": "区间委托最高价或最低价异常",
+        "en": "rangeHighPrice or rangeLowPrice invalid",
+        jp: '',
+        kr: ''
+    },
+    "2011": {
+        "cn": "撮合引擎没配置该市场",
+        "en": "this market not in service",
+        jp: '',
+        kr: ''
+    },
+    "2012": {
+        "cn": "委托信息不存在或系统还未为处理",
+        "en": "entrust not exists or not deal with system",
+        jp: '',
+        kr: ''
+    },
+    "2013": {
+        "cn": "资金解冻失败",
+        "en": "unfreezeFund fail",
+        jp: '',
+        kr: ''
+    },
+    "2014": {
+        "cn": "缓存中无该该委托单",
+        "en": "entrust not exists in cache",
+        jp: '',
+        kr: ''
+    },
+    "2015": {
+        "cn": "委托单已取消或数据库中不存在",
+        "en": "entrust already canceled or not exists in database",
+        jp: '',
+        kr: ''
+    },
+    "2016": {
+        "cn": "分页inde，pageSize参数有误",
+        "en": "paging:index or pageSize invalid",
+        jp: '',
+        kr: ''
+    },
+    "2017": {
+        "cn": "交易货币量为空",
+        "en": "entrust amount null",
+        jp: '',
+        kr: ''
+    },
+    "2018": {
+        "cn": "交易货币量异常",
+        "en": "entrust amount abnormal",
+        jp: '',
+        kr: ''
+    },
+    "2019": {
+        "cn": "委托单ID不能为空",
+        "en": "entrustId null",
+        jp: '',
+        kr: ''
+    },
+    "2020": {
+        "cn": "委托类型不能为空",
+        "en": "entrustType null",
+        jp: '',
+        kr: ''
+    },
+    "2021": {
+        "cn": "委托类型错误",
+        "en": "entrustType [ 0,1]  error",
+        jp: '',
+        kr: ''
+    },
+    "2022": {
+        "cn": "交易货币量小于最小值",
+        "en": "entrust amount low min limit",
+        jp: '',
+        kr: ''
+    },
+    "2023": {
+        "cn": "委托正在处理",
+        "en": "entrust still on dealing, cancel it later",
+        jp: '',
+        kr: ''
+    },
+    "2024": {
+        "cn": "价格过大或过小",
+        "en": "entrust price too big or too small",
+        jp: '',
+        kr: ''
+    },
+    "2999": {
+        "cn": "内部错误",
+        "en": "system error",
+        jp: '',
+        kr: ''
+    },
     "6000": {
         "cn": "参数缺失",
         "en": "",
@@ -2454,6 +2636,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "6079": {
+        "cn": "您还未完善登录密码，请先完善!",
+        "en": "You have not perfected your login password, please improve it first.",
+        jp: '',
+        kr: ''
+    },
     '6095': {
         cn: '用户不存在',
         en: 'Users does not exist',
@@ -2712,6 +2900,38 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "6140": {
+        "cn": "未认证手机或邮箱",
+        "en": "Unauthorized cell phone or email"
+    },
+    "6141": {
+        "cn": "发送验证码失败，请重新获取",
+        "en": "Send verification code fails, please get it again"
+    },
+    '6150': {
+        cn: '单次提现超出限额',
+        en: 'Single withdrawal exceeds the limit',
+        jp: '',
+        kr: ''
+    },
+    '6151': {
+        cn: '当天提现超出限额',
+        en: 'The current withdrawal exceeds the limit',
+        jp: '',
+        kr: ''
+    },
+    '6152': {
+        cn: '提现超出用户限额',
+        en: 'Cash withdrawal exceeds user limit',
+        jp: '',
+        kr: ''
+    },
+    '6153': {
+        cn: '资金不足',
+        en: 'Insufficient funds',
+        jp: '',
+        kr: ''
+    },
     "6205": {
         "cn": "返回的storeSeq不一致",
         "en": "inconsistent message id",
@@ -2759,220 +2979,6 @@ EXX.pack = {
         "en": "path error",
         "jp": "",
         "kr": ""
-    },
-    "1000": {
-        "cn": "请刷新界面或检查网络",
-        "en": "Please refresh or check the network interface"
-    },
-    "6140": {
-        "cn": "未认证手机或邮箱",
-        "en": "Unauthorized cell phone or email"
-    },
-    "6141": {
-        "cn": "发送验证码失败，请重新获取",
-        "en": "Send verification code fails, please get it again"
-    },
-    '6150': {
-        cn: '单次提现超出限额',
-        en: 'Single withdrawal exceeds the limit',
-        jp: '',
-        kr: ''
-    },
-    '6151': {
-        cn: '当天提现超出限额',
-        en: 'The current withdrawal exceeds the limit',
-        jp: '',
-        kr: ''
-    },
-    '6152': {
-        cn: '提现超出用户限额',
-        en: 'Cash withdrawal exceeds user limit',
-        jp: '',
-        kr: ''
-    },
-    '6153': {
-        cn: '资金不足',
-        en: 'Insufficient funds',
-        jp: '',
-        kr: ''
-    },
-    /**
-     *  作者:Seven
-     *  时间:2018/8/17 16:35
-     *  Email:csz.seven@gmail.com
-     *  描述:错误码更新
-    */
-    "2000": {
-        "cn": "参数错误",
-        "en": "parameter error",
-        jp: '',
-        kr: ''
-    },
-    "2001": {
-        "cn": "委托价格类型为空",
-        "en": "entrust price range type null",
-        jp: '',
-        kr: ''
-    },
-    "2002": {
-        "cn": "委托类型错误",
-        "en": "rangeType [ 0,1]  error",
-        jp: '',
-        kr: ''
-    },
-    "2003": {
-        "cn": "委托价格异常",
-        "en": "entrust price abnormal",
-        jp: '',
-        kr: ''
-    },
-    "2004": {
-        "cn": "市场ID不能为空",
-        "en": "market id null",
-        jp: '',
-        kr: ''
-    },
-    "2005": {
-        "cn": "用户ID不能为空",
-        "en": "user id null",
-        jp: '',
-        kr: ''
-    },
-    "2006": {
-        "cn": "站点ID不能为空",
-        "en": "webId null",
-        jp: '',
-        kr: ''
-    },
-    "2007": {
-        "cn": "webId配置有误",
-        "en": "webId not in service",
-        jp: '',
-        kr: ''
-    },
-    "2008": {
-        "cn": "买卖类型不能为空",
-        "en": "type[ buy :type=1 or sell: type=1]  null",
-        jp: '',
-        kr: ''
-    },
-    "2009": {
-        "cn": "买卖类型错误",
-        "en": "type[ buy :type=1 or sell: type=1]  error",
-        jp: '',
-        kr: ''
-    },
-    "2010": {
-        "cn": "区间委托最高价或最低价异常",
-        "en": "rangeHighPrice or rangeLowPrice invalid",
-        jp: '',
-        kr: ''
-    },
-    "2011": {
-        "cn": "撮合引擎没配置该市场",
-        "en": "this market not in service",
-        jp: '',
-        kr: ''
-    },
-    "2012": {
-        "cn": "委托信息不存在或系统还未为处理",
-        "en": "entrust not exists or not deal with system",
-        jp: '',
-        kr: ''
-    },
-    "2013": {
-        "cn": "资金解冻失败",
-        "en": "unfreezeFund fail",
-        jp: '',
-        kr: ''
-    },
-    "2014": {
-        "cn": "缓存中无该该委托单",
-        "en": "entrust not exists in cache",
-        jp: '',
-        kr: ''
-    },
-    "2015": {
-        "cn": "委托单已取消或数据库中不存在",
-        "en": "entrust already canceled or not exists in database",
-        jp: '',
-        kr: ''
-    },
-    "2016": {
-        "cn": "分页inde，pageSize参数有误",
-        "en": "paging:index or pageSize invalid",
-        jp: '',
-        kr: ''
-    },
-    "2017": {
-        "cn": "交易货币量为空",
-        "en": "entrust amount null",
-        jp: '',
-        kr: ''
-    },
-    "2018": {
-        "cn": "交易货币量异常",
-        "en": "entrust amount abnormal",
-        jp: '',
-        kr: ''
-    },
-    "2019": {
-        "cn": "委托单ID不能为空",
-        "en": "entrustId null",
-        jp: '',
-        kr: ''
-    },
-    "2020": {
-        "cn": "委托类型不能为空",
-        "en": "entrustType null",
-        jp: '',
-        kr: ''
-    },
-    "2021": {
-        "cn": "委托类型错误",
-        "en": "entrustType [ 0,1]  error",
-        jp: '',
-        kr: ''
-    },
-    "2022": {
-        "cn": "交易货币量小于最小值",
-        "en": "entrust amount low min limit",
-        jp: '',
-        kr: ''
-    },
-    "2023": {
-        "cn": "委托正在处理",
-        "en": "entrust still on dealing, cancel it later",
-        jp: '',
-        kr: ''
-    },
-    "2024": {
-        "cn": "价格过大或过小",
-        "en": "entrust price too big or too small",
-        jp: '',
-        kr: ''
-    },
-    "2999": {
-        "cn": "内部错误",
-        "en": "system error",
-        jp: '',
-        kr: ''
-    },
-    "6079": {
-        "cn": "您还未完善登录密码，请先完善!",
-        "en": "You have not perfected your login password, please improve it first.",
-        jp: '',
-        kr: ''
-    },
-    "1": {
-        "cn": "操作成功!",
-        "en": "success !",
-        jp: '',
-        kr: ''
-    },
-    "success !": {
-        "cn": "操作成功!",
-        "en": "success !"
     },
     "": {
         "cn": "",

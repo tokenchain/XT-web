@@ -152,7 +152,7 @@
                                     //_this.countDown();
                                     _this.requestLocked = false;
                                     _this.successFun(res);
-                                } else if (resMsg.code == '1000') {
+                                } else {
                                     _this.requestLocked = false;
                                     if (_this.isMoveIde) {
                                         _this.errorSlide()
@@ -160,7 +160,7 @@
                                         _this.errorFun(res);
                                     }
                                     _this.timeout = 0;
-                                    JuaBox.showWrong(EXX.L(res.resMsg.message));
+                                    JuaBox.showWrong(EXX.L(res.resMsg.code));
                                 }
                                 switch (res.datas) {
                                     case 'sms':
