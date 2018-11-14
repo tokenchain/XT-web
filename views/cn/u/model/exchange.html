@@ -129,6 +129,7 @@
                             addCurrencyTypeName: this.exchangTarget,
                             amount: this.exchangVal
                         },
+                        contentType: 'application/x-www-form-urlencoded;',
                         success: function (res) {
                                 _this.$parent.close();
                                 _this.$emit('fetch')
