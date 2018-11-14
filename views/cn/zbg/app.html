@@ -377,6 +377,7 @@
                     getAndroidLink() {
                         var _this = this
                         Methods.ajax({
+                            type: 'GET',
                             url: DOMAIN_DEV +
                                 '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
                             success: function (res) {
@@ -387,6 +388,7 @@
                     getIosLink() {
                         var _this = this
                         Methods.ajax({
+                            type: 'GET',
                             url: DOMAIN_DEV +
                                 '/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
                             success: function (res) {

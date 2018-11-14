@@ -330,7 +330,6 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
-
                 switch (resMsg.code) {
                     case '999':
                         JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
