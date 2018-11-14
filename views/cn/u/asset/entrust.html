@@ -123,7 +123,7 @@
         </div>
 
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getUserEntrustList"
             v-if="records.length > 0 && !isAll"></page-lite>
     </div>
 </div>
@@ -141,6 +141,7 @@
                     pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
+                    totalPage: 0,
                     requestLocked: false,
                     marketConfig: [],
                     records: [],
@@ -353,6 +354,7 @@
 
                             _this.records = res.datas.entrustList;
                             _this.pageCount = res.datas.totalRow;
+                            _this.totalPage = res.datas.totalPage;
                             console.log(_this.records)
                             _this.requestLocked = false;
                             _this.userEntrustListSwitch = true
