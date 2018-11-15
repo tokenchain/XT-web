@@ -200,8 +200,9 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
-                        data: JSON.stringify(data),
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
+                        data: data,
                         success: function (res) {
                             this.loaded = true;
 
@@ -216,8 +217,9 @@
                 // 获取币价汇率
                 getAssistPrice: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             callback && callback();
@@ -230,8 +232,8 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息
@@ -272,6 +274,7 @@
                 },
                 getMarketAreaListByWebId: function () {
                     Methods.ajax({
+                        type: "GET",
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
                         success: function (res) {
                             this.marketAreaList = res.datas
@@ -366,11 +369,11 @@
                 <div class="body">
                     <ul v-for="(item,index) in filterUserCoinFunds(userCoinFunds)" v-if="(hideZero && getTotalPriceByAssist(item) > 0) || !hideZero">
                         <li class="coin-name">
-                            <img
+                            <!--<img
                                     v-if="item.name =='scc'||item.name =='fil'||item.name =='dcr'||item.name =='sc'||item.name =='sxc'||item.name =='xtz'||item.name =='dash'||item.name =='xem'||item.name =='xlm'||item.name =='ada'||item.name =='xwc'||item.name =='xt'||item.name =='doge'"
                                 :src="'<%= IMG_STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.png?<%= VERSION%>'"
-                                class="icon-coin" />
-                            <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
+                                class="icon-coin" />-->
+                            <img :src="'<%= IMG_STATIC %>/images/icon/coin/' + item.name.toLowerCase() + '.svg?<%= VERSION%>'"
                                 class="icon-coin" /><b>{{getRealCoinName(item.name).toUpperCase()}}</b></li>
                         <li><span class="hint--top" :aria-label="showTotalAssistHint(item)">{{fixTotalDecimal(item,8) |
                                 filterNum}}</span>
@@ -407,7 +410,7 @@
                                     <%= LANG('提币')
                                     %></a>
                                 
-                                <a @click='changeModel(item)' v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '兑换SXC' : '兑换QC'}}</a>
+                                <a @click='changeModel(item)' v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '<%= LANG('兑换SXC') %>' : '<%= LANG('兑换QC') %>'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
                                 <%= LANG('账单') %></a>
@@ -1018,9 +1021,10 @@
                 // 获取币价汇率
                 getPriceRate: function (callback) {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/pricecontroller/" +
-                            'getassistprice',
+                            "/exchange/config/controller/website/PriceController/" +
+                            'getAssistPrice',
                         success: function (res) {
                             this.loaded = true;
 
@@ -1068,10 +1072,11 @@
                         pageNum: 1
                     };
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/fundcontroller/" +
-                            'findbypage',
-                        data: JSON.stringify(data),
+                            "/exchange/fund/controller/website/FundController/" +
+                            'findByPage',
+                        data: data,
                         success: function (res) {
                             if (res.datas.list) {
                                 this.userAssets = res.datas.list;
@@ -1124,7 +1129,7 @@
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV +
-                            "/exchange/user/controller/website/usercontroller/" +
+                            "/exchange/user/controller/website/UserController/" +
                             'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -1188,8 +1193,9 @@
                     }
                     var that = this;
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
+                            "/exchange/fund/controller/website/FundMinerStatController/getUserFeeTotal",
                         success: function (res) {
                             that.getuserfeetotalData = res.datas
                         }
@@ -1264,8 +1270,9 @@
                     }
                     var that = this;
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/FundMinerStatController/getuserfeetotal",
+                            "/exchange/fund/controller/website/FundMinerStatController/getUserFeeTotal",
                         success: function (res) {
                             that.getuserfeetotalData = res.datas
                             if (that.getuserfeetotalData.totalLockAmount) {

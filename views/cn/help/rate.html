@@ -43,11 +43,11 @@
                 <div v-else class="body" v-cloak="">
                     <ul v-for="coin,key in coinMap" v-if="coin.isLegalCoin==0" style="padding:0 20px">
                         <li class="coin-name">
-                            <img
+                            <!--<img
                                     v-if="coin.name == 'scc'||coin.name == 'fil'||coin.name == 'dcr'||coin.name == 'sc'||coin.name == 'sxc'||coin.name == 'xtz'||coin.name == 'dash'||coin.name == 'xem'||coin.name == 'xlm'||coin.name == 'ada'||coin.name == 'xwc'||coin.name == 'xt'||coin.name == 'doge'"
                                  :src="'<%= IMG_STATIC %>/images/icon/coin/'+coin.name+'.png'"
-                                 class="icon-coin">
-                            <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}
+                                 class="icon-coin">-->
+                            <img :src="'<%= IMG_STATIC %>/images/icon/coin/'+coin.logo" class="icon-coin">{{coin.name.toUpperCase()}}
                         </li>
                         <li v-if="coin.drawFlag==1"><%= LANG('开放') %></li>
                         <li style="color: #e35757;" v-else="coin.drawFlag!=1"><%= LANG('关闭') %></li>

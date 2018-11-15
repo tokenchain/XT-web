@@ -445,7 +445,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -506,8 +506,9 @@
                         pageNum: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/" + 'findbypage',
-                        data: JSON.stringify(data),
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/" + 'findByPage',
+                        data: data,
                         success: function (res) {
                             this.loaded = true;
 
@@ -544,8 +545,9 @@
                         pageSize: 9999
                     };
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAccounts',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaddress',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getWithdrawAddress',
                         data: data,
                         success: function (res) {
                             this.addressSwitch = true
@@ -570,9 +572,9 @@
                         tab: 'all'
                     };
                     Methods.ajax({
-                        type: 'POST',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getpayoutcoinrecord',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getpayoutcoinrecord',
+                        type: 'GET',
+                        // url: DOMAIN_MAIN + API_PREFIX + 'getPayoutCoinRecord',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getPayoutCoinRecord',
                         data: data,
                         success: function (res) {
                             // console.log(res)
@@ -617,7 +619,7 @@
                     this.requestLocked = true;
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doPayoutCoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
@@ -662,7 +664,7 @@
                     }
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dopayoutcoin',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doPayoutCoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
@@ -698,7 +700,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'docancelpayout',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'docancelpayout',
                         data: data,
                         success: function (res) {
                             this.getPayoutCoinRecord();
@@ -713,7 +715,7 @@
                         userApplyWithdrawId: record.userApplyWithdrawId
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'getwithdrawaltxid',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getwithdrawaltxid',
                         data: data,
                         success: function (res) {
                             var txid = res.datas;
@@ -774,7 +776,8 @@
                 },
                 getBankaccountSearch: function () {
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'bankaccountsearch',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'bankAccountSearch',
                         success: function (res) {
                             this.bankInfo = res.datas
                         }.bind(this)
@@ -787,7 +790,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;

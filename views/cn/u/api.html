@@ -98,7 +98,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -206,6 +206,7 @@
                 getApiOpenStatus:function () {
                     Methods.ajax({
                         url: DOMAIN_DEV + "/exchange/user/controller/website/"+"ApiAccessController/queryState",
+                        type:"GET",
                         success: function (res) {
                             this.accessKey = res.datas.apiId;
                             this.apiStatusisOpen=res.datas.isOpen;

@@ -97,8 +97,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/user/controller/website/baseapicontroller/" +
-                            'getpubkey',
+                            "/exchange/user/controller/website/BaseApiController/" +
+                            'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -120,7 +120,7 @@
                     var _this = this;
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/fund/controller/website/xtfundcontroller/exChangeCurrencyAmount",
+                            "/exchange/xt_extends/fund/controller/website/XtFundController/exChangeCurrencyAmount",
                         data: {
                             Userid: this.loginUser.userId,
                             rsaKeyId: this.rsaKeyId,
@@ -129,6 +129,7 @@
                             addCurrencyTypeName: this.exchangTarget,
                             amount: this.exchangVal
                         },
+                        contentType: 'application/x-www-form-urlencoded;',
                         success: function (res) {
                                 _this.$parent.close();
                                 _this.$emit('fetch')

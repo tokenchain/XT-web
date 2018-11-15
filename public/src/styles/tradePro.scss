@@ -565,18 +565,20 @@ body.trading-dark {
           width: 100px;
           height: 20px;
           line-height: 20px;
-          opacity: 0.7;
+          // opacity: 0.7;
           text-align: center;
           color: $white_font_opacity;
           cursor: pointer;
           box-sizing: border-box;
           &.active {
             span {
-              color: #fff;
+              color: $theme_color;
               font-size: 16px;
+              border-bottom: 1px solid $theme_color;
             }
           }
           span {
+            padding-bottom: 5px;
             font-size: 14px;
             -webkit-transition: all .3s;
             transition: all .3s;

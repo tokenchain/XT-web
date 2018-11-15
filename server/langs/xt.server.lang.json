@@ -1,4 +1,10 @@
 {
+  "官方公告": {
+    "cn": "官方公告",
+    "en": "Official announcement",
+    "jp": "",
+    "kr": ""
+  },
   "搜索币种": {
     "cn": "搜索币种",
     "en": "Search",
@@ -11,9 +17,441 @@
     "jp": "",
     "kr": ""
   },
+  "自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。": {
+    "cn": "自主研发的撮合交易引擎，采用先进的分布式集群架构及微服务开发方式 。支持超过300万/秒交易并发。",
+    "en": "Independently developed matching trading engine, adopting advanced distributed cluster architecture and micro-service development, supporting transactions more than 3 million / second.",
+    "jp": "",
+    "kr": ""
+  },
   "xrp币memo必须为数字": {
     "cn": "xrp币memo必须为数字",
     "en": "The memo of XRP COINS must be a number",
+    "jp": "",
+    "kr": ""
+  },
+  "金融级安全防护": {
+    "cn": "金融级安全防护",
+    "en": "Financial security",
+    "jp": "",
+    "kr": ""
+  },
+  "无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。": {
+    "cn": "无偏性零知识证明隐私保密技术保护用户隐私，采用基于多种签名、离线签名、分层架构等安全设计，采用冷热钱包分离技术。",
+    "en": "Unbiased zero-knowledge proof privacy technology protects user privacy , using security design based on multiple signatures, offline signatures, layered architecture, etc. Using hot and cold wallet separation technology.",
+    "jp": "",
+    "kr": ""
+  },
+  "OTC场外交易": {
+    "cn": "OTC场外交易",
+    "en": "OTC Trading",
+    "jp": "",
+    "kr": ""
+  },
+  "支持多种法币交易 平台担保、快速安全": {
+    "cn": "支持多种法币交易 平台担保、快速安全",
+    "en": "Platform guarantee, Fast and secure",
+    "jp": "",
+    "kr": ""
+  },
+  "XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区": {
+    "cn": "XT致力于打造一个全球范围内透明、高效、自治、共享的专业数字资产交易平台及全生态社区",
+    "en": "XT is committed to building a transparent, efficient, autonomous, shared and professional digital asset trading platform and a whole ecological community.",
+    "jp": "",
+    "kr": ""
+  },
+  "2018年7月": {
+    "cn": "2018年7月",
+    "en": "July 8, 2018",
+    "jp": "",
+    "kr": ""
+  },
+  "XT.COM顶级域名正式成为平台统一对外域名": {
+    "cn": "XT.COM顶级域名正式成为平台统一对外域名",
+    "en": "XT.COM顶级域名正式成为平台统一对外域名",
+    "jp": "",
+    "kr": ""
+  },
+  "2018年8月": {
+    "cn": "2018年8月",
+    "en": "July 8, 2018",
+    "jp": "",
+    "kr": ""
+  },
+  "项目内测": {
+    "cn": "项目内测",
+    "en": "Open beta test",
+    "jp": "",
+    "kr": ""
+  },
+  "项目开启外测β版本完成": {
+    "cn": "项目开启外测β版本完成",
+    "en": "项目开启外测β版本完成",
+    "jp": "",
+    "kr": ""
+  },
+  "2019年": {
+    "cn": "2019年",
+    "en": "2019",
+    "jp": "",
+    "kr": ""
+  },
+  "XT2.0升级计划": {
+    "cn": "XT2.0升级计划",
+    "en": "Plan 2.0",
+    "jp": "",
+    "kr": ""
+  },
+  "XT平台生态合伙人计划": {
+    "cn": "XT平台生态合伙人计划",
+    "en": "Ecological partnership plan",
+    "jp": "",
+    "kr": ""
+  },
+  "2018年11月": {
+    "cn": "2018年11月",
+    "en": "November 2018",
+    "jp": "",
+    "kr": ""
+  },
+  "2018年12月": {
+    "cn": "2018年12月",
+    "en": "December 2018",
+    "jp": "",
+    "kr": ""
+  },
+  "多语言版本支持计划及全球创新项目遴选计划": {
+    "cn": "多语言版本支持计划及全球创新项目遴选计划",
+    "en": "Global innovation project selection plan and multilingual support plan.",
+    "jp": "",
+    "kr": ""
+  },
+  "2020年": {
+    "cn": "2020年",
+    "en": "2020",
+    "jp": "",
+    "kr": ""
+  },
+  "基于社区化自治的交易平台": {
+    "cn": "基于社区化自治的交易平台",
+    "en": "Community-based autonomous trading platform",
+    "jp": "",
+    "kr": ""
+  },
+  "默认档位": {
+    "cn": "默认档位",
+    "en": "default",
+    "jp": "",
+    "kr": ""
+  },
+  "登录 XT": {
+    "cn": "登录 XT",
+    "en": "XT Login",
+    "jp": "",
+    "kr": ""
+  },
+  "注册 XT": {
+    "cn": "注册 XT",
+    "en": "XT Sign up",
+    "jp": "",
+    "kr": ""
+  },
+  "登录后方可进行交易，现在去": {
+    "cn": "登录后方可进行交易，现在去",
+    "en": "Login to trade",
+    "jp": "",
+    "kr": ""
+  },
+  "历史成交": {
+    "cn": "历史成交",
+    "en": "Market History",
+    "jp": "",
+    "kr": ""
+  },
+  "委托历史": {
+    "cn": "委托历史",
+    "en": "Entrustment History",
+    "jp": "",
+    "kr": ""
+  },
+  "买/卖": {
+    "cn": "买/卖",
+    "en": "Buy/Sell",
+    "jp": "",
+    "kr": ""
+  },
+  "API接口": {
+    "cn": "API接口",
+    "en": "API",
+    "jp": "",
+    "kr": ""
+  },
+  "还没账号？立即": {
+    "cn": "还没账号？立即",
+    "en": "Don’t have an account?",
+    "jp": "",
+    "kr": ""
+  },
+  "请输入邀请码": {
+    "cn": "请输入邀请码",
+    "en": "Please input invitation code.",
+    "jp": "",
+    "kr": ""
+  },
+  "兑换SXC": {
+    "cn": "兑换SXC",
+    "en": "Exchange SXC",
+    "jp": "",
+    "kr": ""
+  },
+  "兑换QC": {
+    "cn": "兑换QC",
+    "en": "Exchange QC",
+    "jp": "",
+    "kr": ""
+  },
+  "xt为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将xt交易功能整合到自己应用当中。": {
+    "cn": "xt为用户提供了一个简单的而又强大的API，旨在帮助用户快速高效的将xt交易功能整合到自己应用当中。",
+    "en": "XT provides users with a simple and powerful API, designed to help users quickly and efficiently integrate XT transaction function into their applications.",
+    "jp": "",
+    "kr": ""
+  },
+  "xt WebSocket服务连接地址：": {
+    "cn": "xt WebSocket服务连接地址：",
+    "en": "XT WebSocket service connection address",
+    "jp": "",
+    "kr": ""
+  },
+  "获取xt最新行情数据": {
+    "cn": "获取xt最新行情数据",
+    "en": "Get the lastest XT market data",
+    "jp": "",
+    "kr": ""
+  },
+  "域名地址：": {
+    "cn": "域名地址：",
+    "en": "Domain Address",
+    "jp": "",
+    "kr": ""
+  },
+  "获取币种列表": {
+    "cn": "获取币种列表",
+    "en": "Get Currency List",
+    "jp": "",
+    "kr": ""
+  },
+  "隐私保护": {
+    "cn": "隐私保护",
+    "en": "Privacy policy",
+    "jp": "",
+    "kr": ""
+  },
+  "隐私条款": {
+    "cn": "隐私条款",
+    "en": "Privacy policy",
+    "jp": "",
+    "kr": ""
+  },
+  "XT已了解用户个人信息的重要性，并将遵守例如《个人信息保护法》等相关法律法规，时刻尊重并保护用户个人信息的安全。为了提供更好的访问实用程序或服务，我们将收集、存储、维护和使用您的个人信息。因此，XT通过隐私条款披露我们在进行服务时如何使用、存储您个人信息以确保安全。": {
+    "cn": "XT已了解用户个人信息的重要性，并将遵守例如《个人信息保护法》等相关法律法规，时刻尊重并保护用户个人信息的安全。为了提供更好的访问实用程序或服务，我们将收集、存储、维护和使用您的个人信息。因此，XT通过隐私条款披露我们在进行服务时如何使用、存储您个人信息以确保安全。",
+    "en": "XT understands the importance of personal information of users and will comply with relevant laws and regulations, such as the Personal Information Protection Act, and respect and protect the security of users' personal information. In order to provide better access to utilities or services, we will collect, store, maintain and use your personal information. Therefore, XT discloses through privacy terms how we use and store your personal information in order to ensure security.",
+    "jp": "",
+    "kr": ""
+  },
+  "一收集信息：": {
+    "cn": "一收集信息：",
+    "en": "1.Collect information",
+    "jp": "",
+    "kr": ""
+  },
+  "您在注册、交易或使用我们的服务，则表示您同意我们采集您的个人信息，即我们已经获得您的许可。除此之外，XT不会利用欺诈或不正当手段采集您的个人信息，也不会要求您提供超出条款范围的相关信息。我们采集您的个人信息主要目的是为了方便和您的沟通，以提供更好的服务，采集的个人信息可能包括：姓名、联系方式、电子邮箱地址、交易信息、您提供的身份信息的副本、政府发行的身份证号、护照号码、您的设备或互联网服务相关的任何信息（如IP地址和MAC号码），以及在使用特殊服务时，可能需要您提供银行账户等相关信息。": {
+    "cn": "您在注册、交易或使用我们的服务，则表示您同意我们采集您的个人信息，即我们已经获得您的许可。除此之外，XT不会利用欺诈或不正当手段采集您的个人信息，也不会要求您提供超出条款范围的相关信息。我们采集您的个人信息主要目的是为了方便和您的沟通，以提供更好的服务，采集的个人信息可能包括：姓名、联系方式、电子邮箱地址、交易信息、您提供的身份信息的副本、政府发行的身份证号、护照号码、您的设备或互联网服务相关的任何信息（如IP地址和MAC号码），以及在使用特殊服务时，可能需要您提供银行账户等相关信息。",
+    "en": "Your registering, trading or using our services indicate that you agree we will collect your personal information, i.e. we have acquired your permission.  In addition, XT will not use fraudulent or improper means to collect your personal information, nor will it ask you to provide relevant information beyond the Terms. The main purpose of collecting your personal information is to facilitate communication with you and to provide better services. Personal information may include: name, contact information, e-mail address, transaction information,  copy of the identity information you provide, government-issued ID number, passport number, any information related to your device or Internet service (such as IP address and MAC number), and when using special services, you may need to provide relevant information such as bank accounts.",
+    "jp": "",
+    "kr": ""
+  },
+  "二 目的：": {
+    "cn": "二 目的：",
+    "en": "2.Purpose",
+    "jp": "",
+    "kr": ""
+  },
+  "我们将您的个人信息用于：": {
+    "cn": "我们将您的个人信息用于：",
+    "en": "We will use your information to",
+    "jp": "",
+    "kr": ""
+  },
+  "2.1  您在XT交易过程汇总，我们将处理您提供给我们的个人信；": {
+    "cn": "2.1  您在XT交易过程汇总，我们将处理您提供给我们的个人信；",
+    "en": "2.1 summarize your transactions at XT with the personal information you provide;",
+    "jp": "",
+    "kr": ""
+  },
+  "2.2  校验并确认真实信息，避免有关用户欺诈行为；": {
+    "cn": "2.2  校验并确认真实信息，避免有关用户欺诈行为；",
+    "en": "2.2 verify and confirm information authenticity to avoid frauds；",
+    "jp": "",
+    "kr": ""
+  },
+  "2.3  验证合法公民，我们已采用国际标准以防止洗钱等其他不正当行为；": {
+    "cn": "2.3  验证合法公民，我们已采用国际标准以防止洗钱等其他不正当行为；",
+    "en": "2.3 verify legitimate citizens; we have adopted international standards to prevent money laundering and other unfair behaviors",
+    "jp": "",
+    "kr": ""
+  },
+  "2.4  即时通知您相关条款、政策的修订；": {
+    "cn": "2.4  即时通知您相关条款、政策的修订；",
+    "en": "2.4 inform you immediately of the modifications of relevant provisions and policies",
+    "jp": "",
+    "kr": ""
+  },
+  "2.5  紧急情况下进行及时沟通；": {
+    "cn": "2.5  紧急情况下进行及时沟通；",
+    "en": "2.5 communicate with you in an emergency；",
+    "jp": "",
+    "kr": ""
+  },
+  "2.6  遵循国家政府机构相关部门的要求；": {
+    "cn": "2.6  遵循国家政府机构相关部门的要求；",
+    "en": "2.6 comply with the requirements of relevant departments of national government agencies",
+    "jp": "",
+    "kr": ""
+  },
+  "2.7  为用户个性化服务提供支持；": {
+    "cn": "2.7  为用户个性化服务提供支持；",
+    "en": "2.7 provide support for personalized user service",
+    "jp": "",
+    "kr": ""
+  },
+  "2.8  方便与XT的交流，即时获得相关服务以及在活动期间获得奖品；": {
+    "cn": "2.8  方便与XT的交流，即时获得相关服务以及在活动期间获得奖品；",
+    "en": "2.8 facilitate communication with XT so that you can get relevant services instantly and any prize during activities",
+    "jp": "",
+    "kr": ""
+  },
+  "2.9  相关法律法规的需要；": {
+    "cn": "2.9  相关法律法规的需要；",
+    "en": "2.9 meet the requirement of relevant laws and regulations",
+    "jp": "",
+    "kr": ""
+  },
+  "2.10  分析XT运行情况，以期提供更好的功能和产品。": {
+    "cn": "2.10  分析XT运行情况，以期提供更好的功能和产品。",
+    "en": "2.10 analyze the operation of  XT in order to provide better functions and products.",
+    "jp": "",
+    "kr": ""
+  },
+  "三 个人信息安全保护：": {
+    "cn": "三 个人信息安全保护：",
+    "en": "3.Personal Information Security Protection",
+    "jp": "",
+    "kr": ""
+  },
+  "XT不会将您个人信息用于其他用途，未经您的允许，XT不会出售、泄露信息给任何第三方(除与服务相关的第三方安全合作伙伴)；XT将您的个人信息去中心化存储确保信息的安全性，以应对丢失、毁坏、篡改或泄露风险等；XT将您的信息通过SSL技术进行加密存储和管理，只有您本人才可以使用、修改，未经授权，其他人将被限制访问您的信息；此外，XT团队内部自治，将最大限度保护您个人信息的安全性，并且不会泄露、篡改等。": {
+    "cn": "XT不会将您个人信息用于其他用途，未经您的允许，XT不会出售、泄露信息给任何第三方(除与服务相关的第三方安全合作伙伴)；XT将您的个人信息去中心化存储确保信息的安全性，以应对丢失、毁坏、篡改或泄露风险等；XT将您的信息通过SSL技术进行加密存储和管理，只有您本人才可以使用、修改，未经授权，其他人将被限制访问您的信息；此外，XT团队内部自治，将最大限度保护您个人信息的安全性，并且不会泄露、篡改等。",
+    "en": "XT will not use your personal information for other purposes without your permission, and will not sell or divulge your information to any third party (except third-party security partners related to services); XT will store your personal information after decentralization to ensure the information security to handle the risk of loss, destruction, tampering or disclosure; XT encrypts and manages your information through SSL technology. Only by yourself can the information be used and modified, and others will be restricted to access your information without authorization. In addition, XT team is self-governing and will fully protect your personal information security to avoid disclosure, tampering, etc.",
+    "jp": "",
+    "kr": ""
+  },
+  "四 个人信息设置：": {
+    "cn": "四 个人信息设置：",
+    "en": "4. Personal information settings",
+    "jp": "",
+    "kr": ""
+  },
+  "您可以随时登录XT，查看、增加、修改、删除个人信息，特殊情况可能需要您通过邮件等方式联系我们，进行修改。如果您不同意隐私条款，XT提供的相关服务可能会终止。": {
+    "cn": "您可以随时登录XT，查看、增加、修改、删除个人信息，特殊情况可能需要您通过邮件等方式联系我们，进行修改。如果您不同意隐私条款，XT提供的相关服务可能会终止。",
+    "en": "4. Personal information settings",
+    "jp": "",
+    "kr": ""
+  },
+  "五 声明：": {
+    "cn": "五 声明：",
+    "en": "5.Statement",
+    "jp": "",
+    "kr": ""
+  },
+  "5.1 为确保您对我们在处理个人资料上有充分信心, 您切要详细阅读及理解隐私政策的条文。特别是您一旦登陆我们的网站，不论您是否在该网站上注册，您均向我们表明您接受、同意、承诺和确认：": {
+    "cn": "5.1 为确保您对我们在处理个人资料上有充分信心, 您切要详细阅读及理解隐私政策的条文。特别是您一旦登陆我们的网站，不论您是否在该网站上注册，您均向我们表明您接受、同意、承诺和确认：",
+    "en": "5.1 To ensure that you have full confidence in our handling of personal data, you are advised to read and understand the terms of this Privacy Policy in detail. In particular, upon your log into our Website, regardless of whether you register with this Website, you shall be deemed to accept, agree, undertake and confirm that:",
+    "jp": "",
+    "kr": ""
+  },
+  "5.2 您在自愿下连同所需的同意向我们披露个人资料；": {
+    "cn": "5.2 您在自愿下连同所需的同意向我们披露个人资料；",
+    "en": "5.2 You, on the basis of your own free will and your requisite consent, agree to disclose your personal information to us;",
+    "jp": "",
+    "kr": ""
+  },
+  "5.3 您会遵守本隐私政策的全部条款和限制；": {
+    "cn": "5.3 您会遵守本隐私政策的全部条款和限制；",
+    "en": "5.3 You will comply with all the terms and limitations of this Privacy Policy",
+    "jp": "",
+    "kr": ""
+  },
+  "5.4 您同意我们通过您登陆本网站、在本网站上注册和/或使用我们提供的服务收集您的信息；您同意日后我们对隐私政策的任何修改": {
+    "cn": "5.4 您同意我们通过您登陆本网站、在本网站上注册和/或使用我们提供的服务收集您的信息；您同意日后我们对隐私政策的任何修改",
+    "en": "5.4 You agree that we may collect your information through your log into this Website, your registration with this Website, and/or your using the Services offered by us; you agree to any changes and modifications that we may make to our Privacy Policy in the future.",
+    "jp": "",
+    "kr": ""
+  },
+  "六 隐私问题与疑问：": {
+    "cn": "六 隐私问题与疑问：",
+    "en": "6. Privacy issues and queries",
+    "jp": "",
+    "kr": ""
+  },
+  "您的ID密码由您个人保管，请你时刻保护密码的安全，不要轻易泄露给他人，如果您发现密码泄露、信息异常或对XT隐私条款等相关问题有任何疑问、建议，请通过以下方式与我们联系，support@xt.com。": {
+    "cn": "您的ID密码由您个人保管，请你时刻保护密码的安全，不要轻易泄露给他人，如果您发现密码泄露、信息异常或对XT隐私条款等相关问题有任何疑问、建议，请通过以下方式与我们联系，support@xt.com。",
+    "en": "Your ID password is managed by yourself. Please ensure the security of your password at all times and do NOT leak it to others. If you have any questions or suggestions about password leakage, information anomalies or XT privacy policy, please contact us at support@xt.com.",
+    "jp": "",
+    "kr": ""
+  },
+  "已到账": {
+    "cn": "已到账",
+    "en": "Already to account",
+    "jp": "",
+    "kr": ""
+  },
+  "未到账": {
+    "cn": "未到账",
+    "en": "Out of account",
+    "jp": "",
+    "kr": ""
+  },
+  "昵称": {
+    "cn": "昵称",
+    "en": "Nickname",
+    "jp": "",
+    "kr": ""
+  },
+  "实名/高级实名认证": {
+    "cn": "实名/高级实名认证",
+    "en": "Real name / Advanced real name authentication",
+    "jp": "",
+    "kr": ""
+  },
+  "账号信息": {
+    "cn": "账号信息",
+    "en": "Account Information",
+    "jp": "",
+    "kr": ""
+  },
+  "邀请有礼": {
+    "cn": "邀请有礼",
+    "en": "Invites Courtesy",
+    "jp": "",
+    "kr": ""
+  },
+  "请输入昵称": {
+    "cn": "请输入昵称",
+    "en": "Please enter nickname.",
+    "jp": "",
+    "kr": ""
+  },
+  "Set Nickname": {
+    "cn": "Set Nickname",
+    "en": "Please enter nickname.",
     "jp": "",
     "kr": ""
   }

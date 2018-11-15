@@ -529,7 +529,7 @@
                     // console.log('获取服务器时间')
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'getServerTime',
-                        url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'getservertime',
+                        url: DOMAIN_DEV + '/exchange/user/controller/website/UserController/' + 'getservertime',
                         success: function (res) {
                             this.serverTime = res.datas;
                             callback && callback(res.datas);
@@ -540,7 +540,8 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/pricecontroller/" + 'getassistprice',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             try {
@@ -559,6 +560,7 @@
                 getMarketConfig: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
                         success: function (res) {
@@ -675,6 +677,7 @@
                         entrustType: 0
                     };
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getUserEntrustRecordFromCache',
                         data: data,
                         success: function (res) {
@@ -703,11 +706,13 @@
                         //status: 0,
                         marketId: _this.currentMarketId,
                         userId: _this.currentAccountId,
-                        pageSize: 999999,
+                        // pageSize: 999999,
+                        pageSize: 10,
                         pageIndex: 1
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/entrustcontroller/" + 'getUserEntrustList',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/entrust/controller/website/EntrustController/" + 'getUserEntrustList',
                         data: data,
                         success: function (res) {
                             //VUE数组的更新
@@ -811,7 +816,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'editassistcoin',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'editassistcoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);

@@ -123,7 +123,7 @@
         </div>
 
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getUserEntrustList"
             v-if="records.length > 0 && !isAll"></page-lite>
     </div>
 </div>
@@ -139,8 +139,9 @@
                 return {
                     isLogin: ISLOGIN,
                     pageIndex: 1,
-                    pageSize: 20,
+                    pageSize: 10,
                     pageCount: 0,
+                    totalPage: 0,
                     requestLocked: false,
                     marketConfig: [],
                     records: [],
@@ -284,10 +285,11 @@
                 getAssistPrice: function (callback) {
                     var _this = this;
                     Methods.ajax({
+                        type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/pricecontroller/" +
-                            'getassistprice',
+                            "/exchange/config/controller/website/PriceController/" +
+                            'getAssistPrice',
                         success: function (res) {
                             _this.assistPrice = res.datas;
                             callback && callback(res.datas);
@@ -334,6 +336,7 @@
                     _this.requestLocked = true;
                     _this.records = []
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/entrust/controller/website/EntrustController/' +
                             'getUserEntrustList',
@@ -351,6 +354,7 @@
 
                             _this.records = res.datas.entrustList;
                             _this.pageCount = res.datas.totalRow;
+                            _this.totalPage = res.datas.totalPage;
                             console.log(_this.records)
                             _this.requestLocked = false;
                             _this.userEntrustListSwitch = true

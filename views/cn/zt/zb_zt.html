@@ -446,7 +446,7 @@
                     _this.showcode = false
                     _this.timeout = ' <%= LANG("发送中") %> ...'
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'sendcode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'sendcode',
                         data: JSON.stringify(data),
                         success: function (res) {
 
@@ -509,7 +509,7 @@
                 //                 code: _this.code,
                 //                 imageCodeKey: _this.imgCodeId
                 //             },
-                //             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/checkImgCode",
+                //             url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/checkImgCode",
                 //             success: function (res) {
                 //                 console.log(res)
                 //                 console.log(2222)
@@ -528,7 +528,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -540,7 +540,7 @@
                 //     var that=this;
                 //     Methods.ajax({
                 //         type: 'POST',
-                //         url: DOMAIN_DEV +"/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                //         url: DOMAIN_DEV +"/exchange/fund/controller/website/FundController/getInvestTotal",
                 //         success: function (res) {
                 //             that.InvestTotal=res.datas
                 //             that.amountTo=350000000/that.InvestTotal.totalAmount
@@ -551,7 +551,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -562,7 +562,7 @@
                 getmyzb: function () {
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/getUserInvestInfo',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/getUserInvestInfo',
                         data:{
                             currencyTypeName:'zb'
                         },
@@ -611,7 +611,7 @@
 
                             Methods.ajax({
                                 type: 'POST',
-                                url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/addinvest",
+                                url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/addinvest",
                                 data: that.addinvestData,
                                 success: function (res) {
 

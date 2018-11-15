@@ -1,9 +1,9 @@
 <script type="text/x-template" id="dish-part-bids">
     <div class="plateInside-area">
-        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin.price * currentPrice).toFixed(4)}} {{priceCoin.lanType}}</div>
+        <div class="asks-title"><%= LANG('最新价')%> {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin.price * currentPrice).toFixed(4)}} {{priceCoin.lanType}}</div>
         <ul class="title">
             <li>
-                <p class="buy-title"><span>买盘</span></p>
+                <p class="buy-title"><span><%= LANG('买盘')%></span></p>
                 <p><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
                 <p><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
             </li>
@@ -75,7 +75,7 @@
                     priceCoin: {
                         price: 0,
                         lanType: ''
-                    } //折合之后的价格
+                    }, //折合之后的价格
                 }
             },
             computed: {
@@ -133,7 +133,7 @@
                 sortUpdate: function () { //序号处理
                     $('#bidsWrap .tradeNew-table li').each(function (index, item) {
                         var num = index + 1
-                        $(item).find("p:first-child").html('买' + num)
+                        $(item).find("p:first-child").html('<%=LANG('买')%>' + num)
                     })
                 },
                 myBrowser() {

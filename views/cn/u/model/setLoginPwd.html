@@ -163,7 +163,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -173,7 +173,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -221,7 +221,7 @@
                             }
                             Methods.ajax({
                                 type: "POST",
-                                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'doCompleteLoginPassword',
+                                url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'doCompleteLoginPassword',
                                 data: data,
                                 success: function (res) {
                                     //密码修改成功，返回空
@@ -285,7 +285,7 @@
                                 Methods.ajax({
                                     // url: DOMAIN_MAIN + API_PREFIX + 'setUserPwd',
                                     type: "POST",
-                                    url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setLoginPassword',
+                                    url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'setLoginPassword',
                                     data: JSON.stringify(data),
                                     success: function (res) {
                                         //密码修改成功，返回空
@@ -315,8 +315,8 @@
                 getUserInfo: function () {
                     var _this = this;
                     Methods.ajax({
-                        type:'POST',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                        type:'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                         success: function (res) {
                             _this.userInfo = res.datas;
                             //更新用户信息

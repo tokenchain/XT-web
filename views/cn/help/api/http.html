@@ -95,7 +95,7 @@
 
         <h2 id="toc_1"><%= LANG('API地址域名地址') %></h2>
 
-        <p><%= LANG('域名地址：https://www.xt.com/') %></p>
+        <p><%= LANG('域名地址：') %>https://www.xt.com/</p>
 
         <h2 id="toc_2"><%= LANG('使用说明') %></h2>
 
@@ -211,7 +211,7 @@
         <!--
         ### 1.3获取加密公钥接口
         此接口请注意访问不要过于频繁，秘钥有一定有效时间，建议使用秘钥时如果一分钟内获取过则继续用原来的秘钥，超过一分钟再次获取。
-        path:/exchange/user/controller/website/baseapicontroller/getpubkey
+        path:/exchange/user/controller/website/baseapicontroller/getPubKey
         请求方式：post
         请求报文
 
@@ -240,8 +240,8 @@
 
         <h3 id="toc_7">2.1<%= LANG('获取用户信息接口') %></h3>
 
-        <p>path:https://www.xt.com/exchange/user/controller/website/usercontroller/getuserinfo<br>
-            <%= LANG('请求方式') %>：post<br>
+        <p>path:https://www.xt.com/exchange/user/controller/website/UserController/getUserInfo<br>
+            <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %> </p>
 
         <div>
@@ -407,7 +407,7 @@
 
         <div><pre><code class="language-请求参数">marketId：   90                      //<%= LANG('市场ID') %>
 pageIndex：  1               //<%= LANG('页码') %>
-pageSize:   20              //<%= LANG('每页展示条数') %></code></pre>
+pageSize:   10              //<%= LANG('每页展示条数') %></code></pre>
         </div>
 
         <p><%= LANG('返回报文') %>:</p>
@@ -486,8 +486,8 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_15">4.1 <%= LANG('获取充币地址') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/getPayinAddress<br>
-            <%= LANG('请求方式') %>：post<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/getPayinAddress<br>
+            <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %></p>
 
         <div><pre><code class="language-none">{
@@ -514,7 +514,7 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_16">4.2 <%= LANG('查询充币记录') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/getPayinCoinRecord<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/getPayinCoinRecord<br>
             <%= LANG('请求方式') %>：post<br>
             <%= LANG('请求报文') %></p>
 
@@ -560,7 +560,7 @@ entrustId:  E6419443135315070976    // <%= LANG('要查询的委托ID') %>
 
         <h3 id="toc_17">4.3 <%= LANG('查询提币记录') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundwebsitecontroller/getpayoutcoinrecord<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundWebSiteController/getPayoutCoinRecord<br>
             <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %></p>
 
@@ -612,8 +612,8 @@ pageSize=10     // <%= LANG('可选, 默认') %> 10</code></pre>
 
         <h3 id="toc_18">4.4 <%= LANG('获取用户所有资金信息') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundcontroller/findbypage<br>
-            <%= LANG('请求方式') %>：post<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundController/findByPage<br>
+            <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %> </p>
 
         <div><pre><code class="language-none">
@@ -661,7 +661,7 @@ pageSize=10     // <%= LANG('可选, 默认') %> 10</code></pre>
 
         <h3 id="toc_19">4.5 <%= LANG('查询提币地址') %></h3>
 
-        <p>path:https://www.xt.com/exchange/fund/controller/website/fundwebsitecontroller/getwithdrawaddress<br>
+        <p>path:https://www.xt.com/exchange/fund/controller/website/FundWebSiteController/getWithdrawAddress<br>
             <%= LANG('请求方式') %>：get<br>
             <%= LANG('请求报文') %></p>
 
@@ -704,7 +704,7 @@ pageSize=10           // <%= LANG('(可选, 默认10)') %></code></pre>
 
         <!--
         ### 4.6获取提币地址id 处于安全考虑暂时封禁
-        path:/exchange/fund/controller/website/fundwebsitecontroller/getaddressid
+        path:/exchange/fund/controller/website/FundWebSiteController/getaddressid
         请求方式：get
         请求报文
 
@@ -728,7 +728,7 @@ pageSize=10           // <%= LANG('(可选, 默认10)') %></code></pre>
         }
         ```
         ### 4.7提币申请 处于安全考虑暂时封禁
-        path:/exchange/fund/controller/website/fundwebsitecontroller/dopayoutcoin
+        path:/exchange/fund/controller/website/FundWebSiteController/doPayoutCoin
         请求方式：post
         请求报文
 

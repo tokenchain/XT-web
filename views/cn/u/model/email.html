@@ -144,7 +144,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -170,7 +170,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -205,15 +205,16 @@
                         this.locked = true;
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'authEmail',
-                            url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'authemail',
-                            data: JSON.stringify(data),
+                            url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'authEmail',
+                            contentType:"application/x-www-form-urlencoded",
+                            data: data,
                             success: function (res) {
                                 this.locked = false;
                                 // Methods.setLocalUserInfo(res.datas.getUserInfo);
                                 Methods.getUserInfo(function (datas) {
                                     Vue.set(EXX.userIndex.$data, "loginUser", datas);//更新用户中心Vue实例
                                 });
-                                JuaBox.info(EXX.L(res.resMsg.message), function () {
+                                JuaBox.info(EXX.L(res.resMsg.code), function () {
                                     //reload page
                                     top.location.reload();
                                 });

@@ -1,9 +1,9 @@
 <script type="text/x-template" id="dish-part-asks">
     <div class="plateInside-area">
-        <div class="asks-title">最新价 {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin.price * currentPrice).toFixed(4)}} {{priceCoin.lanType}}</div>
+        <div class="asks-title"><%= LANG('最新价')%> {{currentPrice}} {{$parent.moneyName}}≈ {{(priceCoin.price * currentPrice).toFixed(4)}} {{priceCoin.lanType}}</div>
         <ul class="title">
             <li>
-                <p class="sell-title"><span>卖盘</span></p>
+                <p class="sell-title"><span><%= LANG('卖盘')%></span></p>
                 <p><span><%= LANG('价格')%>({{$parent.moneyName}})</span></p>
                 <p><span><%= LANG('数量')%>({{$parent.coinName}})</span></p>
             </li>
@@ -138,7 +138,7 @@
                     var dom = this.BrowserType != 'FF' ? $('#asksWrap .tradeNew-table li') : $('#parent_direction-downs .tradeNew-table1 li')
                     dom.each(function (index, item) {
                         var num = index + 1
-                        $(item).find("p:first-child").html('卖' + num)
+                        $(item).find("p:first-child").html('<%=LANG('卖')%>' + num)
                     })
                 },
                 myBrowser() {

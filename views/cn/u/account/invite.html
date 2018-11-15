@@ -117,7 +117,7 @@
                         <%= LANG('实名用户总数')%> {{invitingUserData.totalRealCount || 0}}
                         <%= LANG('人') %></span>
                     <span>
-                        <%= LANG('总获得') %> {{invitingUserData.totalRealCount * 2 || 0}} XT</span>
+                        <%= LANG('总获得') %> {{invitingUserData.totalXtAmount || 0}} XT</span>
                 </li>
                 <li>
                     <span>
@@ -130,7 +130,7 @@
                         <%= LANG('本月实名用户数') %> {{invitingUserData.monthRealCount || 0}}
                         <%= LANG('人') %></span>
                     <span>
-                        <%= LANG('获得') %> {{invitingUserData.monthRealCount * 2 || 0}} XT</span>
+                        <%= LANG('获得') %> {{invitingUserData.monthXtAmount || 0}} XT</span>
                 </li>
             </ul>
         </div>
@@ -240,8 +240,9 @@
                 // 获取活动时间
                 getActivityTime() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyActivityTime",
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyActivityTime",
                         success: function (res) {
                             this.activityStartTime = res.datas.activityStartTime
                             this.activityEndTime = res.datas.activityEndTime
@@ -251,8 +252,9 @@
                 },
                 getInvitinguserList() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/xtuseridentifycontroller/identifyStatisticsList",
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/identifyStatisticsList",
                         data: {
                             userId: this.loginUser.userId,
                             month: this.month

@@ -161,7 +161,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId= res.datas.keyId;
@@ -187,7 +187,7 @@
                     }
                     Methods.ajax({
                         type: "POST",
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'setsecuritypassword',
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.resMsg.code == 1) {
@@ -213,7 +213,7 @@
                     }
                     Methods.ajax({
                         type: "POST",
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'setsecuritypassword',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'setsecuritypassword',
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.resMsg.code == 1) {
@@ -246,7 +246,7 @@
                     }
                     Methods.ajax({
                         type: "POST",
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'findsecuritypassword',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'findsecuritypassword',
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.resMsg.code == 1) {

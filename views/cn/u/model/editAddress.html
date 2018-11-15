@@ -184,7 +184,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -217,7 +217,7 @@
                     var data = {
                         // userId: this.loginUser.userId,
                         account: address,
-                        safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
+                        // safePwd: Methods.encryptPwd(this.safePwd, this.pubKey),
                         rsaKeyId: this.rsaKeyId,
                         googleCode: this.googleCode,
                         currencyId: this.currencyId,
@@ -245,7 +245,7 @@
                     Methods.ajax({
                         type: 'POST',
                         // url: DOMAIN_MAIN + API_PREFIX + 'doSetAddress',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundwebsitecontroller/" + 'dosetaddress',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doSetAddress',
                         data: JSON.stringify(data),
                         success: function (res) {
                             this.requestLocked = false;
@@ -253,7 +253,8 @@
                             this.safePwd = '';
                             this.dynamicCode = '';
                             this.googleCode = '';
-                            JuaBox.info(EXX.L(res.resMsg.message))
+                            // JuaBox.info(EXX.L(res.resMsg.message))
+                            JuaBox.info(EXX.L(res.resMsg.code))
                             this.$parent.close();
                             this.done()
                         }.bind(this),
@@ -275,7 +276,7 @@
                 getImageCode: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/userverifycontroller/" + 'getvalidatecode',
+                        url: DOMAIN_DEV + "/exchange/verifycode/controller/website/UserVerifyController/" + 'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;

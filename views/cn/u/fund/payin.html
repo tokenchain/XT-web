@@ -126,10 +126,11 @@
                 currencyTypeName: this.currentCoin
             };
           Methods.ajax({
-            type: 'POST',
+              type: 'GET',
               // url: DOMAIN_MAIN + API_PREFIX + 'getPayinAddress',
-            url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinAddress',
-            data: JSON.stringify(data),
+            url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinAddress',
+            // data: JSON.stringify(data),
+              data: data,
             success: function(res) {
               this.payin = res.datas;
             }.bind(this)
@@ -145,10 +146,10 @@
                 sort:0
             };
           Methods.ajax({
-              type: 'POST',
+              type: 'GET',
               // url: DOMAIN_MAIN + API_PREFIX + 'getPayinCoinRecord',
-              url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/' + 'getPayinCoinRecord',
-              data: JSON.stringify(data),
+              url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/' + 'getPayinCoinRecord',
+              data: data,
             success: function(res) {
               this.payinRecords = res.datas.payin;
             }.bind(this)

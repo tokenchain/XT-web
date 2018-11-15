@@ -298,7 +298,7 @@
                     var that = this;
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundController/getInvestTotal",
                         success: function (res) {
                             that.InvestTotal = res.datas
                             that.amountTo = 350000000 / that.InvestTotal.totalAmount
@@ -309,7 +309,7 @@
                 getPubKey: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/baseapicontroller/" + 'getpubkey',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -320,7 +320,7 @@
                 getmyzb: function () {
                     Methods.ajax({
                         type: 'POST',
-                        url: DOMAIN_DEV + '/exchange/fund/controller/website/fundcontroller/getUserInvestInfo',
+                        url: DOMAIN_DEV + '/exchange/fund/controller/website/FundController/getUserInvestInfo',
                         data: {
                             currencyTypeName: 'zb'
                         },

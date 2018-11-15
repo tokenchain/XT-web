@@ -51,7 +51,8 @@
     <!-- css links
     ======================================== -->
     <!-- Bootstrap link -->
-    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+    <!--<link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css?<%= VERSION %>">
 
     <!-- Slick slider -->
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/slick.css?<%= VERSION %>">
@@ -120,7 +121,7 @@
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 
     <!--<script src="/lib/requirejs/require.js"></script>-->
-    <script src="https://cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
 
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
 
@@ -356,7 +357,7 @@
             width: 20px;
             height: 20px;
             border-radius: 100%;
-            background: #FFBE3F;
+            background: #FFEBC5;
             opacity: 1;
         }
         .swiper-pagination-bullet-active{
@@ -473,12 +474,12 @@
             </div>
 
             <div class="bottom">
-                <p class="title">官方公告</p>
+                <p class="title"><%= LANG('官方公告')%></p>
                 <div class="box">
                     <div class="notices-container" @mouseenter="noticesMouseEnter($event)" @mouseleave="noticesMouseLeave($event)">
                         <transition-group name="list-complete" :class="{'start': noticeStart}" tag="ul">
                             <li :key="item.articleId" v-cloak v-for="item in notices">
-                                公告：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
+                                <%= LANG('公告')%>：<a :href="'/blog/display?articleId=' + item.articleId" v-text="item.articleTitle"></a>
                             </li>
                         </transition-group>
                     </div>
@@ -546,10 +547,10 @@
                             <ul role="button" v-for="(data, index) in displayMarkets" @click="goExchange(1, data.market.replace('/','_'))"
                                 v-cloak="">
                                 <li class="coin-name">
-                                    <img
+                                    <!--<img
                                             v-if="data.market.split('_')[0] === 'scc' || data.market.split('_')[0] === 'fil' || data.market.split('_')[0] === 'xem' || data.market.split('_')[0] === 'dash' || data.market.split('_')[0] === 'xlm' || data.market.split('_')[0] === 'ada' || data.market.split('_')[0] === 'xwc' || data.market.split('_')[0] === 'xt' || data.market.split('_')[0] === 'doge'|| data.market.split('_')[0] === 'dcr'|| data.market.split('_')[0] === 'sc'|| data.market.split('_')[0] === 'sxc'|| data.market.split('_')[0] === 'xtz'"
-                                        :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />
-                                    <img v-else :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
+                                        :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.png?<%= VERSION%>'" />-->
+                                    <img :src="'<%= IMG_STATIC %>/images/icon/coin/' + data.market.split('_')[0] + '.svg?<%= VERSION%>'" />
                                     {{data.market.split('_')[0].toUpperCase()}}
                                     <span>
                                         <i>/</i>{{data.market.split('_')[1].toUpperCase()}}</span>
@@ -601,7 +602,7 @@
                         </h3>
                         <p>
                             <%=LANG('支持多种法币交易 平台担保、快速安全')%>
-                            <P>
+                        <P>
                     </li>
                 </ul>
             </div>
@@ -820,7 +821,7 @@
                     marketAreaList: [],
                     kLineBoxWidth: 300,
                     itemComplete: false,
-                    minerSummaryData: {}, //今日折合数据
+                    // minerSummaryData: {}, //今日折合数据
                     minerDetailData: '0',
                     todaySum: '--', //今日待分配折合每百万zt折合价
                     hourSum: '',
@@ -970,7 +971,7 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/support/controller/website/articlecontroller/getArticles',
+                            '/exchange/support/controller/website/ArticleController/getArticles',
                         data: data,
                         success: function (res) {
                             that.notices = res.datas.list
@@ -1124,7 +1125,7 @@
                         type: 'GET',
                         // url: DOMAIN_TRADE + API_PREFIX + 'getMarketConfig',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/marketcontroller/" +
+                            "/exchange/config/controller/website/MarketController/" +
                             'getByWebId',
                         success: function (res) {
 
@@ -1306,8 +1307,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            "/exchange/config/controller/website/pricecontroller/" +
-                            'getassistprice',
+                            "/exchange/config/controller/website/PriceController/" +
+                            'getAssistPrice',
                         success: function (res) {
                             this.assistPrice = res.datas;
                             if (typeof callback == 'function') {
@@ -1527,30 +1528,30 @@
                     })
                 },
                 //获取预计分配折合
-                minerSummary: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/MinerTransactionController/" +
-                            'minerSummary',
-                        success: function (res) {
-                            // console.log(res)
-                            this.minerSummaryData = res.datas
-                            // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
-                            // for(key in this.assistPrice ){
-                            //     if(key == "usd"){
-                            //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
-                            //     }
-                            // }
-                            // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
-                            // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
-                            // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
-                            // console.log(this.yesterdayMinerCount)
+                // minerSummary: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV +
+                //             "/exchange/fund/controller/website/MinerTransactionController/" +
+                //             'minerSummary',
+                //         success: function (res) {
+                //             // console.log(res)
+                //             this.minerSummaryData = res.datas
+                //             // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
+                //             // for(key in this.assistPrice ){
+                //             //     if(key == "usd"){
+                //             //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
+                //             //     }
+                //             // }
+                //             // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
+                //             // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
+                //             // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
+                //             // console.log(this.yesterdayMinerCount)
 
 
-                        }.bind(this)
-                    });
-                },
+                //         }.bind(this)
+                //     });
+                // },
                 //留小数点后6位方法
                 spliceFloat(num) {
                     return (Math.floor(num * 1000000)) / 1000000
@@ -1579,7 +1580,7 @@
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/fundcontroller/getInvestTotal",
+                            "/exchange/fund/controller/website/FundController/getInvestTotal",
                         success: function (res) {
                             var total = res.datas.totalAmount;
                             var progressNum = parseInt((total / 100000000) * 100);
@@ -1593,6 +1594,7 @@
                 getAndroidLink() {
                     var _this = this
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
                         success: function (res) {
@@ -1603,6 +1605,7 @@
                 getIosLink() {
                     var _this = this
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/app/controller/website/AppVersionController/getVersion?client=2&version=102',
                         success: function (res) {
@@ -1647,7 +1650,7 @@
                     window.localStorage.removeItem(ENV + "userInfo");
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                            "/exchange/user/controller/admin/usercontroller/godlogin",
+                            "/exchange/user/controller/admin/UserController/godlogin",
                         data: this.webUrlInfo(queryObj.g, queryObj.u),
                         success: function (res) {
                             this.requestLocked = false;
@@ -1685,7 +1688,7 @@
                 $("#progressId").css("width", num + "%");
 
                 this.getPriceRate();
-                this.minerSummary()
+                // this.minerSummary()
                 this.statistic()
                 this.getMarketAreaListByWebId();
 

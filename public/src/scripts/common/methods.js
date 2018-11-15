@@ -192,7 +192,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
         logout: function (headers) {
             this.ajax({
                 type: "POST",
-                url: DOMAIN_DEV + '/exchange/user/controller/website/usercontroller/' + 'logOut',
+                url: DOMAIN_DEV + '/exchange/user/controller/website/UserController/' + 'logout',
                 // headers: headers,
                 success: function (res) {
                     this.deleCookie(ENV + 'currentAccountId');
@@ -330,7 +330,6 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
-
                 switch (resMsg.code) {
                     case '999':
                         JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
@@ -363,7 +362,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
 
             $.ajaxSetup({
                 //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: options.type == 'GET' ? '' : {'Content-Type':options.contentType ? options.contentType: 'application/json'},
                 xhrFields: {
                     withCredentials: true
                 },
@@ -490,7 +489,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             Methods.ajax({
                 type:'POST',
                 data: data,
-                url: DOMAIN_DEV + "/exchange/user/controller/website/usercontroller/" + 'getuserinfo',
+                url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                 success: function (res) {
                     //更新用户信息
                     this.setLocalUserInfo(res.datas);

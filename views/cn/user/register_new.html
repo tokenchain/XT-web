@@ -219,8 +219,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/verifycode/controller/website/userverifycontroller/" +
-                        'getvalidatecode',
+                        "/exchange/verifycode/controller/website/UserVerifyController/" +
+                        'getValidateCode',
                         success: function (res) {
                             this.imageCodeUrl = res.datas.img;
                             this.imgCodeId = res.datas.imgCodeId;
@@ -231,8 +231,8 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                        "/exchange/user/controller/website/baseapicontroller/" +
-                        'getpubkey',
+                        "/exchange/user/controller/website/BaseApiController/" +
+                        'getPubKey',
                         success: function (res) {
                             this.pubKey = res.datas.pubKey;
                             this.rsaKeyId = res.datas.keyId;
@@ -269,7 +269,7 @@
                         type: 'GET',
                         // url: DOMAIN_MAIN + API_PREFIX + 'checkUserName',
                         url: DOMAIN_DEV +
-                        "/exchange/user/controller/website/usercontroller/" +
+                        "/exchange/user/controller/website/UserController/" +
                         'checkUserName',
                         data: data,
                         success: function (res) {
@@ -377,7 +377,7 @@
                         Methods.ajax({
                             // url: DOMAIN_MAIN + API_PREFIX + 'register',
                             url: DOMAIN_DEV +
-                            "/exchange/user/controller/website/usercontroller/" +
+                            "/exchange/user/controller/website/UserController/" +
                             'register',
                             data: JSON.stringify(data),
                             success: function (res) {
