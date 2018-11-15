@@ -331,7 +331,6 @@
                         Methods.ajax({
                             url: url,
                             data: data,
-                            contentType:"application/x-www-form-urlencoded",
                             success: function (res) {
                                 _this.locked = false;
                                 Methods.getUserInfo(function (datas) {//重新获取用户信息并保存到本地用户信息

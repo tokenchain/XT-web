@@ -254,6 +254,9 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             options.url = options.url || '';
             options.type = options.type || 'POST';
             options.data = options.data || {};
+            if (typeof options.data == 'object' && options.type == 'POST') {
+                options.data = JSON.stringify(options.data)
+            }
             if (typeof options.data == 'object') {
                 // form data或get传参
                 /**
@@ -362,7 +365,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
 
             $.ajaxSetup({
                 //headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                headers: options.type == 'GET' ? '' : {'Content-Type':options.contentType ? options.contentType: 'application/json'},
+                headers: options.type == 'GET' ? '' : {'Content-Type': 'application/json'},
                 xhrFields: {
                     withCredentials: true
                 },
