@@ -246,7 +246,7 @@
                     }
                     Methods.ajax({
                         type: "POST",
-                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'findsecuritypassword',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'findSecurityPassword',
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.resMsg.code == 1) {

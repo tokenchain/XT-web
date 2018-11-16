@@ -1130,7 +1130,7 @@
                         // url: DOMAIN_MAIN + API_PREFIX + 'editAssistCoin',
                         url: DOMAIN_DEV +
                             "/exchange/user/controller/website/UserController/" +
-                            'editassistcoin',
+                            'editAssistCoin',
                         data: JSON.stringify(data),
                         success: function (res) {
                             Methods.setCookie(ENV + 'mname', coin);
@@ -1142,7 +1142,7 @@
                 getUserInfo: function () {
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_MAIN + API_PREFIX + 'getuserinfo',
+                        url: DOMAIN_MAIN + API_PREFIX + 'getUserInfo',
                         success: function (res) {
                             //this.allSubAccounts = res.datas.accounts;
                         }.bind(this)
@@ -1206,7 +1206,7 @@
                     var that = this;
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/FundMinerStatController/todayminerstat",
+                            "/exchange/fund/controller/website/FundMinerStatController/todayMinerStat",
                         success: function (res) {
                             that.todayminerstatDta = res.datas
                         },
@@ -1240,7 +1240,7 @@
                         function () {
                             Methods.ajax({
                                 url: DOMAIN_DEV +
-                                    "/exchange/fund/controller/website/FundMinerStatController/closeminer",
+                                    "/exchange/fund/controller/website/FundMinerStatController/closeMiner",
                                 success: function (res) {
                                     that.getuserfeetotal()
                                     that.todayminerstat()

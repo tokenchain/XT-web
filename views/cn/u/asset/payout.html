@@ -700,7 +700,7 @@
                     };
                     Methods.ajax({
                         // url: DOMAIN_MAIN + API_PREFIX + 'doCancelPayout',
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'docancelpayout',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'doCancelPayout',
                         data: data,
                         success: function (res) {
                             this.getPayoutCoinRecord();
@@ -715,7 +715,7 @@
                         userApplyWithdrawId: record.userApplyWithdrawId
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getwithdrawaltxid',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getWithdrawalTxId',
                         data: data,
                         success: function (res) {
                             var txid = res.datas;
