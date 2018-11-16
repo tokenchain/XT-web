@@ -715,7 +715,8 @@
                         userApplyWithdrawId: record.userApplyWithdrawId
                     };
                     Methods.ajax({
-                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getWithdrawalTxId',
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/fund/controller/website/FundWebSiteController/" + 'getWithdrawTxId',
                         data: data,
                         success: function (res) {
                             var txid = res.datas;
