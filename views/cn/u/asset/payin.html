@@ -131,12 +131,12 @@
                             <div class="body">
                                 <ul class="list">
                                     <li v-for="record in payinRecords" v-if="payinRecords.length > 0">
-                                        <p>{{record.createTime.split('.')[0]}}</p>
+                                        <p style="font-size: 14px;">{{record.createTime.split('.')[0]}}</p>
                                         <p v-if="record.type == 1"><%= LANG('区块链转入') %></p>
                                         <p v-else-if="record.type == 2"><%= LANG('内部转入') %></p>
                                         <p v-else-if="record.type == 3"><%= LANG('充值') %></p>
                                         <p v-else-if="record.type == 4"><%= LANG('系统转账') %></p>
-                                        <p>+ {{record.amount}}</p>
+                                        <p>+ {{parseFloat(record.amount)}}</p>
                                         <p>{{record.depositTime ? record.depositTime.split('.')[0] : '--'}}</p>
                                         <p>{{record.confirmTimes}}</p>
                                         <p>{{record.status == 0 ? '<%= LANG('未到账') %>' : '<%= LANG('已到账') %>'}}</p>
@@ -328,7 +328,8 @@
                         data: data,
                         success: function (res) {
                             this.payinRecords = res.datas.list;
-                            this.pageCount = res.datas.list.length;
+                            this.pageCount = res.datas.totalRow;
+                            this.totalPage = res.datas.totalPage;
                         }.bind(this)
                     });
                 },

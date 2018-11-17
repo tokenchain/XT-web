@@ -69,7 +69,7 @@
                             <p>{{bill.createTime.split('.')[0]}}</p>
                             <p :class="{'buyColor' :bill.changeType==1, 'sellColor':bill.changeType==2 }">{{getChangeName(bill.changeType)}}</p>
                             <p><span :class="[bill.changeAmount > 0 ? 'green-color' : 'red-color']">{{getChangeAmount(bill.changeAmount)}} {{coinsId[bill.currencyTypeId].toUpperCase()}}</span></p>
-                            <p>{{bill.feeAmount}}</p>
+                            <p>{{parseFloat(bill.feeAmount)}}</p>
                         </li>
                         <li class="norecord" v-if="billRecords.length == 0"><%= LANG('暂无记录')%></li>
                     </ul>
@@ -140,33 +140,53 @@
                             changTypeId: 6,
                             changTypeName: '<%= LANG("系统扣款") %>',
                         },
-                        // {
-                        //     changTypeId:13,
-                        //     changTypeName: '<%= LANG("挖矿奖励") %>',
-                        // },
-                        // {
-                        //     changTypeId:14,
-                        //     changTypeName: '<%= LANG("分红") %>',
-                        // },
+                        {
+                            changTypeId: 7,
+                            changTypeName: '<%= LANG("站内转账") %>',
+                        },
+                        {
+                            changTypeId: 8,
+                            changTypeName: '<%= LANG("其他变动") %>',
+                        },
+                        {
+                            changTypeId: 9,
+                            changTypeName: '<%= LANG("资金转入杠杆") %>',
+                        },
+                        {
+                            changTypeId: 10,
+                            changTypeName: '<%= LANG("资金转出杠杆") %>',
+                        },
+                        {
+                            changTypeId: 11,
+                            changTypeName: '<%= LANG("杠杆借款") %>',
+                        },
+                        {
+                            changTypeId: 12,
+                            changTypeName: '<%= LANG("杠杆还款") %>',
+                        },
+                        {
+                            changTypeId:13,
+                            changTypeName: '<%= LANG("挖矿奖励") %>',
+                        },
+                        {
+                            changTypeId:14,
+                            changTypeName: '<%= LANG("分红") %>',
+                        },
                         {
                             changTypeId: 15,
-                            changTypeName: '<%= LANG("系统间转账") %>',
+                            changTypeName: '<%= LANG("商户之间互相转账") %>',
                         },
                         {
                             changTypeId: 16,
-                            changTypeName: '<%= LANG("推荐大赛奖励") %>',
+                            changTypeName: '<%= LANG("交易佣金奖励") %>',
                         },
-                        // {
-                        //     changTypeId:17,
-                        //     changTypeName: '<%= LANG("挖矿推荐奖励") %>',
-                        // },
-                        // {
-                        //     changTypeId:-1000,
-                        //     changTypeName: '<%= LANG("ZT释放记录") %>',
-                        // },
                         {
-                            changTypeId: 22,
-                            changTypeName: '<%= LANG("活动奖励") %>',
+                            changTypeId:22,
+                            changTypeName: '<%= LANG("获得奖励") %>',
+                        },
+                        {
+                            changTypeId: 103,
+                            changTypeName: '<%= LANG("系统充值冻结") %>',
                         },
                     ],
                     timeType: '0',
@@ -251,18 +271,30 @@
                             return '<%= LANG("系统充值") %>';
                         case 6:
                             return '<%= LANG("系统扣款") %>';
+                        case 7:
+                            return '<%= LANG("站内转账") %>';
+                        case 8:
+                            return '<%= LANG("其他变动") %>';
+                        case 9:
+                            return '<%= LANG("资金转入杠杆") %>';
+                        case 10:
+                            return '<%= LANG("资金转出杠杆") %>';
+                        case 11:
+                            return '<%= LANG("杠杆借款") %>';
+                        case 12:
+                            return '<%= LANG("杠杆还款") %>';
                         case 13:
                             return '<%= LANG("挖矿奖励") %>';
-                        // case 14:
-                        //     return '<%= LANG("分红") %>';
+                        case 14:
+                            return '<%= LANG("分红") %>';
                         case 15:
-                            return '<%= LANG("系统间转账") %>';
+                            return '<%= LANG("商户之间互相转账") %>';
                         case 16:
-                            return '<%= LANG("推荐奖励") %>';
-                        case 17:
-                            return '<%= LANG("挖矿推荐奖励") %>';
-                        case -1000:
-                            return '<%= LANG("ZT释放") %>';
+                            return '<%= LANG("交易佣金奖励") %>';
+                        case 22:
+                            return '<%= LANG("获得奖励") %>';
+                        case 103:
+                            return '<%= LANG("系统充值冻结") %>';
                     }
                 },
                 showDate: function (date) {
@@ -322,7 +354,6 @@
                             this.billRecords = res.datas.list;
                             this.pageCount = res.datas.totalRow;
                             this.totalPage = res.datas.totalPage;
-                            console.log(this.totalPage)
                         }.bind(this)
                     });
                 },

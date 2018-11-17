@@ -274,7 +274,7 @@
 
         </div>
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getPayoutCoinRecord"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :total-page="totalPage" :turn-page="getPayoutCoinRecord"
                    v-if="payoutRecords.length > 0 || pageIndex > 1"></page-lite>
 
         <!--添加编辑地址-->
@@ -305,6 +305,7 @@
                     pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
+                    totalPage: 0,
                     step: 1,
                     pubKey: '',
                     rsaKeyId:'',
@@ -581,7 +582,8 @@
                             this.payoutRecords = res.datas.list;
                             this.payoutRecordsSwitch = true;
 
-                            this.pageCount = res.datas.list.length;
+                            this.totalPage = res.datas.totalPage;
+                            this.pageCount = res.datas.totalRow;
                         }.bind(this)
                     });
                 },
