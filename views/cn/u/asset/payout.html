@@ -160,14 +160,12 @@
                     <div class="form-box">
                         <div class="form-group">
                             <div class="form-control">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input placeholder="<%= LANG('已选择的提币地址') %>" readonly="readonly"
                                        v-model="selectedAddress.address" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control">
-                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('提币数量') %>" v-model.number="payoutAmount" type="number">
                                 <p class="form-text" style="margin-top: 10px;cursor: pointer;"
                                    @click="payoutAmount = canUseAmount"><%= LANG('可用') %>：<em>{{canUseAmount}}</em></p>
@@ -184,14 +182,12 @@
                         <!--</div>-->
                         <div class="form-group">
                             <div class="form-control" style="display: block !important;">
-                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                                 <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-control" v-if="loginUser.withdrawAuth == 3 || loginUser.withdrawAuth == 7">
-                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="payoutDynamicCode"
                                        type="text">
                                 <send-code :code-type="3"

@@ -18,7 +18,6 @@
                             <!--</label>-->
                             <label class="control-label"><%= LANG('提币地址') %>：</label>
                             <div class="form-control">
-                                <img src="/src/images/user.png" class="title" alt="">
                                 <input autocomplete="off"
                                        :placeholder="(needMemoCoinList.indexOf(coin)>-1) ? '<%= LANG('账户') %>' : '<%= LANG('提币地址') %>'"
                                        v-model="selectedAddress.address" type="text" :readonly="type != 'add'"/>
@@ -27,7 +26,6 @@
                         <div class="form-group" v-if="needMemoCoinList.indexOf(coin)>-1">
                             <label class="control-label"><%= LANG('备注') %>(MEMO)：</label>
                             <div class="form-control">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('备注') %>(MEMO)"
                                        v-model="selectedAddress.btsMemo" type="text" :readonly="type != 'add'"/>
                                 <p style="color:#f00;padding-top: 5px">* 提币到交易所为必填项！</p>
@@ -36,7 +34,6 @@
                         <div class="form-group">
                             <label class="control-label"><%= LANG('地址备注') %>：</label>
                             <div class="form-control">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('地址备注') %>"
                                        v-model="selectedAddress.remark" type="text" :readonly="type == 'dele'"/>
                             </div>
@@ -59,7 +56,6 @@
                         <div class="form-group" v-if="type!='dele'">
                             <label class="control-label"><%= LANG('图形验证码') %>：</label>
                             <div class="form-control" style="display: block !important;">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                                 <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                             </div>
@@ -67,7 +63,6 @@
                         <div v-if="type != 'dele'" class="form-group">
                             <label class="control-label"><%= LANG('动态验证码') %>：</label>
                             <div class="form-control">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
                                        type="text">
                                 <send-code :code-type="3"
@@ -84,7 +79,6 @@
                         <div v-if="(loginUser.googleAuth == 1 || loginUser.googleAuth == -1) " class="form-group">
                             <label class="control-label"><%= LANG('谷歌验证码') %>：</label>
                             <div class="form-control">
-                                <img src="/src/images/pass.png" class="title" alt="">
                                 <input autocomplete="off" placeholder="<%= LANG('谷歌验证码') %>" v-model="googleCode"
                                        type="text"/>
                             </div>

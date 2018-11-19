@@ -71,7 +71,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/juabox.css?<%= VERSION %>">
 
-    <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script>
+    <!-- <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script> -->
     <link href="<%= STYLE_STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 </head>
@@ -112,11 +112,11 @@
     <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
     <!-- pie chart -->
     <!-- <script src="/src/js/highcharts.js"></script>-->
-    <script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <!-- <script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script> -->
     <!-- <script src="/src/js/highcharts-3d.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.2/highcharts-3d.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.2/highcharts-3d.js"></script> -->
     <!-- <script src="/src/js/exporting.js"></script> -->
-    <script src="https://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+    <!-- <script src="https://cdn.hcharts.cn/highcharts/modules/exporting.js"></script> -->
     <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 
@@ -380,7 +380,7 @@
             }
         }
     </style>
-    <script>
+    <!-- <script>
         window.onload = function () {
         var language = getCookie('wlan')
 
@@ -443,15 +443,15 @@
             ]
         };
 
-        // 使用刚指定的配置项和数据显示图表。
-        // myChart.setOption(option);
-        // setTimeout(function (){
-        //     window.onresize = function () {
-        //         myChart.resize();
-        //     }
-        // },200)
-    }
-</script>
+            // 使用刚指定的配置项和数据显示图表。
+            // myChart.setOption(option);
+            // setTimeout(function (){
+            //     window.onresize = function () {
+            //         myChart.resize();
+            //     }
+            // },200)
+        }
+    </script> -->
 
     <div id="zbg-index">
         <section class="banner">
@@ -695,71 +695,6 @@
             </div>
         </section>
         <!-- End of .roadmap-to-success -->
-
-        <!-- Team Modal -->
-        <div class="team-modal modal fade" id="team-modal" tabindex="-1" role="dialog" aria-labelledby="team-modal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-
-                    <div class="modal-body">
-                        <div class="row align-items-center text-center">
-                            <div class="col-md-12">
-                                <div class="img-container">
-                                    <img src="<%= IMG_STATIC %>/images/zbg/images/team/members/team-1.jpg" alt="team modal image"
-                                        class="img-fluid">
-                                </div>
-                                <!-- End of .img-container -->
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="member-details">
-                                    <h3>Randall Jenkins
-                                        <span>Founder &amp; CEO</span>
-                                    </h3>
-                                    <p>Morbi porttitor fermentum faucibus. Nullam feugiat egestas lacus in bibendum.
-                                        Morbi
-                                        sed augue at arcu viverra rhoncus eget condimentum arcu. Aliquam aliquet
-                                        laoreet
-                                        tortor, quis mattis arcu pulvinar vitae. Mauris.</p>
-                                    <div class="social-icons social-icons__team-details">
-                                        <a href="https://www.facebook.com" target="_blank" rel="noopener">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="https://www.twitter.com" target="_blank" rel="noopener">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                        <a href="https://www.instagram.com" target="_blank" rel="noopener">
-                                            <i class="fab fa-instagram"></i>
-                                        </a>
-                                        <a href="https://www.youtube.com" target="_blank" rel="noopener">
-                                            <i class="fab fa-youtube"></i>
-                                        </a>
-                                        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">
-                                            <i class="fab fa-linkedin-in"></i>
-                                        </a>
-                                        <a href="https://www.pinterest.com" target="_blank" rel="noopener">
-                                            <i class="fab fa-pinterest-p"></i>
-                                        </a>
-                                    </div>
-                                    <!-- End of .social-icons -->
-                                </div>
-                                <!-- End of .member-details -->
-                            </div>
-                            <!-- End of .col-md-6 -->
-                        </div>
-                        <!-- End of .row -->
-                    </div>
-                    <!-- End of .modal-body -->
-                </div>
-                <!-- End of .modal-content -->
-            </div>
-            <!-- End of .modal-dialogue -->
-        </div>
-        <!-- End of .team-modal -->
     </div>
 </body>
 </html>

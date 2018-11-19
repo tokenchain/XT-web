@@ -65,7 +65,8 @@
                     </div>
                     <ul v-else class="list">
                         <li v-for="bill in billRecords" v-if="billRecords.length > 0 && Object.keys(coinsId).length > 0">
-                            <p><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'">{{coinsId[bill.currencyTypeId].toUpperCase()}}</p>
+                            <!-- <p><img :src="'/src/images/icon/market-icon/market-'+ coinsId[bill.currencyTypeId].toLowerCase() +'.png'">{{coinsId[bill.currencyTypeId].toUpperCase()}}</p> -->
+                            <p><img :src="'/src/images/icon/coin/'+ coinsId[bill.currencyTypeId].toLowerCase() +'.svg'">{{coinsId[bill.currencyTypeId].toUpperCase()}}</p>
                             <p>{{bill.createTime.split('.')[0]}}</p>
                             <p :class="{'buyColor' :bill.changeType==1, 'sellColor':bill.changeType==2 }">{{getChangeName(bill.changeType)}}</p>
                             <p><span :class="[bill.changeAmount > 0 ? 'green-color' : 'red-color']">{{getChangeAmount(bill.changeAmount)}} {{coinsId[bill.currencyTypeId].toUpperCase()}}</span></p>
@@ -140,10 +141,10 @@
                             changTypeId: 6,
                             changTypeName: '<%= LANG("系统扣款") %>',
                         },
-                        // {
-                        //     changTypeId: 7,
-                        //     changTypeName: '<%= LANG("站内转账") %>',
-                        // },
+                        {
+                            changTypeId: 7,
+                            changTypeName: '<%= LANG("站内转账") %>',
+                        },
                         // {
                         //     changTypeId: 8,
                         //     changTypeName: '<%= LANG("其他变动") %>',
