@@ -110,13 +110,6 @@
     <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>-->
     <script src="https://cdn.bootcss.com/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
-    <!-- pie chart -->
-    <!-- <script src="/src/js/highcharts.js"></script>-->
-    <!-- <script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script> -->
-    <!-- <script src="/src/js/highcharts-3d.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.2/highcharts-3d.js"></script> -->
-    <!-- <script src="/src/js/exporting.js"></script> -->
-    <!-- <script src="https://cdn.hcharts.cn/highcharts/modules/exporting.js"></script> -->
     <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 
@@ -767,7 +760,7 @@
                     min: 0,
                     sec: 0,
                     transitiongoal: '10', //动画效果
-                    statisticData: '',
+                    // statisticData: '',
                     android: '',
                     ios: '',
                     navActive: 'hot',
@@ -1447,46 +1440,6 @@
                         }.bind(this)
                     });
                 },
-                statistic: function () {
-                    var that = this;
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/fund/controller/website/FundMinerStatController/statistic",
-                        success: function (res) {
-                            that.statisticData = res.datas
-                        },
-                        error: function (res) {
-                            var resMsg = res.resMsg;
-                            // authErrorUi(EXX.L(resMsg.message));
-                        }
-                    })
-                },
-                //获取预计分配折合
-                // minerSummary: function () {
-                //     Methods.ajax({
-                //         type: 'GET',
-                //         url: DOMAIN_DEV +
-                //             "/exchange/fund/controller/website/MinerTransactionController/" +
-                //             'minerSummary',
-                //         success: function (res) {
-                //             // console.log(res)
-                //             this.minerSummaryData = res.datas
-                //             // this.todaySum =this.spliceFloat(this.minerSummaryData.todayDividendSummary);
-                //             // for(key in this.assistPrice ){
-                //             //     if(key == "usd"){
-                //             //         this.todaySum=this.spliceFloat(this.assistPrice[key]["btc"]*(this.minerSummaryData.todayDividendSummary));
-                //             //     }
-                //             // }
-                //             // this.hourSum =this.spliceFloat(this.minerSummaryData.currentHourDividendSummary)
-                //             // this.todayMinerIncome =  this.spliceFloat(this.minerSummaryData.todayMinerIncome)
-                //             // this.yesterdayMinerCount = this.spliceFloat(this.minerSummaryData.yesterdayMinerCount)
-                //             // console.log(this.yesterdayMinerCount)
-
-
-                //         }.bind(this)
-                //     });
-                // },
                 //留小数点后6位方法
                 spliceFloat(num) {
                     return (Math.floor(num * 1000000)) / 1000000
@@ -1624,7 +1577,7 @@
 
                 this.getPriceRate();
                 // this.minerSummary()
-                this.statistic()
+                // this.statistic()
                 this.getMarketAreaListByWebId();
 
                 this.getMarketConfig(function () {
@@ -1783,108 +1736,6 @@
                             clearInterval(timerID)
                         }
                     }, 1000)
-
-                    // Token slider
-
-                    //Highchart
-                    var stctimerId = setInterval(function () {
-                        if (that.statisticData) {
-                            console.log((that.statisticData.totalFounderLockPercent *
-                                10000) / 100)
-                            clearInterval(stctimerId)
-                            if ($('.pie-chart').length > 0) {
-                                Highcharts.chart('container', {
-                                    chart: {
-                                        type: 'pie',
-                                        options3d: {
-                                            enabled: true,
-                                            alpha: 45
-                                        }
-                                    },
-                                    title: {
-                                        text: 'Contents of Highsoft\'s weekly fruit delivery'
-                                    },
-                                    subtitle: {
-                                        text: '3D donut in Highcharts'
-                                    },
-                                    plotOptions: {
-                                        pie: {
-                                            innerSize: 100,
-                                            depth: 45
-                                        }
-                                    },
-                                    series: [{
-                                        name: "<%= LANG('实际数量(万)') %>",
-                                        data: [
-                                            [
-                                                "<%= LANG('团队持有并锁定') %>" +
-                                                Math.floor(
-                                                    that.statisticData
-                                                    .totalFounderLockPercent *
-                                                    10000) /
-                                                100 + "%",
-                                                Number(that
-                                                    .statisticData
-                                                    .totalFounderLockAmount
-                                                )
-                                            ],
-                                            [
-                                                "<%= LANG('团队持有并解锁') %>" +
-                                                Math.floor(
-                                                    that.statisticData
-                                                    .totalFounderReleasePercent *
-                                                    10000) /
-                                                100 + "%",
-                                                Number(that
-                                                    .statisticData
-                                                    .totalFounderReleaseAmount
-                                                )
-                                            ],
-                                            [
-                                                "<%= LANG('换码ZT并锁定') %> " +
-                                                Math.floor(
-                                                    that.statisticData
-                                                    .totalMarketLockPercent *
-                                                    10000) /
-                                                100 + "%",
-                                                Number(that
-                                                    .statisticData
-                                                    .totalMarketLockAmount
-                                                )
-                                            ],
-                                            [
-                                                "<%= LANG('换码ZT已解锁') %>" +
-                                                Math.floor(
-                                                    that.statisticData
-                                                    .totalMarketReleasePercent *
-                                                    10000) /
-                                                100 + "%",
-                                                Number(that
-                                                    .statisticData
-                                                    .totalMarketReleaseAmount
-                                                )
-                                            ],
-                                            [
-                                                " <%= LANG('已销毁') %>" +
-                                                Math.floor(
-                                                    that.statisticData
-                                                    .totalDestroyPercent *
-                                                    10000) /
-                                                100 + "%",
-                                                Number(that
-                                                    .statisticData
-                                                    .totalDestroyAmount
-                                                )
-                                            ]
-                                        ]
-                                    }]
-                                });
-                            }
-
-                        }
-
-                    }, 1000)
-
 
                     //SVG Line animation
                     $(".roadmap-to-success").each(function () {
