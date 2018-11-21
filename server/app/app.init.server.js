@@ -43,8 +43,10 @@ module.exports = function (app) {
     app.use(function (req, res, next) {
 
         console.log(req.cookies, '--------req.cookies---------')
+        console.log(req.query, '--------req.query---------')
 
-        var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
+        // var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
+        var reqLAN = req.cookies[ENV + "lan"];
         //语言类别检测
         if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk" || reqLAN == "jp" || reqLAN == "kr")) {
             global.LAN = reqLAN;
