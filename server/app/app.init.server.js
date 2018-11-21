@@ -42,6 +42,7 @@ module.exports = function (app) {
     //多语言支持设置
     app.use(function (req, res, next) {
 
+        console.log(req.cookies, '--------req.cookies---------')
 
         var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
         //语言类别检测
