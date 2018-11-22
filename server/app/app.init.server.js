@@ -51,6 +51,9 @@ module.exports = function (app) {
         if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk" || reqLAN == "jp" || reqLAN == "kr")) {
             global.LAN = reqLAN;
         }
+        if (!global.LAN) {
+            console.error('global.LAN 赋值失败!!!!!!!!!!!!!!!!!!!!!!!')
+        }
         /*for(var key in global.WEB.LAN){
             console.log(reqLAN ,key)
             if(reqLAN == key){
