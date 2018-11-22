@@ -1590,6 +1590,8 @@
             },
             mounted: function () {
                 console.log(LAN, '------global.LAN------')
+                console.log('<%= LAN %>', '------<%= LAN %>------')
+                console.log(GLOBAL['LAN'], '------global.LAN------')
                 //及时更新dom
                 Vue.nextTick(function () {
                     this.initSwiper()
