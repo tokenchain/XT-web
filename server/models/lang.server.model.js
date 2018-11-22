@@ -84,7 +84,7 @@ module.exports = function (LAN) {
             } else {
                 result = LANGPACK[key][currentLang];
             }
-            console.log(result, '-----result  lang.server.model.js----')
+            // console.log(result, '-----result  lang.server.model.js----')
             if (result == "") {
                 if (currentLang == "hk") {
                     key = toFT(key);
@@ -97,13 +97,13 @@ module.exports = function (LAN) {
                     result = result.replace(eval('/\\[\\$' + i + '\\]/g'), arguments[i]);
                 }
             }
-            console.log(result, '-----result  lang.server.model.js----')
+            // console.log(result, '-----result  lang.server.model.js----')
             return result;
         } catch (e) {
             if (currentLang == "hk") {
                 key = toFT(key);
             }
-            console.log(key, '-----key catch  lang.server.model.js----')
+            // console.log(key, '-----key catch  lang.server.model.js----')
             return key;
         }
     }

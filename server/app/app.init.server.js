@@ -41,7 +41,6 @@ module.exports = function (app) {
 
     //多语言支持设置
     app.use(function (req, res, next) {
-        debugger
         console.log(req.cookies, '--------req.cookies  app.init.server.js--------')
         console.log(req.query, '--------req.query  app.init.server.js---------')
 
@@ -68,6 +67,11 @@ module.exports = function (app) {
         //app.locals > global
         app.locals.PATH = req.path;
         app.locals.LANG = global.LANG(LAN);
+
+        console.log(app.locals.LANG, '---------app.locals.LANG   app.init.server.js-----------')
+        console.log(global.LAN, '---------global.LAN   app.init.server.js-----------')
+        console.log(global.LANG(LAN), '---------global.LANG(LAN)   app.init.server.js-----------')
+        
         app.locals.WEB = global.WEB(LAN);
 
         app.locals.LEGAL = global.LEGAL;
