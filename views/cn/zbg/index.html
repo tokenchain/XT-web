@@ -34,9 +34,7 @@
     ======================================== -->
     <title>XT.com</title>
 
-    <!-- <link rel="stylesheet" type="text/css" href="/lib/swiper/swiper-4.3.3.min.css"> -->
     <link href="https://cdn.bootcss.com/Swiper/4.3.3/css/swiper.min.css" rel="stylesheet">
-    <!-- <script type="text/javascript" src="/lib/swiper/swiper-4.3.3.min.js"></script> -->
     <script src="https://cdn.bootcss.com/Swiper/4.3.3/js/swiper.min.js"></script>
 
     <!-- links for favicon
@@ -50,8 +48,6 @@
 
     <!-- css links
     ======================================== -->
-    <!-- Bootstrap link -->
-    <!--<link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">-->
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css?<%= VERSION %>">
 
     <!-- Slick slider -->
@@ -68,52 +64,39 @@
     <!-- Responsive styling -->
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/responsive.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
-    <!-- <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>"> -->
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/juabox.css?<%= VERSION %>">
 
-    <!-- <script type="text/javascript" src="/lib/eCharts/echarts.common.min.js"></script> -->
     <link href="<%= STYLE_STATIC %>/styles/common/animate.css?<%= VERSION %>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/lib/wow/wow.min.js?<%= VERSION %>"></script>
 </head>
 
 <body class="home">
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <%-include("../include/head.html")%>
 
-    <!-- jQuery -->
-
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-migrate.min.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery-migrate/1.4.1/jquery-migrate.min.js"></script>
     <!-- Bootstrap js -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap.bundle.min.js"></script>
     <!-- font awesome -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
     <!-- jQuery Countdown plugin -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.countdown.min.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
     <!-- jQuery Easing Plugin -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/easing-1.3.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery-easing/1.3/jquery.easing.min.js"></script>
     <!-- jQuery progressbar plugin -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.waypoints.min.js"></script> -->
     <script src="https://cdn.bootcss.com/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <!-- Bootstrap Progressbar -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/bootstrap-progressbar.min.js"></script> -->
     <script src="https://cdn.bootcss.com/bootstrap-progressbar/0.9.0/bootstrap-progressbar.min.js"></script>
     <!-- ImagesLoaded js -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/imagesloaded.pkgd.min.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js"></script>
     <!-- Slick carousel js -->
     <script src="<%= STATIC %>/scripts/zbg/js/vendor/slick.min.js"></script>
     <!-- Magnific popup -->
-    <!-- <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery.magnific-popup.min.js"></script>-->
     <script src="https://cdn.bootcss.com/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/login/jquery.drawsvg.min.js?<%= VERSION %>"></script>
     <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
 
-    <!--<script src="/lib/requirejs/require.js"></script>-->
     <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
 
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
@@ -373,78 +356,6 @@
             }
         }
     </style>
-    <!-- <script>
-        window.onload = function () {
-        var language = getCookie('wlan')
-
-        //首页图表字体自适应
-        function getDpr(){
-            var dpr = document.body.offsetWidth;
-            if (dpr < 285) {
-                return 20;
-            } else if (dpr < 203) {
-                return 13
-            } else {
-                return 30;
-            }
-        }
-
-        // var myChart = echarts.init(document.getElementById('chartBox'));
-        // 指定图表的配置项和数据
-        option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'horizontal',
-                bottom:'0',
-                data: language === 'cn' ? ['市场推广', 'XT基金会', '创始团队', '会员回馈'] : ['Market promotion', 'XT Foundation', 'Founding team', 'Member feedback']
-            },
-            series: [
-                {
-                    name: language === 'cn' ? '占比' : 'proportion',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: getDpr(),
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
-                    },
-                    color: ['#4aacc5', '#d48265', '#91c7ae', '#7cb4ed'],
-                    data:[
-                        {value:10000000, name: language === 'cn' ? '市场推广' : 'Market promotion'},
-                        {value:20000000, name: language === 'cn' ? 'XT基金会' : 'XT Foundation'},
-                        {value:20000000, name: language === 'cn' ? '创始团队' : 'Founding team'},
-                        {value:50000000, name: language === 'cn' ? '会员回馈' : 'Member feedback'}
-                    ]
-                }
-            ]
-        };
-
-            // 使用刚指定的配置项和数据显示图表。
-            // myChart.setOption(option);
-            // setTimeout(function (){
-            //     window.onresize = function () {
-            //         myChart.resize();
-            //     }
-            // },200)
-        }
-    </script> -->
 
     <div id="zbg-index">
         <section class="banner">
@@ -566,8 +477,6 @@
                     </div>
                 </div>
             </div>
-
-
         </section>
 
         <section class="advantage">
@@ -692,9 +601,6 @@
 </body>
 </html>
 
-<%-include("../include/footer.html")%>
-<%-include("../component/inline_chart.html")%>
-
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var homeMarket = new Vue({
@@ -705,8 +611,7 @@
                     marketInit: false,
                     keyWord: '',
                     mLength: 0,
-                    //rateUp,rateDown,volumeUp,volumeDown
-                    sortBy: 'lastPrice', //'rateDown',
+                    sortBy: 'lastPrice', //rateDown, rateUp, rateDown, volumeUp, volumeDown, lastPrice
                     assistPrice: null,
                     dWidth: window.document.body.offsetWidth,
                     markets: [],
@@ -767,7 +672,6 @@
                     markerShow: "XT",
                     masInput: '', //搜索数据
                     currentColor: '#c0c0ec',
-                    testMarkets: [],
                     noticeStart: false, //滚动开关
                     noticeTimer: null,
                     notices: [],
@@ -775,23 +679,6 @@
                 }
             },
             computed: {
-                showTestMarkets() {
-                    switch (this.marketsTab) {
-                        case 'hot':
-                            return this.testMarkets;
-                            break;
-                        case 'qc':
-                            return this.selectMarkets('qc');
-                            break;
-                        case 'usdt':
-                            return this.selectMarkets('usdt');
-                            break;
-                        case 'btc':
-                            return this.selectMarkets('btc');
-                            break;
-
-                    }
-                },
                 // 将市场id转为 市场名字符串 返回对象
                 marketsIdSwitch: function () {
                     var marketId = {};
@@ -822,17 +709,6 @@
                     });
                     return this.doSortMarket(this.convertMarket(markets));
                 },
-                //暂弃用
-                mockMarkets: function () {
-                    var markets = {};
-                    var oriMarkets = this.markets;
-                    Object.keys(this.markets).map(function (market) {
-                        if (oriMarkets[market]) {
-                            markets[market] = oriMarkets[market];
-                        }
-                    });
-                    return this.doSortMarket(this.convertMarket(markets));
-                },
                 //过滤要显示的市场
                 displayMarkets: function () {
                     var type = this.marketsTab;
@@ -844,7 +720,6 @@
                         if (type === 'hot') {
                             return this.hotMarkets
                         } else if (type === 'mock') {
-                            // return this.mockMarkets
                             return [];
                         } else {
                             return this.marketsForCoin(type);
@@ -852,7 +727,6 @@
                     }
                 },
             },
-            
             methods: {
                 initSwiper: function () {
                     var mySwiper = new Swiper('.swiper-container', {
@@ -953,46 +827,6 @@
                 },
                 emptySearch: function () {
                     this.keyWord = ''
-                },
-                //获取所有市场
-                test() {
-                    var arr = []
-                    var _this = this
-                    $.ajax({
-                        type: "GET",
-                        url: "https://kline.zbg.com/api/data/v1/tickers?isUseMarketName=true",
-                        success: function (res) {
-                            var result = res.datas
-                            Object.keys(result).forEach(function (val) {
-                                arr.push({
-                                    market: val.toLocaleLowerCase(),
-                                    highPrice: result[val][2],
-                                    lowPrice: result[val][3],
-                                    lastPrice: result[val][1],
-                                    rate: result[val][5],
-                                    dayAmount: result[val][4]
-                                })
-                            })
-                            _this.testMarkets = arr
-                        }
-                    })
-                },
-                // 过滤市场
-                selectMarkets(type) {
-                    var arr = []
-                    this.testMarkets.forEach(function (val, index) {
-                        {
-                            if (val.market.split('_')[1] == type) {
-                                arr.push(val)
-                            }
-                        }
-                    })
-                    return arr
-                },
-                isLeverMarket: function (market) {
-                    var marketInfo = this.marketConfig[market];
-                    //console.log(this.marketConfig);
-                    return marketInfo ? marketInfo.leverType : '0'
                 },
                 moneyPrice: function (money, coin) {
                     if (money == 'btc' || money == 'usd' || money == '<%= UNIT %>') {
@@ -1344,54 +1178,6 @@
                         //
                     };
                 },
-                getLineChartColor: function (index, isClose, data) {
-                    var colors = [
-                        ['#e1033d'],
-                        ['#65ceb6']
-                    ];
-
-                    var colorsClosed = [
-                        ['#666', 'rgba(67,144,234,0.08)']
-                    ];
-
-                    // if(index >= colors.length){
-                    //     index = index % colors.length;
-                    // }
-                    var obj = {
-                        fill: "",
-                        height: 65,
-                        // stroke: isClose ? colors[index][0] : colorsClosed[0][0],
-                        stroke: data.rate > 0 ? colors[0] : colors[1],
-                        strokeWidth: 2,
-                        width: this.kLineBoxWidth + 2
-                    };
-                    return obj;
-                },
-                getLineData: function (array) {
-                    if (array.length > 0) {
-                        var arr = [];
-                        //容错处理
-
-                        if (!array) {
-                            array = []
-                        }
-                        arr = array.map(function (item) {
-                            return item[1];
-                        });
-                        var min = arr[0];
-                        for (var i = 0; i < arr.length; i++) {
-                            if (arr[i] < min) {
-                                min = arr[i]
-                            }
-                        }
-                        var arr2 = arr.map(function (item) {
-                            return item - min;
-                        });
-                        return arr2.join(",");
-                    } else {
-                        return '';
-                    }
-                },
                 showRate: function (rate) {
                     return Methods.fixNumber(rate, 2)
                 },
@@ -1462,7 +1248,6 @@
 
                     return dataToSend = adimUserWebArr.join('&');
                 },
-                //
                 getInvestTotal: function () {
                     var that = this;
                     Methods.ajax({
@@ -1509,21 +1294,15 @@
                 new WOW().init();
             },
             created: function () {
-                //公告开始滚
+                //公告开始
                 this.getNoticeList()
                 this.noticeStart = true
                 this.scrollNotices()
                 //获取banner
                 this.getBannerList()
 
-                // this.test()
-                // this.getHomeMarket()
-                // this.getAndroidLink()
-                // this.getAndroidLink()
                 var queryObj = Methods.parseQueryString();
                 var isTo = queryObj && queryObj.t && queryObj.to && queryObj.u && queryObj.g;
-                // console.log(queryObj,isTo);
-                // if(Object.keys(Methods.GetRequest()).length != 0 && !!Methods.GetRequest().t && !!Methods.GetRequest().to && !!Methods.GetRequest().u && !!Methods.GetRequest().g){
                 if (isTo) {
                     Methods.deleCookie(ENV + 'ad');
                     Methods.deleCookie(ENV + 'currentAccountId');
@@ -1558,12 +1337,9 @@
                             this.requestLocked = false;
                             var resMsg = res.resMsg;
                             JuaBox.showWrong(EXX.L(resMsg.code));
-                            // authErrorUi(EXX.L(resMsg.message));
                         }
                     });
-
                 }
-                // this.getInvestTotal();
                 var endTime = new Date("2018/7/21 15:00");
                 var startTime = new Date("2018/7/9 15:00");
                 var totalTime = 60 * 60 * 24 * 12 * 1000; //毫秒为单位
@@ -1576,22 +1352,15 @@
                 $("#progressId").css("width", num + "%");
 
                 this.getPriceRate();
-                // this.minerSummary()
-                // this.statistic()
                 this.getMarketAreaListByWebId();
 
                 this.getMarketConfig(function () {
                     this.getHomeMarket();
                     setInterval(this.getPriceRate, 90000);
-                    // setInterval(this.getHomeMarket, 5000);
                 }.bind(this));
-                // this.glabalmarkts()
-                // this.glabalexchange('btc')
             },
             mounted: function () {
-                console.log(LAN, '------global.LAN------')
-                console.log('<%= LAN %>', '------<%= LAN %>------')
-                console.log(GLOBAL['LAN'], '------global.LAN------')
+                JuaBox.warning('1111111');
                 //及时更新dom
                 Vue.nextTick(function () {
                     this.initSwiper()
@@ -1603,12 +1372,6 @@
                 var that = this
 
                 jQuery(function ($) {
-
-                    var $svg = $('#demo1').drawsvg({
-                        duration: 700,
-                        stagger: 50
-                    });
-                    $svg.drawsvg('animate');
                     "use strict";
                     var _document = $(document),
                         _window = $(window),
@@ -1619,7 +1382,6 @@
                         } else {
                             $('.header').removeClass('sticky')
                         }
-
                     })
                     //animated navbar-toggler button
                     _document.on('click', '.navbar .navbar-toggler', function () {
@@ -1637,55 +1399,6 @@
                         }
                     });
 
-                    //script for box equal height
-                    var maxHeight = 0;
-                    $(".equalHeight").each(function () {
-                        if ($(this).height() > maxHeight) {
-                            maxHeight = $(this).height();
-                        }
-                    });
-                    $(".equalHeight").height(maxHeight);
-
-                    //Video modal
-                    $('.video-popup').magnificPopup({
-                        type: 'iframe',
-                        mainClass: 'mfp-with-zoom',
-                        iframe: {
-                            markup: '<div class="mfp-iframe-scaler">' +
-                                '<div class="mfp-close"></div>' +
-                                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
-                                '</div>',
-                            patterns: {
-                                youtube: {
-                                    index: 'youtube.com/',
-                                    id: 'v=',
-                                    src: '//www.youtube.com/embed/%id%?autoplay=1'
-                                }
-                            },
-                            srcAction: 'iframe_src'
-                        }
-
-                    });
-
-                    //jQuery countdown plugin
-
-                    // var date = new Date()
-                    // console.log()
-                    //
-                    // var time = new Date(date.setDate(date.getDate()+1));
-                    // var y = time.getFullYear();
-                    // var m = time.getMonth()+1;
-                    // var d = time.getDate();
-                    // var nowtimer = y+'/'+m+'/'+d
-
-                    // $('#clock').countdown('2018/8/16 15:00:00').on('update.countdown', function (event) {
-                    //     var _DateInput = '' +
-                    //         '<div><span>%-d</span> 天</div>' +
-                    //         '<div><span>%H</span> 小时</div>' +
-                    //         '<div><span>%M</span> 分钟</div>' +
-                    //         '<div><span>%S</span> 秒</div>';
-                    //     var $this = $(this).html(event.strftime(_DateInput));
-                    // });
                     var timerID = setInterval(function () {
                         var target = new Date('2018/7/21 15:00');
                         var oldtimer = new Date('2018/7/9 15:00');
@@ -1739,125 +1452,6 @@
                             clearInterval(timerID)
                         }
                     }, 1000)
-
-                    //SVG Line animation
-                    $(".roadmap-to-success").each(function () {
-                        $(this).waypoint(function () {
-                            var _svgPath = $('.roadmap-line-path'),
-                                _svgPathLength = $('.roadmap-line-path')
-                                .get(0).getTotalLength(),
-                                _labelLength = $('.roadmap-label').length;
-
-                            _svgPath.css({
-                                'opacity': '1',
-                                'stroke-dashoffset': _svgPathLength,
-                                'stroke-dasharray': _svgPathLength
-                            });
-
-                            setTimeout(function () {
-                                _svgPath.animate({
-                                    "stroke-dashoffset": _svgPathLength
-                                }, 0, function () {
-                                    _svgPath.animate({
-                                        "stroke-dashoffset": '0px'
-                                    }, {
-                                        duration: 1500,
-                                        // easing: 'linear',
-                                        step: function () {
-                                            var
-                                                a =
-                                                parseInt(
-                                                    _svgPath
-                                                    .css(
-                                                        "stroke-dashoffset"
-                                                    )
-                                                );
-                                            for (
-                                                var
-                                                    i =
-                                                    0; i <
-                                                _svgPathLength; i++
-                                            ) {
-                                                if (
-                                                    a <
-                                                    _svgPathLength *
-                                                    (
-                                                        _labelLength -
-                                                        i
-                                                    ) /
-                                                    _labelLength
-                                                ) {
-                                                    $
-                                                        (
-                                                            ".roadmap-label.l-" +
-                                                            (
-                                                                i +
-                                                                1
-                                                            )
-                                                        )
-                                                        .fadeIn()
-                                                        .addClass(
-                                                            "active"
-                                                        );
-                                                }
-                                            }
-                                        }
-                                    }, function () {
-                                        //callback ...
-                                    });
-                                });
-                            });
-                            this.destroy();
-                        }, {
-                            triggerOnce: true,
-                            offset: 'bottom-in-view'
-                        });
-                    });
-
-
-                    //Show data on click event
-                    var _roadmapContainer = $('.roadmap-container'),
-                        _roadMapLabel = $('.roadmap-label');
-
-                    _roadmapContainer.on('click', '.roadmap-label', function () {
-                        if ($(this).find('.data.active').length === 0) {
-                            //remove
-                            _roadmapContainer.find('.data').removeClass(
-                                'active');
-                            $(this).find('.data').addClass('active');
-                            _roadMapLabel.removeClass('glow');
-                            $(this).addClass('glow');
-
-                            if (_window.width() < 768) {
-                                _roadmapContainer.find('.data .card').slideUp();
-                                $(this).find('.data .card').slideDown(function () {
-                                    $('html, body').animate({
-                                        scrollTop: $(this).offset()
-                                            .top - 90
-                                    }, 500);
-                                });
-
-                            } else {
-                                _roadmapContainer.find('.data .card').fadeOut(
-                                    "slow");
-                                $(this).find('.data .card').fadeIn("slow");
-                            }
-                        }
-                    });
-
-                    _document.on('click', function (e) {
-                        if (!_roadMapLabel.is(e.target) && _roadMapLabel.has(e.target)
-                            .length === 0) {
-                            _roadmapContainer.find('.data').removeClass(
-                                'active');
-                            _roadMapLabel.removeClass('glow');
-                            if (_window.width() < 768) {
-                                _roadmapContainer.find('.data .card').slideUp();
-                            } else {
-                                _roadmapContainer.find('.data .card').fadeOut();
-                            }
-                        }
-                    });
 
                     // Contact Form
                     $('.contact-form').on('focus', 'input,textarea', function (e) {
@@ -1937,139 +1531,16 @@
                             offset: 'bottom-in-view'
                         });
                     });
-
-                    // Jump to bookmark
-                    var _anim = function () {
-                        $('html, body').animate({
-                            scrollTop: $('.ico-funding').offset().top
-                        }, 800, 'easeInOutExpo');
-                    }
-
-
-                    var _commonTab = $('.common-tab .nav li a'),
-                        _tabPane = $('.tab-pane'),
-                        _footerItem = $('.footer-nav li a');
-
-                    _window.on('load', function () {
-                        var loc = window.location.href;
-
-                        if (/tab-campaign/.test(loc)) {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-campaign"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-campaign').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-campaign"]').addClass(
-                                'active');
-                            _anim();
-                        } else if (/tab-faqs/.test(loc)) {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-faqs"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-faqs').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-faqs"]').addClass(
-                                'active');
-                            _anim();
-                        } else if (/tab-update/.test(loc)) {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-update"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-update').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-update"]').addClass(
-                                'active');
-                            _anim();
-                        }
-                    });
-
-                    //test
-                    $('.footer-nav').on('click', 'li a', function () {
-                        if ($(this).attr('href') === "#tab-campaign") {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-campaign"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-campaign').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-campaign"]').addClass(
-                                'active');
-                            _anim();
-                        } else if ($(this).attr('href') === "#tab-faqs") {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-faqs"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-faqs').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-faqs"]').addClass(
-                                'active');
-                            _anim();
-                        } else if ($(this).attr('href') === "#tab-update") {
-                            _commonTab.removeClass('active');
-                            _tabPane.removeClass('show active');
-                            $('.common-tab .nav li a[href^="#tab-update"]').addClass(
-                                'active');
-                            $('.tab-pane#tab-update').addClass('show active');
-                            _footerItem.removeClass('active');
-                            $('.footer-nav li a[href^="#tab-update"]').addClass(
-                                'active');
-                            _anim();
-                        }
-                    });
-
-
-                    // Preloader js
-                    function loader(_success) {
-                        var obj = $('.o-preloader'),
-                            inner = $('.o-preloader_inner');
-                        var w = 0,
-                            t = setInterval(function () {
-                                w = w + 1;
-                                inner.text(w + '%');
-                                if (w === 1) {
-                                    obj.addClass('open-page');
-                                    obj.addClass('hide-loader');
-
-                                    clearInterval(t);
-                                    w = 0;
-                                    if (_success) {
-                                        return _success();
-                                    }
-                                }
-                            }, 20);
-                    }
-
-                    loader();
-
-
                 }(jQuery));
 
                 setTimeout(function () {
-                    // this.$nextTick(function() {
-                    //that.kLineBoxWidth = document.getElementsByClassName('k-line-box')[0].offsetWidth;
-                    // console.log(that.kLineBoxWidth)
                     that.itemComplete = true;
-                    // })
                 }, 2000)
-
-                window.addEventListener('resize', function () {
-                    /*setTimeout(function () {
-                        that.kLineBoxWidth = document.getElementsByClassName('k-line-box')[0].offsetWidth;
-                    }, 400)*/
-                })
             },
             filters: {
                 capitalize: function (value) {
                     if (!value || value == null || Number(value) == 0) return '--'
                     return (Math.ceil(value * 1000000)) / 1000000
-                },
-                capitalize2: function (value) {
-                    if (!value) return '--'
-                    return (Math.ceil(value * 1000)) / 1000
                 },
                 thousand: function (value) {
                     if (!value) return '--'
@@ -2079,3 +1550,5 @@
         });
     });
 </script>
+
+<%-include("../include/footer.html")%>

@@ -3450,7 +3450,7 @@ input::-webkit-inner-spin-button {
 }
 
 .timeLine {
-  margin-top: 180px;
+  margin-top: 10px;
   background: #FFFCF7;
   padding-top: 116px;
   @media screen and (max-width: 768px) {
@@ -3817,5 +3817,18 @@ input::-webkit-inner-spin-button {
         }
       }
     }
+  }
+}
+.swal-modal{
+  img{
+    width: 100px!important;
+  }
+  .swal-text{
+    color: rgba(117, 117, 117, 1);
+    font-size: 17px;
+    font-family: MicrosoftYaHei-Bold;
+  }
+  .swal-button {
+    width: 70px!important;
   }
 }

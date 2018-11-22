@@ -800,7 +800,7 @@ JuaBox.playAudio = function(file){
 //封装swealAret
 if(typeof swal != 'undefined'){
     JuaBox.info = function (message, callback) {
-        swal("", message, "info").then(function (willDelete) {
+        swal({title: "", text: message, icon: '../../src/images/info.png'}).then(function (willDelete) {
             callback && callback()
         });
     }
@@ -817,7 +817,7 @@ if(typeof swal != 'undefined'){
         }
         swal({
             text: message,
-            icon: "info",
+            icon: '../../src/images/info.png',
             buttons: buttons,
         }).then(function(willDelete){
             willDelete && callback && callback()
@@ -827,25 +827,34 @@ if(typeof swal != 'undefined'){
     JuaBox.sure = JuaBox.info;
 
     JuaBox.success = function (message,callback) {
-        swal("", message, "success").then(function(){
+        swal({title: "", text: message, icon: '../../src/images/success.png'}).then(function(){
             callback && callback()
         });
     }
     JuaBox.wrong = function (message,callback) {
-        swal("", message, "error").then(function(){
+        swal({title: "", text: message, icon: '../../src/images/error.png'}).then(function(){
             callback && callback()
         });
     }
 
     JuaBox.showWrong = function (message) {
-        swal("", message, "error");
+        // swal("", message, "error");
+        swal({title: "", text: message, icon: '../../src/images/error.png'});
         window.setTimeout(function(){
             $(".swal-overlay").trigger('click');
         },4000);
     }
 
     JuaBox.showRight = function (message) {
-        swal("", message, "success");
+        swal({title: "", text: message, icon: '../../src/images/success.png'});
+        window.setTimeout(function(){
+            $(".swal-overlay").trigger('click');
+        },4000);
+    }
+    JuaBox.warning = function (message,callback) {
+        swal({title: "", text: message, icon: '../../src/images/warning.png'}).then(function(){
+            callback && callback()
+        });
         window.setTimeout(function(){
             $(".swal-overlay").trigger('click');
         },4000);
