@@ -31,6 +31,7 @@ router.get('/', function(req, res, next) {
     //     templateMain:'index.html'
     // });
     //}
+    console.log(global.LAN, '-------global.LAN  index.server.route.js------')
     res.render('cn/zbg/index.html');
 });
 

@@ -41,13 +41,13 @@ module.exports = function (app) {
 
     //多语言支持设置
     app.use(function (req, res, next) {
-
-        console.log(req.cookies, '--------req.cookies---------')
-        console.log(req.query, '--------req.query---------')
+        debugger
+        console.log(req.cookies, '--------req.cookies  app.init.server.js--------')
+        console.log(req.query, '--------req.query  app.init.server.js---------')
 
         // var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
         var reqLAN = req.cookies[ENV + "lan"];
-        console.log(reqLAN, '--------reqLAN---------')
+        console.log(reqLAN, '--------reqLAN  app.init.server.js--------')
         //语言类别检测
         if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk" || reqLAN == "jp" || reqLAN == "kr")) {
             global.LAN = reqLAN;
