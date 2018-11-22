@@ -41,18 +41,12 @@ module.exports = function (app) {
 
     //多语言支持设置
     app.use(function (req, res, next) {
-        console.log(req.cookies, '--------req.cookies  app.init.server.js--------')
-        console.log(req.query, '--------req.query  app.init.server.js---------')
 
-        // var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
-        var reqLAN = req.cookies[ENV + "lan"];
-        console.log(reqLAN, '--------reqLAN  app.init.server.js--------')
+        var reqLAN = req.query.lan || req.cookies[ENV + "lan"];
+        // var reqLAN = req.cookies[ENV + "lan"];
         //语言类别检测
         if (reqLAN && (reqLAN == "cn" || reqLAN == "en" || reqLAN == "hk" || reqLAN == "jp" || reqLAN == "kr")) {
             global.LAN = reqLAN;
-        }
-        if (!global.LAN) {
-            console.error('global.LAN 赋值失败!!!!!!!!!!!!!!!!!!!!!!!')
         }
         /*for(var key in global.WEB.LAN){
             console.log(reqLAN ,key)
@@ -71,10 +65,6 @@ module.exports = function (app) {
         app.locals.PATH = req.path;
         app.locals.LANG = global.LANG(LAN);
 
-        console.log(app.locals.LANG, '---------app.locals.LANG   app.init.server.js-----------')
-        console.log(global.LAN, '---------global.LAN   app.init.server.js-----------')
-        console.log(global.LANG(LAN), '---------global.LANG(LAN)   app.init.server.js-----------')
-        
         app.locals.WEB = global.WEB(LAN);
 
         app.locals.LEGAL = global.LEGAL;
