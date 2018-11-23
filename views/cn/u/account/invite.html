@@ -237,6 +237,9 @@
                 }, function (error) {})
             },
             methods: {
+                LANG : function (value, n) {
+                    return EXX.L(value, n);
+                },
                 // 获取活动时间
                 getActivityTime() {
                     Methods.ajax({

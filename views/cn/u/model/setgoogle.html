@@ -53,14 +53,14 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label"><%= LANG('Google验证码') %>：</label>
+            <label class="control-label" title="<%= LANG('Google验证码') %>"><%= LANG('Google验证码') %>：</label>
             <div class="form-control">
               <img src="<%= IMG_STATIC %>/images/pass.png" class="title" alt="">
               <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode" type="text"  maxlength="6"  @keyup="googleCode=googleCode.replace(/[^\d]/g,'')">
             </div>
           </div>
           <div class="form-button">
-            <button v-if="!locked" @click="handleSubmit" class="button"><span>{{btnText}}</span></button>
+            <button v-if="!locked" @click="handleSubmit" class="button" style="width: 180px;"><span>{{btnText}}</span></button>
             <button v-if="locked" class="button" disabled><span><%= LANG('正在处理') %></span></button>
           </div>
         </div>

@@ -1913,6 +1913,9 @@ button {
         display: flex;
         .control-label {
           line-height: 40px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
           font-family: MicrosoftYaHei-Bold;
           font-size: 14px;
           font-weight: 500;
@@ -3830,5 +3833,6 @@ input::-webkit-inner-spin-button {
   }
   .swal-button {
     width: 70px!important;
+    text-align: center;
   }
 }

@@ -7,7 +7,7 @@
                 <div class="form-box">
                     <template v-if="setLoginPwdType == 1">
                         <div class="form-group">
-                            <label class="control-label"><%= LANG('当前登录密码') %>：</label>
+                            <label class="control-label" title="<%= LANG('当前登录密码') %>"><%= LANG('当前登录密码') %>：</label>
                             <div class="form-control" id="nikeForm">
                                 <input autocomplete="new-password" placeholder="<%= LANG('当前登录密码') %>"
                                        v-model="oldPassword"
@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"><%= LANG('新登录密码') %>：</label>
+                            <label class="control-label" title="<%= LANG('新登录密码') %>"><%= LANG('新登录密码') %>：</label>
                             <div class="form-control">
                                 <input autocomplete="new-password" placeholder="<%= LANG('新登录密码') %>"
                                        v-on:keyup="handleCheckPwdStrength" v-model="newPassword" type="password">
@@ -29,21 +29,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"><%= LANG('确认新登录密码') %>：</label>
+                            <label class="control-label" title="<%= LANG('确认新登录密码') %>"><%= LANG('确认新登录密码') %>：</label>
                             <div class="form-control">
                                 <input autocomplete="new-password" placeholder="<%= LANG('确认新登录密码') %>"
                                        v-on:keyup="handleComparedPwd" v-model="passwordConfirmation" type="password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"><%= LANG('图形验证码') %>：</label>
+                            <label class="control-label" title="<%= LANG('图形验证码') %>"><%= LANG('图形验证码') %>：</label>
                             <div class="form-control" style="display: block !important;">
                                 <input autocomplete="off" placeholder="<%= LANG('图形验证码') %>" v-model="imgCode" v-on:blur="handleCheckLength($event)" v-on:focus="clearInputError($event)" maxlength="4" type="text">
                                 <div class="code-img" v-cloak=""><img :src="imageCodeUrl" style="z-index: 2;" v-on:click="handleRefreshImgcode" alt="<%= LANG('点击刷新验证码') %>"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"><%= LANG('动态验证码') %>：</label>
+                            <label class="control-label" title="<%= LANG('动态验证码') %>"><%= LANG('动态验证码') %>：</label>
                             <div class="form-control">
                                 <input autocomplete="off" placeholder="<%= LANG('动态验证码') %>" v-model="dynamicCode"
                                        type="text">
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div v-if="userInfo.googleAuth == 1 || userInfo.googleAuth == -1" class="form-group">
-                            <label class="control-label"><%= LANG('Google验证码') %>：</label>
+                            <label class="control-label" title="<%= LANG('Google验证码') %>"><%= LANG('Google验证码') %>：</label>
                             <div class="form-control">
                                 <input autocomplete="off" placeholder="<%= LANG('Google验证码') %>" v-model="googleCode"
                                        name="googleCode" type="text">

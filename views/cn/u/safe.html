@@ -74,11 +74,11 @@
                     <div class="icon"><img src="/src/images/realname.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('实名/高级实名认证') %></h3>
-                        <p v-if="identifyStatus == 0">未实名认证</p>
-                        <p v-else-if="identifyStatus == 1">已普通实名认证</p>
-                        <p v-else-if="identifyStatus == 2">已普通实名认证/高级实名认证审核中</p>
-                        <p v-else-if="identifyStatus == 3">已普通实名认证/高级实名认证未通过</p>
-                        <p v-else-if="identifyStatus == 4">已高级实名认证，认证姓名：{{realName}}</p>
+                        <p v-if="identifyStatus == 0"><%= LANG('未实名认证') %></p>
+                        <p v-else-if="identifyStatus == 1"><%= LANG('已普通实名认证') %></p>
+                        <p v-else-if="identifyStatus == 2"><%= LANG('已普通实名认证/高级实名认证审核中') %></p>
+                        <p v-else-if="identifyStatus == 3"><%= LANG('已普通实名认证/高级实名认证未通过') %></p>
+                        <p v-else-if="identifyStatus == 4">{{LANG('已高级实名认证，认证姓名：n', realName)}}</p>
                     </div>
                     <div class="oper" v-if="identifyStatus == 0"><a href="/u/realName" class="btn btn-primary"><%= LANG('去认证') %></a></div>
                     <div class="oper" v-else-if="identifyStatus != 4">
@@ -86,150 +86,7 @@
                     </div>
                 </li>
             </ul>
-            <!--<ul class="info">
-                <li>
-                    <div class="icon"><img src="/src/images/webDevelopmentIcon.svg"></div>
-                    <h3><%= LANG('账号') %>: {{loginUser.loginName}}
-                    </h3>
-                </li>
-                <li>
-                    <div class="icon"><img src="/src/images/emailmarketingIcon.svg"></div>
-                    <h3><%= LANG('邮箱') %><span class="">{{loginUser.email}}</span></h3>
-                    <p>
-                        <span class="not-auth" v-if="loginUser.emailAuth == 0"><%= LANG('未认证') %></span>
-                        <span class="auth" v-if="loginUser.emailAuth == 1"><%= LANG('已认证') %></span>
-                    </p>
-                    <a @click="setEmail" v-if="loginUser.emailAuth == 0"><%= LANG('认证') %></a>
-                </li>
-                <li>
-                    <div class="icon"><img src="/src/images/mobileOptimizationIcon.svg"></div>
-                    <h3><%= LANG('手机') %></h3>
-                    <p>
-                        <span class="not-auth" v-if="loginUser.mobileAuth == 0"><%= LANG('未认证') %></span>
-                        <span class="auth" v-if="loginUser.mobileAuth == 1">{{loginUser.mobile}}</span>
-                    </p>
-                    <a @click="openModal('setMobile')" v-if="loginUser.mobileAuth == 0"><%= LANG('认证') %></a>
-                    <a class="auth" @click="openModal('setMobile')" v-if="loginUser.mobileAuth == 1 && loginUser.mobileStatus != -1"><%= LANG('修改') %></a>
-                    <a v-if="loginUser.mobileStatus == -1"><%= LANG('审核中') %></a>
-                </li>
-                <li>
-                    <div class="icon"><img src="/src/images/keywordResearchIcon.svg"></div>
-                    <h3><%= LANG('登录密码') %></h3>
-                    <p>
-                        <span class="not-auth" v-if="loginUser.loginPwd == 0"><%= LANG('未设置') %></span>
-                        <span class="auth" v-if="loginUser.loginPwd == 1"><%= LANG('已设置') %></span>
-                        &lt;!&ndash;<span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>&ndash;&gt;
-                        &lt;!&ndash;<span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>&ndash;&gt;
-                        &lt;!&ndash;<span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>&ndash;&gt;
-                    </p>
-                    <a v-if="loginUser.loginPwd == 0" @click="openModal('setloginpwd')"><%= LANG('设置') %></a>
-                    <a v-if="loginUser.loginPwd == 1" @click="openModal('setloginpwd')"><%= LANG('修改') %></a>
-                </li>
-                <li>
-                    <div class="icon"><img src="/src/images/pageSpeedIcon.svg"></div>
-                    <h3><%= LANG('Google验证') %></h3>
-                    <p>
-                        <span class="not-auth" v-if="loginUser.googleAuth == 0"><%= LANG('未认证') %></span>
-                        <span class="auth" v-if="loginUser.googleAuth == 1"><%= LANG('已认证') %></span>
-                    </p>
-                    <a v-if="loginUser.googleAuth == 0" @click="openModal('setGoogle')"><%= LANG('认证') %></a>
-                    <a v-if="loginUser.googleAuth == 1 && loginUser.googleStatus != 1" @click="openModal('setGoogle')"><%= LANG('修改') %></a>
-                    <a v-if="loginUser.googleAuth == 1 && loginUser.googleStatus != 1" @click="openModal('closeGoogle')"><%= LANG('关闭') %></a>
-                    <a v-if="loginUser.googleStatus == 1"><%= LANG('审核中') %></a>
-                </li>
-            </ul>-->
         </div>
-
-
-        <!--<h2 style="margin-top: 50px;" v-if="loginUser.userType == 1"><%= LANG('安全设置') %></h2>-->
-        <!--<div class="safe-info" v-if="loginUser.userType == 1">
-            <ul>
-
-
-            </ul>
-
-        </div>-->
-
-
-        <!--<li>-->
-        <!--<div class="icon"><img src="/src/images/keywordResearchIcon.svg"></div>-->
-        <!--<h3><%= LANG('资金密码') %></h3>-->
-        <!--<p>-->
-        <!--<span class="not-auth" v-if="loginUser.safePwdAuth == 0"><%= LANG('未设置') %></span>-->
-        <!--<span class="auth" v-if="loginUser.safePwdAuth == 1"><%= LANG('已设置') %></span>-->
-        <!--</p>-->
-        <!--<a v-if="loginUser.safePwdAuth == 0" @click="openModal('setwithdrawalpwd')"><%= LANG('设置') %></a>-->
-        <!--<a v-if="loginUser.safePwdAuth == 1" @click="gowithdrawalpwd"><%= LANG('修改') %></a>-->
-        <!--</li>-->
-
-
-        <!--<h2 style="margin-top: 50px;" v-if="loginUser.userType == 1"><%= LANG('安全策略') %></h2>-->
-        <!--<div class="safe-info" v-if="loginUser.userType == 1">-->
-        <!--<ul>-->
-        <!--<li>-->
-        <!--<div class="icon"><img src="/src/images/videoSearchIcon.svg"></div>-->
-        <!--<h3 class="h3-width"><%= LANG('登录验证') %></h3>-->
-        <!--<div class="right">-->
-        <!--<div class="safe-item" :class="{active:loginUser.loginAuth==1}"-->
-        <!--@click="safeLoginTypeHandler(1)">-->
-        <!--<%= LANG('登录密码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.loginAuth==3}"-->
-        <!--@click="safeLoginTypeHandler(3)">-->
-        <!--<%= LANG('登录密码+异地登录') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.loginAuth==5}"-->
-        <!--@click="safeLoginTypeHandler(5)">-->
-        <!--<%= LANG('登录密码+Google验证码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.loginAuth==7}"-->
-        <!--@click="safeLoginTypeHandler(7)">-->
-        <!--<%= LANG('登录密码+Google验证码+异地登录') %>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<div class="icon"><img src="/src/images/articleMarketingIcon.svg"></div>-->
-        <!--<h3 class="h3-width"><%= LANG('交易验证') %></h3>-->
-        <!--<div class="right">-->
-        <!--<div class="safe-item" :class="{active:loginUser.tradeAuth==1}"-->
-        <!--@click="safeTradeTypeHandler(1)">-->
-        <!--<%= LANG('免输入资金密码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.tradeAuth==2}"-->
-        <!--@click="safeTradeTypeHandler(2)">-->
-        <!--<%= LANG('6小时内免输入资金密码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.tradeAuth==3}"-->
-        <!--@click="safeTradeTypeHandler(3)">-->
-        <!--<%= LANG('每次交易输入资金密码') %>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</li>-->
-
-
-        <!--<li>-->
-        <!--<div class="icon"><img src="/src/images/payperClickIcon.svg"></div>-->
-        <!--<h3 class="h3-width"><%= LANG('提现验证') %><span class=""></span></h3>-->
-        <!--<div class="right">-->
-        <!--<div class="safe-item" :class="{active:loginUser.withdrawAuth==3}"-->
-        <!--@click="safeWithdrawalTypeHandler(3)">-->
-        <!--<%= LANG('资金密码+短信/邮件验证码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.withdrawAuth==5}"-->
-        <!--@click="safeWithdrawalTypeHandler(5)">-->
-        <!--<%= LANG('资金密码+Google验证码') %>-->
-        <!--</div>-->
-        <!--<div class="safe-item" :class="{active:loginUser.withdrawAuth==7}"-->
-        <!--@click="safeWithdrawalTypeHandler(7)">-->
-        <!--<%= LANG('资金密码+Google验证码+短信/邮件验证码') %>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</li>-->
-
-        <!--</ul>-->
-        <!--</div>-->
-
     </div>
 
     <modal v-cloak :open="showModal == 'userAction'" @close="showModal = false">
@@ -479,6 +336,9 @@
                     }
                 },
                 methods: {
+                    LANG : function (value, n) {
+                        return EXX.L(value, n);
+                    },
                     //安全策略-设置登录验证的方式
                     safeLoginTypeHandler: function (type) {
                         if (type == this.loginUser.loginAuth) {

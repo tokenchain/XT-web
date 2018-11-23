@@ -2986,13 +2986,17 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "共n页": {
+        "cn": "共[$1]页",
+        "en": "Total of [$1] Pages",
+        "jp": "",
+        "kr": ""
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "已高级实名认证，认证姓名：n": {
+        "cn": "已高级实名认证，认证姓名：[$1]",
+        "en": "Advanced Real Name Certification,certification name: [$1]",
+        "jp": "",
+        "kr": ""
     },
     "": {
         "cn": "",

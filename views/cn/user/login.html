@@ -112,7 +112,8 @@
         swal({
             title: "<%= LANG('登录成功') %>",
             text: "<%= LANG('即将跳转...') %>",
-            icon: "success",
+            // icon: "success",
+            icon: "../../src/images/success.png",
             buttons: ["<%= LANG('立即跳转') %>", isZbLogin && passIsSet ? "<%= LANG('设置密码') %>" : false],
             dangerMode: false,
         }).then(function (willDelete) {

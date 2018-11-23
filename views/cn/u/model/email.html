@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><%= LANG('邮箱验证码') %>：</label>
+                        <label class="control-label" title="<%= LANG('邮箱验证码') %>"><%= LANG('邮箱验证码') %>：</label>
                         <div class="form-control">
                             <input autocomplete="off" placeholder="<%= LANG('邮箱验证码') %>" v-model="emailCode"
                                    type="text">
@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="form-group" v-if="userInfo.mobileAuth == 1">
-                        <label class="control-label"><%= LANG('短信验证码') %>：</label>
+                        <label class="control-label" title="<%= LANG('短信验证码') %>"><%= LANG('短信验证码') %>：</label>
                         <div class="form-control">
                             <input v-model="mobileCode" autocomplete="off" placeholder="<%= LANG('短信验证码') %>"
                                    type="text">
