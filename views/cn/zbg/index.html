@@ -1232,21 +1232,24 @@
                 },
                 webUrlInfo: function (urlGoogle, urlTargetUserId) {
 
-                    let adimUserWeb = {}
+                    let adimUserWeb = {
+                        googleCode: urlGoogle,
+                        targetUserId: urlTargetUserId
+                    }
 
-                    adimUserWeb.googleCode = urlGoogle
+                    /*adimUserWeb.googleCode = urlGoogle
                     adimUserWeb.targetUserId = urlTargetUserId
 
                     let adimUserWebArr = [];
 
                     for (var key in adimUserWeb) {
                         if (adimUserWeb.hasOwnProperty(key)) {
-                            adimUserWebArr.push(encodeURIComponent(key) + '=' +
+                            adimUserWebArr.push(encodeURIComponent(key) +
                                 encodeURIComponent(adimUserWeb[key]));
                         }
-                    }
-
-                    return dataToSend = adimUserWebArr.join('&');
+                    }*/
+                    //return dataToSend = adimUserWebArr.join('');
+                    return adimUserWeb
                 },
                 getInvestTotal: function () {
                     var that = this;
@@ -1318,7 +1321,7 @@
                     Methods.ajax({
                         url: DOMAIN_DEV +
                             "/exchange/user/controller/admin/UserController/godLogin",
-                        data: this.webUrlInfo(queryObj.g, queryObj.u),
+                        data: JSON.stringify(this.webUrlInfo(queryObj.g, queryObj.u)),
                         success: function (res) {
                             this.requestLocked = false;
                             // window.location.href = '/';
