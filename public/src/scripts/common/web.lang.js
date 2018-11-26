@@ -2998,13 +2998,17 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
-    "": {
-        "cn": "",
-        "en": ""
+    "在activityStartTime ～ activityEndTime期间，注册并完成实名认证可以获得10 XT，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以再得2 XT奖励！": {
+        "cn": "在[$1] ～ [$2]期间，注册并完成实名认证可以获得10 XT，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以再得2 XT奖励！",
+        "en": "During [$1] ~ [$2], you can get 10 XT by registering and completing the real-name verification. Invite your friends to sign up for the XT platform account and complete the real-name verification within the specified time, you can get 2 XT!",
+        "jp": "",
+        "kr": ""
     },
     "": {
         "cn": "",
-        "en": ""
+        "en": "",
+        "jp": "",
+        "kr": ""
     }
 };
 //简繁体对照字库2552个字符

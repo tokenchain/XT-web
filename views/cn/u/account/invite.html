@@ -96,9 +96,7 @@
                     <%= LANG('复制') %> </a>
             </div>
         </div>
-        <p class="inviteText">
-            <%= LANG('在 {{activityStartTime}} ～ {{activityEndTime}} 期间，注册并完成实名认证可以获得10 XT，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以再得2 XT奖励！') %>
-        </p>
+        <p class="inviteText">{{LANG('在activityStartTime ～ activityEndTime期间，注册并完成实名认证可以获得10 XT，邀请好友注册XT平台账户并在规定时间内完成实名认证，可以再得2 XT奖励！', activityStartTime, activityEndTime)}}</p>
     </div>
     <div class="partner-details">
         <p>
@@ -173,11 +171,11 @@
                     <td>{{item.inviteCount}}</td>
                     <td>{{item.realNameCount}}</td>
                     <td>{{item.xtAmount}}</td>
-                    <td><span @click="lookDetails(item)">用户详情</span></td>
+                    <td><span @click="lookDetails(item)"><%= LANG('用户详情') %></span></td>
                 </tr>
             </tbody>
         </table>
-        <p class="noData" v-if="invitingUserDataList.length == 0 || !invitingUserData">暂无数据</p>
+        <p class="noData" v-if="invitingUserDataList.length == 0 || !invitingUserData"><%= LANG('暂无数据') %></p>
     </div>
 
     <!--查看详情-->
@@ -215,6 +213,7 @@
             },
             mounted: function () {
                 // 选择时间 yyyy-mm
+                console.log(getCookie('wlan'))
                 $('#dataPicker').datepicker({
                     orientation: "bottom left",
                     language: {
@@ -237,8 +236,8 @@
                 }, function (error) {})
             },
             methods: {
-                LANG : function (value, n) {
-                    return EXX.L(value, n);
+                LANG: function (value, n, c) {
+                    return EXX.L(value, n, c);
                 },
                 // 获取活动时间
                 getActivityTime() {

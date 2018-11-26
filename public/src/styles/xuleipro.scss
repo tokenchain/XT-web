@@ -1430,7 +1430,7 @@ button {
           &.arrow-icon {
             top: 25px;
             left: unset;
-            right: 20px;
+            right: 10px;
           }
         }
         > a {
@@ -1555,7 +1555,7 @@ button {
             }
             span {
               display: block;
-              height: 14px;
+              //height: 14px;
               line-height: 14px;
               margin: 76px 0 16px 0;
               font-size: 16px;
@@ -3832,7 +3832,7 @@ input::-webkit-inner-spin-button {
     font-family: MicrosoftYaHei-Bold;
   }
   .swal-button {
-    width: 70px!important;
+    //width: 70px!important;
     text-align: center;
   }
 }

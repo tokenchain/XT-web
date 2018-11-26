@@ -223,11 +223,11 @@
                         _this.clickAsksRow(price, index);
                         // console.log(price)
                     });*/
-                    $("#parent_direction-downs").on('click', '.body', function () {
+                    /*$("#parent_direction-downs").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
                         _this.clickAsksRow(price, index);
-                    });
+                    });*/
                     $("#bidsWrap").on('click', '.body', function () {
                         var price = $(this).find(".price").text();
                         var index = $(this).index();
@@ -408,7 +408,7 @@
                     console.log(price, lanType)
                     this.priceCoin = {
                         price: price ? price : 0,
-                        lanType: lanType
+                        lanType: lanType.toUpperCase()
                     }
                 },
                 getPrice: function (val) {

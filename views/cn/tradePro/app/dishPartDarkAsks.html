@@ -418,7 +418,7 @@
                 getCoinPrice: function (price, lanType) {
                     this.priceCoin = {
                         price: price ? price : 0,
-                        lanType: lanType
+                        lanType: lanType.toUpperCase()
                     }
                 },
                 getPrice: function (val) {
