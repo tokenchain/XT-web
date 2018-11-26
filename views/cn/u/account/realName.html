@@ -40,10 +40,31 @@
         padding: 0;
         border-radius: 30px;
     }
+    .step-two {
+        width: 44%;
+        margin: 0 auto;
+        padding-top: 10px;
+    }
+
+    .step-two span{
+        width: 48%;
+    }
+
+    .step-two span:first-child {
+        float: left;
+    }
+
+    .step-two span:last-child {
+        float: right;
+    }
 </style>
 <div class="user-container realName" id="realName" v-cloak>
     <div class="step">
         <img src="<%= IMG_STATIC %>/images/step-one.png" alt="">
+        <div class="step-two clearfix">
+            <span><%= LANG('普通实名认证') %></span>
+            <span><%= LANG('高级实名认证') %></span>
+        </div>
     </div>
     <div class="form-Box">
         <div class="form-group" v-if="nickname == loginName">

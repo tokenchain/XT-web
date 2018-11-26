@@ -59,10 +59,32 @@
         color: #898989;
         cursor: initial;
     }
+
+    .step-two {
+        width: 44%;
+        margin: 0 auto;
+        padding-top: 10px;
+    }
+
+    .step-two span{
+        width: 45%;
+    }
+
+    .step-two span:first-child {
+        float: left;
+    }
+
+    .step-two span:last-child {
+        float: right;
+    }
 </style>
 <div class="user-container certify" id="certify" v-cloak>
     <div class="step">
         <img src="<%= IMG_STATIC %>/images/step-two.png" alt="">
+        <div class="step-two clearfix">
+            <span><%= LANG('已完成') %></span>
+            <span><%= LANG('高级实名认证') %></span>
+        </div>
     </div>
     <div class="fail" v-show="warn">
         <h4>
@@ -76,8 +98,10 @@
         <%= LANG('步骤一：准备资料') %>
     </h4>
     <p>
-        <%= LANG('1.请下载') %><a href="http://oss-xt.oss-cn-hongkong.aliyuncs.com/images/%E9%AB%98%E7%BA%A7%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81%E7%94%B3%E8%AF%B7%E8%B5%84%E6%96%99%E6%A8%A1%E6%9D%BF%281%29.docx" class="textColor">
-            <%= LANG('《高级实名认证申请资料模板》') %></a>，
+        <%= LANG('1.请下载') %><a
+            href="http://oss-xt.oss-cn-hongkong.aliyuncs.com/images/%E9%AB%98%E7%BA%A7%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81%E7%94%B3%E8%AF%B7%E8%B5%84%E6%96%99%E6%A8%A1%E6%9D%BF%281%29.docx"
+            class="textColor">
+        <%= LANG('《高级实名认证申请资料模板》') %></a>，
         <%= LANG('按照要求填写申请资料。') %>
     </p>
     <p>
@@ -109,16 +133,18 @@
     </p>
     <p>
         <%= LANG('提交申请高级实名认证即代表已阅读并同意') %><a href="/help/OTCagreement" class="textColor">
-            <%= LANG('《OTC交易协议》') %></a>
+        <%= LANG('《OTC交易协议》') %></a>
     </p>
     <div class="form-button">
-        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled" @click="submitIdentify"><span>{{status == 2 ? '<%= LANG('已提交申请') %>' : '<%= LANG('提交申请') %>'}}</span></button>
+        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled"
+                @click="submitIdentify"><span>{{status == 2 ? '<%= LANG('已提交申请') %>' : '<%= LANG('提交申请') %>'}}</span>
+        </button>
     </div>
 </div>
 
 <script>
     require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
-        Clipboard, QRCode) {
+                                                                                          Clipboard, QRCode) {
         var recommend = new Vue({
             el: "#certify",
             data: function () {

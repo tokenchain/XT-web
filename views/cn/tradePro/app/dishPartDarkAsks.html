@@ -448,9 +448,9 @@
                     var html = '';
                     html += "<li class=\"tr body " + style + "\" style=\"display: flex;\">";
                     if (this.marketConfig.amountDecimal == 0) {
-                        html += "   <p class=\"type\">卖" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
+                        html += "   <p class=\"type\"><%=LANG('卖')%>" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span></p>";
                     } else {
-                        html += "   <p class=\"type\">卖" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
+                        html += "   <p class=\"type\"><%=LANG('卖')%>" + index + "</p><p class=\"td price\"><span class=\"cor1\">" + price[0] + "</span><span class=\"cor2\">." + price[1] + "</span></p>";
                     }
                     // html += "   <p class=\"td foldPrice\">" + assist + "</p>";
                     html += "   <p class=\"td num\"><span>" + amount + "</span></p>";
