@@ -308,7 +308,7 @@
                         <ul class="footer-nav">
 
                             <li>
-                                <a href="https://xt.udesk.cn/hc/submit_a_request" target="_Blank">
+                                <a :href="Submission" target="_Blank">
                                     <%= LANG('提交工单') %>
                                 </a>
                             </li>
@@ -468,7 +468,9 @@
                 {
                     el: '#footer',
                     data: function () {
-                        return {}
+                        return {
+                            Submission: '<%= LAN %>' == 'cn' ? 'https://xt.udesk.cn/hc/submit_a_request' : 'https://xt.udesk.cn/im_client/feedback_tab/new.html?form=4&language=en-us'
+                        }
                     },
                     mounted: function () {
 
