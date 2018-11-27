@@ -712,7 +712,7 @@ $error: #ff4a68;
         -webkit-box-flex: 0;
         -ms-flex: none;
         flex: none;
-        width: 150px;
+        width: 128px;
       }
       &.ranking {
         -webkit-box-flex: 0;
@@ -724,7 +724,7 @@ $error: #ff4a68;
         -webkit-box-flex: 0;
         -ms-flex: none;
         flex: none;
-        width: 320px;
+        width: 325px;
       }
     }
   }
@@ -779,7 +779,7 @@ $error: #ff4a68;
         a {
           color: #FFBE3F;
           & + a {
-            margin-left: 20px;
+            margin-left: 10px;
           }
           &.disabled {
             pointer-events: none;
