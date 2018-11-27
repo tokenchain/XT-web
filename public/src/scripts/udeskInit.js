@@ -10,14 +10,14 @@
     c = h.getElementsByTagName(c)[0];
     c.parentNode.insertBefore(g, c)
 })(window, document, "script", "//assets-cli.udesk.cn/im_client/js/udeskApi.js", "ud");
+var udeskPath = 'https://xt.udesk.cn/im_client/'
 ud({
     "code": "2jgf16i7",
     "link": {
-        cn: '1',
-        en: '2',
-        kr: '3',
-        jp: '4',
-        hk: '5'
-    } [getCookie('wlan')] == '1' ? "https://xt.udesk.cn/im_client/?web_plugin_id=57038" : "https://xt.udesk.cn/im_client/?web_plugin_id=59496&language=en-us"
-    // 中文："https://xt.udesk.cn/im_client/?web_plugin_id=57038"   英文："link": "https://xt.udesk.cn/im_client/?web_plugin_id=59496&language=en-us"
+        cn: udeskPath + '?web_plugin_id=57038',
+        en: udeskPath + '?web_plugin_id=59496&language=en-us',
+        kr: '',
+        jp: '',
+        hk: ''
+    } [getCookie('wlan')]
 });

@@ -1233,6 +1233,7 @@ button {
       -ms-flex-align: center;
       align-items: center;
       .code {
+        font-size: 14px;
         -webkit-box-flex: 0;
         -ms-flex: none;
         flex: none;
@@ -1377,6 +1378,9 @@ button {
   position: relative;
   background: #f7f7f7;
   //margin-top: 60px;
+  .btn-primary{
+    border-color: none!important;
+  }
   .container {
     -webkit-box-flex: 0;
     -ms-flex: none;
@@ -1583,10 +1587,12 @@ button {
         padding: 22px 88px;
         .code {
           width: 150px;
+          font-size: 14px;
           float: left;
           text-align: center;
         }
         .copyUrl-info {
+          font-size: 14px;
           width: 205px;
           margin-left: 165px;
           float: left;
@@ -1602,6 +1608,7 @@ button {
           }
         }
         .invite-info {
+          font-size: 14px;
           width: 90px;
           float: right;
           text-align: center;
@@ -3358,18 +3365,18 @@ input::-webkit-inner-spin-button {
     font-size: 14px;
   }
   .slideInLeft {
-    background: url('../images/bg-yinqing.png') no-repeat center center;
+    background: url('../images/bg-yinqing.png') no-repeat center top;
     width: 273px !important;
-    height: 484px !important;
+    //height: 484px !important;
     margin-top: 43px;
     @media screen and (max-width: 768px) {
       margin: 0 35px;
     }
   }
   .slideInDown {
-    background: url('../images/bg-fanghu.png') no-repeat center center;
+    background: url('../images/bg-fanghu.png') no-repeat center top;
     width: 319px !important;
-    height: 569px !important;
+    //height: 569px !important;
     margin: 0 100px;
     h3 {
       margin-top: 374px;
@@ -3382,10 +3389,10 @@ input::-webkit-inner-spin-button {
     }
   }
   .slideInRight {
-    background: url('../images/bg-jiaoyi.png') no-repeat center center;
+    background: url('../images/bg-jiaoyi.png') no-repeat center top;
     margin-top: 43px;
     width: 273px !important;
-    height: 484px !important;
+    //height: 484px !important;
     @media screen and (max-width: 768px) {
       margin: 0 35px 20px 35px;
     }

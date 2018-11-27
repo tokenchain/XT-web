@@ -1,5 +1,5 @@
 <!--<link rel="stylesheet" href="/src/styles/zbg/css/main.css?<%= VERSION %>">-->
-<link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">
+<!--<link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/zbg/css/vendor/bootstrap.min.css?<%= VERSION %>">-->
 <script src="<%= STATIC %>/scripts/zbg/js/vendor/fontawesome-all.min.js"></script>
 <style>
     .social-icons a {
@@ -277,6 +277,35 @@
         background: #4FD3D3;
         color: #ffffff;
     }
+
+    .footer-menu .row{
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+    @media (min-width: 768px){
+        .row .col-md {
+            -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            max-width: 100%;
+        }
+        .col-md-4 {
+            /* -webkit-box-flex: 0; */
+            -ms-flex: 0 0 33.333333%;
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+        .col-md-2 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 16.666667%;
+            flex: 0 0 16.666667%;
+            max-width: 16.666667%;
+        }
+    }
+
     /* -- Footer css  end!!!
 -------------------------------------- -- */
 </style>
@@ -314,7 +343,7 @@
                             </li>
 
                             <li>
-                                <a href="https://xt.udesk.cn" target="_Blank">
+                                <a :href="Faq" target="_Blank">
                                     <%= LANG('常见问题') %>
                                 </a>
                             </li>
@@ -469,7 +498,8 @@
                     el: '#footer',
                     data: function () {
                         return {
-                            Submission: '<%= LAN %>' == 'cn' ? 'https://xt.udesk.cn/hc/submit_a_request' : 'https://xt.udesk.cn/im_client/feedback_tab/new.html?form=4&language=en-us'
+                            Submission: '<%= LAN %>' == 'cn' ? 'https://xt.udesk.cn/hc/submit_a_request' : 'https://xt.udesk.cn/im_client/feedback_tab/new.html?form=4&language=en-us',
+                            Faq: '<%= LAN %>' == 'cn' ? 'https://xt.udesk.cn' : 'https://xtenglish.udesk.cn'
                         }
                     },
                     mounted: function () {
