@@ -701,7 +701,7 @@
                     <div class="body" v-show="!showLeverInfo">
                         <div class="asks-bids-shifts">
                             <ul>
-                                <li @click="switchGrades(5)"><%= LANG('默认档位')%></li>
+                                <li @click="switchGrades(10)"><%= LANG('默认档位')%></li>
                                 <li :class="askAndBidsGrade == 5 ? 'active' : ''" @click="switchGrades(5)">5</li>
                                 <li :class="askAndBidsGrade == 10 ? 'active' : ''" @click="switchGrades(10)">10</li>
                                 <li :class="askAndBidsGrade == 20 ? 'active' : ''" @click="switchGrades(20)">20</li>

@@ -419,6 +419,10 @@
                             $('#header_menu_he').removeClass('active')
                         }
                     })*/
+                    $(window).click(function (e) {
+                        e.stopPropagation()
+                        $('#dropdown_menuLogin').hide()
+                    })
                 },
                 created() {
                     var href = window.location.href
