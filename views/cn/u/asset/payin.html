@@ -1,4 +1,10 @@
 <style>
+    .left-tips{
+        text-align: left;
+    }
+    .left-tips p{
+        padding-left: 20px;
+    }
     .totalcoin {
         display: flex;
         flex-wrap: wrap;
@@ -101,10 +107,10 @@
                     <div class="code">
                         <canvas ref="canvas"></canvas>
                     </div>
-                    <div class="tips">
+                    <div class="tips left-tips">
                         <b><%= LANG('充值说明')%>：</b>
                         <p><%= LANG('本充值地址仅接收')%> <span style="color: #ffc107;font-weight: bold">{{currentCoin.toUpperCase()}} </span><%=
-                            LANG('充值')%>，<%= LANG('其他币如果充值到本地址，XT不提供找回服务，请仔细核对')%>
+                            LANG('充值111')%>，<%= LANG('其他币如果充值到本地址，XT不提供找回服务，请仔细核对')%>
                         </p>
                         <p><%= LANG('往该地址充值，汇款完成，等待网络自动确认')%>{{confirmTimes}}<%= LANG('个确认后系统自动到账；')%></p>
                         <p><%= LANG('为了快速到账，充值时可以适当提高网络手续费。')%></p>

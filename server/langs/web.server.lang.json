@@ -769,13 +769,19 @@
   },
   "本充值地址仅接收": {
     "cn": "本充值地址仅接收",
-    "en": "Only recharging in",
+    "en": "Send only",
+    "jp": "",
+    "kr": ""
+  },
+  "充值111": {
+    "cn": "充值",
+    "en": "to this deposit address",
     "jp": "",
     "kr": ""
   },
   "其他币如果充值到本地址，XT不提供找回服务，请仔细核对": {
     "cn": "其他币如果充值到本地址，XT不提供找回服务，请仔细核对",
-    "en": "If you recharge in other tokens in this address, XT does not provide returning service. Please check carefully.",
+    "en": "Sending any other coin or token to this address may result in the loss of your deposit.",
     "jp": "",
     "kr": ""
   },
@@ -793,7 +799,7 @@
   },
   "为了快速到账，充值时可以适当提高网络手续费": {
     "cn": "为了快速到账，充值时可以适当提高网络手续费",
-    "en": "In order to receive the deposit faster, the network fees can be appropriately raised when you recharge.",
+    "en": "In order to receive the deposit faster, the transaction fees can be appropriately raised.",
     "jp": "",
     "kr": ""
   },

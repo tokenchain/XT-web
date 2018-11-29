@@ -47,6 +47,7 @@
         }
 
         .download-button {
+            margin-top: 20px;
             display: -webkit-inline-box;
             display: -ms-inline-flexbox;
             display: inline-flex;
@@ -130,7 +131,7 @@
             line-height: 1.5;
             color: #ffbe3f;
             font-weight: 500;
-            margin-bottom: 30px;
+            /*margin-bottom: 30px;*/
             padding-right: 55px;
         }
 
@@ -304,7 +305,10 @@
                 <div class="download-wrapper">
                     <div class="download-txt">
                         <h1>
-                            <%= LANG('全面业务支持的移动APP，随时随地交易') %>
+                            <%= LANG('全面业务支持的移动APP') %>
+                        </h1>
+                        <h1>
+                            <%= LANG('随时随地交易') %>
                         </h1>
                         <!-- <p class="slogan"><%= LANG('XT的APP经过了超过5年时间的更新迭代Z') %></p> -->
                         <div class="download-button">
@@ -350,9 +354,9 @@
             </div>
         </div>
         <div class="app_course" id="AppPic">
-            <h4>
-                <%= LANG('安装教程') %>
-            </h4>
+            <!--<h4>-->
+                <!--<%= LANG('安装教程') %>-->
+            <!--</h4>-->
             <div class="img_con">
                 <img :src="picSourse" alt="">
             </div>

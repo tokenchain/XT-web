@@ -1106,7 +1106,7 @@ EXX.pack = {
     },
     "忘记二级密码": {
         "cn": "忘记二级密码",
-        "en": "Forgot password?"
+        "en": "Forgot Password?"
     },
     "请输入您的二级密码": {
         "cn": "请输入您的二级密码",

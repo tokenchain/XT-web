@@ -43,7 +43,7 @@
   },
   "用户登陆": {
     "cn": "用户登陆",
-    "en": "Log in",
+    "en": "Log In",
     "jp": "ログイン",
     "kr": "사용자로그인"
   },
@@ -145,7 +145,7 @@
   },
   "忘记密码?": {
     "cn": "忘记密码?",
-    "en": "Forgot password?",
+    "en": "Forgot Password?",
     "jp": "パスワードを忘れました？",
     "kr": "비밀번호?"
   },
@@ -163,7 +163,7 @@
   },
   "已有帐号立即登录": {
     "cn": "已有帐号立即登录",
-    "en": "Log in",
+    "en": "Log In",
     "jp": "アカウントを持っているから今すぐログインします",
     "kr": "계좌이미로그인"
   },
@@ -211,7 +211,7 @@
   },
   "立即登录": {
     "cn": "立即登录",
-    "en": "Log in",
+    "en": "Log In",
     "jp": "今すぐログインします",
     "kr": "즉시로그인"
   },
@@ -355,13 +355,13 @@
   },
   "未认证": {
     "cn": "未认证",
-    "en": "disable",
+    "en": "Disable",
     "jp": "未認証",
     "kr": "미인정"
   },
   "手机": {
     "cn": "手机",
-    "en": "SMS Authentication",
+    "en": "Mobile",
     "jp": "携帯",
     "kr": "휴대폰"
   },
@@ -475,7 +475,7 @@
   },
   "忘记登录密码": {
     "cn": "忘记登录密码",
-    "en": "Forgot password",
+    "en": "Forgot Password",
     "jp": "ログインパスワードを忘れました",
     "kr": "비밀번호로그인잊어버림"
   },
@@ -1807,13 +1807,13 @@
   },
   "钱包地址": {
     "cn": "钱包地址",
-    "en": " Wallet Address",
+    "en": "Deposit Address",
     "jp": "ウォレットアドレス",
     "kr": "지갑 주소"
   },
   "复制钱包地址": {
     "cn": "复制钱包地址",
-    "en": "Copy the wallet address",
+    "en": "Copy the deposit address",
     "jp": "ウォレットアドレスをコッピ―します",
     "kr": "지갑 주소 복사하기"
   },
@@ -1825,13 +1825,13 @@
   },
   "往该地址充值，汇款完成，等待网络自动确认": {
     "cn": "往该地址充值，汇款完成，等待网络自动确认",
-    "en": "The recharging amount will arrive at the account after ",
+    "en": "Coins will be deposited immediately after ",
     "jp": "アドレスへのデポジット、振替を完了させたら、ブロックチェーンによる自動確認を待ってください",
     "kr": "해당 주소로 충전하고, 송금완성후, 사이트에서 자동으로 확인하여 주세요."
   },
   "个确认后系统自动到账；": {
     "cn": "个确认后系统自动到账；",
-    "en": " network confirmation(s) once the deposit is completed.",
+    "en": " network confirmations.",
     "jp": "確認後、自動的にお客様のアカウントに入金されます",
     "kr": "확인 후 시스템이 자동으로 계좌에 도착하게 됩니다."
   },
@@ -1861,7 +1861,7 @@
   },
   "复制钱包地址成功！": {
     "cn": "复制钱包地址成功！",
-    "en": "Copy wallet address successfully.",
+    "en": "Copy deposit address successfully.",
     "jp": "ウォレットアドレスをうまくコッピ―しました！",
     "kr": "지갑주소 복사 성공!"
   },
@@ -1897,7 +1897,7 @@
   },
   "提币": {
     "cn": "提币",
-    "en": " Withdrawal",
+    "en": " Withdrawals",
     "jp": "コイン引出し",
     "kr": "화폐인출"
   },
@@ -2017,13 +2017,13 @@
   },
   "充值说明": {
     "cn": "充值说明",
-    "en": "Notes",
+    "en": "Important",
     "jp": "リチャージ説明",
     "kr": "충전 설명"
   },
   "提交时间": {
     "cn": "提交时间",
-    "en": "Submission time",
+    "en": "Submitted Time",
     "jp": "提出時間",
     "kr": "시간을 내다"
   },
