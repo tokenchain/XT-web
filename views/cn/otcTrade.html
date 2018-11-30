@@ -22,10 +22,16 @@
     <title><%=LANG('OTC交易')%></title>
     <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
-    <script src="/lib/requirejs/require.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+    <style>
+        .header{
+            background: #3E3E3E;
+        }
+    </style>
 </head>
 <body>
 
@@ -35,7 +41,7 @@
     <div class="otcTrade-continer">
         <div class="title">
             <div class="tab-box">
-                <span>购买</span>
+                <span class="active">购买</span>
                 <span>出售</span>
             </div>
             <a href="#">发布广告</a>
@@ -44,7 +50,7 @@
             </div>
         </div>
         <div class="coinList">
-            <div class="coin">
+            <div class="coin active">
                 BTC
             </div>
             <div class="coin">
@@ -79,7 +85,7 @@
                     <td>4,444-4,444 CNY</td>
                     <td>44,440.00 CNY</td>
                     <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
+                    <td><span class="btn" @click="buyOtc">购买otc</span></td>
                 </tr>
                 <tr>
                     <td>嘿呀嘿呀 (147 | 97%)</td>
@@ -111,22 +117,34 @@
                        v-if="records.length > 0 && !isAll"></page-lite>-->
         </div>
     </div>
+    <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
+        <otc-trade-modal />
+    </modal>
 </section>
-
+<%-include("./include/footer.html")%>
 </body>
 </html>
 
 <%-include("./component/page_lite.html")%>
+<%-include("./component/modal.html")%>
+<%-include("./component/otcTradeModal.html")%>
 
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
         var otcTrade = new Vue({
             el: "#home-otcTrade",
             data: function () {
-                return {}
+                return {
+                    showModal: false   //'otcTradeModal'
+                }
             },
             computed: {},
-            methods: {},
+            methods: {
+                buyOtc: function (obj) {
+                    console.log(11)
+                    this.showModal = 'otcTradeModal'
+                }
+            },
             updated: function () {
 
             },
@@ -142,7 +160,9 @@
 
 </script>
 
-<%-include("./include/footer.html")%>
+
+
+
 
 
 

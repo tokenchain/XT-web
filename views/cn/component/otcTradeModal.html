@@ -1,0 +1,88 @@
+<script type="text/x-template" id="otcTradeModal">
+    <div class="modal-otctrade">
+        <div class="exx-modal-container">
+            <div class="exx-modal-header"><h3><%=LANG('购买')%><span class="active" v-text="coin.toUpperCase()"></span></h3></div>
+
+            <div class="exx-modal-body">
+                <div class="otc-info">
+                    <div class="monut">
+                        <p class="title">嘿呀嘿呀 (147 | 97%)</p>
+                        <p class="monut">数量 0.287 BTC</p>
+                    </div>
+                    <div class="price">
+                        <p class="title"><%=LANG('单价')%>：45600.00 CNY</p>
+                        <p><%=LANG('限额')%>：100.00～10000.00</p>
+                    </div>
+                    <div class="trade-from">
+                        <input type="text">
+                        <img src="" alt="">
+                        <input type="text">
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="pay-type">
+                    <div class="title"><%=LANG('支持支付方式：')%></div>
+                    <div class="type-img">
+
+                    </div>
+                    <div class="remarks"><span><%=LANG('卖方付款时限为15分钟')%></span></div>
+                </div>
+                <div class="memo">
+                    <h3><%=LANG('商家备注：')%></h3>
+                    <p><%=LANG('你好，只接受实名认证账户汇款！！！！！------请不要写与比特币（BTC）等有关字眼（备注敏感字眼会被冻结账户）！！！！！------超过50000元尽量银行汇款！单次转账金额不要超过50000.')%></p>
+                </div>
+                <div class="btn-box">
+                    <button>购买BTC</button>
+                    <p>购买即表示明确并同意<span>《OTC服务协议》</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('otcTradeModal', {
+            template: "#otcTradeModal",
+            name: 'otcTradeModal',
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                type: {
+                    type: String,
+                    default: 'add'
+                },
+                address: {
+                    type: Object,
+                    default: function () {
+                        return {};
+                    }
+                },
+                coin: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    modalTitle: 'btc'
+                }
+            },
+            computed: {
+
+            },
+            watch: {},
+            methods: {},
+            created: function () {
+
+            },
+            mounted: function () {
+
+            }
+        })
+    });
+</script>
