@@ -1,0 +1,87 @@
+<div class="ordersDetail" id="ordersDetail">
+    <div class="order-title">
+        <p><%=LANG('订单')%>：<span v-cloak="">{{orderDetail.orderNo}}</span></p>
+        <p><%=LANG('时间')%>：<span  v-cloak="">{{orderDetail.createTime}}</span></p>
+    </div>
+    <div class="order-info">
+        <div class="info-title">
+            <span v-cloak=""><%=LANG('您向')%> {{orderDetail.sellerId}} <%=LANG('购买')%> {{orderDetail.totalAmount + orderDetail.currencyName}}</span>
+            <span><%=LANG('对方已缴纳5000XT保证金')%></span>
+        </div>
+        <p class="price"><%=LANG('单价')%>：<span v-cloak="">{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
+        <p><%=LANG('总价')%>：<span v-cloak="">{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span></p>
+    </div>
+    <div class="pay-type">
+        <p><%=LANG('卖方收款方式')%></p>
+        <div class="pay">
+            <img src="<%= IMG_STATIC %>/images/bankCard.png" alt="">
+            <span>邓耀球    6222032015002809386    工商    广东省雷州市支行</span>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var ordersDetail = new Vue({
+            el: "#ordersDetail",
+            data: function () {
+                return {
+                    orderDetail: {},
+                    legalCurrencyName: {
+                        cn: 'cny',
+                        en: 'usd',
+                        kr: 'krw',
+                        jp: 'jpy',
+                        hk: 'hkd'
+                    } [getCookie(ENV + 'lan')]
+                }
+            },
+            created() {
+                this.getOrderListDetail()
+            },
+            computed: {
+
+            },
+            methods: {
+                getType: function (type) {
+                    // return type
+                    return ['<%=LANG('购买')%>', '<%=LANG('出售')%>'][type]
+                },
+                getStatus: function (status) {
+                    switch (status) {
+                        case 0:
+                            return '<%=LANG('交易成功')%>'
+                            break;
+                        case 1:
+                            return '<%=LANG('等待付款')%>'
+                            break;
+                        case 2:
+                            return '<%=LANG('确认收款 ')%>'
+                            break;
+                        case 3:
+                            return '<%=LANG('无效订单')%>'
+                            break;
+                        case -1:
+                            return '<%=LANG('申述')%>'
+                            break;
+                    }
+                },
+                getOrderListDetail: function (obj) {   //查询 币种列表
+                    var data = {
+                        ordersNo: "<%= orderNo %>"
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectOrdersByOrdersNo',
+                        data: data,
+                        success: function (res) {
+                            this.orderDetail = res.datas
+                        }.bind(this)
+                    })
+                },
+            }
+        })
+    });
+</script>

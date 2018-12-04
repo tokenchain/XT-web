@@ -1,0 +1,134 @@
+<script type="text/x-template" id="safePwd">
+    <div class="exx-modal-container" style="width: 500px;">
+        <div class="exx-modal-header"><h3><%= LANG('交易密码') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="password11" class="control-label"><%= LANG('资金密码') %>：</label>
+                        <div class="form-control">
+                            <input id="password11" v-model="safePassword" type="password">
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="form-box" >
+                    <div class="form-group" >
+                        <label for="confirmPwd11"><%= LANG('新二级密码') %></label>
+                        <input id="confirmPwd11" v-model="newPassword" type="password">
+                    </div>
+                </div>-->
+
+                <div class="form-box" >
+                    <div class="form-group" >
+                        <label for="confirmPwd11" class="control-label"><%= LANG('确认资金密码') %>：</label>
+                        <div class="form-control">
+                            <input id="confirmPwd11" v-model="passwordConfirmation" type="password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-box code">
+                    <div class="form-group">
+                        <label for="msgCode11" class="control-label"><%= LANG('短信验证码') %>：</label>
+                        <div class="form-control">
+                            <input id="msgCode11" v-model="dynamicCode" type="text">
+                            <a href="javascript:;" class="code-num" @click="sendCode">
+                                <span><%= LANG('获取验证码') %></span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--<send-code v-if="userInfo.mobileAuth == 1" :code-type="14" :country-code="userInfo.mobile.split(' ')[0]" :user-name="userInfo.mobile.split(' ')[1]" />
+                    <send-code v-if="userInfo.mobileAuth == 0 && userInfo.emailAuth ==1" :code-type="14"  :user-name="userInfo.email" />-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="exx-modal-button">
+            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+            <button @click="handleSubmit" class="exxbtn btn-ok"><span><%= LANG('确定') %></span></button>
+        </div>
+
+    </div>
+
+</script>
+
+<%-include("../../component/send_code/index.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('safePwd', {
+            template: "#safePwd",
+            data: function () {
+                return {
+                    loaded: true,
+                    pubKey: '',
+                    showGoogleCode: false,
+                    safePassword: '',
+                    newPassword: '',
+                    passwordConfirmation: '',
+                    passwordIdentical: false,
+                    dynamicCode: '',
+                    googleCode: '',
+                    userName: Methods.getCookie(ENV + 'uname'),
+                    loginUser: Methods.getLocalUserInfo(),
+                }
+            },
+            computed: {
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                }
+            },
+            methods: {
+                sendCode: function() {
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + '/exchange/XtOtcController/userChangePasswordSendSMS',
+                        success: function (res) {
+                            console.log(res)
+                            // this.dynamicCode = res.datas.dynamicCode
+                            /*this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId= res.datas.keyId;*/
+                        }.bind(this)
+                    });
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                handleComparedPwd: function () {
+                    this.passwordIdentical = this.newPassword === this.passwordConfirmation
+                },
+                handleSubmit: function () {
+                    var data = {
+                        newPassword: Methods.encryptPwd(this.safePassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
+                        code: this.dynamicCode
+                    };
+                    Methods.ajax({
+                        url: DOMAIN_DEV + '/exchange/XtOtcController/insertUserSecurityPassword',
+                        data: data,
+                        success: function (res) {
+                            this.$parent.$parent.getUserInfo()
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                        }.bind(this),
+                        error: function (res) {
+                            var resMsg = res.resMsg;
+                            JuaBox.sure(EXX.L(resMsg.message));
+                        }
+                    });
+                }
+            },
+            mounted: function () {
+                this.getPubKey();
+            }
+        })
+    })
+</script>

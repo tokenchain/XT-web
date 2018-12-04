@@ -1,39 +1,39 @@
 <script type="text/x-template" id="otcTradeModal">
     <div class="modal-otctrade">
         <div class="exx-modal-container">
-            <div class="exx-modal-header"><h3><%=LANG('购买')%><span class="active" v-text="coin.toUpperCase()"></span></h3></div>
+            <div class="exx-modal-header"><h3>{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<span class="active" v-text="orderCoin"></span></h3></div>
 
             <div class="exx-modal-body">
                 <div class="otc-info">
                     <div class="monut">
-                        <p class="title">嘿呀嘿呀 (147 | 97%)</p>
-                        <p class="monut">数量 0.287 BTC</p>
+                        <p class="title">{{`${listRecord.userName} ( ${listRecord.thrityOrders} | ${listRecord.thrityRate}% )`}}</p>
+                        <p class="monut"><%=LANG('数量')%>： {{listRecord.orderAmount}} {{orderCoin}}</p>
                     </div>
                     <div class="price">
-                        <p class="title"><%=LANG('单价')%>：45600.00 CNY</p>
-                        <p><%=LANG('限额')%>：100.00～10000.00</p>
+                        <p class="title"><%=LANG('单价')%>：{{listRecord.orderPrice}} {{legalCurrencyName.toUpperCase()}}</p>
+                        <p><%=LANG('限额')%>：{{listRecord.orderLimitMin + '～' + listRecord.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</p>
                     </div>
                     <div class="trade-from">
-                        <input type="text">
+                        <input type="text" :placeholder="legalCurrencyName.toUpperCase()">
                         <img src="" alt="">
-                        <input type="text">
-                        <input type="text">
+                        <input type="text" v-model="amount" :placeholder="orderCoin">
+                        <input v-if="advType == 1" v-model="securityPassword" class="last-input" type="text" placeholder="<%=LANG('交易密码')%>">
                     </div>
                 </div>
                 <div class="pay-type">
                     <div class="title"><%=LANG('支持支付方式：')%></div>
                     <div class="type-img">
-
+                        <img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(listRecord.payId)" alt="" >
                     </div>
-                    <div class="remarks"><span><%=LANG('卖方付款时限为15分钟')%></span></div>
+                    <div class="remarks"><span>{{LANG('卖方付款时限为orderOutTime分钟', listRecord.orderOutTime)}}</span></div>
                 </div>
-                <div class="memo">
+                <div class="memo" v-if="advType == 1">
                     <h3><%=LANG('商家备注：')%></h3>
                     <p><%=LANG('你好，只接受实名认证账户汇款！！！！！------请不要写与比特币（BTC）等有关字眼（备注敏感字眼会被冻结账户）！！！！！------超过50000元尽量银行汇款！单次转账金额不要超过50000.')%></p>
                 </div>
                 <div class="btn-box">
-                    <button>购买BTC</button>
-                    <p>购买即表示明确并同意<span>《OTC服务协议》</span></p>
+                    <button @click="creatOrders">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</button>
+                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><span><%=LANG('《OTC服务协议》')%></span></p>
                 </div>
             </div>
         </div>
@@ -52,36 +52,87 @@
                         console.log('success');
                     }
                 },
-                type: {
+                advType: {
+                    type: Number,
+                    default: 1
+                },
+                orderCoin: {
                     type: String,
-                    default: 'add'
+                    default: ''
                 },
-                address: {
+                listRecord: {
                     type: Object,
-                    default: function () {
-                        return {};
-                    }
+                    default: {}
                 },
-                coin: {
+                legalCurrencyName: {
                     type: String,
                     default: ''
                 }
             },
             data: function () {
                 return {
-                    modalTitle: 'btc'
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    modalTitle: 'btc',
+                    securityPassword: '',
+                    amount: '',
+                    rsaKeyId: '',
+                    pubKey: '',
+                    orderNum: ''
                 }
             },
             computed: {
 
             },
             watch: {},
-            methods: {},
+            methods: {
+                LANG : function (value, n) {
+                    return EXX.L(value, n);
+                },
+                getPayType: function (payid) {
+                    return this.$parent.$parent.getPayType(payid)
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                creatOrders: function() {
+                    var data = {
+                        securityPassword: Methods.encryptPwd(this.securityPassword, this.pubKey),  //加密
+                        rsaKeyId: this.rsaKeyId,  //pubkey
+                        buyerId: this.advType == 1 ? this.loginUser.userId : this.listRecord.userId,
+                        sellerId: this.advType == 1 ? this.listRecord.userId : this.loginUser.userId,
+                        advsId: this.listRecord.id,
+                        orderType: this.advType,
+                        currencyName: this.orderCoin.toLowerCase(),
+                        legalCurrencyId: this.listRecord.legalCurrencyId,
+                        amount: this.amount,
+                        price: this.listRecord.orderPrice,
+                        status: 1
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/userCreateOrder',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.orderNum = res.datas
+                            // this.orderOutTime = res.datas.orderOutTime
+                        }.bind(this)
+                    })
+                },
+            },
             created: function () {
 
             },
             mounted: function () {
-
+                console.log(this.listRecord)
             }
         })
     });

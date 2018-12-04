@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
     <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
     <style>
@@ -41,8 +42,8 @@
     <div class="otcTrade-continer">
         <div class="title">
             <div class="tab-box">
-                <span class="active">购买</span>
-                <span>出售</span>
+                <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)">购买</span>
+                <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)">出售</span>
             </div>
             <a href="#">发布广告</a>
             <div class="search">
@@ -50,20 +51,8 @@
             </div>
         </div>
         <div class="coinList">
-            <div class="coin active">
-                BTC
-            </div>
-            <div class="coin">
-                XC
-            </div>
-            <div class="coin">
-                ETH
-            </div>
-            <div class="coin">
-                EOS
-            </div>
-            <div class="coin">
-                XT
+            <div :class="[{'active': orderCoin == item.name}, 'coin']" v-for="item in coinList" v-cloak="" @click="changeCoinName(item)">
+                {{item.name}}
             </div>
         </div>
         <div class="otclist">
@@ -79,46 +68,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn" @click="buyOtc">购买otc</span></td>
+                <tr v-for="item in otcList" v-cloak="">
+                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${item.thrityRate}% )`}}</td>
+                    <td>{{item.orderAmount}} {{orderCoin}}</td>
+                    <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
+                    <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
                 </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
-                </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
-                </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
+                <tr v-if="otcList.length == 0 || !otcList" class="nodata">
+                    <td colspan="6" style="text-align: center"><%= LANG('暂无数据') %></td>
                 </tr>
                 </tbody>
             </table>
-            <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
-                       v-if="records.length > 0 && !isAll"></page-lite>-->
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="fetchOtcList"
+                       v-if="otcList.length > 0"></page-lite>
         </div>
     </div>
     <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
-        <otc-trade-modal />
+        <otc-trade-modal :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
     </modal>
 </section>
 <%-include("./include/footer.html")%>
@@ -126,8 +94,6 @@
 </html>
 
 <%-include("./component/page_lite.html")%>
-<%-include("./component/modal.html")%>
-<%-include("./component/otcTradeModal.html")%>
 
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
@@ -135,21 +101,103 @@
             el: "#home-otcTrade",
             data: function () {
                 return {
-                    showModal: false   //'otcTradeModal'
+                    showModal: false,   //'otcTradeModal'
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    otcList: [],
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: null,
+                    coinList: [],
+                    advType: 1,  //1:买  2：卖
+                    orderCoin: 'XT',
+                    legalCurrencyName: {
+                        cn: 'cny',
+                        en: 'usd',
+                        kr: 'krw',
+                        jp: 'jpy',
+                        hk: 'hkd'
+                    } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
+                    listRecord: {},  //点击的每一行
+                    orderOutTime: ''
                 }
             },
-            computed: {},
+            computed: {
+
+            },
             methods: {
+                getPayType: function (payid) {
+                    var arr = ['', '', 'bankCard', 'aliPay', 'tencentPay', 'paypal', 'usdPay']
+                    return payid && payid.toString().split(',').map(function (item) {
+                        return arr[item]
+                    })
+                },
+                changeAdvType: function (type){
+                    this.advType = type
+                    this.fetchOtcList({advType: type})
+                },
                 buyOtc: function (obj) {
-                    console.log(11)
+                    this.getLimteTime()
+                    this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
+                    console.log(this.listRecord)
                     this.showModal = 'otcTradeModal'
+                },
+                fetchOtcList: function (obj) {  //查询 otc列表
+                    var data = Object.assign({
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex,
+                        advType: this.advType,
+                        orderCoin: this.orderCoin
+                    }, obj)
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUsersOtcList',
+                        data: data,
+                        success: function (res) {
+                            this.otcList = res.datas.results
+                            this.pageSize = res.datas.totalPage
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
+                        }.bind(this)
+                    })
+                },
+                fetchCoinList: function (obj) {   //查询 币种列表
+                    var data = {
+                        legalCurrencyName: this.legalCurrencyName
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCoinLists',
+                        data: data,
+                        success: function (res) {
+                            this.coinList = res.datas
+                        }.bind(this)
+                    })
+                },
+                getLimteTime: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/admin/OtcController/selectOTCConfig',
+                        success: function (res) {
+                            console.log(res)
+                            this.orderOutTime = res.datas.orderOutTime
+                        }.bind(this)
+                    })
+                    console.log(this.orderOutTime, 1111)
+                },
+                changeCoinName: function (item) {
+                    this.orderCoin = item.name
+                    this.fetchOtcList({orderCoin: this.orderCoin})
                 }
             },
             updated: function () {
 
             },
             created: function () {
-
+                this.fetchCoinList()
+                this.fetchOtcList()
             },
             mounted: function () {
 
@@ -160,6 +208,8 @@
 
 </script>
 
+<%-include("./component/modal.html")%>
+<%-include("./component/otcTradeModal.html")%>
 
 
 

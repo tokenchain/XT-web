@@ -510,7 +510,7 @@ $link-color: #8b8bec;
 
 .form-group {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   .form-control {
     position: relative;
     input {
@@ -1862,6 +1862,7 @@ button {
       margin-bottom: 20px;
     }
   }
+
   .api_panel.user_api {
     .form-group {
       display: flex;
@@ -1903,6 +1904,7 @@ button {
       }
     }
   }
+
   .exx-modal-container {
     background: #fff;
     .exx-modal-header {
@@ -1961,6 +1963,7 @@ button {
       }
     }
   }
+
   .earningsDetails {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -2168,7 +2171,7 @@ button {
               }
               &.nodata {
                 td {
-                  text-align: center;
+                  text-align: center !important;
                 }
               }
               td {
@@ -2259,6 +2262,120 @@ button {
       }
     }
   }
+
+  .ordersManage {
+    color: #000;
+    font-size: 14px;
+    width: 100%;
+    padding: 0 20px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      tr {
+        td {
+          padding: 22px 0;
+        }
+        td:last-child {
+          text-align: right;
+        }
+      }
+      thead {
+        tr {
+          td {
+            height: 19px;
+            line-height: 19px;
+            color: rgba(102, 102, 102, 1);
+            font-size: 14px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+          }
+        }
+      }
+      tbody {
+        tr {
+          &:last-child td {
+            border-bottom: 1px solid #ddd;
+          }
+          td {
+            border-top: 1px solid #ddd;
+            span.btn {
+              padding: 8px 12px;
+              background: $home_color;
+              border-radius: 4px;
+              color: #fff;
+              cursor: pointer;
+            }
+            span.status {
+              color: #FFBE3F;
+              font-family: MicrosoftYaHei-Bold;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ordersDetail {
+    padding: 40px 20px 20px 20px;
+    width: 100%;
+    font-size: 14px;
+    color: #000;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
+    .order-title {
+      display: flex;
+      margin-bottom: 40px;
+      font-weight: bold;
+      p {
+        flex: 1;
+        &:first-child {
+          flex: 0.5;
+          color: rgba(255, 190, 63, 1);
+          font-size: 12px;
+          font-family: MicrosoftYaHei-Bold;
+        }
+      }
+    }
+    .order-info {
+      .info-title {
+        display: flex;
+        color: rgba(137, 137, 137, 1);
+        font-size: 14px;
+        font-weight: bold;
+        font-family: MicrosoftYaHei-Bold;
+        margin-bottom: 25px;
+        span {
+          flex: 1;
+          &:first-child {
+            flex: 0.5;
+          }
+          &:last-child {
+            color: #FFBE3F;
+          }
+        }
+      }
+      p {
+        color: rgba(137, 137, 137, 1);
+        font-size: 14px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        span {
+          margin-left: 100px;
+          color: rgba(155, 155, 155, 1);
+          font-size: 12px;
+          font-family: MicrosoftYaHei;
+          font-weight: normal;
+        }
+        &.price{
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
 }
 
 .modal-open {
@@ -2272,10 +2389,8 @@ button {
   @extend %space-center;
   margin-top: 30px;
   a {
-    padding: 10px 20px;
-    //border: 1px solid #64649c;
-    //width: 74px;
-    height: 38px;
+    padding: 9px 15px;
+    height: 32px;
     color: #999999;
     background: rgba(239, 239, 239, 1);
     border-radius: 4px;
@@ -3818,7 +3933,7 @@ input::-webkit-inner-spin-button {
   }
   .otcTrade-continer {
     padding: 0 8%;
-    margin: 30px auto 10px auto;
+    margin: 30px auto 80px auto;
     .title {
       display: flex;
       justify-content: flex-start;
@@ -3858,6 +3973,7 @@ input::-webkit-inner-spin-button {
     .coinList {
       display: flex;
       margin: 20px 0;
+      min-height: 34px;
       .coin {
         width: 80px;
         text-align: center;
@@ -3875,7 +3991,7 @@ input::-webkit-inner-spin-button {
       }
     }
     .otclist {
-      padding: 0 20px;
+      padding: 0 20px 20px 20px;
       border-radius: 5px;
       background-color: rgba(255, 255, 255, 1);
       box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
@@ -3888,6 +4004,18 @@ input::-webkit-inner-spin-button {
           }
           td:last-child {
             text-align: right;
+          }
+        }
+        thead {
+          tr {
+            td {
+              height: 19px;
+              line-height: 19px;
+              color: rgba(102, 102, 102, 1);
+              font-size: 14px;
+              font-family: MicrosoftYaHei-Bold;
+              font-weight: bold;
+            }
           }
         }
         tbody {
@@ -3932,7 +4060,21 @@ input::-webkit-inner-spin-button {
       }
     }
     .trade-from {
+      display: flex;
       flex: 1;
+      input {
+        width: 150px;
+        flex: 1;
+        height: 44px;
+        border: 1px solid rgba(230, 230, 230, 1);
+        padding-left: 10px;
+        &.last-input {
+          margin-left: 20px;
+        }
+      }
+      img {
+        width: 20px;
+      }
     }
   }
   .pay-type {
@@ -3951,28 +4093,33 @@ input::-webkit-inner-spin-button {
       font-size: 12px;
     }
   }
-  .memo{
+  .memo {
     color: #9B9B9B;
-    h3{
+    h3 {
       font-size: 15px;
       margin-bottom: 10px;
     }
-    p{
+    p {
       font-size: 13px;
+      line-height: 18px;
     }
   }
-  .btn-box{
+  .btn-box {
+    margin-left: 45%;
     display: flex;
     align-items: center;
     margin-top: 20px;
     justify-content: space-between;
-    button{
-      width: 100px;
+    button {
+      width: 102px;
       padding: 11px 30px;
       font-size: 14px;
     }
-    p{
-      flex: 1;
+    span {
+      color: #FFBE3F;
+    }
+    p {
+      margin-left: 20px;
     }
   }
 }

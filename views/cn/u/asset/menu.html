@@ -10,6 +10,7 @@
                     currentUserAsset: Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
                     slideKey: <%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 %>,
                     childNav: <%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 %>,
+                    otcChild: <%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDetail') != -1 %>
                 }
             },
             computed: {
@@ -94,6 +95,14 @@
                     <li><a class="<%= PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" href="/u/userDetails"><%= LANG('用户数详情')%></a></li>
                 </ul>
             </li> -->
+            <li class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'active' : ''%>">
+                <i class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
+                <a href="/u/ordersManage" class="apiStyle"><%= LANG('OTC设置')%></a>
+                <ul class="nav-children" v-if="otcChild">
+                    <li><a class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'active' : ''%>" href="/u/ordersManage"><%= LANG('订单管理')%></a></li>
+                    <!--<li><a class="<%= PATH.indexOf('/u/invite') != -1 ? 'active' : ''%>" href="/u/invite"><%= LANG('邀请有礼')%></a></li>-->
+                </ul>
+            </li>
             <li class="<%= PATH.indexOf('/u/api') != -1 ? 'active' : ''%>">
                 <i class="<%= PATH.indexOf('/u/api') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
                 <a href="/u/api" class="apiStyle">API</a>
