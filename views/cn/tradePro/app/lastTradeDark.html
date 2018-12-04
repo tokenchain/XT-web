@@ -103,6 +103,8 @@
                 },
                 getRowHtml: function (item, newclass) {
                     this.tradeDate.setTime(item.date * 1000);
+                    var timezoneOffset = this.tradeDate.getTimezoneOffset();
+                    this.tradeDate.setTime(this.tradeDate.getTime() + timezoneOffset * 60 * 1000 + 480 * 60 * 1000);
                     var dateStr = this.dateFormatTf(this.tradeDate.getHours())
                         + ":" + this.dateFormatTf(this.tradeDate.getMinutes())
                         + ":" + this.dateFormatTf(this.tradeDate.getSeconds());
