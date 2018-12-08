@@ -10,7 +10,7 @@
                     currentUserAsset: Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
                     slideKey: <%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 %>,
                     childNav: <%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 %>,
-                    otcChild: <%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDetail') != -1 %>
+                    otcChild: <%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDetail') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/advertisement') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/settingsPayType') != -1 || PATH.indexOf('/u/finance') != -1%>
                 }
             },
             computed: {
@@ -34,7 +34,10 @@
                 },
                 openChild: function () {
                     this.childNav = !this.childNav
-                }   
+                },
+                openOtcChild: function () {
+                    this.otcChild = !this.otcChild
+                }
             },
             created: function () {
             },
@@ -44,6 +47,7 @@
         })
     })
 </script>
+
 <div class="user-navbar" id="user-menu">
         <!--资产管理-->
         <ul  class="<%= column == 1 || column == 2? 'hide' : ''%>">
@@ -95,12 +99,17 @@
                     <li><a class="<%= PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" href="/u/userDetails"><%= LANG('用户数详情')%></a></li>
                 </ul>
             </li> -->
-            <li class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'active' : ''%>">
-                <i class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
-                <a href="/u/ordersManage" class="apiStyle"><%= LANG('OTC设置')%></a>
+            <li class="<%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/advertisement') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/settingsPayType') != -1 || PATH.indexOf('/u/finance') != -1 ? 'active' : ''%>">
+                <i class="<%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDatail') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/finance') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
+                <a class="apiStyle" @click="openOtcChild"><%= LANG('OTC设置')%></a>
+                <i class="<%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDatail') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/advertisement') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/settingsPayType') != -1 || PATH.indexOf('/u/finance') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
                 <ul class="nav-children" v-if="otcChild">
                     <li><a class="<%= PATH.indexOf('/u/ordersManage') != -1 ? 'active' : ''%>" href="/u/ordersManage"><%= LANG('订单管理')%></a></li>
-                    <!--<li><a class="<%= PATH.indexOf('/u/invite') != -1 ? 'active' : ''%>" href="/u/invite"><%= LANG('邀请有礼')%></a></li>-->
+                    <li><a class="<%= PATH.indexOf('/u/business') != -1 ? 'active' : ''%>" href="/u/business"><%= LANG('我是商家')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/advertisement') != -1 ? 'active' : ''%>" href="/u/advertisement"><%= LANG('广告管理')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/publishAdv') != -1 ? 'active' : ''%>" href="/u/publishAdv"><%= LANG('发布广告')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/settingsPayType') != -1 ? 'active' : ''%>" href="/u/settingsPayType"><%= LANG('支付设置')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/finance') != -1 ? 'active' : ''%>" href="/u/finance"><%= LANG('财务统计')%></a></li>
                 </ul>
             </li>
             <li class="<%= PATH.indexOf('/u/api') != -1 ? 'active' : ''%>">

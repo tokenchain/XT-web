@@ -14,10 +14,10 @@
                         <p><%=LANG('限额')%>：{{listRecord.orderLimitMin + '～' + listRecord.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</p>
                     </div>
                     <div class="trade-from">
-                        <input type="text" :placeholder="legalCurrencyName.toUpperCase()">
+                        <input type="text" disabled readonly="readonly" :placeholder="legalCurrencyName.toUpperCase()">
                         <img src="" alt="">
                         <input type="text" v-model="amount" :placeholder="orderCoin">
-                        <input v-if="advType == 1" v-model="securityPassword" class="last-input" type="text" placeholder="<%=LANG('交易密码')%>">
+                        <input v-if="advType !== 1" type="password" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>">
                     </div>
                 </div>
                 <div class="pay-type">
@@ -41,7 +41,7 @@
 </script>
 
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         return Vue.component('otcTradeModal', {
             template: "#otcTradeModal",
             name: 'otcTradeModal',
@@ -113,7 +113,7 @@
                         legalCurrencyId: this.listRecord.legalCurrencyId,
                         amount: this.amount,
                         price: this.listRecord.orderPrice,
-                        status: 1
+                        status: this.advType == 1 ? 1 : 2
                     }
                     Methods.ajax({
                         type: 'POST',
@@ -121,15 +121,20 @@
                             '/exchange/XtOtcController/userCreateOrder',
                         data: data,
                         success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
                             this.orderNum = res.datas
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.$parent.$parent.showModal = false
                             // this.orderOutTime = res.datas.orderOutTime
-                        }.bind(this)
+                            window.location.href = `u/ordersDetail/${res.datas}`
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.message));
+                        }
                     })
                 },
             },
             created: function () {
-
+                this.getPubKey()
             },
             mounted: function () {
                 console.log(this.listRecord)

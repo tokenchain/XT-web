@@ -1,0 +1,129 @@
+<div class="finance" id="finance">
+    <div class="title">
+        <div class="tab-box">
+            <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('买币')%></span>
+            <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('卖币')%></span>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="中国，人民币，全部支付方式">
+
+        </div>
+    </div>
+    <div class="screening">
+        <div class="partner-details">
+            <div class="pieChart clearfix">
+                <ul>
+                    <li>
+                    <span>
+                        <%= LANG('卖出数量') %></span>
+                        <em v-cloak="">{{records.amount || 0}}
+                            <%= LANG('XT') %></em>
+                    </li>
+                    <li>
+                        <span><%= LANG('卖出均价')%></span>
+                        <em v-cloak="">{{records.money / records.num || 0}}
+                            {{legalCurrencyName.toUpperCase()}}</em>
+                    </li>
+                    <li>
+                    <span>
+                        <%= LANG('收入金额') %></span>
+                        <em v-cloak="">{{records.money || 0}}
+                            {{legalCurrencyName.toUpperCase()}}</em>
+                    </li>
+                    <li>
+                        <span><%= LANG('成交订单') %></span>
+                        <em v-cloak="">{{records.num || 0}}
+                            <%= LANG('笔') %></em>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+                <td><%=LANG('订单编号')%></td>
+                <td><%=LANG('交易类型')%></td>
+                <td><%=LANG('币种及数量')%></td>
+                <td><%=LANG('总价')%></td>
+                <td><%=LANG('单价')%></td>
+                <td><%=LANG('时间')%></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in finList" v-cloak="">
+                <td>{{item.orderNo}}</td>
+                <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
+                <td>{{item.amount + item.currencyName}}</td>
+                <td>{{item.totalAmount}}</td>
+                <td>{{item.price}}</td>
+                <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
+            </tr>
+            <tr v-if="finList.length == 0 || !finList" class="nodata">
+                <td colspan="9" style="text-align: center"><%= LANG('暂无数据') %></td>
+            </tr>
+            </tbody>
+        </table>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getfinList"
+                   v-if="finList.length > 0"></page-lite>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var finance = new Vue({
+            el: "#finance",
+            data: function () {
+                return {
+                    advType: 1,
+                    finList: [],
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    records: {},
+                    legalCurrencyName: {
+                        cn: 'cny',
+                        en: 'usd',
+                        kr: 'krw',
+                        jp: 'jpy',
+                        hk: 'hkd'
+                    } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
+                }
+            },
+            created() {
+                this.getfinList()
+            },
+            computed: {},
+            methods: {
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
+                },
+                changeAdvType: function (type) {
+                    this.advType = type
+                    // this.getfinList({advType: type})
+                },
+                getfinList: function (obj) {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUserOrdersRecord',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.records = res.datas.records
+                            this.finList = res.datas.results.results
+                            this.pageSize = res.datas.results.pageSize
+                            this.pageIndex = res.datas.results.pageIndex
+                            this.totalPage = res.datas.results.totalPage
+                        }.bind(this)
+                    })
+                }
+            }
+        })
+    });
+</script>
+
+<%-include("../../component/page_lite.html")%>

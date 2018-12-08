@@ -295,4 +295,48 @@ router.get(['/ordersDetail', '/ordersDetail/:orderNo'], function (req, res, next
     });
 });
 
+router.get('/business', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/business.html',
+        column: 1
+    });
+});
+
+router.get('/advertisement', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/advertisement.html',
+        column: 1
+    });
+});
+
+router.get(['/advDetail', '/advDetail/:advNo'], function (req, res, next) {
+    var advNo = req.params.advNo;
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/advDetail.html',
+        advNo: advNo ? advNo.trim() : 'all',
+        column: 1
+    });
+});
+
+router.get('/publishAdv', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/publishAdv.html',
+        column: 1
+    });
+});
+
+router.get('/settingsPayType', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/settingsPayType.html',
+        column: 1
+    });
+});
+
+router.get('/finance', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/otcSettings/finance.html',
+        column: 1
+    });
+});
+
 module.exports = router;

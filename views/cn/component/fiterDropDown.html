@@ -1,0 +1,159 @@
+<script type="text/x-template" id="fiterDropDown">
+    <div class="fiterDropDown" v-if="open">
+        <form action="" v-if="type == 1">
+            <!--<div class="item">
+                <label for=""><%= LANG('国家') %></label>
+                <select name="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>-->
+
+            <div class="item">
+                <label for=""><%= LANG('法币币种') %></label>
+                <select name="" v-model="formModel.legalCurrencyId">
+                    <option :value="item.id" v-for="item in currencyList">{{item.shortName}}</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('支付方式') %></label>
+                <select name="" v-model="formModel.legalCurrencyId">
+                    <option value="2"><%= LANG('银行卡') %></option>
+                    <option value="3"><%= LANG('支付宝') %></option>
+                    <option value="4"><%= LANG('微信支付') %></option>
+                    <option value="5"><%= LANG('PayPal') %></option>
+                    <option value="6"><%= LANG('usdPay') %></option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('金额') %></label>
+                <input type="text" v-model="formModel.legalCurrencyId">
+            </div>
+            <div class="exx-modal-button">
+                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
+                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
+            </div>
+        </form>
+
+        <form action="" v-if="type == 2">
+            <div class="item">
+                <label for=""><%= LANG('国家') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('法币币种') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('支付方式') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('金额') %></label>
+                <input type="text">
+            </div>
+            <div class="exx-modal-button">
+                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
+                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
+            </div>
+        </form>
+
+        <form action="" v-if="type == 3">
+            <div class="item">
+                <label for=""><%= LANG('国家') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('法币币种') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('支付方式') %></label>
+                <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('金额') %></label>
+                <input type="text">
+            </div>
+            <div class="exx-modal-button">
+                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
+                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script>
+    require(['vue'], function (Vue) {
+        return Vue.component('fiterDropDown', {
+            template: '#fiterDropDown',
+            name: 'fiterDropDown',
+            props: {
+                open: {
+                    type: Boolean,
+                    default: false
+                },
+                type: {
+                    type: String,
+                    default: ''
+                },
+                currencyList: {
+                    type: Array,
+                    default: []
+                }
+            },
+            data: function () {
+                return {
+                    loaded: false,
+                    formModel: {
+                        legalCurrencyId: 1,
+                        payId: '',
+                        orderPrice: ''
+                    }
+                }
+            },
+            methods: {
+                bigImg: function () {
+                    // 发送事件
+                    this.$emit('clickit')
+                },
+                imgError: function () {
+                    this.$emit('loaderror')
+                }
+            }
+        })
+    })
+</script>

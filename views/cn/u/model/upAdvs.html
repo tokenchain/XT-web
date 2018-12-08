@@ -1,0 +1,232 @@
+<script type="text/x-template" id="upAdvs">
+    <div class="exx-modal-container upAdvs" style="width: 800px;">
+        <div class="exx-modal-header"><h3><%= LANG('上架广告') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <form>
+                    <div class="form-item">
+                        <label for=""><%=LANG('法币币种')%>：</label>
+                        <select name="" v-cloak="" @change="changeCurrency" v-model="advDetail.legalCurrencyId">
+                            <option :value="item.id" v-cloak="" v-for="item in currencyList">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('交易币种')%>：</label>
+                        <select name="" v-cloak="" @change="changeCoin" v-model="advDetail.orderCoin">
+                            <option :value="item.shortName" v-cloak="" v-for="item in coinList">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('单价')%>：</label>
+                        <input type="text" v-model="advDetail.orderPrice">
+                    </div>
+                    <div class="form-item" v-if="advDetail.advType == 2">
+                        <label for=""><%=LANG('可用数量')%>：</label>
+                        <span class="describe" v-cloak="">{{amount}} {{ advDetail.orderCoin.toUpperCase()}}</span>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('交易数量')%>：</label>
+                        <input type="text" v-model="advDetail.orderAmount">
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('单笔最小成交额')%>：</label>
+                        <input type="text" v-model="advDetail.orderLimitMin">
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('单笔最大成交额')%>：</label>
+                        <input type="text" v-model="advDetail.orderLimitMax">
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('备注(MEMO)')%>：</label>
+                        <textarea name="" cols="30" rows="10" v-model="advDetail.memo"></textarea>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('支持支付方式')%>：</label>
+                        <div class="pay">
+                            <img :src="imgSrc(item)" alt="" v-for="item in formModel.payId">
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('交易密码')%>：</label>
+                        <input type="password" v-model="formModel.securityPassword">
+                    </div>
+                    <!--<div class="bnt">
+                        <button @click="publishAdvs" type="button"><%=LANG('发布')%></button>
+                    </div>-->
+                    <div class="notice" v-if="advDetail.advType == 1">
+                        <p><%=LANG('注意事项：')%></p>
+                        <p><%=LANG(' 1、请务必转账时确认对方账户信息；')%></p>
+                        <p><%=LANG('2、请仔细核实款项来源及转账备注，以免银行卡被冻结')%></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="exx-modal-button">
+            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
+            </button>
+            <button @click="publishAdvs" class="exxbtn btn-ok"><span><%= LANG('上架') %></span></button>
+        </div>
+
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('upAdvs', {
+            template: "#upAdvs",
+            props: {
+                type: {
+                    type: String,
+                    default: ''
+                },
+                advDetail: {
+                    type: Object,
+                    default: {}
+                }
+            },
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(),
+                    currencyList: [],
+                    coinList: [],
+                    amount: "",
+                    formModel: {
+                        legalCurrencyId: '1',  //法币默认 cny
+                        orderCoin: 'xt',  //虚拟币 默认 xt
+                        orderPrice: '',   //单价
+                        orderAmount: '',  //交易数量
+                        orderLimitMax: '',  //单笔最大成交额
+                        orderLimitMin: '',   //单笔最小成交额
+                        memo: '',  //备注
+                        payId: [], //支付方式
+                        securityPassword: '',  //交易密码
+                    },
+                    pubKey: '',
+                    rsaKeyId: ''
+                }
+            },
+            created() {
+                this.getCoinList()
+                this.getCurrencyList()
+                this.queryMyPayType()
+                this.getPubKey()
+                if (this.advDetail.advType == 2) {
+                    this.queryAmount()
+                }
+            },
+            computed: {
+                userInfo: function () {
+                    return Methods.getLocalUserInfo();
+                }
+            },
+            methods: {
+                imgSrc: function (payId) {
+                    return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
+                },
+                changeCurrency: function(e) {
+                    console.log(e.target.value)
+                    this.formModel.legalCurrencyId = e.target.value
+                    var tode = this.currencyList.find(function (item) {
+                        return item.id == e.target.value
+                    })
+                    this.getCoinList(tode.shortName.toLowerCase())
+                },
+                changeCoin: function(e) {
+                    console.log(e.target.value)
+                    this.formModel.orderCoin = e.target.value
+                },
+                getCoinList: function (name) {   //查询 币种列表
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCoinLists',
+                        data: {
+                            legalCurrencyName: name ? name : 'cny'
+                        },
+                        success: function (res) {
+                            this.coinList = res.datas
+                        }.bind(this)
+                    })
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+                queryAmount: function () { //查询余额
+                    var data = {
+                        currencyTypeName: this.formModel.orderCoin
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUserExchangeCoinAmount',
+                        data: data,
+                        success: function (res) {
+                            this.amount = res.datas.amount
+                        }.bind(this)
+                    })
+                },
+                publishAdvs: function () {  //发布广告
+                    var data ={}
+                    Object.assign(data, this.advDetail, {
+                        securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
+                        // payId: this.formModel.payId.join(','),
+                        payId: this.advDetail.payId,
+                        currencyTypeName: this.advDetail.orderCoin,
+                        advStatus: 1
+                    })
+                    console.log(this.formModel.securityPassword)
+                    console.log(data)
+
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/updateAdvsStatus',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.$parent.$parent.getfinListDetail()
+                            this.$parent.$parent.showModal = false
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
+                queryMyPayType: function () {  //查询自己的支付方式
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUserPayBankAndPayOnline',
+                        data: {},
+                        success: function (res) {
+                            this.formModel.payId = res.datas
+                        }.bind(this)
+                    })
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+            },
+            mounted: function () {
+                this.getPubKey();
+            }
+        })
+    })
+</script>

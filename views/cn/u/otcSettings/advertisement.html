@@ -1,0 +1,146 @@
+<div class="advertisement" id="advertisement">
+    <div class="title">
+        <div class="search">
+            <input type="text" placeholder="中国，人民币，全部支付方式">
+
+        </div>
+    </div>
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+                <td><%=LANG('广告编号')%></td>
+                <td><%=LANG('类型')%></td>
+                <td><%=LANG('币种及数量')%></td>
+                <td><%=LANG('订单限额')%></td>
+                <td><%=LANG('单价')%></td>
+                <td><%=LANG('时间')%></td>
+                <td><%=LANG('剩余数量')%></td>
+                <td><%=LANG('已完成')%></td>
+                <td><%=LANG('操作')%></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in finList" v-cloak="">
+                <td>{{item.id}}</td>
+                <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.advType]}}</td>
+                <td>{{item.orderAmount + item.orderCoin}}</td>
+                <td>{{item.orderLimitMin}} ～ {{item.orderLimitMax}}</td>
+                <td>{{item.orderPrice}}</td>
+                <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
+                <td>{{item.laveAmount}}</td>
+                <td><span class="a-btn" @click="rollsOff(item)">{{item.advStatus == 0 ? '<%=LANG('上架')%>' : '<%=LANG('下架')%>'}}</span></td>
+                <td><span class="a-btn" @click="lookDetail(item)"><%=LANG('查看')%></span></td>
+            </tr>
+            <tr v-if="finList.length == 0 || !finList" class="nodata">
+                <td colspan="9" style="text-align: center"><%= LANG('暂无数据') %></td>
+            </tr>
+            </tbody>
+        </table>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getfinList"
+                   v-if="finList.length > 0"></page-lite>
+    </div>
+    <modal v-cloak :open="showModal == 'upAdvs'" @close="showModal = false">
+        <up-advs :adv-detail="record"/>
+    </modal>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var advertisement = new Vue({
+            el: "#advertisement",
+            data: function () {
+                return {
+                    finList: [],
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    showModal: false,
+                    record: {}
+                }
+            },
+            created() {
+                this.getfinList()
+            },
+            computed: {
+
+            },
+            methods: {
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
+                },
+                getStatus: function (status) {
+                    switch (status) {
+                        case 0:
+                            return '<%=LANG('交易成功')%>'
+                            break;
+                        case 1:
+                            return '<%=LANG('等待付款')%>'
+                            break;
+                        case 2:
+                            return '<%=LANG('确认收款 ')%>'
+                            break;
+                        case 3:
+                            return '<%=LANG('无效订单')%>'
+                            break;
+                        case -1:
+                            return '<%=LANG('申诉')%>'
+                            break;
+                    }
+                },
+                getfinList: function (obj) {   //查询 币种列表
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectAdvsLists',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.finList = res.datas.results
+                            this.pageSize = res.datas.pageSize
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
+                        }.bind(this)
+                    })
+                },
+                rollsOff: function (item) {
+                    if(item.advStatus == 0) { //上架
+                        JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
+                            this.record = item
+                            this.showModal = 'upAdvs'
+                        }.bind(this))
+                    } else {
+                        JuaBox.info("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", function () {
+                            var data = {}
+                            Object.assign(data, item)
+                            item.advStatus == 0 ? data.advStatus = 1 : data.advStatus = 0
+                            data.currencyTypeName = item.orderCoin
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV +
+                                    '/exchange/XtOtcController/updateAdvsStatus',
+                                data: data,
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.getfinList()
+                                }.bind(this),
+                                error: function (res) {
+                                    JuaBox.wrong(EXX.L(res.resMsg.message));
+                                }
+                            })
+                        }.bind(this))
+                    }
+                },
+                lookDetail: function (item) {
+                    window.location.href = `advDetail/${item.id}`
+                }
+            }
+        })
+    });
+</script>
+
+<%-include("../../component/modal.html")%>
+<%-include("../model/upAdvs.html")%>
+<%-include("../../component/page_lite.html")%>

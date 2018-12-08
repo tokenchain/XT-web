@@ -67,9 +67,9 @@
                         <!--<span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>-->
                     </div>
                     <div class="oper">
-                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 0" @click="openModal('safePwdAuth')"><%= LANG('设置') %></a>
-                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('safePwdAuth')"><%= LANG('修改') %></a>
-                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('safePwdAuth')"><%= LANG('重置') %></a>
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 0" @click="openModal('addPwdAuth')"><%= LANG('设置') %></a>
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('editSafePwdAuth')"><%= LANG('修改') %></a>
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('resetSafePwdAuth')"><%= LANG('重置') %></a>
                     </div>
                 </li>
                 <li>
@@ -180,8 +180,8 @@
         <modal-login-auth :params="loginAuthParams" :done="callCloseModal()"/>
     </modal>
 
-    <modal v-cloak :open="showModal == 'safePwdAuth'" @close="showModal = false">
-        <safe-pwd :params="loginAuthParams" :done="callCloseModal()"/>
+    <modal v-cloak :open="showModal == 'addPwdAuth' || showModal == 'editSafePwdAuth' || showModal == 'resetSafePwdAuth'" @close="showModal = false">
+        <safe-pwd :params="loginAuthParams" :type="showModal" :done="callCloseModal()"/>
     </modal>
 
     <modal v-cloak :open="showModal == 'setsafepay'" @close="showModal = false">

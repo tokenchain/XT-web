@@ -24,10 +24,13 @@
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
+
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
     <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
     <style>
         .header{
             background: #3E3E3E;
@@ -42,12 +45,13 @@
     <div class="otcTrade-continer">
         <div class="title">
             <div class="tab-box">
-                <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)">购买</span>
-                <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)">出售</span>
+                <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('购买')%></span>
+                <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('出售')%></span>
             </div>
             <a href="#">发布广告</a>
             <div class="search">
-                <input type="text" placeholder="中国，人民币，全部支付方式">
+                <input type="text" placeholder="中国，人民币，全部支付方式" @click="openDropdown">
+                <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList"/>
             </div>
         </div>
         <div class="coinList">
@@ -69,7 +73,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in otcList" v-cloak="">
-                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${item.thrityRate}% )`}}</td>
+                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}</td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
                     <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
@@ -93,10 +97,11 @@
 </body>
 </html>
 
+<%-include("./component/fiterDropDown.html")%>
 <%-include("./component/page_lite.html")%>
 
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var otcTrade = new Vue({
             el: "#home-otcTrade",
             data: function () {
@@ -118,15 +123,21 @@
                         hk: 'hkd'
                     } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
                     listRecord: {},  //点击的每一行
-                    orderOutTime: ''
+                    orderOutTime: '',
+                    fiterDropDown: false,
+                    currencyList: []
                 }
             },
             computed: {
 
             },
             methods: {
+                openDropdown: function() {
+                    this.fiterDropDown = !this.fiterDropDown
+                    console.log(this.fiterDropDown)
+                },
                 getPayType: function (payid) {
-                    var arr = ['', '', 'bankCard', 'aliPay', 'tencentPay', 'paypal', 'usdPay']
+                    var arr = ['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay']
                     return payid && payid.toString().split(',').map(function (item) {
                         return arr[item]
                     })
@@ -190,7 +201,18 @@
                 changeCoinName: function (item) {
                     this.orderCoin = item.name
                     this.fetchOtcList({orderCoin: this.orderCoin})
-                }
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
             },
             updated: function () {
 
@@ -198,6 +220,7 @@
             created: function () {
                 this.fetchCoinList()
                 this.fetchOtcList()
+                this.getCurrencyList()
             },
             mounted: function () {
 

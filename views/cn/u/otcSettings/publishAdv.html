@@ -1,0 +1,215 @@
+<div id="publishAdv" class="publishAdv">
+    <div class="title">
+        <div class="tab-box">
+            <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('买币')%></span>
+            <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('卖币')%></span>
+        </div>
+    </div>
+    <div class="publishAdv-box">
+        <form>
+            <div class="form-item">
+                <label for=""><%=LANG('法币币种')%>：</label>
+                <select name="" v-cloak="" @change="changeCurrency" v-model="formModel.legalCurrencyId">
+                    <option :value="item.id" v-cloak="" v-for="item in currencyList">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('交易币种')%>：</label>
+                <select name="" v-cloak="" @change="changeCoin" v-model="formModel.orderCoin">
+                    <option :value="item.shortName" v-cloak="" v-for="item in coinList">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('单价')%>：</label>
+                <input type="text" v-model="formModel.orderPrice">
+            </div>
+            <div class="form-item" v-if="advType == 2">
+                <label for=""><%=LANG('可用数量')%>：</label>
+                <span class="describe" v-cloak="">{{amount}} {{ formModel.orderCoin.toUpperCase()}}</span>
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('交易数量')%>：</label>
+                <input type="text" v-model="formModel.orderAmount">
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('单笔最小成交额')%>：</label>
+                <input type="text" v-model="formModel.orderLimitMin">
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('单笔最大成交额')%>：</label>
+                <input type="text" v-model="formModel.orderLimitMax">
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('备注(MEMO)')%>：</label>
+                <textarea name="" cols="30" rows="10" v-model="formModel.memo"></textarea>
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('支持支付方式')%>：</label>
+                <div class="pay">
+                    <img :src="imgSrc(item)" alt="" v-for="item in formModel.payId">
+                </div>
+            </div>
+            <div class="form-item">
+                <label for=""><%=LANG('交易密码')%>：</label>
+                <input type="password" v-model="formModel.securityPassword">
+            </div>
+            <div class="bnt">
+                <button @click="publishAdvs" type="button"><%=LANG('发布')%></button>
+            </div>
+            <div class="notice" v-if="advType == 1">
+                <p><%=LANG('注意事项：')%></p>
+                <p><%=LANG(' 1、请务必转账时确认对方账户信息；')%></p>
+                <p><%=LANG('2、请仔细核实款项来源及转账备注，以免银行卡被冻结')%></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var publishAdv = new Vue({
+            el: "#publishAdv",
+            data: function () {
+                return {
+                    advType: 1,
+                    currencyList: [],
+                    coinList: [],
+                    amount: "",
+                    formModel: {
+                        legalCurrencyId: '1',  //法币默认 cny
+                        orderCoin: 'xt',  //虚拟币 默认 xt
+                        orderPrice: '',   //单价
+                        orderAmount: '',  //交易数量
+                        orderLimitMax: '',  //单笔最大成交额
+                        orderLimitMin: '',   //单笔最小成交额
+                        memo: '',  //备注
+                        payId: [], //支付方式
+                        securityPassword: '',  //交易密码
+                    },
+                    pubKey: '',
+                    rsaKeyId: ''
+                }
+            },
+            created() {
+                this.getCoinList()
+                this.getCurrencyList()
+                this.queryMyPayType()
+                this.getPubKey()
+                if (this.advType == 2) {
+                    this.queryAmount()
+                }
+            },
+            computed: {},
+            methods: {
+                imgSrc: function (payId) {
+                    return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
+                },
+                changeCurrency: function(e) {
+                    console.log(e.target.value)
+                    this.formModel.legalCurrencyId = e.target.value
+                    var tode = this.currencyList.find(function (item) {
+                        return item.id == e.target.value
+                    })
+                    this.getCoinList(tode.shortName.toLowerCase())
+                },
+                changeCoin: function(e) {
+                    console.log(e.target.value)
+                    this.formModel.orderCoin = e.target.value
+                },
+                changeAdvType: function (type){
+                    this.advType = type
+                    if (type == 2) {
+                        this.queryAmount()
+                    }
+                },
+                getCoinList: function (name) {   //查询 币种列表
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCoinLists',
+                        data: {
+                            legalCurrencyName: name ? name : 'cny'
+                        },
+                        success: function (res) {
+                            this.coinList = res.datas
+                        }.bind(this)
+                    })
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+                queryAmount: function () { //查询余额
+                    var data = {
+                        currencyTypeName: this.formModel.orderCoin
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUserExchangeCoinAmount',
+                        data: data,
+                        success: function (res) {
+                            this.amount = res.datas.amount
+                        }.bind(this)
+                    })
+                },
+                publishAdvs: function () {  //发布广告
+                    JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
+                        var data ={}
+                        Object.assign(data, this.formModel, {
+                            securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
+                            rsaKeyId: this.rsaKeyId,
+                            payId: this.formModel.payId.join(','),
+                            currencyTypeName: this.formModel.orderCoin,
+                            advType: this.advType,
+                            advStatus: 1
+                        })
+                        console.log(data)
+
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV +
+                                '/exchange/XtOtcController/publishCurrencyAdvs',
+                            data: data,
+                            success: function (res) {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                window.location.href = `u/advertisement`
+                            }.bind(this),
+                            error: function (res) {
+                                JuaBox.wrong(EXX.L(res.resMsg.message));
+                            }
+                        })
+                    }.bind(this))
+                },
+                queryMyPayType: function () {  //查询自己的支付方式
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUserPayBankAndPayOnline',
+                        data: {},
+                        success: function (res) {
+                            this.formModel.payId = res.datas
+                        }.bind(this)
+                    })
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+            }
+        })
+    });
+</script>

@@ -1,0 +1,163 @@
+<div class="advDetail" id="advDetail">
+    <div class="buy" v-cloak="">
+        <div class="order-title">
+            <p><%=LANG('订单')%>：<span>{{advDetail.id}}</span></p>
+            <p><%=LANG('时间')%>：<span>{{getData(advDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
+        </div>
+        <div class="order-info">
+            <div class="info-title">
+                <span><%=LANG('购买')%></span>
+                <span @click="statusSubmit(advDetail)">{{advDetail.advStatus == 1 ? '<%=LANG('上架中')%>' : '<%=LANG('下架中')%>'}}</span>
+            </div>
+            <div class="buy-info">
+                <span class="first">
+                    <p><%=LANG('单价')%>：<span>{{advDetail.orderPrice || 0}} {{legalCurrencyName.toUpperCase()}} / {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
+                    <p><%=LANG('单笔最小交易限额')%>：<span>{{advDetail.orderLimitMin || 0}} {{legalCurrencyName.toUpperCase()}}</span></p>
+                    <p><%=LANG('当前已完成')%>：<span>{{advDetail.saleAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
+                </span>
+                <span>
+                    <p><%=LANG('总量')%>：<span>{{advDetail.orderAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
+                    <p><%=LANG('单笔最大交易限额')%>：<span>{{advDetail.orderLimitMax || 0}} {{legalCurrencyName.toUpperCase()}}</span></p>
+                    <p><%=LANG('剩余数量')%>：<span>{{advDetail.laveAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
+                </span>
+            </div>
+        </div>
+        <div class="order-pay-type adv-pay-type">
+            <p><%=LANG('支付方式')%></p>
+            <div class="pay-info">
+                <div class="pay" v-for="item in advDetail.payId && advDetail.payId.trim().split(',')">
+                    <label :for="item">
+                        <img :src="imgSrc(item)" alt="">
+                        <span>{{getPayTitle(item)}}</span>
+                    </label>
+                </div>
+            </div>
+            <button @click="statusSubmit(advDetail)">{{advDetail.advStatus == 0 ? '<%=LANG('上架')%>' : '<%=LANG('下架')%>'}}</button>
+        </div>
+    </div>
+    <modal v-cloak :open="showModal == 'upAdvs'" @close="showModal = false">
+        <up-advs :adv-detail="advDetail"/>
+    </modal>
+</div>
+
+<%-include("../../component/modal.html")%>
+<%-include("../model/upAdvs.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var advDetail = new Vue({
+            el: "#advDetail",
+            data: function () {
+                return {
+                    showModal: false,
+                    advDetail: {
+
+                    },
+                    legalCurrencyName: {
+                        cn: 'cny',
+                        en: 'usd',
+                        kr: 'krw',
+                        jp: 'jpy',
+                        hk: 'hkd'
+                    } [getCookie(ENV + 'lan')],
+                    currencyAmount: null,
+                    payId: null,
+                }
+            },
+            created() {
+                this.getfinListDetail()
+                this.getCurrencyAmount()
+            },
+            computed: {
+
+            },
+            methods: {
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
+                },
+                getPayTitle: function (item) {
+                    return ['', '', '<%= "银行卡" %>', '<%= "支付宝" %>', '<%= "微信支付" %>', 'paypal', '<%= "网银" %>'][item]
+                },
+                changePayId: function (payId) {
+                    this.payId = payId
+                },
+                init: function () {
+                    this.payId = null
+                },
+                imgSrc: function (payId) {
+                    return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
+                },
+                getfinListDetail: function (callBack) {
+                    var data = {
+                        id: "<%= advNo %>"
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/viewUserAdvsById',
+                        data: data,
+                        success: function (res) {
+                            this.advDetail = res.datas
+                            callBack && callBack()
+                        }.bind(this)
+                    })
+                },
+                getCurrencyAmount: function () {  //获取冻结币数量
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectConfigSetting',
+                        data: {},
+                        success: function (res) {
+                            this.currencyAmount = res.datas
+                        }.bind(this)
+                    })
+                },
+                updataOrtderApi: function (data) {
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/updateOrdersStatus',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.getfinListDetail(function () {
+                                this.init()
+                            }.bind(this))
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.error(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
+                statusSubmit: function (item) { //上架，下架
+                    if(item.advStatus == 0) { //上架
+                        JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
+                            this.showModal = 'upAdvs'
+                        }.bind(this))
+                    } else {
+                        JuaBox.info("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", function () {
+                            var data = {}
+                            Object.assign(data, item)
+                            item.advStatus == 0 ? data.advStatus = 1 : data.advStatus = 0
+                            data.currencyTypeName = item.orderCoin
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV +
+                                    '/exchange/XtOtcController/updateAdvsStatus',
+                                data: data,
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.getfinListDetail()
+                                }.bind(this),
+                                error: function (res) {
+                                    JuaBox.wrong(EXX.L(res.resMsg.message));
+                                }
+                            })
+                        }.bind(this))
+                    }
+                }
+            }
+        })
+    });
+</script>

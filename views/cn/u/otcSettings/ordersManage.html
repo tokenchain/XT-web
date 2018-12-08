@@ -1,6 +1,9 @@
 <div class="ordersManage" id="ordersManage">
     <div class="title">
+        <div class="search">
+            <input type="text" placeholder="中国，人民币，全部支付方式">
 
+        </div>
     </div>
     <div class="list">
         <table>
@@ -18,11 +21,11 @@
             <tbody>
             <tr v-for="item in orderList" v-cloak="">
                 <td>{{item.orderNo}}</td>
-                <td>{{['<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
+                <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
                 <td>{{item.amount + item.currencyName}}</td>
                 <td>{{item.totalAmount}}</td>
                 <td>{{item.price}}</td>
-                <td>{{item.createTime}}</td>
+                <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                 <td><span class="status">{{getStatus(item.status)}}</span></td>
             </tr>
             <tr v-if="orderList.length == 0 || !orderList" class="nodata">
@@ -54,9 +57,8 @@
 
             },
             methods: {
-                getType: function (type) {
-                    // return type
-                    return ['<%=LANG('购买')%>', '<%=LANG('出售')%>'][type]
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
                 },
                 getStatus: function (status) {
                     switch (status) {
@@ -73,7 +75,7 @@
                             return '<%=LANG('无效订单')%>'
                             break;
                         case -1:
-                            return '<%=LANG('申述')%>'
+                            return '<%=LANG('申诉')%>'
                             break;
                     }
                 },
