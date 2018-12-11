@@ -28,8 +28,9 @@ module.exports = function(LAN) {
             href : 'mail://support@xt.com'
         },
         SHUTDOWN: {     //停机维护
-            flag: false,
-            content: '2018-12-11 15:00--2018-12-11 18:00,停机维护中，请谅解！'
+            flag: true,
+            startTime: '2018-12-11 15:00',
+            endTime: '2018-12-11 18:00'
         }
     }
 }
