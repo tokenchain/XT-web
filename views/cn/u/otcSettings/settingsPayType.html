@@ -568,7 +568,7 @@
                         data: {payId: type},
                         url: DOMAIN_DEV + "/exchange/XtOtcController/selectUserPayBO",
                         success: function (res) {
-                            if (res.datas.length > 0) {
+                            if (res.datas && res.datas.length > 0) {
                                 this[arr[this.payType]] = res.datas[0]
                                 if (this.payType == 3 || this.payType == 4) {
                                     this.imgList.push({
