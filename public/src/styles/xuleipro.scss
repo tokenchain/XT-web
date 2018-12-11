@@ -2449,17 +2449,17 @@ button {
           margin: 10px 0;
           align-items: center;
           position: relative;
-          p{
+          p {
             margin: 0;
             span {
               margin: 0 5px;
             }
           }
-          .qscode-box{
+          .qscode-box {
             position: absolute;
             top: -190px;
             left: 30px;
-            img{
+            img {
               width: 100%;
             }
           }
@@ -2773,8 +2773,16 @@ button {
         color: #898989;
         .form-item {
           display: flex;
-          margin-bottom: 20px;
+          padding-bottom: 20px;
           align-items: center;
+          position: relative;
+          label.error {
+            color: #f00;
+            display: block;
+            position: absolute;
+            bottom: 2px;
+            right: 0;
+          }
           &.img-box {
             align-items: flex-start;
             label {
@@ -2803,6 +2811,9 @@ button {
             border: 1px solid rgba(219, 219, 219, 1);
             border-radius: 4px;
             padding-left: 10px;
+            &.error {
+              border-color: #f00;
+            }
           }
           .describe {
             flex: 1;
@@ -4705,20 +4716,33 @@ input::-webkit-inner-spin-button {
       }
     }
     .trade-from {
-      display: flex;
       flex: 1;
-      input {
-        width: 150px;
-        flex: 1;
-        height: 44px;
-        border: 1px solid rgba(230, 230, 230, 1);
-        padding-left: 10px;
-        &.last-input {
-          margin-left: 20px;
+      form {
+        display: flex;
+        position: relative;
+        padding-bottom: 10px;
+        label.error {
+          position: absolute;
+          bottom: -6px;
+          right: 0;
+          color: red;
         }
-      }
-      img {
-        width: 20px;
+        input {
+          width: 150px;
+          flex: 1;
+          height: 44px;
+          border: 1px solid rgba(230, 230, 230, 1);
+          padding-left: 10px;
+          &.last-input {
+            margin-left: 20px;
+          }
+          &.error {
+            border-color: red;
+          }
+        }
+        img {
+          width: 20px;
+        }
       }
     }
   }

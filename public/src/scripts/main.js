@@ -14,7 +14,8 @@ require.config({
         // 2018年04月13日->二维码生成
         'qrcode': ENV == 'w' ? 'qrcode/build/qrcode' : 'qrcode/build/qrcode',
         'datepicker': 'bootstrap-datepicker-master/js/bootstrap-datepicker',
-        'bootstrap': 'bootstrap/dist/js/bootstrap'
+        'bootstrap': 'bootstrap/dist/js/bootstrap',
+        'validate': 'https://cdn.bootcss.com/jquery-validate/1.19.0/jquery.validate.min'
     },
     shim: {
         'others/cryptico.min': {},
@@ -30,7 +31,6 @@ require.config({
             exports: "Highstock"
         },
         'datepicker': ['jquery']
-
     }
 });
 //require(['pace'], function(pace){

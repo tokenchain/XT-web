@@ -14,10 +14,12 @@
                         <p><%=LANG('限额')%>：{{listRecord.orderLimitMin + '～' + listRecord.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</p>
                     </div>
                     <div class="trade-from">
-                        <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
-                        <img src="" alt="">
-                        <input type="text" v-model="amount" :placeholder="orderCoin">
-                        <input v-if="advType !== 1" type="password" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>">
+                        <form id="otcModalId">
+                            <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
+                            <img src="" alt="">
+                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required>
+                            <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                        </form>
                     </div>
                 </div>
                 <div class="pay-type">
@@ -41,7 +43,7 @@
 </script>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         return Vue.component('otcTradeModal', {
             template: "#otcTradeModal",
             name: 'otcTradeModal',
@@ -102,35 +104,37 @@
                     });
                 },
                 creatOrders: function() {
-                    var data = {
-                        securityPassword: Methods.encryptPwd(this.securityPassword, this.pubKey),  //加密
-                        rsaKeyId: this.rsaKeyId,  //pubkey
-                        buyerId: this.advType == 1 ? this.loginUser.userId : this.listRecord.userId,
-                        sellerId: this.advType == 1 ? this.listRecord.userId : this.loginUser.userId,
-                        advsId: this.listRecord.id,
-                        orderType: this.advType,
-                        currencyName: this.orderCoin.toLowerCase(),
-                        legalCurrencyId: this.listRecord.legalCurrencyId,
-                        amount: this.amount,
-                        price: this.listRecord.orderPrice,
-                        status: this.advType == 1 ? 1 : 2
-                    }
-                    Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV +
-                            '/exchange/XtOtcController/userCreateOrder',
-                        data: data,
-                        success: function (res) {
-                            this.orderNum = res.datas
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            this.$parent.$parent.showModal = false
-                            // this.orderOutTime = res.datas.orderOutTime
-                            window.location.href = `u/ordersDetail/${res.datas}`
-                        }.bind(this),
-                        error: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.message));
+                    if ($('#otcModalId').valid()) {
+                        var data = {
+                            securityPassword: Methods.encryptPwd(this.securityPassword, this.pubKey),  //加密
+                            rsaKeyId: this.rsaKeyId,  //pubkey
+                            buyerId: this.advType == 1 ? this.loginUser.userId : this.listRecord.userId,
+                            sellerId: this.advType == 1 ? this.listRecord.userId : this.loginUser.userId,
+                            advsId: this.listRecord.id,
+                            orderType: this.advType,
+                            currencyName: this.orderCoin.toLowerCase(),
+                            legalCurrencyId: this.listRecord.legalCurrencyId,
+                            amount: this.amount,
+                            price: this.listRecord.orderPrice,
+                            status: this.advType == 1 ? 1 : 2
                         }
-                    })
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV +
+                                '/exchange/XtOtcController/userCreateOrder',
+                            data: data,
+                            success: function (res) {
+                                this.orderNum = res.datas
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                this.$parent.$parent.showModal = false
+                                // this.orderOutTime = res.datas.orderOutTime
+                                window.location.href = `u/ordersDetail/${res.datas}`
+                            }.bind(this),
+                            error: function (res) {
+                                JuaBox.success(EXX.L(res.resMsg.message));
+                            }
+                        })
+                    }
                 },
             },
             created: function () {

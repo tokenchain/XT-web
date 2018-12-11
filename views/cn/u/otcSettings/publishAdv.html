@@ -21,7 +21,7 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单价')%>：</label>
-                <input type="text" v-model="formModel.orderPrice">
+                <input type="text" name="orderPrice" v-model="formModel.orderPrice" required number="true">
             </div>
             <div class="form-item" v-if="advType == 2">
                 <label for=""><%=LANG('可用数量')%>：</label>
@@ -29,15 +29,15 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易数量')%>：</label>
-                <input type="text" v-model="formModel.orderAmount">
+                <input type="text" name="orderAmount" v-model="formModel.orderAmount" required number="true">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最小成交额')%>：</label>
-                <input type="text" v-model="formModel.orderLimitMin">
+                <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最大成交额')%>：</label>
-                <input type="text" v-model="formModel.orderLimitMax">
+                <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required number="true">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -51,7 +51,7 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易密码')%>：</label>
-                <input type="password" v-model="formModel.securityPassword">
+                <input type="password" autocomplete="off" name="securityPassword" v-model="formModel.securityPassword" required maxlength="6">
             </div>
             <div class="bnt">
                 <button @click="publishAdvs" type="button"><%=LANG('发布')%></button>
@@ -66,7 +66,7 @@
 </div>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         var publishAdv = new Vue({
             el: "#publishAdv",
             data: function () {
@@ -161,32 +161,34 @@
                     })
                 },
                 publishAdvs: function () {  //发布广告
-                    JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
-                        var data ={}
-                        Object.assign(data, this.formModel, {
-                            securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
-                            rsaKeyId: this.rsaKeyId,
-                            payId: this.formModel.payId.join(','),
-                            currencyTypeName: this.formModel.orderCoin,
-                            advType: this.advType,
-                            advStatus: 1
-                        })
-                        console.log(data)
+                    if ($('#publishAdv form').valid()) {
+                        JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
+                            var data ={}
+                            Object.assign(data, this.formModel, {
+                                securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
+                                rsaKeyId: this.rsaKeyId,
+                                payId: this.formModel.payId.join(','),
+                                currencyTypeName: this.formModel.orderCoin,
+                                advType: this.advType,
+                                advStatus: 1
+                            })
+                            console.log(data)
 
-                        Methods.ajax({
-                            type: 'POST',
-                            url: DOMAIN_DEV +
-                                '/exchange/XtOtcController/publishCurrencyAdvs',
-                            data: data,
-                            success: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.code));
-                                window.location.href = `u/advertisement`
-                            }.bind(this),
-                            error: function (res) {
-                                JuaBox.wrong(EXX.L(res.resMsg.message));
-                            }
-                        })
-                    }.bind(this))
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV +
+                                    '/exchange/XtOtcController/publishCurrencyAdvs',
+                                data: data,
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    window.location.href = `advertisement`
+                                }.bind(this),
+                                error: function (res) {
+                                    JuaBox.wrong(EXX.L(res.resMsg.code));
+                                }
+                            })
+                        }.bind(this))
+                    }
                 },
                 queryMyPayType: function () {  //查询自己的支付方式
                     Methods.ajax({

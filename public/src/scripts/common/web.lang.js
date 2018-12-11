@@ -2980,6 +2980,42 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7050": {
+        "cn": "该币种不存在",
+        "en": "not exists",
+        "jp": "",
+        "kr": ""
+    },
+    "7015": {
+        "cn": "用户没有实名认证或者没有高级实名认证",
+        "en": "User does not have advanced certification",
+        "jp": "",
+        "kr": ""
+    },
+    "7016": {
+        "cn": "交易数量大于单笔交易总量",
+        "en": "This transaction exceeds the single transaction amount",
+        "jp": "",
+        "kr": ""
+    },
+    "7017": {
+        "cn": "交易数量大于总交易量",
+        "en": "The total number of transactions is greater than the maximum",
+        "jp": "",
+        "kr": ""
+    },
+    "7011": {
+        "cn": "交易密码不同",
+        "en": "Different fund passwords",
+        "jp": "",
+        "kr": ""
+    },
+    "7040": {
+        "cn": "交易密码不存在",
+        "en": "Security password not exists",
+        "jp": "",
+        "kr": ""
+    },
     "10012": {
         "cn": "未知异常",
         "en": "unknown error",

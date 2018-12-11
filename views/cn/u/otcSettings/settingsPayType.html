@@ -146,29 +146,29 @@
             <div class="status-bank" v-if="currencyName == 'CNY' && payType == 2">
                 <div class="form-item">
                     <label for=""><%=LANG('姓名')%>：</label>
-                    <input type="text" v-model="formModel.bankOwner">
+                    <input type="text" name="bankOwner" v-model="formModel.bankOwner" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('开户银行')%>：</label>
-                    <select name="" v-model="formModel.bankName" v-cloak="">
+                    <select name="bankName" v-model="formModel.bankName" v-cloak="" required>
                         <option :value="item.name" v-for="item in bankList">{{item.name}}</option>
                     </select>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('开户地址')%>：</label>
-                    <input type="text" v-model="formModel.bankDetail">
+                    <input type="text" name="bankDetail" v-model="formModel.bankDetail" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('银行卡号')%>：</label>
-                    <input type="text" v-model="formModel.bankNo">
+                    <input type="text" name="bankNo" v-model="formModel.bankNo" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('确认账号')%>：</label>
-                    <input type="text" v-model="bankNoConfirmation">
+                    <input type="text" name="bankNoConfirmation" v-model="bankNoConfirmation" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" v-model="formModel.securityPassword">
+                    <input type="password" name="securityPassword" v-model="formModel.securityPassword" required maxlength="6">
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -180,15 +180,15 @@
             <div class="status-ali-cencent" v-if="currencyName == 'CNY' && (payType == 3 || payType == 4)" v-cloak="">
                 <div class="form-item">
                     <label for=""><%=LANG('姓名')%>：</label>
-                    <input type="text" v-model="formModel_move.userName">
+                    <input type="text" name="userName" v-model="formModel_move.userName" required>
                 </div>
                 <div class="form-item">
                     <label for="">{{payType == 3 ? '<%=LANG('支付宝账号')%>' : '<%=LANG('微信账号')%>'}}：</label>
-                    <input type="text" v-model="formModel_move.account">
+                    <input type="text" name="account" v-model="formModel_move.account" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" v-model="formModel_move.securityPassword">
+                    <input type="password" name="securityPassword" v-model="formModel_move.securityPassword" required maxlength="6">
                 </div>
                 <div class="form-item img-box">
                     <label for="">{{payType == 3 ? '<%=LANG('支付宝收款码')%>' : '<%=LANG('微信收款码')%>'}}：</label>
@@ -232,31 +232,31 @@
             <div class="status-usd" v-if="currencyName !== 'CNY' && payType == 6" v-cloak="">
                 <div class="form-item">
                     <label for=""><%=LANG('姓名')%>：</label>
-                    <input type="text" v-model="formModel_usd.bankOwner">
+                    <input type="text" name="bankOwner" v-model="formModel_usd.bankOwner" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('地址')%>：</label>
-                    <input type="text" v-model="formModel_usd.remark">
+                    <input type="text" name="remark" v-model="formModel_usd.remark" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('银行账号')%>：</label>
-                    <input type="text" v-model="formModel_usd.bankNo">
+                    <input type="text" name="bankNo" v-model="formModel_usd.bankNo" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('银行名称')%>：</label>
-                    <input type="text" v-model="formModel_usd.bankName">
+                    <input type="text" name="bankName" v-model="formModel_usd.bankName" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('银行地址')%>：</label>
-                    <input type="text" v-model="formModel_usd.bankDetail">
+                    <input type="text" name="bankDetail" v-model="formModel_usd.bankDetail" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('SWIFT码(重要)')%>：</label>
-                    <input type="password" v-model="formModel_usd.swifiCode">
+                    <input type="password" name="swifiCode" v-model="formModel_usd.swifiCode" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" v-model="formModel_usd.securityPassword">
+                    <input type="password" name="securityPassword" v-model="formModel_usd.securityPassword" required maxlength="6">
                 </div>
             </div>
 
@@ -264,15 +264,15 @@
             <div class="status-paypal" v-if="currencyName !== 'CNY' && payType == 5" v-cloak="">
                 <div class="form-item">
                     <label for=""><%=LANG('用户名')%>：</label>
-                    <input type="text" v-model="formModel_payPal.bankOwner">
+                    <input type="text" name="bankOwner" v-model="formModel_payPal.bankOwner" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('PayPal账号')%>：</label>
-                    <input type="password" v-model="formModel_payPal.bankNo">
+                    <input type="password" name="bankNo" v-model="formModel_payPal.bankNo" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" v-model="formModel_payPal.securityPassword">
+                    <input type="password" name="securityPassword" v-model="formModel_payPal.securityPassword" required maxlength="6">
                 </div>
             </div>
 
@@ -284,7 +284,7 @@
 </div>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         var settingsPayType = new Vue({
             el: "#settingsPayType",
             data: function () {
@@ -507,37 +507,40 @@
                     return this.formModel.bankNo == this.bankNoConfirmation
                 },
                 seetings: function () {  //提交
-                    if (this.payType == 2 && !this.handleComparedPwd()) {
-                        JuaBox.wrong("<%= LANG('两次输入卡号不一致！') %>");
-                        return
-                    }
-                    if ((this.payType == 3 || this.payType == 4) && !this.imgUrl) {
-                        JuaBox.wrong("<%= LANG('收款码未上传！') %>");
-                        return
-                    }
-                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    var data = {}
-                    Object.assign(data, this[arr[this.payType]], {
-                        securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
-                        rsaKeyId: this.rsaKeyId,
-                        payId: this.payType,
-                        qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
-                    })
-                    console.log(data)
-
-                    Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV +
-                            '/exchange/XtOtcController/addOrUpdatePayBO',
-                        data: data,
-                        success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            // this.queryPayTypeInfo(this.payType)
-                        }.bind(this),
-                        error: function (res) {
-                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                    if ($('#settingsPayType form').valid()) {
+                        if (this.payType == 2 && !this.handleComparedPwd()) {
+                            JuaBox.wrong("<%= LANG('两次输入卡号不一致！') %>");
+                            return
                         }
-                    })
+                        if ((this.payType == 3 || this.payType == 4) && !this.imgUrl) {
+                            JuaBox.wrong("<%= LANG('收款码未上传！') %>");
+                            return
+                        }
+
+                        var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                        var data = {}
+                        Object.assign(data, this[arr[this.payType]], {
+                            securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
+                            rsaKeyId: this.rsaKeyId,
+                            payId: this.payType,
+                            qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
+                        })
+                        console.log(data)
+
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV +
+                                '/exchange/XtOtcController/addOrUpdatePayBO',
+                            data: data,
+                            success: function (res) {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                // this.queryPayTypeInfo(this.payType)
+                            }.bind(this),
+                            error: function (res) {
+                                JuaBox.wrong(EXX.L(res.resMsg.code));
+                            }
+                        })
+                    }
                 },
                 getPubKey: function () {
                     Methods.ajax({
