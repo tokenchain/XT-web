@@ -14,7 +14,7 @@
                         <p><%=LANG('限额')%>：{{listRecord.orderLimitMin + '～' + listRecord.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</p>
                     </div>
                     <div class="trade-from">
-                        <input type="text" disabled readonly="readonly" :placeholder="legalCurrencyName.toUpperCase()">
+                        <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
                         <img src="" alt="">
                         <input type="text" v-model="amount" :placeholder="orderCoin">
                         <input v-if="advType !== 1" type="password" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>">
@@ -137,7 +137,7 @@
                 this.getPubKey()
             },
             mounted: function () {
-                console.log(this.listRecord)
+
             }
         })
     });

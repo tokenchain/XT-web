@@ -14,16 +14,20 @@
         </div>
         <div class="order-pay-type">
             <p><%=LANG('卖方收款方式')%></p>
-            <div class="pay" v-for="item in sellPayList">
+            <div class="pay" v-for="item in sellPayList" v-if="!orderDetail.status == 3">
                 <label :for="item.id">
-                    <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id" @click="changePayId(item.payId)">
-                    <img :src="imgSrc(item.payId)" alt="">
+                    <input v-if="orderDetail.status !== -1" name="payType" type="radio" :id="item.id" @click="changePayId(item.payId)">
+                    <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
+                    <div id="qscode-box" class="qscode-box" v-if="qscode">
+                        <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
+                    </div>
                     <span>{{item.bankOwner}}</span>
                     <span>{{item.bankNo}}</span>
                     <span>{{item.bankName}}</span>
                     <span>{{item.bankDetail}}</span>
                 </label>
             </div>
+            <p v-if="orderDetail.status == 3"><%=LANG('订单已取消，无法查看支付信息')%></p>
             <p v-if="orderDetail.status == -1" class="memo"><span><%=LANG('已申诉')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span></p>
             <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请与14分28秒内向{{orderDetail.sellerName}}支付')%> <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>,<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span></p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('待打币，付款参考号：')%> <span>{{orderDetail.no}}</span></p>
@@ -56,25 +60,39 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <span><%=LANG('您向')%> {{orderDetail.sellerName}} <%=LANG('出售')%> {{orderDetail.totalAmount + orderDetail.currencyName}}</span>
+                <span><%=LANG('您向')%> {{orderDetail.sellerName}} <%=LANG('出售')%> {{orderDetail.amount + orderDetail.currencyName}}</span>
                 <span v-if="orderDetail.status == 3"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName}}</span><%=LANG('保证金')%><span></span>
             </div>
             <p class="price"><%=LANG('单价')%>：<span>{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
             <p><%=LANG('总价')%>：<span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span></p>
         </div>
         <div class="order-pay-type">
-            <p><%=LANG('卖方收款方式')%></p>
+            <p><%=LANG('买方收款方式')%></p>
             <div class="pay" v-for="item in sellPayList" v-if="!orderDetail.status == 1 || !orderDetail.status == 3">
                 <label :for="item.id">
                     <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id" @click="changePayId(item.payId)">
-                    <img :src="imgSrc(item.payId)" alt="">
-                    <span>{{item.bankOwner}}</span>
-                    <span>{{item.bankNo}}</span>
-                    <span>{{item.bankName}}</span>
-                    <span>{{item.bankDetail}}</span>
+                    <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
+                    <div id="qscode-box" class="qscode-box" v-if="qscode">
+                        <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
+                    </div>
+                    <p v-if="item.payId == 2">
+                        <span>{{item.bankOwner}}</span>
+                        <span>{{item.bankNo}}</span>
+                        <span>{{item.bankName}}</span>
+                        <span>{{item.bankDetail}}</span>
+                    </p>
+                    <p v-if="item.payId == 3 || item.payId == 4">
+                        <span>{{item.userName}}</span>
+                        <span><%=LANG('备注勿写比特币等字')%></span>
+                    </p>
+                    <p v-if="item.payId == 5 || item.payId == 6">
+                        <span>{{item.bankOwner}}</span>
+                        <span>{{item.account}}</span>
+                    </p>
                 </label>
             </div>
-            <p v-else><%=LANG('当前订单未支付，无法查看买方付款方式')%></p>
+            <p v-if="orderDetail.status == 1"><%=LANG('当前订单未支付，无法查看买方付款方式')%></p>
+            <p v-if="orderDetail.status == 3"><%=LANG('订单已取消，无法查看支付信息')%></p>
             <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('剩余支付 14分28秒')%> <%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span></p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span></p>
             <span v-if="orderDetail.status == 0" class="status"><%=LANG('已完成')%></span>
@@ -103,7 +121,8 @@
                     currencyAmount: null,
                     sellPayList: [],
                     payId: null,
-                    sellPhone: ''
+                    sellPhone: '',
+                    qscode: false
                 }
             },
             created() {
@@ -138,6 +157,16 @@
                 }
             },
             methods: {
+                enter: function(item) {
+                    if (item.payId ==3 || item.payId ==4) {
+                        this.qscode = true
+                    }
+                },
+                leave: function(item) {
+                    if (item.payId ==3 || item.payId ==4) {
+                        this.qscode = false
+                    }
+                },
                 getData: function(time, format) {
                     return Methods.getDateTime(time, format)
                 },

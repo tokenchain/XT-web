@@ -660,6 +660,10 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
             var date = new Date(parseInt(timestamp) * 1000);
             return date.getHours() + ':' + date.getMinutes();
         },
+        getTimeStamp: function(timestr) {
+            var data = new Date(timestr);
+            return data.getTime();
+        },
         // 返回 YYYYMMDD HH:MM:SS
         getDateTime: function (timestamp, format) {
             var pad = function (val, len) {

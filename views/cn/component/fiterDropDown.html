@@ -1,6 +1,8 @@
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">
 <script type="text/x-template" id="fiterDropDown">
     <div class="fiterDropDown" v-if="open">
-        <form action="" v-if="type == 1">
+        <form v-if="type == 1">
             <!--<div class="item">
                 <label for=""><%= LANG('国家') %></label>
                 <select name="">
@@ -19,7 +21,7 @@
 
             <div class="item">
                 <label for=""><%= LANG('支付方式') %></label>
-                <select name="" v-model="formModel.legalCurrencyId">
+                <select name="" v-model="formModel.payId">
                     <option value="2"><%= LANG('银行卡') %></option>
                     <option value="3"><%= LANG('支付宝') %></option>
                     <option value="4"><%= LANG('微信支付') %></option>
@@ -30,94 +32,140 @@
 
             <div class="item">
                 <label for=""><%= LANG('金额') %></label>
-                <input type="text" v-model="formModel.legalCurrencyId">
-            </div>
-            <div class="exx-modal-button">
-                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
-                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
+                <input type="text" v-model="formModel.orderPrice">
             </div>
         </form>
 
-        <form action="" v-if="type == 2">
+        <form v-if="type == 2">
             <div class="item">
-                <label for=""><%= LANG('国家') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                </select>
+                <label for=""><%= LANG('开始时间') %></label>
+                <input v-model="formModel_adv.beginTime" type="text" class="form-control dataPicker" id="beginTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('结束时间') %></label>
+                <input v-model="formModel_adv.endTime" type="text" class="form-control dataPicker" id="endTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('编号') %></label>
+                <input type="text" v-model="formModel_adv.id">
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('币种') %></label>
+                <input type="text" v-model="formModel_adv.orderCoin">
             </div>
 
             <div class="item">
                 <label for=""><%= LANG('法币币种') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                <select name="" v-model="formModel_adv.legalCurrencyId">
+                    <option :value="item.id" v-for="item in currencyList">{{item.shortName}}</option>
                 </select>
             </div>
 
             <div class="item">
-                <label for=""><%= LANG('支付方式') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                <label for=""><%= LANG('类型') %></label>
+                <select name="" v-model="formModel_adv.advType">
+                    <option value="1"><%= LANG('购买') %></option>
+                    <option value="2"><%= LANG('出售') %></option>
                 </select>
-            </div>
-
-            <div class="item">
-                <label for=""><%= LANG('金额') %></label>
-                <input type="text">
-            </div>
-            <div class="exx-modal-button">
-                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
-                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
             </div>
         </form>
 
         <form action="" v-if="type == 3">
             <div class="item">
-                <label for=""><%= LANG('国家') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                </select>
+                <label for=""><%= LANG('开始时间') %></label>
+                <input v-model="formModel_order.beginTime" type="text" class="form-control dataPicker" id="beginTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('结束时间') %></label>
+                <input v-model="formModel_order.endTime" type="text" class="form-control dataPicker" id="endTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('订单状态') %></label>
+                <input type="text" v-model="formModel_order.orderType">
             </div>
 
             <div class="item">
                 <label for=""><%= LANG('法币币种') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                <select name="" v-model="formModel_order.legalCurrencyId">
+                    <option :value="item.id" v-for="item in currencyList">{{item.shortName}}</option>
                 </select>
             </div>
 
             <div class="item">
-                <label for=""><%= LANG('支付方式') %></label>
-                <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                </select>
+                <label for=""><%= LANG('币种') %></label>
+                <input type="text" v-model="formModel_order.orderCoin">
             </div>
 
             <div class="item">
-                <label for=""><%= LANG('金额') %></label>
-                <input type="text">
-            </div>
-            <div class="exx-modal-button">
-                <button class="exxbtn btn-cancel" type="button"><span><%= LANG('取消') %></span></button>
-                <button class="exxbtn btn-ok" type="button"><span><%= LANG('保存') %></span></button>
+                <label for=""><%= LANG('类型') %></label>
+                <select name="" v-model="formModel_order.advType">
+                    <option value="1"><%= LANG('购买') %></option>
+                    <option value="2"><%= LANG('出售') %></option>
+                </select>
             </div>
         </form>
+
+        <form action="" v-if="type == 4">
+            <div class="item">
+                <label for=""><%= LANG('开始时间') %></label>
+                <input v-model="formModel_fin.beginTime" type="text" class="form-control dataPicker" id="beginTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('结束时间') %></label>
+                <input v-model="formModel_fin.endTime" type="text" class="form-control dataPicker" id="endTime"
+                       placeholder="<%= LANG('请选择') %>">
+                <i class="icon iconfont icon-shijian1"></i>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('法币币种') %></label>
+                <select name="" v-model="formModel_fin.legalCurrencyId">
+                    <option :value="item.id" v-for="item in currencyList">{{item.shortName}}</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <label for=""><%= LANG('币种') %></label>
+                <input type="text" v-model="formModel_fin.orderCoin">
+            </div>
+
+            <div class="item">
+                <p class="select-time">
+                    <span :class="{active: formModel_fin.data == 7}" @click="selectTime(7)">7天</span>
+                    <span :class="{active: formModel_fin.data == 15}" @click="selectTime(15)">15天</span>
+                    <span :class="{active: formModel_fin.data == 30}" @click="selectTime(30)">30天</span>
+                </p>
+            </div>
+        </form>
+        <div class="exx-modal-button">
+            <button class="exxbtn btn-cancel" type="button" @click="close"><span><%= LANG('取消') %></span></button>
+            <button class="exxbtn btn-ok" @click="saveData"><span><%= LANG('保存') %></span></button>
+        </div>
     </div>
 </script>
-
+<style>
+    .datepicker.dropdown-menu {
+        top: 232px !important;
+    }
+</style>
 <script>
-    require(['vue'], function (Vue) {
+    require(['vue', 'datepicker'], function (Vue) {
         return Vue.component('fiterDropDown', {
             template: '#fiterDropDown',
             name: 'fiterDropDown',
@@ -127,31 +175,112 @@
                     default: false
                 },
                 type: {
-                    type: String,
+                    type: String,  //1.otc列表 2广告管理 3订单管理  4财务统计
                     default: ''
                 },
                 currencyList: {
                     type: Array,
-                    default: []
+                    default: function () {
+                        return new Array()
+                    }
                 }
             },
             data: function () {
                 return {
                     loaded: false,
+                    modal: ['', 'formModel', 'formModel_adv', 'formModel_order', 'formModel_fin'][this.type],
                     formModel: {
                         legalCurrencyId: 1,
                         payId: '',
                         orderPrice: ''
+                    },
+                    formModel_adv: {
+                        beginTime: '',
+                        endTime: '',
+                        id: '',
+                        orderCoin: '',
+                        advType: '',
+                        legalCurrencyId: ''
+                    },
+                    formModel_order: {
+                        beginTime: '',
+                        endTime: '',
+                        orderNo: '',
+                        orderType: '',
+                        legalCurrencyId: '',
+                        orderCoin: '',
+                        advType: '',
+                    },
+                    formModel_fin: {
+                        beginTime: '',
+                        endTime: '',
+                        orderCoin: '',
+                        legalCurrencyId: '',
+                        data: ''
+                    },
+                }
+            },
+            watch: {
+                open: function () {
+                    if (this.open) {
+                        if (this.type == 2 || this.type == 3 || this.type == 4) {
+                            this[this.modal].endTime = ''
+                            this[this.modal].beginTime = ''
+                            this.$nextTick(function () {
+                                $('#beginTime').datepicker({
+                                    orientation: "bottom left",
+                                    language: {
+                                        en: 'en',
+                                        cn: "zh-CN",
+                                    } [getCookie('wlan')],
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    startView: 0,
+                                    // minViewMode: 1,
+                                }).on('changeDate', function (ev) {
+                                    this[this.modal].beginTime = $('#beginTime').val() + ' 00:00:00'
+                                    if (this.type == 4) {
+                                        this[this.modal].data = ''
+                                    }
+                                }.bind(this))
+                                $('#endTime').datepicker({
+                                    orientation: "bottom left",
+                                    language: {
+                                        en: 'en',
+                                        cn: "zh-CN",
+                                    } [getCookie('wlan')],
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    startView: 0,
+                                    // minViewMode: 1,
+                                }).on('changeDate', function (ev) {
+                                    this[this.modal].endTime = $('#endTime').val() + ' 23:59:59'
+                                    if (this.type == 4) {
+                                        this[this.modal].data = ''
+                                    }
+                                }.bind(this))
+                            }.bind(this))
+                        }
                     }
                 }
             },
             methods: {
-                bigImg: function () {
-                    // 发送事件
-                    this.$emit('clickit')
+                selectTime: function (time) {
+                    this[this.modal].data = time
+                    this[this.modal].endTime = ''
+                    this[this.modal].beginTime = ''
                 },
-                imgError: function () {
-                    this.$emit('loaderror')
+                saveData: function () {
+                    console.log(this[this.modal])
+                    if (this.type == 2 || this.type == 3 || this.type == 4) {
+                        this[this.modal].beginTime = this[this.modal].beginTime && Methods.getTimeStamp(this[this.modal].beginTime)
+                        this[this.modal].endTime = this[this.modal].endTime && Methods.getTimeStamp(this[this.modal].endTime)
+                    }
+                    this.$emit('fetch-list', this[this.modal])
+                    this.close()
+                },
+                close: function () {
+                    this.$parent.fiterDropDown = false
                 }
             }
         })

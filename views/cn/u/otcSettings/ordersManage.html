@@ -1,8 +1,8 @@
 <div class="ordersManage" id="ordersManage">
     <div class="title">
         <div class="search">
-            <input type="text" placeholder="中国，人民币，全部支付方式">
-
+            <input type="text" placeholder="<%=LANG('请搜索')%>" @click="openDropdown">
+            <fiter-drop-down :open="fiterDropDown" :type="'3'" @fetch-list="getOrderList" :currency-list="currencyList"/>
         </div>
     </div>
     <div class="list">
@@ -38,6 +38,8 @@
     </div>
 </div>
 
+<%-include("../../component/fiterDropDown.html")%>
+
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var ordersManage = new Vue({
@@ -48,15 +50,32 @@
                     pageSize: 10,
                     pageIndex: 1,
                     totalPage: null,
+                    currencyList: [],
+                    fiterDropDown: false
                 }
             },
             created() {
                 this.getOrderList()
+                this.getCurrencyList()
             },
             computed: {
 
             },
             methods: {
+                openDropdown: function() {
+                    this.fiterDropDown = !this.fiterDropDown
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
                 getData: function(time, format) {
                     return Methods.getDateTime(time, format)
                 },
@@ -79,12 +98,16 @@
                             break;
                     }
                 },
-                getOrderList: function (obj) {   //查询 币种列表
+                getOrderList: function (obj) {
+                    var data = Object.assign({
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex
+                    }, obj)
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/XtOtcController/selectOrdersListByUserId',
-                        data: {},
+                        data: data,
                         success: function (res) {
                             this.orderList = res.datas.results
                             this.pageSize = res.datas.pageSize

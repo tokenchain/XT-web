@@ -1,8 +1,11 @@
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">
+
 <div class="advertisement" id="advertisement">
     <div class="title">
         <div class="search">
-            <input type="text" placeholder="中国，人民币，全部支付方式">
-
+            <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+            <fiter-drop-down :open="fiterDropDown" :type="'2'" @fetch-list="getfinList" :currency-list="currencyList"/>
         </div>
     </div>
     <div class="list">
@@ -45,8 +48,10 @@
     </modal>
 </div>
 
+<%-include("../../component/fiterDropDown.html")%>
+
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'datepicker'], function (Vue, Methods, JuaBox) {
         var advertisement = new Vue({
             el: "#advertisement",
             data: function () {
@@ -57,16 +62,36 @@
                     totalPage: null,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                     showModal: false,
-                    record: {}
+                    record: {},
+                    fiterDropDown: false,
+                    currencyList: []
                 }
             },
             created() {
                 this.getfinList()
+                this.getCurrencyList()
+            },
+            mounted: function () {
+
             },
             computed: {
 
             },
             methods: {
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+                openDropdown: function() {
+                    this.fiterDropDown = !this.fiterDropDown
+                },
                 getData: function(time, format) {
                     return Methods.getDateTime(time, format)
                 },
@@ -89,14 +114,17 @@
                             break;
                     }
                 },
-                getfinList: function (obj) {   //查询 币种列表
+                getfinList: function (obj) {
+                    var data = Object.assign({
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex,
+                        userId: this.loginUser.userId
+                    }, obj)
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/XtOtcController/selectAdvsLists',
-                        data: {
-                            userId: this.loginUser.userId
-                        },
+                        data: data,
                         success: function (res) {
                             this.finList = res.datas.results
                             this.pageSize = res.datas.pageSize

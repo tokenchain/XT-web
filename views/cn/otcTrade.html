@@ -48,10 +48,10 @@
                 <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('购买')%></span>
                 <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('出售')%></span>
             </div>
-            <a href="#">发布广告</a>
+            <a href="u/publishAdv">发布广告</a>
             <div class="search">
-                <input type="text" placeholder="中国，人民币，全部支付方式" @click="openDropdown">
-                <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList"/>
+                <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+                <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList" @fetch-list="fetchOtcList"/>
             </div>
         </div>
         <div class="coinList">
@@ -134,7 +134,6 @@
             methods: {
                 openDropdown: function() {
                     this.fiterDropDown = !this.fiterDropDown
-                    console.log(this.fiterDropDown)
                 },
                 getPayType: function (payid) {
                     var arr = ['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay']
@@ -149,10 +148,9 @@
                 buyOtc: function (obj) {
                     this.getLimteTime()
                     this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
-                    console.log(this.listRecord)
                     this.showModal = 'otcTradeModal'
                 },
-                fetchOtcList: function (obj) {  //查询 otc列表
+                fetchOtcList: function (obj) {  //查询 otc列表s
                     var data = Object.assign({
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
@@ -166,7 +164,7 @@
                         data: data,
                         success: function (res) {
                             this.otcList = res.datas.results
-                            this.pageSize = res.datas.totalPage
+                            this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage
                         }.bind(this)
@@ -186,17 +184,17 @@
                         }.bind(this)
                     })
                 },
-                getLimteTime: function() {
+                getLimteTime: function(callBack) {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/admin/OtcController/selectOTCConfig',
                         success: function (res) {
-                            console.log(res)
+                            console.log( res.datas.orderOutTime)
                             this.orderOutTime = res.datas.orderOutTime
+                            callBack && callBack()
                         }.bind(this)
                     })
-                    console.log(this.orderOutTime, 1111)
                 },
                 changeCoinName: function (item) {
                     this.orderCoin = item.name
@@ -221,6 +219,7 @@
                 this.fetchCoinList()
                 this.fetchOtcList()
                 this.getCurrencyList()
+                this.getLimteTime()
             },
             mounted: function () {
 
