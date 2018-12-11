@@ -5,8 +5,16 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-    var isMobile = function(agent) {
+router.all('/*', function (req, res, next) {
+    if (global.WEB().SHUTDOWN.flag) {
+        res.render('500.html');
+    } else {
+        next()
+    }
+})
+
+router.get('/', function (req, res, next) {
+    var isMobile = function (agent) {
         var sUserAgent = agent.toLowerCase() || '';
         var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
         var bIsLetv = sUserAgent.match(/letv/i) == "letv";
@@ -44,13 +52,13 @@ router.get('/', function(req, res, next) {
 //     res.render('cn/service/index-graph.html');
 // });
 
-router.get('/500', function(req, res, next) {
+router.get('/500', function (req, res, next) {
     res.render('500.html');
 });
-router.get('/404', function(req, res, next) {
+router.get('/404', function (req, res, next) {
     res.render('404.html');
 });
-router.get('/sorry', function(req, res, next) {
+router.get('/sorry', function (req, res, next) {
     res.render('sorry.html');
 });
 
@@ -70,64 +78,62 @@ router.get('/sorry', function(req, res, next) {
 //     });
 // });
 //登录
-router.get('/login', function(req, res, next) {
-    res.render(TEMP_FULL_NEW,{
-        templateMain:'user/login.html'
+router.get('/login', function (req, res, next) {
+    res.render(TEMP_FULL_NEW, {
+        templateMain: 'user/login.html'
     });
 });
 
-router.get('/login/success', function(req, res, next) {
-    res.render(TEMP_FULL_NEW,{
-        templateMain:'user/loginsuccess.html'
+router.get('/login/success', function (req, res, next) {
+    res.render(TEMP_FULL_NEW, {
+        templateMain: 'user/loginsuccess.html'
     });
 });
 
-router.get('/regSuccess', function(req, res, next) {
-    res.render(TEMP_FULL_NEW,{
-        templateMain:'user/regSuccess.html'
+router.get('/regSuccess', function (req, res, next) {
+    res.render(TEMP_FULL_NEW, {
+        templateMain: 'user/regSuccess.html'
     });
 });
 
 
-router.get('/zt', function(req, res, next) {
+router.get('/zt', function (req, res, next) {
     res.render('cn/zt/zt.html')
 });
 // router.get('/zb_zt', function(req, res, next) {
 //     res.render('cn/zt/zb_zt.html')
 // });
-router.get('/ztfee', function(req, res, next) {
+router.get('/ztfee', function (req, res, next) {
     res.render('cn/zt/ztfee.html')
 });
-router.get('/newztfee', function(req, res, next) {
+router.get('/newztfee', function (req, res, next) {
     res.render('cn/zt/ztfee.html')
 });
 // router.get('/ztuser', function(req, res, next) {
 //     res.render('cn/zt/ztuser.html')
 // });
-router.get('/ztminers', function(req, res, next) {
+router.get('/ztminers', function (req, res, next) {
     res.render('cn/zt/ztminer-old.html')
 });
 
-router.get('/ztminer', function(req, res, next) {
+router.get('/ztminer', function (req, res, next) {
     res.render('cn/zt/ztminer.html')
 });
 
-router.get('/tradeRange', function(req, res, next) {
+router.get('/tradeRange', function (req, res, next) {
     res.render('cn/zt/tradeRange.html')
 });
 
-router.get('/miner-calculator', function(req, res, next) {
+router.get('/miner-calculator', function (req, res, next) {
     res.render('cn/zt/miner-calculator.html')
 });
 
 
-
-
-router.get('/zttest', function(req, res, next) {
+router.get('/zttest', function (req, res, next) {
     res.render('cn/zt/test.html')
 });
 
-router.get('/appstore', function(req, res, next) {
+router.get('/appstore', function (req, res, next) {
     res.render('cn/zbg/app.html')
 });
 // router.get('/market', function(req, res, next) {
@@ -138,17 +144,17 @@ router.get('/appstore', function(req, res, next) {
 //     res.render('cn/zbg/marketglobal.html')
 // });
 
-router.get('/newmarket', function(req, res, next) {
+router.get('/newmarket', function (req, res, next) {
     res.render('cn/zbg/newmarket.html')
 });
 
 
-router.get('/info', function(req, res, next) {
+router.get('/info', function (req, res, next) {
 
     res.render('cn/tradePro/disinfo.html')
 });
 
-router.get('/otcTrade', function(req, res, next) {
+router.get('/otcTrade', function (req, res, next) {
     res.render('cn/otcTrade.html')
 });
 
@@ -193,26 +199,22 @@ router.get('/otcTrade', function(req, res, next) {
 // });
 
 
-
-
-
-
-router.get('/apply', function(req, res, next) {
+router.get('/apply', function (req, res, next) {
     res.render('cn/zbg/apply.html')
 });
 
-router.get('/icon', function(req, res, next) {
+router.get('/icon', function (req, res, next) {
     res.render('cn/service/icon.html')
 });
 
-router.get('/icon2', function(req, res, next) {
+router.get('/icon2', function (req, res, next) {
     res.render('cn/service/icon2.html')
 });
 
 //登录验证
-router.get('/loginAuth', function(req, res, next) {
-    res.render(TEMP_FULL,{
-        templateMain:'user/logAuthen.html'
+router.get('/loginAuth', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'user/logAuthen.html'
     });
 });
 // router.get('/passport', function(req, res, next) {
@@ -221,7 +223,7 @@ router.get('/loginAuth', function(req, res, next) {
 //     });
 // });
 
-router.get('/register', function(req, res, next) {
+router.get('/register', function (req, res, next) {
     /*res.cookie('secureKey', 'hello !', {
         expires: 0,
         httpOnly: true ,
@@ -229,25 +231,25 @@ router.get('/register', function(req, res, next) {
         path: '/',
         secure: false
     });*/
-    res.render(TEMP_FULL_NEW,{
-        templateMain:'user/register_new.html'
+    res.render(TEMP_FULL_NEW, {
+        templateMain: 'user/register_new.html'
     });
 });
 
-router.get('/findLoginPwd', function(req, res, next) {
-    res.render(TEMP_FULL_NEW,{
-        templateMain:'user/passwordFind.html'
+router.get('/findLoginPwd', function (req, res, next) {
+    res.render(TEMP_FULL_NEW, {
+        templateMain: 'user/passwordFind.html'
     });
 });
 
 //推荐跳转至注册
-router.get('/r/:recommendCode', function(req, res, next) {
+router.get('/r/:recommendCode', function (req, res, next) {
     var recommendCode = req.params.recommendCode;
     res.cookie(ENV + 'recommendCode', recommendCode);
     res.redirect('/register');
 });
 
-router.get('/new_register', function(req, res, next) {
+router.get('/new_register', function (req, res, next) {
     /*res.cookie('secureKey', 'hello !', {
         expires: 0,
         httpOnly: true ,
@@ -255,8 +257,8 @@ router.get('/new_register', function(req, res, next) {
         path: '/',
         secure: false
     });*/
-    res.render(TEMP_FULL,{
-        templateMain:'user/new_register.html'
+    res.render(TEMP_FULL, {
+        templateMain: 'user/new_register.html'
     });
 });
 
