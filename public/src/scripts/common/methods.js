@@ -500,6 +500,26 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
                 }.bind(this)
             });
         },
+        //获取公钥-ok
+        getPubKey: function (callback) {
+            var data ={}
+            Methods.ajax({
+                type: 'GET',
+                url: DOMAIN_DEV +
+                    "/exchange/user/controller/website/BaseApiController/" +
+                    'getPubKey',
+                success: function (res) {
+                    /*this.pubKey = res.datas.pubKey;
+                    this.rsaKeyId = res.datas.keyId;*/
+                    data = res.datas
+                    callback && callback(res.datas);
+                }.bind(this),
+                error: function () {
+
+                }
+            });
+            return data
+        },
         getUserList : function (callback) {
             var loginUser = this.getLocalUserInfo();
             if(loginUser.userType == 1){
@@ -639,6 +659,10 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'mathjs
         getTimeHM: function (timestamp) {
             var date = new Date(parseInt(timestamp) * 1000);
             return date.getHours() + ':' + date.getMinutes();
+        },
+        getTimeStamp: function(timestr) {
+            var data = new Date(timestr);
+            return data.getTime();
         },
         // 返回 YYYYMMDD HH:MM:SS
         getDateTime: function (timestamp, format) {

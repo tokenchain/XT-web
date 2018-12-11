@@ -1,0 +1,586 @@
+<style>
+    .upload_warp_img_div_del {
+        position: absolute;
+        top: 6px;
+        width: 16px;
+        right: 4px;
+    }
+
+    .upload_warp_img_div_top {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.4);
+        line-height: 30px;
+        text-align: left;
+        color: #fff;
+        font-size: 12px;
+        text-indent: 4px;
+    }
+
+    .upload_warp_img_div_text {
+        white-space: nowrap;
+        width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .upload_warp_img_div img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+    }
+
+    .upload_warp_img_div {
+        position: relative;
+        height: 100px;
+        width: 120px;
+        border: 1px solid #ccc;
+        margin: 0px 30px 10px 0px;
+        float: left;
+        line-height: 100px;
+        display: table-cell;
+        text-align: center;
+        background-color: #eee;
+        cursor: pointer;
+    }
+
+    .upload_warp_img {
+        border-top: 1px solid #D2D2D2;
+        padding: 14px 0 0 14px;
+        overflow: hidden
+    }
+
+    .upload_warp_text {
+        text-align: left;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        text-indent: 14px;
+        border-top: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .upload_warp_right {
+        float: left;
+        width: 64%;
+        margin-left: 2%;
+        height: 100%;
+        border: 1px dashed #dbdbdb;
+        border-radius: 4px;
+        line-height: 100px;
+        color: #898989;
+    }
+
+    .upload_warp_left img {
+        margin-top: 18px;
+    }
+
+    .upload_warp_left {
+        float: left;
+        width: 32%;
+        height: 100%;
+        border: 1px dashed #dbdbdb;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .upload_warp_left:hover {
+        border-color: #FFBE3F;
+    }
+
+    .upload_warp {
+        margin: 14px;
+        height: 100px;
+    }
+
+    .upload {
+        border: 1px solid #dbdbdb;
+        background-color: #fff;
+        /*width: 650px;*/
+        box-shadow: 0px 1px 0px #dbdbdb;
+        border-radius: 4px;
+    }
+
+    .hello {
+        flex: 1;
+        /*width: 650px;*/
+        /*margin-left: 34%;*/
+        text-align: center;
+    }
+</style>
+<div id="settingsPayType" class="settingsPayType">
+    <div class="title">
+        <div class="tab-box">
+            <span v-cloak="" v-for="item in currencyList" :class="currencyName == item.shortName ? 'active' : ''"
+                  @click="changeCurrencyName(item)">{{item.shortName}}</span>
+        </div>
+    </div>
+    <div class="publishAdv-box">
+        <div class="pay-type-select" v-if="currencyName == 'CNY'">
+            <div class="pay" :class="{active: payType == 2}" @click="changePayType(2)">
+                <img src="<%= IMG_STATIC %>/images/UnionPay.png" alt="">
+                <span><%=LANG('网银汇款')%></span>
+            </div>
+            <div class="pay" :class="{active: payType == 3}" @click="changePayType(3)">
+                <img src="<%= IMG_STATIC %>/images/aliPay.png" alt="">
+                <span><%=LANG('支付宝')%></span>
+            </div>
+            <div class="pay" :class="{active: payType == 4}" @click="changePayType(4)">
+                <img src="<%= IMG_STATIC %>/images/tencentPay.png" alt="">
+                <span><%=LANG('微信')%></span>
+            </div>
+        </div>
+        <div class="pay-type-select" v-if="currencyName !== 'CNY'" v-cloak="">
+            <div class="pay" :class="{active: payType == 6}" @click="changePayType(6)">
+                <img src="<%= IMG_STATIC %>/images/usdPay.png" alt="">
+                <span><%=LANG('USD')%></span>
+            </div>
+            <div class="pay" :class="{active: payType == 5}" @click="changePayType(5)">
+                <img src="<%= IMG_STATIC %>/images/paypal.png" alt="">
+                <span><%=LANG('PayPal')%></span>
+            </div>
+        </div>
+        <form>
+            <!--cny下 银行卡-->
+            <div class="status-bank" v-if="currencyName == 'CNY' && payType == 2">
+                <div class="form-item">
+                    <label for=""><%=LANG('姓名')%>：</label>
+                    <input type="text" v-model="formModel.bankOwner">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('开户银行')%>：</label>
+                    <select name="" v-model="formModel.bankName" v-cloak="">
+                        <option :value="item.name" v-for="item in bankList">{{item.name}}</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('开户地址')%>：</label>
+                    <input type="text" v-model="formModel.bankDetail">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('银行卡号')%>：</label>
+                    <input type="text" v-model="formModel.bankNo">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('确认账号')%>：</label>
+                    <input type="text" v-model="bankNoConfirmation">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('交易密码')%>：</label>
+                    <input type="password" v-model="formModel.securityPassword">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('备注(MEMO)')%>：</label>
+                    <textarea name="" cols="30" rows="10" v-model="formModel.remark"></textarea>
+                </div>
+            </div>
+
+            <!--cny下 支付宝/微信-->
+            <div class="status-ali-cencent" v-if="currencyName == 'CNY' && (payType == 3 || payType == 4)" v-cloak="">
+                <div class="form-item">
+                    <label for=""><%=LANG('姓名')%>：</label>
+                    <input type="text" v-model="formModel_move.userName">
+                </div>
+                <div class="form-item">
+                    <label for="">{{payType == 3 ? '<%=LANG('支付宝账号')%>' : '<%=LANG('微信账号')%>'}}：</label>
+                    <input type="text" v-model="formModel_move.account">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('交易密码')%>：</label>
+                    <input type="password" v-model="formModel_move.securityPassword">
+                </div>
+                <div class="form-item img-box">
+                    <label for="">{{payType == 3 ? '<%=LANG('支付宝收款码')%>' : '<%=LANG('微信收款码')%>'}}：</label>
+                    <div class="hello">
+                        <div class="upload">
+                            <div class="upload_warp">
+                                <div class="upload_warp_left" @click="fileClick">
+                                    <img src="<%= IMG_STATIC %>/images/upload.png">
+                                </div>
+                                <div class="upload_warp_right" @drop="drop($event)" @dragenter="dragenter($event)"
+                                     @dragover="dragover($event)">
+                                    或者将文件拖到此处
+                                </div>
+                            </div>
+                            <!--<div class="upload_warp_text">
+                                选中{{imgList.length}}张文件，共{{bytesToSize(this.size)}}
+                            </div>-->
+                            <div class="upload_warp_text">
+                                选中{{imgList.length}}张文件
+                            </div>
+                            <input @change="fileChange($event)" type="file" id="upload_file" multiple
+                                   style="display: none"/>
+                            <div class="upload_warp_img" v-show="imgList.length!=0">
+                                <div class="upload_warp_img_div" v-for="(item,index) of imgList">
+                                    <div class="upload_warp_img_div_top">
+                                        <div class="upload_warp_img_div_text">
+                                            {{item.file.name}}
+                                        </div>
+                                        <img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
+                                             @click="fileDel(index)">
+                                    </div>
+                                    <img :src="item.file.src">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div v-cloak="">
+
+            <!--除cny下 usd-->
+            <div class="status-usd" v-if="currencyName !== 'CNY' && payType == 6" v-cloak="">
+                <div class="form-item">
+                    <label for=""><%=LANG('姓名')%>：</label>
+                    <input type="text" v-model="formModel_usd.bankOwner">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('地址')%>：</label>
+                    <input type="text" v-model="formModel_usd.remark">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('银行账号')%>：</label>
+                    <input type="text" v-model="formModel_usd.bankNo">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('银行名称')%>：</label>
+                    <input type="text" v-model="formModel_usd.bankName">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('银行地址')%>：</label>
+                    <input type="text" v-model="formModel_usd.bankDetail">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('SWIFT码(重要)')%>：</label>
+                    <input type="password" v-model="formModel_usd.swifiCode">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('交易密码')%>：</label>
+                    <input type="password" v-model="formModel_usd.securityPassword">
+                </div>
+            </div>
+
+            <!--除cny下 paypal-->
+            <div class="status-paypal" v-if="currencyName !== 'CNY' && payType == 5" v-cloak="">
+                <div class="form-item">
+                    <label for=""><%=LANG('用户名')%>：</label>
+                    <input type="text" v-model="formModel_payPal.bankOwner">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('PayPal账号')%>：</label>
+                    <input type="password" v-model="formModel_payPal.bankNo">
+                </div>
+                <div class="form-item">
+                    <label for=""><%=LANG('交易密码')%>：</label>
+                    <input type="password" v-model="formModel_payPal.securityPassword">
+                </div>
+            </div>
+
+            <div class="bnt">
+                <button @click="seetings" type="button"><%=LANG('提交')%></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var settingsPayType = new Vue({
+            el: "#settingsPayType",
+            data: function () {
+                return {
+                    payType: 2,  //2.银行卡，3.支付宝，4.微信支付，5.payPal，6.usd支付
+                    currencyName: 'CNY',
+                    currencyList: [],
+                    formModel: {
+                        bankDetail: "",
+                        bankName: "",
+                        bankNo: "",
+                        bankOwner: "",
+                        remark: '',      //备注
+                        securityPassword: '',  //交易密码
+                    },
+                    formModel_move: {
+                        userName: "",
+                        account: "",
+                        securityPassword: "",
+                    },
+                    formModel_usd: {
+                        remark: "",
+                        bankDetail: "",
+                        bankName: "",
+                        bankNo: "",
+                        bankOwner: "",
+                        swifiCode: "",
+                        securityPassword: '',  //交易密码
+                    },
+                    formModel_payPal: {
+                        bankOwner: "",
+                        bankNo: "",
+                        securityPassword: ""
+                    },
+                    pubKey: '',
+                    rsaKeyId: '',
+                    bankNoConfirmation: '',
+                    bankList: [],
+                    imgList: [],
+                    size: 0,
+                    imgUrl: ''
+                }
+            },
+            created() {
+                this.getCurrencyList()
+                this.queryPayTypeInfo(this.payType)
+                this.getBankList()
+                this.getPubKey()
+            },
+            mounted: function () {
+
+            },
+            computed: {},
+            methods: {
+                fileClick() {
+                    document.getElementById('upload_file').click()
+                },
+                fileChange(el) {
+                    var size = el.target.files[0].size
+
+                    if (!size) return;
+                    if (this.imgList.length >= 1) {
+                        JuaBox.wrong("<%=LANG('只能上传一张图片！')%>");
+                        return
+                    }
+                    this.fileList(el.target);
+                    el.target.value = ''
+                },
+                fileList(fileList) {
+                    let files = fileList.files;
+                    for (let i = 0; i < files.length; i++) {
+                        //判断是否为文件夹
+                        if (files[i].type != '') {
+                            this.fileAdd(files[i]);
+                        } else {
+                            //文件夹处理
+                            this.folders(fileList.items[i]);
+                        }
+                    }
+                },
+                //文件夹处理
+                folders(files) {
+                    let _this = this;
+                    //判断是否为原生file
+                    if (files.kind) {
+                        files = files.webkitGetAsEntry();
+                    }
+                    files.createReader().readEntries(function (file) {
+                        for (let i = 0; i < file.length; i++) {
+                            if (file[i].isFile) {
+                                _this.foldersAdd(file[i]);
+                            } else {
+                                _this.folders(file[i]);
+                            }
+                        }
+                    })
+                },
+                foldersAdd(entry) {
+                    let _this = this;
+                    entry.file(function (file) {
+                        _this.fileAdd(file)
+                    })
+                },
+                fileAdd(file) {
+                    //总大小
+                    this.size = this.size + file.size;
+                    //判断是否为图片文件
+                    if (file.type.indexOf('image') == -1) {
+                        file.src = 'wenjian.png';
+                        this.imgList.push({
+                            file
+                        });
+                    } else {
+                        let reader = new FileReader();
+                        reader.vue = this;
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                            file.src = this.result;
+                            this.vue.imgList.push({
+                                file
+                            });
+                        }
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    var formData = new FormData();
+
+                    formData.append('file', file);
+
+                    xhr.onreadystatechange = function (e) {
+                        if (xhr.readyState == 4) {
+                            var result = JSON.parse(xhr.responseText)
+                            if (xhr.status == 200) {
+                                console.log(result.datas)
+                                JuaBox.success(EXX.L(result.resMsg.code));
+                                this.imgUrl = result.datas
+                                // options.onSuccess(xhr.responseText);
+                            } else {
+                                JuaBox.wrong(EXX.L(result.resMsg.message));
+                                // options.onFailure(xhr.responseText);
+                            }
+                        }
+                    }.bind(this)
+
+                    var path = DOMAIN_DEV +
+                        '/exchange/upload/controller/admin/FileController/upload'
+                    xhr.open('POST', path, true);
+                    xhr.send(formData);
+                },
+                fileDel(index) {
+                    this.size = this.size - this.imgList[index].file.size;//总大小
+                    this.imgList.splice(index, 1);
+                    console.log(this.imgUrl)
+
+                    Methods.ajax({
+                        type: 'DELETE',
+                        url: DOMAIN_DEV +
+                            '/exchange/upload/controller/admin/FileController/delFile',
+                        data: JSON.stringify({fileName: this.imgUrl}),
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.imgUrl = ''
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                        }
+                    })
+
+                },
+                bytesToSize(bytes) {
+                    if (bytes === 0) return '0 B';
+                    let k = 1000, // or 1024
+                        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                        i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+                },
+                dragenter(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                },
+                dragover(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                },
+                drop(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                    this.fileList(el.dataTransfer);
+                },
+                changePayType: function (type) {
+                    this.payType = type
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    this[arr[this.payType]] = {}
+                    this.imgList = []
+                    this.imgUrl = ''
+                    this.queryPayTypeInfo(type)
+                },
+                changeCurrencyName: function (type) {
+                    this.currencyName = type.shortName
+                    this.payType = type.shortName == 'CNY' ? 2 : 6
+
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    this[arr[this.payType]] = {}
+                    this.imgList = []
+                    this.imgUrl = ''
+                    this.queryPayTypeInfo(this.payType)
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+                handleComparedPwd: function () {
+                    return this.formModel.bankNo == this.bankNoConfirmation
+                },
+                seetings: function () {  //提交
+                    if (this.payType == 2 && !this.handleComparedPwd()) {
+                        JuaBox.wrong("<%= LANG('两次输入卡号不一致！') %>");
+                        return
+                    }
+                    if ((this.payType == 3 || this.payType == 4) && !this.imgUrl) {
+                        JuaBox.wrong("<%= LANG('收款码未上传！') %>");
+                        return
+                    }
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    var data = {}
+                    Object.assign(data, this[arr[this.payType]], {
+                        securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
+                        payId: this.payType,
+                        qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
+                    })
+                    console.log(data)
+
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/addOrUpdatePayBO',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            // this.queryPayTypeInfo(this.payType)
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                getBankList: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/XtOtcController/selectBankList",
+                        success: function (res) {
+                            this.bankList = res.datas;
+                        }.bind(this)
+                    });
+                },
+                queryPayTypeInfo: function (type) {
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    Methods.ajax({
+                        type: 'GET',
+                        data: {payId: type},
+                        url: DOMAIN_DEV + "/exchange/XtOtcController/selectUserPayBO",
+                        success: function (res) {
+                            if (res.datas.length > 0) {
+                                this[arr[this.payType]] = res.datas[0]
+                                if (this.payType == 3 || this.payType == 4) {
+                                    this.imgList.push({
+                                        file: {
+                                            name: '',
+                                            src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' +  res.datas[0].qrcode
+                                        }
+                                    })
+                                    this.imgUrl = res.datas[0] && res.datas[0].qrcode
+                                }
+                            }
+                        }.bind(this)
+                    });
+                }
+            }
+        })
+    });
+</script>

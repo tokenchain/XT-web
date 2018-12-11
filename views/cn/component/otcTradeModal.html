@@ -1,0 +1,144 @@
+<script type="text/x-template" id="otcTradeModal">
+    <div class="modal-otctrade">
+        <div class="exx-modal-container">
+            <div class="exx-modal-header"><h3>{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<span class="active" v-text="orderCoin"></span></h3></div>
+
+            <div class="exx-modal-body">
+                <div class="otc-info">
+                    <div class="monut">
+                        <p class="title">{{`${listRecord.userName} ( ${listRecord.thrityOrders} | ${listRecord.thrityRate}% )`}}</p>
+                        <p class="monut"><%=LANG('数量')%>： {{listRecord.orderAmount}} {{orderCoin}}</p>
+                    </div>
+                    <div class="price">
+                        <p class="title"><%=LANG('单价')%>：{{listRecord.orderPrice}} {{legalCurrencyName.toUpperCase()}}</p>
+                        <p><%=LANG('限额')%>：{{listRecord.orderLimitMin + '～' + listRecord.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</p>
+                    </div>
+                    <div class="trade-from">
+                        <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
+                        <img src="" alt="">
+                        <input type="text" v-model="amount" :placeholder="orderCoin">
+                        <input v-if="advType !== 1" type="password" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>">
+                    </div>
+                </div>
+                <div class="pay-type">
+                    <div class="title"><%=LANG('支持支付方式：')%></div>
+                    <div class="type-img">
+                        <img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(listRecord.payId)" alt="" >
+                    </div>
+                    <div class="remarks"><span>{{LANG('卖方付款时限为orderOutTime分钟', listRecord.orderOutTime)}}</span></div>
+                </div>
+                <div class="memo" v-if="advType == 1">
+                    <h3><%=LANG('商家备注：')%></h3>
+                    <p><%=LANG('你好，只接受实名认证账户汇款！！！！！------请不要写与比特币（BTC）等有关字眼（备注敏感字眼会被冻结账户）！！！！！------超过50000元尽量银行汇款！单次转账金额不要超过50000.')%></p>
+                </div>
+                <div class="btn-box">
+                    <button @click="creatOrders">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</button>
+                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><span><%=LANG('《OTC服务协议》')%></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('otcTradeModal', {
+            template: "#otcTradeModal",
+            name: 'otcTradeModal',
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+                        console.log('success');
+                    }
+                },
+                advType: {
+                    type: Number,
+                    default: 1
+                },
+                orderCoin: {
+                    type: String,
+                    default: ''
+                },
+                listRecord: {
+                    type: Object,
+                    default: {}
+                },
+                legalCurrencyName: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    modalTitle: 'btc',
+                    securityPassword: '',
+                    amount: '',
+                    rsaKeyId: '',
+                    pubKey: '',
+                    orderNum: ''
+                }
+            },
+            computed: {
+
+            },
+            watch: {},
+            methods: {
+                LANG : function (value, n) {
+                    return EXX.L(value, n);
+                },
+                getPayType: function (payid) {
+                    return this.$parent.$parent.getPayType(payid)
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                creatOrders: function() {
+                    var data = {
+                        securityPassword: Methods.encryptPwd(this.securityPassword, this.pubKey),  //加密
+                        rsaKeyId: this.rsaKeyId,  //pubkey
+                        buyerId: this.advType == 1 ? this.loginUser.userId : this.listRecord.userId,
+                        sellerId: this.advType == 1 ? this.listRecord.userId : this.loginUser.userId,
+                        advsId: this.listRecord.id,
+                        orderType: this.advType,
+                        currencyName: this.orderCoin.toLowerCase(),
+                        legalCurrencyId: this.listRecord.legalCurrencyId,
+                        amount: this.amount,
+                        price: this.listRecord.orderPrice,
+                        status: this.advType == 1 ? 1 : 2
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/userCreateOrder',
+                        data: data,
+                        success: function (res) {
+                            this.orderNum = res.datas
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.$parent.$parent.showModal = false
+                            // this.orderOutTime = res.datas.orderOutTime
+                            window.location.href = `u/ordersDetail/${res.datas}`
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
+            },
+            created: function () {
+                this.getPubKey()
+            },
+            mounted: function () {
+
+            }
+        })
+    });
+</script>

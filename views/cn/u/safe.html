@@ -57,6 +57,22 @@
                     </div>
                 </li>
                 <li>
+                    <div class="icon"><img src="/src/images/keywordResearchIcon.png" style="width:37px;height:37px;"></div>
+                    <div class="info">
+                        <h3><%= LANG('交易密码') %></h3>
+                        <span class="danger-color" v-if="loginUser.safePwdAuth == 0"><%= LANG('未设置') %></span>
+                        <span v-if="loginUser.safePwdAuth == 1"><%= LANG('已设置') %></span>
+                        <!--<span v-if="loginUser.loginPwdLevel <= 2" class="ruo"><%= LANG('弱') %></span>-->
+                        <!--<span v-if="loginUser.loginPwdLevel > 2 && loginUser.loginPwdLevel <= 3" class="zhong"><%= LANG('中') %></span>-->
+                        <!--<span v-if="loginUser.loginPwdLevel > 3" class="gao"><%= LANG('高') %></span>-->
+                    </div>
+                    <div class="oper">
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 0" @click="openModal('addPwdAuth')"><%= LANG('设置') %></a>
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('editSafePwdAuth')"><%= LANG('修改') %></a>
+                        <a class="btn btn-primary" v-if="loginUser.safePwdAuth == 1" @click="openModal('resetSafePwdAuth')"><%= LANG('重置') %></a>
+                    </div>
+                </li>
+                <li>
                     <div class="icon"><img src="/src/images/pageSpeedIcon.png" style="width:42px;height:30px;"></div>
                     <div class="info">
                         <h3><%= LANG('Google验证') %></h3>
@@ -164,6 +180,10 @@
         <modal-login-auth :params="loginAuthParams" :done="callCloseModal()"/>
     </modal>
 
+    <modal v-cloak :open="showModal == 'addPwdAuth' || showModal == 'editSafePwdAuth' || showModal == 'resetSafePwdAuth'" @close="showModal = false">
+        <safe-pwd :params="loginAuthParams" :type="showModal" :done="callCloseModal()"/>
+    </modal>
+
     <modal v-cloak :open="showModal == 'setsafepay'" @close="showModal = false">
         <setsafepay :safe-wayinfo="safeWayinfo"/>
     </modal>
@@ -195,6 +215,7 @@
 <%-include("model/setLoginAuth.html")%>
 <%-include("model/setwithdrawalpwd.html")%>
 <%-include("model/setSafePay.html")%>
+<%-include("model/safePwd.html")%>
 
 <script>
     $(function () {

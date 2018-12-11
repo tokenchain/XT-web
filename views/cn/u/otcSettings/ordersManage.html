@@ -1,0 +1,124 @@
+<div class="ordersManage" id="ordersManage">
+    <div class="title">
+        <div class="search">
+            <input type="text" placeholder="<%=LANG('请搜索')%>" @click="openDropdown">
+            <fiter-drop-down :open="fiterDropDown" :type="'3'" @fetch-list="getOrderList" :currency-list="currencyList"/>
+        </div>
+    </div>
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+                <td><%=LANG('订单编号')%></td>
+                <td><%=LANG('交易类型')%></td>
+                <td><%=LANG('币种及数量')%></td>
+                <td><%=LANG('总价')%></td>
+                <td><%=LANG('单价')%></td>
+                <td><%=LANG('时间')%></td>
+                <td><%=LANG('状态')%></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in orderList" v-cloak="">
+                <td>{{item.orderNo}}</td>
+                <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
+                <td>{{item.amount + item.currencyName}}</td>
+                <td>{{item.totalAmount}}</td>
+                <td>{{item.price}}</td>
+                <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
+                <td><span class="status">{{getStatus(item.status)}}</span></td>
+            </tr>
+            <tr v-if="orderList.length == 0 || !orderList" class="nodata">
+                <td colspan="7" style="text-align: center"><%= LANG('暂无数据') %></td>
+            </tr>
+            </tbody>
+        </table>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getOrderList"
+                   v-if="orderList.length > 0"></page-lite>
+    </div>
+</div>
+
+<%-include("../../component/fiterDropDown.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var ordersManage = new Vue({
+            el: "#ordersManage",
+            data: function () {
+                return {
+                    orderList: [],
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: null,
+                    currencyList: [],
+                    fiterDropDown: false
+                }
+            },
+            created() {
+                this.getOrderList()
+                this.getCurrencyList()
+            },
+            computed: {
+
+            },
+            methods: {
+                openDropdown: function() {
+                    this.fiterDropDown = !this.fiterDropDown
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
+                },
+                getStatus: function (status) {
+                    switch (status) {
+                        case 0:
+                            return '<%=LANG('交易成功')%>'
+                            break;
+                        case 1:
+                            return '<%=LANG('等待付款')%>'
+                            break;
+                        case 2:
+                            return '<%=LANG('确认收款 ')%>'
+                            break;
+                        case 3:
+                            return '<%=LANG('无效订单')%>'
+                            break;
+                        case -1:
+                            return '<%=LANG('申诉')%>'
+                            break;
+                    }
+                },
+                getOrderList: function (obj) {
+                    var data = Object.assign({
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex
+                    }, obj)
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectOrdersListByUserId',
+                        data: data,
+                        success: function (res) {
+                            this.orderList = res.datas.results
+                            this.pageSize = res.datas.pageSize
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
+                        }.bind(this)
+                    })
+                },
+            }
+        })
+    });
+</script>
+
+<%-include("../../component/page_lite.html")%>

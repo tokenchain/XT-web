@@ -22,10 +22,20 @@
     <title><%=LANG('OTC交易')%></title>
     <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
-    <script src="<%= STATIC %>/scripts/zbg/js/vendor/jquery-3.2.1.min.js"></script>
-    <script src="/lib/requirejs/require.js"></script>
+
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
     <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+    <style>
+        .header{
+            background: #3E3E3E;
+        }
+    </style>
 </head>
 <body>
 
@@ -35,29 +45,18 @@
     <div class="otcTrade-continer">
         <div class="title">
             <div class="tab-box">
-                <span>购买</span>
-                <span>出售</span>
+                <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('购买')%></span>
+                <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('出售')%></span>
             </div>
-            <a href="#">发布广告</a>
+            <a href="u/publishAdv">发布广告</a>
             <div class="search">
-                <input type="text" placeholder="中国，人民币，全部支付方式">
+                <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+                <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList" @fetch-list="fetchOtcList"/>
             </div>
         </div>
         <div class="coinList">
-            <div class="coin">
-                BTC
-            </div>
-            <div class="coin">
-                XC
-            </div>
-            <div class="coin">
-                ETH
-            </div>
-            <div class="coin">
-                EOS
-            </div>
-            <div class="coin">
-                XT
+            <div :class="[{'active': orderCoin == item.name}, 'coin']" v-for="item in coinList" v-cloak="" @click="changeCoinName(item)">
+                {{item.name}}
             </div>
         </div>
         <div class="otclist">
@@ -73,65 +72,154 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
+                <tr v-for="item in otcList" v-cloak="">
+                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}</td>
+                    <td>{{item.orderAmount}} {{orderCoin}}</td>
+                    <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
+                    <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
                 </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
-                </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
-                </tr>
-                <tr>
-                    <td>嘿呀嘿呀 (147 | 97%)</td>
-                    <td>0.100000 BTC</td>
-                    <td>4,444-4,444 CNY</td>
-                    <td>44,440.00 CNY</td>
-                    <td>支付宝 信用卡</td>
-                    <td><span class="btn">购买otc</span></td>
+                <tr v-if="otcList.length == 0 || !otcList" class="nodata">
+                    <td colspan="6" style="text-align: center"><%= LANG('暂无数据') %></td>
                 </tr>
                 </tbody>
             </table>
-            <!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getUserEntrustList"
-                       v-if="records.length > 0 && !isAll"></page-lite>-->
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="fetchOtcList"
+                       v-if="otcList.length > 0"></page-lite>
         </div>
     </div>
+    <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
+        <otc-trade-modal :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
+    </modal>
 </section>
-
+<%-include("./include/footer.html")%>
 </body>
 </html>
 
+<%-include("./component/fiterDropDown.html")%>
 <%-include("./component/page_lite.html")%>
 
 <script>
-    require(['vue', 'common/methods'], function (Vue, Methods) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var otcTrade = new Vue({
             el: "#home-otcTrade",
             data: function () {
-                return {}
+                return {
+                    showModal: false,   //'otcTradeModal'
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    otcList: [],
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: null,
+                    coinList: [],
+                    advType: 1,  //1:买  2：卖
+                    orderCoin: 'XT',
+                    legalCurrencyName: {
+                        cn: 'cny',
+                        en: 'usd',
+                        kr: 'krw',
+                        jp: 'jpy',
+                        hk: 'hkd'
+                    } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
+                    listRecord: {},  //点击的每一行
+                    orderOutTime: '',
+                    fiterDropDown: false,
+                    currencyList: []
+                }
             },
-            computed: {},
-            methods: {},
+            computed: {
+
+            },
+            methods: {
+                openDropdown: function() {
+                    this.fiterDropDown = !this.fiterDropDown
+                },
+                getPayType: function (payid) {
+                    var arr = ['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay']
+                    return payid && payid.toString().split(',').map(function (item) {
+                        return arr[item]
+                    })
+                },
+                changeAdvType: function (type){
+                    this.advType = type
+                    this.fetchOtcList({advType: type})
+                },
+                buyOtc: function (obj) {
+                    this.getLimteTime()
+                    this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
+                    this.showModal = 'otcTradeModal'
+                },
+                fetchOtcList: function (obj) {  //查询 otc列表s
+                    var data = Object.assign({
+                        pageSize: this.pageSize,
+                        pageIndex: this.pageIndex,
+                        advType: this.advType,
+                        orderCoin: this.orderCoin
+                    }, obj)
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectUsersOtcList',
+                        data: data,
+                        success: function (res) {
+                            this.otcList = res.datas.results
+                            this.pageSize = res.datas.pageSize
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
+                        }.bind(this)
+                    })
+                },
+                fetchCoinList: function (obj) {   //查询 币种列表
+                    var data = {
+                        legalCurrencyName: this.legalCurrencyName
+                    }
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCoinLists',
+                        data: data,
+                        success: function (res) {
+                            this.coinList = res.datas
+                        }.bind(this)
+                    })
+                },
+                getLimteTime: function(callBack) {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/admin/OtcController/selectOTCConfig',
+                        success: function (res) {
+                            console.log( res.datas.orderOutTime)
+                            this.orderOutTime = res.datas.orderOutTime
+                            callBack && callBack()
+                        }.bind(this)
+                    })
+                },
+                changeCoinName: function (item) {
+                    this.orderCoin = item.name
+                    this.fetchOtcList({orderCoin: this.orderCoin})
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
+                },
+            },
             updated: function () {
 
             },
             created: function () {
-
+                this.fetchCoinList()
+                this.fetchOtcList()
+                this.getCurrencyList()
+                this.getLimteTime()
             },
             mounted: function () {
 
@@ -142,7 +230,11 @@
 
 </script>
 
-<%-include("./include/footer.html")%>
+<%-include("./component/modal.html")%>
+<%-include("./component/otcTradeModal.html")%>
+
+
+
 
 
 
