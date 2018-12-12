@@ -43,7 +43,10 @@
                     <div class="form-item">
                         <label for=""><%=LANG('支持支付方式')%>：</label>
                         <div class="pay">
-                            <img :src="imgSrc(item)" alt="" v-for="item in formModel.payId">
+                            <label for="" v-for="item in formModel.payId">
+                                <input name="payId" type="checkbox" :value="item" v-model="payId" />
+                                <img :src="imgSrc(item)" alt="" >
+                            </label>
                         </div>
                     </div>
                     <div class="form-item">
@@ -59,7 +62,6 @@
             </button>
             <button @click="publishAdvs" class="exxbtn btn-ok"><span><%= LANG('上架') %></span></button>
         </div>
-
     </div>
 </script>
 
@@ -94,11 +96,13 @@
                         payId: [], //支付方式
                         securityPassword: '',  //交易密码
                     },
+                    payId: [],
                     pubKey: '',
                     rsaKeyId: ''
                 }
             },
             created() {
+                this.payId = this.advDetail.payId.split(',')
                 this.getCoinList()
                 this.getCurrencyList()
                 this.queryMyPayType()
@@ -171,8 +175,7 @@
                     Object.assign(data, this.advDetail, {
                         securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
                         rsaKeyId: this.rsaKeyId,
-                        // payId: this.formModel.payId.join(','),
-                        payId: this.advDetail.payId,
+                        payId: this.payId.join(','),
                         currencyTypeName: this.advDetail.orderCoin,
                         advStatus: 1
                     })

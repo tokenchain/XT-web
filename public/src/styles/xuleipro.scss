@@ -2967,10 +2967,21 @@ button {
         font-weight: bold;
       }
       .pay {
+        display: flex;
         flex: 1;
+        label {
+          display: flex;
+          margin-right: 20px;
+          flex: 0.2;
+          align-items: center;
+          input[type=checkbox] {
+            height: unset;
+            flex: unset;
+            margin-right: 5px;
+          }
+        }
         img {
-          width: 25px;
-          margin-right: 10px;
+          width: 18px;
         }
       }
     }
