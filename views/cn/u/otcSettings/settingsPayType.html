@@ -534,7 +534,7 @@
                             data: data,
                             success: function (res) {
                                 JuaBox.success(EXX.L(res.resMsg.code));
-                                // this.queryPayTypeInfo(this.payType)
+                                this.queryPayTypeInfo(this.payType)
                             }.bind(this),
                             error: function (res) {
                                 JuaBox.wrong(EXX.L(res.resMsg.code));
