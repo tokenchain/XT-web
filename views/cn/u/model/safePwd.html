@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前资金密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" required maxlength="6">
+                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
                             </div>
                         </div>
                     </div>
