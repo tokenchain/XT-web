@@ -44,7 +44,7 @@
                    v-if="finList.length > 0"></page-lite>
     </div>
     <modal v-cloak :open="showModal == 'upAdvs'" @close="showModal = false">
-        <up-advs :adv-detail="record"/>
+        <up-advs :adv-detail="record" :type="'1'"/>
     </modal>
 </div>
 

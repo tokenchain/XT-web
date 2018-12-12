@@ -7,7 +7,7 @@
                 <div class="otc-info">
                     <div class="monut">
                         <p class="title">{{`${listRecord.userName} ( ${listRecord.thrityOrders} | ${listRecord.thrityRate}% )`}}</p>
-                        <p class="monut"><%=LANG('数量')%>： {{listRecord.orderAmount}} {{orderCoin}}</p>
+                        <p class="monut"><%=LANG('剩余数量')%>： {{listRecord.laveAmount}} {{orderCoin}}</p>
                     </div>
                     <div class="price">
                         <p class="title"><%=LANG('单价')%>：{{listRecord.orderPrice}} {{legalCurrencyName.toUpperCase()}}</p>
@@ -105,6 +105,14 @@
                 },
                 creatOrders: function() {
                     if ($('#otcModalId').valid()) {
+                        if (!this.loginUser) {
+                            JuaBox.info("<%=LANG('未登录，不能交易！')%>");
+                            return
+                        }
+                        if (this.amount > this.listRecord.laveAmount) {
+                            JuaBox.info("<%=LANG('交易数量超过剩余数量！')%>");
+                            return
+                        }
                         var data = {
                             securityPassword: Methods.encryptPwd(this.securityPassword, this.pubKey),  //加密
                             rsaKeyId: this.rsaKeyId,  //pubkey

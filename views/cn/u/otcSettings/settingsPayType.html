@@ -568,17 +568,15 @@
                         data: {payId: type},
                         url: DOMAIN_DEV + "/exchange/XtOtcController/selectUserPayBO",
                         success: function (res) {
-                            if (res.datas && res.datas.length > 0) {
-                                this[arr[this.payType]] = res.datas[0]
-                                if (this.payType == 3 || this.payType == 4) {
-                                    this.imgList.push({
-                                        file: {
-                                            name: '',
-                                            src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' +  res.datas[0].qrcode
-                                        }
-                                    })
-                                    this.imgUrl = res.datas[0] && res.datas[0].qrcode
-                                }
+                            this[arr[this.payType]] = res.datas
+                            if (this.payType == 3 || this.payType == 4) {
+                                this.imgList.push({
+                                    file: {
+                                        name: '',
+                                        src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' +  res.datas.qrcode
+                                    }
+                                })
+                                this.imgUrl = res.datas && res.datas.qrcode
                             }
                         }.bind(this)
                     });

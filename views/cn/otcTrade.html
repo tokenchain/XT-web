@@ -64,7 +64,8 @@
                 <thead>
                 <tr>
                     <td><%=LANG('商家(30日成单 | 30日完成率)')%></td>
-                    <td><%=LANG('数量')%></td>
+                    <td><%=LANG('总数量')%></td>
+                    <td><%=LANG('剩余数量')%></td>
                     <td><%=LANG('限额')%></td>
                     <td><%=LANG('单价')%></td>
                     <td><%=LANG('支付方式')%></td>
@@ -75,6 +76,7 @@
                 <tr v-for="item in otcList" v-cloak="">
                     <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}</td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
+                    <td>{{item.laveAmount}} {{orderCoin}}</td>
                     <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>

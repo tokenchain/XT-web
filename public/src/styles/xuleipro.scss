@@ -2455,12 +2455,15 @@ button {
               margin: 0 5px;
             }
           }
-          .qscode-box {
-            position: absolute;
-            top: -190px;
-            left: 30px;
-            img {
-              width: 100%;
+          .img-box{
+            .qscode-box {
+              position: absolute;
+              top: -190px;
+              left: 30px;
+              display: none;
+              img {
+                width: 100%;
+              }
             }
           }
           img {
@@ -2825,10 +2828,18 @@ button {
             font-weight: bold;
           }
           .pay {
+            display: flex;
             flex: 1;
+            label{
+              display: flex;
+              margin-right: 20px;
+              align-items: center;
+              input[type=checkbox]{
+                height: unset;
+              }
+            }
             img {
-              width: 25px;
-              margin-right: 10px;
+              width: 22px;
             }
           }
         }
