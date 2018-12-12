@@ -2324,7 +2324,7 @@ button {
               color: #fff;
               cursor: pointer;
             }
-            span.status {
+            span.status, a {
               color: #FFBE3F;
               font-family: MicrosoftYaHei-Bold;
               font-weight: bold;
@@ -2455,7 +2455,7 @@ button {
               margin: 0 5px;
             }
           }
-          .img-box{
+          .img-box {
             .qscode-box {
               position: absolute;
               top: -190px;
@@ -2830,11 +2830,11 @@ button {
           .pay {
             display: flex;
             flex: 1;
-            label{
+            label {
               display: flex;
               margin-right: 20px;
               align-items: center;
-              input[type=checkbox]{
+              input[type=checkbox] {
                 height: unset;
               }
             }

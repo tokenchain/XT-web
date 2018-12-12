@@ -20,7 +20,7 @@
             </thead>
             <tbody>
             <tr v-for="item in orderList" v-cloak="">
-                <td>{{item.orderNo}}</td>
+                <td><a :href="'ordersDetail/'+item.orderNo">{{item.orderNo}}</a></td>
                 <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
                 <td>{{item.amount + item.currencyName}}</td>
                 <td>{{item.totalAmount}}</td>
