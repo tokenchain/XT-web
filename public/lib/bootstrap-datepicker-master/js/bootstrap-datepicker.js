@@ -675,7 +675,8 @@
             var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
             var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
             var left = offset.left - appendOffset.left;
-            var top = offset.top - appendOffset.top;
+            // var top = offset.top - appendOffset.top;
+            var top = offset.top - appendOffset.top - 60;
 
             if (this.o.container !== 'body') {
                 top += scrollTop;

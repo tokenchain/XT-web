@@ -64,7 +64,7 @@
                 <p><%=LANG('Q：我什么时候能收到币？')%></p>
                 <p><%=LANG('A：若您已完成付款，请务必点击‘已付款’按钮，卖家确认收款后，您就会收到数字资产。')%></p>
                 <p><%=LANG('Q：转款注意事项')%></p>
-                <p><%=LANG('A：1、在转账过程中请勿备注类似BTC、USDT、火币等信息，防止造成您的汇款被拦截、银行卡被冻结等问题，因此到账延迟，卖方可选择拒绝成交。')%></p>
+                <p><%=LANG('A：1、在转账过程中请勿备注类似BTC、USDT等信息，防止造成您的汇款被拦截、银行卡被冻结等问题，因此到账延迟，卖方可选择拒绝成交。')%></p>
                 <p><%=LANG('2、请勿使用非平台实名的银行卡、支付宝等进行转款，否则卖家可拒绝成交并投诉。')%></p>
                 <p><%=LANG('3、若交易金额大于50,000 CNY，法定假日或工作日17:00点以后汇款到银行卡可能造成到账不及时，请分批支付保证及时到账，若未及时到账，卖家有权拒绝成交。')%></p>
             </div>
@@ -178,10 +178,6 @@
                             return "<%=LANG('已申诉')%>"
                             break;
                     }
-                },
-                timeStamp: function () {
-                    console.log(this.orderDetail.createTime)
-
                 }
             },
             methods: {
@@ -207,7 +203,7 @@
                             clearInterval(timer);
                         }
                         that.outTimeDisplay = m+"分钟"+s+"秒"
-                        console.log(m+"分钟"+s+"秒")
+                        // console.log(m+"分钟"+s+"秒")
                     }
                     timer = setInterval(countDown,1000);
                     return m + "分钟" + s + "秒"
@@ -354,6 +350,7 @@
                         } else if (status == 3 || status == -1) { //已取消  已申诉
                             return
                         }
+                        // console.log(data)
                         this.updataOrtderApi(data)
                     } else {  //卖
                         this.querySellPhone()
