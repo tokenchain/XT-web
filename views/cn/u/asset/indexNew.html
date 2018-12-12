@@ -763,7 +763,8 @@
                     // console.log(this.assistPrice, 'this.assistPrice')
                     var sortBy = this.sortBy;
                     var xtArr = markets.filter(function (item, i) {
-                        return item.name.indexOf('xt') !== -1
+                        return item.name.split('_')[0] == 'xt'
+                        // return item.name.indexOf('xt') !== -1
                     }).sort(function (x, y) {
                         if (sortBy == 'lastPrice') {
                             return this.assistPrice.cny[x.name] - this.assistPrice.cny[y.name];
@@ -791,7 +792,7 @@
                         }
                     }.bind(this));
                     return xtArr.concat(markets.filter(function (item, i) {
-                        return item.name !== 'xt' && item.name !== 'xtz'
+                        return item.name !== 'xt'
                     }));
                 },
                 //搜索过滤

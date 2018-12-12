@@ -1559,7 +1559,8 @@
                     var sortBy = this.sortBy;
                     var tab = this.currentTab;
                     var xtArr = markets.filter(function (item, i) {
-                        return item.market.indexOf('xt') !== -1
+                        return item.market.split('_')[0] == 'xt'
+                        // return item.market.indexOf('xt') !== -1
                     }).sort(function (x, y) {
                         if (sortBy == 'rateUp') {
                             // return x.rate - y.rate;
@@ -1606,7 +1607,7 @@
                     });
 
                     return xtArr.concat(markets.filter(function (item, i) {
-                        return item.market.split('_')[0] !== 'xt' && item.market.split('_')[0] !== 'xtz'
+                        return item.market.split('_')[0] !== 'xt'
                     }));
                 },
                 Refresh() {
