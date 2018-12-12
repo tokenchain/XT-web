@@ -3016,6 +3016,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7042": {
+        "cn": "短信验证码10分钟内只能发送一次！",
+        "en": "Verification code sent once in ten minutes",
+        "jp": "",
+        "kr": ""
+    },
     "10012": {
         "cn": "未知异常",
         "en": "unknown error",

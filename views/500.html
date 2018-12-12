@@ -57,6 +57,10 @@
             padding: 0 20px;
         }
 
+        .maintain .info p span{
+            color: #f7d89d;
+        }
+
         .maintain .info p.page500 {
             font-size: 30px;
             margin: 30px 0 20px 0;
@@ -87,7 +91,7 @@
         </svg>
         <p class="page500"><%= LANG('系统正在维护升级中') %></p>
         <!--<p style="font-size: 18px;"><%= LANG('开始时间') %>：<%= WEB.SHUTDOWN.startTime %>，<%= LANG('结束时间') %>：<%= WEB.SHUTDOWN.endTime %>，<%= LANG('预计升级时长x小时', '1') %>。</p>-->
-        <p style="font-size: 18px;"><%= LANG('开始时间') %>：<%= WEB.SHUTDOWN.startTime %>，<%= LANG('结束时间') %>：<%= WEB.SHUTDOWN.endTime %></p>
+        <p style="font-size: 18px;"><%= LANG('开始时间') %>：<span><%= WEB.SHUTDOWN.startTime %></span>，<%= LANG('结束时间') %>：<span><%= WEB.SHUTDOWN.endTime %></span></p>
     </div>
     
 </div>

@@ -1,49 +1,65 @@
+<style>
+    #safe-form .form-control{
+        position: relative;
+    }
+    #safe-form .form-control input.error{
+        border-color: #f00;
+    }
+    #safe-form .form-control label{
+        color: #f00;
+        display: block;
+        text-align: right;
+    }
+</style>
 <script type="text/x-template" id="safePwd">
     <div class="exx-modal-container" style="width: 500px;">
         <div class="exx-modal-header"><h3>{{getTitle}}</h3></div>
         <div class="exx-modal-body">
             <p style="color: #FFBE3F;padding: 20px 30px 0 30px;line-height: 20px;" v-if="type == 'editSafePwdAuth' || type == 'resetSafePwdAuth'"><%= LANG('注意：为了用户资金安全，修改资金安全密码后资金安全密码将在24小时内不能进行提币操作！') %></p>
             <div class="exx-form-box">
-                <div class="form-box" v-if="type !== 'addPwdAuth'">
-                    <div class="form-group">
-                        <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前资金密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
-                        <div class="form-control">
-                            <input id="password1" v-model="loginPassword" type="password">
+                <form id="safe-form">
+                    <div class="form-box" v-if="type !== 'addPwdAuth'">
+                        <div class="form-group">
+                            <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前资金密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
+                            <div class="form-control">
+                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" required maxlength="6">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-box">
-                    <div class="form-group">
-                        <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('资金密码') %>' : '<%= LANG('新资金密码') %>'}}：</label>
-                        <div class="form-control">
-                            <input id="password2" v-model="safePassword" type="password">
+                    <div class="form-box">
+                        <div class="form-group">
+                            <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('资金密码') %>' : '<%= LANG('新资金密码') %>'}}：</label>
+                            <div class="form-control">
+                                <input id="password2" name="safePassword" v-model="safePassword" type="password" required maxlength="6">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-box" >
-                    <div class="form-group" >
-                        <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认资金密码') %>' : '<%= LANG('确认新资金密码') %>'}}：</label>
-                        <div class="form-control">
-                            <input id="confirmPwd3" v-model="passwordConfirmation" type="password">
+                    <div class="form-box" >
+                        <div class="form-group" >
+                            <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认资金密码') %>' : '<%= LANG('确认新资金密码') %>'}}：</label>
+                            <div class="form-control">
+                                <input id="confirmPwd3" name="passwordConfirmation" v-model="passwordConfirmation" type="password" required maxlength="6">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-box code">
-                    <div class="form-group">
-                        <label for="msgCode11" class="control-label"><%= LANG('短信验证码') %>：</label>
-                        <div class="form-control">
-                            <input id="msgCode11" v-model="dynamicCode" type="text">
-                            <a href="javascript:;" class="code-num" @click="sendCode">
-                                <span><%= LANG('获取验证码') %></span>
-                            </a>
+                    <div class="form-box code">
+                        <div class="form-group">
+                            <label for="msgCode11" class="control-label"><%= LANG('短信验证码') %>：</label>
+                            <div class="form-control">
+                                <input id="msgCode11" name="dynamicCode" v-model="dynamicCode" type="text" required maxlength="6">
+                                <a href="javascript:;" class="code-num" @click="sendCode">
+                                    <span v-if="timeCount">{{timeCount}}s</span>
+                                    <span v-if="!timeCount"><%= LANG('获取验证码') %></span>
+                                </a>
+                            </div>
                         </div>
+                        <!--<send-code v-if="userInfo.mobileAuth == 1" :code-type="14" :country-code="userInfo.mobile.split(' ')[0]" :user-name="userInfo.mobile.split(' ')[1]" />
+                        <send-code v-if="userInfo.mobileAuth == 0 && userInfo.emailAuth ==1" :code-type="14"  :user-name="userInfo.email" />-->
                     </div>
-                    <!--<send-code v-if="userInfo.mobileAuth == 1" :code-type="14" :country-code="userInfo.mobile.split(' ')[0]" :user-name="userInfo.mobile.split(' ')[1]" />
-                    <send-code v-if="userInfo.mobileAuth == 0 && userInfo.emailAuth ==1" :code-type="14"  :user-name="userInfo.email" />-->
-                </div>
+                </form>
             </div>
 
         </div>
@@ -60,7 +76,7 @@
 <%-include("../../component/send_code/index.html")%>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         return Vue.component('safePwd', {
             template: "#safePwd",
             props: {
@@ -82,6 +98,7 @@
                     googleCode: '',
                     userName: Methods.getCookie(ENV + 'uname'),
                     loginUser: Methods.getLocalUserInfo(),
+                    timeCount: ''
                 }
             },
             computed: {
@@ -93,16 +110,32 @@
                 }
             },
             methods: {
+                interView: function(time) {
+                    var num = time
+                    var innter = setInterval(function () {
+                        if (num <= 0) {
+                            this.timeCount = 0
+                            clearInterval(innter)
+                        } else {
+                            num--
+                        }
+                        this.timeCount = num
+                    }.bind(this), 1000)
+                },
                 sendCode: function() {
+                    if (this.timeCount && this.timeCount > 0) {
+                        return
+                    }
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV + '/exchange/XtOtcController/userChangePasswordSendSMS',
                         success: function (res) {
                             JuaBox.success(EXX.L(res.resMsg.code));
+                            this.interView(60)
                         }.bind(this),
                         error: function (res) {
                             var resMsg = res.resMsg;
-                            JuaBox.sure(EXX.L(resMsg.message));
+                            JuaBox.sure(EXX.L(resMsg.code));
                         }
                     });
                 },
@@ -120,36 +153,39 @@
                     return this.safePassword === this.passwordConfirmation
                 },
                 handleSubmit: function () {
-                    var data = {
-                        newPassword: Methods.encryptPwd(this.safePassword, this.pubKey),
-                        rsaKeyId: this.rsaKeyId,
-                        code: this.dynamicCode
-                    }
-                    if (!this.handleComparedPwd()) {
-                        JuaBox.wrong("<%= LANG('两次输入密码不一致！') %>");
-                        return
-                    }
-                    if (this.type == 'addPwdAuth') {
-
-                    } else if (this.type == 'editSafePwdAuth') { //编辑
-                        data.oldPassword = Methods.encryptPwd(this.loginPassword, this.pubKey)
-                    } else { //重置
-                        data.loginPassword = Methods.encryptPwd(this.loginPassword, this.pubKey)
-                    }
-                    console.log(data)
-                    Methods.ajax({
-                        url: DOMAIN_DEV + '/exchange/XtOtcController/insertUserSecurityPassword',
-                        data: data,
-                        success: function (res) {
-                            this.$parent.$parent.getUserInfo()
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            this.$parent.$parent.showModal = false
-                        }.bind(this),
-                        error: function (res) {
-                            var resMsg = res.resMsg;
-                            JuaBox.sure(EXX.L(resMsg.message));
+                    if ($('#safe-form').valid()) {
+                        var data = {
+                            newPassword: Methods.encryptPwd(this.safePassword, this.pubKey),
+                            rsaKeyId: this.rsaKeyId,
+                            code: this.dynamicCode
                         }
-                    });
+                        var url = this.type == 'editSafePwdAuth' ? 'updateUserSecurityPassword' : this.type == 'addPwdAuth' ? 'insertUserSecurityPassword' : 'resetUserSecurityPassword'
+                        if (!this.handleComparedPwd()) {
+                            JuaBox.wrong("<%= LANG('两次输入密码不一致！') %>");
+                            return
+                        }
+                        if (this.type == 'addPwdAuth') {
+
+                        } else if (this.type == 'editSafePwdAuth') { //编辑
+                            data.oldPassword = Methods.encryptPwd(this.loginPassword, this.pubKey)
+                        } else { //重置
+                            data.loginPassword = Methods.encryptPwd(this.loginPassword, this.pubKey)
+                        }
+                        console.log(data)
+                        Methods.ajax({
+                            url: DOMAIN_DEV + '/exchange/XtOtcController/' + url,
+                            data: data,
+                            success: function (res) {
+                                this.$parent.$parent.getUserInfo()
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                this.$parent.$parent.showModal = false
+                            }.bind(this),
+                            error: function (res) {
+                                var resMsg = res.resMsg;
+                                JuaBox.sure(EXX.L(resMsg.code));
+                            }
+                        });
+                    }
                 }
             },
             mounted: function () {
