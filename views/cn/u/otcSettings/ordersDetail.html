@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="sell" v-else v-cloak="">
+    <div class="sell" v-if="orderDetail.orderType == 2" v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{orderDetail.orderNo}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(orderDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -87,7 +87,7 @@
         </div>
         <div class="order-pay-type">
             <p><%=LANG('买方收款方式')%></p>
-            <div class="pay" v-for="item in sellPayList" v-if="!orderDetail.status == 1 || !orderDetail.status == 3">
+            <div class="pay" v-for="item in sellPayList" v-if="orderDetail.status != 1 || !orderDetail.status != 3">
                 <label :for="item.id">
                     <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
@@ -118,7 +118,7 @@
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
             <span v-if="orderDetail.status == 0" class="status"><%=LANG('已完成')%></span>
-            <button v-if="orderDetail.status !== 0 || orderDetail.status !== 2" @click="statusSubmit">{{getButton}}
+            <button v-if="orderDetail.status != 0" @click="statusSubmit">{{getButton}}
             </button>
             <span>{{sellPhone}}</span>
 
@@ -154,7 +154,9 @@
                 this.getOrderListDetail(function () {
                     this.querySellPaytype()
                     this.getConfig(function () {
-                        this.reduceTime()
+                        if (this.orderDetail.orderType == '1' && this.orderDetail.status == '2') {
+                            this.reduceTime()
+                        }
                     }.bind(this))
                 }.bind(this))
                 this.getCurrencyAmount()
@@ -169,7 +171,7 @@
                             return this.orderDetail.orderType == 1 ? "<%=LANG('支付')%>" : "<%=LANG('通知买方付款')%>"
                             break;
                         case 2:
-                            return this.orderDetail.orderType == 1 ? "<%=LANG('申诉')%>" : "<%=LANG('已付款')%>"
+                            return this.orderDetail.orderType == 1 ? "<%=LANG('申诉')%>" : "<%=LANG('打币给对方')%>"
                             break;
                         case 3:
                             return "<%=LANG('订单已取消，无法查看支付信息')%>"
@@ -285,6 +287,26 @@
                         }.bind(this)
                     })
                 },
+                giveBuyer: function() {
+                    var data = {
+                        buyerId: this.orderDetail.buyerId,
+                        currencyName: this.orderDetail.currencyName,
+                        amount: this.orderDetail.amount,
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/giveBuyerPartyCurrency',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.getOrderListDetail()
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
                 getCurrencyAmount: function () {  //获取冻结币数量
                     Methods.ajax({
                         type: 'GET',
@@ -353,7 +375,11 @@
                         // console.log(data)
                         this.updataOrtderApi(data)
                     } else {  //卖
-                        this.querySellPhone()
+                        if (status == '2') {
+                            this.giveBuyer()
+                        } else {
+                            this.querySellPhone()
+                        }
                     }
                 },
                 cancelOrders: function () { //取消订单
