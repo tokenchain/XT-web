@@ -146,7 +146,7 @@
             <div class="status-bank" v-if="currencyName == 'CNY' && payType == 2">
                 <div class="form-item">
                     <label for=""><%=LANG('姓名')%>：</label>
-                    <input type="text" name="bankOwner" v-model="formModel.bankOwner" required>
+                    <input type="text" readonly name="bankOwner" v-model="formModel.bankOwner" required>
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('开户银行')%>：</label>
@@ -180,7 +180,7 @@
             <div class="status-ali-cencent" v-if="currencyName == 'CNY' && (payType == 3 || payType == 4)" v-cloak="">
                 <div class="form-item">
                     <label for=""><%=LANG('姓名')%>：</label>
-                    <input type="text" name="userName" v-model="formModel_move.userName" required>
+                    <input type="text" readonly name="userName" v-model="formModel_move.userName" required>
                 </div>
                 <div class="form-item">
                     <label for="">{{payType == 3 ? '<%=LANG('支付宝账号')%>' : '<%=LANG('微信账号')%>'}}：</label>
@@ -325,10 +325,11 @@
                     bankList: [],
                     imgList: [],
                     size: 0,
-                    imgUrl: ''
+                    imgUrl: '',
                 }
             },
             created() {
+                this.getUserName()
                 this.getCurrencyList()
                 this.queryPayTypeInfo(this.payType)
                 this.getBankList()
@@ -339,6 +340,28 @@
             },
             computed: {},
             methods: {
+                getUserName: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/getUserRealNameByUserId',
+                        data: {},
+                        success: function (res) {
+                            if (res.datas) {
+                                var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                                if (this.payType == 3 || this.payType == 4) {
+                                    this[arr[this.payType]].userName = res.datas
+                                } else if(this.payType == 2) {
+                                    this[arr[this.payType]].bankOwner = res.datas
+                                }
+                            } else {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {buttons: {confirm: "去认证"}, callback: function () {
+                                    window.location.href = 'certify'
+                                }})
+                            }
+                        }.bind(this)
+                    })
+                },
                 fileClick() {
                     document.getElementById('upload_file').click()
                 },

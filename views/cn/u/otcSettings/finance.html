@@ -97,7 +97,7 @@
                 }
             },
             created() {
-                this.getfinList()
+                this.getfinList({orderType: this.advType})
                 this.getCurrencyList()
             },
             computed: {},
@@ -121,7 +121,7 @@
                 },
                 changeAdvType: function (type) {
                     this.advType = type
-                    // this.getfinList({advType: type})
+                    this.getfinList({orderType: type})
                 },
                 getfinList: function (obj) {
                     var data = Object.assign({
