@@ -74,7 +74,8 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in otcList" v-cloak="">
-                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}</td>
+                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
+                            src="<%= IMG_STATIC %>/images/otcLevel.png" v-if="item.otcLevel" alt=""></td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
                     <td>{{item.laveAmount}} {{orderCoin}}</td>
                     <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
@@ -92,7 +93,7 @@
         </div>
     </div>
     <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
-        <otc-trade-modal :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
+        <otc-trade-modal :sellPays="sellPays" :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
     </modal>
 </section>
 <%-include("./include/footer.html")%>
@@ -116,7 +117,7 @@
                     totalPage: null,
                     coinList: [],
                     advType: 1,  //1:买  2：卖
-                    orderCoin: 'BTC',
+                    orderCoin: 'SXC',
                     legalCurrencyName: {
                         cn: 'cny',
                         en: 'usd',
@@ -127,7 +128,8 @@
                     listRecord: {},  //点击的每一行
                     orderOutTime: '',
                     fiterDropDown: false,
-                    currencyList: []
+                    currencyList: [],
+                    sellPays: false
                 }
             },
             computed: {
@@ -151,6 +153,25 @@
                     this.getLimteTime()
                     this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
                     this.showModal = 'otcTradeModal'
+                    if (this.advType == 2) {
+                        this.getSellPays()
+                    }
+                },
+                getSellPays: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectPayments',
+                        data: {
+                            payIds: this.listRecord.payId
+                        },
+                        success: function (res) {
+                            if (!res.datas) {
+                                JuaBox.info("<%=LANG('对方不支持这种支付方式！')%>");
+                            }
+                            this.sellPays = res.datas
+                        }.bind(this)
+                    })
                 },
                 fetchOtcList: function (obj) {  //查询 otc列表s
                     var data = Object.assign({

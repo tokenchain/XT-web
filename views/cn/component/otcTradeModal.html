@@ -69,6 +69,10 @@
                 legalCurrencyName: {
                     type: String,
                     default: ''
+                },
+                sellPays:{
+                    type: Boolean,
+                    default: false
                 }
             },
             data: function () {
@@ -111,6 +115,10 @@
                         }
                         if (this.amount > this.listRecord.laveAmount) {
                             JuaBox.info("<%=LANG('交易数量超过剩余数量！')%>");
+                            return
+                        }
+                        if (!this.sellPays && this.advType == 2) {
+                            JuaBox.info("<%=LANG('对方不支持这种支付方式！')%>");
                             return
                         }
                         var data = {
