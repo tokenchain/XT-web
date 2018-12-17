@@ -6,18 +6,18 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <span><%=LANG('购买')%></span>
-                <span @click="statusSubmit(advDetail)">{{advDetail.advStatus == 1 ? '<%=LANG('上架中')%>' : '<%=LANG('下架中')%>'}}</span>
+                <span>{{advDetail.advStatus == 1 ? '<%=LANG('出售')%>' : '<%=LANG('购买')%>'}}</span>
+                <span>{{advDetail.advStatus == 1 ? '<%=LANG('上架中')%>' : '<%=LANG('下架中')%>'}}</span>
             </div>
             <div class="buy-info">
                 <span class="first">
-                    <p><%=LANG('单价')%>：<span>{{advDetail.orderPrice || 0}} {{legalCurrencyName.toUpperCase()}} / {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
-                    <p><%=LANG('单笔最小交易限额')%>：<span>{{advDetail.orderLimitMin || 0}} {{legalCurrencyName.toUpperCase()}}</span></p>
+                    <p><%=LANG('单价')%>：<span>{{advDetail.orderPrice || 0}} {{getCurrencyName}} / {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
+                    <p><%=LANG('单笔最小交易限额')%>：<span>{{advDetail.orderLimitMin || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
                     <p><%=LANG('当前已完成')%>：<span>{{advDetail.saleAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
                 </span>
                 <span>
                     <p><%=LANG('总量')%>：<span>{{advDetail.orderAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
-                    <p><%=LANG('单笔最大交易限额')%>：<span>{{advDetail.orderLimitMax || 0}} {{legalCurrencyName.toUpperCase()}}</span></p>
+                    <p><%=LANG('单笔最大交易限额')%>：<span>{{advDetail.orderLimitMax || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
                     <p><%=LANG('剩余数量')%>：<span>{{advDetail.laveAmount || 0}} {{advDetail.orderCoin&&advDetail.orderCoin.toUpperCase()}}</span></p>
                 </span>
             </div>
@@ -62,14 +62,21 @@
                     } [getCookie(ENV + 'lan')],
                     currencyAmount: null,
                     payId: null,
+                    currencyList: []
                 }
             },
             created() {
                 this.getfinListDetail()
                 this.getCurrencyAmount()
+                this.getCurrencyList()
             },
             computed: {
-
+                getCurrencyName: function () {
+                    var obj = this.currencyList.find(function (item) {
+                        return item.id == this.advDetail.legalCurrencyId
+                    }.bind(this)) || {}
+                    return obj.shortName || ''
+                }
             },
             methods: {
                 getData: function(time, format) {
@@ -86,6 +93,17 @@
                 },
                 imgSrc: function (payId) {
                     return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
+                },
+                getCurrencyList: function () {  //查询法币接口
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCurrency',
+                        data: {},
+                        success: function (res) {
+                            this.currencyList = res.datas
+                        }.bind(this)
+                    })
                 },
                 getfinListDetail: function (callBack) {
                     var data = {

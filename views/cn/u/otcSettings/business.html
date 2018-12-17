@@ -4,16 +4,26 @@
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/general-business.png" alt="">
                 <span><%=LANG('普通商家')%></span>
-                <img src="<%= IMG_STATIC %>/images/complete.png" alt="">
+                <img v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1"
+                     src="<%= IMG_STATIC %>/images/complete.png" alt="">
+                <a v-if="!bussineseStatus" style="color: #FFBE3F" href="/u/certify"><%=LANG('去高级实名认证')%></a>
             </div>
-            <P><%=LANG('当前已是普通商家，拥有发广告的权限，交易单笔不能超过2000CNY，总交易额不能超过50000CNY，申请认证商家可拥有更高交易额度！')%></P>
+            <P v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1">
+                <%=LANG('当前已是普通商家，拥有发广告的权限，交易单笔不能超过')%>{{config.merchantSingleMax}}CNY
+                <%=LANG('总交易额不能超过')%>{{config.merchantOnedayMax}}CNY
+                <%=LANG('申请认证商家可拥有更高交易额度！')%>
+            </P>
         </div>
         <div class="senior-business">
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/senior-business.png" alt="">
                 <span><%=LANG('认证商家')%></span>
-                <button v-if="bussineseStatus.otcLevel == 0" @click="apply"><%=LANG('立即申请')%></button>
-                <img v-else src="<%= IMG_STATIC %>/images/complete.png" alt="">
+                <button v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1" @click="apply">
+                    <%=LANG('立即申请')%>
+                </button>
+                <img v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
+                     src="<%= IMG_STATIC %>/images/complete.png" alt="">
+                <p v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==0"><%=LANG('已申请')%></p>
             </div>
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
         </div>
@@ -51,28 +61,28 @@
                     applyPage: false,
                     bussineseStatus: {},
                     checkAgreement: false,
-                    currencyAmount: null
+                    currencyAmount: null,
+                    config: {}
                 }
             },
             created() {
                 this.queryBussinese()
                 this.getCurrencyAmount()
+                this.getConfig()
             },
-            computed: {
-
-            },
+            computed: {},
             methods: {
-                changeAgreement: function() {
+                changeAgreement: function () {
                     this.checkAgreement = !this.checkAgreement
                 },
-                apply: function() {
+                apply: function () {
                     this.applyPage = true
                 },
-                applySubmit: function() {
+                applySubmit: function () {
                     console.log(this.checkAgreement)
                     var data = {
                         currencyName: 'xt',
-                        currencyAmount: '0.1'  //this.currencyAmount  上线前需要改成接口获取
+                        currencyAmount: this.currencyAmount  //this.currencyAmount  上线前需要改成接口获取
                     }
                     if (this.checkAgreement) {
                         Methods.ajax({
@@ -94,7 +104,7 @@
                         JuaBox.info("<%=LANG('请勾选协议')%>");
                     }
                 },
-                getCurrencyAmount: function() {
+                getCurrencyAmount: function () {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
@@ -102,6 +112,17 @@
                         data: {},
                         success: function (res) {
                             this.currencyAmount = res.datas
+                        }.bind(this)
+                    })
+                },
+                getConfig: function () {  //获取配置
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/admin/OtcController/selectOTCConfig',
+                        data: {},
+                        success: function (res) {
+                            this.config = res.datas
                         }.bind(this)
                     })
                 },

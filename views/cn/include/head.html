@@ -8,32 +8,38 @@
         line-height: 25px;
         overflow: hidden;
     }
-    .headNav{
-        color:#fff!important;
+
+    .headNav {
+        color: #fff !important;
     }
-    .right-A a{
+
+    .right-A a {
         color: #fff;
     }
-    .right-A a:hover{
+
+    .right-A a:hover {
         color: #5a7ff5;
     }
-    .headNav:hover a{
-        color:#fff!important
+
+    .headNav:hover a {
+        color: #fff !important
     }
-    #header-navigator .active{
+
+    #header-navigator .active {
         color: rgba(255, 190, 63, 1);
         font-size: 16px;
     }
-    @media (max-width: 768px) {
-        .headNav{
 
-         }
+    @media (max-width: 768px) {
+        .headNav {
+
+        }
     }
 
 </style>
 <header class="header" onclick="closeMenu();" id="header_menu_he">
     <a href="/" class="logo">
-        <img src="<%= IMG_STATIC %>/images/logo.png" />
+        <img src="<%= IMG_STATIC %>/images/logo.png"/>
     </a>
     <div class="header-nav" id="header-navigator">
         <ul class="main-nav">
@@ -42,7 +48,8 @@
                     <%= LANG('币币交易') %>
                 </a>
             </li>
-            <li id="otcList"><a role="button" href="/otcTrade" :class="{active:activeNav=='otcTrade'}"><%= LANG('OTC交易') %></a></li>
+            <li id="otcList"><a role="button" href="/otcTrade" :class="{active:activeNav=='otcTrade'}"><%= LANG('OTC交易')
+                %></a></li>
             <li><a role="button" href="/appstore" :class="{active:activeNav=='appstore'}">App</a></li>
 
             <!--<li><a role="button" href="/appstore" >App</a></li>-->
@@ -78,7 +85,8 @@
             </li> -->
         </ul>
         <div class="notice-nav" style="visibility: hidden">
-            <a href="https://xt.zendesk.com/hc/zh-cn" target="_blank" class="title" style="border-right: 1px solid rgba(255,255,255,30%);">
+            <a href="https://xt.zendesk.com/hc/zh-cn" target="_blank" class="title"
+               style="border-right: 1px solid rgba(255,255,255,30%);">
                 <%= LANG('公告') %>
             </a>
             <div id="rolling">
@@ -109,9 +117,10 @@
             </li>
 
 
-            <li class="dropdown" id="menu_loginedList" style="display: none;" onclick="showLoginList('dropdown_menuLogin',2,event)">
+            <li class="dropdown" id="menu_loginedList" style="display: none;"
+                onclick="showLoginList('dropdown_menuLogin',2,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
-                    <img src="<%= IMG_STATIC %>/images/icon/user-icon.png" />
+                    <img src="<%= IMG_STATIC %>/images/icon/user-icon.png"/>
                     <span id="menuUsername">-</span>
                 </p>
                 <ul class="dropdown-menu" id="dropdown_menuLogin">
@@ -140,7 +149,7 @@
             </li>
             <li class="dropdown" onclick="showLoginList('dropdown_menuLanguage',1,event)">
                 <p role="button" class="arrow" data-toggle="dropdown">
-                    <img src="<%= IMG_STATIC %>/images/icon/language-icon.png" />
+                    <img src="<%= IMG_STATIC %>/images/icon/language-icon.png"/>
                     <span id="menuLanguage">简体中文</span>
                 </p>
                 <ul class="dropdown-menu" id="dropdown_menuLanguage">
@@ -166,11 +175,11 @@
 
     </div>
     <modal :open="showModal == 'transfer'" @close="showModal = false">
-        <transfer :info="transferInfo" />
+        <transfer :info="transferInfo"/>
     </modal>
 
     <modal :open="showModal == 'payin'" @close="showModal = false">
-        <modal-payin :coin="payinCoin" />
+        <modal-payin :coin="payinCoin"/>
     </modal>
     <div class="header-button" id="header_mobel_button" onclick="SwitchClass(this)">
         <span></span>
@@ -217,13 +226,13 @@
     var languageArray = [menuLangeage_cn, menuLangeage_en];
 
 
-
     function setCookie(name, value) {
 
         var exp = new Date();
         exp.setTime(exp.getTime() + 12 * 60 * 60 * 1000); //12小时
         window.document.cookie = name + "=" + value + ";path=/;expires=" + exp.toGMTString();
     }
+
     //读取cookies
     function getCookie(name) {
         var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -242,6 +251,7 @@
         if (cval != null)
             document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
     }
+
     var isLogin = function () {
         return (getCookie("zuname") != null && getCookie("zuname") != "none") || (getCookie("wuname") != null &&
             getCookie("wuname") != "none");
@@ -264,7 +274,8 @@
             lanIndex = 1;
             setCookie("wlan", "en");
             setCookie("zlan", "en");
-        };
+        }
+        ;
         document.getElementById("menuLanguage").innerHTML = language[lanIndex];
     }
 
@@ -359,6 +370,7 @@
     function removeListener(element, e, fn) {
         element.removeEventListener ? element.removeEventListener(e, fn, false) : element.detachEvent("on" + e, fn)
     }
+
     var menuArr = [false, false, false];
 
     function closeMenu() {
@@ -401,7 +413,7 @@
             }).find("li:first").appendTo(this);
         });
     }
-    
+
     $(document).ready(function () {
         require(['common/methods', 'vue', 'validate'], function (Methods, Vue) {
             new Vue({
@@ -435,8 +447,16 @@
                             _this.activeNav = val
                         }
                     })
+                    //jquery.validator验证配置
                     if ('<%= LAN %>' == 'cn') {
-                        $.extend( $.validator.messages, {
+                        $.validator.addMethod("NumThanZero", function (value, element) {
+                            return this.optional(element) || /^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/.test(value);
+                        }, "请输入大于0的数字")
+                        $.validator.addMethod("gt", function (value, element, param) {
+                            var arr = param.split(',')
+                            return this.optional(element) || parseFloat(value) > parseFloat(arr[0]);
+                        }, $.validator.format("请输入大于 {0} 的数字"))
+                        $.extend($.validator.messages, {
                             required: "这是必填项",
                             remote: "请修正此项",
                             email: "请输入有效的电子邮件地址",
@@ -448,14 +468,14 @@
                             creditcard: "请输入有效的信用卡号码",
                             equalTo: "你的输入不相同",
                             extension: "请输入有效的后缀",
-                            maxlength: $.validator.format( "最多可以输入 {0} 个字符" ),
-                            minlength: $.validator.format( "最少要输入 {0} 个字符" ),
-                            rangelength: $.validator.format( "请输入长度在 {0} 到 {1} 之间的字符串" ),
-                            range: $.validator.format( "请输入范围在 {0} 到 {1} 之间的数值" ),
-                            step: $.validator.format( "请输入 {0} 的整数倍值" ),
-                            max: $.validator.format( "请输入不大于 {0} 的数值" ),
-                            min: $.validator.format( "请输入不小于 {0} 的数值" )
-                        } );
+                            maxlength: $.validator.format("最多可以输入 {0} 个字符"),
+                            minlength: $.validator.format("最少要输入 {0} 个字符"),
+                            rangelength: $.validator.format("请输入长度在 {0} 到 {1} 之间的字符串"),
+                            range: $.validator.format("请输入范围在 {0} 到 {1} 之间的数值"),
+                            step: $.validator.format("请输入 {0} 的整数倍值"),
+                            max: $.validator.format("请输入不大于 {0} 的数值"),
+                            min: $.validator.format("请输入不小于 {0} 的数值")
+                        });
                     }
                 },
                 methods: {

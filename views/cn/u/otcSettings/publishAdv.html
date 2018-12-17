@@ -21,7 +21,7 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单价')%>：</label>
-                <input type="text" name="orderPrice" v-model="formModel.orderPrice" required number="true">
+                <input type="text" name="orderPrice" v-model="formModel.orderPrice" required number="true" NumThanZero="0">
             </div>
             <div class="form-item" v-if="advType == 2">
                 <label for=""><%=LANG('可用数量')%>：</label>
@@ -29,15 +29,15 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易数量')%>：</label>
-                <input type="text" name="orderAmount" v-model="formModel.orderAmount" required number="true">
+                <input type="text" name="orderAmount" v-model="formModel.orderAmount" :range="[formModel.orderLimitMin, formModel.orderLimitMax]" required number="true" NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最小成交额')%>：</label>
-                <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true">
+                <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true" NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最大成交额')%>：</label>
-                <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required number="true">
+                <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required number="true" NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -115,10 +115,12 @@
                         return item.id == e.target.value
                     })
                     this.getCoinList(tode.shortName.toLowerCase())
+                    this.queryAmount()
                 },
                 changeCoin: function(e) {
                     console.log(e.target.value)
                     this.formModel.orderCoin = e.target.value
+                    this.queryAmount()
                 },
                 changeAdvType: function (type){
                     this.advType = type
@@ -166,6 +168,10 @@
                 },
                 publishAdvs: function () {  //发布广告
                     if ($('#publishAdv form').valid()) {
+                        if (this.advType == 2 && (this.amount < this.formModel.orderAmount || this.amount < this.formModel.orderLimitMax || this.amount < this.formModel.orderLimitMin)) {
+                            JuaBox.wrong("<%=LANG('交易数量超过可用数量！')%>")
+                            return
+                        }
                         JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
                             var data ={}
                             Object.assign(data, this.formModel, {

@@ -93,7 +93,7 @@
         </div>
     </div>
     <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
-        <otc-trade-modal :sellPays="sellPays" :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
+        <otc-trade-modal :adv-type="advType" :order-coin="orderCoin" :list-record="listRecord" :legal-currency-name="legalCurrencyName"/>
     </modal>
 </section>
 <%-include("./include/footer.html")%>
@@ -129,7 +129,7 @@
                     orderOutTime: '',
                     fiterDropDown: false,
                     currencyList: [],
-                    sellPays: false
+                    sellPays: null
                 }
             },
             computed: {
