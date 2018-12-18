@@ -21,7 +21,8 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单价')%>：</label>
-                <input type="text" name="orderPrice" v-model="formModel.orderPrice" required number="true" NumThanZero="0">
+                <input type="text" name="orderPrice" v-model="formModel.orderPrice" required number="true"
+                       NumThanZero="0">
             </div>
             <div class="form-item" v-if="advType == 2">
                 <label for=""><%=LANG('可用数量')%>：</label>
@@ -29,15 +30,19 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易数量')%>：</label>
-                <input type="text" name="orderAmount" v-model="formModel.orderAmount" :range="[formModel.orderLimitMin, formModel.orderLimitMax]" required number="true" NumThanZero="0">
+                <input type="text" name="orderAmount" v-model="formModel.orderAmount"
+                       :range="[formModel.orderLimitMin, formModel.orderLimitMax]" required number="true"
+                       NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最小成交额')%>：</label>
-                <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true" NumThanZero="0">
+                <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true"
+                       NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最大成交额')%>：</label>
-                <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required number="true" NumThanZero="0">
+                <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required
+                       number="true" NumThanZero="0">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -47,14 +52,15 @@
                 <label for=""><%=LANG('支持支付方式')%>：</label>
                 <div class="pay">
                     <label for="" v-for="item in formModel.payId">
-                        <input name="payId" type="checkbox" :value="item" v-model="payId" />
-                        <img :src="imgSrc(item)" alt="" >
+                        <input name="payId" type="checkbox" :value="item" v-model="payId"/>
+                        <img :src="imgSrc(item)" alt="">
                     </label>
                 </div>
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易密码')%>：</label>
-                <input type="password" autocomplete="off" name="securityPassword" v-model="formModel.securityPassword" required maxlength="6">
+                <input type="password" autocomplete="off" name="securityPassword" v-model="formModel.securityPassword"
+                       required maxlength="6">
             </div>
             <div class="bnt">
                 <button @click="publishAdvs" type="button"><%=LANG('发布')%></button>
@@ -108,7 +114,7 @@
                 imgSrc: function (payId) {
                     return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
                 },
-                changeCurrency: function(e) {
+                changeCurrency: function (e) {
                     console.log(e.target.value)
                     this.formModel.legalCurrencyId = e.target.value
                     var tode = this.currencyList.find(function (item) {
@@ -117,12 +123,12 @@
                     this.getCoinList(tode.shortName.toLowerCase())
                     this.queryAmount()
                 },
-                changeCoin: function(e) {
+                changeCoin: function (e) {
                     console.log(e.target.value)
                     this.formModel.orderCoin = e.target.value
                     this.queryAmount()
                 },
-                changeAdvType: function (type){
+                changeAdvType: function (type) {
                     this.advType = type
                     if (type == 2) {
                         this.queryAmount()
@@ -173,7 +179,7 @@
                             return
                         }
                         JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
-                            var data ={}
+                            var data = {}
                             Object.assign(data, this.formModel, {
                                 securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
                                 rsaKeyId: this.rsaKeyId,
@@ -190,11 +196,26 @@
                                     '/exchange/XtOtcController/publishCurrencyAdvs',
                                 data: data,
                                 success: function (res) {
-                                    JuaBox.success(EXX.L(res.resMsg.code));
-                                    window.location.href = `advertisement`
+                                    JuaBox.success(EXX.L(res.resMsg.code), function () {
+                                        window.location.href = `advertisement`
+                                    });
                                 }.bind(this),
                                 error: function (res) {
-                                    JuaBox.wrong(EXX.L(res.resMsg.code));
+                                    if (res.resMsg.code == '7015') {
+                                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                            buttons: {confirm: "去认证"}, callback: function () {
+                                                window.location.href = 'certify'
+                                            }
+                                        })
+                                    } else if (res.resMsg.code == '6078') {
+                                        JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                            buttons: {confirm: "去设置"}, callback: function () {
+                                                window.location.href = 'account'
+                                            }
+                                        })
+                                    } else {
+                                        JuaBox.wrong(EXX.L(res.resMsg.code));
+                                    }
                                 }
                             })
                         }.bind(this))
@@ -207,7 +228,15 @@
                             '/exchange/XtOtcController/selectUserPayBankAndPayOnline',
                         data: {},
                         success: function (res) {
-                            this.formModel.payId = res.datas
+                            if (res.datas) {
+                                this.formModel.payId = res.datas
+                            } else {
+                                JuaBox.confirm("<%=LANG('您还未设置支付方式！')%>", {
+                                    buttons: {confirm: "去设置"}, callback: function () {
+                                        window.location.href = 'settingsPayType'
+                                    }
+                                })
+                            }
                         }.bind(this)
                     })
                 },

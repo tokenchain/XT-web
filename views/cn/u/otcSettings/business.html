@@ -97,7 +97,7 @@
                                 this.applyPage = false
                             }.bind(this),
                             error: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.message));
+                                JuaBox.wrong(EXX.L(res.resMsg.message));
                             }
                         })
                     } else {

@@ -155,7 +155,21 @@
                                     this.getfinList()
                                 }.bind(this),
                                 error: function (res) {
-                                    JuaBox.wrong(EXX.L(res.resMsg.message));
+                                    if (res.resMsg.code == '7015') {
+                                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                            buttons: {confirm: "去认证"}, callback: function () {
+                                                window.location.href = 'certify'
+                                            }
+                                        })
+                                    } else if (res.resMsg.code == '6078') {
+                                        JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                            buttons: {confirm: "去设置"}, callback: function () {
+                                                window.location.href = 'account'
+                                            }
+                                        })
+                                    } else {
+                                        JuaBox.wrong(EXX.L(res.resMsg.code));
+                                    }
                                 }
                             })
                         }.bind(this))

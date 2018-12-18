@@ -17,7 +17,7 @@
             <p><%=LANG('卖方收款方式')%></p>
             <div class="pay" v-for="item in sellPayList" v-if="orderDetail.status != 3">
                 <label :for="item.id">
-                    <input v-if="orderDetail.status !== -1" name="payType" type="radio" :id="item.id"
+                    <input v-if="orderDetail.status == 1 || orderDetail.status == 2 || orderDetail.status == 3" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
                     <span class="img-box">
                         <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
@@ -33,11 +33,12 @@
                     </p>
                     <p v-if="item.payId == 3 || item.payId == 4">
                         <span>{{item.userName}}</span>
+                        <span>{{item.account}}</span>
                         <span><%=LANG('备注勿写比特币等字')%></span>
                     </p>
                     <p v-if="item.payId == 5 || item.payId == 6">
                         <span>{{item.bankOwner}}</span>
-                        <span>{{item.account}}</span>
+                        <span>{{item.bankNo}}</span>
                     </p>
                 </label>
             </div>
@@ -49,7 +50,7 @@
             </p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('待打币，付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
-            <span v-if="orderDetail.status == 0" class="status"><%=LANG('已完成')%></span>
+            <span v-if="orderDetail.status == 0" class="status" style="display: block;margin-top: 20px;"><%=LANG('已完成')%></span>
             <button v-if="!orderDetail.status == 0" @click="statusSubmit">{{getButton}}</button>
 
             <span class="cancel" v-if="orderDetail.status == 1 || orderDetail.status == 2" @click="cancelOrders"><%=LANG('取消订单')%></span>
@@ -78,7 +79,7 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <span><%=LANG('您向')%> {{orderDetail.sellerName}} <%=LANG('出售')%> {{orderDetail.amount + orderDetail.currencyName}}</span>
+                <span><%=LANG('您向')%> {{orderDetail.buyerName}} <%=LANG('出售')%> {{orderDetail.amount + orderDetail.currencyName}}</span>
                 <span v-if="merchantStatus && orderDetail.status == 3"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName}}</span><%=LANG('保证金')%><span></span>
             </div>
             <p class="price"><%=LANG('单价')%>：<span>{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
@@ -87,7 +88,7 @@
         </div>
         <div class="order-pay-type">
             <p><%=LANG('买方收款方式')%></p>
-            <div class="pay" v-for="item in sellPayList" v-if="orderDetail.status != 1 || !orderDetail.status != 3">
+            <div class="pay" v-for="item in sellPayList" v-cloak="" v-if="orderDetail.status == '0' || orderDetail.status == '2'">
                 <label :for="item.id">
                     <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
@@ -103,16 +104,17 @@
                     </p>
                     <p v-if="item.payId == 3 || item.payId == 4">
                         <span>{{item.userName}}</span>
+                        <span>{{item.account}}</span>
                         <span><%=LANG('备注勿写比特币等字')%></span>
                     </p>
                     <p v-if="item.payId == 5 || item.payId == 6">
                         <span>{{item.bankOwner}}</span>
-                        <span>{{item.account}}</span>
+                        <span>{{item.bankNo}}</span>
                     </p>
                 </label>
             </div>
             <p v-if="orderDetail.status == 1"><%=LANG('当前订单未支付，无法查看买方付款方式')%></p>
-            <p v-if="orderDetail.status == 3"><%=LANG('订单已取消，无法查看支付信息')%></p>
+            <p v-if="orderDetail.status == 3" style="margin-top: 10px;"><%=LANG('订单已取消，无法查看支付信息')%></p>
             <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('剩余支付')%>{{outTimeDisplay}}
                 <%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span></p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span>
@@ -153,6 +155,7 @@
             },
             created() {
                 this.getOrderListDetail(function () {
+                    console.log(this.orderDetail.status != '1')
                     this.querySellPaytype()
                     this.getConfig(function () {
                         if (this.orderDetail.orderType == '1' && this.orderDetail.status == '2') {
@@ -365,7 +368,21 @@
                             }.bind(this))
                         }.bind(this),
                         error: function (res) {
-                            JuaBox.wrong(EXX.L(res.resMsg.message));
+                            if (res.resMsg.code == '7015') {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'certify'
+                                    }
+                                })
+                            } else if (res.resMsg.code == '6078') {
+                                JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                    buttons: {confirm: "去设置"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            } else {
+                                JuaBox.wrong(EXX.L(res.resMsg.code));
+                            }
                         }
                     })
                 },
@@ -396,7 +413,7 @@
                     } else {  //卖
                         if (status == '2') {
                             this.giveBuyer()
-                        } else {
+                        } else if (status == '1') {
                             this.querySellPhone()
                         }
                     }

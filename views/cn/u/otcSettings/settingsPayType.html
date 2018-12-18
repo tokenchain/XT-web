@@ -168,7 +168,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel.securityPassword" required maxlength="6">
+                    <input type="password" name="securityPassword" v-model="formModel.securityPassword" required
+                           maxlength="6">
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -188,7 +189,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_move.securityPassword" required maxlength="6">
+                    <input type="password" name="securityPassword" v-model="formModel_move.securityPassword" required
+                           maxlength="6">
                 </div>
                 <div class="form-item img-box">
                     <label for="">{{payType == 3 ? '<%=LANG('支付宝收款码')%>' : '<%=LANG('微信收款码')%>'}}：</label>
@@ -256,7 +258,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_usd.securityPassword" required maxlength="6">
+                    <input type="password" name="securityPassword" v-model="formModel_usd.securityPassword" required
+                           maxlength="6">
                 </div>
             </div>
 
@@ -272,7 +275,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_payPal.securityPassword" required maxlength="6">
+                    <input type="password" name="securityPassword" v-model="formModel_payPal.securityPassword" required
+                           maxlength="6">
                 </div>
             </div>
 
@@ -340,7 +344,7 @@
             },
             computed: {},
             methods: {
-                getUserName: function() {
+                getUserName: function () {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
@@ -351,13 +355,15 @@
                                 var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
                                 if (this.payType == 3 || this.payType == 4) {
                                     this[arr[this.payType]].userName = res.datas
-                                } else if(this.payType == 2) {
+                                } else if (this.payType == 2) {
                                     this[arr[this.payType]].bankOwner = res.datas
                                 }
                             } else {
-                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {buttons: {confirm: "去认证"}, callback: function () {
-                                    window.location.href = 'certify'
-                                }})
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'certify'
+                                    }
+                                })
                             }
                         }.bind(this)
                     })
@@ -475,7 +481,6 @@
                             JuaBox.wrong(EXX.L(res.resMsg.message));
                         }
                     })
-
                 },
                 bytesToSize(bytes) {
                     if (bytes === 0) return '0 B';
@@ -504,6 +509,7 @@
                     this.imgList = []
                     this.imgUrl = ''
                     this.queryPayTypeInfo(type)
+                    this.getUserName()
                 },
                 changeCurrencyName: function (type) {
                     this.currencyName = type.shortName
@@ -514,6 +520,7 @@
                     this.imgList = []
                     this.imgUrl = ''
                     this.queryPayTypeInfo(this.payType)
+                    this.getUserName()
                 },
                 getCurrencyList: function () {  //查询法币接口
                     Methods.ajax({
@@ -560,7 +567,21 @@
                                 this.queryPayTypeInfo(this.payType)
                             }.bind(this),
                             error: function (res) {
-                                JuaBox.wrong(EXX.L(res.resMsg.code));
+                                if (res.resMsg.code == '7015') {
+                                    JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                        buttons: {confirm: "去认证"}, callback: function () {
+                                            window.location.href = 'certify'
+                                        }
+                                    })
+                                } else if (res.resMsg.code == '6078') {
+                                    JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                        buttons: {confirm: "去设置"}, callback: function () {
+                                            window.location.href = 'account'
+                                        }
+                                    })
+                                } else {
+                                    JuaBox.wrong(EXX.L(res.resMsg.code));
+                                }
                             }
                         })
                     }
@@ -597,7 +618,7 @@
                                     this.imgList.push({
                                         file: {
                                             name: '',
-                                            src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' +  res.datas.qrcode
+                                            src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' + res.datas.qrcode
                                         }
                                     })
                                     this.imgUrl = res.datas && res.datas.qrcode

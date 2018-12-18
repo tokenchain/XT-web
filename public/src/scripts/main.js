@@ -15,7 +15,8 @@ require.config({
         'qrcode': ENV == 'w' ? 'qrcode/build/qrcode' : 'qrcode/build/qrcode',
         'datepicker': 'bootstrap-datepicker-master/js/bootstrap-datepicker',
         'bootstrap': 'bootstrap/dist/js/bootstrap',
-        'validate': 'https://cdn.bootcss.com/jquery-validate/1.19.0/jquery.validate.min'
+        'validate': 'https://cdn.bootcss.com/jquery-validate/1.19.0/jquery.validate.min',
+        'math': 'https://cdn.bootcss.com/mathjs/4.1.2/math.min'
     },
     shim: {
         'others/cryptico.min': {},
