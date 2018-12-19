@@ -62,10 +62,13 @@
                     } [getCookie(ENV + 'lan')],
                     currencyAmount: null,
                     payId: null,
-                    currencyList: []
+                    currencyList: [],
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
+                this.queryStatus()
                 this.getfinListDetail()
                 this.getCurrencyAmount()
                 this.getCurrencyList()
@@ -148,7 +151,43 @@
                         }
                     })
                 },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = '/u/account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 statusSubmit: function (item) { //上架，下架
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
                     if(item.advStatus == 0) { //上架
                         JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
                             this.showModal = 'upAdvs'

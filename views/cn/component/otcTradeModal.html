@@ -114,7 +114,7 @@
                             return
                         }
                         if (!this.$parent.$parent.sellPays && this.advType == 2) {
-                            JuaBox.info("<%=LANG('对方不支持这种支付方式！')%>");
+                            JuaBox.info("<%=LANG('您还未设置这种支付方式！')%>");
                             return
                         }
                         var data = {

@@ -52,7 +52,7 @@
                 <label for=""><%=LANG('支持支付方式')%>：</label>
                 <div class="pay">
                     <label for="" v-for="item in formModel.payId">
-                        <input name="payId" type="checkbox" :value="item" v-model="payId"/>
+                        <input name="payId" type="checkbox" :value="item" v-model="payId" required/>
                         <img :src="imgSrc(item)" alt="">
                     </label>
                 </div>
@@ -97,10 +97,13 @@
                     },
                     payId: [],
                     pubKey: '',
-                    rsaKeyId: ''
+                    rsaKeyId: '',
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
+                this.queryStatus()
                 this.getCoinList()
                 this.getCurrencyList()
                 this.queryMyPayType()
@@ -133,6 +136,7 @@
                     if (type == 2) {
                         this.queryAmount()
                     }
+                    this.queryStatus()
                 },
                 getCoinList: function (name) {   //查询 币种列表
                     Methods.ajax({
@@ -172,7 +176,43 @@
                         }.bind(this)
                     })
                 },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = '/u/account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 publishAdvs: function () {  //发布广告
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
                     if ($('#publishAdv form').valid()) {
                         if (this.advType == 2 && (this.amount < this.formModel.orderAmount || this.amount < this.formModel.orderLimitMax || this.amount < this.formModel.orderLimitMin)) {
                             JuaBox.wrong("<%=LANG('交易数量超过可用数量！')%>")

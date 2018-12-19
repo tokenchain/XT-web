@@ -64,10 +64,12 @@
                     showModal: false,
                     record: {},
                     fiterDropDown: false,
-                    currencyList: []
+                    currencyList: [],
+                    reameNameStatus: null
                 }
             },
             created() {
+                this.queryStatus()
                 this.getfinList()
                 this.getCurrencyList()
             },
@@ -133,7 +135,36 @@
                         }.bind(this)
                     })
                 },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                        }.bind(this)
+                    })
+                },
                 rollsOff: function (item) {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
                     if(item.advStatus == 0) { //上架
                         JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
                             this.record = item

@@ -20,9 +20,9 @@
                     <input v-if="orderDetail.status == 1 || orderDetail.status == 2 || orderDetail.status == 3" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
                     <span class="img-box">
-                        <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
-                        <div id="qscode-box" class="qscode-box" >
-                            <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
+                        <img :src="imgSrc(item.payId)" alt="">
+                        <div id="qscode-box" class="qscode-box" v-if="qscodeStatus">
+                            <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+ item.qrcode" alt="" v-if="item.payId == 2 || item.payId == 3">
                         </div>
                     </span>
                     <p v-if="item.payId == 2">
@@ -35,6 +35,7 @@
                         <span>{{item.userName}}</span>
                         <span>{{item.account}}</span>
                         <span><%=LANG('备注勿写比特币等字')%></span>
+                        <a v-if="item.payId == 3 || item.payId == 4" style="color: #FFBE3F;" @click="lookQscode"><%=LANG('查看二维码')%></a>
                     </p>
                     <p v-if="item.payId == 5 || item.payId == 6">
                         <span>{{item.bankOwner}}</span>
@@ -92,8 +93,8 @@
                 <label :for="item.id">
                     <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
-                    <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
-                    <div id="qscode-box" class="qscode-box" v-if="qscode">
+                    <img :src="imgSrc(item.payId)" alt="">
+                    <div id="qscode-box" class="qscode-box" v-if="item.payId == 2 || item.payId == 3" >
                         <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
                     </div>
                     <p v-if="item.payId == 2">
@@ -127,7 +128,13 @@
             <div class="order-type" v-if="orderDetail.status == 3"><%=LANG('订单已取消！')%></div>
         </div>
     </div>
+    <modal v-cloak="" :open="appealModal == 'appeal'" @close="appealModal = false">
+        <appeal/>
+    </modal>
 </div>
+
+<%-include("../../component/modal.html")%>
+<%-include("../model/appeal.html")%>
 
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
@@ -147,18 +154,20 @@
                     sellPayList: [],
                     payId: null,
                     sellPhone: '',
-                    qscode: false,
                     outTimeDisplay: '0分0秒',
                     outTime: '',  //订单过期时间   -1或者-2是超时
-                    merchantStatus: false
+                    merchantStatus: false,
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    appealModal: false,
+                    qscodeStatus: false
                 }
             },
             created() {
                 this.getOrderListDetail(function () {
-                    console.log(this.orderDetail.status != '1')
                     this.querySellPaytype()
                     this.getConfig(function () {
-                        if (this.orderDetail.orderType == '1' && this.orderDetail.status == '2') {
+                        if (this.orderDetail.orderType == '1' && this.orderDetail.status == '1') {
                             this.reduceTime()
                         }
                     }.bind(this))
@@ -188,6 +197,9 @@
                 }
             },
             methods: {
+                lookQscode: function() {
+                    this.qscodeStatus = !this.qscodeStatus
+                },
                 getMerchant: function () {
                     Methods.ajax({
                         type: 'GET',
@@ -197,6 +209,14 @@
                             userId: this.orderDetail.orderType == 1 ? this.orderDetail.sellerId : this.orderDetail.buyerId
                         },
                         success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = '/u/account'
+                                    }
+                                })
+                            }
                             if (res.datas.status==1 && res.datas.otcLevel == 1) {
                                 this.merchantStatus = true
                             } else {
@@ -230,6 +250,7 @@
                         // console.log(m+"分钟"+s+"秒")
                     }
                     timer = setInterval(countDown,1000);
+                    console.log(m + "分钟" + s + "秒")
                     return m + "分钟" + s + "秒"
                 },
                 reduceTime: function () {
@@ -252,16 +273,6 @@
                             callBack && callBack()
                         }.bind(this)
                     })
-                },
-                enter: function (item) {
-                    if (item.payId == 3 || item.payId == 4) {
-                        this.qscode = true
-                    }
-                },
-                leave: function (item) {
-                    if (item.payId == 3 || item.payId == 4) {
-                        this.qscode = false
-                    }
                 },
                 getData: function (time, format) {
                     return Methods.getDateTime(time, format)
@@ -387,6 +398,22 @@
                     })
                 },
                 statusSubmit: function () { //修改 订单状态
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
                     var data;
                     var type = this.orderDetail.orderType
                     var status = this.orderDetail.status
@@ -404,7 +431,8 @@
                             }
                             data.status = 2
                         } else if (status == 2) { //申诉
-                            data.status = -1
+                            this.appealModal = 'appeal'
+                            return
                         } else if (status == 3 || status == -1) { //已取消  已申诉
                             return
                         }
@@ -418,15 +446,56 @@
                         }
                     }
                 },
+                userAppealOrder: function() {  //申诉接口
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/userAppealOrder',
+                        data: {
+                            appealObjectId: this.orderDetail.sellerId,
+                            appealUserId: this.orderDetail.buyerId,
+                            coinAmount: this.orderDetail.amount,
+                            coinName: this.orderDetail.orderCoin,
+                            imageOne: '',
+                            imageTwo: '',
+                            orderId: this.orderDetail.id,
+                            orderNo: this.orderDetail.orderNo,
+                            price: this.orderDetail.price,
+                            reason: '',
+                            totalAmount: this.orderDetail.totalAmount
+                        },
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.message));
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.error(EXX.L(res.resMsg.message));
+                        }
+                    })
+                },
                 cancelOrders: function () { //取消订单
-                    var data = {
-                        status: 3,   //0 - 交易成功, 1 - 等待付款, 2 - 确认收款(去支付) ,3 - 无效订单 -1 - 申述
-                        // payId: this.payId,
-                        amount: this.orderDetail.amount,
-                        orderNo: this.orderDetail.orderNo,
-                        advsId: this.orderDetail.advsId
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
                     }
-                    this.updataOrtderApi(data)
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                    } else {
+                        var data = {
+                            status: 3,   //0 - 交易成功, 1 - 等待付款, 2 - 确认收款(去支付) ,3 - 无效订单 -1 - 申述
+                            // payId: this.payId,
+                            amount: this.orderDetail.amount,
+                            orderNo: this.orderDetail.orderNo,
+                            advsId: this.orderDetail.advsId
+                        }
+                        this.updataOrtderApi(data)
+                    }
                 },
                 querySellPhone: function () {
                     Methods.ajax({

@@ -4,7 +4,7 @@
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/general-business.png" alt="">
                 <span><%=LANG('普通商家')%></span>
-                <img v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1"
+                <img v-if="bussineseStatus"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
                 <a v-if="!bussineseStatus" style="color: #FFBE3F" href="/u/certify"><%=LANG('去高级实名认证')%></a>
             </div>
@@ -24,6 +24,7 @@
                 <img v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
                 <p v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==0"><%=LANG('已申请')%></p>
+                <button v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
             </div>
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
         </div>
@@ -62,7 +63,8 @@
                     bussineseStatus: {},
                     checkAgreement: false,
                     currencyAmount: null,
-                    config: {}
+                    config: {},
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo')
                 }
             },
             created() {
@@ -79,6 +81,22 @@
                     this.applyPage = true
                 },
                 applySubmit: function () {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.bussineseStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return false
+                    }
                     console.log(this.checkAgreement)
                     var data = {
                         currencyName: 'xt',

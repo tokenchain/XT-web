@@ -6,7 +6,7 @@
         </div>
         <div class="search">
             <input type="text" placeholder="<%=LANG('请搜索')%>" @click="openDropdown">
-            <fiter-drop-down :open="fiterDropDown" :type="'4'" @fetch-list="getfinList" :currency-list="currencyList"/>
+            <fiter-drop-down :open="fiterDropDown" :type="'4'" @fetch-list="getfinList" :currency-list="currencyList" :coin-list="coinList"/>
         </div>
     </div>
     <div class="screening">
@@ -93,15 +93,30 @@
                         hk: 'hkd'
                     } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
                     fiterDropDown: false,
-                    currencyList: []
+                    currencyList: [],
+                    coinList: []
                 }
             },
             created() {
                 this.getfinList({orderType: this.advType})
                 this.getCurrencyList()
+                this.getCoinList()
             },
             computed: {},
             methods: {
+                getCoinList: function (name) {   //查询 币种列表
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/selectCoinLists',
+                        data: {
+                            legalCurrencyName: name ? name : 'cny'
+                        },
+                        success: function (res) {
+                            this.coinList = res.datas
+                        }.bind(this)
+                    })
+                },
                 openDropdown: function() {
                     this.fiterDropDown = !this.fiterDropDown
                 },
