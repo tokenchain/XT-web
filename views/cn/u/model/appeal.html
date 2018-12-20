@@ -11,10 +11,10 @@
         top: 0;
         width: 100%;
         height: 30px;
-        /*background-color: rgba(0, 0, 0, 0.4);*/
+        background-color: rgba(0, 0, 0, 0.4);
         line-height: 30px;
         text-align: left;
-        color: #fff;
+        color: #000;
         font-size: 12px;
         text-indent: 4px;
     }
@@ -108,17 +108,54 @@
         /*margin-left: 34%;*/
         text-align: center;
     }
+
+    form#appeal-form {
+        width: 80%;
+        margin: 20px auto 0 auto;
+        color: #898989;
+    }
+
+    form .form-item {
+        display: flex;
+        padding-bottom: 20px;
+        align-items: center;
+        position: relative;
+    }
+
+    form .form-item label {
+        flex: 0.2;
+    }
+
+    .form-item input, .form-item textarea {
+        flex: 1;
+        border: 1px solid rgba(219, 219, 219, 1);
+        border-radius: 4px;
+        padding-left: 10px;
+    }
+
+    .form-item input {
+        height: 45px;
+    }
+
+    .form-item input.error, .form-item textarea.error {
+        border-color: #f00;
+    }
+
+    .exx-modal-button {
+        width: 50%;
+        margin: 0 auto;
+    }
 </style>
 
 <script type="text/x-template" id="appeal">
-    <div class="exx-modal-container upAdvs" style="width: 800px;">
+    <div class="exx-modal-container" style="width: 800px;">
         <div class="exx-modal-header"><h3><%= LANG('申诉') %></h3></div>
         <div class="exx-modal-body">
             <div class="exx-form-box">
-                <form>
+                <form id="appeal-form">
                     <div class="form-item">
                         <label for=""><%=LANG('申诉原因')%>：</label>
-                        <textarea name="" cols="30" rows="10" v-model="appeal.memo"></textarea>
+                        <textarea name="" cols="30" rows="5" v-model="appeal.memo"></textarea>
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('上传图片')%>：</label>
@@ -130,18 +167,14 @@
                                     </div>
                                     <div class="upload_warp_right" @drop="drop($event)" @dragenter="dragenter($event)"
                                          @dragover="dragover($event)">
-                                        或者将文件拖到此处
+                                        <%=LANG('或者将文件拖到此处')%>
                                     </div>
                                 </div>
-                                <!--<div class="upload_warp_text">
-                                    选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
-                                </div>-->
                                 <div class="upload_warp_text">
-                                    <%=LANG('提示：图片大小不能超过1MB')%>
+                                    <%=LANG('共两张')%>，选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
                                 </div>
                                 <div class="upload_warp_text">
-                                    <%=LANG('当前大小：')%>
-                                    {{bytesToSize(size) || 0}}
+                                    <%=LANG('提示：图片大小不能超过1MB')%>
                                 </div>
                                 <input @change="fileChange($event)" type="file" id="upload_file" multiple
                                        style="display: none"/>
@@ -151,8 +184,8 @@
                                             <div class="upload_warp_img_div_text">
                                                 {{item.file.name}}
                                             </div>
-                                            <!--<img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
-                                                 @click="fileDel(index)">-->
+                                            <img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
+                                                 @click="fileDel(index)">
                                         </div>
                                         <img :src="item.file.src">
                                     </div>
@@ -167,7 +200,7 @@
         <div class="exx-modal-button">
             <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
             </button>
-            <button @click="appealApply" class="exxbtn btn-ok"><span><%= LANG('上架') %></span></button>
+            <button @click="appealApply" class="exxbtn btn-ok"><span><%= LANG('申诉') %></span></button>
         </div>
     </div>
 </script>
@@ -177,26 +210,78 @@
         return Vue.component('appeal', {
             template: "#appeal",
             props: {
-
+                orderDetail: {
+                    type: Object,
+                    default: {}
+                }
             },
             data: function () {
                 return {
                     appeal: {
-
+                        memo: ''
                     },
                     imgList: [],
-                    size: 0
+                    size: 0,
+                    aliyunImgList: []
                 }
             },
             created() {
 
             },
-            computed: {
-
-            },
+            computed: {},
             methods: {
-                appealApply: function() {
+                uploadImg: function (file) {
+                    var xhr = new XMLHttpRequest();
+                    var formData = new FormData();
 
+                    formData.append('file', file);
+                    console.log(this.imgList)
+                    xhr.onreadystatechange = function (e) {
+                        if (xhr.readyState == 4) {
+                            var result = JSON.parse(xhr.responseText)
+                            if (xhr.status == 200) {
+                                console.log(result.datas)
+                                JuaBox.success(EXX.L(result.resMsg.code));
+                                this.aliyunImgList.push(result.datas)
+                            } else {
+                                JuaBox.wrong(EXX.L(result.resMsg.message));
+                            }
+                        }
+                    }.bind(this)
+
+                    var path = DOMAIN_DEV +
+                        '/exchange/upload/controller/admin/FileController/upload'
+                    xhr.open('POST', path, true);
+                    xhr.send(formData);
+                },
+                appealApply: function () {  //申诉接口
+                    console.log(this.appeal, this.imgList)
+                    var data = {
+                        appealObjectId: this.orderDetail.sellerId,
+                        appealUserId: this.orderDetail.buyerId,
+                        coinAmount: this.orderDetail.amount,
+                        coinName: this.orderDetail.currencyName,
+                        imageOne: this.aliyunImgList[0] ? this.aliyunImgList[0] : '',
+                        imageTwo: this.aliyunImgList[1] ? this.aliyunImgList[1] : '',
+                        orderId: this.orderDetail.id,
+                        orderNo: this.orderDetail.orderNo,
+                        price: this.orderDetail.price,
+                        reason: this.appeal.memo,
+                        totalAmount: this.orderDetail.totalAmount
+                    }
+                    console.log(data)
+                    /*Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/userAppealOrder',
+                        data: data,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.message));
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.error(EXX.L(res.resMsg.message));
+                        }
+                    })*/
                 },
                 fileClick() {
                     document.getElementById('upload_file').click()
@@ -261,6 +346,8 @@
                             });
                         }
                     }
+                    console.log(file)
+                    // this.uploadImg(file)
                 },
                 fileDel(index) {
                     this.size = this.size - this.imgList[index].file.size;//总大小
