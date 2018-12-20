@@ -106,7 +106,7 @@
 
             <div class="item">
                 <label for=""><%= LANG('币种') %></label>
-                <input type="text" v-model="formModel_order.orderCoin">
+                <input type="text" v-model="formModel_order.currencyName">
             </div>
 
             <div class="item">
@@ -211,7 +211,7 @@
                         orderNo: '',
                         orderType: '',
                         legalCurrencyId: '',
-                        orderCoin: '',
+                        currencyName: '',
                         advType: '',
                     },
                     formModel_fin: {
@@ -290,6 +290,7 @@
                 },
                 close: function () {
                     this.$parent.fiterDropDown = false
+                    // this[this.modal] = {}
                 }
             }
         })

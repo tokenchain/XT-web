@@ -28,7 +28,24 @@
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                 <td><span class="status">{{getStatus(item.status)}}</span></td>
             </tr>
-            <tr v-if="orderList.length == 0 || !orderList" class="nodata">
+            <tr class="no-data">
+                <td colspan="7" style="text-align: center" v-if="loading">
+                    <div class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="orderList.length == 0 && !loading" class="nodata">
                 <td colspan="7" style="text-align: center"><%= LANG('暂无数据') %></td>
             </tr>
             </tbody>
@@ -46,6 +63,7 @@
             el: "#ordersManage",
             data: function () {
                 return {
+                    loading: true,
                     orderList: [],
                     pageSize: 10,
                     pageIndex: 1,
@@ -56,6 +74,7 @@
                 }
             },
             created() {
+                console.log(this.orderList.length == 0 && !this.loading)
                 this.getOrderList()
                 this.getCurrencyList()
             },
@@ -115,6 +134,7 @@
                             this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage
+                            this.loading = false
                         }.bind(this)
                     })
                 },

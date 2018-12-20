@@ -1,5 +1,18 @@
 <div class="advDetail" id="advDetail">
-    <div class="buy" v-cloak="">
+    <div v-if="loading" class="cd-loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+    <div class="buy" v-else v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{advDetail.id}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(advDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -49,6 +62,7 @@
             el: "#advDetail",
             data: function () {
                 return {
+                    loading: true,
                     showModal: false,
                     advDetail: {
 
@@ -119,6 +133,7 @@
                         data: data,
                         success: function (res) {
                             this.advDetail = res.datas
+                            this.loading = false
                             callBack && callBack()
                         }.bind(this)
                     })

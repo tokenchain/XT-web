@@ -137,6 +137,14 @@
         height: 45px;
     }
 
+    .form-item label.error {
+        color: #f00;
+        display: block;
+        position: absolute;
+        bottom: 2px;
+        right: 0;
+    }
+
     .form-item input.error, .form-item textarea.error {
         border-color: #f00;
     }
@@ -155,7 +163,7 @@
                 <form id="appeal-form">
                     <div class="form-item">
                         <label for=""><%=LANG('申诉原因')%>：</label>
-                        <textarea name="" cols="30" rows="5" v-model="appeal.memo"></textarea>
+                        <textarea name="appeal.memo" cols="30" rows="5" v-model="appeal.memo" required></textarea>
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('上传图片')%>：</label>
@@ -174,7 +182,7 @@
                                     <%=LANG('共两张')%>，选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
                                 </div>
                                 <div class="upload_warp_text">
-                                    <%=LANG('提示：图片大小不能超过1MB')%>
+                                    <%=LANG('提示：单张图片大小不能超过1MB')%>
                                 </div>
                                 <input @change="fileChange($event)" type="file" id="upload_file" multiple
                                        style="display: none"/>
@@ -198,15 +206,14 @@
         </div>
 
         <div class="exx-modal-button">
-            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
-            </button>
+            <button @click="close" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
             <button @click="appealApply" class="exxbtn btn-ok"><span><%= LANG('申诉') %></span></button>
         </div>
     </div>
 </script>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         return Vue.component('appeal', {
             template: "#appeal",
             props: {
@@ -255,41 +262,54 @@
                     xhr.send(formData);
                 },
                 appealApply: function () {  //申诉接口
-                    console.log(this.appeal, this.imgList)
-                    var data = {
-                        appealObjectId: this.orderDetail.sellerId,
-                        appealUserId: this.orderDetail.buyerId,
-                        coinAmount: this.orderDetail.amount,
-                        coinName: this.orderDetail.currencyName,
-                        imageOne: this.aliyunImgList[0] ? this.aliyunImgList[0] : '',
-                        imageTwo: this.aliyunImgList[1] ? this.aliyunImgList[1] : '',
-                        orderId: this.orderDetail.id,
-                        orderNo: this.orderDetail.orderNo,
-                        price: this.orderDetail.price,
-                        reason: this.appeal.memo,
-                        totalAmount: this.orderDetail.totalAmount
-                    }
-                    console.log(data)
-                    Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV +
-                            '/exchange/XtOtcController/userAppealOrder',
-                        data: data,
-                        success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            this.$parent.$parent.appealModal = false
-                            this.$parent.$parent.getOrderListDetail()
-                        }.bind(this),
-                        error: function (res) {
-                            JuaBox.error(EXX.L(res.resMsg.message));
+                    if ($('#appeal-form').valid()) {
+                        console.log(this.appeal, this.imgList)
+                        var data = {
+                            appealObjectId: this.orderDetail.sellerId,
+                            appealUserId: this.orderDetail.buyerId,
+                            coinAmount: this.orderDetail.amount,
+                            coinName: this.orderDetail.currencyName,
+                            imageOne: this.aliyunImgList[0] ? this.aliyunImgList[0] : '',
+                            imageTwo: this.aliyunImgList[1] ? this.aliyunImgList[1] : '',
+                            orderId: this.orderDetail.id,
+                            orderNo: this.orderDetail.orderNo,
+                            price: this.orderDetail.price,
+                            reason: this.appeal.memo,
+                            totalAmount: this.orderDetail.totalAmount
                         }
-                    })
+                        console.log(data)
+                        /*Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV +
+                                '/exchange/XtOtcController/userAppealOrder',
+                            data: data,
+                            success: function (res) {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                this.$parent.$parent.appealModal = false
+                                this.$parent.$parent.getOrderListDetail()
+                            }.bind(this),
+                            error: function (res) {
+                                JuaBox.error(EXX.L(res.resMsg.message));
+                            }
+                        })*/
+                    }
                 },
                 fileClick() {
+                    if (!$('#appeal-form').valid()) {
+                        return false
+                    }
                     document.getElementById('upload_file').click()
                 },
                 fileChange(el) {
-                    if (!el.target.files[0].size) return;
+                    var file = el.target.files[0]
+                    if (file.type.indexOf('image') == -1) {
+                        JuaBox.wrong("<%=LANG('只能上传图片！')%>");
+                    }
+                    if (file.size) return;
+                    if (file.size > 1024 * 1024) {
+                        JuaBox.wrong("<%=LANG('单张图片不能大于1MB！')%>");
+                        return
+                    }
                     if (this.imgList.length > 2) {
                         JuaBox.wrong("<%=LANG('只能上传两张图片！')%>");
                         return
@@ -377,7 +397,13 @@
                 drop(el) {
                     el.stopPropagation();
                     el.preventDefault();
+                    if (!$('#appeal-form').valid()) {
+                        return false
+                    }
                     this.fileList(el.dataTransfer);
+                },
+                close: function () {
+                    this.$parent.$parent.appealModal = false
                 }
             },
             mounted: function () {

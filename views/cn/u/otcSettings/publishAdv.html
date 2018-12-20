@@ -1,8 +1,7 @@
 <div id="publishAdv" class="publishAdv">
     <div class="title">
         <div class="tab-box">
-            <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('买币')%></span>
-            <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('卖币')%></span>
+            <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('买币')%></span><span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('卖币')%></span>
         </div>
     </div>
     <div class="publishAdv-box">

@@ -1,5 +1,18 @@
 <div class="business" id="business">
-    <div class="status" v-if="!applyPage" v-cloak="">
+    <div v-if="loading" class="cd-loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+    <div class="status" v-if="!loading && !applyPage" v-cloak="">
         <div class="general-business">
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/general-business.png" alt="">
@@ -29,7 +42,7 @@
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
         </div>
     </div>
-    <div class="apply" v-else v-cloak="">
+    <div class="apply" v-if="!loading && applyPage" v-cloak="">
         <h2><%=LANG('OTC认证商家申请')%></h2>
         <h4><%=LANG('步骤一：准备资料')%></h4>
         <p><%=LANG('1.请下载')%><span><a href=""><%=LANG('《商家申请资料模板》')%></a></span>,<%=LANG('按照要求填写申请资料。')%></p>
@@ -59,6 +72,7 @@
             el: "#business",
             data: function () {
                 return {
+                    loading: true,
                     applyPage: false,
                     bussineseStatus: {},
                     checkAgreement: false,
@@ -152,6 +166,7 @@
                         data: {},
                         success: function (res) {
                             this.bussineseStatus = res.datas
+                            this.loading = false
                         }.bind(this)
                     })
                 }

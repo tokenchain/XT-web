@@ -1,5 +1,18 @@
 <div class="ordersDetail" id="ordersDetail">
-    <div class="buy" v-if="orderDetail.orderType == 1" v-cloak="">
+    <div v-if="loading" class="cd-loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+    <div class="buy" v-if="!loading && orderDetail.orderType == 1" v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{orderDetail.orderNo}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(orderDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -73,7 +86,7 @@
         </div>
     </div>
 
-    <div class="sell" v-if="orderDetail.orderType == 2" v-cloak="">
+    <div class="sell" v-if="!loading && orderDetail.orderType == 2" v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{orderDetail.orderNo}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(orderDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -142,6 +155,7 @@
             el: "#ordersDetail",
             data: function () {
                 return {
+                    loading: false,
                     orderDetail: {},
                     legalCurrencyName: {
                         cn: 'cny',
@@ -323,6 +337,7 @@
                         data: data,
                         success: function (res) {
                             this.orderDetail = res.datas
+                            this.loading = false
                             callBack && callBack()
                         }.bind(this)
                     })

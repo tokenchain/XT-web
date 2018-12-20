@@ -3076,12 +3076,13 @@ button {
 
   .settingsPayType {
     .title {
-      height: 34px;
+      //height: 34px;
     }
   }
 
   .publishAdv, .settingsPayType {
     width: 100%;
+    margin-top: 10px;
 
     .title {
       display: flex;
@@ -5140,6 +5141,7 @@ input::-webkit-inner-spin-button {
       flex: 0.7;
       width: 100%;
       padding: 8px 8px;
+      height: 34px;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
@@ -5334,8 +5336,8 @@ input::-webkit-inner-spin-button {
     .otclist {
       padding: 0 20px 20px 20px;
       border-radius: 5px;
-      background-color: rgba(255, 255, 255, 1);
-      box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
+      background-color: rgba(255, 255, 255, 0);
+      box-shadow: 0px 3px 6px 0px rgba(177, 177, 177, 0.5);
 
       table {
         width: 100%;
@@ -5366,13 +5368,7 @@ input::-webkit-inner-spin-button {
 
         tbody {
           tr {
-            &:last-child td {
-              border-bottom: 1px solid #ddd;
-            }
-
             td {
-              border-top: 1px solid #ddd;
-
               span.btn {
                 padding: 8px 12px;
                 background: $home_color;
@@ -5385,6 +5381,10 @@ input::-webkit-inner-spin-button {
                 width: 22px;
                 margin-right: 10px;
               }
+            }
+
+            &:nth-child(even), &:hover {
+              background-color: #FFFBF2;
             }
           }
         }
