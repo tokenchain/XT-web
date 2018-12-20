@@ -34,14 +34,19 @@
         color: #888888;
     }
 
-    .activity .time p {
-        color: #FFB600;
+    .activity .time .activityTime {
+        color: #888888;
         font-size: 20px;
         font-weight: 600;
         margin-top: 40px;
         padding: 0 200px;
         line-height: 1.5;
     }
+
+    .activity .time .activityTime span {
+        color: #FFB600;
+    }
+
 
     .activity .form-button {
         margin-top: 93px 0 100px 0;
@@ -71,15 +76,14 @@
                 <%= LANG('恭喜注册成功') %>
             </h2>
             <div class="time">
-                <span>
-                    <%= LANG('请妥善保管您的账户信息') %></span>
-                <p v-if="ifActivity">
-                    <%= LANG('在{{activityStartTime}} ～ {{activityEndTime}}完成实名认证可获得10XT') %>
+                <span><%= LANG('请妥善保管您的账户信息') %></span>
+                <p class="activityTime" v-if="ifActivity">
+                    <%= LANG('在') %> <span>{{activityStartTime}} ～ {{activityEndTime}}</span> <%= LANG('完成实名认证可获得') %> <span>10XT</span>
                 </p>
             </div>
             <div class="form-button">
                 <a href="/u/realName" class="realName" v-if="ifActivity">
-                    <%= LANG('去实名认证') %></a>
+                    <%= LANG('去领取') %></a>
                 <a href="/">
                     <%= LANG('进入首页') %></a>
             </div>
