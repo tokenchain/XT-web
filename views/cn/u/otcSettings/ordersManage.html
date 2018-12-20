@@ -33,7 +33,7 @@
             </tr>
             </tbody>
         </table>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getOrderList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getOrderList"
                    v-if="orderList.length > 0"></page-lite>
     </div>
 </div>
@@ -49,7 +49,8 @@
                     orderList: [],
                     pageSize: 10,
                     pageIndex: 1,
-                    totalPage: null,
+                    totalPage: 0,
+                    pageCount: 0,
                     currencyList: [],
                     fiterDropDown: false
                 }
@@ -110,6 +111,7 @@
                         data: data,
                         success: function (res) {
                             this.orderList = res.datas.results
+                            this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage

@@ -65,7 +65,7 @@
             </tr>
             </tbody>
         </table>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getfinList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getfinList"
                    v-if="finList.length > 0"></page-lite>
     </div>
 </div>
@@ -82,7 +82,8 @@
                     finList: [],
                     pageSize: 10,
                     pageIndex: 1,
-                    totalPage: null,
+                    totalPage: 0,
+                    pageCount: 0,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                     records: {},
                     legalCurrencyName: {
@@ -152,6 +153,7 @@
                         success: function (res) {
                             this.records = res.datas.records
                             this.finList = res.datas.results.results
+                            this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.results.pageSize
                             this.pageIndex = res.datas.results.pageIndex
                             this.totalPage = res.datas.results.totalPage

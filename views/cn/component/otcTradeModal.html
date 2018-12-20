@@ -35,7 +35,7 @@
                 </div>
                 <div class="btn-box">
                     <button @click="creatOrders">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</button>
-                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><span><%=LANG('《OTC服务协议》')%></span></p>
+                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><a href="/help/OTCagreement"><%=LANG('《OTC服务协议》')%></a></p>
                 </div>
             </div>
         </div>
@@ -137,13 +137,12 @@
                             data: data,
                             success: function (res) {
                                 this.orderNum = res.datas
-                                JuaBox.success(EXX.L(res.resMsg.code));
                                 this.$parent.$parent.showModal = false
                                 // this.orderOutTime = res.datas.orderOutTime
                                 window.location.href = `u/ordersDetail/${res.datas}`
                             }.bind(this),
                             error: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.message));
+                                JuaBox.success(EXX.L(res.resMsg.code));
                             }
                         })
                     }

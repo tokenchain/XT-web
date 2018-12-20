@@ -46,8 +46,8 @@
             <p v-if="orderDetail.status == 3"><%=LANG('订单已取消，无法查看支付信息')%></p>
             <p v-if="orderDetail.status == -1" class="memo"><span><%=LANG('已申诉')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
-            <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请在')%>{{outTimeDisplay}}<%=LANG('内支付')%>{{orderDetail.sellerName}}
-                <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>,<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
+            <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请在')%>{{outTimeDisplay}}<%=LANG('内向')%><span>{{orderDetail.sellerName}}</span><%=LANG('支付')%>
+                <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>，<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
             </p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('待打币，付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
@@ -167,7 +167,7 @@
                 this.getOrderListDetail(function () {
                     this.querySellPaytype()
                     this.getConfig(function () {
-                        if (this.orderDetail.orderType == '1' && this.orderDetail.status == '1') {
+                        if (this.orderDetail.status == '1') {
                             this.reduceTime()
                         }
                     }.bind(this))
@@ -236,6 +236,7 @@
                     m=Math.floor(t/60%60);
                     m<10&&(m='0'+m);
                     s=Math.floor(t%60);
+
                     var that = this
                     function countDown(){
                         s--;
@@ -245,15 +246,18 @@
                             m="0"+(Number(m)-1);
                         }
                         if(m.length>=3){
+                            // console.log(m)
                             m='00';
                             s='00';
                             clearInterval(timer);
+                        }
+                        if (m == 0 && s == 0) {
+                            that.orderDetail.status = 3
                         }
                         that.outTimeDisplay = m+"分钟"+s+"秒"
                         // console.log(m+"分钟"+s+"秒")
                     }
                     timer = setInterval(countDown,1000);
-                    console.log(m + "分钟" + s + "秒")
                     return m + "分钟" + s + "秒"
                 },
                 reduceTime: function () {

@@ -2791,6 +2791,7 @@ button {
               position: absolute;
               top: 35px;
               right: 0px;
+
               img {
                 width: 80%;
               }
@@ -5509,7 +5510,7 @@ input::-webkit-inner-spin-button {
       font-size: 14px;
     }
 
-    span {
+    span, a {
       color: #FFBE3F;
     }
 
