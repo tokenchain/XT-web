@@ -451,10 +451,12 @@
                         $.validator.addMethod("NumThanZero", function (value, element) {
                             return this.optional(element) || /^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/.test(value);
                         }, "请输入大于0的数字")
-                        $.validator.addMethod("gt", function (value, element, param) {
-                            var arr = param.split(',')
-                            return this.optional(element) || parseFloat(value) > parseFloat(arr[0]);
+                        $.validator.addMethod("than", function (value, element, param) {
+                            return this.optional(element) || parseFloat(value) >= parseFloat(param);
                         }, $.validator.format("请输入大于 {0} 的数字"))
+                        $.validator.addMethod("lessThan", function (value, element, param) {
+                            return this.optional(element) || parseFloat(value) <= parseFloat(param);
+                        }, $.validator.format("请输入小于 {0} 的数字"))
                         $.extend($.validator.messages, {
                             required: "这是必填项",
                             remote: "请修正此项",

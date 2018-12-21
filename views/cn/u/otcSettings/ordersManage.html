@@ -28,8 +28,8 @@
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                 <td><span class="status">{{getStatus(item.status)}}</span></td>
             </tr>
-            <tr class="no-data">
-                <td colspan="7" style="text-align: center" v-if="loading">
+            <tr class="no-data" v-if="loading">
+                <td colspan="7" style="text-align: center" >
                     <div class="cd-loading">
                         <div class="vertical-bars">
                             <p class="layer-1"></p>

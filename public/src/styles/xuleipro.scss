@@ -3043,6 +3043,7 @@ button {
           &:nth-child(even), &:hover {
             background-color: #FFFBF2;
           }
+
           td {
             //border-top: 1px solid #ddd;
 
@@ -3262,7 +3263,7 @@ button {
 
           p {
             height: 40px;
-            color: rgba(219, 219, 219, 1);
+            color: #f00;
             font-size: 14px;
             font-family: MicrosoftYaHei;
           }
@@ -3351,13 +3352,22 @@ button {
     .form-item {
       width: 50%;
       display: flex;
-      margin-bottom: 20px;
+      padding-bottom: 20px;
       align-items: center;
       width: 48%;
       margin-left: 2%;
+      position: relative;
 
       label {
         flex: 0.5;
+
+        &.error {
+          color: #f00;
+          display: block;
+          position: absolute;
+          bottom: 2px;
+          right: 0;
+        }
       }
 
       input, select, textarea {
@@ -3366,6 +3376,10 @@ button {
         border: 1px solid rgba(219, 219, 219, 1);
         border-radius: 4px;
         padding-left: 10px;
+
+        &.error {
+          border-color: #f00;
+        }
       }
 
       .describe {

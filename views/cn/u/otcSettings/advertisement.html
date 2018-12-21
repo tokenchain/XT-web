@@ -168,12 +168,10 @@
                         return false
                     }
                     if(item.advStatus == 0) { //上架
-                        JuaBox.info("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
-                            this.record = item
-                            this.showModal = 'upAdvs'
-                        }.bind(this))
+                        this.record = item
+                        this.showModal = 'upAdvs'
                     } else {
-                        JuaBox.info("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", function () {
+                        JuaBox.confirm("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", function () {
                             var data = {}
                             Object.assign(data, item)
                             item.advStatus == 0 ? data.advStatus = 1 : data.advStatus = 0

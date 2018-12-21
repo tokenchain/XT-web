@@ -3,7 +3,7 @@
         <div class="exx-modal-header"><h3><%= LANG('上架广告') %></h3></div>
         <div class="exx-modal-body">
             <div class="exx-form-box">
-                <form>
+                <form id="upAdvs">
                     <div class="form-item">
                         <label for=""><%=LANG('法币币种')%>：</label>
                         <select name="" v-cloak="" @change="changeCurrency" v-model="advDetail.legalCurrencyId">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('单价')%>：</label>
-                        <input type="text" v-model="advDetail.orderPrice">
+                        <input type="text" name="orderPrice" v-model="advDetail.orderPrice" required number="true" NumThanZero="0">
                     </div>
                     <div class="form-item" v-if="advDetail.advType == 2">
                         <label for=""><%=LANG('可用数量')%>：</label>
@@ -26,32 +26,37 @@
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('交易数量')%>：</label>
-                        <input type="text" v-model="advDetail.orderAmount">
+                        <input type="text" name="orderAmount" v-model="advDetail.orderAmount" :range="[advDetail.orderLimitMin, advDetail.orderLimitMax]"
+                               required
+                               number="true"
+                               NumThanZero="0">
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('单笔最小成交额')%>：</label>
-                        <input type="text" v-model="advDetail.orderLimitMin">
+                        <input type="text" name="orderLimitMin" v-model="advDetail.orderLimitMin" required number="true"
+                               NumThanZero="0" :lessThan="advDetail.orderLimitMax">
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('单笔最大成交额')%>：</label>
-                        <input type="text" v-model="advDetail.orderLimitMax">
+                        <input type="text" name="orderLimitMax" v-model="advDetail.orderLimitMax" required
+                               number="true" NumThanZero="0" :than="formModel.orderLimitMin">
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('备注(MEMO)')%>：</label>
-                        <textarea name="" cols="30" rows="10" v-model="advDetail.memo"></textarea>
+                        <textarea name="memo" style="height: unset" cols="30" rows="5" v-model="advDetail.memo"></textarea>
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('支持支付方式')%>：</label>
                         <div class="pay">
                             <label for="" v-for="item in formModel.payId">
-                                <input name="payId" type="checkbox" :value="item" v-model="payId" />
+                                <input name="payId" type="checkbox" :value="item" v-model="payId" required/>
                                 <img :src="imgSrc(item)" alt="" >
                             </label>
                         </div>
                     </div>
                     <div class="form-item">
                         <label for=""><%=LANG('交易密码')%>：</label>
-                        <input type="password" v-model="formModel.securityPassword">
+                        <input type="password" v-model="formModel.securityPassword" required maxlength="6">
                     </div>
                 </form>
             </div>
@@ -66,7 +71,7 @@
 </script>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
         return Vue.component('upAdvs', {
             template: "#upAdvs",
             props: {
@@ -171,49 +176,56 @@
                     })
                 },
                 publishAdvs: function () {  //发布广告
-                    var data ={}
-                    Object.assign(data, this.advDetail, {
-                        securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
-                        rsaKeyId: this.rsaKeyId,
-                        payId: this.payId.join(','),
-                        currencyTypeName: this.advDetail.orderCoin,
-                        advStatus: 1
-                    })
-                    console.log(this.formModel.securityPassword)
-                    console.log(data)
-
-                    Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV +
-                            '/exchange/XtOtcController/updateAdvsStatus',
-                        data: data,
-                        success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            if (this.type == '1') {
-                                this.$parent.$parent.getfinList()
-                            } else {
-                                this.$parent.$parent.getfinListDetail()
-                            }
-                            this.$parent.$parent.showModal = false
-                        }.bind(this),
-                        error: function (res) {
-                            if (res.resMsg.code == '7015') {
-                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                                    buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = 'certify'
-                                    }
-                                })
-                            } else if (res.resMsg.code == '6078') {
-                                JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
-                                    buttons: {confirm: "去设置"}, callback: function () {
-                                        window.location.href = 'account'
-                                    }
-                                })
-                            } else {
-                                JuaBox.wrong(EXX.L(res.resMsg.code));
-                            }
+                    if ($('#upAdvs').valid()) {
+                        if (this.advType == 2 && (this.amount > this.formModel.orderAmount)) {
+                            JuaBox.wrong("<%=LANG('交易数量超过可用数量！')%>")
+                            return
                         }
-                    })
+                        var data ={}
+                        Object.assign(data, this.advDetail, {
+                            securityPassword: Methods.encryptPwd(this.formModel.securityPassword, this.pubKey),
+                            rsaKeyId: this.rsaKeyId,
+                            payId: this.payId.join(','),
+                            currencyTypeName: this.advDetail.orderCoin,
+                            advStatus: 1
+                        })
+                        console.log(this.formModel.securityPassword)
+                        console.log(data)
+                        JuaBox.confirm("<%=LANG('您如果已经发布了该币种的广告，如果继续发布会自动下架已经发布此币种的广告！')%>", function () {
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV +
+                                    '/exchange/XtOtcController/updateAdvsStatus',
+                                data: data,
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    if (this.type == '1') {
+                                        this.$parent.$parent.getfinList()
+                                    } else {
+                                        this.$parent.$parent.getfinListDetail()
+                                    }
+                                    this.$parent.$parent.showModal = false
+                                }.bind(this),
+                                error: function (res) {
+                                    if (res.resMsg.code == '7015') {
+                                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                            buttons: {confirm: "去认证"}, callback: function () {
+                                                window.location.href = 'certify'
+                                            }
+                                        })
+                                    } else if (res.resMsg.code == '6078') {
+                                        JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                            buttons: {confirm: "去设置"}, callback: function () {
+                                                window.location.href = 'account'
+                                            }
+                                        })
+                                    } else {
+                                        JuaBox.wrong(EXX.L(res.resMsg.code));
+                                    }
+                                }
+                            })
+                        }.bind(this))
+                    }
                 },
                 queryMyPayType: function () {  //查询自己的支付方式
                     Methods.ajax({

@@ -173,7 +173,7 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('备注(MEMO)')%>：</label>
-                    <textarea name="" cols="30" rows="10" v-model="formModel.remark"></textarea>
+                    <textarea name="" cols="30" rows="5" style="height: unset" v-model="formModel.remark"></textarea>
                 </div>
             </div>
 
@@ -603,7 +603,11 @@
                             '/exchange/XtOtcController/addOrUpdatePayBO',
                         data: data,
                         success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
+                            if (data.id) {
+                                JuaBox.success("<%=LANG('修改成功！')%>");
+                            } else {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                            }
                             this.queryPayTypeInfo(this.payType)
                         }.bind(this),
                         error: function (res) {
