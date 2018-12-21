@@ -1,4 +1,4 @@
-<script type="text/x-template" id="exchangeModal">
+<script type="text/x-template" id="exchange-modal">
     <div class="exx-modal-container exchangeModal">
         <div class="exx-modal-header">
           <h3>{{title}}</h3>
@@ -7,14 +7,14 @@
         <ul>
             <li class="exchangNum">
                 <span>兑换{{exchangTarget.toUpperCase()}}数量：</span><input type="number" :placeholder="'最多可兑换' + amount + exchangTarget.toUpperCase()" v-model="exchangVal" @change="changeIputVal">
-                <p v-show="warnTips">* 兑换数量不能小于0或者超过{{amount}}</p>
+                <p v-show="warnTips">* 兑换数量不能小于0或者超过可用{{exchangOrigin.toUpperCase()}}</p>
                 <p v-show="ifAmount">* 数量不能为空</p>
             </li>
             <li class="passWord">
                 <span>登录密码：</span>
                 <input type="text" placeholder="<%= LANG('请输入登录密码') %>" v-model="passWordVal" autocomplete = 'new-password' onfocus="this.type='password'">
                 <p v-show="ifPassword">* 密码不能为空</p>
-                <p v-show="surePwd">* 请输入正确的密码</p>
+                <p v-show="surePwd">* {{errorInfo}}</p>
             </li>
         </ul>
     
@@ -27,8 +27,8 @@
 
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
-        return Vue.component('exchangeModal', {
-            template: "#exchangeModal",
+        return Vue.component('exchange-modal', {
+            template: "#exchange-modal",
             props: {
                 params: {
                     type: Object,
@@ -53,7 +53,8 @@
                     disabled: false,
                     ifAmount: false,
                     ifPassword: false,
-                    surePwd: false
+                    surePwd: false,
+                    errorInfo: ''
                 }
             },
             filters: {
@@ -65,7 +66,7 @@
             watch: {
                 // 监听输入的数量
                 exchangVal() {
-                    if (this.exchangVal < 0 || this.exchangVal > this.amount) {
+                    if (this.exchangVal <= 0 || this.exchangVal > this.amount) {
                         this.warnTips = true
                         this.disabled = true
                     }else {
@@ -111,13 +112,12 @@
                         this.getPubKey();
                     }
                     if(!this.exchangVal) {
-                        return this.ifAmount = true
+                        return this.warnTips = true
                     }
                     if(!this.passWordVal) {
                         return this.ifPassword = true
                     }
                     var encryptionPwd = Methods.encryptPwd(this.passWordVal, this.pubKey);
-                    var _this = this;
                     Methods.ajax({
                         url: DOMAIN_DEV +
                             "/exchange/xt_extends/fund/controller/website/XtFundController/exChangeCurrencyAmount",
@@ -130,12 +130,13 @@
                             amount: this.exchangVal
                         },
                         success: function (res) {
-                                _this.$parent.close();
-                                _this.$emit('fetch')
-                        },
+                            this.$parent.close();
+                            this.$emit('fetch')
+                        }.bind(this),
                         error:function(res){
-                            _this.surePwd = true
-                        }
+                            this.surePwd = true
+                            this.errorInfo = res.resMsg.message
+                        }.bind(this)
                     })
                 }
             },
@@ -147,9 +148,6 @@
                         '<%= LANG("QC兑换SXC") %>'
                     this.exchangTarget = this.params.name == 'sxc' ? 'qc' : 'sxc'
                     this.amount = parseFloat(this.params.amount) || 0
-                    if(this.amount == 0) {
-                        this.disabled = true
-                    }
                     console.log(this.amount,"可用额度")
                 })
             },
