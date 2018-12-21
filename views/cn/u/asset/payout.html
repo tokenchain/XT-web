@@ -630,7 +630,7 @@
                             this.getAccountAssets();
                             this.getPayoutCoinRecord();
 
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                         }.bind(this),
                         error: function (res) {
                             this.requestLocked = false;
@@ -675,7 +675,7 @@
                             this.getAccountAssets();
                             this.getPayoutCoinRecord();
 
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                         }.bind(this),
                         error: function (res) {
                             this.requestLocked = false;
@@ -702,7 +702,7 @@
                         data: data,
                         success: function (res) {
                             this.getPayoutCoinRecord();
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                         }.bind(this)
                     });
                 },
