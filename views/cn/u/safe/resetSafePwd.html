@@ -98,7 +98,7 @@
             url: DOMAIN_MAIN + API_PREFIX + 'safePwdReset',
             data: data,
             success: function (res) {
-              JuaBox.info('<%= LANG("二级密码修改成功") %>');
+              JuaBox.success('<%= LANG("二级密码修改成功") %>');
               setTimeout(function (){
                 window.location.replace('/u');
               });

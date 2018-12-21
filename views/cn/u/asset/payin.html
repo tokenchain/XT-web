@@ -349,7 +349,7 @@
                 pageInit: function () {
                     var clipboard = new Clipboard('.copyAddress');
                     clipboard.on('success', function (e) {
-                        JuaBox.info("<%= LANG('复制成功！') %>");
+                        JuaBox.success("<%= LANG('复制成功！') %>");
                     });
                 },
                 getBankaccountSearch: function () {

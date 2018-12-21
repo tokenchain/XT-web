@@ -143,7 +143,7 @@
                             this.withDrawAuth = false;
                             this.withDrawPwdConf = '';
                             this.withDrawPwd = '';
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                             var userInfo = this.loginUser;
                             userInfo.apiStatus = '1';
                             this.loginUser = userInfo;
@@ -178,7 +178,7 @@
                             this.withDrawAuth = false;
                             this.withDrawPwdConf = '';
                             this.withDrawPwd = '';
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                             var userInfo = this.loginUser;
                             userInfo.apiStatus = isOpen == 'open' ? '1' : '0';
                             this.loginUser = userInfo;
@@ -236,7 +236,7 @@
                         success: function (res) {
                             this.dynamicCode = '';
                             this.googleCode = '';
-                            JuaBox.info(EXX.L(res.resMsg.message));
+                            JuaBox.success(EXX.L(res.resMsg.message));
                             this.showForm = false;
                             this.apiStatusisOpen=!this.apiStatusisOpen;
                             if(isopen){
