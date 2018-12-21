@@ -61,7 +61,7 @@
                         <a :href="'/u/payin/' + item.name" v-if="item.isLegalCoin!=1">{{item.name.toUpperCase()}}</a>
                         <a :href="'/u/payin/legaltender/' + item.name" v-else>{{item.name.toUpperCase()}}</a>
                     </template>
-                    <a v-else>{{item.name.toUpperCase()}}</a>
+                    <a v-else @click="coinClick(item.name)">{{item.name.toUpperCase()}}</a>
                 </li>
             </ul>
 
@@ -238,6 +238,13 @@
                 }
             },
             methods: {
+                coinClick: function(coin) {
+                    if (coin == 'sxc') {
+                        JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", function () {
+                            window.location.href = '/otcTrade'
+                        })
+                    }
+                },
                 filterCoin: function (objs) {
                     var _this = this;
                     // if (!_this.keyWord) {

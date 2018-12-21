@@ -2576,8 +2576,8 @@ button {
         position: relative;
 
         input {
-          background-color: rgba(242, 242, 242, 1);
-          width: 200px;
+          //background-color: rgba(242, 242, 242, 1);
+          width: 230px;
           padding: 8px 8px;
           border: 1px solid #ddd;
           border-radius: 4px;
@@ -2614,12 +2614,12 @@ button {
 
       tbody {
         tr {
-          &:last-child td {
-            border-bottom: 1px solid #ddd;
+          &:nth-child(even), &:hover {
+            background-color: #FFFBF2;
           }
 
           td {
-            border-top: 1px solid #ddd;
+            //border-top: 1px solid #ddd;
 
             span.btn {
               padding: 8px 12px;
@@ -3002,7 +3002,7 @@ button {
         position: relative;
 
         input {
-          background-color: rgba(242, 242, 242, 1);
+          //background-color: rgba(242, 242, 242, 1);
           width: 200px;
           padding: 8px 8px;
           border: 1px solid #ddd;
@@ -3040,12 +3040,11 @@ button {
 
       tbody {
         tr {
-          &:last-child td {
-            border-bottom: 1px solid #ddd;
+          &:nth-child(even), &:hover {
+            background-color: #FFFBF2;
           }
-
           td {
-            border-top: 1px solid #ddd;
+            //border-top: 1px solid #ddd;
 
             span.btn {
               padding: 8px 12px;

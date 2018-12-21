@@ -50,7 +50,7 @@
             </div>
             <a @click="hrefClick">发布广告</a>
             <div class="search">
-                <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+                <input type="text" @click="openDropdown" placeholder="<%=LANG('法币币种/支付方式/金额')%>" readonly>
                 <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList" @fetch-list="fetchOtcList"/>
             </div>
         </div>
@@ -153,12 +153,13 @@
                     this.fetchOtcList({advType: type})
                 },
                 hrefClick: function () {
-                    if (!isLogin) {
+                    if (!ISLOGIN) {
                         JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
                             buttons: {confirm: "去登陆"}, callback: function () {
                                 window.location.href = '/login'
                             }
                         })
+                        return
                     }
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
@@ -166,6 +167,7 @@
                                 window.location.href = '/u/account'
                             }
                         })
+                        return
                     }
                     if (this.reameNameStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
@@ -173,17 +175,19 @@
                                 window.location.href = '/u/account'
                             }
                         })
+                        return
                     } else {
                         window.location.href = 'u/publishAdv'
                     }
                 },
                 buyOtc: function (obj) {
-                    if (!isLogin) {
+                    if (!ISLOGIN) {
                         JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
                             buttons: {confirm: "去登陆"}, callback: function () {
                                 window.location.href = '/login'
                             }
                         })
+                        return
                     }
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
@@ -191,6 +195,7 @@
                                 window.location.href = '/u/account'
                             }
                         })
+                        return
                     }
                     if (this.reameNameStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
@@ -198,6 +203,7 @@
                                 window.location.href = '/u/account'
                             }
                         })
+                        return
                     } else {
                         this.getLimteTime()
                         this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
@@ -303,7 +309,7 @@
 
             },
             created: function () {
-                if (isLogin) {
+                if (ISLOGIN) {
                     this.queryStatus()
                 }
                 this.fetchCoinList()
