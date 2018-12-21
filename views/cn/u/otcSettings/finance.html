@@ -5,7 +5,7 @@
             <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('卖币')%></span>
         </div>
         <div class="search">
-            <input type="text" placeholder="<%=LANG('请搜索')%>" @click="openDropdown">
+            <input type="text" placeholder="<%=LANG('时间/法币币种/币种')%>" @click="openDropdown" readonly>
             <fiter-drop-down :open="fiterDropDown" :type="'4'" @fetch-list="getfinList" :currency-list="currencyList" :coin-list="coinList"/>
         </div>
     </div>

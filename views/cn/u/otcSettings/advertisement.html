@@ -4,7 +4,7 @@
 <div class="advertisement" id="advertisement">
     <div class="title">
         <div class="search">
-            <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+            <input type="text" @click="openDropdown" placeholder="<%=LANG('时间/编号/币种/法币币种/类型')%>" readonly>
             <fiter-drop-down :open="fiterDropDown" :type="'2'" @fetch-list="getfinList" :currency-list="currencyList"/>
         </div>
     </div>
