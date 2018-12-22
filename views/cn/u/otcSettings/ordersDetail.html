@@ -208,7 +208,7 @@
                             return "<%=LANG('订单已取消，无法查看支付信息')%>"
                             break;
                         case -1:
-                            return "<%=LANG('已申诉')%>"
+                            return "<%=LANG('撤销申诉')%>"
                             break;
                     }
                 }
@@ -455,8 +455,10 @@
                         } else if (status == 2) { //申诉
                             this.appealModal = 'appeal'
                             return
-                        } else if (status == 3 || status == -1) { //已取消  已申诉
+                        } else if (status == 3) { //已取消
                             return
+                        } else if( status == -1) { //已申诉 撤销申诉
+                            data.status = 2
                         }
                         // console.log(data)
                         this.updataOrtderApi(data)

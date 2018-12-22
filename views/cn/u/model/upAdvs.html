@@ -177,7 +177,7 @@
                 },
                 publishAdvs: function () {  //发布广告
                     if ($('#upAdvs').valid()) {
-                        if (this.advType == 2 && (this.amount > this.formModel.orderAmount)) {
+                        if (this.advType == 2 && (this.amount < this.formModel.orderAmount)) {
                             JuaBox.wrong("<%=LANG('交易数量超过可用数量！')%>")
                             return
                         }

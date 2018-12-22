@@ -49,7 +49,7 @@
     .upload_warp_img {
         border-top: 1px solid #D2D2D2;
         padding: 14px 0 0 14px;
-        overflow: hidden
+        overflow: hidden;
     }
 
     .upload_warp_text {
@@ -340,9 +340,10 @@
             },
             created() {
                 this.queryStatus()
-                this.getUserName()
+                this.getUserName(function () {
+                    this.queryPayTypeInfo(this.payType)
+                }.bind(this))
                 this.getCurrencyList()
-                this.queryPayTypeInfo(this.payType)
                 this.getBankList()
                 this.getPubKey()
             },
@@ -351,7 +352,7 @@
             },
             computed: {},
             methods: {
-                getUserName: function () {
+                getUserName: function (callBack) {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
@@ -365,6 +366,7 @@
                                 } else if (this.payType == 2) {
                                     this[arr[this.payType]].bankOwner = res.datas
                                 }
+                                callBack && callBack()
                             } else {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
@@ -372,6 +374,9 @@
                                     }
                                 })
                             }
+                        }.bind(this),
+                        error: function () {
+                            callBack && callBack()
                         }.bind(this)
                     })
                 },
@@ -548,8 +553,9 @@
                     this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
-                    this.queryPayTypeInfo(type)
-                    this.getUserName()
+                    this.getUserName(function () {
+                        this.queryPayTypeInfo(type)
+                    }.bind(this))
                 },
                 changeCurrencyName: function (type) {
                     this.currencyName = type.shortName
@@ -559,8 +565,9 @@
                     this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
-                    this.queryPayTypeInfo(this.payType)
-                    this.getUserName()
+                    this.getUserName(function () {
+                        this.queryPayTypeInfo(this.payType)
+                    }.bind(this))
                 },
                 getCurrencyList: function () {  //查询法币接口
                     Methods.ajax({
