@@ -172,7 +172,8 @@
                     var data = Object.assign({
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
-                        userId: this.loginUser.userId
+                        userId: this.loginUser.userId,
+                        advType: this.advType
                     }, obj)
                     Methods.ajax({
                         type: 'GET',

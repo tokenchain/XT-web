@@ -67,7 +67,7 @@
             <span v-if="orderDetail.status == 0" class="status" style="display: block;margin-top: 20px;"><%=LANG('已完成')%></span>
             <button v-if="!orderDetail.status == 0" @click="statusSubmit">{{getButton}}</button>
 
-            <span class="cancel" v-if="orderDetail.status == 1 || orderDetail.status == 2" @click="cancelOrders"><%=LANG('取消订单')%></span>
+            <span class="cancel" v-if="orderDetail.status == 1" @click="cancelOrders"><%=LANG('取消订单')%></span>
 
             <div class="order-type" v-if="orderDetail.status == 3"><%=LANG('订单已取消！')%></div>
         </div>
