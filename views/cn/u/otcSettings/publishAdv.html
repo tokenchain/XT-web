@@ -117,6 +117,14 @@
                     })
                 }
             },
+            mounted: function() {
+                $('#publishAdv form').addEventListener('blur', function (event) {
+                    var self = event.target;
+                    if (self.tagName.toLowerCase() !== 'input'){
+                        $('#publishAdv form').valid()
+                    }
+                })
+            },
             computed: {},
             methods: {
                 imgSrc: function (payId) {
