@@ -104,6 +104,13 @@
                 this.getfinList({orderType: this.advType})
                 this.getCurrencyList()
                 this.getCoinList()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             computed: {},
             methods: {
