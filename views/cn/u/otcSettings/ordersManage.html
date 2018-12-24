@@ -70,10 +70,13 @@
                     totalPage: 0,
                     pageCount: 0,
                     currencyList: [],
-                    fiterDropDown: false
+                    fiterDropDown: false,
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
+                this.queryStatus()
                 console.log(this.orderList.length == 0 && !this.loading)
                 this.getOrderList()
                 this.getCurrencyList()
@@ -82,6 +85,26 @@
 
             },
             methods: {
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = '/u/account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 openDropdown: function() {
                     this.fiterDropDown = !this.fiterDropDown
                 },

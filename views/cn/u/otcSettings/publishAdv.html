@@ -109,6 +109,13 @@
                 if (this.advType == 2) {
                     this.queryAmount()
                 }
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = '/u/account'
+                        }
+                    })
+                }
             },
             computed: {},
             methods: {
@@ -266,7 +273,7 @@
                             '/exchange/XtOtcController/selectUserPayBankAndPayOnline',
                         data: {},
                         success: function (res) {
-                            if (res.datas) {
+                            if (res.datas.length > 0) {
                                 this.formModel.payId = res.datas
                             } else {
                                 JuaBox.confirm("<%=LANG('您还未设置支付方式！')%>", {
