@@ -112,7 +112,7 @@
                 if (this.loginUser.safePwdAuth == '0') {
                     JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                         buttons: {confirm: "去设置"}, callback: function () {
-                            window.location.href = '/u/account'
+                            window.location.href = 'account'
                         }
                     })
                 }
@@ -194,7 +194,7 @@
                             if (res.datas == null) {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = '/u/account'
+                                        window.location.href = 'account'
                                     }
                                 })
                             }
@@ -205,7 +205,7 @@
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                             buttons: {confirm: "去设置"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -213,7 +213,7 @@
                     if (this.reameNameStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -249,7 +249,7 @@
                                     if (res.resMsg.code == '7015') {
                                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                             buttons: {confirm: "去认证"}, callback: function () {
-                                                window.location.href = 'certify'
+                                                window.location.href = 'account'
                                             }
                                         })
                                     } else if (res.resMsg.code == '6078') {
