@@ -101,7 +101,7 @@
             },
             created() {
                 this.queryStatus()
-                this.getfinList({orderType: this.advType})
+                this.getfinList()
                 this.getCurrencyList()
                 this.getCoinList()
                 if (this.loginUser.safePwdAuth == '0') {
@@ -166,14 +166,14 @@
                 },
                 changeAdvType: function (type) {
                     this.advType = type
-                    this.getfinList({orderType: type})
+                    this.getfinList()
                 },
                 getfinList: function (obj) {
                     var data = Object.assign({
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
                         userId: this.loginUser.userId,
-                        advType: this.advType
+                        orderType: this.advType
                     }, obj)
                     Methods.ajax({
                         type: 'GET',
