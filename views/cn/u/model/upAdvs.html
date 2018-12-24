@@ -63,7 +63,7 @@
         </div>
 
         <div class="exx-modal-button">
-            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
+            <button @click="close" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
             </button>
             <button @click="publishAdvs" class="exxbtn btn-ok"><span><%= LANG('上架') %></span></button>
         </div>
@@ -122,6 +122,9 @@
                 }
             },
             methods: {
+                close: function() {
+                    this.$parent.$parent.showModal = false
+                },
                 imgSrc: function (payId) {
                     return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
                 },

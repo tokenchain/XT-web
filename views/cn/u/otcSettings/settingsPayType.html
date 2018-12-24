@@ -550,7 +550,6 @@
                 changePayType: function (type) {
                     this.payType = type
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
                     this.getUserName(function () {
@@ -562,7 +561,6 @@
                     this.payType = type.shortName == 'CNY' ? 2 : 6
 
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
                     this.getUserName(function () {
@@ -671,7 +669,6 @@
                             payId: this.payType,
                             qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
                         })
-                        console.log(data)
                         this.apiApply(data)
                     }
                 },
