@@ -133,10 +133,10 @@
                     }
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticles',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticleList',
                         data: data,
                         success: function (res) {
-                            var list = res.datas.list;
+                            var list = res.datas.results;
                             that.news = list
                             that.totalPage = res.datas.totalPage
                             that.loading = false;
