@@ -95,16 +95,45 @@
                     } [getCookie(ENV + 'lan')], //查询OTC交易币种 法币币种
                     fiterDropDown: false,
                     currencyList: [],
-                    coinList: []
+                    coinList: [],
+                    reameNameStatus: null
                 }
             },
             created() {
-                this.getfinList({orderType: this.advType})
+                this.queryStatus()
+                this.getfinList()
                 this.getCurrencyList()
                 this.getCoinList()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             computed: {},
             methods: {
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 getCoinList: function (name) {   //查询 币种列表
                     Methods.ajax({
                         type: 'GET',
@@ -137,13 +166,14 @@
                 },
                 changeAdvType: function (type) {
                     this.advType = type
-                    this.getfinList({orderType: type})
+                    this.getfinList()
                 },
                 getfinList: function (obj) {
                     var data = Object.assign({
                         pageSize: this.pageSize,
                         pageIndex: this.pageIndex,
-                        userId: this.loginUser.userId
+                        userId: this.loginUser.userId,
+                        orderType: this.advType
                     }, obj)
                     Methods.ajax({
                         type: 'GET',

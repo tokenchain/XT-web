@@ -26,7 +26,7 @@
                 <td>{{item.totalAmount}}</td>
                 <td>{{item.price}}</td>
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
-                <td><span class="status">{{getStatus(item.status)}}</span></td>
+                <td><a :href="'ordersDetail/'+item.orderNo" class="status">{{getStatus(item.status)}}</a></td>
             </tr>
             <tr class="no-data" v-if="loading">
                 <td colspan="7" style="text-align: center" >
@@ -70,18 +70,47 @@
                     totalPage: 0,
                     pageCount: 0,
                     currencyList: [],
-                    fiterDropDown: false
+                    fiterDropDown: false,
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
-                console.log(this.orderList.length == 0 && !this.loading)
+                this.queryStatus()
                 this.getOrderList()
                 this.getCurrencyList()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             computed: {
 
             },
             methods: {
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 openDropdown: function() {
                     this.fiterDropDown = !this.fiterDropDown
                 },

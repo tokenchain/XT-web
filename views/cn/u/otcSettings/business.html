@@ -21,7 +21,7 @@
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
                 <a v-if="!bussineseStatus" style="color: #FFBE3F" href="/u/certify"><%=LANG('去高级实名认证')%></a>
             </div>
-            <P v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1">
+            <P v-if="bussineseStatus && bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1">
                 <%=LANG('当前已是普通商家，拥有发广告的权限，交易单笔不能超过')%>{{config.merchantSingleMax}}CNY
                 <%=LANG('总交易额不能超过')%>{{config.merchantOnedayMax}}CNY
                 <%=LANG('申请认证商家可拥有更高交易额度！')%>
@@ -31,13 +31,13 @@
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/senior-business.png" alt="">
                 <span><%=LANG('认证商家')%></span>
-                <button v-if="bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1" @click="apply">
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1" @click="apply">
                     <%=LANG('立即申请')%>
                 </button>
-                <img v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
+                <img v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
-                <p v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==0"><%=LANG('已申请')%></p>
-                <button v-if="bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
+                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==0"><%=LANG('已申请')%></p>
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
             </div>
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
         </div>
@@ -45,7 +45,7 @@
     <div class="apply" v-if="!loading && applyPage" v-cloak="">
         <h2><%=LANG('OTC认证商家申请')%></h2>
         <h4><%=LANG('步骤一：准备资料')%></h4>
-        <p><%=LANG('1.请下载')%><span><a href=""><%=LANG('《商家申请资料模板》')%></a></span>,<%=LANG('按照要求填写申请资料。')%></p>
+        <p><%=LANG('1.请下载')%><span><a href="http://oss-xt.oss-cn-hongkong.aliyuncs.com/doc/3d88e57e-ec5a-40a2-bad7-ccba427b22ec.docx"><%=LANG('《商家申请资料模板》')%></a></span>,<%=LANG('按照要求填写申请资料。')%></p>
         <p><%=LANG('2.录制视频资料，要求如下：')%></p>
         <p><%=LANG('手持本人身份证正面进行录制，保持录制过程中声音和影像都清晰。')%></p>
         <p><%=LANG('录制时要求诵读：本人（姓名），身份证号（身份证号码），我的资金来源合法可靠，自愿交易比特币等数字资产，本人充分了解数字货币及潜在风险，本人具有抗风险的能力并愿意承担一切风险。')%></p>
@@ -55,7 +55,7 @@
         <p><%=LANG('发送邮件后，请在页面点击“确认申请”按钮，提交申请并同意冻结50,000 XT作为商家保证金。')%></p>
         <h4><%=LANG('步骤四：资料审核')%></h4>
         <p><%=LANG('我们将在3个工作日内对您的商家申请资料进行审核。我们会主动与您取得联系，请保持通讯畅通。')%></p>
-        <div class="xieyi"><%=LANG('请您务必仔细阅读并透彻理解')%><span><%=LANG('《OTC服务协议》')%></span></div>
+        <div class="xieyi"><%=LANG('请您务必仔细阅读并透彻理解')%><a style="color: #FFBE3F;" href="/help/OTCagreement"><%=LANG('《OTC服务协议》')%></a></div>
         <div class="radio">
             <input type="checkbox" v-model="checkAgreement" @click="changeAgreement">
             <p><%=LANG('我已阅读并同意以上说明及协议，并冻结XT保证金')%></p>
@@ -74,7 +74,10 @@
                 return {
                     loading: true,
                     applyPage: false,
-                    bussineseStatus: {},
+                    bussineseStatus: {
+                        otcLevel: '',
+                        status: ''
+                    },
                     checkAgreement: false,
                     currencyAmount: null,
                     config: {},
@@ -85,6 +88,13 @@
                 this.queryBussinese()
                 this.getCurrencyAmount()
                 this.getConfig()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             computed: {},
             methods: {
@@ -98,7 +108,7 @@
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                             buttons: {confirm: "去设置"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -106,7 +116,7 @@
                     if (this.bussineseStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -166,6 +176,13 @@
                         data: {},
                         success: function (res) {
                             this.bussineseStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
                             this.loading = false
                         }.bind(this)
                     })

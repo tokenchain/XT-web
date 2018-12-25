@@ -773,10 +773,10 @@
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/support/controller/website/ArticleController/getArticles',
+                            '/exchange/support/controller/website/ArticleController/getArticleList',
                         data: data,
                         success: function (res) {
-                            that.notices = res.datas.list
+                            that.notices = res.datas.results
                         }
                     })
                 },

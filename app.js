@@ -10,6 +10,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+// var browserSync = require('browser-sync');   //热加载
+// var reload = browserSync.reload;   //热加载
 
 //使用app.use(logger('dev'))可以将请求信息打印在控制台
 app.use(logger('dev'));

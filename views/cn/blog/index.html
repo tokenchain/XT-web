@@ -19,8 +19,8 @@
 
         <div class="more-button" v-cloak="" v-if="news && news.length > 0">
             <button class="exxbtn btn-cancel" class="btn-cancel" v-if="loading" type="button" style="width:100%" disabled="disabled">Loading...</button>
-            <button class="exxbtn btn-cancel" v-if="!loading && totalPage < pageSize" type="button" style="width:100%" disabled="disabled">No More</button>
-            <button class="exxbtn btn-ok" v-if="!loading && totalPage >= pageSize" @click="loadMore" type="button" style="width:100%">Load More</button>
+            <button class="exxbtn btn-cancel" v-if="!loading && totalPage < pageIndex" type="button" style="width:100%" disabled="disabled">No More</button>
+            <button class="exxbtn btn-ok" v-if="!loading && totalPage > pageIndex" @click="loadMore" type="button" style="width:100%">Load More</button>
         </div>
     </div>
 </div>
@@ -40,7 +40,7 @@
                     typeName: '<%= LANG("新闻")%>',
                     news: [],
                     newsContent: {},
-                    pageNo: 1,
+                    pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
                     loading: false,
@@ -74,7 +74,7 @@
                     if (this.keyWord == '') {
                         return false;
                     }
-                    this.pageNo = 1;
+                    this.pageIndex = 1;
                     this.pageCount = 0;
                     this.news = [];
                     this.getNewsList();
@@ -126,25 +126,25 @@
                         hk: '5'
                     } [language]
                     var data = {
-                        pageIndex: 1,
+                        pageIndex: this.pageIndex,
                         pageSize: this.pageSize,
                         categoryId: '7cZulbgB624',
                         lanType: lanType
                     }
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticles',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticleList',
                         data: data,
                         success: function (res) {
-                            var list = res.datas.list;
-                            that.news = list
+                            var list = res.datas.results;
+                            that.news = that.news.concat(list)
                             that.totalPage = res.datas.totalPage
                             that.loading = false;
                         }
                     });
                 },
                 loadMore: function () {
-                    this.pageSize += 10;
+                    this.pageIndex += 1;
                     this.getNewsList();
                 },
                 changeNewsType: function (type) {

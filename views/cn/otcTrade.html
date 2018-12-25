@@ -74,12 +74,12 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in otcList" v-cloak="">
-                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
+                    <td style="color: #f00;">{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
                             src="<%= IMG_STATIC %>/images/otcLevel.png" v-if="item.otcLevel" alt=""></td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
                     <td>{{item.laveAmount}} {{orderCoin}}</td>
-                    <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
-                    <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td style="color: #f00;">{{item.orderLimitMin + ' - ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td style="color: #f00;">{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
                     <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
                 </tr>

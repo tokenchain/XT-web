@@ -238,6 +238,7 @@
             computed: {},
             methods: {
                 uploadImg: function (file) {
+                    console.log(file)
                     var xhr = new XMLHttpRequest();
                     var formData = new FormData();
 
@@ -305,7 +306,7 @@
                     if (file.type.indexOf('image') == -1) {
                         JuaBox.wrong("<%=LANG('只能上传图片！')%>");
                     }
-                    if (file.size) return;
+                    if (file.size < 0) return;
                     if (file.size > 1024 * 1024) {
                         JuaBox.wrong("<%=LANG('单张图片不能大于1MB！')%>");
                         return

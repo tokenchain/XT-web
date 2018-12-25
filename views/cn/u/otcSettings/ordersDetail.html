@@ -67,7 +67,7 @@
             <span v-if="orderDetail.status == 0" class="status" style="display: block;margin-top: 20px;"><%=LANG('已完成')%></span>
             <button v-if="!orderDetail.status == 0" @click="statusSubmit">{{getButton}}</button>
 
-            <span class="cancel" v-if="orderDetail.status == 1 || orderDetail.status == 2" @click="cancelOrders"><%=LANG('取消订单')%></span>
+            <span class="cancel" v-if="orderDetail.status == 1" @click="cancelOrders"><%=LANG('取消订单')%></span>
 
             <div class="order-type" v-if="orderDetail.status == 3"><%=LANG('订单已取消！')%></div>
         </div>
@@ -188,6 +188,13 @@
                     this.getMerchant()
                 }.bind(this))
                 this.getCurrencyAmount()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             mounted: function() {
 
@@ -230,7 +237,7 @@
                             if (res.datas == null) {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = '/u/account'
+                                        window.location.href = 'account'
                                     }
                                 })
                             }
@@ -404,7 +411,7 @@
                             if (res.resMsg.code == '7015') {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = 'certify'
+                                        window.location.href = 'account'
                                     }
                                 })
                             } else if (res.resMsg.code == '6078') {
@@ -423,7 +430,7 @@
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                             buttons: {confirm: "去设置"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -431,7 +438,7 @@
                     if (this.reameNameStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                         return false
@@ -457,8 +464,8 @@
                             return
                         } else if (status == 3) { //已取消
                             return
-                        } else if( status == -1) { //已申诉 撤销申诉
-                            data.status = 2
+                        } else if( status == -1) { //撤销申诉  状态码为 -2
+                            data.status = -2
                         }
                         // console.log(data)
                         this.updataOrtderApi(data)
@@ -474,14 +481,14 @@
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                             buttons: {confirm: "去设置"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                     }
                     if (this.reameNameStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
+                                window.location.href = 'account'
                             }
                         })
                     } else {

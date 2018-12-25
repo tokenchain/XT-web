@@ -6,15 +6,15 @@
 <section class="exx-blog" id="blog">
     <div class="container" v-if="view == 'display'">
         <h2 v-cloak="">
-            {{newsContent.article.articleTitle}}
+            {{newsContent.articleTitle}}
             <p class="time">
                 <%= LANG('发布时间：') %>
                 <!--{{getDateTime(newsContent.createTime)[0]}}-{{getDateTime(newsContent.createTime)[1]}}-{{getDateTime(newsContent.createTime)[2]}}-->
                 <!--{{getDateTime(newsContent.createTime)[3]}}:{{getDateTime(newsContent.createTime)[4]}}-->
-                {{getDateTime(newsContent.article.createTime)}}
+                {{getDateTime(newsContent.createTime)}}
             </p>
         </h2>
-        <div class="blog-info" v-html="decodeURI(newsContent.article.content)"></div>
+        <div class="blog-info" v-html="decodeURI(newsContent.content)"></div>
     </div>
 
 
@@ -152,7 +152,7 @@
                     };
                     Methods.ajax({
                         type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticleById',
+                        url: DOMAIN_DEV + "/exchange/support/controller/website/ArticleController/" + 'getArticleDetailById',
                         data: data,
                         success: function (res) {
                             this.view = 'display';
