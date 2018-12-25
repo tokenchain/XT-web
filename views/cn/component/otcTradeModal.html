@@ -17,9 +17,13 @@
                         <form id="otcModalId">
                             <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
                             <img src="" alt="">
-                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required
-                                   :range="[listRecord.laveAmount < listRecord.orderLimitMin ? listRecord.orderLimitMin/listRecord.orderPrice : listRecord.laveAmount, listRecord.laveAmount > listRecord.orderLimitMax ? listRecord.orderLimitMax/listRecord.orderPrice : listRecord.laveAmount]">
-                            <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                            <span>
+                                <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required
+                                       :range="[min, max]">
+                            </span>
+                            <span>
+                                <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                            </span>
                         </form>
                     </div>
                 </div>
@@ -84,7 +88,14 @@
                 }
             },
             computed: {
-
+                min: function() {
+                    var min = this.listRecord.laveAmount <= this.listRecord.orderLimitMin/this.listRecord.orderPrice ? this.listRecord.laveAmount : this.listRecord.orderLimitMin/this.listRecord.orderPrice
+                    return min
+                },
+                max: function () {
+                    var max = this.listRecord.laveAmount >= this.listRecord.orderLimitMax/this.listRecord.orderPrice ? this.listRecord.orderLimitMax/this.listRecord.orderPrice : this.listRecord.laveAmount
+                    return max
+                }
             },
             watch: {},
             methods: {

@@ -5438,8 +5438,13 @@ input::-webkit-inner-spin-button {
 
       form {
         display: flex;
-        position: relative;
+        //position: relative;
         padding-bottom: 10px;
+
+        span {
+          padding-bottom: 10px;
+          position: relative;
+        }
 
         label.error {
           position: absolute;
