@@ -29,18 +29,18 @@
             <div class="form-item">
                 <label for=""><%=LANG('交易数量')%>：</label>
                 <input type="text" name="orderAmount" v-model="formModel.orderAmount"
-                       :range="[formModel.orderLimitMin, formModel.orderLimitMax]" required number="true"
-                       NumThanZero="0">
+                       required number="true" class="change-valite"
+                       NumThanZero="0" :than="formModel.orderLimitMax">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最小成交额')%>：</label>
                 <input type="text" name="orderLimitMin" v-model="formModel.orderLimitMin" required number="true"
-                       NumThanZero="0" :lessThan="formModel.orderLimitMax">
+                       NumThanZero="0" :lessThan="formModel.orderLimitMax" class="change-valite">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最大成交额')%>：</label>
                 <input type="text" name="orderLimitMax" autocomplete="off" v-model="formModel.orderLimitMax" required
-                       number="true" NumThanZero="0" :than="formModel.orderLimitMin">
+                       number="true" NumThanZero="0" :than="formModel.orderLimitMin" class="change-valite">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('备注(MEMO)')%>：</label>
@@ -118,11 +118,9 @@
                 }
             },
             mounted: function() {
-                $('#publishAdv form').addEventListener('blur', function (event) {
-                    var self = event.target;
-                    if (self.tagName.toLowerCase() !== 'input'){
-                        $('#publishAdv form').valid()
-                    }
+                $('input.change-valite').on('blur', function (event) {
+                    console.log(111)
+                    $('#publishAdv form').valid()
                 })
             },
             computed: {},

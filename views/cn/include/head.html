@@ -453,10 +453,10 @@
                         }, "请输入大于0的数字")
                         $.validator.addMethod("than", function (value, element, param) {
                             return this.optional(element) || parseFloat(value) >= parseFloat(param);
-                        }, $.validator.format("请输入大于 {0} 的数字"))
+                        }, $.validator.format("请输入大于或等于 {0} 的数字"))
                         $.validator.addMethod("lessThan", function (value, element, param) {
                             return this.optional(element) || parseFloat(value) <= parseFloat(param);
-                        }, $.validator.format("请输入小于 {0} 的数字"))
+                        }, $.validator.format("请输入小于或等于 {0} 的数字"))
                         $.extend($.validator.messages, {
                             required: "这是必填项",
                             remote: "请修正此项",
