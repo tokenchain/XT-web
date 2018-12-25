@@ -1,0 +1,415 @@
+<style>
+    .upload_warp_img_div_del {
+        position: absolute;
+        top: 6px;
+        width: 16px;
+        right: 4px;
+    }
+
+    .upload_warp_img_div_top {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.4);
+        line-height: 30px;
+        text-align: left;
+        color: #000;
+        font-size: 12px;
+        text-indent: 4px;
+    }
+
+    .upload_warp_img_div_text {
+        white-space: nowrap;
+        width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .upload_warp_img_div img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+    }
+
+    .upload_warp_img_div {
+        position: relative;
+        height: 100px;
+        width: 120px;
+        border: 1px solid #ccc;
+        margin: 0px 30px 10px 0px;
+        float: left;
+        line-height: 100px;
+        display: table-cell;
+        text-align: center;
+        background-color: #eee;
+        cursor: pointer;
+    }
+
+    .upload_warp_img {
+        border-top: 1px solid #D2D2D2;
+        padding: 14px 0 0 14px;
+        overflow: hidden
+    }
+
+    .upload_warp_text {
+        text-align: left;
+        margin-bottom: 8px;
+        padding-top: 8px;
+        text-indent: 14px;
+        border-top: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .upload_warp_right {
+        float: left;
+        width: 64%;
+        margin-left: 2%;
+        height: 100%;
+        border: 1px dashed #dbdbdb;
+        border-radius: 4px;
+        line-height: 100px;
+        color: #898989;
+    }
+
+    .upload_warp_left img {
+        margin-top: 18px;
+    }
+
+    .upload_warp_left {
+        float: left;
+        width: 32%;
+        height: 100%;
+        border: 1px dashed #dbdbdb;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .upload_warp_left:hover {
+        border-color: #FFBE3F;
+    }
+
+    .upload_warp {
+        margin: 14px;
+        height: 100px;
+    }
+
+    .upload {
+        border: 1px solid #dbdbdb;
+        background-color: #fff;
+        /*width: 650px;*/
+        box-shadow: 0px 1px 0px #dbdbdb;
+        border-radius: 4px;
+    }
+
+    .hello {
+        flex: 1;
+        /*width: 650px;*/
+        /*margin-left: 34%;*/
+        text-align: center;
+    }
+
+    form#appeal-form {
+        width: 80%;
+        margin: 20px auto 0 auto;
+        color: #898989;
+    }
+
+    form .form-item {
+        display: flex;
+        padding-bottom: 20px;
+        align-items: center;
+        position: relative;
+    }
+
+    form .form-item label {
+        flex: 0.2;
+    }
+
+    .form-item input, .form-item textarea {
+        flex: 1;
+        border: 1px solid rgba(219, 219, 219, 1);
+        border-radius: 4px;
+        padding-left: 10px;
+    }
+
+    .form-item input {
+        height: 45px;
+    }
+
+    .form-item label.error {
+        color: #f00;
+        display: block;
+        position: absolute;
+        bottom: 2px;
+        right: 0;
+    }
+
+    .form-item input.error, .form-item textarea.error {
+        border-color: #f00;
+    }
+
+    .exx-modal-button {
+        width: 50%;
+        margin: 0 auto;
+    }
+</style>
+
+<script type="text/x-template" id="appeal">
+    <div class="exx-modal-container" style="width: 800px;">
+        <div class="exx-modal-header"><h3><%= LANG('申诉') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <form id="appeal-form">
+                    <div class="form-item">
+                        <label for=""><%=LANG('申诉原因')%>：</label>
+                        <textarea name="appeal.memo" cols="30" rows="5" v-model="appeal.memo" required></textarea>
+                    </div>
+                    <div class="form-item">
+                        <label for=""><%=LANG('上传图片')%>：</label>
+                        <div class="hello">
+                            <div class="upload">
+                                <div class="upload_warp">
+                                    <div class="upload_warp_left" @click="fileClick">
+                                        <img src="<%= IMG_STATIC %>/images/upload.png">
+                                    </div>
+                                    <div class="upload_warp_right" @drop="drop($event)" @dragenter="dragenter($event)"
+                                         @dragover="dragover($event)">
+                                        <%=LANG('或者将文件拖到此处')%>
+                                    </div>
+                                </div>
+                                <div class="upload_warp_text">
+                                    <%=LANG('共两张')%>，选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
+                                </div>
+                                <div class="upload_warp_text">
+                                    <%=LANG('提示：单张图片大小不能超过1MB')%>
+                                </div>
+                                <input @change="fileChange($event)" type="file" id="upload_file" multiple
+                                       style="display: none"/>
+                                <div class="upload_warp_img" v-show="imgList.length!=0">
+                                    <div class="upload_warp_img_div" v-for="(item,index) of imgList">
+                                        <div class="upload_warp_img_div_top">
+                                            <div class="upload_warp_img_div_text">
+                                                {{item.file.name}}
+                                            </div>
+                                            <!--<img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
+                                                 @click="fileDel(index)">-->
+                                        </div>
+                                        <img :src="item.file.src">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="exx-modal-button">
+            <button @click="close" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+            <button @click="appealApply" class="exxbtn btn-ok"><span><%= LANG('申诉') %></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox', 'validate'], function (Vue, Methods, JuaBox) {
+        return Vue.component('appeal', {
+            template: "#appeal",
+            props: {
+                orderDetail: {
+                    type: Object,
+                    default: {}
+                }
+            },
+            data: function () {
+                return {
+                    appeal: {
+                        memo: ''
+                    },
+                    imgList: [],
+                    size: 0,
+                    aliyunImgList: []
+                }
+            },
+            created() {
+
+            },
+            computed: {},
+            methods: {
+                uploadImg: function (file) {
+                    console.log(file)
+                    var xhr = new XMLHttpRequest();
+                    var formData = new FormData();
+
+                    formData.append('file', file);
+                    console.log(this.imgList)
+                    xhr.onreadystatechange = function (e) {
+                        if (xhr.readyState == 4) {
+                            var result = JSON.parse(xhr.responseText)
+                            if (xhr.status == 200) {
+                                console.log(result.datas)
+                                JuaBox.success(EXX.L(result.resMsg.code));
+                                this.aliyunImgList.push(result.datas)
+                            } else {
+                                JuaBox.wrong(EXX.L(result.resMsg.message));
+                            }
+                        }
+                    }.bind(this)
+
+                    var path = DOMAIN_DEV +
+                        '/exchange/upload/controller/admin/FileController/upload'
+                    xhr.open('POST', path, true);
+                    xhr.send(formData);
+                },
+                appealApply: function () {  //申诉接口
+                    if ($('#appeal-form').valid()) {
+                        console.log(this.appeal, this.imgList)
+                        var data = {
+                            appealObjectId: this.orderDetail.sellerId,
+                            appealUserId: this.orderDetail.buyerId,
+                            coinAmount: this.orderDetail.amount,
+                            coinName: this.orderDetail.currencyName,
+                            imageOne: this.aliyunImgList[0] ? this.aliyunImgList[0] : '',
+                            imageTwo: this.aliyunImgList[1] ? this.aliyunImgList[1] : '',
+                            orderId: this.orderDetail.id,
+                            orderNo: this.orderDetail.orderNo,
+                            price: this.orderDetail.price,
+                            reason: this.appeal.memo,
+                            totalAmount: this.orderDetail.totalAmount
+                        }
+                        console.log(data)
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV +
+                                '/exchange/XtOtcController/userAppealOrder',
+                            data: data,
+                            success: function (res) {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                                this.$parent.$parent.appealModal = false
+                                this.$parent.$parent.getOrderListDetail()
+                            }.bind(this),
+                            error: function (res) {
+                                JuaBox.error(EXX.L(res.resMsg.message));
+                            }
+                        })
+                    }
+                },
+                fileClick() {
+                    if (!$('#appeal-form').valid()) {
+                        return false
+                    }
+                    document.getElementById('upload_file').click()
+                },
+                fileChange(el) {
+                    var file = el.target.files[0]
+                    if (file.type.indexOf('image') == -1) {
+                        JuaBox.wrong("<%=LANG('只能上传图片！')%>");
+                    }
+                    if (file.size < 0) return;
+                    if (file.size > 1024 * 1024) {
+                        JuaBox.wrong("<%=LANG('单张图片不能大于1MB！')%>");
+                        return
+                    }
+                    if (this.imgList.length > 2) {
+                        JuaBox.wrong("<%=LANG('只能上传两张图片！')%>");
+                        return
+                    }
+                    this.fileList(el.target);
+                    el.target.value = ''
+                },
+                fileList(fileList) {
+                    let files = fileList.files;
+                    for (let i = 0; i < files.length; i++) {
+                        //判断是否为文件夹
+                        if (files[i].type != '') {
+                            this.fileAdd(files[i]);
+                        } else {
+                            //文件夹处理
+                            this.folders(fileList.items[i]);
+                        }
+                    }
+                },
+                //文件夹处理
+                folders(files) {
+                    let _this = this;
+                    //判断是否为原生file
+                    if (files.kind) {
+                        files = files.webkitGetAsEntry();
+                    }
+                    files.createReader().readEntries(function (file) {
+                        for (let i = 0; i < file.length; i++) {
+                            if (file[i].isFile) {
+                                _this.foldersAdd(file[i]);
+                            } else {
+                                _this.folders(file[i]);
+                            }
+                        }
+                    })
+                },
+                foldersAdd(entry) {
+                    let _this = this;
+                    entry.file(function (file) {
+                        _this.fileAdd(file)
+                    })
+                },
+                fileAdd(file) {
+                    //总大小
+                    this.size = this.size + file.size;
+                    //判断是否为图片文件
+                    if (file.type.indexOf('image') == -1) {
+                        file.src = 'wenjian.png';
+                        this.imgList.push({
+                            file
+                        });
+                    } else {
+                        let reader = new FileReader();
+                        reader.vue = this;
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                            file.src = this.result;
+                            this.vue.imgList.push({
+                                file
+                            });
+                        }
+                    }
+                    console.log(file)
+                    this.uploadImg(file)
+                },
+                fileDel(index) {
+                    this.size = this.size - this.imgList[index].file.size;//总大小
+                    this.imgList.splice(index, 1);
+                },
+                bytesToSize(bytes) {
+                    if (bytes === 0) return '0 B';
+                    let k = 1000, // or 1024
+                        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                        i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+                },
+                dragenter(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                },
+                dragover(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                },
+                drop(el) {
+                    el.stopPropagation();
+                    el.preventDefault();
+                    if (!$('#appeal-form').valid()) {
+                        return false
+                    }
+                    this.fileList(el.dataTransfer);
+                },
+                close: function () {
+                    this.$parent.$parent.appealModal = false
+                }
+            },
+            mounted: function () {
+
+            }
+        })
+    })
+</script>

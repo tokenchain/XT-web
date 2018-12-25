@@ -1,5 +1,18 @@
 <div class="ordersDetail" id="ordersDetail">
-    <div class="buy" v-if="orderDetail.orderType == 1" v-cloak="">
+    <div v-if="loading" class="cd-loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+    <div class="buy" v-if="!loading && orderDetail.orderType == 1" v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{orderDetail.orderNo}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(orderDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -20,10 +33,10 @@
                     <input v-if="orderDetail.status == 1 || orderDetail.status == 2 || orderDetail.status == 3" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
                     <span class="img-box">
-                        <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
-                        <div id="qscode-box" class="qscode-box" >
-                            <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
-                        </div>
+                        <img :src="imgSrc(item.payId)" alt="">
+                        <!--<div id="qscode-box" class="qscode-box" v-if="qscodeStatus">
+                            <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+ item.qrcode" alt="" v-if="item.payId == 2 || item.payId == 3">
+                        </div>-->
                     </span>
                     <p v-if="item.payId == 2">
                         <span>{{item.bankOwner}}</span>
@@ -35,6 +48,7 @@
                         <span>{{item.userName}}</span>
                         <span>{{item.account}}</span>
                         <span><%=LANG('备注勿写比特币等字')%></span>
+                        <a style="color: #FFBE3F;" @click="lookQscode(item)"><%=LANG('查看二维码')%></a>
                     </p>
                     <p v-if="item.payId == 5 || item.payId == 6">
                         <span>{{item.bankOwner}}</span>
@@ -45,15 +59,15 @@
             <p v-if="orderDetail.status == 3"><%=LANG('订单已取消，无法查看支付信息')%></p>
             <p v-if="orderDetail.status == -1" class="memo"><span><%=LANG('已申诉')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
-            <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请在')%>{{outTimeDisplay}}<%=LANG('内支付')%>{{orderDetail.sellerName}}
-                <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>,<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
+            <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请在')%>{{outTimeDisplay}}<%=LANG('内向')%><span>{{orderDetail.sellerName}}</span><%=LANG('支付')%>
+                <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>，<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
             </p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('待打币，付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
             <span v-if="orderDetail.status == 0" class="status" style="display: block;margin-top: 20px;"><%=LANG('已完成')%></span>
             <button v-if="!orderDetail.status == 0" @click="statusSubmit">{{getButton}}</button>
 
-            <span class="cancel" v-if="orderDetail.status == 1 || orderDetail.status == 2" @click="cancelOrders"><%=LANG('取消订单')%></span>
+            <span class="cancel" v-if="orderDetail.status == 1" @click="cancelOrders"><%=LANG('取消订单')%></span>
 
             <div class="order-type" v-if="orderDetail.status == 3"><%=LANG('订单已取消！')%></div>
         </div>
@@ -72,7 +86,7 @@
         </div>
     </div>
 
-    <div class="sell" v-if="orderDetail.orderType == 2" v-cloak="">
+    <div class="sell" v-if="!loading && orderDetail.orderType == 2" v-cloak="">
         <div class="order-title">
             <p><%=LANG('订单')%>：<span>{{orderDetail.orderNo}}</span></p>
             <p><%=LANG('时间')%>：<span>{{getData(orderDetail.createTime, 'YYYY-MM-DD HH:MM:SS')}}</span></p>
@@ -92,8 +106,8 @@
                 <label :for="item.id">
                     <input v-if="!orderDetail.status == -1" name="payType" type="radio" :id="item.id"
                            @click="changePayId(item.payId)">
-                    <img :src="imgSrc(item.payId)" alt="" @mouseenter="enter(item)" @mouseleave="leave(item)">
-                    <div id="qscode-box" class="qscode-box" v-if="qscode">
+                    <img :src="imgSrc(item.payId)" alt="">
+                    <div id="qscode-box" class="qscode-box" v-if="item.payId == 2 || item.payId == 3" >
                         <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+item.qrcode" alt="">
                     </div>
                     <p v-if="item.payId == 2">
@@ -127,7 +141,17 @@
             <div class="order-type" v-if="orderDetail.status == 3"><%=LANG('订单已取消！')%></div>
         </div>
     </div>
+    <modal v-cloak="" :open="appealModal == 'appeal'" @close="appealModal = false">
+        <appeal :order-detail="orderDetail"/>
+    </modal>
+    <modal v-cloak="" :open="appealModal == 'lookqscode'" @close="appealModal = false">
+        <lookqscode :img-url="imgUrl"/>
+    </modal>
 </div>
+
+<%-include("../../component/modal.html")%>
+<%-include("../model/appeal.html")%>
+<%-include("../model/lookQscode.html")%>
 
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
@@ -135,6 +159,7 @@
             el: "#ordersDetail",
             data: function () {
                 return {
+                    loading: false,
                     orderDetail: {},
                     legalCurrencyName: {
                         cn: 'cny',
@@ -147,24 +172,37 @@
                     sellPayList: [],
                     payId: null,
                     sellPhone: '',
-                    qscode: false,
                     outTimeDisplay: '0分0秒',
                     outTime: '',  //订单过期时间   -1或者-2是超时
-                    merchantStatus: false
+                    merchantStatus: false,
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    appealModal: false,
+                    // qscodeStatus: false,
+                    imgUrl: ''
                 }
             },
             created() {
                 this.getOrderListDetail(function () {
-                    console.log(this.orderDetail.status != '1')
                     this.querySellPaytype()
                     this.getConfig(function () {
-                        if (this.orderDetail.orderType == '1' && this.orderDetail.status == '2') {
+                        if (this.orderDetail.status == '1') {
                             this.reduceTime()
                         }
                     }.bind(this))
                     this.getMerchant()
                 }.bind(this))
                 this.getCurrencyAmount()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
+            },
+            mounted: function() {
+
             },
             computed: {
                 getButton: function () {
@@ -182,12 +220,17 @@
                             return "<%=LANG('订单已取消，无法查看支付信息')%>"
                             break;
                         case -1:
-                            return "<%=LANG('已申诉')%>"
+                            return "<%=LANG('撤销申诉')%>"
                             break;
                     }
                 }
             },
             methods: {
+                lookQscode: function(item) {
+                    // this.qscodeStatus = !this.qscodeStatus
+                    this.appealModal = 'lookqscode'
+                    this.imgUrl = 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+ item.qrcode
+                },
                 getMerchant: function () {
                     Methods.ajax({
                         type: 'GET',
@@ -197,6 +240,14 @@
                             userId: this.orderDetail.orderType == 1 ? this.orderDetail.sellerId : this.orderDetail.buyerId
                         },
                         success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
                             if (res.datas.status==1 && res.datas.otcLevel == 1) {
                                 this.merchantStatus = true
                             } else {
@@ -213,6 +264,7 @@
                     m=Math.floor(t/60%60);
                     m<10&&(m='0'+m);
                     s=Math.floor(t%60);
+
                     var that = this
                     function countDown(){
                         s--;
@@ -222,9 +274,13 @@
                             m="0"+(Number(m)-1);
                         }
                         if(m.length>=3){
+                            // console.log(m)
                             m='00';
                             s='00';
                             clearInterval(timer);
+                        }
+                        if (m == 0 && s == 0) {
+                            that.orderDetail.status = 3
                         }
                         that.outTimeDisplay = m+"分钟"+s+"秒"
                         // console.log(m+"分钟"+s+"秒")
@@ -252,16 +308,6 @@
                             callBack && callBack()
                         }.bind(this)
                     })
-                },
-                enter: function (item) {
-                    if (item.payId == 3 || item.payId == 4) {
-                        this.qscode = true
-                    }
-                },
-                leave: function (item) {
-                    if (item.payId == 3 || item.payId == 4) {
-                        this.qscode = false
-                    }
                 },
                 getData: function (time, format) {
                     return Methods.getDateTime(time, format)
@@ -305,6 +351,7 @@
                         data: data,
                         success: function (res) {
                             this.orderDetail = res.datas
+                            this.loading = false
                             callBack && callBack()
                         }.bind(this)
                     })
@@ -371,7 +418,7 @@
                             if (res.resMsg.code == '7015') {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = 'certify'
+                                        window.location.href = 'account'
                                     }
                                 })
                             } else if (res.resMsg.code == '6078') {
@@ -387,6 +434,22 @@
                     })
                 },
                 statusSubmit: function () { //修改 订单状态
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
+                        return false
+                    }
                     var data;
                     var type = this.orderDetail.orderType
                     var status = this.orderDetail.status
@@ -404,9 +467,12 @@
                             }
                             data.status = 2
                         } else if (status == 2) { //申诉
-                            data.status = -1
-                        } else if (status == 3 || status == -1) { //已取消  已申诉
+                            this.appealModal = 'appeal'
                             return
+                        } else if (status == 3) { //已取消
+                            return
+                        } else if( status == -1) { //撤销申诉  状态码为 -2
+                            data.status = -2
                         }
                         // console.log(data)
                         this.updataOrtderApi(data)
@@ -419,14 +485,29 @@
                     }
                 },
                 cancelOrders: function () { //取消订单
-                    var data = {
-                        status: 3,   //0 - 交易成功, 1 - 等待付款, 2 - 确认收款(去支付) ,3 - 无效订单 -1 - 申述
-                        // payId: this.payId,
-                        amount: this.orderDetail.amount,
-                        orderNo: this.orderDetail.orderNo,
-                        advsId: this.orderDetail.advsId
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
                     }
-                    this.updataOrtderApi(data)
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
+                    } else {
+                        var data = {
+                            status: 3,   //0 - 交易成功, 1 - 等待付款, 2 - 确认收款(去支付) ,3 - 无效订单 -1 - 申述
+                            // payId: this.payId,
+                            amount: this.orderDetail.amount,
+                            orderNo: this.orderDetail.orderNo,
+                            advsId: this.orderDetail.advsId
+                        }
+                        this.updataOrtderApi(data)
+                    }
                 },
                 querySellPhone: function () {
                     Methods.ajax({

@@ -2986,6 +2986,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7051": {
+        "cn": "余额不足",
+        "en": "Failed to freeze founds",
+        "jp": "",
+        "kr": ""
+    },
     "7015": {
         "cn": "用户没有实名认证或者没有高级实名认证",
         "en": "User does not have advanced certification",
@@ -3013,6 +3019,12 @@ EXX.pack = {
     "7040": {
         "cn": "交易密码不存在",
         "en": "Security password not exists",
+        "jp": "",
+        "kr": ""
+    },
+    "7044": {
+        "cn": "验证码错误",
+        "en": "Incorrect verification code",
         "jp": "",
         "kr": ""
     },

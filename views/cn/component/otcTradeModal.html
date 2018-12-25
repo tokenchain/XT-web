@@ -17,7 +17,8 @@
                         <form id="otcModalId">
                             <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
                             <img src="" alt="">
-                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required>
+                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required
+                                   :range="[listRecord.laveAmount < listRecord.orderLimitMin ? listRecord.orderLimitMin/listRecord.orderPrice : listRecord.laveAmount, listRecord.laveAmount > listRecord.orderLimitMax ? listRecord.orderLimitMax/listRecord.orderPrice : listRecord.laveAmount]">
                             <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
                         </form>
                     </div>
@@ -35,7 +36,7 @@
                 </div>
                 <div class="btn-box">
                     <button @click="creatOrders">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</button>
-                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><span><%=LANG('《OTC服务协议》')%></span></p>
+                    <p v-if="advType == 1">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}<%=LANG('即表示明确并同意')%><a href="/help/OTCagreement"><%=LANG('《OTC服务协议》')%></a></p>
                 </div>
             </div>
         </div>
@@ -114,7 +115,7 @@
                             return
                         }
                         if (!this.$parent.$parent.sellPays && this.advType == 2) {
-                            JuaBox.info("<%=LANG('对方不支持这种支付方式！')%>");
+                            JuaBox.info("<%=LANG('您还未设置这种支付方式！')%>");
                             return
                         }
                         var data = {
@@ -137,13 +138,12 @@
                             data: data,
                             success: function (res) {
                                 this.orderNum = res.datas
-                                JuaBox.success(EXX.L(res.resMsg.code));
                                 this.$parent.$parent.showModal = false
                                 // this.orderOutTime = res.datas.orderOutTime
                                 window.location.href = `u/ordersDetail/${res.datas}`
                             }.bind(this),
                             error: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.message));
+                                JuaBox.success(EXX.L(res.resMsg.code));
                             }
                         })
                     }

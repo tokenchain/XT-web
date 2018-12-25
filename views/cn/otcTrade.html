@@ -48,9 +48,9 @@
                 <span :class="advType == 1 ? 'active' : ''" @click="changeAdvType(1)"><%=LANG('购买')%></span>
                 <span :class="advType == 2 ? 'active' : ''" @click="changeAdvType(2)"><%=LANG('出售')%></span>
             </div>
-            <a href="u/publishAdv">发布广告</a>
+            <a @click="hrefClick">发布广告</a>
             <div class="search">
-                <input type="text" @click="openDropdown" placeholder="<%=LANG('请搜索')%>">
+                <input type="text" @click="openDropdown" placeholder="<%=LANG('法币币种/支付方式/金额')%>" readonly>
                 <fiter-drop-down :open="fiterDropDown" :type="'1'" :currency-list="currencyList" @fetch-list="fetchOtcList"/>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <table>
                 <thead>
                 <tr>
-                    <td><%=LANG('商家(30日成单 | 30日完成率)')%></td>
+                    <td style="width: 300px"><%=LANG('商家(30日成单 | 30日完成率)')%></td>
                     <td><%=LANG('总数量')%></td>
                     <td><%=LANG('剩余数量')%></td>
                     <td><%=LANG('限额')%></td>
@@ -74,21 +74,38 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in otcList" v-cloak="">
-                    <td>{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
+                    <td style="color: #FFBE3F;">{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
                             src="<%= IMG_STATIC %>/images/otcLevel.png" v-if="item.otcLevel" alt=""></td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
                     <td>{{item.laveAmount}} {{orderCoin}}</td>
-                    <td>{{item.orderLimitMin + ' | ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
-                    <td>{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td style="color: #f00;">{{item.orderLimitMin + ' - ' + item.orderLimitMax}} {{legalCurrencyName.toUpperCase()}}</td>
+                    <td style="color: #f00;">{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
                     <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
+                </tr>
+                <tr class="no-data" v-if="loading">
+                    <td colspan="6" style="text-align: center" >
+                        <div class="cd-loading">
+                            <div class="vertical-bars">
+                                <p class="layer-1"></p>
+                                <p class="layer-2"></p>
+                                <p class="layer-3"></p>
+                                <p class="layer-4"></p>
+                                <p class="layer-5"></p>
+                                <p class="layer-6"></p>
+                                <p class="layer-7"></p>
+                                <p class="layer-8"></p>
+                                <p class="layer-9"></p>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr v-if="otcList.length == 0 || !otcList" class="nodata">
                     <td colspan="6" style="text-align: center"><%= LANG('暂无数据') %></td>
                 </tr>
                 </tbody>
             </table>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="fetchOtcList"
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="fetchOtcList"
                        v-if="otcList.length > 0"></page-lite>
         </div>
     </div>
@@ -109,12 +126,15 @@
             el: "#home-otcTrade",
             data: function () {
                 return {
+                    loading: true,
+                    isLogin: ISLOGIN,
                     showModal: false,   //'otcTradeModal'
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                     otcList: [],
                     pageSize: 10,
                     pageIndex: 1,
-                    totalPage: null,
+                    totalPage: 0,
+                    pageCount: 0,
                     coinList: [],
                     advType: 1,  //1:买  2：卖
                     orderCoin: 'SXC',
@@ -129,7 +149,8 @@
                     orderOutTime: '',
                     fiterDropDown: false,
                     currencyList: [],
-                    sellPays: null
+                    sellPays: null,
+                    reameNameStatus: null
                 }
             },
             computed: {
@@ -149,13 +170,79 @@
                     this.advType = type
                     this.fetchOtcList({advType: type})
                 },
-                buyOtc: function (obj) {
-                    this.getLimteTime()
-                    this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
-                    this.showModal = 'otcTradeModal'
-                    if (this.advType == 2) {
-                        this.getSellPays()
+                hrefClick: function () {
+                    if (!ISLOGIN) {
+                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                            buttons: {confirm: "去登陆"}, callback: function () {
+                                window.location.href = '/login'
+                            }
+                        })
+                        return
                     }
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    } else {
+                        window.location.href = 'u/publishAdv'
+                    }
+                },
+                buyOtc: function (obj) {
+                    if (!ISLOGIN) {
+                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                            buttons: {confirm: "去登陆"}, callback: function () {
+                                window.location.href = '/login'
+                            }
+                        })
+                        return
+                    }
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    } else {
+                        this.getLimteTime()
+                        this.listRecord = Object.assign(obj, {orderOutTime: this.orderOutTime})
+                        this.showModal = 'otcTradeModal'
+                        if (this.advType == 2) {
+                            this.getSellPays()
+                        }
+                    }
+                },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                        }.bind(this)
+                    })
                 },
                 getSellPays: function () {
                     Methods.ajax({
@@ -186,7 +273,9 @@
                             '/exchange/XtOtcController/selectUsersOtcList',
                         data: data,
                         success: function (res) {
+                            this.loading = false
                             this.otcList = res.datas.results
+                            this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage
@@ -239,6 +328,9 @@
 
             },
             created: function () {
+                if (ISLOGIN) {
+                    this.queryStatus()
+                }
                 this.fetchCoinList()
                 this.fetchOtcList()
                 this.getCurrencyList()

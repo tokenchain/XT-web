@@ -119,7 +119,7 @@
             mounted: function () {
                 var clipboard = new Clipboard('#copy');
                 clipboard.on('success', function (e) {
-                    JuaBox.info("<%= LANG('复制txid成功！') %>");
+                    JuaBox.success("<%= LANG('复制txid成功！') %>");
                 });
             }
         })

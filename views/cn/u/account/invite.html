@@ -272,12 +272,12 @@
                         var Url = document.getElementById("commendInput");
                         Url.select(); // 选择对象
                         document.execCommand("Copy"); // 执行浏览器复制命令
-                        JuaBox.info("<%= LANG('复制邀请链接地址成功!') %>");
+                        JuaBox.success("<%= LANG('复制邀请链接地址成功!') %>");
                     } else if (type == 2) {
                         var Url = document.getElementById("recommendCode");
                         Url.select();
                         document.execCommand("Copy");
-                        JuaBox.info("<%= LANG('复制成功!') %>");
+                        JuaBox.success("<%= LANG('复制成功!') %>");
                     }
                 },
                 lookDetails: function (item) {

@@ -140,7 +140,7 @@
               data: data,
               success: function (res) {
                   Methods.setLocalUserInfo(JSON.stringify(res.datas.userInfo));
-                JuaBox.info("<%= LANG('手机修改成功') %>");
+                JuaBox.success("<%= LANG('手机修改成功') %>");
                 setTimeout(function () {
                   window.location.replace('/u/safe');
                 }, 1000);

@@ -94,7 +94,13 @@
 
             <div class="item">
                 <label for=""><%= LANG('订单状态') %></label>
-                <input type="text" v-model="formModel_order.orderType">
+                <select name="" v-model="formModel_order.status">
+                    <option value="0"><%= LANG('交易成功') %></option>
+                    <option value="1"><%= LANG('等待付款') %></option>
+                    <option value="2"><%= LANG('确认收款') %></option>
+                    <option value="3"><%= LANG('无效订单') %></option>
+                    <option value="-1"><%= LANG('已申诉') %></option>
+                </select>
             </div>
 
             <div class="item">
@@ -106,12 +112,12 @@
 
             <div class="item">
                 <label for=""><%= LANG('币种') %></label>
-                <input type="text" v-model="formModel_order.orderCoin">
+                <input type="text" v-model="formModel_order.currencyName">
             </div>
 
             <div class="item">
                 <label for=""><%= LANG('类型') %></label>
-                <select name="" v-model="formModel_order.advType">
+                <select name="" v-model="formModel_order.orderType">
                     <option value="1"><%= LANG('购买') %></option>
                     <option value="2"><%= LANG('出售') %></option>
                 </select>
@@ -135,14 +141,16 @@
 
             <div class="item">
                 <label for=""><%= LANG('法币币种') %></label>
-                <select name="" v-model="formModel_fin.legalCurrencyId">
+                <select name="" v-model="formModel_fin.legalCurrencyId" @change="changeCurrency">
                     <option :value="item.id" v-for="item in currencyList">{{item.shortName}}</option>
                 </select>
             </div>
 
             <div class="item">
                 <label for=""><%= LANG('币种') %></label>
-                <input type="text" v-model="formModel_fin.orderCoin">
+                <select name="" v-model="formModel_fin.orderCoin">
+                    <option :value="item.shortName" v-cloak="" v-for="item in coinList">{{item.name}}</option>
+                </select>
             </div>
 
             <div class="item">
@@ -178,6 +186,12 @@
                     default: function () {
                         return new Array()
                     }
+                },
+                coinList: {
+                    type: Array,
+                    default: function () {
+                        return new Array()
+                    }
                 }
             },
             data: function () {
@@ -203,8 +217,8 @@
                         orderNo: '',
                         orderType: '',
                         legalCurrencyId: '',
-                        orderCoin: '',
-                        advType: '',
+                        currencyName: '',
+                        status: '',
                     },
                     formModel_fin: {
                         beginTime: '',
@@ -260,22 +274,29 @@
                 }
             },
             methods: {
+                changeCurrency: function (e) {
+                    var tode = this.currencyList.find(function (item) {
+                        return item.id == e.target.value
+                    })
+                    this.$parent.getCoinList(tode.shortName.toLowerCase())
+                },
                 selectTime: function (time) {
                     this[this.modal].data = time
                     this[this.modal].endTime = ''
                     this[this.modal].beginTime = ''
                 },
                 saveData: function () {
-                    console.log(this[this.modal])
                     if (this.type == 2 || this.type == 3 || this.type == 4) {
                         this[this.modal].beginTime = this[this.modal].beginTime && Methods.getTimeStamp(this[this.modal].beginTime)
                         this[this.modal].endTime = this[this.modal].endTime && Methods.getTimeStamp(this[this.modal].endTime)
                     }
+                    console.log(this[this.modal])
                     this.$emit('fetch-list', this[this.modal])
                     this.close()
                 },
                 close: function () {
                     this.$parent.fiterDropDown = false
+                    // this[this.modal] = {}
                 }
             }
         })

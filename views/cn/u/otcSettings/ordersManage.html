@@ -1,7 +1,7 @@
 <div class="ordersManage" id="ordersManage">
     <div class="title">
         <div class="search">
-            <input type="text" placeholder="<%=LANG('请搜索')%>" @click="openDropdown">
+            <input type="text" placeholder="<%=LANG('时间/订单状态/法币币种/币种/类型')%>" @click="openDropdown" readonly>
             <fiter-drop-down :open="fiterDropDown" :type="'3'" @fetch-list="getOrderList" :currency-list="currencyList"/>
         </div>
     </div>
@@ -26,14 +26,31 @@
                 <td>{{item.totalAmount}}</td>
                 <td>{{item.price}}</td>
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
-                <td><span class="status">{{getStatus(item.status)}}</span></td>
+                <td><a :href="'ordersDetail/'+item.orderNo" class="status">{{getStatus(item.status)}}</a></td>
             </tr>
-            <tr v-if="orderList.length == 0 || !orderList" class="nodata">
+            <tr class="no-data" v-if="loading">
+                <td colspan="7" style="text-align: center" >
+                    <div class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="orderList.length == 0 && !loading" class="nodata">
                 <td colspan="7" style="text-align: center"><%= LANG('暂无数据') %></td>
             </tr>
             </tbody>
         </table>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :turn-page="getOrderList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getOrderList"
                    v-if="orderList.length > 0"></page-lite>
     </div>
 </div>
@@ -46,22 +63,54 @@
             el: "#ordersManage",
             data: function () {
                 return {
+                    loading: true,
                     orderList: [],
                     pageSize: 10,
                     pageIndex: 1,
-                    totalPage: null,
+                    totalPage: 0,
+                    pageCount: 0,
                     currencyList: [],
-                    fiterDropDown: false
+                    fiterDropDown: false,
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
+                this.queryStatus()
                 this.getOrderList()
                 this.getCurrencyList()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             computed: {
 
             },
             methods: {
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
                 openDropdown: function() {
                     this.fiterDropDown = !this.fiterDropDown
                 },
@@ -94,7 +143,7 @@
                             return '<%=LANG('无效订单')%>'
                             break;
                         case -1:
-                            return '<%=LANG('申诉')%>'
+                            return '<%=LANG('已申诉')%>'
                             break;
                     }
                 },
@@ -110,9 +159,11 @@
                         data: data,
                         success: function (res) {
                             this.orderList = res.datas.results
+                            this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage
+                            this.loading = false
                         }.bind(this)
                     })
                 },

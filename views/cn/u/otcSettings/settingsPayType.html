@@ -11,10 +11,10 @@
         top: 0;
         width: 100%;
         height: 30px;
-        background-color: rgba(0, 0, 0, 0.4);
+        /*background-color: rgba(0, 0, 0, 0.4);*/
         line-height: 30px;
         text-align: left;
-        color: #fff;
+        color: #000;
         font-size: 12px;
         text-indent: 4px;
     }
@@ -49,13 +49,13 @@
     .upload_warp_img {
         border-top: 1px solid #D2D2D2;
         padding: 14px 0 0 14px;
-        overflow: hidden
+        overflow: hidden;
     }
 
     .upload_warp_text {
         text-align: left;
-        margin-bottom: 10px;
-        padding-top: 10px;
+        margin-bottom: 8px;
+        padding-top: 8px;
         text-indent: 14px;
         border-top: 1px solid #ccc;
         font-size: 14px;
@@ -168,12 +168,12 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel.securityPassword" required
+                    <input type="password" name="securityPassword" autocomplete="off" v-model="formModel.securityPassword" required
                            maxlength="6">
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('备注(MEMO)')%>：</label>
-                    <textarea name="" cols="30" rows="10" v-model="formModel.remark"></textarea>
+                    <textarea name="" cols="30" rows="5" style="height: unset" v-model="formModel.remark"></textarea>
                 </div>
             </div>
 
@@ -206,10 +206,14 @@
                                 </div>
                             </div>
                             <!--<div class="upload_warp_text">
-                                选中{{imgList.length}}张文件，共{{bytesToSize(this.size)}}
+                                选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
                             </div>-->
                             <div class="upload_warp_text">
-                                选中{{imgList.length}}张文件
+                                <%=LANG('提示：图片大小不能超过1MB')%>
+                            </div>
+                            <div class="upload_warp_text">
+                                <%=LANG('当前大小：')%>
+                                {{bytesToSize(size) || 0}}
                             </div>
                             <input @change="fileChange($event)" type="file" id="upload_file" multiple
                                    style="display: none"/>
@@ -219,8 +223,8 @@
                                         <div class="upload_warp_img_div_text">
                                             {{item.file.name}}
                                         </div>
-                                        <img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
-                                             @click="fileDel(index)">
+                                        <!--<img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
+                                             @click="fileDel(index)">-->
                                     </div>
                                     <img :src="item.file.src">
                                 </div>
@@ -330,21 +334,32 @@
                     imgList: [],
                     size: 0,
                     imgUrl: '',
+                    reameNameStatus: null,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                 }
             },
             created() {
-                this.getUserName()
+                this.queryStatus()
+                this.getUserName(function () {
+                    this.queryPayTypeInfo(this.payType)
+                }.bind(this))
                 this.getCurrencyList()
-                this.queryPayTypeInfo(this.payType)
                 this.getBankList()
                 this.getPubKey()
+                if (this.loginUser.safePwdAuth == '0') {
+                    JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                        buttons: {confirm: "去设置"}, callback: function () {
+                            window.location.href = 'account'
+                        }
+                    })
+                }
             },
             mounted: function () {
 
             },
             computed: {},
             methods: {
-                getUserName: function () {
+                getUserName: function (callBack) {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
@@ -358,27 +373,44 @@
                                 } else if (this.payType == 2) {
                                     this[arr[this.payType]].bankOwner = res.datas
                                 }
+                                callBack && callBack()
                             } else {
                                 JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                                     buttons: {confirm: "去认证"}, callback: function () {
-                                        window.location.href = 'certify'
+                                        window.location.href = 'account'
                                     }
                                 })
                             }
+                        }.bind(this),
+                        error: function () {
+                            callBack && callBack()
                         }.bind(this)
                     })
                 },
                 fileClick() {
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    if (this[arr[this.payType]].id) {
+                        if (!$('#settingsPayType form').valid()) {
+                            return false
+                        }
+                    }
                     document.getElementById('upload_file').click()
                 },
                 fileChange(el) {
-                    var size = el.target.files[0].size
-
-                    if (!size) return;
-                    if (this.imgList.length >= 1) {
-                        JuaBox.wrong("<%=LANG('只能上传一张图片！')%>");
+                    var file = el.target.files[0]
+                    console.log(file.size)
+                    if (file.type.indexOf('image') == -1) {
+                        JuaBox.wrong("<%=LANG('只能上传图片！')%>");
+                    }
+                    if (!file.size) return;
+                    if (file.size > 1024 * 1024) {
+                        JuaBox.wrong("<%=LANG('上传图片不能大于1MB！')%>");
                         return
                     }
+                    /*if (this.imgList.length >= 1) {
+                        JuaBox.wrong("<%=LANG('只能上传一张图片！')%>");
+                        return
+                    }*/
                     this.fileList(el.target);
                     el.target.value = ''
                 },
@@ -423,6 +455,7 @@
                     //判断是否为图片文件
                     if (file.type.indexOf('image') == -1) {
                         file.src = 'wenjian.png';
+                        this.imgList = []
                         this.imgList.push({
                             file
                         });
@@ -442,7 +475,7 @@
                     var formData = new FormData();
 
                     formData.append('file', file);
-
+                    console.log(this.imgList)
                     xhr.onreadystatechange = function (e) {
                         if (xhr.readyState == 4) {
                             var result = JSON.parse(xhr.responseText)
@@ -450,8 +483,11 @@
                                 console.log(result.datas)
                                 JuaBox.success(EXX.L(result.resMsg.code));
                                 this.imgUrl = result.datas
+                                this.imgList = [this.imgList[this.imgList.length - 1]]
+                                this.seetings()
                                 // options.onSuccess(xhr.responseText);
                             } else {
+                                this.imgList = [this.imgList[this.imgList[0]]]
                                 JuaBox.wrong(EXX.L(result.resMsg.message));
                                 // options.onFailure(xhr.responseText);
                             }
@@ -463,19 +499,29 @@
                     xhr.open('POST', path, true);
                     xhr.send(formData);
                 },
-                fileDel(index) {
+                fileDel(index) { //删除图片
                     this.size = this.size - this.imgList[index].file.size;//总大小
                     this.imgList.splice(index, 1);
                     console.log(this.imgUrl)
+
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    var data = {}
+                    Object.assign(data, this[arr[this.payType]], {
+                        securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
+                        payId: this.payType,
+                        qrcode: ''
+                    })
 
                     Methods.ajax({
                         type: 'DELETE',
                         url: DOMAIN_DEV +
                             '/exchange/upload/controller/admin/FileController/delFile',
-                        data: JSON.stringify({fileName: this.imgUrl}),
+                        data: JSON.stringify({fileName: this.imgUrl.split('/')[1]}),
                         success: function (res) {
                             JuaBox.success(EXX.L(res.resMsg.code));
                             this.imgUrl = ''
+                            // this.apiApply(data)
                         }.bind(this),
                         error: function (res) {
                             JuaBox.wrong(EXX.L(res.resMsg.message));
@@ -483,7 +529,7 @@
                     })
                 },
                 bytesToSize(bytes) {
-                    if (bytes === 0) return '0 B';
+                    if (bytes === 0 || !bytes) return '0 B';
                     let k = 1000, // or 1024
                         sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
                         i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -498,29 +544,35 @@
                     el.preventDefault();
                 },
                 drop(el) {
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
                     el.stopPropagation();
                     el.preventDefault();
+                    if (this[arr[this.payType]].id) {
+                        if (!$('#settingsPayType form').valid()) {
+                            return false
+                        }
+                    }
                     this.fileList(el.dataTransfer);
                 },
                 changePayType: function (type) {
                     this.payType = type
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
-                    this.queryPayTypeInfo(type)
-                    this.getUserName()
+                    this.getUserName(function () {
+                        this.queryPayTypeInfo(type)
+                    }.bind(this))
                 },
                 changeCurrencyName: function (type) {
                     this.currencyName = type.shortName
                     this.payType = type.shortName == 'CNY' ? 2 : 6
 
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    this[arr[this.payType]] = {}
                     this.imgList = []
                     this.imgUrl = ''
-                    this.queryPayTypeInfo(this.payType)
-                    this.getUserName()
+                    this.getUserName(function () {
+                        this.queryPayTypeInfo(this.payType)
+                    }.bind(this))
                 },
                 getCurrencyList: function () {  //查询法币接口
                     Methods.ajax({
@@ -536,7 +588,76 @@
                 handleComparedPwd: function () {
                     return this.formModel.bankNo == this.bankNoConfirmation
                 },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                            if (res.datas == null) {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            }
+                        }.bind(this)
+                    })
+                },
+                apiApply: function(data) {
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/addOrUpdatePayBO',
+                        data: data,
+                        success: function (res) {
+                            if (data.id) {
+                                JuaBox.success("<%=LANG('修改成功！')%>");
+                            } else {
+                                JuaBox.success(EXX.L(res.resMsg.code));
+                            }
+                            this.queryPayTypeInfo(this.payType)
+                        }.bind(this),
+                        error: function (res) {
+                            if (res.resMsg.code == '7015') {
+                                JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                    buttons: {confirm: "去认证"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            } else if (res.resMsg.code == '6078') {
+                                JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                    buttons: {confirm: "去设置"}, callback: function () {
+                                        window.location.href = 'account'
+                                    }
+                                })
+                            } else {
+                                JuaBox.wrong(EXX.L(res.resMsg.code));
+                            }
+                        }
+                    })
+                },
                 seetings: function () {  //提交
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
+                        return false
+                    }
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = 'account'
+                            }
+                        })
+                        return false
+                    }
                     if ($('#settingsPayType form').valid()) {
                         if (this.payType == 2 && !this.handleComparedPwd()) {
                             JuaBox.wrong("<%= LANG('两次输入卡号不一致！') %>");
@@ -555,35 +676,7 @@
                             payId: this.payType,
                             qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
                         })
-                        console.log(data)
-
-                        Methods.ajax({
-                            type: 'POST',
-                            url: DOMAIN_DEV +
-                                '/exchange/XtOtcController/addOrUpdatePayBO',
-                            data: data,
-                            success: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.code));
-                                this.queryPayTypeInfo(this.payType)
-                            }.bind(this),
-                            error: function (res) {
-                                if (res.resMsg.code == '7015') {
-                                    JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                                        buttons: {confirm: "去认证"}, callback: function () {
-                                            window.location.href = 'certify'
-                                        }
-                                    })
-                                } else if (res.resMsg.code == '6078') {
-                                    JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
-                                        buttons: {confirm: "去设置"}, callback: function () {
-                                            window.location.href = 'account'
-                                        }
-                                    })
-                                } else {
-                                    JuaBox.wrong(EXX.L(res.resMsg.code));
-                                }
-                            }
-                        })
+                        this.apiApply(data)
                     }
                 },
                 getPubKey: function () {
@@ -615,6 +708,7 @@
                             if (res.datas) {
                                 this[arr[this.payType]] = res.datas
                                 if (this.payType == 3 || this.payType == 4) {
+                                    this.imgList = []
                                     this.imgList.push({
                                         file: {
                                             name: '',
