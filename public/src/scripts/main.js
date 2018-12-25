@@ -403,7 +403,7 @@ ExxWebSocket.dealMessageHandle = function (data, type) {
         var result = transTradeData(data.data);
         EXX.appTradePro.doDealRecord(result);
     } else if (type == 4) {
-        EXX.appSider.doDealTradeStatistic(data.data[0])
+        EXX.appTradePro.doDealTradeStatistic(data.data[0])
     }
 }
 
