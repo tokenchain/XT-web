@@ -121,6 +121,21 @@
                 }
             },
             computed: {
+                marketsIdSwitch: function () {
+                    var marketId = {};
+                    if (this.marketConfig) {
+                        for (var a = 0; a < this.allMarket.length; a++) {
+                            for (var b = 0; b < this.marketConfig.length; b++) {
+                                if (this.allMarket[a][0] == this.marketConfig[b].marketId) {
+                                    // if ((this.allMarket[a][0] + 2) == this.marketConfig[b].marketId){
+                                    marketId[this.marketConfig[b].marketId] = this.marketConfig[b].name;  //格式: '1': btc/qtum
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    return marketId;
+                },
                 //过滤要显示的市场
                 displayMarkets: function () {
                     var res = [];
@@ -508,9 +523,102 @@
                             this.rateClass = 'text-second sellColor';
                         }
                     }
+                },
+                allMarket: function (newVal) {
+                    //设置K线顶部数据
+                    if (EXX.appTradePro && EXX.appTradePro.currentMarketId) {
+
+                        var currMarketId = EXX.appTradePro.currentMarketId;
+                        for (var i = 0; i < newVal.length; i++) {
+                            if (newVal[i][0] == currMarketId) {
+                                /**
+                                 *作者: GongQi
+                                 *时间: 2018/5/9
+                                 *功能: 修改currentPrice的取值在app（EXX.appTradePro中进行）,
+                                 */
+                                EXX.appTradePro.currentPrice = newVal[i][1]; //当前价格
+                                EXX.appTradePro.riseRate = newVal[i][5]; //涨跌幅
+                                EXX.appTradePro.highPrice = newVal[i][2]; //最高价
+                                EXX.appTradePro.lowPrice = newVal[i][3]; //最低价
+                                EXX.appTradePro.volume = newVal[i][4]; //交易量
+                                EXX.appTradePro.totalnum = newVal[i][9]; //总成交额
+
+                                EXX.appTradePro.allMarket = this.convertMarket(this.allMarket); //涨跌幅
+
+                                // // EXX.appTradePro.currentPrice = newVal[i][1]; //当前价格
+                                // EXX.appTradeHead.riseRate = newVal[i][5]; //涨跌幅
+                                // EXX.appTradeHead.highPrice = newVal[i][2]; //最高价
+                                // EXX.appTradeHead.lowPrice = newVal[i][3]; //最低价
+                                // EXX.appTradeHead.volume = newVal[i][4]; //交易量
+                                //
+                                // EXX.appTradeHead.allMarket = this.convertMarket(this.allMarket); //涨跌幅
+                                if (EXX.appTradePro.allMarketLoading) {
+                                    EXX.appTradePro.allMarketLoading = false;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
                 }
             },
             methods: {
+                //转换对象市场为数组市场(为了排序)
+                convertMarket: function (result) {
+                    var _this = this;
+                    var resultArray = [];
+
+                    result.forEach(function (item, index) {
+                        var lineData;
+                        try {
+                            lineData = JSON.parse(item[6]);
+                        } catch (e) {
+                            lineData = '';
+                        }
+
+                        var obj = {
+                            marketId: item[0], //市场id
+                            market: _this.marketsIdSwitch[item[0]], //市场名
+                            // 价格
+                            lastPrice: item[1], //最新价
+
+                            // buyOne : item[4],
+                            // sellOne : item[2],
+                            highPrice: item[2], //最高价
+                            lowPrice: item[3], //最低价
+
+                            // 成交量
+                            volume: item[4],
+                            //折算交易量为USD排序
+                            convertVolume: _this.getVolumeByAssist(item[4], _this.marketsIdSwitch[item[0]], 'usd'),
+                            // 走势图
+                            lineData: lineData,
+                            //涨跌幅
+                            rate: item[5],
+
+                            //杠杆倍数
+                            // leverRate : _this.marketConfig[key].leverRate,
+                            sortId: item[item.length - 1] ? item[item.length - 1] : 0
+                        }
+                        resultArray.push(obj);
+                    });
+
+                    return resultArray;
+                },
+                //获取指定辅助货币的价格
+                getVolumeByAssist: function (price, market, assist) {
+                    if (!price || price == '' || !market || market == '' || this.assistPrice == null) {
+                        return ''
+                    }
+                    var coin = market.split('_')[0];
+                    //优先取指定的assist 默认保留4位小数
+                    var assistCoin = assist || this.assistCoin;
+                    if (assistCoin == 'none' || assistCoin == '') {
+                        return Methods.fixNumber(price, 4);
+                    } else {
+                        return Methods.fixNumber(parseFloat(price) * parseFloat(this.assistPrice[assistCoin][coin]), 4) || '--';
+                    }
+                },
                 fullScreeActive: function () {
                     var a = document.getElementById('chartEntrust-area')
                     if (this.fullScreen) {
@@ -522,7 +630,8 @@
                 },
                 //全屏
                 requestFullScreen: function (el) {
-                    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen, wscript;
+                    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen,
+                        wscript;
 
                     if (typeof rfs != "undefined" && rfs) {  ////////
                         rfs.call(el);
@@ -740,6 +849,23 @@
                         getDealRecordByAjax();
                     }
                     callback && callback();
+                },
+                /**
+                 *作者: GongQi
+                 *时间: 2018/5/10
+                 *功能: 接口->Websocket/getMarketList 合并为 Websocket/getMarketList
+                 *     函数->doDealTradeStatistic 替换 getAllMarket
+                 */
+                doDealTradeStatistic: function (data) {
+                    console.log(data);
+                    var _this = this;
+                    var res = data;
+                    // console.log(data)
+                    if (typeof res.trade_statistic == 'object') {
+                        _this.allMarket = res.trade_statistic;
+                    } else {
+                        _this.allMarket = [];
+                    }
                 },
                 //获取用户委托记录-委托中记录
                 getUserEntrustRecordFromCache: function (callback) {
@@ -1638,7 +1764,7 @@
                         return false;
                     }*/
 
-                    _this.marketIsExist()
+                    _this.marketIsExist();
                     //开盘时间处理
                     _this.getServerTime(function (serverTime) {
                         var openTime = parseFloat(_this.currentMarketConfig.openTime) * 1000;
