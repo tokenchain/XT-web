@@ -464,8 +464,8 @@
                             return
                         } else if (status == 3) { //已取消
                             return
-                        } else if( status == -1) { //已申诉 撤销申诉
-                            data.status = 2
+                        } else if( status == -1) { //撤销申诉  状态码为 -2
+                            data.status = -2
                         }
                         // console.log(data)
                         this.updataOrtderApi(data)
