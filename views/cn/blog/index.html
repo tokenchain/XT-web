@@ -126,7 +126,7 @@
                         hk: '5'
                     } [language]
                     var data = {
-                        pageIndex: 1,
+                        pageIndex: this.pageIndex,
                         pageSize: this.pageSize,
                         categoryId: '7cZulbgB624',
                         lanType: lanType
@@ -137,14 +137,14 @@
                         data: data,
                         success: function (res) {
                             var list = res.datas.results;
-                            that.news = list
+                            that.news = that.news.concat(list)
                             that.totalPage = res.datas.totalPage
                             that.loading = false;
                         }
                     });
                 },
                 loadMore: function () {
-                    this.pageSize += 10;
+                    this.pageIndex += 1;
                     this.getNewsList();
                 },
                 changeNewsType: function (type) {

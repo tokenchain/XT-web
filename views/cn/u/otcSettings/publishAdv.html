@@ -159,6 +159,7 @@
                         },
                         success: function (res) {
                             this.coinList = res.datas
+                            this.formModel.orderCoin = this.coinList[0].shortName
                         }.bind(this)
                     })
                 },
