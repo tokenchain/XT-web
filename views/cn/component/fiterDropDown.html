@@ -94,7 +94,13 @@
 
             <div class="item">
                 <label for=""><%= LANG('订单状态') %></label>
-                <input type="text" v-model="formModel_order.orderType">
+                <select name="" v-model="formModel_order.status">
+                    <option value="0"><%= LANG('交易成功') %></option>
+                    <option value="1"><%= LANG('等待付款') %></option>
+                    <option value="2"><%= LANG('确认收款') %></option>
+                    <option value="3"><%= LANG('无效订单') %></option>
+                    <option value="-1"><%= LANG('已申诉') %></option>
+                </select>
             </div>
 
             <div class="item">
@@ -111,7 +117,7 @@
 
             <div class="item">
                 <label for=""><%= LANG('类型') %></label>
-                <select name="" v-model="formModel_order.advType">
+                <select name="" v-model="formModel_order.orderType">
                     <option value="1"><%= LANG('购买') %></option>
                     <option value="2"><%= LANG('出售') %></option>
                 </select>
@@ -212,7 +218,7 @@
                         orderType: '',
                         legalCurrencyId: '',
                         currencyName: '',
-                        advType: '',
+                        status: '',
                     },
                     formModel_fin: {
                         beginTime: '',
@@ -280,11 +286,11 @@
                     this[this.modal].beginTime = ''
                 },
                 saveData: function () {
-                    console.log(this[this.modal])
                     if (this.type == 2 || this.type == 3 || this.type == 4) {
                         this[this.modal].beginTime = this[this.modal].beginTime && Methods.getTimeStamp(this[this.modal].beginTime)
                         this[this.modal].endTime = this[this.modal].endTime && Methods.getTimeStamp(this[this.modal].endTime)
                     }
+                    console.log(this[this.modal])
                     this.$emit('fetch-list', this[this.modal])
                     this.close()
                 },

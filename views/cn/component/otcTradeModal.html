@@ -17,7 +17,9 @@
                         <form id="otcModalId">
                             <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
                             <img src="" alt="">
-                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required :range="[listRecord.orderLimitMin/listRecord.orderPrice, listRecord.orderLimitMax/listRecord.orderPrice]">
+                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required
+                                   :than="listRecord.laveAmount*listRecord.orderPrice < listRecord.orderLimitMin ? listRecord.orderLimitMin/listRecord.orderPrice : listRecord.laveAmount"
+                                   :lessThan="listRecord.laveAmount*listRecord.orderPrice > listRecord.orderLimitMax ? listRecord.orderLimitMax/listRecord.orderPrice : listRecord.laveAmount">
                             <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
                         </form>
                     </div>

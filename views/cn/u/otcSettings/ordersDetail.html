@@ -34,9 +34,9 @@
                            @click="changePayId(item.payId)">
                     <span class="img-box">
                         <img :src="imgSrc(item.payId)" alt="">
-                        <div id="qscode-box" class="qscode-box" v-if="qscodeStatus">
+                        <!--<div id="qscode-box" class="qscode-box" v-if="qscodeStatus">
                             <img :src="'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+ item.qrcode" alt="" v-if="item.payId == 2 || item.payId == 3">
-                        </div>
+                        </div>-->
                     </span>
                     <p v-if="item.payId == 2">
                         <span>{{item.bankOwner}}</span>
@@ -48,7 +48,7 @@
                         <span>{{item.userName}}</span>
                         <span>{{item.account}}</span>
                         <span><%=LANG('备注勿写比特币等字')%></span>
-                        <a v-if="item.payId == 3 || item.payId == 4" style="color: #FFBE3F;" @click="lookQscode"><%=LANG('查看二维码')%></a>
+                        <a style="color: #FFBE3F;" @click="lookQscode(item)"><%=LANG('查看二维码')%></a>
                     </p>
                     <p v-if="item.payId == 5 || item.payId == 6">
                         <span>{{item.bankOwner}}</span>
@@ -144,10 +144,14 @@
     <modal v-cloak="" :open="appealModal == 'appeal'" @close="appealModal = false">
         <appeal :order-detail="orderDetail"/>
     </modal>
+    <modal v-cloak="" :open="appealModal == 'lookqscode'" @close="appealModal = false">
+        <lookqscode :img-url="imgUrl"/>
+    </modal>
 </div>
 
 <%-include("../../component/modal.html")%>
 <%-include("../model/appeal.html")%>
+<%-include("../model/lookQscode.html")%>
 
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
@@ -174,7 +178,8 @@
                     reameNameStatus: null,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
                     appealModal: false,
-                    qscodeStatus: false
+                    // qscodeStatus: false,
+                    imgUrl: ''
                 }
             },
             created() {
@@ -221,8 +226,10 @@
                 }
             },
             methods: {
-                lookQscode: function() {
-                    this.qscodeStatus = !this.qscodeStatus
+                lookQscode: function(item) {
+                    // this.qscodeStatus = !this.qscodeStatus
+                    this.appealModal = 'lookqscode'
+                    this.imgUrl = 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'+ item.qrcode
                 },
                 getMerchant: function () {
                     Methods.ajax({

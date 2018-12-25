@@ -1,0 +1,48 @@
+<style>
+    .img-box{
+        text-align: center;
+    }
+    .img-box img{
+        max-width: 300px;
+    }
+</style>
+<script type="text/x-template" id="lookqscode">
+    <div class="exx-modal-container" style="width: 800px;">
+        <div class="exx-modal-header"><h3><%= LANG('查看二维码') %></h3></div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="img-box">
+                    <img :src="imgUrl" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods'], function (Vue, Methods) {
+        return Vue.component('lookqscode', {
+            template: "#lookqscode",
+            props: {
+                imgUrl: {
+                    type: String,
+                    default: ''
+                }
+            },
+            data: function () {
+                return {
+
+                }
+            },
+            created() {
+
+            },
+            computed: {},
+            methods: {
+                close: function () {
+                    this.$parent.$parent.appealModal = false
+                }
+            }
+        })
+    })
+</script>

@@ -60,6 +60,23 @@
                 <td>{{item.price}}</td>
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
             </tr>
+            <tr class="no-data" v-if="loading">
+                <td colspan="9" style="text-align: center" >
+                    <div class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
             <tr v-if="finList.length == 0 || !finList" class="nodata">
                 <td colspan="9" style="text-align: center"><%= LANG('暂无数据') %></td>
             </tr>
@@ -78,6 +95,7 @@
             el: "#finance",
             data: function () {
                 return {
+                    loading: true,
                     advType: 1,
                     finList: [],
                     pageSize: 10,
@@ -181,6 +199,7 @@
                             '/exchange/XtOtcController/selectUserOrdersRecord',
                         data: data,
                         success: function (res) {
+                            this.loading = false
                             this.records = res.datas.records
                             this.finList = res.datas.results.results
                             this.pageCount = res.datas.totalRow
