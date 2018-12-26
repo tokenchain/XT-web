@@ -398,7 +398,7 @@
                 },
                 fileChange(el) {
                     var file = el.target.files[0]
-                    console.log(file.size)
+                    // console.log(file.size)
                     if (file.type.indexOf('image') == -1) {
                         JuaBox.wrong("<%=LANG('只能上传图片！')%>");
                     }
@@ -475,12 +475,12 @@
                     var formData = new FormData();
 
                     formData.append('file', file);
-                    console.log(this.imgList)
+                    // console.log(this.imgList)
                     xhr.onreadystatechange = function (e) {
                         if (xhr.readyState == 4) {
                             var result = JSON.parse(xhr.responseText)
                             if (xhr.status == 200) {
-                                console.log(result.datas)
+                                // console.log(result.datas)
                                 JuaBox.success(EXX.L(result.resMsg.code));
                                 this.imgUrl = result.datas
                                 this.imgList = [this.imgList[this.imgList.length - 1]]
@@ -502,7 +502,7 @@
                 fileDel(index) { //删除图片
                     this.size = this.size - this.imgList[index].file.size;//总大小
                     this.imgList.splice(index, 1);
-                    console.log(this.imgUrl)
+                    // console.log(this.imgUrl)
 
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
                     var data = {}

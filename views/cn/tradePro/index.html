@@ -67,35 +67,35 @@
                 }
             },
             watch: {
-                showAssetDrop: function (newVal, oldVal) {
-                    //下拉展开资产的时候立即获取资产并且开启定时器
-                    if (this.showAssetDrop && this.isLogin) {
-                        //获取汇率
-                        this.getAssistPrice();
-                        //获取用户资金
-                        this.getAccountAssets();
-                        //获取货币信息
-                        this.getCoinConfig();
-
-                        this.assetInterVal = setInterval(function () {
-                            //获取汇率
-                            this.getAssistPrice();
-                            //获取用户资金
-                            this.getAccountAssets();
-                            //获取货币信息
-                            this.getCoinConfig();
-                        }.bind(this), 3000)
-                    } else {
-                        window.clearInterval(this.assetInterVal);
-                    }
-                },
-                showTopNews: function () {
-                    if (!this.showTopNews) {
-                        $('body').removeClass('notice-open');
-                    } else {
-                        $('body').addClass('notice-open');
-                    }
-                }
+                // showAssetDrop: function (newVal, oldVal) {
+                //     //下拉展开资产的时候立即获取资产并且开启定时器
+                //     if (this.showAssetDrop && this.isLogin) {
+                //         //获取汇率
+                //         this.getAssistPrice();
+                //         //获取用户资金
+                //         this.getAccountAssets();
+                //         //获取货币信息
+                //         this.getCoinConfig();
+                //
+                //         this.assetInterVal = setInterval(function () {
+                //             //获取汇率
+                //             this.getAssistPrice();
+                //             //获取用户资金
+                //             this.getAccountAssets();
+                //             //获取货币信息
+                //             this.getCoinConfig();
+                //         }.bind(this), 3000)
+                //     } else {
+                //         window.clearInterval(this.assetInterVal);
+                //     }
+                // },
+                // showTopNews: function () {
+                //     if (!this.showTopNews) {
+                //         $('body').removeClass('notice-open');
+                //     } else {
+                //         $('body').addClass('notice-open');
+                //     }
+                // }
             },
             computed: {
                 currentAccountId: function () {
@@ -183,7 +183,7 @@
                 },
                 //设置语言
                 setLan: function (lan) {
-                    console.log(lan)
+                    console.log(lan);
                     var name = ENV + 'lan';
                     Methods.setCookie(name, lan);
                     top.location.reload();
@@ -241,19 +241,19 @@
                     });
                 },
                 // 获取币价汇率
-                getAssistPrice: function (callback) {
-                    Methods.ajax({
-                        type: 'GET',
-                        // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
-                        success: function (res) {
-                            this.assistPrice = res.datas;
-                            callback && callback();
-                        }.bind(this),
-                        error: function () {
-                        }
-                    });
-                },
+                // getAssistPrice: function (callback) {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         // url: DOMAIN_MAIN + API_PREFIX + 'getAssistPrice',
+                //         url: DOMAIN_DEV + "/exchange/config/controller/website/PriceController/" + 'getAssistPrice',
+                //         success: function (res) {
+                //             this.assistPrice = res.datas;
+                //             callback && callback();
+                //         }.bind(this),
+                //         error: function () {
+                //         }
+                //     });
+                // },
                 //获取用户信息-ok
                 getUserInfo: function () {
                     var _this = this;
@@ -286,27 +286,27 @@
                         //console.log($(this).index())
                     })
                 },
-                // 获取市场配置
-                getMarketConfig: function () {
-                    var _this = this;
-
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
-                        success: function (res) {
-                            _this.marketConfig = res.datas;
-                        }
-                    });
-                },
-                getMarketAreaListByWebId: function () {
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
-                        success: function (res) {
-                            this.marketAreaList = res.datas
-                        }.bind(this)
-                    });
-                },
+                // // 获取市场配置
+                // getMarketConfig: function () {
+                //     var _this = this;
+                //
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getByWebId',
+                //         success: function (res) {
+                //             _this.marketConfig = res.datas;
+                //         }
+                //     });
+                // },
+                // getMarketAreaListByWebId: function () {
+                //     Methods.ajax({
+                //         type: 'GET',
+                //         url: DOMAIN_DEV + "/exchange/config/controller/website/MarketController/" + 'getMarketAreaListByWebId',
+                //         success: function (res) {
+                //             this.marketAreaList = res.datas
+                //         }.bind(this)
+                //     });
+                // },
                 getMarketClass: function (item, index) {
                     var index = index
                     if (index == 0) {
@@ -318,7 +318,7 @@
                 }
             },
             mounted: function () {
-                this.getMarketAreaListByWebId();
+                // this.getMarketAreaListByWebId();
                 if (this.isLogin) {
                     //获取用户信息
                     this.getUserInfo();
@@ -326,9 +326,9 @@
                     this.getAccountAssets();
                 }
                 //获取货币信息
-                this.getCoinConfig();
+                // this.getCoinConfig();
                 //获取市场配置
-                this.getMarketConfig();
+                // this.getMarketConfig();
                 //初始化鼠标监听
                 this.initSwiftTrade();
 
@@ -964,9 +964,6 @@
         <modal-refund :params="refundParams" :user-asset="currentUserAsset"/>
     </modal>
 </section>
-<%-include("../tradePro/app/siderBar.html")%>
-
-<!--<%-include("app/dishPartDark.html")%>-->
 <!--改版盘口 2018-10-18 by czh-->
 <%-include("app/dishPartDarkAsks.html")%>
 <%-include("app/dishPartDarkBids.html")%>

@@ -119,7 +119,6 @@
             },
             mounted: function() {
                 $('input.change-valite').on('blur', function (event) {
-                    console.log(111)
                     $('#publishAdv form').valid()
                 })
             },
@@ -129,7 +128,6 @@
                     return `<%= IMG_STATIC %>/images/${['', '', 'UnionPay', 'aliPay', 'tencentPay', 'paypal', 'usdPay'][payId]}.png`
                 },
                 changeCurrency: function (e) {
-                    console.log(e.target.value)
                     this.formModel.legalCurrencyId = e.target.value
                     var tode = this.currencyList.find(function (item) {
                         return item.id == e.target.value
@@ -138,7 +136,6 @@
                     this.queryAmount()
                 },
                 changeCoin: function (e) {
-                    console.log(e.target.value)
                     this.formModel.orderCoin = e.target.value
                     this.queryAmount()
                 },
@@ -240,7 +237,6 @@
                                 advType: this.advType,
                                 advStatus: 1
                             })
-                            console.log(data)
 
                             Methods.ajax({
                                 type: 'POST',

@@ -17,8 +17,13 @@
                         <form id="otcModalId">
                             <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
                             <img src="" alt="">
-                            <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required :range="[listRecord.orderLimitMin/listRecord.orderPrice, listRecord.orderLimitMax/listRecord.orderPrice]">
-                            <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                            <span>
+                                <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required
+                                       :range="[min, max]">
+                            </span>
+                            <span style="margin-left: 20px;" >
+                                <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                            </span>
                         </form>
                     </div>
                 </div>
@@ -51,7 +56,7 @@
                 done: {
                     type: Function,
                     default: function () {
-                        console.log('success');
+
                     }
                 },
                 advType: {
@@ -83,7 +88,14 @@
                 }
             },
             computed: {
-
+                min: function() {
+                    var min = this.listRecord.laveAmount <= this.listRecord.orderLimitMin/this.listRecord.orderPrice ? this.listRecord.laveAmount : this.listRecord.orderLimitMin/this.listRecord.orderPrice
+                    return parseFloat(min.toFixed(8))
+                },
+                max: function () {
+                    var max = this.listRecord.laveAmount >= this.listRecord.orderLimitMax/this.listRecord.orderPrice ? this.listRecord.orderLimitMax/this.listRecord.orderPrice : this.listRecord.laveAmount
+                    return parseFloat(max.toFixed(8))
+                }
             },
             watch: {},
             methods: {

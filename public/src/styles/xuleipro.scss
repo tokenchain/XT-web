@@ -5154,7 +5154,7 @@ input::-webkit-inner-spin-button {
       flex: 0.7;
       width: 100%;
       padding: 8px 8px;
-      height: 34px;
+      height: 35px;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
@@ -5438,11 +5438,19 @@ input::-webkit-inner-spin-button {
 
       form {
         display: flex;
-        position: relative;
+        //position: relative;
         padding-bottom: 10px;
 
+        > span {
+          position: relative;
+          //max-height: 86px;
+          //min-height: 20px;
+          display: inline-block;
+          height: 88px;
+        }
+
         label.error {
-          position: absolute;
+          //position: absolute;
           bottom: -20px;
           right: 0;
           color: red;
@@ -5456,7 +5464,7 @@ input::-webkit-inner-spin-button {
           padding-left: 10px;
 
           &.last-input {
-            margin-left: 20px;
+            //margin-left: 20px;
           }
 
           &.error {
@@ -5473,7 +5481,7 @@ input::-webkit-inner-spin-button {
 
   .pay-type {
     display: flex;
-    margin: 20px 0;
+    margin: 25px 0;
 
     .title {
       font-size: 15px;

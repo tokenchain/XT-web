@@ -74,7 +74,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in otcList" v-cloak="">
-                    <td style="color: #f00;">{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
+                    <td style="color: #FFBE3F;">{{`${item.userName} ( ${item.thrityOrders} | ${Number(item.thrityRate * 100).toFixed(2)}% )`}}<img
                             src="<%= IMG_STATIC %>/images/otcLevel.png" v-if="item.otcLevel" alt=""></td>
                     <td>{{item.orderAmount}} {{orderCoin}}</td>
                     <td>{{item.laveAmount}} {{orderCoin}}</td>
@@ -82,6 +82,23 @@
                     <td style="color: #f00;">{{item.orderPrice}} {{legalCurrencyName.toUpperCase()}}</td>
                     <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
                     <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
+                </tr>
+                <tr class="no-data" v-if="loading">
+                    <td colspan="6" style="text-align: center" >
+                        <div class="cd-loading">
+                            <div class="vertical-bars">
+                                <p class="layer-1"></p>
+                                <p class="layer-2"></p>
+                                <p class="layer-3"></p>
+                                <p class="layer-4"></p>
+                                <p class="layer-5"></p>
+                                <p class="layer-6"></p>
+                                <p class="layer-7"></p>
+                                <p class="layer-8"></p>
+                                <p class="layer-9"></p>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr v-if="otcList.length == 0 || !otcList" class="nodata">
                     <td colspan="6" style="text-align: center"><%= LANG('暂无数据') %></td>
@@ -109,6 +126,7 @@
             el: "#home-otcTrade",
             data: function () {
                 return {
+                    loading: true,
                     isLogin: ISLOGIN,
                     showModal: false,   //'otcTradeModal'
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
@@ -255,6 +273,7 @@
                             '/exchange/XtOtcController/selectUsersOtcList',
                         data: data,
                         success: function (res) {
+                            this.loading = false
                             this.otcList = res.datas.results
                             this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
@@ -283,7 +302,6 @@
                         url: DOMAIN_DEV +
                             '/exchange/admin/OtcController/selectOTCConfig',
                         success: function (res) {
-                            console.log( res.datas.orderOutTime)
                             this.orderOutTime = res.datas.orderOutTime
                             callBack && callBack()
                         }.bind(this)

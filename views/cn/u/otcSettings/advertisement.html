@@ -35,6 +35,23 @@
                 <td><span class="a-btn" @click="rollsOff(item)">{{item.advStatus == 0 ? '<%=LANG('上架')%>' : '<%=LANG('下架')%>'}}</span></td>
                 <td><span class="a-btn" @click="lookDetail(item)"><%=LANG('查看')%></span></td>
             </tr>
+            <tr class="no-data" v-if="loading">
+                <td colspan="9" style="text-align: center" >
+                    <div class="cd-loading">
+                        <div class="vertical-bars">
+                            <p class="layer-1"></p>
+                            <p class="layer-2"></p>
+                            <p class="layer-3"></p>
+                            <p class="layer-4"></p>
+                            <p class="layer-5"></p>
+                            <p class="layer-6"></p>
+                            <p class="layer-7"></p>
+                            <p class="layer-8"></p>
+                            <p class="layer-9"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
             <tr v-if="finList.length == 0 || !finList" class="nodata">
                 <td colspan="9" style="text-align: center"><%= LANG('暂无数据') %></td>
             </tr>
@@ -56,6 +73,7 @@
             el: "#advertisement",
             data: function () {
                 return {
+                    loading: true,
                     finList: [],
                     pageSize: 10,
                     pageIndex: 1,
@@ -136,6 +154,7 @@
                             '/exchange/XtOtcController/selectAdvsLists',
                         data: data,
                         success: function (res) {
+                            this.loading = false
                             this.finList = res.datas.results
                             this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
