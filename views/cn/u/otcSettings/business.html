@@ -34,10 +34,10 @@
                 <button v-if="bussineseStatus && bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1" @click="apply">
                     <%=LANG('立即申请')%>
                 </button>
-                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
-                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1" @click="removeMerchant"><%=LANG('解除认证')%></button>
                 <img v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
+                <button style="margin-left: 10px;" v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1" @click="removeMerchant"><%=LANG('解除认证')%></button>
                 <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == 0"><%=LANG('已申请')%></p>
                 <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == -1"><%=LANG('解除审核中')%></p>
                 <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == -2"><%=LANG('解除审核成功')%></p>
@@ -104,7 +104,7 @@
             methods: {
                 removeMerchant: function () {   //解除审核
                     Methods.ajax({
-                        type: 'POST',
+                        type: 'GET',
                         url: DOMAIN_DEV +
                             '/exchange/XtOtcController/removeVipMerchant',
                         data: {
