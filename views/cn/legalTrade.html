@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<head>
+    <script type="text/javascript">
+        var GLOBAL = {},
+            EXX = {},
+            ENV = GLOBAL['ENV'] = '<%= ENV %>',
+            LAN = GLOBAL['LAN'] = '<%= LAN %>',
+            MONEY = GLOBAL['MONEY'] = '<%= MONEY || "usd" %>',
+            ISLOGIN = GLOBAL['ISLOGIN'] = <%= Boolean(isLogin)%>,
+            VERSION = GLOBAL['VERSION'] = '<%= VERSION %>',
+            DOMAIN_BASE = GLOBAL['DOMAIN_BASE'] = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV = GLOBAL['DOMAIN_DEV'] = '<%= DOMAIN_DEV %>',
+            WEBSOCKET = GLOBAL['WEBSOCKET'] = '<%= WEBSOCKET %>';
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%=LANG('法币交易')%></title>
+    <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
+
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+    <style>
+        .header{
+            background: #3E3E3E;
+        }
+        .legalTrade-continer {
+            padding: 0 8%;
+            margin: 90px auto 80px auto;
+        }
+    </style>
+</head>
+<body>
+    <%-include("./include/head.html")%>
+    <section id="legalTrade">
+        <div class="legalTrade-continer">
+            <div class="handle">
+                <span class="sxcTrade">SXC交易</span>
+                <ul>
+                    <li><span>操作说明</span></li>
+                    <li><span>银行卡管理</span></li>
+                    <li><span>新增银行卡</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <%-include("./include/footer.html")%>
+</body>
+</html>
+
+<%-include("./component/fiterDropDown.html")%>
+<%-include("./component/page_lite.html")%>

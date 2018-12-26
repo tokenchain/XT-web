@@ -158,6 +158,10 @@ router.get('/otcTrade', function (req, res, next) {
     res.render('cn/otcTrade.html')
 });
 
+router.get('/legalTrade', function (req, res, next) {
+    res.render('cn/legalTrade.html')
+});
+
 // router.get('/project-hpc', function(req, res, next) {
 //     res.render('cn/zbg/project-hpc.html')
 // });
