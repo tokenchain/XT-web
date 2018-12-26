@@ -302,7 +302,6 @@
                         url: DOMAIN_DEV +
                             '/exchange/admin/OtcController/selectOTCConfig',
                         success: function (res) {
-                            console.log( res.datas.orderOutTime)
                             this.orderOutTime = res.datas.orderOutTime
                             callBack && callBack()
                         }.bind(this)

@@ -5441,13 +5441,16 @@ input::-webkit-inner-spin-button {
         //position: relative;
         padding-bottom: 10px;
 
-        span {
-          padding-bottom: 10px;
+        > span {
           position: relative;
+          //max-height: 86px;
+          //min-height: 20px;
+          display: inline-block;
+          height: 88px;
         }
 
         label.error {
-          position: absolute;
+          //position: absolute;
           bottom: -20px;
           right: 0;
           color: red;
@@ -5461,7 +5464,7 @@ input::-webkit-inner-spin-button {
           padding-left: 10px;
 
           &.last-input {
-            margin-left: 20px;
+            //margin-left: 20px;
           }
 
           &.error {
