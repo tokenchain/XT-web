@@ -34,10 +34,14 @@
                 <button v-if="bussineseStatus && bussineseStatus.otcLevel == 0 && bussineseStatus.status ==1" @click="apply">
                     <%=LANG('立即申请')%>
                 </button>
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1" @click="removeMerchant"><%=LANG('解除认证')%></button>
                 <img v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==1"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
-                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==0"><%=LANG('已申请')%></p>
-                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status ==2" @click="apply"><%=LANG('重新申请')%></button>
+                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == 0"><%=LANG('已申请')%></p>
+                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == -1"><%=LANG('解除审核中')%></p>
+                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == -2"><%=LANG('解除审核成功')%></p>
+                <p v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && bussineseStatus.status == -3"><%=LANG('解除审核拒绝')%></p>
             </div>
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
         </div>
@@ -98,6 +102,24 @@
             },
             computed: {},
             methods: {
+                removeMerchant: function () {   //解除审核
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/removeVipMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            console.log(res.datas)
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.queryBussinese()
+                        }.bind(this),
+                        error: function (res) {
+                            JuaBox.wrong(EXX.L(res.resMsg.code));
+                        }
+                    })
+                },
                 changeAgreement: function () {
                     this.checkAgreement = !this.checkAgreement
                 },
@@ -115,7 +137,8 @@
                     }
                     if (this.bussineseStatus == null) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                            buttons: {confirm: "去认证"},
+                            callback: function () {
                                 window.location.href = 'account'
                             }
                         })
