@@ -254,7 +254,11 @@
                         },
                         success: function (res) {
                             if (!res.datas) {
-                                JuaBox.info("<%=LANG('对方不支持这种支付方式！')%>");
+                                JuaBox.confirm("<%=LANG('您还未设置这种支付方式！')%>", {
+                                    buttons: {confirm: "去设置"}, callback: function () {
+                                        window.location.href = 'settingsPayType'
+                                    }
+                                })
                             }
                             this.sellPays = res.datas
                         }.bind(this)
