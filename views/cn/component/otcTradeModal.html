@@ -118,7 +118,11 @@
                 creatOrders: function() {
                     if ($('#otcModalId').valid()) {
                         if (!this.loginUser) {
-                            JuaBox.info("<%=LANG('未登录，不能交易！')%>");
+                            JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                                buttons: {confirm: "去登陆"}, callback: function () {
+                                    window.location.href = '/login'
+                                }
+                            })
                             return
                         }
                         if (this.amount > this.listRecord.laveAmount) {
@@ -126,7 +130,11 @@
                             return
                         }
                         if (!this.$parent.$parent.sellPays && this.advType == 2) {
-                            JuaBox.info("<%=LANG('您还未设置这种支付方式！')%>");
+                            JuaBox.confirm("<%=LANG('您还未设置这种支付方式！')%>", {
+                                buttons: {confirm: "去设置"}, callback: function () {
+                                    window.location.href = 'settingsPayType'
+                                }
+                            })
                             return
                         }
                         var data = {

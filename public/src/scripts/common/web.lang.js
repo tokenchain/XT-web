@@ -3034,6 +3034,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "9005": {
+        "cn": "您当前有未完成的订单或在线广告！",
+        "en": "You currently have unfinished orders or online advertising",
+        "jp": "",
+        "kr": ""
+    },
     "10012": {
         "cn": "未知异常",
         "en": "unknown error",
