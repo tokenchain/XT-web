@@ -139,6 +139,11 @@ router.get('/OTCagreement', function (req, res, next) {
         templateMain: 'help/OTCagreement.html'
     });
 });
+router.get('/c2cExplain', function (req, res, next) {
+    res.render(TEMP_FULL, {
+        templateMain: 'help/c2cExplain.html'
+    });
+});
 
 module.exports = router;
 

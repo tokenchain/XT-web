@@ -1,0 +1,106 @@
+<style>
+    .header {
+        opacity: 0.45;
+        background-color: rgba(19, 14, 0, 1);
+        border: 1px solid rgba(19, 14, 0, 1);
+    }
+    #b_big{
+        position: relative;
+        clear: both;
+        overflow: hidden;
+        background: url(/src/images/rate.png) top center no-repeat;
+        background-size: 100% 400px;
+        margin-top: -60px;
+    }
+    p{
+        font-size: 14px!important;
+    }
+    #b_big .title{
+        position: absolute;
+        top: 150px;
+        left: 0;
+        right: 0;
+        font-size: 50px;
+        color: #fff;
+        text-align: center;
+    }
+    #C2C{
+        width: 1000px;
+        margin: 455px auto 100px auto;
+        background-color: #fff;
+        color: #000;
+        padding: 80px;
+        box-shadow: 0 0 20px rgba(23,24,55,0.2);
+    }
+    #C2C h2{
+        font-size: 22px;
+        text-align: center;
+    }
+    #C2C p{
+        line-height: 22px;
+        margin-bottom: 20px;
+    }
+    #C2C h5{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .warn {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        display: block;
+    }
+    /* #C2C .cot{
+        text-indent: 2rem;
+    } */
+    @media (max-width: 768px) {
+        #C2C {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 0;
+            margin-top: 300px;
+        }
+        .header {
+            height: 50px;
+        }
+        .header, .footer, #udesk_btn {
+            display: none;
+        }
+        #b_big {
+            background-size: 100% 260px;
+        }
+        #b_big .title {
+            font-size: 28px;
+        }
+    }
+</style>
+
+<div id="b_big">
+    <div class="title"><%= LANG('C2C操作说明') %></div>
+    <div id="C2C">
+        <h2 style="margin-bottom: 30px;"><%= LANG('C2C操作说明') %></h2>
+        <span class="warn"><%= LANG('注意：') %></span>
+        <p class="cot"><%= LANG('此交易为用户与用户之间的C2C交易。因SXC每日价格恒定，系统会随机匹配买卖方。仅支持XT实名认证通过的用户，交易前请绑定收款银行卡。') %></p>
+        <h5><%= LANG('1、怎么买入SXC？') %></h5>
+        <p class="cot"><%= LANG('请按照网站公示价格发布购买信息，系统自动为您匹配商户，按照提示信息在24小时内完成给账户付款。确认收到款后，会在2小时内发币到您的账户地址中。') %></p>
+        <h5><%= LANG('2、怎么卖出SXC？') %></h5>
+        <p class="cot"><%= LANG('请按照网站公示价格发布卖出信息，系统自动为您匹配商户，下单成功后商户会在24小时给您打款。') %></p>
+        <h5><%= LANG('3、SXC价格怎么确定？') %></h5>
+        <p ><%= LANG('SXC每日价格是恒定的（略有微调），请按照指定价格下单。') %></p>
+        <h5><%= LANG('4、买入时需要提供什么资料？') %></h5>
+        <p class="cot"><%= LANG('姓名 / 电话号码 / XT充值地址 / XT用户名') %></p>
+        <h5><%= LANG('5、SXC有没有额度限制？') %></h5>
+        <p class="cot"><%= LANG('目前单次买入卖出单笔最低为100个币，最高为100万个。') %></p>
+        <h5><%= LANG('6、SXC充值多久到账？') %></h5>
+        <p class="cot"><%= LANG('正常情况半个小时，但最近转币速度较慢，约为3-5个小时,个别用户可能更慢，具体以区块链网络情况为准。') %></p>
+        <h5><%= LANG('7、每次是否有手续费？') %></h5>
+        <p class="cot"><%= LANG('全流程平台不收取任何费用。') %></p>
+        <h5><%= LANG('8、订单有效期多久？') %></h5>
+        <p class="cot"><%= LANG('订单有效期为24小时，如24小时内无法匹配成功订单将失效。目前订单匹配成功的时间一般为2个小时内。') %></p>
+        <h5><%= LANG('9、C2C交易过程产生纠纷怎么处理？') %></h5>
+        <p class="cot"><%= LANG('在XT进行交易的、均是经过实名认证用户，如交易过程产生纠纷，请提供有关打款、打币记录，交由XT确认交易成功或失败后进行仲裁，确保双方利益。') %></p>
+        <h5><%= LANG('10、每天的工作时间是多久？') %></h5>
+        <p class="cot"><%= LANG('客服服务时间：早上9点到晚上21点。') %></p>
+    </div>
+</div>
+<%-include("../include/footer.html")%>
