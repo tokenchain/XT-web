@@ -162,7 +162,7 @@
                                 window.location.href = `u/ordersDetail/${res.datas}`
                             }.bind(this),
                             error: function (res) {
-                                JuaBox.success(EXX.L(res.resMsg.code));
+                                JuaBox.info(EXX.L(res.resMsg.code));
                             }
                         })
                     }
