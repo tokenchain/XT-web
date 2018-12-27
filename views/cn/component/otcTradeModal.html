@@ -36,7 +36,7 @@
                 </div>
                 <div class="memo" v-if="advType == 1">
                     <h3><%=LANG('商家备注：')%></h3>
-                    <p><%=LANG('你好，只接受实名认证账户汇款！！！！！------请不要写与比特币（BTC）等有关字眼（备注敏感字眼会被冻结账户）！！！！！------超过50000元尽量银行汇款！单次转账金额不要超过50000.')%></p>
+                    <p>{{listRecord.memo}}</p>
                 </div>
                 <div class="btn-box">
                     <button @click="creatOrders">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</button>
