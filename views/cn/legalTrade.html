@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<head>
+    <script type="text/javascript">
+        var GLOBAL = {},
+            EXX = {},
+            ENV = GLOBAL['ENV'] = '<%= ENV %>',
+            LAN = GLOBAL['LAN'] = '<%= LAN %>',
+            MONEY = GLOBAL['MONEY'] = '<%= MONEY || "usd" %>',
+            ISLOGIN = GLOBAL['ISLOGIN'] = <%= Boolean(isLogin)%>,
+            VERSION = GLOBAL['VERSION'] = '<%= VERSION %>',
+            DOMAIN_BASE = GLOBAL['DOMAIN_BASE'] = '<%= DOMAIN_BASE %>',
+            DOMAIN_DEV = GLOBAL['DOMAIN_DEV'] = '<%= DOMAIN_DEV %>',
+            WEBSOCKET = GLOBAL['WEBSOCKET'] = '<%= WEBSOCKET %>';
+        document.domain = DOMAIN_BASE;
+    </script>
+    <meta charset="utf-8">
+    <meta name="author" content="Axilweb">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%=LANG('法币交易')%></title>
+    <link rel="icon" href="<%= STYLE_STATIC %>/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
+
+    <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<%= STATIC %>/scripts/common/web.lang.js?<%= VERSION %>"></script>
+    <script src="https://cdn.bootcss.com/require.js/2.3.3/require.min.js"></script>
+    <script type="text/javascript" src="<%= STATIC %>/scripts/main.js?<%= VERSION %>"></script>
+
+    <style>
+        .header{
+            background: #3E3E3E;
+        }
+    </style>
+</head>
+<body>
+    <%-include("./include/head.html")%>
+    <section id="legalTrade">
+        <div class="legalTrade container" v-cloak>
+            <div class="handle-box">
+                <span class="title">SXC交易</span>
+                <ul class="handle">
+                    <li><span><a href="/help/c2cExplain">操作说明</a></span></li>
+                    <li><span @click="bankCardManage">银行卡管理</span></li>
+                    <li><span @click="addBankCard">新增银行卡</span></li>
+                </ul>
+            </div>
+            <div class="sxcTrade clearfix">
+                <div class="payOutSxc">
+                    <span class="info">卖出 SXC</span>
+                    <div class="form-group">
+                        <input placeholder="<%= LANG('0.99') %>" type="text">
+                        <span><%= LANG('卖出价（¥）') %></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="<%= LANG('请输入卖出数量') %>" type="text">
+                        <span><%= LANG('卖出量（SXC）') %></span>
+                    </div>
+                    <p>可得 <span>0</span> CNY</p>
+                    <button class="payOut-btn">立即卖出</button>
+                </div>
+                <div class="buyInSxc">
+                    <span class="info">买入 SXC (SXC买入功能暂不对外开放，开放时间另行公告通知，敬请关注！)</span>
+                    <div class="form-group">
+                        <input placeholder="<%= LANG('1.00') %>" type="text">
+                        <span><%= LANG('买入价（¥）') %></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="<%= LANG('请输入购买数量') %>" type="text">
+                        <span><%= LANG('买入量（SXC）') %></span>
+                    </div>
+                    <p>需要支付 <span>0</span> CNY</p>
+                    <button class="buyIn-btn">立即买入</button>
+                </div>
+            </div>
+            <div class="marquee_box">
+                <img src="<%= IMG_STATIC %>/images/info-icon.png"/>
+                <ul class="marquee_list" :class="{marquee_top:animate}">
+                    <li v-for="(item, index) in marqueeList">
+                        <span>{{item.name}}</span>
+                    </li>
+                </ul>
+            </div>
+            <h2>我的兑换历史</h2>
+            <div class="sxcOrderList">
+                <table>
+                    <thead>
+                        <tr>
+                            <td><%=LANG('总数量')%></td>
+                            <td><%=LANG('订单号')%></td>
+                            <td><%=LANG('类型')%></td>
+                            <td><%=LANG('币种/数量')%></td>
+                            <td><%=LANG('单价')%></td>
+                            <td><%=LANG('总价')%></td>
+                            <td><%=LANG('状态')%></td>
+                            <td><%=LANG('操作')%></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2018-10-31 11:20:39</td>
+                            <td>20181031112039886</td>
+                            <td>卖出 SXC/CNY</td>
+                            <td>10000</td>
+                            <td>0.99</td>
+                            <td>9900</td>
+                            <td>处理中</td>
+                            <td>--</td>
+                        </tr>
+                        <tr>
+                            <td>2018-10-31 11:20:39</td>
+                            <td>20181031112039886</td>
+                            <td>卖出 SXC/CNY</td>
+                            <td>10000</td>
+                            <td>0.99</td>
+                            <td>9900</td>
+                            <td>已完成</td>
+                            <td>付款信息</td>
+                        </tr>
+                        <tr class="no-data" v-if="loading">
+                            <td colspan="10" style="text-align: center" >
+                                <div class="cd-loading">
+                                    <div class="vertical-bars">
+                                        <p class="layer-1"></p>
+                                        <p class="layer-2"></p>
+                                        <p class="layer-3"></p>
+                                        <p class="layer-4"></p>
+                                        <p class="layer-5"></p>
+                                        <p class="layer-6"></p>
+                                        <p class="layer-7"></p>
+                                        <p class="layer-8"></p>
+                                        <p class="layer-9"></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount"></page-lite>
+            </div>
+            <div class="warn-info">
+                <h2>温馨提醒</h2>
+                <p>1. 买卖商户均为实名认证商户，并提供保证金，可放心兑换；</p>
+                <p>2. 请务必使用本人绑定的银行卡通过手机银行或网银进行汇款；</p>
+                <p>3. 禁止使用微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成QC无法到账；</p>
+                <p>4. 商家处理时间为9:00-21:00，非处理时间的订单则会在第二天9:00开始处理，一般接单后1小时内完成交易，具体以银行到账时间为准；</p>
+                <p>5. 请在下单后30分钟内用绑定的银行卡完成付款，否则会造成QC无法到账；</p>
+                <p>6. 每日最多只能发起10笔卖出订单；</p>
+                <p>7. 如果您的交易24小时内未处理，请联系在线客服，我们会有专人与您联系，请保持手机畅通。</p>
+            </div>
+        </div>
+    </section>
+    <%-include("./include/footer.html")%>
+</body>
+</html>
+
+<%-include("./component/fiterDropDown.html")%>
+<%-include("./component/page_lite.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var legalTrade = new Vue({
+            el: "#legalTrade",
+            data () {
+                return {
+                    marqueeList: [
+                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
+                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
+                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
+                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
+                    ],
+                    animate: false, 
+                    loading: false,
+                    isLogin: ISLOGIN,
+                    pageSize: 10,
+                    pageIndex: 1,
+                    totalPage: 0,
+                    pageCount: 0,
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    reameNameStatus: '' // 高级实名认证状态
+                }
+            },
+            created: function () {
+                setInterval (this.showMarquee, 2000)
+                if (ISLOGIN) {
+                    this.queryStatus()
+                }
+            },
+            methods: {
+                bankCardManage() {
+                    if (!ISLOGIN) {
+                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                            buttons: {confirm: "去登陆"}, callback: function () {
+                                window.location.href = '/login'
+                            }
+                        })
+                        return
+                    }
+                    if (!this.reameNameStatus) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                },
+                addBankCard() {
+                    if (!ISLOGIN) {
+                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                            buttons: {confirm: "去登陆"}, callback: function () {
+                                window.location.href = '/login'
+                            }
+                        })
+                        return
+                    }
+                    if (!this.reameNameStatus) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                },
+                queryStatus: function() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/XtOtcController/queryOtherMerchant',
+                        data: {
+                            userId: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.reameNameStatus = res.datas
+                        }.bind(this)
+                    })
+                },
+                // 滚动动态
+                showMarquee: function () {
+                    this.animate = true;
+                    setTimeout (() => {
+                        this.marqueeList.push (this.marqueeList[ 0 ]);
+                        this.marqueeList.shift ();
+                        this.animate = false;
+                    }, 500);
+                }
+            }
+        })
+    })
+</script>

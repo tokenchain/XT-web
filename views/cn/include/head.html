@@ -48,8 +48,15 @@
                     <%= LANG('币币交易') %>
                 </a>
             </li>
-            <li id="otcList"><a role="button" href="/otcTrade" :class="{active:activeNav=='otcTrade'}"><%= LANG('OTC交易')
-                %></a></li>
+            <li id="otcList">
+                <a role="button" href="/otcTrade" :class="{active:activeNav=='otcTrade'}"><%= LANG('OTC交易')%></a>
+            </li>
+            <!-- <li>
+                <a role="button" href="/legalTrade" :class="{active: activeNav=='legalTrade'}">
+                    <%= LANG('法币交易') %>
+                </a>
+            </li> -->
+
             <li><a role="button" href="/appstore" :class="{active:activeNav=='appstore'}">App</a></li>
 
             <!--<li><a role="button" href="/appstore" >App</a></li>-->
@@ -439,7 +446,7 @@
                 },
                 created() {
                     var href = window.location.href
-                    var arr = ['trade', 'otcTrade', 'newmarket', 'appstore']
+                    var arr = ['trade', 'otcTrade', 'newmarket', 'appstore', 'legalTrade']
                     var _this = this
                     arr.forEach(function (val) {
                         if (href.indexOf(val) != -1) {
