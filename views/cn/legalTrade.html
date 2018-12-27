@@ -200,7 +200,7 @@
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
+                    if (!this.reameNameStatus) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
@@ -218,7 +218,7 @@
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
+                    if (!this.reameNameStatus) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
