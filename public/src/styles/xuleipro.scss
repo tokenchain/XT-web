@@ -5379,6 +5379,7 @@ input::-webkit-inner-spin-button {
 
     .trade-from {
       flex: 1;
+
       form {
         display: flex;
         //position: relative;
@@ -5428,6 +5429,7 @@ input::-webkit-inner-spin-button {
   .pay-type {
     display: flex;
     margin: 25px 0;
+    line-height: 25px;
 
     .title {
       font-size: 15px;
