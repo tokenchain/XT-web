@@ -268,22 +268,20 @@
                     var that = this
                     function countDown(){
                         s--;
-                        s<10&&(s='0'+s);
-                        if(s.length>=3){
-                            s=59;
-                            m="0"+(Number(m)-1);
+                        s < 10 && (s = '0' + s);
+                        if (s.length >= 3) {
+                            s = 59;
+                            m = "0" + (Number(m) - 1);
                         }
-                        if(m.length>=3){
-                            // console.log(m)
-                            m='00';
-                            s='00';
+                        if (m.length > 3) {
+                            m = parseInt(m.toString())
+                        }
+                        if (m == '00' && s == '00') {
                             clearInterval(timer);
-                        }
-                        if (m == 0 && s == 0) {
                             that.orderDetail.status = 3
                         }
                         that.outTimeDisplay = m+"分钟"+s+"秒"
-                        // console.log(m+"分钟"+s+"秒")
+                        console.log( m+ "分钟" + s + "秒")
                     }
                     timer = setInterval(countDown,1000);
                     return m + "分钟" + s + "秒"
