@@ -61,7 +61,7 @@
         <p><%=LANG('我们将在3个工作日内对您的商家申请资料进行审核。我们会主动与您取得联系，请保持通讯畅通。')%></p>
         <div class="xieyi"><%=LANG('请您务必仔细阅读并透彻理解')%><a style="color: #FFBE3F;" href="/help/OTCagreement"><%=LANG('《OTC服务协议》')%></a></div>
         <div class="radio">
-            <input type="checkbox" v-model="checkAgreement" @click="changeAgreement">
+            <input type="checkbox" :value="1" v-model="checkAgreement">
             <p><%=LANG('我已阅读并同意以上说明及协议，并冻结XT保证金')%></p>
         </div>
         <div class="btn">
@@ -82,7 +82,7 @@
                         otcLevel: '',
                         status: ''
                     },
-                    checkAgreement: false,
+                    checkAgreement: [],
                     currencyAmount: null,
                     config: {},
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo')
@@ -122,9 +122,6 @@
                         })
                     })
                 },
-                changeAgreement: function () {
-                    this.checkAgreement = !this.checkAgreement
-                },
                 apply: function () {
                     this.applyPage = true
                 },
@@ -151,7 +148,7 @@
                         currencyName: 'xt',
                         currencyAmount: this.currencyAmount  //this.currencyAmount  上线前需要改成接口获取
                     }
-                    if (this.checkAgreement) {
+                    if (this.checkAgreement.length > 0) {
                         Methods.ajax({
                             type: 'POST',
                             url: DOMAIN_DEV +
