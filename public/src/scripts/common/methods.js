@@ -333,18 +333,18 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
-
+                var that = this
                 function sessionOverdue() {  //session过期
                     JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
-                    this.deleCookie(ENV + 'currentAccountId');
-                    this.setCookie(ENV + 'ExchangeMode', 1);
-                    this.setCookie(ENV + 'TradeTheme', 'dark');
-                    this.setCookie(ENV + 'inputPriceMode', 0);
-                    this.setCookie(ENV + 'mname', 'none');
+                    that.deleCookie(ENV + 'currentAccountId');
+                    that.setCookie(ENV + 'ExchangeMode', 1);
+                    that.setCookie(ENV + 'TradeTheme', 'dark');
+                    that.setCookie(ENV + 'inputPriceMode', 0);
+                    that.setCookie(ENV + 'mname', 'none');
 
-                    this.setCookie(ENV + 'uname', 'none');
-                    this.setCookie(ENV + 'uid', 'none');
-                    this.setCookie(ENV + 'uon', 'none');
+                    that.setCookie(ENV + 'uname', 'none');
+                    that.setCookie(ENV + 'uid', 'none');
+                    that.setCookie(ENV + 'uon', 'none');
 
                     // window.localStorage.clear();
                     setTimeout(function () {
