@@ -520,7 +520,7 @@
                             this.sellPhone = res.datas
                         }.bind(this),
                         error: function (res) {
-                            JuaBox.error(EXX.L(res.resMsg.message));
+                            JuaBox.wrong(EXX.L(res.resMsg.message));
                         }
                     })
                 }
