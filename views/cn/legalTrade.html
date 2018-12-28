@@ -61,7 +61,7 @@
                         <span><%= LANG('卖出量（SXC）') %></span>
                     </div>
                     <p><%= LANG('可得') %> <span>0</span> CNY</p>
-                    <button class="payOut-btn"><%= LANG('立即卖出') %></button>
+                    <button class="payOut-btn" @click="payOut"><%= LANG('立即卖出') %></button>
                 </div>
                 <div class="buyInSxc">
                     <span class="info"><%= LANG('买入 SXC (SXC买入功能暂不对外开放，开放时间另行公告通知，敬请关注！)') %></span>
@@ -74,7 +74,7 @@
                         <span><%= LANG('买入量（SXC）') %></span>
                     </div>
                     <p><%= LANG('需要支付') %> <span>0</span> CNY</p>
-                    <button class="buyIn-btn"><%= LANG('立即买入') %></button>
+                    <button class="buyIn-btn" @click="buyIn"><%= LANG('立即买入') %></button>
                 </div>
             </div>
             <div class="marquee_box">
@@ -90,7 +90,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <td><%=LANG('总数量')%></td>
+                            <td><%=LANG('时间')%></td>
                             <td><%=LANG('订单号')%></td>
                             <td><%=LANG('类型')%></td>
                             <td><%=LANG('币种/数量')%></td>
@@ -191,42 +191,7 @@
                 }
             },
             methods: {
-                bankCardManage() {
-                    if (!ISLOGIN) {
-                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
-                            buttons: {confirm: "去登陆"}, callback: function () {
-                                window.location.href = '/login'
-                            }
-                        })
-                        return
-                    }
-                    if (!this.reameNameStatus) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
-                            }
-                        })
-                        return
-                    }
-                },
-                addBankCard() {
-                    if (!ISLOGIN) {
-                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
-                            buttons: {confirm: "去登陆"}, callback: function () {
-                                window.location.href = '/login'
-                            }
-                        })
-                        return
-                    }
-                    if (!this.reameNameStatus) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
-                                window.location.href = '/u/account'
-                            }
-                        })
-                        return
-                    }
-                },
+                // 获取高级实名认证状态
                 queryStatus: function() {
                     Methods.ajax({
                         type: 'GET',
@@ -240,7 +205,42 @@
                         }.bind(this)
                     })
                 },
-                // 滚动动态
+                // c2c相关操作校验
+                handleCheck() {
+                    if (!ISLOGIN) {
+                        JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
+                            buttons: {confirm: "去登陆"}, callback: function () {
+                                window.location.href = '/login'
+                            }
+                        })
+                        return
+                    }
+                    if (!this.reameNameStatus) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                },
+                // 银行卡管理
+                bankCardManage() {
+                    this.handleCheck()
+                },
+                // 新增银行卡
+                addBankCard() {
+                    this.handleCheck()
+                },
+                // 卖出sxc
+                payOut() {
+                    this.handleCheck()
+                },
+                // 买入sxc
+                buyIn() {
+                    this.handleCheck()
+                },
+                // 最新动态循环滚动函数
                 showMarquee: function () {
                     this.animate = true;
                     setTimeout (() => {

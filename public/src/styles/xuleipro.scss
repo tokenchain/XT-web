@@ -5607,6 +5607,7 @@ input::-webkit-inner-spin-button {
       color: #fff;
       background-color: #FFBE3F;
       font-size: 18px;
+      font-weight: bold;
       float: left;
     }
 
@@ -5627,7 +5628,7 @@ input::-webkit-inner-spin-button {
           display: inline-block;
           border-radius: 4px;
           background-color: #FFBE3F;
-
+          font-weight: bold;
           a {
             display: block;
           }

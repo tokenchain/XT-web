@@ -465,6 +465,10 @@
             created: function () {
                 var params = Methods.parseQueryString();
                 this.userName = params.userName ? params.userName : '';
+                if (Methods.getCookie(ENV + "recommendCode")) {
+                    this.recommendCode = decodeURIComponent(Methods.getCookie(ENV +
+                        "recommendCode"));
+                }
             },
             mounted: function () {
                 Methods.checkMobileStyle();
