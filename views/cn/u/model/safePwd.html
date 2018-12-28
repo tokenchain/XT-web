@@ -1,11 +1,19 @@
 <style>
+    #safe-form .form-group {
+        position: relative;
+        margin-bottom: 10px;
+    }
     #safe-form .form-control{
         position: relative;
+        padding-bottom: 15px;
     }
     #safe-form .form-control input.error{
         border-color: #f00;
     }
     #safe-form .form-control label{
+        position: absolute;
+        right: 0;
+        bottom: 0;
         color: #f00;
         display: block;
         text-align: right;
@@ -15,32 +23,32 @@
     <div class="exx-modal-container" style="width: 500px;">
         <div class="exx-modal-header"><h3>{{getTitle}}</h3></div>
         <div class="exx-modal-body">
-            <p style="color: #FFBE3F;padding: 20px 30px 0 30px;line-height: 20px;" v-if="type == 'editSafePwdAuth' || type == 'resetSafePwdAuth'"><%= LANG('注意：为了用户资金安全，修改资金安全密码后资金安全密码将在24小时内不能进行提币操作！') %></p>
+            <p style="color: #FFBE3F;padding: 20px 30px 0 30px;line-height: 20px;" v-if="type == 'editSafePwdAuth' || type == 'resetSafePwdAuth'"><%= LANG('注意：为了用户资金安全，修改交易安全密码后将在24小时内不能进行提币操作！') %></p>
             <div class="exx-form-box">
                 <form id="safe-form">
                     <div class="form-box" v-if="type !== 'addPwdAuth'">
                         <div class="form-group">
-                            <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前资金密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
+                            <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前交易密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
+                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" :number="type == 'editSafePwdAuth' ? true : false" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-box">
                         <div class="form-group">
-                            <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('资金密码') %>' : '<%= LANG('新资金密码') %>'}}：</label>
+                            <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('交易密码') %>' : '<%= LANG('新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password2" name="safePassword" v-model="safePassword" type="password" required maxlength="6">
+                                <input id="password2" name="safePassword" v-model="safePassword" type="password" number="true" required maxlength="6">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-box" >
                         <div class="form-group" >
-                            <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认资金密码') %>' : '<%= LANG('确认新资金密码') %>'}}：</label>
+                            <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认交易密码') %>' : '<%= LANG('确认新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="confirmPwd3" name="passwordConfirmation" v-model="passwordConfirmation" type="password" required maxlength="6">
+                                <input id="confirmPwd3" name="passwordConfirmation" v-model="passwordConfirmation" type="password" number="true" required maxlength="6">
                             </div>
                         </div>
                     </div>
@@ -103,7 +111,7 @@
             },
             computed: {
                 getTitle: function() {
-                    return this.type == 'addPwdAuth' ? "<%= LANG('设置资金密码') %>" : this.type == 'editSafePwdAuth' ? "<%= LANG('修改资金密码') %>" : "<%= LANG('重置资金密码') %>"
+                    return this.type == 'addPwdAuth' ? "<%= LANG('设置交易密码') %>" : this.type == 'editSafePwdAuth' ? "<%= LANG('修改交易密码') %>" : "<%= LANG('重置交易密码') %>"
                 },
                 userInfo: function () {
                     return Methods.getLocalUserInfo();
