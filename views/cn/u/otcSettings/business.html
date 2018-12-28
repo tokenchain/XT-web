@@ -124,6 +124,10 @@
                     }.bind(this))
                 },
                 apply: function () {
+                    if (this.bussineseStatus.status == 0 || this.bussineseStatus.status == -1) {
+                        JuaBox.info("<%=LANG('后台正在审核中，请耐心等待！')%>")
+                        return
+                    }
                     this.applyPage = true
                 },
                 applySubmit: function () {

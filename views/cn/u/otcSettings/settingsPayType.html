@@ -11,7 +11,7 @@
         top: 0;
         width: 100%;
         height: 30px;
-        /*background-color: rgba(0, 0, 0, 0.4);*/
+        background-color: rgba(0, 0, 0, 0.4);
         line-height: 30px;
         text-align: left;
         color: #000;
@@ -168,7 +168,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" autocomplete="off" v-model="formModel.securityPassword" required
+                    <input type="password" name="securityPassword" autocomplete="off"
+                           v-model="formModel.securityPassword" required
                            maxlength="6">
                 </div>
                 <div class="form-item">
@@ -205,16 +206,16 @@
                                     或者将文件拖到此处
                                 </div>
                             </div>
-                            <!--<div class="upload_warp_text">
-                                选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
-                            </div>-->
                             <div class="upload_warp_text">
-                                <%=LANG('提示：图片大小不能超过1MB')%>
+                                选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
                             </div>
                             <div class="upload_warp_text">
+                                <%=LANG('提示：只能上传一张图片，大小不超过1MB')%>
+                            </div>
+                            <!--<div class="upload_warp_text">
                                 <%=LANG('当前大小：')%>
                                 {{bytesToSize(size) || 0}}
-                            </div>
+                            </div>-->
                             <input @change="fileChange($event)" type="file" id="upload_file" multiple
                                    style="display: none"/>
                             <div class="upload_warp_img" v-show="imgList.length!=0">
@@ -223,8 +224,8 @@
                                         <div class="upload_warp_img_div_text">
                                             {{item.file.name}}
                                         </div>
-                                        <!--<img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
-                                             @click="fileDel(index)">-->
+                                        <img src="<%= IMG_STATIC %>/images/del.png" class="upload_warp_img_div_del"
+                                             @click="fileDel(index)">
                                     </div>
                                     <img :src="item.file.src">
                                 </div>
@@ -336,6 +337,7 @@
                     imgUrl: '',
                     reameNameStatus: null,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    reameName: ''
                 }
             },
             created() {
@@ -367,6 +369,7 @@
                         data: {},
                         success: function (res) {
                             if (res.datas) {
+                                this.reameName = res.datas
                                 var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
                                 if (this.payType == 3 || this.payType == 4) {
                                     this[arr[this.payType]].userName = res.datas
@@ -401,8 +404,8 @@
                     // console.log(file.size)
                     if (file.type.indexOf('image') == -1) {
                         JuaBox.wrong("<%=LANG('只能上传图片！')%>");
+                        return
                     }
-                    if (!file.size) return;
                     if (file.size > 1024 * 1024) {
                         JuaBox.wrong("<%=LANG('上传图片不能大于1MB！')%>");
                         return
@@ -470,26 +473,30 @@
                             });
                         }
                     }
-
+                    //this.uploadImgApi()  //触发上传图片接口
+                },
+                uploadImgApi: function (cb) {
                     var xhr = new XMLHttpRequest();
                     var formData = new FormData();
 
-                    formData.append('file', file);
+                    formData.append('file', this.imgList[0].file);
+                    // formData.append('file', file);
                     // console.log(this.imgList)
                     xhr.onreadystatechange = function (e) {
                         if (xhr.readyState == 4) {
                             var result = JSON.parse(xhr.responseText)
                             if (xhr.status == 200) {
-                                // console.log(result.datas)
-                                JuaBox.success(EXX.L(result.resMsg.code));
-                                this.imgUrl = result.datas
-                                this.imgList = [this.imgList[this.imgList.length - 1]]
-                                this.seetings()
-                                // options.onSuccess(xhr.responseText);
+                                if (result.datas && result.resMsg.code == 1) {
+                                    this.imgUrl = result.datas
+                                    // this.imgList = [this.imgList[this.imgList.length - 1]]
+                                    cb && cb()
+                                } else {
+                                    JuaBox.wrong(EXX.L(result.resMsg.message));
+                                }
+                                // this.seetings()
                             } else {
                                 this.imgList = [this.imgList[this.imgList[0]]]
                                 JuaBox.wrong(EXX.L(result.resMsg.message));
-                                // options.onFailure(xhr.responseText);
                             }
                         }
                     }.bind(this)
@@ -500,33 +507,9 @@
                     xhr.send(formData);
                 },
                 fileDel(index) { //删除图片
+                    this.imgUrl = ''
                     this.size = this.size - this.imgList[index].file.size;//总大小
                     this.imgList.splice(index, 1);
-                    // console.log(this.imgUrl)
-
-                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                    var data = {}
-                    Object.assign(data, this[arr[this.payType]], {
-                        securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
-                        rsaKeyId: this.rsaKeyId,
-                        payId: this.payType,
-                        qrcode: ''
-                    })
-
-                    Methods.ajax({
-                        type: 'DELETE',
-                        url: DOMAIN_DEV +
-                            '/exchange/upload/controller/admin/FileController/delFile',
-                        data: JSON.stringify({fileName: this.imgUrl.split('/')[1]}),
-                        success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                            this.imgUrl = ''
-                            // this.apiApply(data)
-                        }.bind(this),
-                        error: function (res) {
-                            JuaBox.wrong(EXX.L(res.resMsg.message));
-                        }
-                    })
                 },
                 bytesToSize(bytes) {
                     if (bytes === 0 || !bytes) return '0 B';
@@ -557,6 +540,11 @@
                 changePayType: function (type) {
                     this.payType = type
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    if (type == 3 || type == 4) {
+                        this[arr[type]] = {
+                            userName: this.reameName
+                        }
+                    }
                     this.imgList = []
                     this.imgUrl = ''
                     this.getUserName(function () {
@@ -566,8 +554,12 @@
                 changeCurrencyName: function (type) {
                     this.currencyName = type.shortName
                     this.payType = type.shortName == 'CNY' ? 2 : 6
-
                     var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    if (type == 3 || type == 4) {
+                        this[arr[type]] = {
+                            userName: this.reameName
+                        }
+                    }
                     this.imgList = []
                     this.imgUrl = ''
                     this.getUserName(function () {
@@ -588,7 +580,7 @@
                 handleComparedPwd: function () {
                     return this.formModel.bankNo == this.bankNoConfirmation
                 },
-                queryStatus: function() {
+                queryStatus: function () {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
@@ -608,7 +600,21 @@
                         }.bind(this)
                     })
                 },
-                apiApply: function(data) {
+                apiApply: function () {
+                    if ((this.payType == 3 || this.payType == 4) && !this.imgUrl) {
+                        JuaBox.info("<%= LANG('还未上传收款码，请选择收款码！') %>");
+                        return
+                    }
+                    var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+                    var data = {}
+                    Object.assign(data, this[arr[this.payType]], {
+                        securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
+                        rsaKeyId: this.rsaKeyId,
+                        payId: this.payType,
+                        qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
+                    })
+                    // console.log(data)
+
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV +
@@ -642,6 +648,8 @@
                     })
                 },
                 seetings: function () {  //提交
+                    // console.log(this.imgUrl, 'this.imgUrl')
+                    // console.log(this.imgList, 'this.imgList')
                     if (this.loginUser.safePwdAuth == '0') {
                         JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
                             buttons: {confirm: "去设置"}, callback: function () {
@@ -663,20 +671,21 @@
                             JuaBox.wrong("<%= LANG('两次输入卡号不一致！') %>");
                             return
                         }
-                        if ((this.payType == 3 || this.payType == 4) && !this.imgUrl) {
-                            JuaBox.wrong("<%= LANG('收款码未上传！') %>");
+                        if ((this.payType == 3 || this.payType == 4) && this.imgList.length == 0) {
+                            JuaBox.wrong("<%= LANG('收款码未选择！') %>");
                             return
                         }
-
-                        var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
-                        var data = {}
-                        Object.assign(data, this[arr[this.payType]], {
-                            securityPassword: Methods.encryptPwd(this[arr[this.payType]].securityPassword, this.pubKey),
-                            rsaKeyId: this.rsaKeyId,
-                            payId: this.payType,
-                            qrcode: this.payType == 3 || this.payType == 4 ? this.imgUrl : null
-                        })
-                        this.apiApply(data)
+                        if ((this.payType == 3 || this.payType == 4) && this.imgList.length > 1) {
+                            JuaBox.wrong("<%= LANG('只能选择一张图片！') %>");
+                            return
+                        }
+                        if (this.imgUrl) {
+                            this.apiApply()
+                        } else {
+                            this.uploadImgApi(function () {
+                                this.apiApply()
+                            }.bind(this))
+                        }
                     }
                 },
                 getPubKey: function () {
@@ -715,7 +724,7 @@
                                             src: 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/' + res.datas.qrcode
                                         }
                                     })
-                                    this.imgUrl = res.datas && res.datas.qrcode
+                                    this.imgUrl = res.datas.qrcode
                                 }
                             }
                         }.bind(this)

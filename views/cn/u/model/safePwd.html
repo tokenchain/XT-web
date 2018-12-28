@@ -3,14 +3,17 @@
         position: relative;
         margin-bottom: 10px;
     }
-    #safe-form .form-control{
+
+    #safe-form .form-control {
         position: relative;
         padding-bottom: 15px;
     }
-    #safe-form .form-control input.error{
+
+    #safe-form .form-control input.error {
         border-color: #f00;
     }
-    #safe-form .form-control label{
+
+    #safe-form .form-control label {
         position: absolute;
         right: 0;
         bottom: 0;
@@ -23,32 +26,43 @@
     <div class="exx-modal-container" style="width: 500px;">
         <div class="exx-modal-header"><h3>{{getTitle}}</h3></div>
         <div class="exx-modal-body">
-            <p style="color: #FFBE3F;padding: 20px 30px 0 30px;line-height: 20px;" v-if="type == 'editSafePwdAuth' || type == 'resetSafePwdAuth'"><%= LANG('注意：为了用户资金安全，修改交易安全密码后将在24小时内不能进行提币操作！') %></p>
+            <p style="color: #FFBE3F;padding: 20px 30px 0 30px;line-height: 20px;"
+               v-if="type == 'editSafePwdAuth' || type == 'resetSafePwdAuth'"><%=
+                LANG('注意：为了用户资金安全，修改交易安全密码后将在24小时内不能进行提币操作！') %></p>
             <div class="exx-form-box">
                 <form id="safe-form">
                     <div class="form-box" v-if="type !== 'addPwdAuth'">
                         <div class="form-group">
-                            <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前交易密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
+                            <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%=
+                                LANG('当前交易密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password1" @change="changeInput" name="loginPassword" v-model="loginPassword" type="password" :number="type == 'editSafePwdAuth' ? true : false" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
+                                <input id="password1" @change="changeInput" name="loginPassword" v-model="loginPassword"
+                                       type="password" :number="type == 'editSafePwdAuth' ? true : false"
+                                       required :maxlength="type == 'editSafePwdAuth' ? 6 : false"
+                                       class="queryPw">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-box">
                         <div class="form-group">
-                            <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('交易密码') %>' : '<%= LANG('新交易密码') %>'}}：</label>
+                            <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('交易密码') %>'
+                                : '<%= LANG('新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password2" @change="changeInput" name="safePassword" v-model="safePassword" type="password" number="true" required maxlength="6">
+                                <input id="password2" @change="changeInput" name="safePassword" v-model="safePassword"
+                                       type="password" number="true" required maxlength="6" class="queryPw">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-box" >
-                        <div class="form-group" >
-                            <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认交易密码') %>' : '<%= LANG('确认新交易密码') %>'}}：</label>
+                    <div class="form-box">
+                        <div class="form-group">
+                            <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认交易密码')
+                                %>' : '<%= LANG('确认新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="confirmPwd3" @change="changeInput" name="passwordConfirmation" v-model="passwordConfirmation" type="password" number="true" required maxlength="6">
+                                <input id="confirmPwd3" @change="changeInput" name="passwordConfirmation"
+                                       v-model="passwordConfirmation" type="password" number="true" required
+                                       maxlength="6" class="queryPw">
                             </div>
                         </div>
                     </div>
@@ -57,8 +71,9 @@
                         <div class="form-group">
                             <label for="msgCode11" class="control-label"><%= LANG('短信验证码') %>：</label>
                             <div class="form-control">
-                                <input id="msgCode11" name="dynamicCode" v-model="dynamicCode" type="text" required maxlength="6">
-                                <a href="javascript:;" class="code-num" @click="sendCode">
+                                <input id="msgCode11" name="dynamicCode" v-model="dynamicCode" type="text" required
+                                       maxlength="6">
+                                <a href="javascript:;" class="code-num" @click="sendCode" style="height: 40px;">
                                     <span v-if="timeCount">{{timeCount}}s</span>
                                     <span v-if="!timeCount"><%= LANG('获取验证码') %></span>
                                 </a>
@@ -73,7 +88,8 @@
         </div>
 
         <div class="exx-modal-button">
-            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span></button>
+            <button onclick="EXX.userIndex.closeModal()" class="exxbtn btn-cancel"><span><%= LANG('取消') %></span>
+            </button>
             <button @click="handleSubmit" class="exxbtn btn-ok"><span><%= LANG('确定') %></span></button>
         </div>
 
@@ -110,7 +126,7 @@
                 }
             },
             computed: {
-                getTitle: function() {
+                getTitle: function () {
                     return this.type == 'addPwdAuth' ? "<%= LANG('设置交易密码') %>" : this.type == 'editSafePwdAuth' ? "<%= LANG('修改交易密码') %>" : "<%= LANG('重置交易密码') %>"
                 },
                 userInfo: function () {
@@ -121,7 +137,7 @@
                 changeInput: function () {
                     $('#safe-form').valid()
                 },
-                interView: function(time) {
+                interView: function (time) {
                     var num = time
                     var innter = setInterval(function () {
                         if (num <= 0) {
@@ -133,22 +149,27 @@
                         this.timeCount = num
                     }.bind(this), 1000)
                 },
-                sendCode: function() {
+                sendCode: function () {
                     if (this.timeCount && this.timeCount > 0) {
                         return
                     }
-                    this.interView(60)
-                    Methods.ajax({
-                        type: 'POST',
-                        url: DOMAIN_DEV + '/exchange/XtOtcController/userChangePasswordSendSMS',
-                        success: function (res) {
-                            JuaBox.success(EXX.L(res.resMsg.code));
-                        }.bind(this),
-                        error: function (res) {
-                            var resMsg = res.resMsg;
-                            JuaBox.sure(EXX.L(resMsg.code));
-                        }
-                    });
+                    var element = $("#safe-form").validate().element($("#password1")) && $("#safe-form").validate().element($("#password2")) && $("#safe-form").validate().element($("#confirmPwd3"));
+                    console.log(element)
+                    if (element) {
+                        this.timeCount = 60
+                        this.interView(60)
+                        Methods.ajax({
+                            type: 'POST',
+                            url: DOMAIN_DEV + '/exchange/XtOtcController/userChangePasswordSendSMS',
+                            success: function (res) {
+                                JuaBox.success("<%= LANG('发送成功！') %>");
+                            }.bind(this),
+                            error: function (res) {
+                                var resMsg = res.resMsg;
+                                JuaBox.info(EXX.L(resMsg.code));
+                            }
+                        });
+                    }
                 },
                 getPubKey: function () {
                     Methods.ajax({

@@ -77,10 +77,10 @@ if (typeof localStorage === 'object') {
     } catch (e) {
         Storage.prototype._setItem = Storage.prototype.setItem;
         Storage.prototype._getItem = Storage.prototype.getItem;
-        Storage.prototype.setItem = function() {
+        Storage.prototype.setItem = function () {
             alert(EXX.L('localStorage功能无法正常使用，请检查浏览器设置。'));
         };
-        Storage.prototype.getItem = function() {
+        Storage.prototype.getItem = function () {
             alert(EXX.L('localStorage功能无法正常使用，请检查浏览器设置。'));
         };
     }
@@ -117,7 +117,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             if (patrn.exec(value) == null || value == "") {
                 return false
             } else {
-                if(parseFloat(value) <= 0){
+                if (parseFloat(value) <= 0) {
                     return false;
                 }
                 return true
@@ -129,22 +129,22 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             if (patrn.exec(value) == null || value == "") {
                 return false
             } else {
-                if(parseFloat(value) < 0){
+                if (parseFloat(value) < 0) {
                     return false;
                 }
                 return true
             }
         },
         //检测非法字符
-        hasIllegal : function (str) {
-            var arr = ["\"","\'","~","`","!","@","#","$","%","^","&","*","<",">","(",")","{","}","[","]","+","-","=",":",",",".","/","\\","|","?"," "];
+        hasIllegal: function (str) {
+            var arr = ["\"", "\'", "~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "<", ">", "(", ")", "{", "}", "[", "]", "+", "-", "=", ":", ",", ".", "/", "\\", "|", "?", " "];
             var strs = str + '';
             var result = false;
-            if(!str){
+            if (!str) {
                 return false;
             }
-            for(var i = 0; i < arr.length; i++){
-                if(strs.indexOf(arr[i]) != -1){
+            for (var i = 0; i < arr.length; i++) {
+                if (strs.indexOf(arr[i]) != -1) {
                     result = true;
                 }
             }
@@ -205,15 +205,15 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                     this.setCookie(ENV + 'uid', 'none');
                     this.setCookie(ENV + 'uon', 'none');
                     // window.localStorage.clear();
-                    window.localStorage.removeItem(ENV+"userInfo");
-                    window.localStorage.removeItem(ENV+"thirdLogin");
+                    window.localStorage.removeItem(ENV + "userInfo");
+                    window.localStorage.removeItem(ENV + "thirdLogin");
                     // window.location.href = '/';
                     location.replace(location.href);
                 }.bind(this)
             });
         },
         //检测当前页面是否处于激活浏览状态
-        checkPageActive : function () {
+        checkPageActive: function () {
             var hiddenProperty = 'hidden' in document ? 'hidden' :
                 'webkitHidden' in document ? 'webkitHidden' :
                     'mozHidden' in document ? 'mozHidden' :
@@ -225,26 +225,26 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             var sorted = Object.keys(params).sort();
             var parametersContent = '';
             sorted.forEach(function (item, index) {
-                parametersContent  += item + params[item];
+                parametersContent += item + params[item];
             });
             return parametersContent;
         },
         //获取url参数
-        GetRequest:function() {
+        GetRequest: function () {
             var url = location.search; //获取url中"?"符后的字串
             var theRequest = new Object();
             if (url.indexOf("?") != -1) {
                 var str = url.substr(1);
                 strs = str.split("&");
-                for(var i = 0; i < strs.length; i ++) {
-                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
                 }
             }
             return theRequest;
         },
         // ajax 请求二次封装
         ajax: function (ops) {
-            if(this.checkPageActive()){
+            if (this.checkPageActive()) {
                 //console.log('current page hidden.')
                 return false;
             }
@@ -266,9 +266,9 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                  */
                 var data = options.data
                 // console.log(data)
-                for (key in data){
+                for (key in data) {
                     // console.log(key + ':' + data[key])
-                    if(!data[key] && typeof data[key]!="undefined" && data[key]!=0){
+                    if (!data[key] && typeof data[key] != "undefined" && data[key] != 0) {
                         data[key] = ''
                     }
                 }
@@ -287,36 +287,36 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                     Userid: Methods.getLocalUserInfo().userId,
                     Clienttype: 1,
                     Timestamp: timestamp,
-                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken')),
+                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV + 'utoken')),
                     // Sign2:Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken')
                 };
                 options.headers = header;
-            } else if(Methods.getLocalUserInfo() && Methods.getLocalUserInfo().godLogin == 1 ){
+            } else if (Methods.getLocalUserInfo() && Methods.getLocalUserInfo().godLogin == 1) {
                 var timestamp = (new Date()).getTime();
                 var header = {
                     Userid: Methods.getLocalUserInfo().userId,
                     Clienttype: 4,
                     Timestamp: timestamp,
                     Adminuserid: Methods.getCookie(ENV + 'ad'),
-                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV+'utoken')),
+                    Sign: MD5(Methods.getLocalUserInfo().userId.toString() + timestamp.toString() + parametersContent + Methods.getCookie(ENV + 'utoken')),
                 };
                 options.headers = header;
             } else {
-                var queryObj=this.parseQueryString();
-                var is=Object.keys(queryObj).length != 0 && !!queryObj.t && !!queryObj.to && !!queryObj.u && !!queryObj.g;
-                if(is){
-                    var adminParametersContent = parametersContent.replace(/[&\|\\\*^=%$#@\-]/g,"")
+                var queryObj = this.parseQueryString();
+                var is = Object.keys(queryObj).length != 0 && !!queryObj.t && !!queryObj.to && !!queryObj.u && !!queryObj.g;
+                if (is) {
+                    var adminParametersContent = parametersContent.replace(/[&\|\\\*^=%$#@\-]/g, "")
                     var timestamp = (new Date()).getTime();
                     var header = {
-                        Clienttype : 3,
-                        Userid : queryObj.t,
-                        Timestamp : timestamp,
-                        Sign : MD5(queryObj.t.toString() + timestamp.toString() + adminParametersContent + queryObj.to.toString())
+                        Clienttype: 3,
+                        Userid: queryObj.t,
+                        Timestamp: timestamp,
+                        Sign: MD5(queryObj.t.toString() + timestamp.toString() + adminParametersContent + queryObj.to.toString())
 
                     };
                     Methods.setCookie(ENV + 'ad', queryObj.t);
                     options.headers = header;
-                }else{
+                } else {
                     var header = {
                         Clienttype: 1
 
@@ -333,31 +333,39 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             // 返回码非 1 都当作错误处理 (目前返回错误码待定)
             options.error = options.error || function (res) {
                 var resMsg = res.resMsg;
+
+                function sessionOverdue() {  //session过期
+                    JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
+                    this.deleCookie(ENV + 'currentAccountId');
+                    this.setCookie(ENV + 'ExchangeMode', 1);
+                    this.setCookie(ENV + 'TradeTheme', 'dark');
+                    this.setCookie(ENV + 'inputPriceMode', 0);
+                    this.setCookie(ENV + 'mname', 'none');
+
+                    this.setCookie(ENV + 'uname', 'none');
+                    this.setCookie(ENV + 'uid', 'none');
+                    this.setCookie(ENV + 'uon', 'none');
+
+                    // window.localStorage.clear();
+                    setTimeout(function () {
+                        /*if (window.location.href.indexOf('/trade/') == -1 ){//代表路径不在交易页面
+                            window.location.replace('/login');
+                        }else{
+                            //刷新本页
+                            window.location.reload()
+                        }*/
+                        window.location.replace('/login');
+                        window.localStorage.removeItem(ENV + "userInfo");
+                    }, 1500);
+                }
+
                 switch (resMsg.code) {
                     case '999':
-                        JuaBox.showWrong(EXX.L('账户已过期，请重新登录'));
-                        this.deleCookie(ENV + 'currentAccountId');
-                        this.setCookie(ENV + 'ExchangeMode', 1);
-                        this.setCookie(ENV + 'TradeTheme', 'dark');
-                        this.setCookie(ENV + 'inputPriceMode', 0);
-                        this.setCookie(ENV + 'mname', 'none');
-
-                        this.setCookie(ENV + 'uname', 'none');
-                        this.setCookie(ENV + 'uid', 'none');
-                        this.setCookie(ENV + 'uon', 'none');
-
-                        // window.localStorage.clear();
-                        setTimeout(function () {
-
-                            if (window.location.href.indexOf('/trade/') == -1 ){//代表路径不在交易页面
-                                window.location.replace('/login');
-                            }else{
-                                //刷新本页
-                                window.location.reload()
-                            }
-                            window.localStorage.removeItem(ENV+"userInfo");
-                        }, 1500);
+                        sessionOverdue()
                         break;
+                    case '1000':
+                        sessionOverdue()
+                        break
                     default:
                         JuaBox.showWrong(EXX.Err(resMsg));
                 }
@@ -392,14 +400,14 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log('error: ' + options.url)
-                        if(textStatus == 'timeout') {
+                        if (textStatus == 'timeout') {
                             console.log(EXX.L('请求超时，请稍后重试'));
                         } else {
                             console.log('网络错误');
                         }
                     },
                     complete: function (XMLHttpRequest, textStatus) {
-                        if(textStatus == 'timeout') {
+                        if (textStatus == 'timeout') {
                             console.log(EXX.L('请求超时，请稍后重试'));
                         }
                     }
@@ -410,7 +418,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
         },
         // 交易相关接口仍使用 jsonp 请求 - -!
         getJSONP: function (ops) {
-            if(this.checkPageActive()){
+            if (this.checkPageActive()) {
                 //console.log('current page hidden.')
                 return false;
             }
@@ -482,15 +490,15 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             }
         },
         //获取用户信息
-        getUserInfo: function(callback) {
-            if(!ISLOGIN){
+        getUserInfo: function (callback) {
+            if (!ISLOGIN) {
                 return false;
             }
             var data = {
                 userId: Methods.getLocalUserInfo(ENV + 'userInfo').userId
             };
             Methods.ajax({
-                type:'POST',
+                type: 'POST',
                 data: data,
                 url: DOMAIN_DEV + "/exchange/user/controller/website/UserController/" + 'getUserInfo',
                 success: function (res) {
@@ -502,7 +510,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
         },
         //获取公钥-ok
         getPubKey: function (callback) {
-            var data ={}
+            var data = {}
             Methods.ajax({
                 type: 'GET',
                 url: DOMAIN_DEV +
@@ -520,13 +528,13 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             });
             return data
         },
-        getUserList : function (callback) {
+        getUserList: function (callback) {
             var loginUser = this.getLocalUserInfo();
-            if(loginUser.userType == 1){
+            if (loginUser.userType == 1) {
                 this.getUserListAll(function (userList) {
                     callback && callback(userList)
                 })
-            }else{
+            } else {
                 this.getUserListOne(function (userList) {
                     callback && callback(userList);
                 })
@@ -538,11 +546,11 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 return
             }
             var userList = this.getLocalStorage(ENV + 'userList');
-            if(userList == null || typeof userList != 'object'){
+            if (userList == null || typeof userList != 'object') {
                 this.getUserList(function () {
                     top.location.reload();
                 });
-            }else{
+            } else {
                 return userList;
             }
         },
@@ -552,7 +560,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 return
             }
             var userInfo = this.getLocalStorage(ENV + 'userInfo');
-            if(userInfo == null || typeof userInfo != 'object'){
+            if (userInfo == null || typeof userInfo != 'object') {
                 /*this.getUserInfo(function (data) {
                     //报错后刷新页面
                     top.location.reload();
@@ -568,9 +576,9 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 this.setCookie(ENV + 'uid', 'none');
                 this.setCookie(ENV + 'uon', 'none');
                 // window.localStorage.clear();
-                window.localStorage.removeItem(ENV+"userInfo");
+                window.localStorage.removeItem(ENV + "userInfo");
                 window.location.href = '/login';
-            }else{
+            } else {
                 return userInfo;
             }
         },
@@ -581,23 +589,23 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
         setLocalUserInfo: function (userInfo) {
             this.setLocalStorage(ENV + 'userInfo', userInfo);
         },
-        getLocalStorage : function (name) {
+        getLocalStorage: function (name) {
             var local = window.localStorage.getItem(name);
-            try{
+            try {
                 var result = JSON.parse(decodeURIComponent(local));
                 return result;
-            }catch (e){
+            } catch (e) {
                 return local;
             }
         },
-        setLocalStorage : function (name, value) {
-            try{
+        setLocalStorage: function (name, value) {
+            try {
                 window.localStorage.setItem(name, decodeURIComponent(JSON.stringify(value)));
-            }catch (e){
+            } catch (e) {
                 window.localStorage.setItem(name, decodeURIComponent(value));
             }
         },
-        deleLocalStorage : function (name) {
+        deleLocalStorage: function (name) {
             window.localStorage.removeItem(name);
         },
         //sha1加密 pubKey暂不起作用
@@ -645,14 +653,14 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 expires = "; expires=" + date.toUTCString();
             }
-            document.cookie = name + "=" + value + expires + ";domain=."+DOMAIN_BASE+"; path=/";
+            document.cookie = name + "=" + value + expires + ";domain=." + DOMAIN_BASE + "; path=/";
         },
-        deleCookie : function(name){
+        deleCookie: function (name) {
             var exp = new Date();
             exp.setTime(exp.getTime() - 1);
-            var cval= this.getCookie(name);
-            if(cval!=null){
-                document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+            var cval = this.getCookie(name);
+            if (cval != null) {
+                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
             }
         },
         // 返回 HH:MM
@@ -660,7 +668,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             var date = new Date(parseInt(timestamp) * 1000);
             return date.getHours() + ':' + date.getMinutes();
         },
-        getTimeStamp: function(timestr) {
+        getTimeStamp: function (timestr) {
             var data = new Date(timestr);
             return data.getTime();
         },
@@ -687,7 +695,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                     return [year, month, day].join('-') + ' ' + [hour, minutes].join(':');
                     break;
                 case 'YYYY-MM-DD':
-                    return [year,month, day].join('-');
+                    return [year, month, day].join('-');
                     break;
                 case 'HH:MM:SS':
                     return [hour, minutes, second].join(':');
@@ -699,7 +707,7 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                     return [year, month, day, hour, minutes, second];
                     break;
                 case 'YYYY-MM-DD HH:MM:SS':
-                    return [year,month, day].join('-') + ' ' + [hour, minutes, second].join(':');
+                    return [year, month, day].join('-') + ' ' + [hour, minutes, second].join(':');
                     break;
                 case 'YYYY年MM月DD日 HH时MM分':
                     return year + '年' + month + '月' + day + '日' + ' ' + hour + '时' + minutes + '分';
@@ -760,8 +768,8 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
             return str;
         },
         preHandle: function (n1, n2) { //#noadd
-            if (!(( typeof n1 === 'number' || ( typeof n1 === 'string' && /^[\d]+(\.[\d]+)?$/g.test(n1))) &&
-                ( typeof n2 === 'number' || ( typeof n2 === 'string' && /^[\d]+(\.[\d]+)?$/g.test(n2)))
+            if (!((typeof n1 === 'number' || (typeof n1 === 'string' && /^[\d]+(\.[\d]+)?$/g.test(n1))) &&
+                (typeof n2 === 'number' || (typeof n2 === 'string' && /^[\d]+(\.[\d]+)?$/g.test(n2)))
             )) {
                 return NaN;
             }
@@ -783,16 +791,16 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 out = !(oT === oT) ? oT : (oT.n1 / oT.n2 / Math.pow(10, oT.d1 - oT.d2));
             return parseFloat(out);
         },
-        divide:function(arg1, arg2) {
+        divide: function (arg1, arg2) {
             var r1, r2, m, n;
             try {
                 r1 = arg1.toString().split(".")[1].length;
-            }catch (e) {
+            } catch (e) {
                 r1 = 0;
             }
             try {
                 r2 = arg2.toString().split(".")[1].length;
-            }catch (e) {
+            } catch (e) {
                 r2 = 0;
             }
             m = Math.pow(10, Math.max(r1, r2));
@@ -901,40 +909,40 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
                 $line.append("<div class='input-alert'>" + msg + "</div>");
             }
         },
-        checkMobileStyle : function () {
-            if(Methods.isMobile() || $('widow').width() < 769){
+        checkMobileStyle: function () {
+            if (Methods.isMobile() || $('widow').width() < 769) {
                 $('head').append("");
                 $('body').addClass('home');
             }
         },
-        bindResizeDiv : function (div) {
+        bindResizeDiv: function (div) {
             var $div = $(div),
                 //触发拖动的元素.resize
                 $resize = $div.find('.resize');
             var divHeight = $div.height();
 
-            var dragStart = function(e){
-                $resize.css("cursor","ns-resize");
+            var dragStart = function (e) {
+                $resize.css("cursor", "ns-resize");
                 var mouseY = e.pageY;
                 var mouseX = e.pageX;
-                $div.bind('mousemove',function(event){
+                $div.bind('mousemove', function (event) {
                     var height;
-                    if(event.pageX > mouseX){
+                    if (event.pageX > mouseX) {
                         height = divHeight - (event.pageY - mouseY);
-                    }else{
+                    } else {
                         height = divHeight + mouseY - event.pageY;
                     }
-                    if(height > $resize.height()){
-                        $(this).css({'height' :  height + 'px'});
+                    if (height > $resize.height()) {
+                        $(this).css({'height': height + 'px'});
                     }
                 });
                 //离开解绑
-                $div.bind('mouseleave',function(event){
+                $div.bind('mouseleave', function (event) {
                     dragEnd();
                 });
             };
-            var dragEnd = function(){
-                $resize.css("cursor","auto");
+            var dragEnd = function () {
+                $resize.css("cursor", "auto");
                 $div.unbind('mousemove');
             };
             //双击还原
