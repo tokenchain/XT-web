@@ -40,7 +40,7 @@
                 <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1 && (bussineseStatus.status == 1 || bussineseStatus.status == -3)" @click="removeMerchant"><%=LANG('解除认证')%></button>
                 <p v-if="bussineseStatus && bussineseStatus.status == 0"><%=LANG('申请认证中')%></p>
                 <p v-if="bussineseStatus && bussineseStatus.status == -1"><%=LANG('解除审核中')%></p>
-                <p v-if="bussineseStatus && bussineseStatus.status == -2"><%=LANG('解除审核成功')%></p>
+                <!--<p v-if="bussineseStatus && bussineseStatus.status == -2"><%=LANG('解除审核成功')%></p>-->
                 <p v-if="bussineseStatus && bussineseStatus.status == -3"><%=LANG('解除审核拒绝,原因：')%>{{bussineseStatus.remark}}</p>
             </div>
             <p><%=LANG('认证商家可拥有排名优先，大额交易的权限！')%></p>
@@ -120,7 +120,7 @@
                                 JuaBox.wrong(EXX.L(res.resMsg.code));
                             }
                         })
-                    })
+                    }.bind(this))
                 },
                 apply: function () {
                     this.applyPage = true
