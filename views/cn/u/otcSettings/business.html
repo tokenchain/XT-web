@@ -28,16 +28,17 @@
             </P>
         </div>
         <div class="senior-business">
+            <!--otcLevel  0未商家认证  1已商家认证-->
             <!-- -3解除审核拒绝 -2解除审核成功 -1解除审核中 0申请认证中 1已申请认证成功 2申请认证拒绝-->
             <div class="title">
                 <img src="<%= IMG_STATIC %>/images/senior-business.png" alt="">
                 <span><%=LANG('认证商家')%></span>
-                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 0 && (bussineseStatus.status == 2 || bussineseStatus.status == -2)" @click="apply">
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 0" @click="apply">
                     <%=LANG('立即申请')%>
                 </button>
-                <img v-if="bussineseStatus && bussineseStatus.status ==1"
+                <img v-if="bussineseStatus && bussineseStatus.otcLevel == 1"
                      src="<%= IMG_STATIC %>/images/complete.png" alt="">
-                <button v-if="bussineseStatus && (bussineseStatus.status == 1 || bussineseStatus.status == -3)" @click="removeMerchant"><%=LANG('解除认证')%></button>
+                <button v-if="bussineseStatus && bussineseStatus.otcLevel == 1" @click="removeMerchant"><%=LANG('解除认证')%></button>
                 <p v-if="bussineseStatus && bussineseStatus.status == 0"><%=LANG('申请认证中')%></p>
                 <p v-if="bussineseStatus && bussineseStatus.status == -1"><%=LANG('解除审核中')%></p>
                 <!--<p v-if="bussineseStatus && bussineseStatus.status == -2"><%=LANG('解除审核成功')%></p>-->
