@@ -679,13 +679,26 @@
                             JuaBox.wrong("<%= LANG('只能选择一张图片！') %>");
                             return
                         }
-                        if (this.imgUrl) {
+                        var arr = ['', '', 'formModel', 'formModel_move', 'formModel_move', 'formModel_payPal', 'formModel_usd']
+
+                        if (this.payType == 3 || this.payType == 4) {
+                            if (!this.imgUrl) {
+                                this.uploadImgApi(function () {
+                                    this.apiApply()
+                                }.bind(this))
+                            } else {
+                                this.apiApply()
+                            }
+                        } else {
+                            this.apiApply()
+                        }
+                        /*if (this.imgUrl) {
                             this.apiApply()
                         } else {
                             this.uploadImgApi(function () {
                                 this.apiApply()
                             }.bind(this))
-                        }
+                        }*/
                     }
                 },
                 getPubKey: function () {
