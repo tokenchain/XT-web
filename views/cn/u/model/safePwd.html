@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <label for="password1" class="control-label">{{type == 'editSafePwdAuth' ? '<%= LANG('当前交易密码') %>' : '<%= LANG('登录密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password1" name="loginPassword" v-model="loginPassword" type="password" :number="type == 'editSafePwdAuth' ? true : false" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
+                                <input id="password1" @change="changeInput" name="loginPassword" v-model="loginPassword" type="password" :number="type == 'editSafePwdAuth' ? true : false" required :maxlength="type == 'editSafePwdAuth' ? 6 : false">
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label for="password2" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('交易密码') %>' : '<%= LANG('新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="password2" name="safePassword" v-model="safePassword" type="password" number="true" required maxlength="6">
+                                <input id="password2" @change="changeInput" name="safePassword" v-model="safePassword" type="password" number="true" required maxlength="6">
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="form-group" >
                             <label for="confirmPwd3" class="control-label">{{type == 'addPwdAuth' ? '<%= LANG('确认交易密码') %>' : '<%= LANG('确认新交易密码') %>'}}：</label>
                             <div class="form-control">
-                                <input id="confirmPwd3" name="passwordConfirmation" v-model="passwordConfirmation" type="password" number="true" required maxlength="6">
+                                <input id="confirmPwd3" @change="changeInput" name="passwordConfirmation" v-model="passwordConfirmation" type="password" number="true" required maxlength="6">
                             </div>
                         </div>
                     </div>
@@ -118,6 +118,9 @@
                 }
             },
             methods: {
+                changeInput: function () {
+                    $('#safe-form').valid()
+                },
                 interView: function(time) {
                     var num = time
                     var innter = setInterval(function () {
@@ -134,12 +137,12 @@
                     if (this.timeCount && this.timeCount > 0) {
                         return
                     }
+                    this.interView(60)
                     Methods.ajax({
                         type: 'POST',
                         url: DOMAIN_DEV + '/exchange/XtOtcController/userChangePasswordSendSMS',
                         success: function (res) {
                             JuaBox.success(EXX.L(res.resMsg.code));
-                            this.interView(60)
                         }.bind(this),
                         error: function (res) {
                             var resMsg = res.resMsg;
