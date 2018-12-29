@@ -104,6 +104,10 @@
             computed: {},
             methods: {
                 removeMerchant: function () {   //解除审核
+                    if (this.bussineseStatus.status == 0 || this.bussineseStatus.status == -1) {
+                        JuaBox.info("<%=LANG('后台正在审核中，请耐心等待！')%>")
+                        return
+                    }
                     JuaBox.confirm("<%=LANG('确定解除认证商家吗？解除认证商家审核通过后，您将不再拥有认证商家的所有权限。')%>", function () {
                         Methods.ajax({
                             type: 'GET',
