@@ -30,7 +30,7 @@
                 <label for=""><%=LANG('交易数量')%>：</label>
                 <input type="text" name="orderAmount" v-model="formModel.orderAmount"
                        required number="true" class="change-valite"
-                       NumThanZero="0" :than="formModel.orderLimitMax">
+                       NumThanZero="0" :than="formModel.orderLimitMax / formModel.orderPrice">
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('单笔最小成交额')%>：</label>
