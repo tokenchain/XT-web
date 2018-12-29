@@ -153,9 +153,9 @@
                     if (this.timeCount && this.timeCount > 0) {
                         return
                     }
+                    var elementAdd = $("#safe-form").validate().element($("#password2")) && $("#safe-form").validate().element($("#confirmPwd3"));
                     var element = $("#safe-form").validate().element($("#password1")) && $("#safe-form").validate().element($("#password2")) && $("#safe-form").validate().element($("#confirmPwd3"));
-                    console.log(element)
-                    if (element) {
+                    if (this.type == 'editSafePwdAuth' ? element : elementAdd) {
                         this.timeCount = 60
                         this.interView(60)
                         Methods.ajax({
