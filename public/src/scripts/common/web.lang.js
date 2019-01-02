@@ -2026,6 +2026,12 @@ EXX.pack = {
         "cn": "操作成功!",
         "en": "success !"
     },
+    "0000": {
+        "cn": "身份证信息不匹配",
+        "en": "The ID Card information don't matching",
+        "jp": "",
+        "kr": ""
+    },
     "1": {
         "cn": "操作成功!",
         "en": "success !",
@@ -2944,6 +2950,60 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "6500": {
+        "cn": "身份证信息已经认证其他账号",
+        "en": "The ID card has been used by other account",
+        "jp": "",
+        "kr": ""
+    },
+    "6501": {
+        "cn": "身份信息认证失败，请重新输入身份信息",
+        "en": "Authentication fail,please check and retry",
+        "jp": "",
+        "kr": ""
+    },
+    "6502": {
+        "cn": "身份证号无效",
+        "en": "ID Cart Number avail",
+        "jp": "",
+        "kr": ""
+    },
+    "6503": {
+        "cn": "用户真实姓名不能包含特殊字符，请重新输入",
+        "en": "The realName contain special character,please re input",
+        "jp": "",
+        "kr": ""
+    },
+    "6504": {
+        "cn": "您已进行了普通实名认证",
+        "en": "your real name already authentication",
+        "jp": "",
+        "kr": ""
+    },
+    "6505": {
+        "cn": "系统繁忙，请稍后再试",
+        "en": "system is busy,please try",
+        "jp": "",
+        "kr": ""
+    },
+    "6506": {
+        "cn": "昵称不能为空",
+        "en": "nickName can't be null",
+        "jp": "",
+        "kr": ""
+    },
+    "6507": {
+        "cn": "昵称不能超过10个字符",
+        "en": "nickName can't over ten characters",
+        "jp": "",
+        "kr": ""
+    },
+    "6508": {
+        "cn": "昵称已存在，请重新输入",
+        "en": "nickName already exist",
+        "jp": "",
+        "kr": ""
+    },
     "6999": {
         "cn": "拒绝访问",
         "en": "access forbidden",
@@ -3067,12 +3127,6 @@ EXX.pack = {
     "卖方付款时限为orderOutTime分钟": {
         "cn": "卖方付款时限为[$1]分钟",
         "en": "卖方付款时限为[$1]分钟",
-        "jp": "",
-        "kr": ""
-    },
-    "": {
-        "cn": "",
-        "en": "",
         "jp": "",
         "kr": ""
     }
