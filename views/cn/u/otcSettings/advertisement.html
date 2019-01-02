@@ -204,39 +204,42 @@
                         this.record = item
                         this.showModal = 'upAdvs'
                     } else {
-                        JuaBox.confirm("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", function () {
-                            var data = {}
-                            Object.assign(data, item)
-                            item.advStatus == 0 ? data.advStatus = 1 : data.advStatus = 0
-                            data.currencyTypeName = item.orderCoin
-                            Methods.ajax({
-                                type: 'POST',
-                                url: DOMAIN_DEV +
-                                    '/exchange/XtOtcController/updateAdvsStatus',
-                                data: data,
-                                success: function (res) {
-                                    JuaBox.success(EXX.L(res.resMsg.code));
-                                    this.getfinList()
-                                }.bind(this),
-                                error: function (res) {
-                                    if (res.resMsg.code == '7015') {
-                                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                                            buttons: {confirm: "去认证"}, callback: function () {
-                                                window.location.href = 'account'
-                                            }
-                                        })
-                                    } else if (res.resMsg.code == '6078') {
-                                        JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
-                                            buttons: {confirm: "去设置"}, callback: function () {
-                                                window.location.href = 'account'
-                                            }
-                                        })
-                                    } else {
-                                        JuaBox.wrong(EXX.L(res.resMsg.code));
+                        JuaBox.confirm("<%=LANG('该广告下架之后将不会再展示，确定要下架这条广告吗？')%>", {
+                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
+                            callback: function () {
+                                var data = {}
+                                Object.assign(data, item)
+                                item.advStatus == 0 ? data.advStatus = 1 : data.advStatus = 0
+                                data.currencyTypeName = item.orderCoin
+                                Methods.ajax({
+                                    type: 'POST',
+                                    url: DOMAIN_DEV +
+                                        '/exchange/XtOtcController/updateAdvsStatus',
+                                    data: data,
+                                    success: function (res) {
+                                        JuaBox.success(EXX.L(res.resMsg.code));
+                                        this.getfinList()
+                                    }.bind(this),
+                                    error: function (res) {
+                                        if (res.resMsg.code == '7015') {
+                                            JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                                                buttons: {confirm: "去认证"}, callback: function () {
+                                                    window.location.href = 'account'
+                                                }
+                                            })
+                                        } else if (res.resMsg.code == '6078') {
+                                            JuaBox.confirm("<%=LANG('您还未设置资金密码！')%>", {
+                                                buttons: {confirm: "去设置"}, callback: function () {
+                                                    window.location.href = 'account'
+                                                }
+                                            })
+                                        } else {
+                                            JuaBox.wrong(EXX.L(res.resMsg.code));
+                                        }
                                     }
-                                }
-                            })
-                        }.bind(this))
+                                })
+                            }.bind(this)
+                        })
                     }
                 },
                 lookDetail: function (item) {

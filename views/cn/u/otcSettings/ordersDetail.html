@@ -23,7 +23,7 @@
                 <span v-if="merchantStatus"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName}}</span><%=LANG('保证金')%><span></span>
             </div>
             <p class="price"><%=LANG('单价')%>：<span>{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
-            <p><%=LANG('总价')%>：<span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>
+            <p><%=LANG('总价')%>：<span>{{parseFloat(orderDetail.totalAmount)}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>
             </p>
         </div>
         <div class="order-pay-type">
