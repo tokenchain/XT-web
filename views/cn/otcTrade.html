@@ -84,7 +84,7 @@
                     <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
                 </tr>
                 <tr class="no-data" v-if="loading">
-                    <td colspan="6" style="text-align: center" >
+                    <td colspan="7" style="text-align: center" >
                         <div class="cd-loading">
                             <div class="vertical-bars">
                                 <p class="layer-1"></p>
@@ -101,7 +101,7 @@
                     </td>
                 </tr>
                 <tr v-if="otcList.length == 0 || !otcList" class="nodata">
-                    <td colspan="6" style="text-align: center"><%= LANG('暂无数据') %></td>
+                    <td colspan="7" style="text-align: center"><%= LANG('暂无数据') %></td>
                 </tr>
                 </tbody>
             </table>
