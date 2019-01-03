@@ -349,8 +349,9 @@
                         return false;
                     }
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/xt_extends/controller/website/partnercontroller/getpartnerinfo',
+                            '/exchange/xt/controller/website/PartnerController/getPartnerInfo',
                         data: {
                             userId: this.loginUser.userId
                         },
@@ -364,8 +365,9 @@
                 },
                 getEarningsData() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/xt_extends/controller/website/partnercontroller/getprofitconfig',
+                            '/exchange/xt/controller/website/PartnerController/profitConfig',
                         success: function (res) {
                             this.earningsList = res.datas
                             console.log(this.earningsList, "00")
