@@ -179,17 +179,17 @@
                         })
                         return
                     }
-                    if (this.loginUser.safePwdAuth == '0') {
-                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
-                            buttons: {confirm: "去设置"}, callback: function () {
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -207,17 +207,17 @@
                         })
                         return
                     }
-                    if (this.loginUser.safePwdAuth == '0') {
-                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
-                            buttons: {confirm: "去设置"}, callback: function () {
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })

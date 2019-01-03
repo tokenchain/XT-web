@@ -348,14 +348,14 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
 
                     // window.localStorage.clear();
                     setTimeout(function () {
-                        /*if (window.location.href.indexOf('/trade/') == -1 ){//代表路径不在交易页面
+                        debugger
+                        if (window.location.href.indexOf('/trade/') == -1 ){//代表路径不在交易页面
                             window.location.replace('/login');
                         }else{
                             //刷新本页
                             window.location.reload()
-                        }*/
-                        window.location.replace('/login');
-                        window.localStorage.removeItem(ENV + "userInfo");
+                        }
+                        window.localStorage.removeItem(ENV+"userInfo");
                     }, 1500);
                 }
 
