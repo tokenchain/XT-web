@@ -348,7 +348,6 @@ define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math']
 
                     // window.localStorage.clear();
                     setTimeout(function () {
-                        debugger
                         if (window.location.href.indexOf('/trade/') == -1 ){//代表路径不在交易页面
                             window.location.replace('/login');
                         }else{
