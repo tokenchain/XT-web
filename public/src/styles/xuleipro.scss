@@ -1833,32 +1833,6 @@ button {
           transition: all .5s;
           position: relative;
           z-index: 1;
-          // &::before {
-          //   content: " ";
-          //   position: absolute;
-          //   top: 0;
-          //   left: 0;
-          //   width: 0;
-          //   height: 100%;
-          //   // display: block;
-          //   background-color: #846af7;
-          //   opacity: 0;
-          //   z-index: -1;
-          //   border-radius: 6px;
-          //   transition: all .3s;
-          // }
-          // &:hover {
-          //   color: #fff;
-          //   background-color: #846af7;
-          //   -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          //   -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          //   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          // }
-          // &:hover::before {
-          //   content: " ";
-          //   width: 100%;
-          //   opacity: 1;
-          // }
         }
       }
 
@@ -1901,7 +1875,7 @@ button {
           td {
             -webkit-transition: all .3s;
             transition: all .3s;
-            padding: 0 20px;
+            //padding: 0 20px;
 
             span {
               color: #FFBE3F;
