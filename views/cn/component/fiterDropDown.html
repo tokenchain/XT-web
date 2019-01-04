@@ -148,7 +148,7 @@
 
             <div class="item">
                 <label for=""><%= LANG('币种') %></label>
-                <select name="" v-model="formModel_fin.orderCoin">
+                <select name="" v-model="formModel_fin.currencyName">
                     <option :value="item.shortName" v-cloak="" v-for="item in coinList">{{item.name}}</option>
                 </select>
             </div>
@@ -223,7 +223,7 @@
                     formModel_fin: {
                         beginTime: '',
                         endTime: '',
-                        orderCoin: '',
+                        currencyName: '',
                         legalCurrencyId: '',
                         data: ''
                     },
