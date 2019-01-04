@@ -4144,8 +4144,8 @@ Timeline.prototype.scale = function(s) {
     this._scale += s;
     // if (this._scale < 0)
     //     this._scale = 0;
-    if (this._scale < 6)
-        this._scale = 6;
+    if (this._scale < 0)
+        this._scale = 0;
     else if (this._scale >= Timeline._ItemWidth.length)
         this._scale = Timeline._ItemWidth.length - 1;
     this.updateMaxItemCount();

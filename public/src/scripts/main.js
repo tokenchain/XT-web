@@ -3,7 +3,7 @@ require.config({
     baseUrl: '/lib',
     urlArgs: 'ver=' + VERSION,
     paths: {
-        'vue': ENV == 'w' ? 'vue/dist/vue' : 'vue/dist/vue.min',
+        'vue': ENV == 'w' ? 'https://cdn.bootcss.com/vue/2.5.17/vue.min' : 'https://cdn.bootcss.com/vue/2.5.17/vue.min',
         'jquery': 'jquery/dist/jquery.min',
         'text': 'requirejs/text',
         'css': 'requirejs/css',
