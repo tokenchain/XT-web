@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xuleipro.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/xulei-v1.css?<%= VERSION %>">
     <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/cssdna.css?<%= VERSION %>">
+    <link rel="stylesheet" type="text/css" href="<%= STYLE_STATIC %>/styles/exchange.css?<%= VERSION %>">
 
     <script type="text/javascript" src="/lib/others/sweetalert.min.js?<%= VERSION %>"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -53,27 +54,27 @@
                 <div class="payOutSxc">
                     <span class="info"><%= LANG('卖出 SXC') %></span>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('0.00') %>" type="text">
+                        <input readonly v-model="payOutPrice" type="number" class="readonly">
                         <span><%= LANG('卖出价（¥）') %></span>
                     </div>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('请输入卖出数量') %>" type="text">
+                        <input placeholder="<%= LANG('请输入卖出数量') %>" v-model="payOutAccount" type="number">
                         <span><%= LANG('卖出量（SXC）') %></span>
                     </div>
-                    <p><%= LANG('可得') %> <span>0</span> CNY</p>
+                    <p><%= LANG('可得') %> <span class="red">{{payOutAmount}}</span> CNY</p>
                     <button class="payOut-btn" @click="payOut"><%= LANG('立即卖出') %></button>
                 </div>
                 <div class="buyInSxc">
                     <span class="info"><%= LANG('买入 SXC (SXC买入功能暂不对外开放，开放时间另行公告通知，敬请关注！)') %></span>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('0.00') %>" type="text">
+                        <input readonly v-model="buyInPrice" type="number" class="readonly">
                         <span><%= LANG('买入价（¥）') %></span>
                     </div>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('请输入购买数量') %>" type="text">
+                        <input placeholder="<%= LANG('请输入购买数量') %>" v-model="buyInAccount" type="number">
                         <span><%= LANG('买入量（SXC）') %></span>
                     </div>
-                    <p><%= LANG('需要支付') %> <span>0</span> CNY</p>
+                    <p><%= LANG('需要支付') %> <span class="red">{{buyInAmount}}</span> CNY</p>
                     <button class="buyIn-btn" @click="buyIn"><%= LANG('立即买入') %></button>
                 </div>
             </div>
@@ -153,13 +154,22 @@
                 <p><%= LANG('7. 如果您的交易24小时内未处理，请联系在线客服，我们会有专人与您联系，请保持手机畅通。') %></p>
             </div>
         </div>
+        <modal v-cloak :open="showModal == 'addBank'" @close="showModal = false">
+            <add-bank @fetch="getBankStatus"/>
+        </modal>
+        <modal v-cloak :open="showModal == 'bankManage'" @close="showModal = false">
+            <bank-manage :bank-Msg="bankMsg" @fetch="getBankStatus"/>
+        </modal>
     </section>
     <%-include("./include/footer.html")%>
 </body>
 </html>
-
-<%-include("./component/fiterDropDown.html")%>
 <%-include("./component/page_lite.html")%>
+<%-include("./component/province_city.html")%>
+<%-include("./component/modal.html")%>
+<%-include("./component/addBank.html")%>
+<%-include("./component/bankManage.html")%>
+
 
 <script>
     require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
@@ -167,12 +177,7 @@
             el: "#legalTrade",
             data () {
                 return {
-                    marqueeList: [
-                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
-                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
-                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
-                        { name: '最新动态：商户“139****1238”  成功买入 1000.00 SXC' },
-                    ],
+                    marqueeList: [],
                     animate: false, 
                     loading: false,
                     isLogin: ISLOGIN,
@@ -181,16 +186,48 @@
                     totalPage: 0,
                     pageCount: 0,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
-                    reameNameStatus: '' // 高级实名认证状态
+                    payOutPrice: 0.99,
+                    payOutAccount: '',
+                    buyInPrice: 1.00,
+                    buyInAccount: '',
+                    identifyStatus: '', // 实名认证状态
+                    reameNameStatus: '', // 高级实名认证状态
+                    showModal: false,
+                    bankMsg: '' // 如果为null，则没有添加过银行卡，否则接口返回相关信息
                 }
+            },
+            computed: {
+                'buyInAmount': function (){
+                    return this.buyInPrice * this.buyInAccount
+                },
+                'payOutAmount': function () {
+                    return this.payOutPrice * this.payOutAccount
+                } 
             },
             created: function () {
                 setInterval (this.showMarquee, 2000)
                 if (ISLOGIN) {
                     this.queryStatus()
+                    this.getUserStatus()
+                    this.getBankStatus()
+                    this.getOrdersList()
                 }
             },
             methods: {
+                // 获取用户实名状态
+                getUserStatus: function () {
+                    var that = this;
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" + 'userIdentifyStatus',
+                        data: {
+                            Userid: that.loginUser.userId
+                        },
+                        success: function (res) {
+                            that.identifyStatus = res.datas.status
+                        }
+                    });
+                },
                 // 获取高级实名认证状态
                 queryStatus: function() {
                     Methods.ajax({
@@ -205,8 +242,21 @@
                         }.bind(this)
                     })
                 },
+                // 查询是否有添加银行卡
+                getBankStatus() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/selectUserBank',
+                        success: function (res) {
+                            console.log(res.datas)
+                            this.bankMsg = res.datas
+                        }.bind(this)
+                    })
+                },
                 // c2c相关操作校验
-                handleCheck() {
+                handleCheck(callback) {
+                    // 判断登录状态
                     if (!ISLOGIN) {
                         JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
                             buttons: {confirm: "去登陆"}, callback: function () {
@@ -215,6 +265,16 @@
                         })
                         return
                     }
+                    // 判断是否实名认证
+                    if (this.identifyStatus == 0) {
+                        JuaBox.confirm("<%=LANG('您还未实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
+                                window.location.href = '/u/account'
+                            }
+                        })
+                        return
+                    }
+                    // 判断是否高级实名认证
                     if (!this.reameNameStatus) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
                             buttons: {confirm: "去认证"}, callback: function () {
@@ -223,26 +283,119 @@
                         })
                         return
                     }
+                    // 判断是否添加银行卡
+                    if(this.bankMsg == null){
+                        var that = this
+                        JuaBox.confirm("<%=LANG('当前未添加银行卡，请添加银行卡后进行操作！')%>", {
+                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('去添加')%>"},
+                            callback: function () {
+                                that.showModal = 'addBank'
+                            }
+                        })
+                        return 
+                    }
+                    callback && callback()
                 },
                 // 银行卡管理
                 bankCardManage() {
-                    this.handleCheck()
+                    this.handleCheck(
+                        function () {
+                            if(this.bankMsg) {
+                                this.showModal = 'bankManage'
+                            }
+                        }.bind(this)
+                    )
                 },
                 // 新增银行卡
                 addBankCard() {
-                    this.handleCheck()
+                    this.handleCheck(
+                        function () {
+                            this.showModal = 'addBank'
+                        }.bind(this)
+                    )
+                    if(this.bankMsg) {
+                        this.showModal = false
+                        JuaBox.info("<%=LANG('当前已添加银行卡，如需管理银行卡，请到管理银行卡界面进行操作！')%>")
+                    }
                 },
                 // 卖出sxc
                 payOut() {
-                    this.handleCheck()
+                    this.handleCheck(
+                        function () {
+                            if(!this.payOutAccount) {
+                                JuaBox.wrong("<%=LANG('请输入卖出数量！')%>")
+                                return
+                            }
+                    
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
+                                data: {
+                                    userId: this.loginUser.userId,
+                                    orderType: 1,
+                                    loginType: 3,
+                                    coinNum: this.payOutAccount,
+                                    amount: this.payOutAmount,
+                                },
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.payOutAccount = ''
+                                }.bind(this)
+                            });
+                        }.bind(this)
+                    )
                 },
                 // 买入sxc
                 buyIn() {
-                    this.handleCheck()
+                    this.handleCheck(
+                        function () {
+                            if(!this.buyInAccount) {
+                                JuaBox.wrong("<%=LANG('请输入购买数量！')%>")
+                                return
+                            }
+                    
+                            Methods.ajax({
+                                type: 'POST',
+                                url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
+                                data: {
+                                    userId: this.loginUser.userId,
+                                    orderType: 0,
+                                    loginType: 3,
+                                    coinNum: this.buyInAccount,
+                                    amount: this.buyInAmount,
+                                },
+                                success: function (res) {
+                                    JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.buyInAccount = ''
+                                }.bind(this)
+                            });
+                        }.bind(this)
+                    )
+                    
+                },
+                // 获取订单滚动信息
+                getOrdersList() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/orders',
+                        success: function (res) {
+                            var data = res.datas
+                            var name;
+                            data.map(item => {
+                                name = '最新动态：商户 ' + item.name + '，成功' + item.displayType + item.amount  + ' SXC'
+                                this.marqueeList.push({name})
+                            })
+                            console.log(this.marqueeList)
+                            // this.marqueeList = res.datas
+                        }.bind(this)
+                    })
                 },
                 // 最新动态循环滚动函数
                 showMarquee: function () {
-                    this.animate = true;
+                    if(this.marqueeList.length != 0) {
+                        this.animate = true;
+                    }
                     setTimeout (() => {
                         this.marqueeList.push (this.marqueeList[ 0 ]);
                         this.marqueeList.shift ();
@@ -253,3 +406,4 @@
         })
     })
 </script>
+

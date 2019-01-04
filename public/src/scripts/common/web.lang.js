@@ -3100,6 +3100,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "10000": {
+        "cn": "系统错误",
+        "en": "System error",
+        "jp": "",
+        "kr": ""
+    },
     "10012": {
         "cn": "未知异常",
         "en": "unknown error",

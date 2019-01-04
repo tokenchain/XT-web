@@ -1,0 +1,77 @@
+<script type="text/x-template" id="viewBank">
+    <div class="exx-modal-container" v-cloak id="viewBank">
+        <div class="exx-modal-header">
+            <h3><%= LANG('请验证交易密码') %></h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="form-box">
+                <div class="form-group">
+                    <div class="form-control">
+                        <input type="text" autocomplete='new-password' onfocus="this.type='password'" v-model="safePassword" placeholder="<%= LANG('请输入交易密码') %>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="exx-modal-button">
+            <button  class="exxbtn btn-cancel" @click="closeModal"><span><%= LANG('取消') %></span>
+            </button>
+            <button class="exxbtn btn-ok" @click="submitForm"><span><%= LANG('确定') %></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('viewBank', {
+            template: "#viewBank",
+            props: ['newData'],
+            data: function () {
+                return {
+                    safePassword: '',
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    pubKey: '',
+                    rsaKeyId: '',
+                }
+            },
+            created: function () {
+                this.$nextTick(function () {
+                    this.getPubKey()
+                    console.log(this.newData)
+                })
+            },
+            methods: {
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                submitForm() {
+                    this.safePassword = Methods.encryptPwd(this.safePassword, this.pubKey);
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/viewUserBankDetail',
+                        data: {
+                            bankId: this.newData.id,
+                            rsaKeyId: this.rsaKeyId,
+                            safePassword: this.safePassword
+                        },
+                        success: function (res) {
+                            // JuaBox.success(EXX.L(res.resMsg.code));
+                            this.$emit('listen',res.datas)
+                            this.$parent.close();
+                        }.bind(this)
+                    })
+                },
+                closeModal() {
+                    this.$parent.close(); 
+                }
+            },
+        })
+    })
+</script>
