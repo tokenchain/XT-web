@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">
 <link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">
 <style>
-    input:disabled{
-        background: #f7f3f3!important;
+    input:disabled {
+        background: #f7f3f3 !important;
     }
 </style>
 
@@ -58,10 +58,12 @@
                         <label class="control-label"><%= LANG('时间范围') %>：</label>
                         <div class="form-control">
                             <div class="input-daterange input-group" id="datepicker">
-                                <input disabled type="text" class="input-sm form-control" id="start" name="start" placeholder="开始时间"/>
+                                <input disabled type="text" class="input-sm form-control" id="start" name="start"
+                                       placeholder="开始时间"/>
                                 <i class="icon iconfont icon-shijian1 first"></i>
                                 <span class="input-group-addon"><%= LANG('到') %></span>
-                                <input disabled type="text" class="input-sm form-control" id="end" name="end" placeholder="结束时间"/>
+                                <input disabled type="text" class="input-sm form-control" id="end" name="end"
+                                       placeholder="结束时间"/>
                                 <i class="icon iconfont icon-shijian1 second"></i>
                             </div>
                             <div style="margin-top:20px;">目前系统只支持:默认导出最近3个月的数据</div>
@@ -112,11 +114,11 @@
                     var startTime = $('#start').val() + ' 00:00:00'
                     var endTime = $('#end').val() + ' 00:00:00'
                     if (this.mode === 'income') {
-                        window.location.href = DOMAIN_DEV + '/exchange/export/tradeDetails?userId=' + this.loginUser.userId
+                        window.location.href = DOMAIN_DEV + '/exchange/export/userReport?userId=' + this.loginUser.userId + '&reportType=101'
                     } else {
-                        window.location.href = DOMAIN_DEV + '/exchange/export/partner_user_detail?userId=' + this.loginUser.userId
-                        // window.location.href = DOMAIN_DEV + '/exchange/xt_extends/controller/website/partnercontroller/exportUserDetail?startTime=' + startTime + '&endTime=' + endTime
+                        window.location.href = DOMAIN_DEV + '/exchange/export/userReport?userId=' + this.loginUser.userId + '&reportType=102'
                     }
+                    this.$parent.$parent.showModal = false
                 }
             },
             created: function () {

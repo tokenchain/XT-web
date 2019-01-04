@@ -120,7 +120,7 @@
 
             },
             mounted: function () {
-                this.getIncomeDetails(Methods.getTimeStamp(new Date()))
+                this.getIncomeDetails(new Date())
 
                 $('#dataPicker').datepicker({
                     orientation: "bottom left",
@@ -135,7 +135,7 @@
                 }).on('changeDate', function (ev) {
                     // console.log(ev.timeStamp, $('#dataPicker').val())
                     this.month = $('#dataPicker').val()
-                    this.getIncomeDetails(ev.timeStamp)
+                    this.getIncomeDetails(ev.date)
                 }.bind(this))
             },
             updated: function () {

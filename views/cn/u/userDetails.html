@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                 <tr v-cloak="" v-for="(item, index) in earnData.list">
-                    <td>{{item.time}}</td>
+                    <td>{{item.statisticsDate}}</td>
                     <td>{{item.userCount}}</td>
                     <td>{{item.userEffectiveAcount}}</td>
                     <td><span class="btn" @click="lookDetails(item.statisticsDate)"><%= LANG('用户详情') %></span></td>
@@ -121,7 +121,7 @@
 
             },
             mounted: function () {
-                this.getIncomeDetails(Methods.getTimeStamp(new Date()))
+                this.getIncomeDetails(new Date())
 
                 $('#dataPicker').datepicker({
                     orientation: "bottom left",
@@ -135,7 +135,7 @@
                 }).on('changeDate', function (ev) {
                     // console.log($('#dataPicker').val())
                     this.month = $('#dataPicker').val()
-                    this.getIncomeDetails(ev.timeStamp)
+                    this.getIncomeDetails(ev.date)
                 }.bind(this))
             },
             updated: function () {
