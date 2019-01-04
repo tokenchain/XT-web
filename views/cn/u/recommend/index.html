@@ -1,77 +1,5 @@
 <%-include("../../component/page_lite.html")%>
-<!-- <div class="user-container">
-    <div class="share-panel">
-        <div id="myRecommend">
-            <div class="share-info">
-                <h2> <%= LANG('您的推荐地址如下') %> </h2>
-                <p style="line-height: 2;">1.扫码或者拷贝地址到您的朋友圈、微博，用户注册后系统可自动跟踪您推荐的用户<br>2.推荐人可得到被邀请人交易手续费10%的佣金按照每天均价折算成at返还。<br>3.返还佣金会在第二天和挖矿收入一起发放。</p>
-                <div class="info">
-                    <div class="code">
-                        <canvas class="codeimg" id="canvas"></canvas>
-                    </div>
-                    <div class="input">
-                        <input type="text" :value="reommendUrl" id="commendInput" style="margin-left: 30px">
-                        <a href="javascript:void(0)" @click="copyUrl()"><%= LANG('复制链接地址') %> </a>
-                    </div>
-                </div>
-            </div>
-            <div class="assets-record">
-                <div class="assets-list">
-                    <div class="head myRecommend-head">
-                        <h2><img src="/src/images/mytuijian.png" alt=""><%= LANG('我推荐的人') %></h2>
-                    </div>
-                    <div class="body myRecommend-body">
-                        <ul class="title">
-                            <li>
-                                <p><%= LANG('用户名') %></p>
-                                <p><%= LANG('注册时间') %></p>
-                                <p><%= LANG('是否有效') %></p>
-                                <p><%= LANG('TA推荐的人数') %></p>
-                            </li>
-                        </ul>
-                        <ul class="list" v-cloak="">
-                            <li v-if="myRecommend.length > 0" v-for="recommend in myRecommend">
-                                <p>{{recommend.loginName}}</p>
-                                <p>{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}</p>
-                                <p v-if="recommend.isTrue"><%= LANG('是') %></p>
-                                <p v-else><%= LANG('否') %></p>
-                                <p>{{recommend.recommendCount}}</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getmyRecommend"></page-lite>
-        </div>
-
-        <div class="assets-record">-->
-<!--<div class="assets-list">-->
-<!--<div class="head">-->
-<!--<h2><%= LANG('推荐奖励记录') %></h2>-->
-<!--</div>-->
-<!--<div class="body">-->
-<!--<ul class="title">-->
-<!--<li>-->
-<!--<p><%= LANG('币种') %></p>-->
-<!--<p><%= LANG('时间') %></p>-->
-<!--<p><%= LANG('类型') %></p>-->
-<!--<p><%= LANG('奖励金额') %></p>-->
-<!--</li>-->
-<!--</ul>-->
-<!--<ul class="list">-->
-<!--<li>-->
-<!--<p>ZT</p>-->
-<!--<p>2018-07-01</p>-->
-<!--<p>10000</p>-->
-<!--<p>10000</p>-->
-<!--</li>-->
-<!--</ul>
-        </div>
-        </div>
-        </div>
-    </div>
-</div> -->
 <div class="partner-container" id="partnerBox" v-cloak>
     <div class="partner-details">
         <p>
@@ -98,8 +26,8 @@
                 </li>
                 <li>
                     <span>
-                        <%= LANG('昨日收益') %></span>
-                    <em>{{yesterdayProfite | numFilter}}
+                        <%= LANG('本月收益') %></span>
+                    <em>{{monthProfit | numFilter}}
                         <%= LANG('XT') %></em>
                 </li>
             </ul>
@@ -144,7 +72,7 @@
                     <th>
                         <%= LANG('发展会员数量') %>
                     </th>
-                    <th>
+                    <th style="width: 260px;">
                         <%= LANG('月交易额（BTC）') %>
                     </th>
                     <th>
@@ -189,113 +117,6 @@
         </div>
     </div>
 </div>
-<!--<script>-->
-<!--function copyUrl() {-->
-<!--var Url = document.getElementById("commendInput");-->
-<!--Url.select(); // 选择对象-->
-<!--document.execCommand("Copy"); // 执行浏览器复制命令-->
-<!--alert("复制成功！")-->
-<!--}-->
-<!--</script>-->
-
-
-<!--<div class="recommend-panel" id="mainForm">-->
-<!--<div id="myRecommend" class="recommend">-->
-<!--<h3><%= LANG('推荐人') %></h3>-->
-<!--<div class="recommend-info">-->
-<!--<p class="t"><%= LANG('高额、多层级推荐奖励机制，您的专属推广地址') %> </p>-->
-<!--<div class="address">-->
-<!--<input id="recommen_url" :value="reommendUrl" type="text">-->
-<!--<button id="copy_url" class="exxbtn btn-small" :data-clipboard-text="reommendUrl"><span><%= LANG('复制你的地址') %></span>-->
-<!--</button>-->
-<!--</div>-->
-<!--<div class="info">-->
-<!--&lt;!&ndash;生成推荐二维码&ndash;&gt;-->
-<!--<canvas class="codeimg" id="canvas"></canvas>-->
-<!--&lt;!&ndash;<img class="codeimg" :src="'/ac/qrcode?code=' + reommendUrl + '&amp;width=210&amp;height=210'" title="您的推荐人地址二维码">&ndash;&gt;-->
-<!--<% if(LAN == 'cn' || LAN == 'hk'){ %>-->
-<!--<div class="tips">-->
-<!--<h4>推荐人关系</h4>-->
-<!--<p>1、对于您通过推荐链接邀请成功注册的用户，您是他们的一级推荐人；</p>-->
-<!--<p>2、对于您直接推荐的用户通过推荐链接邀请成功注册的用户，您是他们的二级推荐人；</p>-->
-<!--<p>3、您是您的子账号的一级推荐人；</p>-->
-<!--<p>4、您是您直接推荐用户的子账号的二级推荐人；</p>-->
-<!--<p>5、推荐人关系最终解释权归EXX所有。</p>-->
-<!--</div>-->
-<!--<div class="tips">-->
-<!--<h4>交易手续费奖励活动</h4>-->
-<!--<p>1、交易产生的手续费9%作为一级推荐人奖励；</p>-->
-<!--<p>2、交易产生的手续费6%作为二级推荐人奖励；</p>-->
-<!--<p>3、奖励当日统计，次日到账；</p>-->
-<!--<p>4、本期活动时间：北京时间2017年11月19日-2020年11月18日；</p>-->
-<!--<p>5、本活动最终解释权归EXX所有。</p>-->
-<!--</div>-->
-<!--<% }else{ %>-->
-<!--<div class="tips">-->
-<!--<h4>Referral Relationship</h4>-->
-<!--<p>1. You are the first-level referral of users successfully signed up with EXX.com through your-->
-<!--referral invitation.</p>-->
-<!--<p>2. You are the second-level referral of users that signed up with EXX.com through your recommend-->
-<!--user.</p>-->
-<!--<p>3. You are a first-level referral of your sub-account.</p>-->
-<!--<p>4. You are a second-level referral of your recommend user’s sub-account.</p>-->
-<!--<p>5. EXX.com reserves all the right for the final explanation.</p>-->
-<!--</div>-->
-<!--<div class="tips">-->
-<!--<h4>Transaction Free Rewards Activity</h4>-->
-<!--<p>1. 9% of transaction fees is for the first-level referral rewards.</p>-->
-<!--<p>2. 6% of transaction fees is for the second-level referral rewards</p>-->
-<!--<p>3. Reward will be counted every day and distributed to your account in the second day.</p>-->
-<!--<p>4. Activity Time: November 19, 2017 - November 18, 2020 (UTC+8)</p>-->
-<!--<p>5. EXX.com reserves all the right for the final explanation.</p>-->
-<!--</div>-->
-<!--<% } %>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--<div class="recommend-list" v-cloak="">-->
-<!--<h3><%= LANG('我推荐的人') %></h3>-->
-<!--<div class="exx-record">-->
-<!--<div class="table" id="myRecommendTable">-->
-<!--<div class="tr head">-->
-<!--<div class="td" style="width: 150px;flex: none;"><%= LANG('用户名') %></div>-->
-<!--<div class="td" style="width: 160px;flex: none;"><%= LANG('注册时间') %></div>-->
-<!--<div class="td" style="width: 160px;flex: none;"><%= LANG('TA推荐的人数') %></div>-->
-<!--<div class="td"><%= LANG('一级奖励') %></div>-->
-<!--<div class="td"><%= LANG('二级奖励') %></div>-->
-<!--</div>-->
-<!--<div class="tr" v-if="myRecommend.length == 0 && isLogin">-->
-<!--<p class="norecord"><%=LANG('暂无记录')%></p>-->
-<!--</div>-->
-<!--<div class="tr" v-if="myRecommend.length > 0" v-for="recommend in myRecommend">-->
-<!--<div class="td" style="width: 150px;flex: none;">{{recommend.loginName}}</div>-->
-<!--<div class="td" style="width: 160px;flex: none;">-->
-<!--{{getDateTime(recommend.registerTime,'YYYY-MM-DD')}}-->
-<!--</div>-->
-<!--<div class="td" style="width: 160px;flex: none;">{{recommend.count}}</div>-->
-<!--<div class="td">-->
-<!--<div class="coinnum">-->
-<!--<p v-for="amount,coin in recommend.level1Amount" v-if="amount"><span>{{coin.toUpperCase()}}：</span>{{amount}}-->
-<!--</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="td">-->
-<!--<div class="coinnum">-->
-<!--<p v-for="amount,coin in recommend.level2Amount" v-if="amount"><span>{{coin.toUpperCase()}}：</span>{{amount}}-->
-<!--</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--</div>-->
-<!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"-->
-<!--:turn-page="getmyRecommend"></page-lite>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--</div>-->
-
 
 <script>
     require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
@@ -306,17 +127,13 @@
                 return {
                     reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
                         .recommendCode || ''),
-                    // myRecommend: [],
-                    // pageIndex: 1,
-                    // pageSize: 20,
-                    // pageCount: 0,
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
                     userEffectiveAcount: '', //有效用户数
                     userCount: '', // 注册人数
                     totalProfit: '', // 总收益
-                    yesterdayProfite: '', // 昨日收益
+                    monthProfit: '', // 昨日收益
                     earningsList: [] // 收益比例列表
                 }
             },
@@ -327,11 +144,6 @@
                 })
             },
             mounted: function () {
-                // this.getmyRecommend();
-                // var clipboard = new Clipboard('#copy_url');
-                // clipboard.on('success', function (e) {
-                //     JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
-                // });
                 QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
                     width: 150,
                     height: 150
@@ -349,8 +161,9 @@
                         return false;
                     }
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/xt_extends/controller/website/partnercontroller/getpartnerinfo',
+                            '/exchange/xt/controller/website/PartnerController/getPartnerInfo',
                         data: {
                             userId: this.loginUser.userId
                         },
@@ -358,18 +171,17 @@
                             this.userCount = res.datas.userCount
                             this.userEffectiveAcount = res.datas.userEffectiveAcount
                             this.totalProfit = res.datas.totalProfit
-                            this.yesterdayProfite = res.datas.yesterdayProfite
+                            this.monthProfit = res.datas.monthProfit
                         }.bind(this)
                     });
                 },
                 getEarningsData() {
                     Methods.ajax({
+                        type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/xt_extends/controller/website/partnercontroller/getprofitconfig',
+                            '/exchange/xt/controller/website/PartnerController/profitConfig',
                         success: function (res) {
                             this.earningsList = res.datas
-                            console.log(this.earningsList, "00")
-
                         }.bind(this)
                     })
                 },
@@ -386,129 +198,7 @@
                         JuaBox.success("<%= LANG('复制成功!') %>");
                     }
                 }
-                // 我的推荐
-                // getmyRecommend: function () {
-                //     if (!this.isLogin) {
-                //         return false;
-                //     }
-                //     var data = {
-                //         pageIndex: this.pageIndex,
-                //         pageSize: this.pageSize,
-                //         userId: this.loginUser.userId
-                //     };
-                //     Methods.ajax({
-                //         url: DOMAIN_DEV +
-                //             '/exchange/user/controller/website/UserController/myRecommendList',
-                //         data: JSON.stringify(data),
-                //         success: function (res) {
-                //             this.myRecommend = res.datas.results;
-                //             this.pageCount = res.datas.totalRow;
-                //         }.bind(this)
-                //     });
-                // },
-                // getDateTime: function (timestamp, format) {
-                //     return Methods.getDateTime(timestamp, format)
-                // },
-            },
+            }
         })
     });
 </script>
-
-
-<!--<div class="recommend-list bill-panel" id="myMission" v-cloak="">-->
-<!--<h3><%= LANG('我的推荐奖励记录') %></h3>-->
-<!--<div class="bill-panel-body" v-cloak="">-->
-<!--<div class="table head">-->
-<!--<div class="cell coin"><%= LANG('币种')%></div>-->
-<!--<div class="cell time"><%= LANG('时间')%></div>-->
-<!--<div class="cell type"><%= LANG('类型')%></div>-->
-<!--<div class="cell amount"><%= LANG('奖励金额')%></div>-->
-<!--</div>-->
-<!--<div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0">-->
-<!--<div class="cell coin"><img-->
-<!--:src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'"-->
-<!--class="market-icon">{{bill.mainCurrency}}-->
-<!--</div>-->
-<!--<div class="cell time">{{showDate(bill.billDate)}}</div>-->
-<!--<div class="cell type">{{bill.typeName}}</div>-->
-<!--<div class="cell amount">-->
-<!--<div class="amount1">-->
-<!--<p style="margin-bottom: 0"><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span>-->
-<!--</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="table no-data" v-if="billRecords.length == 0">-->
-<!--<%= LANG('暂无记录')%>-->
-<!--</div>-->
-<!--</div>-->
-<!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"-->
-<!--:turn-page="getBill"></page-lite>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {-->
-<!--var mission = new Vue({-->
-<!--el: "#myMission",-->
-<!--data: function () {-->
-<!--return {-->
-<!--myMission: [],-->
-<!--billRecords: [],-->
-<!--pageIndex: 1,-->
-<!--pageSize: 10,-->
-<!--pageCount: 0,-->
-<!--isLogin: ISLOGIN,-->
-<!--loginUser: Methods.getLocalUserInfo()-->
-<!--}-->
-<!--},-->
-<!--methods: {-->
-<!--showDate: function (date) {-->
-<!--return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');-->
-<!--},-->
-<!--getmyMission: function () {-->
-<!--if (!this.isLogin) {-->
-<!--return false;-->
-<!--}-->
-<!--var data = {-->
-<!--pageIndex: this.pageIndex,-->
-<!--pageSize: this.pageSize-->
-<!--};-->
-<!--// Methods.ajax({-->
-<!--//     type: 'GET',-->
-<!--//     url: DOMAIN_MAIN + API_PREFIX + 'myRecommendTaskList',-->
-<!--//     data: data,-->
-<!--//     success: function (res) {-->
-<!--//         this.myMission = res.datas.list;-->
-<!--//         this.pageCount = res.datas.list.length;-->
-<!--//     }.bind(this)-->
-<!--// });-->
-<!--},-->
-<!--getBill: function () {-->
-<!--var data = {-->
-<!--billType: "recommendReward",-->
-<!--childId: this.loginUser.userId,-->
-<!--pageIndex: this.pageIndex,-->
-<!--pageSize: this.pageSize-->
-<!--};-->
-<!--// Methods.ajax({-->
-<!--//     type: 'GET',-->
-<!--//     url: DOMAIN_MAIN + API_PREFIX + 'getBill',-->
-<!--//     data: data,-->
-<!--//     success: function (res) {-->
-<!--//         this.billRecords = res.datas.results;-->
-<!--//         //很重要，判断当前是否是最后一页的依据-->
-<!--//         this.pageCount = res.datas.results.length;-->
-<!--//     }.bind(this)-->
-<!--// });-->
-<!--}-->
-<!--},-->
-<!--mounted: function () {-->
-<!--//this.getmyMission();-->
-<!--// this.getBill();-->
-<!--}-->
-<!--})-->
-<!--});-->
-<!--</script>-->
-
-
-<!--</div>-->

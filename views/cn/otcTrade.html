@@ -105,8 +105,8 @@
                 </tr>
                 </tbody>
             </table>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="fetchOtcList"
-                       v-if="otcList.length > 0"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="fetchOtcList"
+                       v-if="otcList.length > 0" :params="paramsObj"></page-lite>
         </div>
     </div>
     <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
@@ -150,7 +150,8 @@
                     fiterDropDown: false,
                     currencyList: [],
                     sellPays: null,
-                    reameNameStatus: null
+                    reameNameStatus: null,
+                    paramsObj: {}
                 }
             },
             computed: {
@@ -179,17 +180,17 @@
                         })
                         return
                     }
-                    if (this.loginUser.safePwdAuth == '0') {
-                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
-                            buttons: {confirm: "去设置"}, callback: function () {
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -207,17 +208,17 @@
                         })
                         return
                     }
-                    if (this.loginUser.safePwdAuth == '0') {
-                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
-                            buttons: {confirm: "去设置"}, callback: function () {
+                    if (this.reameNameStatus == null) {
+                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
+                            buttons: {confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
                         return
                     }
-                    if (this.reameNameStatus == null) {
-                        JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                    if (this.loginUser.safePwdAuth == '0') {
+                        JuaBox.confirm("<%=LANG('您还未设置交易密码！')%>", {
+                            buttons: {confirm: "去设置"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })

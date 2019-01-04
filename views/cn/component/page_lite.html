@@ -1,22 +1,22 @@
 <script type="text/x-template" id="page-lite">
-        <div class="paging">
-            <a role="button" @click="turnPrev" :class="{'disabled': isFirstPage }"><%= LANG('上一页')%></a>
-            <span>{{LANG('共n页',totalPage)}} / {{LANG('第n页',pageIndex)}}</span>
-            <a role="button" @click="turnNext" :class="{'disabled': isLastPage }"><%= LANG('下一页')%></a>
-        </div>
+    <div class="paging">
+        <a role="button" @click="turnPrev" :class="{'disabled': isFirstPage }"><%= LANG('上一页')%></a>
+        <span>{{LANG('共n页',totalPage)}} / {{LANG('第n页',pageIndex)}}</span>
+        <a role="button" @click="turnNext" :class="{'disabled': isLastPage }"><%= LANG('下一页')%></a>
+    </div>
 </script>
 
 <script>
     /***********
      **Vue Lite分页组件
      ************/
-    require(['vue'], function (Vue){
+    require(['vue'], function (Vue) {
         return Vue.component('page-lite', {
             template: "#page-lite",
             props: {
-                pageName : {
-                    type : String,
-                    default : 'pageIndex'
+                pageName: {
+                    type: String,
+                    default: 'pageIndex'
                 },
                 pageIndex: {
                     type: Number,
@@ -26,70 +26,80 @@
                     type: Number,
                     default: 10
                 },
-                pageCount : {
-                    type: Number,
-                    default:0
-                },
-                totalPage : {
+                pageCount: {
                     type: Number,
                     default: 0
                 },
-                turnPage : {
-                    type : Function,
-                    default : function () {
+                totalPage: {
+                    type: Number,
+                    default: 0
+                },
+                turnPage: {
+                    type: Function,
+                    default: function () {
 
+                    }
+                },
+                params: {
+                    type: Object,
+                    default: function () {
+                        return {}
                     }
                 }
             },
             data: function () {
-                return {
-
-                }
+                return {}
             },
             computed: {
-                isFirstPage : function () {
+                isFirstPage: function () {
                     return this.pageIndex <= 1;
                 },
-                isLastPage : function () {
+                isLastPage: function () {
                     /**
                      *作者: GongQi
                      *时间: 2018/6/7
                      *功能: 分页组件-最后一页逻辑更改
                      */
-                    return (this.pageSize *  this.pageIndex) >= this.pageCount;
+                    return (this.pageSize * this.pageIndex) >= this.pageCount;
                 }
             },
             methods: {
-                LANG : function (value, n) {
+                LANG: function (value, n) {
                     return EXX.L(value, n);
                 },
-                turnPrev : function () {
-                    if(this.isFirstPage){
+                turnPrev: function () {
+                    if (this.isFirstPage) {
                         return false;
                     }
                     this.$parent[this.pageName] -= 1;
-                    this.turnPage();
-                    this.$emit('turnPage');
+                    // this.turnPage();
+                    if (Object.keys(this.params).length > 0) {
+                        this.$emit('turn-page', this.params);
+                    } else {
+                        this.$emit('turn-page');
+                    }
                 },
-                turnNext : function () {
-                    if(this.isLastPage){
+                turnNext: function () {
+                    if (this.isLastPage) {
                         return false;
                     }
                     this.$parent[this.pageName] += 1;
-                        this.turnPage();
-                        this.$emit('turnPage');
+                    // this.turnPage();
+                    if (Object.keys(this.params).length > 0) {
+                        this.$emit('turn-page', this.params);
+                    } else {
+                        this.$emit('turn-page');
+                    }
                 }
             },
-            watch: {
+            watch: {},
+            mounted: function () {
 
             },
-            mounted: function() {
+            beforeUpdate: function () {
 
             },
-            beforeUpdate: function() {
-
-            },
-            beforeDestroy: function() {
+            beforeDestroy: function () {
 
             }
         });

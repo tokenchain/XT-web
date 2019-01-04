@@ -61,7 +61,7 @@
                 </tbody>
             </table>
         </div>
-        <page-lite page-name="pageIndexR" :page-index="pageIndexR" :page-size="pageSize" :page-count="pageCountR" :turn-page="getOrderListR" v-if="ordersR && ordersR.order.length > 0 || pageIndexR > 1"></page-lite>
+        <page-lite page-name="pageIndexR" :page-index="pageIndexR" :page-size="pageSize" :page-count="pageCountR" @turn-page="getOrderListR" v-if="ordersR && ordersR.order.length > 0 || pageIndexR > 1"></page-lite>
     </div>
 
 
@@ -125,7 +125,7 @@
                 </tbody>
             </table>
         </div>
-        <page-lite page-name="pageIndexS" :page-index="pageIndexS" :page-size="pageSize" :page-count="pageCountS" :turn-page="getOrderListS" v-if="ordersS && ordersS.order.length > 0 || pageIndexS > 1"></page-lite>
+        <page-lite page-name="pageIndexS" :page-index="pageIndexS" :page-size="pageSize" :page-count="pageCountS" @turn-page="getOrderListS" v-if="ordersS && ordersS.order.length > 0 || pageIndexS > 1"></page-lite>
     </div>
 </div>
 <%-include("../component/page_lite.html")%>

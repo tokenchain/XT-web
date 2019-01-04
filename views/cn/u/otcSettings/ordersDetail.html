@@ -60,7 +60,7 @@
             <p v-if="orderDetail.status == -1" class="memo"><span><%=LANG('已申诉')%></span>，<%=LANG('付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>
             <p v-if="orderDetail.status == 1" class="memo"><span><%=LANG('待支付')%></span>，<%=LANG('请在')%>{{outTimeDisplay}}<%=LANG('内向')%><span>{{orderDetail.sellerName}}</span><%=LANG('支付')%>
-                <span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>，<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
+                <span>{{parseFloat(orderDetail.totalAmount)}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>，<%=LANG('付款参考号：')%><span>{{orderDetail.no}}</span>
             </p>
             <p v-if="orderDetail.status == 2" class="memo"><span><%=LANG('已支付')%></span>，<%=LANG('待打币，付款参考号：')%> <span>{{orderDetail.no}}</span>
             </p>

@@ -19,7 +19,7 @@
                         <td>{{item.mobile}}</td>
                         <td>{{item.coinXtCount}}</td>
                         <td>{{item.cashBackTime}}</td>
-                        <td>{{item.isSendXt ? '已返拥' : '待返拥'}}</td>
+                        <td>{{item.isSendXt ? <%= LANG('已返拥') %> : <%= LANG('待返拥') %>}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -41,7 +41,7 @@
                     </tbody>
                 </table>
             </div>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getSingleDayData" v-if="datas.results.length > 0 || pageIndex > 1"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getSingleDayData" v-if="datas.results.length > 0"></page-lite>
         </div>
     </div>
 </script>
@@ -77,6 +77,7 @@
                     pageIndex: 1,
                     pageSize: 10,
                     pageCount: 0,
+                    totalPage: 0,
                     datas: {results: []},
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
@@ -90,22 +91,24 @@
                     console.log(this.mode)
                     var Interface = this.mode === 'income' ? 'getEverydayEarningsDetail' : 'findUserDetailByPage'
                     var parms = this.mode === 'income' ? {
-                        userId: this.loginUser.userId,
                         pageIndex: this.pageIndex,
-                        time: this.addZore(this.cashBackTime)
+                        dateTime: Methods.getTimeStamp(this.cashBackTime)
                     } : {
-                        queryTime: this.addZore(this.cashBackTime),    //'2018-09-25 00:00:00',
+                        queryTime: this.cashBackTime,    //'2018-09-25',
                         pageNum: this.pageIndex,
                         pageSize: this.pageSize
                     }
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        '/exchange/xt_extends/controller/website/partnercontroller/' + Interface,
-                        type: 'post',
+                        '/exchange/xt/controller/website/PartnerController/' + Interface,
+                        type: 'GET',
                         data: parms,
                         success: function (res) {
-                            console.log(res, 'SingleDayData')
                             this.datas = res.datas
+                            this.pageCount = res.datas.totalRow
+                            this.pageSize = res.datas.pageSize
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
                         }.bind(this)
                     });
                 }
@@ -114,6 +117,7 @@
 
             },
             created: function () {
+                console.log(this.cashBackTime)
                 this.getSingleDayData()
             },
             mounted: function () {

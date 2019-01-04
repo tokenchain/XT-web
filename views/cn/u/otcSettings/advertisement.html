@@ -57,8 +57,8 @@
             </tr>
             </tbody>
         </table>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getfinList"
-                   v-if="finList.length > 0"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getfinList"
+                   v-if="finList.length > 0" :params="paramsObj"></page-lite>
     </div>
     <modal v-cloak :open="showModal == 'upAdvs'" @close="showModal = false">
         <up-advs :adv-detail="record" :type="'1'"/>
@@ -84,7 +84,8 @@
                     record: {},
                     fiterDropDown: false,
                     currencyList: [],
-                    reameNameStatus: null
+                    reameNameStatus: null,
+                    paramsObj: {}
                 }
             },
             created() {

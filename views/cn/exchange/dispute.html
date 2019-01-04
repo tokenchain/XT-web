@@ -100,7 +100,7 @@
                     </li>
                 </ul>
             </div>
-            <page-lite v-if="appealInfo.appealproofInfo.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="appealInfo.appealInfo.pages-1" :turn-page="getAppealInfo"></page-lite>
+            <page-lite v-if="appealInfo.appealproofInfo.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="appealInfo.appealInfo.pages-1" @turn-page="getAppealInfo"></page-lite>
             <modal :open="showModal" @close="showModal = false">
                 <dispute-form :order-code="appealInfo.appealInfo.orderId" :appeal-code="appealInfo.appealInfo.id" @success="refreshAppealInfo"></dispute-form>
             </modal>

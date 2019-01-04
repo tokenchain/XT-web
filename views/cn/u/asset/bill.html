@@ -79,7 +79,7 @@
 
             </div>
         </div>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getBill" v-if="billRecords.length > 0 || pageIndex > 1"></page-lite>
     </div>
 
 </div>

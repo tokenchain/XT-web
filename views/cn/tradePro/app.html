@@ -257,6 +257,8 @@
                 canUseMoney: function () {
                     if (this.isLogin) {
                         // return this.showMoney(this.getUseable(this.money));
+                        console.log(this.money, 111)
+                        console.log(EXX.userNav.userCoinFunds)
                         return Methods.fixDecimal(this.getUseable(this.money), 8);
                     } else {
                         return "0";

@@ -110,7 +110,8 @@
                 userCoinFunds: function () {
                     var coins = this.coinConfig || [];
                     var userAssets = this.userAssets;
-
+                    console.log(this.userAssets, 222)
+                    console.log(coins, 22233)
                     var coinAssets = [];
                     coins.forEach(function (coin, index, array) {
                         var coinItem = coin;
@@ -123,7 +124,7 @@
                         });
                         coinAssets.push(coinItem);
                     }.bind(this));
-
+                    console.log(coinAssets, 333)
                     return coinAssets;
                 }
             },
@@ -326,7 +327,7 @@
                     this.getAccountAssets();
                 }
                 //获取货币信息
-                // this.getCoinConfig();
+                this.getCoinConfig();
                 //获取市场配置
                 // this.getMarketConfig();
                 //初始化鼠标监听

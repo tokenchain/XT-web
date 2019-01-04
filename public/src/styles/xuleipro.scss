@@ -1864,32 +1864,6 @@ button {
           transition: all .5s;
           position: relative;
           z-index: 1;
-          // &::before {
-          //   content: " ";
-          //   position: absolute;
-          //   top: 0;
-          //   left: 0;
-          //   width: 0;
-          //   height: 100%;
-          //   // display: block;
-          //   background-color: #846af7;
-          //   opacity: 0;
-          //   z-index: -1;
-          //   border-radius: 6px;
-          //   transition: all .3s;
-          // }
-          // &:hover {
-          //   color: #fff;
-          //   background-color: #846af7;
-          //   -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          //   -moz-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          //   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
-          // }
-          // &:hover::before {
-          //   content: " ";
-          //   width: 100%;
-          //   opacity: 1;
-          // }
         }
       }
 
@@ -1932,7 +1906,7 @@ button {
           td {
             -webkit-transition: all .3s;
             transition: all .3s;
-            padding: 0 20px;
+            //padding: 0 20px;
 
             span {
               color: #FFBE3F;
@@ -2384,47 +2358,23 @@ button {
             position: relative;
             width: 200px;
             height: 200px;
-            background-image: linear-gradient(0deg,
-              #a18cd1 0%,
-              #fbc2eb 100%),
-              linear-gradient(#9bbb58,
-              #9bbb58);
-            background-blend-mode: normal,
-              normal;
+            margin-right: 30px;
             border-radius: 100px;
 
-            //margin: 0 80px;
-            &.total {
-              background-image: linear-gradient(0deg,
-                #66a6ff 0%,
-                #78cfff 50%,
-                #89f7fe 100%),
-                linear-gradient(#9bbb58,
-                #9bbb58);
-              background-blend-mode: normal,
-                normal;
-            }
-
-            &.totalYearstday {
-              background-image: linear-gradient(0deg,
-                #8ec5fc 0%,
-                #e0c3fc 100%),
-                linear-gradient(#9bbb58,
-                #9bbb58);
-              background-blend-mode: normal,
-                normal;
-            }
-
             &:first-child {
-              margin-right: 140px;
-              background-image: linear-gradient(0deg,
-                #9face6 0%,
-                #8accde 50%,
-                #74ebd5 100%),
-                linear-gradient(#9bbb58,
-                #9bbb58);
-              background-blend-mode: normal,
-                normal;
+              background: linear-gradient(#F8BF66, #FF9EB5);
+            }
+
+            &:nth-child(2) {
+              background: linear-gradient(#FFE0EF, #B494E4);
+            }
+
+            &:nth-child(3) {
+              background: linear-gradient(#FFE6E2, #EDA2E0);
+            }
+
+            &:nth-child(4) {
+              background: linear-gradient(#FFE5D3, #F982AB);
             }
 
             .content {
@@ -2598,7 +2548,7 @@ button {
     color: #000;
     font-size: 14px;
     width: 100%;
-    padding: 0 20px 20px;
+    padding: 0 0px 20px 0px;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
@@ -2629,6 +2579,14 @@ button {
       tr {
         td {
           padding: 22px 0;
+
+          &:first-of-type {
+            padding-left: 20px;
+          }
+
+          &:last-of-type {
+            padding-right: 20px;
+          }
         }
 
         td:last-child {
@@ -2675,6 +2633,8 @@ button {
               font-weight: bold;
             }
           }
+
+          transition: all 0.3s;
         }
       }
     }
@@ -3022,9 +2982,8 @@ button {
     }
   }
 
-  .advertisement,
-  .finance {
-    padding: 0px 30px 20px 30px;
+  .advertisement, .finance {
+    padding: 0px 0px 20px 0px;
     width: 100%;
     font-size: 14px;
     color: #000;
@@ -3074,6 +3033,15 @@ button {
       tr {
         td {
           padding: 22px 0;
+
+          &:first-of-type {
+            padding-left: 20px;
+          }
+
+          &:last-of-type {
+            padding-right: 20px;
+          }
+
         }
 
         td:last-child {
@@ -3096,9 +3064,8 @@ button {
 
       tbody {
         tr {
-
-          &:nth-child(even),
-          &:hover {
+          transition: all 0.3s;
+          &:nth-child(even), &:hover {
             background-color: #FFFBF2;
           }
 
@@ -3335,7 +3302,7 @@ button {
   }
 
   .finance {
-    padding: 20px 30px 80px 30px;
+    padding: 20px 0px 80px 0px;
     width: 100%;
     margin: 0 auto;
     font-size: 14px;
@@ -5283,7 +5250,11 @@ input::-webkit-inner-spin-button {
   }
 
   .exx-modal-button {
-    padding: 0 30px 20px 30px;
+    padding: 0 10px 20px 10px;
+
+    button {
+      padding: 10px 15px;
+    }
   }
 }
 
@@ -5646,6 +5617,7 @@ input::-webkit-inner-spin-button {
 
     tbody {
       tr {
+        transition: all 0.3s;
         td {
           font-size: 14px;
           color: #666;

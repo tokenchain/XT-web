@@ -50,8 +50,8 @@
             </tr>
             </tbody>
         </table>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getOrderList"
-                   v-if="orderList.length > 0"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getOrderList"
+                   v-if="orderList.length > 0" :params="paramsObj"></page-lite>
     </div>
 </div>
 
@@ -73,6 +73,7 @@
                     fiterDropDown: false,
                     reameNameStatus: null,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    paramsObj: {}
                 }
             },
             created() {

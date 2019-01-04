@@ -3,14 +3,6 @@
 <script type="text/x-template" id="fiterDropDown">
     <div class="fiterDropDown" v-if="open">
         <form v-if="type == 1">
-            <!--<div class="item">
-                <label for=""><%= LANG('国家') %></label>
-                <select name="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                </select>
-            </div>-->
 
             <div class="item">
                 <label for=""><%= LANG('法币币种') %></label>
@@ -148,7 +140,7 @@
 
             <div class="item">
                 <label for=""><%= LANG('币种') %></label>
-                <select name="" v-model="formModel_fin.orderCoin">
+                <select name="" v-model="formModel_fin.currencyName">
                     <option :value="item.shortName" v-cloak="" v-for="item in coinList">{{item.name}}</option>
                 </select>
             </div>
@@ -163,12 +155,13 @@
         </form>
         <div class="exx-modal-button">
             <button class="exxbtn btn-cancel" type="button" @click="close"><span><%= LANG('取消') %></span></button>
+            <button class="exxbtn btn-cancel" type="button" @click="clear"><span><%= LANG('清空') %></span></button>
             <button class="exxbtn btn-ok" @click="saveData"><span><%= LANG('保存') %></span></button>
         </div>
     </div>
 </script>
 <script>
-    require(['vue', 'datepicker'], function (Vue) {
+    require(['vue', 'common/methods', 'datepicker'], function (Vue, Methods) {
         return Vue.component('fiterDropDown', {
             template: '#fiterDropDown',
             name: 'fiterDropDown',
@@ -223,7 +216,7 @@
                     formModel_fin: {
                         beginTime: '',
                         endTime: '',
-                        orderCoin: '',
+                        currencyName: '',
                         legalCurrencyId: '',
                         data: ''
                     },
@@ -233,8 +226,8 @@
                 open: function () {
                     if (this.open) {
                         if (this.type == 2 || this.type == 3 || this.type == 4) {
-                            this[this.modal].endTime = ''
-                            this[this.modal].beginTime = ''
+                            this[this.modal].endTime = this[this.modal].endTime && Methods.getDateTime(this[this.modal].endTime, 'YYYY-MM-DD HH:MM:SS')
+                            this[this.modal].beginTime = this[this.modal].beginTime && Methods.getDateTime(this[this.modal].beginTime, 'YYYY-MM-DD HH:MM:SS')
                             this.$nextTick(function () {
                                 $('#beginTime').datepicker({
                                     orientation: "bottom left",
@@ -274,6 +267,12 @@
                 }
             },
             methods: {
+                clear: function () {
+                    var obj = this[this.modal]
+                    Object.keys(obj).forEach(key => {
+                        obj[key] = ''
+                    });
+                },
                 changeCurrency: function (e) {
                     var tode = this.currencyList.find(function (item) {
                         return item.id == e.target.value
@@ -290,13 +289,12 @@
                         this[this.modal].beginTime = this[this.modal].beginTime && Methods.getTimeStamp(this[this.modal].beginTime)
                         this[this.modal].endTime = this[this.modal].endTime && Methods.getTimeStamp(this[this.modal].endTime)
                     }
-                    console.log(this[this.modal])
+                    this.$parent.paramsObj = this[this.modal]
                     this.$emit('fetch-list', this[this.modal])
                     this.close()
                 },
                 close: function () {
                     this.$parent.fiterDropDown = false
-                    // this[this.modal] = {}
                 }
             }
         })

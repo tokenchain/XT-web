@@ -2,36 +2,16 @@
 <%-include("model/export.html")%>
 <%-include("model/modalList.html")%>
 
-<!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.css">-->
-<!--<link rel="stylesheet" href="/lib/bootstrap-datepicker-master/css/bootstrap-datepicker.standalone.css">-->
-<style>
-    .datepicker.dropdown-menu.datepicker-orient-bottom {
-        /*top: 170px !important;*/
-    }
-</style>
-
 <div id="earnings" class="earningsDetails">
     <div class="topContiner">
         <div class="head">
             <h3><%= LANG('收益详情') %></h3>
             <div class="form-group">
                 <div class="form-control">
-                    <input v-model="month" type="text" class="form-control" id="dataPicker"  placeholder="请选择">
+                    <input v-model="month" type="text" class="form-control" id="dataPicker" placeholder="请选择">
                     <i class="icon iconfont icon-shijian1"></i>
                 </div>
             </div>
-            <!--<div class="dropdown" v-cloak="">
-                <p style="" role="button" data-toggle="dropdown"><em>{{month == 'all' ? "<%= LANG('请选择月份') %>" : month + "<%= LANG('月') %>"}}</em></p>
-                <div class="dropdown-menu">
-                    <ul class="dropdown-list">
-                        &lt;!&ndash;<li><a role="button" @click="changeMonth('all')"><%= LANG('请选择月份') %></a></li>&ndash;&gt;
-                        <li v-for="(item, index) in 12" :class="{'active': month==item}"><a role="button" @click="changeMonth(item)">{{item}}<%= LANG('月') %></a></li>
-
-                        &lt;!&ndash;<li v-show="item.name !=='qtum'" v-for="(item,index) in coinConfig" :class="{'active': item.name == currentCoin}"><a @click="changeCoin(item.name)">{{item.name
-                            .toUpperCase()}}</a></li>&ndash;&gt;
-                    </ul>
-                </div>
-            </div>-->
             <div class="export" @click="openModal()">
                 <%= LANG('导出') %>
                 <i class="icon iconfont icon-excel"></i>
@@ -47,7 +27,7 @@
                 </li>
                 <li>
                     <div class="content">
-                        <p><%= LANG('昨日收益') %></p>
+                        <p><%= LANG('本月收益') %></p>
                         <p v-cloak>{{earnData.yesterdayXt}}<%= LANG('次') %></p>
                     </div>
                 </li>
@@ -94,7 +74,7 @@
     </modal>
 </div>
 <script>
-    require(['vue', 'common/methods', 'common/juabox', 'datepicker'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'datepicker'], function (Vue, Methods) {
         var earningsDetails = new Vue({
             el: "#earnings",
             data: function () {
@@ -117,12 +97,14 @@
                 openModal: function () {
                     this.showModal = 'export'
                 },
-                getIncomeDetails() {
+                getIncomeDetails(timeStamp) {
                     Methods.ajax({
                         url: DOMAIN_DEV +
-                        '/exchange/xt_extends/controller/website/partnercontroller/getOverviewOfEarnings',
-                        type: 'post',
-                        data: {userId: this.loginUser.userId},
+                            '/exchange/xt/controller/website/PartnerController/getOverviewOfEarnings',
+                        type: 'GET',
+                        data: {
+                            dateTime: Methods.getTimeStamp(timeStamp)
+                        },
                         success: function (res) {
                             this.earnData = res.datas
                         }.bind(this)
@@ -130,7 +112,7 @@
                 },
                 lookDetails: function (cashBackTime) {
                     this.cashBackTime = cashBackTime
-                    console.log(this.cashBackTime, '111111111')
+                    console.log(this.cashBackTime)
                     this.showModal = 'modalList'
                 }
             },
@@ -138,23 +120,23 @@
 
             },
             mounted: function () {
-                this.getIncomeDetails()
+                this.getIncomeDetails(new Date())
 
                 $('#dataPicker').datepicker({
                     orientation: "bottom left",
                     language: {
                         en: 'en',
                         cn: "zh-CN",
-                    }[getCookie('wlan')],
+                    }[getCookie(ENV + 'lan')],
                     autoclose: true,
                     format: 'yyyy-mm-dd',
                     // startView: 0,
                     // minViewMode: 1,
                 }).on('changeDate', function (ev) {
+                    // console.log(ev.timeStamp, $('#dataPicker').val())
                     this.month = $('#dataPicker').val()
-                    this.getIncomeDetails()
+                    this.getIncomeDetails(ev.date)
                 }.bind(this))
-
             },
             updated: function () {
 

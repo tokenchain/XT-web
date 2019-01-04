@@ -56,7 +56,7 @@
                     </tbody>
                 </table>
             </div>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getDetailsList"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getDetailsList"></page-lite>
         </div>
     </div>
 </script>

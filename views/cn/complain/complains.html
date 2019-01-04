@@ -49,7 +49,7 @@
             </ul>
         </div>
     </main>
-    <page-lite v-show="totalRow/pageSize>1" :page-index="pageIndex" :page-size="pageSize" :page-count="totalRow" :turn-page="turnPage"></page-lite>
+    <page-lite v-show="totalRow/pageSize>1" :page-index="pageIndex" :page-size="pageSize" :page-count="totalRow" @turn-page="turnPage"></page-lite>
     <div v-show="totalRow/pageSize>1" class="comPage">共{{totalPages}}页</div>
 </div>
 <%-include("../component/page_lite.html")%>
