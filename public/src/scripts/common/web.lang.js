@@ -3088,6 +3088,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7108": {
+        "cn": "单笔交易小于/超过额度",
+        "en": "Single transaction less than/exceeded",
+        "jp": "",
+        "kr": ""
+    },
     "7042": {
         "cn": "短信验证码10分钟内只能发送一次！",
         "en": "Verification code sent once in ten minutes",
