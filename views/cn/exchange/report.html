@@ -153,7 +153,7 @@
                     </tbody>
                 </table>
             </div>
-            <page-lite v-if="reportList.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="reportList.length" :turn-page="getReportList"></page-lite>
+            <page-lite v-if="reportList.length || pageIndex > 1" :page-index="pageIndex" :page-size="pageSize" :page-count="reportList.length" @turn-page="getReportList"></page-lite>
         </div>
     </div>
 </div>

@@ -105,8 +105,8 @@
                 </tr>
                 </tbody>
             </table>
-            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="fetchOtcList"
-                       v-if="otcList.length > 0"></page-lite>
+            <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="fetchOtcList"
+                       v-if="otcList.length > 0" :params="paramsObj"></page-lite>
         </div>
     </div>
     <modal v-cloak :open="showModal == 'otcTradeModal'" @close="showModal = false">
@@ -150,7 +150,8 @@
                     fiterDropDown: false,
                     currencyList: [],
                     sellPays: null,
-                    reameNameStatus: null
+                    reameNameStatus: null,
+                    paramsObj: {}
                 }
             },
             computed: {

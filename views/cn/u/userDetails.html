@@ -2,7 +2,7 @@
 <%-include("model/export.html")%>
 <%-include("model/modalList.html")%>
 
-<div id="earnings" class="earningsDetails">
+<div id="earnings" class="earningsDetails userDetails">
     <div class="topContiner">
         <div class="head">
             <h3><%= LANG('用户详情') %></h3>
@@ -22,13 +22,25 @@
                 <li class="total">
                     <div class="content">
                         <p><%= LANG('新增用户') %></p>
-                        <p v-cloak>{{earnData.userCount}}<%= LANG('人') %></p>
+                        <p v-cloak>{{earnData.totalUserCount}}<%= LANG('人') %></p>
                     </div>
                 </li>
                 <li class="totalYearstday">
                     <div class="content">
                         <p><%= LANG('新增有效用户数') %></p>
-                        <p v-cloak>{{earnData.userEffectiveAcount}}<%= LANG('人') %></p>
+                        <p v-cloak>{{earnData.totalEffectiveCount}}<%= LANG('人') %></p>
+                    </div>
+                </li>
+                <li class="totalYearstday">
+                    <div class="content">
+                        <p><%= LANG('本月邀请用户数') %></p>
+                        <p v-cloak>{{earnData.monthUserCount}}<%= LANG('人') %></p>
+                    </div>
+                </li>
+                <li class="totalYearstday">
+                    <div class="content">
+                        <p><%= LANG('本月邀请有效用户数') %></p>
+                        <p v-cloak>{{earnData.monthEffectiveCount}}<%= LANG('人') %></p>
                     </div>
                 </li>
             </ul>

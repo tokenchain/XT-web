@@ -123,7 +123,7 @@
         </div>
 
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" :turn-page="getUserEntrustList"
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getUserEntrustList"
             v-if="records.length > 0 && !isAll"></page-lite>
     </div>
 </div>

@@ -26,8 +26,8 @@
                 </li>
                 <li>
                     <span>
-                        <%= LANG('昨日收益') %></span>
-                    <em>{{yesterdayProfite | numFilter}}
+                        <%= LANG('本月收益') %></span>
+                    <em>{{monthProfit | numFilter}}
                         <%= LANG('XT') %></em>
                 </li>
             </ul>
@@ -127,17 +127,13 @@
                 return {
                     reommendUrl: location.protocol + '//' + location.host + '/r/' + (Methods.getLocalUserInfo()
                         .recommendCode || ''),
-                    // myRecommend: [],
-                    // pageIndex: 1,
-                    // pageSize: 20,
-                    // pageCount: 0,
                     isLogin: ISLOGIN,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                     recommendCode: Methods.getLocalUserInfo().recommendCode || '', // 邀请码
                     userEffectiveAcount: '', //有效用户数
                     userCount: '', // 注册人数
                     totalProfit: '', // 总收益
-                    yesterdayProfite: '', // 昨日收益
+                    monthProfit: '', // 昨日收益
                     earningsList: [] // 收益比例列表
                 }
             },
@@ -148,11 +144,6 @@
                 })
             },
             mounted: function () {
-                // this.getmyRecommend();
-                // var clipboard = new Clipboard('#copy_url');
-                // clipboard.on('success', function (e) {
-                //     JuaBox.info("<%= LANG('复制您的推荐人地址成功!') %>");
-                // });
                 QRCode.toCanvas(document.getElementById('canvas'), this.reommendUrl, {
                     width: 150,
                     height: 150
@@ -180,7 +171,7 @@
                             this.userCount = res.datas.userCount
                             this.userEffectiveAcount = res.datas.userEffectiveAcount
                             this.totalProfit = res.datas.totalProfit
-                            this.yesterdayProfite = res.datas.yesterdayProfite
+                            this.monthProfit = res.datas.monthProfit
                         }.bind(this)
                     });
                 },
@@ -207,129 +198,7 @@
                         JuaBox.success("<%= LANG('复制成功!') %>");
                     }
                 }
-                // 我的推荐
-                // getmyRecommend: function () {
-                //     if (!this.isLogin) {
-                //         return false;
-                //     }
-                //     var data = {
-                //         pageIndex: this.pageIndex,
-                //         pageSize: this.pageSize,
-                //         userId: this.loginUser.userId
-                //     };
-                //     Methods.ajax({
-                //         url: DOMAIN_DEV +
-                //             '/exchange/user/controller/website/UserController/myRecommendList',
-                //         data: JSON.stringify(data),
-                //         success: function (res) {
-                //             this.myRecommend = res.datas.results;
-                //             this.pageCount = res.datas.totalRow;
-                //         }.bind(this)
-                //     });
-                // },
-                // getDateTime: function (timestamp, format) {
-                //     return Methods.getDateTime(timestamp, format)
-                // },
-            },
+            }
         })
     });
 </script>
-
-
-<!--<div class="recommend-list bill-panel" id="myMission" v-cloak="">-->
-<!--<h3><%= LANG('我的推荐奖励记录') %></h3>-->
-<!--<div class="bill-panel-body" v-cloak="">-->
-<!--<div class="table head">-->
-<!--<div class="cell coin"><%= LANG('币种')%></div>-->
-<!--<div class="cell time"><%= LANG('时间')%></div>-->
-<!--<div class="cell type"><%= LANG('类型')%></div>-->
-<!--<div class="cell amount"><%= LANG('奖励金额')%></div>-->
-<!--</div>-->
-<!--<div class="table body" v-for="bill in billRecords" v-if="billRecords.length > 0">-->
-<!--<div class="cell coin"><img-->
-<!--:src="'/src/images/icon/market-icon/market-'+ bill.mainCurrency.toLowerCase() +'.png'"-->
-<!--class="market-icon">{{bill.mainCurrency}}-->
-<!--</div>-->
-<!--<div class="cell time">{{showDate(bill.billDate)}}</div>-->
-<!--<div class="cell type">{{bill.typeName}}</div>-->
-<!--<div class="cell amount">-->
-<!--<div class="amount1">-->
-<!--<p style="margin-bottom: 0"><span :class="bill.inout == '+' ? 'plus' : 'less'">{{bill.inout}} {{bill.mainChange}} <em>{{bill.mainCurrency}}</em></span>-->
-<!--</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="table no-data" v-if="billRecords.length == 0">-->
-<!--<%= LANG('暂无记录')%>-->
-<!--</div>-->
-<!--</div>-->
-<!--<page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount"-->
-<!--:turn-page="getBill"></page-lite>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {-->
-<!--var mission = new Vue({-->
-<!--el: "#myMission",-->
-<!--data: function () {-->
-<!--return {-->
-<!--myMission: [],-->
-<!--billRecords: [],-->
-<!--pageIndex: 1,-->
-<!--pageSize: 10,-->
-<!--pageCount: 0,-->
-<!--isLogin: ISLOGIN,-->
-<!--loginUser: Methods.getLocalUserInfo()-->
-<!--}-->
-<!--},-->
-<!--methods: {-->
-<!--showDate: function (date) {-->
-<!--return Methods.getDateTime(date, 'YYYY-MM-DD HH:MM:SS');-->
-<!--},-->
-<!--getmyMission: function () {-->
-<!--if (!this.isLogin) {-->
-<!--return false;-->
-<!--}-->
-<!--var data = {-->
-<!--pageIndex: this.pageIndex,-->
-<!--pageSize: this.pageSize-->
-<!--};-->
-<!--// Methods.ajax({-->
-<!--//     type: 'GET',-->
-<!--//     url: DOMAIN_MAIN + API_PREFIX + 'myRecommendTaskList',-->
-<!--//     data: data,-->
-<!--//     success: function (res) {-->
-<!--//         this.myMission = res.datas.list;-->
-<!--//         this.pageCount = res.datas.list.length;-->
-<!--//     }.bind(this)-->
-<!--// });-->
-<!--},-->
-<!--getBill: function () {-->
-<!--var data = {-->
-<!--billType: "recommendReward",-->
-<!--childId: this.loginUser.userId,-->
-<!--pageIndex: this.pageIndex,-->
-<!--pageSize: this.pageSize-->
-<!--};-->
-<!--// Methods.ajax({-->
-<!--//     type: 'GET',-->
-<!--//     url: DOMAIN_MAIN + API_PREFIX + 'getBill',-->
-<!--//     data: data,-->
-<!--//     success: function (res) {-->
-<!--//         this.billRecords = res.datas.results;-->
-<!--//         //很重要，判断当前是否是最后一页的依据-->
-<!--//         this.pageCount = res.datas.results.length;-->
-<!--//     }.bind(this)-->
-<!--// });-->
-<!--}-->
-<!--},-->
-<!--mounted: function () {-->
-<!--//this.getmyMission();-->
-<!--// this.getBill();-->
-<!--}-->
-<!--})-->
-<!--});-->
-<!--</script>-->
-
-
-<!--</div>-->

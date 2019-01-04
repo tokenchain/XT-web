@@ -74,7 +74,7 @@
             </table>
         </div>
 
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getAdList" v-if="ads.length > 0"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" @turn-page="getAdList" v-if="ads.length > 0"></page-lite>
     </div>
 </div>
 <%-include("../component/page_lite.html")%>

@@ -117,7 +117,6 @@
                                 userId: this.loginUser.userId
                             },
                             success: function (res) {
-                                console.log(res.datas)
                                 JuaBox.success(EXX.L(res.resMsg.code));
                                 this.queryBussinese()
                             }.bind(this),

@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" :turn-page="getSweetRecord" v-if="sweetRecords.length > 0"></page-lite>
+        <page-lite :page-index="pageIndex" :page-size="pageSize" :page-count="pageCount" @turn-page="getSweetRecord" v-if="sweetRecords.length > 0"></page-lite>
     </div>
 
     <modal :open= "showModal == 'sweet'" @close="showModal = false">
