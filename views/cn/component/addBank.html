@@ -1,0 +1,187 @@
+<script type="text/x-template" id="addBank">
+    <div class="exx-modal-container" id="addBank">
+        <div class="exx-modal-header">
+            <h3><%= LANG('添加银行卡') %></h3>
+            <span>C2C交易仅限添加一张银行卡</span>
+        </div>
+        <div class="exx-modal-body">
+            <div class="exx-form-box">
+                <div class="form-box">
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('开户名：') %></label>
+                        <div class="form-control">
+                            <input type="text" v-model="formData.userName" placeholder="<%= LANG('请输入开户名') %>" readonly style="background: #f3f3f3;">
+                            <p class="warn-info">提示：只可添加本人名下的银行卡</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('开户银行：') %></label>
+                        <div class="form-control" @click="displayBankSelect = !displayBankSelect">
+                            <input type="text" readonly v-model="formData.bankName" placeholder="<%= LANG('请选择银行') %>"/>
+                            <transition name="fade">
+                                <div class="ex-select-dropdown" v-show="displayBankSelect">
+                                    <ul class="ex-select-dropdown-list">
+                                        <li v-for="bank in bankList" class="ex-select-item" @click="selectBankInfo(bank)" >
+                                            <img :src="bank.icon" alt="" class="ex-select-icon">{{bank.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </transition>
+                            <p class="warn-info">提示：人民币提现仅支持列表中的银行</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('开户银行所在地：') %></label>
+                        <div class="form-control">
+                            <province-city @listenProvince="selectedProvince" @listenCity="selectedCity" :displayBankSelect="displayBankSelect"></province-city>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('开户支行名称：') %></label>
+                        <div class="form-control">
+                            <input type="text" v-model="formData.bankAddress" placeholder="<%= LANG('请输入开户支行名称') %>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('银行卡号：') %></label>
+                        <div class="form-control">
+                            <input type="tel" v-model="formData.bankNo" maxlength="19" placeholder="<%= LANG('请输入银行卡号') %>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('重复卡号：') %></label>
+                        <div class="form-control">
+                            <input type="tel" v-model="againBankAccount" maxlength="19" placeholder="<%= LANG('请再次输入银行卡号') %>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><%= LANG('交易密码：') %></label>
+                        <div class="form-control">
+                            <input type="text" autocomplete='new-password' onfocus="this.type='password'" v-model="formData.safePassword" placeholder="<%= LANG('请输入交易密码') %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-button">
+                <button @click="addBank"><%=LANG('添加')%></button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('addBank', {
+            template: "#addBank",
+            props: {
+                done: {
+                    type: Function,
+                    default: function () {
+
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
+                    formData: {
+                        userName: '', // 开户名
+                        bankName: "", // 开户银行 
+                        bankProvince: '',
+                        bankCity: '',
+                        bankAddress: '',  // 开户支行银行
+                        bankNo: '', // 银行卡号
+                        safePassword: '',  // 交易密码
+                        rsaKeyId: ''
+                    },
+                    againBankAccount: '',  // 重复卡号
+                    bankList: [], // 银行列表
+                    displayBankSelect:false,
+                    pubKey: ''
+                }
+            },
+            created () {
+                this.getBankList()
+                this.getPubKey()
+                this.getUserName()
+            },
+            methods: {
+                // 获取开户银行列表
+                getBankList: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/XtOtcController/selectBankList",
+                        success: function (res) {
+                            this.bankList = res.datas;
+                        }.bind(this)
+                    });
+                },
+                // 获取开户名
+                getUserName: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/getUserRealNameByUserId',
+                        data: {
+                            Userid: this.loginUser.userId
+                        },
+                        success: function (res) {
+                            this.formData.userName = res.datas
+                        }.bind(this)
+                    })
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.pubKey = res.datas.pubKey;
+                            this.formData.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                // 选择开户行
+                selectBankInfo:function(bank){
+                    this.formData.bankName = bank.name;
+                },
+                // 选择省
+                selectedProvince: function (province) {
+                    this.formData.bankProvince = province
+                },
+                // 选择市
+                selectedCity: function (city) {
+                    this.formData.bankCity = city
+                },
+                // 添加银行卡表单提交
+                addBank() {
+                    // 循环formData每一项，如果有一个没有填写，就给出提示
+                    for (const item in this.formData) {
+                        if (this.formData[item] == '') {
+                            JuaBox.wrong("<%=LANG('信息不能为空/格式不正确提示！')%>")
+                            return
+                        }
+                    }
+                    if(this.formData.bankNo.length < 12) {
+                        JuaBox.wrong("<%=LANG('银行卡号不能少于12位数！')%>")
+                        return
+                    }
+                    if(this.formData.bankNo != this.againBankAccount) {
+                        JuaBox.wrong("<%=LANG('两次输入的银行卡号不一致！')%>")
+                        return
+                    }
+                    this.formData.safePassword = Methods.encryptPwd(this.formData.safePassword, this.pubKey);
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV + "/exchange/legalTradeController/addUserBank",
+                        data: this.formData,
+                        success: function (res) {
+                            JuaBox.success(EXX.L(res.resMsg.code));
+                            this.$parent.close();
+                            this.$emit('fetch')
+                        }.bind(this)
+                    });
+                }
+            }
+        })
+    })
+</script>

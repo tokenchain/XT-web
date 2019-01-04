@@ -1,21 +1,21 @@
 <script type="text/x-template" id="province-city">
     <div class="provice-select">
-        <div class="provice-select-item">
-            <input type="text" readonly placeholder="选择省" :class="inputClass" :value="selected"/>
+        <div class="provice-select-item" style="float:left" @click="displaySelectProvince = !displaySelectProvince">
+            <input type="text" readonly placeholder="选择省" :class="inputClass" v-model="provinceVal"/>
             <transition name="fade">
-                <div class="ex-select-dropdown" v-show="true">
+                <div class="ex-select-dropdown" v-show="displaySelectProvince">
                     <ul class="ex-select-dropdown-list">
-                        <li v-for="pr in province" @click="selected = pr.text" class="ex-select-item">{{pr.text}}</li>
+                        <li v-for="pr in province" @click="selectedProvince(pr)" class="ex-select-item">{{pr.text}}</li>
                     </ul>
                 </div>
             </transition>
         </div>
-        <div class="provice-select-item">
-            <input type="text" readonly placeholder="选择市" :class="inputClass" value="selectedCity" />
+        <div class="provice-select-item" style="float:right" @click="displaySelectCity = !displaySelectCity">
+            <input type="text" readonly placeholder="选择市" :class="inputClass" v-model="cityVal" />
             <transition name="fade">
-                <div class="ex-select-dropdown" v-show="true">
+                <div class="ex-select-dropdown" v-show="displaySelectCity">
                     <ul class="ex-select-dropdown-list">
-                        <li v-for="ci in selection" @click="selectedCity = ci.text" class="ex-select-item">{{ci.text}}</li>
+                        <li v-for="ci in cityList" @click="selectedCity(ci)" class="ex-select-item">{{ci.text}}</li>
                     </ul>
                 </div>
             </transition>
@@ -31,30 +31,39 @@
                 inputClass:{
                     type:String,
                     default:''
+                },
+                displayBankSelect: {
+                    type:Boolean,
+                    default:''
                 }
             },
             data:function(){
                 return {
-                    selected: '省/直辖市',
-                    selectedCity:"不限",
+                    displaySelectProvince: false,
+                    displaySelectCity: false,
                     province:[
                         {
-                            text: "省/直辖市",
-                            city: [{
-                                text: "不限"}
+                            text: "选择省",
+                            city: [
+                                {text: "选择市"}
+                            ]
+                        },
+                        {
+                            text: "北京",
+                            city: [
+                                {text: "北京"}
                             ]
                         },
                         {
                             text: "天津",
                             city: [
-                                {text: "不限"},
+
                                 {text: "天津"},
                             ]
                         },
                         {
                             text: "河北",
                             city: [
-                                {text: "不限"},
                                 {text: "石家庄市"},
                                 {text: "唐山市"},
                                 {text: "秦皇岛市"},
@@ -71,7 +80,6 @@
                         {
                             text: "山西",
                             city: [
-                                {text: "不限"},
                                 {text: "太原市"},
                                 {text: "大同市"},
                                 {text: "阳泉市"},
@@ -88,7 +96,6 @@
                         {
                             text: "内蒙古",
                             city: [
-                                {text: "不限"},
                                 {text: "呼和浩特市"},
                                 {text: "包头市"},
                                 {text: "乌海市"},
@@ -618,19 +625,46 @@
                             ]
                         }
 
-                    ]
+                    ],
+                    provinceVal: '',
+                    cityVal: '',
+                    cityList: []
                 }
             },
-            computed: {
-                selection: {
-                    get: function() {
-                        var that = this;
-                        return this.province.filter(function(item,index) {
-                            return item.text == that.selected;
-                        })[0].city;
+            // computed: {
+            //     selection: {
+            //         get: function() {
+            //             var that = this;
+            //             return this.province.filter(function(item,index) {
+            //                 return item.text == that.selected;
+            //             })[0].city;
+            //         }
+            //     },
+            // },
+
+            
+            // 2019/1/3 组件修改 夏彬 
+
+            // 监听开户银行下拉框状态
+            watch: {
+                displayBankSelect :function (newVal) {
+                    if(newVal) {
+                        this.displaySelectProvince = false
+                        this.displaySelectCity = false
                     }
-                },
+                } 
             },
+            methods: {
+                selectedProvince(e) {
+                    this.provinceVal = e.text
+                    this.cityList = e.city
+                    this.$emit('listenProvince', this.provinceVal)
+                },
+                selectedCity(e) {
+                    this.cityVal = e.text
+                    this.$emit('listenCity', this.cityVal)
+                }
+            }
         })
     })
 </script>
@@ -677,6 +711,7 @@
 <style>
     .provice-select-item {
         position: relative;
+        width: 48%;
     }
     .provice-select-item .fade-enter-active, .provice-select-item .fade-leave-active {
         transition: all 0.5s;

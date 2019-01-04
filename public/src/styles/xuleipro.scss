@@ -31,7 +31,8 @@
  * CssDna v1.0.0 (cssdna.com)
  * Copyright 2018 The Xulei Authors
  */
-a, [role="button"] {
+a,
+[role="button"] {
   cursor: pointer;
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
@@ -47,12 +48,18 @@ input::-webkit-input-placeholder {
 }
 
 //bootstrp-datapicker  重置样式
-.datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+.datepicker table tr td span.active,
+.datepicker table tr td span.active:hover,
+.datepicker table tr td span.active.disabled,
+.datepicker table tr td span.active.disabled:hover {
   background-image: linear-gradient(to bottom, #74B7F5, #5a7ff5) !important;
   border: none;
 }
 
-.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover {
   background-image: linear-gradient(to bottom, #74B7F5, #5a7ff5) !important;
 }
 
@@ -89,7 +96,9 @@ input::-webkit-input-placeholder {
     background-color: #262a42;
   }
 
-  *, :before, :after {
+  *,
+  :before,
+  :after {
     font: inherit;
     color: inherit;
     outline: 0;
@@ -137,7 +146,8 @@ input::-webkit-input-placeholder {
       -webkit-transition: background .2s ease;
       transition: background .2s ease;
 
-      &:before, &:after {
+      &:before,
+      &:after {
         content: "";
         position: absolute;
         left: 0;
@@ -198,7 +208,7 @@ input::-webkit-input-placeholder {
       color: $home_color;
     }
 
-    > ul {
+    >ul {
       -webkit-box-flex: 0;
       -ms-flex: none;
       flex: none;
@@ -207,7 +217,7 @@ input::-webkit-input-placeholder {
       display: flex;
       height: 100%;
 
-      > li {
+      >li {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -222,7 +232,7 @@ input::-webkit-input-placeholder {
           }
         }
 
-        > [role="button"] {
+        >[role="button"] {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
@@ -246,10 +256,12 @@ input::-webkit-input-placeholder {
             position: relative;
             top: -2px;
             margin-left: 8px;
+
             border: 2px solid currentColor {
               top-color: transparent;
               left-color: transparent;
             }
+
             -webkit-transform: rotate(45deg);
             transform: rotate(45deg);
           }
@@ -260,18 +272,18 @@ input::-webkit-input-placeholder {
         }
       }
 
-      &.main-nav > li {
+      &.main-nav>li {
         margin-left: 40px;
 
-        > [role="button"] {
+        >[role="button"] {
           font-size: 14px;
         }
       }
 
-      &.user-nav > li {
+      &.user-nav>li {
         margin-left: 30px;
 
-        &.signup > [role="button"] {
+        &.signup>[role="button"] {
           border-radius: 3px;
           color: #fff;
           height: auto;
@@ -365,6 +377,7 @@ input::-webkit-input-placeholder {
   .banner-wrapper {
     padding-top: 8rem;
   }
+
   .header {
     background: #565656 !important;
     position: fixed;
@@ -402,16 +415,16 @@ input::-webkit-input-placeholder {
       display: none;
       background: #3E3E3E;
 
-      > ul {
+      >ul {
         display: block;
 
-        > li {
+        >li {
           display: block;
           border-top: 1px solid rgba(255, 255, 255, .1);
           margin: 0 !important;
           padding: 15px 25px;
 
-          > [role="button"] {
+          >[role="button"] {
             font-size: 14px !important;
             width: 100%;
 
@@ -420,7 +433,7 @@ input::-webkit-input-placeholder {
             }
           }
 
-          &.signup > [role="button"] {
+          &.signup>[role="button"] {
             padding: 0 !important;
             color: #FFBE3F !important;
             background: transparent !important;
@@ -488,6 +501,7 @@ $red-color: #ff5353;
 $green-color: #32c39f;
 $button-color: #6a6ada;
 $link-color: #8b8bec;
+
 .red-color {
   color: #ff5353;
 }
@@ -579,7 +593,8 @@ $link-color: #8b8bec;
       @include transition(all .3s ease);
     }
 
-    .control-link, .code-num {
+    .control-link,
+    .code-num {
       position: absolute;
       right: 0;
       top: 0;
@@ -692,18 +707,22 @@ button {
   overflow: hidden;
   background: url(../images/login-background.png) center center no-repeat;
   background-size: 100% 100%;
+
   @-webkit-keyframes infiniteStats {
     0% {
       @include transform(translate3d(-1440px, 0px, 0px));
     }
+
     100% {
       @include transform(translate3d(0px, 0px, 0px));
     }
   }
+
   @keyframes infiniteStats {
     0% {
       @include transform(translate3d(-1440px, 0px, 0px));
     }
+
     100% {
       @include transform(translate3d(0px, 0px, 0px));
     }
@@ -800,7 +819,7 @@ button {
     width: 400px;
     margin: 40px auto 0 auto;
 
-    > h2 {
+    >h2 {
       font-size: 30px;
       font-weight: 500;
       color: #fff;
@@ -845,7 +864,9 @@ button {
 
     .form-group {
       .form-control {
-        input[type=text], input[type=password] {
+
+        input[type=text],
+        input[type=password] {
           background: #8F8F90;
           opacity: 0.6;
           padding: 0 0 0 50px;
@@ -854,7 +875,8 @@ button {
           &::-webkit-input-placeholder {
             color: #fff !important;
           }
-        ;
+
+          ;
 
           &::-moz-placeholder {
             color: #fff !important;
@@ -867,10 +889,11 @@ button {
           &::-ms-expand {
             color: #fff !important;
           }
-        ;
+
+          ;
         }
 
-        > img {
+        >img {
           position: absolute;
           left: 18px;
           top: 12px;
@@ -920,7 +943,8 @@ button {
   transform: rotate(45deg);
 }
 
-.country-code.open .country-button, .country-code:hover .country-button {
+.country-code.open .country-button,
+.country-code:hover .country-button {
   color: #fff;
 }
 
@@ -938,6 +962,7 @@ button {
   overflow-x: hidden;
   display: none;
   color: #FFBE3F;
+
   @media screen and (max-width: 768px) {
     width: 345px;
   }
@@ -1151,6 +1176,7 @@ button {
 
   .body {
     border-radius: 0 0 5px 5px;
+
     //overflow: hidden;
     &.myRecommend-body {
       p {
@@ -1327,7 +1353,7 @@ button {
     .oper {
       margin-left: auto;
 
-      a + a {
+      a+a {
         margin-left: 10px;
       }
     }
@@ -1462,11 +1488,11 @@ button {
     position: relative;
     z-index: 12;
 
-    & + .dropdown {
+    &+.dropdown {
       margin-left: 20px;
     }
 
-    > p {
+    >p {
       padding-right: 12px;
       position: relative;
       border-radius: 3px;
@@ -1533,6 +1559,7 @@ button {
   display: flex;
   position: relative;
   background: #f7f7f7;
+
   //margin-top: 60px;
   .btn-primary {
     border-color: none !important;
@@ -1560,19 +1587,20 @@ button {
     -ms-flex: none;
     flex: none;
     width: 180px;
+
     //border-right: 1px solid rgba(255, 255, 255, 0.08);
     //padding: 50px 0;
-    > ul {
+    >ul {
       box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       background: #ffffff;
       margin-right: 20px;
       width: 160px;
 
       &.account {
-        > li {
+        >li {
           border-bottom: 1px solid #e5e5e5;
 
-          > a {
+          >a {
             padding: 28px 20px 28px 46px;
           }
 
@@ -1582,11 +1610,11 @@ button {
         }
       }
 
-      > li {
+      >li {
         //margin-bottom: 15px;
         position: relative;
 
-        > i {
+        >i {
           position: absolute;
           top: 25px;
           left: 20px;
@@ -1604,7 +1632,7 @@ button {
           }
         }
 
-        > a {
+        >a {
           font-family: MicrosoftYaHei-Bold;
           display: block;
           padding: 26px 20px;
@@ -1627,7 +1655,7 @@ button {
         &.active {
           margin-left: 0;
 
-          > a {
+          >a {
             color: $white-color;
             //background: rgba(36, 185, 255, 0.08);
             background: #FFBE3F;
@@ -1643,9 +1671,10 @@ button {
           }
 
           li {
+
             //margin-bottom: 15px;
             //position: relative;
-            > a {
+            >a {
               display: block;
               padding: 19px 20px 19px 46px;
               font-family: MicrosoftYaHei-Bold;
@@ -1672,7 +1701,7 @@ button {
             &.active {
               margin-left: 0;
 
-              > a {
+              >a {
                 color: $white-color;
                 //background: rgba(36, 185, 255, 0.08);
                 background: #FFBE3F;
@@ -1690,7 +1719,9 @@ button {
     width: 100%;
     float: left;
 
-    .partner-details, .share-info, .earnings {
+    .partner-details,
+    .share-info,
+    .earnings {
       box-shadow: 0 0 20px rgba(23, 24, 55, 0.2);
       margin-bottom: 20px;
       width: 100%;
@@ -1984,7 +2015,8 @@ button {
         margin: 90px 0 15px 0;
       }
 
-      .exchangNum, .passWord {
+      .exchangNum,
+      .passWord {
         text-align: center;
         margin-bottom: 10px;
 
@@ -2055,7 +2087,8 @@ button {
     -moz-appearance: textfield;
   }
 
-  .user-container, #user-api {
+  .user-container,
+  #user-api {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
@@ -2089,7 +2122,9 @@ button {
       .form-control {
         flex: 1;
 
-        input[type=text], input[type=password], input[type=number] {
+        input[type=text],
+        input[type=password],
+        input[type=number] {
           padding: 0 0 0 10px;
           height: 40px;
           border-radius: 4px;
@@ -2101,7 +2136,7 @@ button {
           }
         }
 
-        > img {
+        >img {
           position: absolute;
           left: 10px;
           top: 11px;
@@ -2157,7 +2192,9 @@ button {
         .form-control {
           flex: 1;
 
-          input[type=text], input[type=password], input[type=number] {
+          input[type=text],
+          input[type=password],
+          input[type=number] {
             padding: 0 0 0 10px;
             height: 40px;
             border-radius: 4px;
@@ -2169,7 +2206,7 @@ button {
             }
           }
 
-          > img {
+          >img {
             position: absolute;
             left: 10px;
             top: 11px;
@@ -2210,7 +2247,9 @@ button {
       .form-control {
         flex: 1;
 
-        input[type=text], input[type=password], input[type=number] {
+        input[type=text],
+        input[type=password],
+        input[type=number] {
           padding: 0 0 0 10px;
           height: 40px;
           border-radius: 4px;
@@ -2222,7 +2261,7 @@ button {
           }
         }
 
-        > img {
+        >img {
           position: absolute;
           left: 10px;
           top: 11px;
@@ -2308,14 +2347,14 @@ button {
       .continer {
         padding: 20px 0 0 0;
 
-        > ul {
+        >ul {
           display: flex;
           justify-content: center;
           align-items: center;
 
           text-align: center;
 
-          > li {
+          >li {
             position: relative;
             width: 200px;
             height: 200px;
@@ -2570,7 +2609,9 @@ button {
 
       tbody {
         tr {
-          &:nth-child(even), &:hover {
+
+          &:nth-child(even),
+          &:hover {
             background-color: #FFFBF2;
           }
 
@@ -2585,7 +2626,8 @@ button {
               cursor: pointer;
             }
 
-            span.status, a {
+            span.status,
+            a {
               color: #FFBE3F;
               font-family: MicrosoftYaHei-Bold;
               font-weight: bold;
@@ -2598,7 +2640,8 @@ button {
     }
   }
 
-  .ordersDetail, .advDetail {
+  .ordersDetail,
+  .advDetail {
     padding: 40px 30px 80px 30px;
     width: 100%;
     font-size: 14px;
@@ -2688,6 +2731,7 @@ button {
         }
 
         .pay {
+
           //flex: 0.5;
           label {
             display: flex;
@@ -2829,7 +2873,9 @@ button {
     box-shadow: 0px 3px 13px 0px rgba(177, 177, 177, 0.78);
 
     .status {
-      .general-business, .senior-business {
+
+      .general-business,
+      .senior-business {
         margin-bottom: 40px;
 
         .title {
@@ -2912,6 +2958,7 @@ button {
         margin-top: 40px;
         display: flex;
         justify-content: center;
+
         //align-items: center;
         input {
           margin-right: 5px;
@@ -2952,6 +2999,7 @@ button {
       .tab-box {
         justify-content: flex-start;
         flex: 1;
+
         //padding: 20px 0px;
         span {
           padding: 10px 25px;
@@ -3057,7 +3105,8 @@ button {
     }
   }
 
-  .publishAdv, .settingsPayType {
+  .publishAdv,
+  .settingsPayType {
     width: 100%;
     margin-top: 10px;
 
@@ -3124,7 +3173,8 @@ button {
             margin-left: 10px;
           }
 
-          &.active, &:hover {
+          &.active,
+          &:hover {
             border: 1px solid rgba(255, 190, 63, 1);
             color: rgba(255, 190, 63, 1);
           }
@@ -3180,7 +3230,9 @@ button {
           //    padding-left: 0;
           //  }
           //}
-          input, select, textarea {
+          input,
+          select,
+          textarea {
             flex: 1;
             height: 45px;
             border: 1px solid rgba(219, 219, 219, 1);
@@ -3347,7 +3399,9 @@ button {
         }
       }
 
-      input, select, textarea {
+      input,
+      select,
+      textarea {
         flex: 1;
         height: 45px;
         border: 1px solid rgba(219, 219, 219, 1);
@@ -3469,6 +3523,7 @@ button {
   line-height: 1;
   min-height: calc(100vh - 60px);
   padding: 50px 0;
+
   //background: #000;
   .tab {
     text-align: center;
@@ -3482,7 +3537,7 @@ button {
       border-radius: 5px;
 
       li {
-        & + li {
+        &+li {
           border-left: 2px solid #7772d8;
         }
 
@@ -3586,7 +3641,8 @@ button {
             position: relative;
             margin-left: 5px;
 
-            &:before, &:after {
+            &:before,
+            &:after {
               content: "";
               position: absolute;
               width: 0;
@@ -3773,6 +3829,7 @@ input::-webkit-inner-spin-button {
   0% {
     transform: translateX(0)
   }
+
   100% {
     transform: translateX(-100%)
   }
@@ -3781,9 +3838,10 @@ input::-webkit-inner-spin-button {
 .banner {
   position: relative;
   z-index: 2;
+
   //background: url(../images/banner.png) center center no-repeat;
   //padding-bottom: 40px;
-  .swiper-slide > img {
+  .swiper-slide>img {
     /*@media screen and (max-width: 1920px) {
       width: 100%;
     }*/
@@ -3797,7 +3855,7 @@ input::-webkit-inner-spin-button {
     width: 100%;
     margin-left: -50%;
 
-    > h2 {
+    >h2 {
       font-family: MicrosoftYaHei;
       font-size: 4rem;
       font-weight: normal;
@@ -3808,7 +3866,7 @@ input::-webkit-inner-spin-button {
       margin-bottom: 3%;
     }
 
-    > p {
+    >p {
       height: 42px;
       font-family: MicrosoftYaHei;
       font-size: 3rem;
@@ -3820,8 +3878,9 @@ input::-webkit-inner-spin-button {
       margin-bottom: 2%;
     }
 
-    > ul {
-      display: -webkit-flex; /* Safari */
+    >ul {
+      display: -webkit-flex;
+      /* Safari */
       display: flex;
       flex-direction: row-reverse;
       flex-wrap: nowrap;
@@ -3833,7 +3892,7 @@ input::-webkit-inner-spin-button {
       text-align: center;
       margin: 0 auto;
 
-      > li {
+      >li {
         list-style: none;
         /*width: 25%;
         height: 42px;
@@ -3882,14 +3941,13 @@ input::-webkit-inner-spin-button {
       /*width: 140px;
       height: 44px;*/
       background-image: linear-gradient(-90deg,
-              #0af2fe 0%,
-              #179ee8 50%,
-              #1e71db 100%),
-      linear-gradient(
-                      #0a48a3,
-                      #0a48a3);
+        #0af2fe 0%,
+        #179ee8 50%,
+        #1e71db 100%),
+        linear-gradient(#0a48a3,
+        #0a48a3);
       background-blend-mode: normal,
-      normal;
+        normal;
       border-radius: 22px;
     }
   }
@@ -3989,6 +4047,7 @@ input::-webkit-inner-spin-button {
     //1190
     @media screen and (min-width: 0px) and (max-width: 1190px) {
       width: 100%;
+
       .snuyd {
         width: 98%;
 
@@ -3999,8 +4058,10 @@ input::-webkit-inner-spin-button {
         }
       }
     }
+
     @media screen and (min-width: 1190px) and (max-width: 1400px) {
       width: 100%;
+
       .snuyd {
         width: 92%;
 
@@ -4011,6 +4072,7 @@ input::-webkit-inner-spin-button {
         }
       }
     }
+
     @media screen and (min-width: 1400px) and (max-width: 1546px) {
       width: 87%;
     }
@@ -4044,7 +4106,8 @@ input::-webkit-inner-spin-button {
       margin-right: 10px
     }
 
-    list-complete-enter, .notices-container .list-complete-leave-to {
+    list-complete-enter,
+    .notices-container .list-complete-leave-to {
       opacity: 0;
       transform: translateY(-60px)
     }
@@ -4283,7 +4346,7 @@ input::-webkit-inner-spin-button {
           a {
             color: #5f55ff;
 
-            & + a {
+            &+a {
               margin-left: 20px;
             }
 
@@ -4353,7 +4416,9 @@ input::-webkit-inner-spin-button {
       bottom: 50px;
     }
 
-    *, :before, :after {
+    *,
+    :before,
+    :after {
       // font: inherit;
       // color: inherit;
       // outline: 0;
@@ -4410,6 +4475,7 @@ input::-webkit-inner-spin-button {
               }
 
               span {
+
                 //opacity: .5;
                 i {
                   display: inline-block;
@@ -4572,6 +4638,7 @@ input::-webkit-inner-spin-button {
         display: flex;
         flex-flow: row nowrap;
         width: 70%;
+
         //margin: 0 auto;
         @media (max-width: 450px) {
           width: 70%;
@@ -4592,6 +4659,7 @@ input::-webkit-inner-spin-button {
           font-size: 14px;
           color: #333; //#C0C0EC;
           transition: all 0.3s;
+
           // &:hover {
           //   color: #C0C0EC;
           // }
@@ -4615,12 +4683,15 @@ input::-webkit-inner-spin-button {
         margin: 0 auto;
         border: 2px solid #7772D8;
         border-radius: 8px;
+
         @media (max-width: 993px) {
           width: 50%;
         }
+
         @media (max-width: 777px) {
           width: 80%;
         }
+
         @media (max-width: 450px) {
           width: 100%;
         }
@@ -4676,6 +4747,7 @@ input::-webkit-inner-spin-button {
     width: 273px !important;
     //height: 484px !important;
     margin-top: 43px;
+
     @media screen and (max-width: 768px) {
       margin: 0 35px;
     }
@@ -4704,6 +4776,7 @@ input::-webkit-inner-spin-button {
     background: url('../images/bg-jiaoyi.png') no-repeat center top;
     margin-top: 43px;
     width: 273px !important;
+
     //height: 484px !important;
     @media screen and (max-width: 768px) {
       margin: 0 35px 20px 35px;
@@ -4712,6 +4785,7 @@ input::-webkit-inner-spin-button {
 
   ul {
     margin: 0 22px;
+
     @media screen and (max-width: 768px) {
       margin-top: 0;
     }
@@ -4759,6 +4833,7 @@ input::-webkit-inner-spin-button {
   .timeLine-img01 {
     display: none;
   }
+
   .timeLine-img02 {
     position: absolute !important;
     top: 0px;
@@ -4783,12 +4858,13 @@ input::-webkit-inner-spin-button {
   margin-top: 10px;
   background: #FFFCF7;
   padding-top: 116px;
+
   @media screen and (max-width: 768px) {
     margin-top: 0;
   }
 
   .container {
-    > h2 {
+    >h2 {
       height: 52px;
       line-height: 52px;
       margin-bottom: 30px;
@@ -4997,12 +5073,14 @@ input::-webkit-inner-spin-button {
 
   @media (max-width: 768px) {
     padding-bottom: 40px;
+
     .partner {
       h2 {
         margin: 0;
         font-size: 28px;
       }
     }
+
     .footer-menu {
       padding: 0;
 
@@ -5022,6 +5100,7 @@ input::-webkit-inner-spin-button {
         margin: 0;
       }
     }
+
     .partner {
       margin-bottom: 40px;
       padding-bottom: 40px;
@@ -5088,7 +5167,9 @@ input::-webkit-inner-spin-button {
     li {
       font-size: 12px !important;
 
-      &:last-child, &:nth-last-child(2), &:nth-last-child(3) {
+      &:last-child,
+      &:nth-last-child(2),
+      &:nth-last-child(3) {
         display: none !important;
       }
     }
@@ -5228,7 +5309,9 @@ input::-webkit-inner-spin-button {
         .form-control {
           flex: 1;
 
-          input[type=text], input[type=password], input[type=number] {
+          input[type=text],
+          input[type=password],
+          input[type=number] {
             padding: 0 0 0 10px;
             height: 40px;
             border-radius: 4px;
@@ -5240,7 +5323,7 @@ input::-webkit-inner-spin-button {
             }
           }
 
-          > img {
+          >img {
             position: absolute;
             left: 10px;
             top: 11px;
@@ -5270,6 +5353,7 @@ input::-webkit-inner-spin-button {
       .tab-box {
         justify-content: flex-start;
         flex: 1;
+
         //padding: 20px 0px;
         span {
           padding: 10px 25px;
@@ -5283,7 +5367,7 @@ input::-webkit-inner-spin-button {
         }
       }
 
-      > a {
+      >a {
         justify-content: flex-end;
         padding: 8px 15px;
         background: $home_color;
@@ -5317,6 +5401,7 @@ input::-webkit-inner-spin-button {
         background-color: rgba(248, 248, 248, 1);
         margin-right: 20px;
         cursor: pointer;
+
         /*& + .coin{
           margin-right: 20px;
         }*/
@@ -5366,7 +5451,7 @@ input::-webkit-inner-spin-button {
         //position: relative;
         padding-bottom: 10px;
 
-        > span {
+        >span {
           position: relative;
           //max-height: 86px;
           //min-height: 20px;
@@ -5397,7 +5482,7 @@ input::-webkit-inner-spin-button {
           }
         }
 
-        > img {
+        >img {
           flex: unset;
           height: 20px;
           vertical-align: middle;
@@ -5460,7 +5545,8 @@ input::-webkit-inner-spin-button {
       font-size: 14px;
     }
 
-    span, a {
+    span,
+    a {
       color: #FFBE3F;
     }
 
@@ -5487,7 +5573,8 @@ input::-webkit-inner-spin-button {
   }
 }
 
-.otclist, .sxcOrderList {
+.otclist,
+.sxcOrderList {
   padding-bottom: 20px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 1);
@@ -5557,7 +5644,8 @@ input::-webkit-inner-spin-button {
           }
         }
 
-        &:nth-child(even), &:hover {
+        &:nth-child(even),
+        &:hover {
           background-color: #FFFBF2;
         }
       }
@@ -5625,6 +5713,9 @@ input::-webkit-inner-spin-button {
   .sxcTrade {
     width: 100%;
     margin-top: 70px;
+    .red {
+      color: red;
+    }
 
     .form-group {
       margin-bottom: 30px;
@@ -5641,6 +5732,10 @@ input::-webkit-inner-spin-button {
         color: #666;
       }
 
+      .readonly {
+        background: #f3f3f3;
+      }
+
       span {
         position: absolute;
         top: 15px;
@@ -5653,7 +5748,8 @@ input::-webkit-inner-spin-button {
       }
     }
 
-    .payOutSxc, .buyInSxc {
+    .payOutSxc,
+    .buyInSxc {
       width: 420px;
       color: #898989;
       float: left;
@@ -5661,6 +5757,7 @@ input::-webkit-inner-spin-button {
       .info {
         display: block;
         margin-bottom: 15px;
+        font-size: 12px;
       }
 
       p {
@@ -5743,3 +5840,140 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
+#addBank {
+  background: #fff;
+
+  .exx-modal-header {
+    height: 60px;
+    background-color: #FFBE3F;
+
+    h3 {
+      font-size: 18px;
+      color: #fff;
+      text-align: left;
+      display: inline-block;
+    }
+    span {
+      color: red;
+      margin-left: 10px;
+    }
+  }
+
+  .exx-modal-body .exx-form-box {
+    margin: 30px 40px 30px 0px;
+  }
+
+  .form-group {
+    display: flex;
+    position: relative;
+    margin-bottom: 20px;
+
+    .control-label {
+      line-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: MicrosoftYaHei-Bold;
+      font-size: 14px;
+      font-weight: 500;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #666666;
+      flex: 0.5;
+      text-align: right;
+    }
+
+    .form-control {
+      flex: 1;
+      input, select {
+        padding: 0 0 0 10px;
+        height: 40px;
+        border-radius: 4px;
+        border: solid 1px #cccccc;
+        color: #666;
+        position: relative;
+        z-index: 1;
+        font-size: 14px;
+        display: block;
+        width: 100%;
+        background: transparent;
+      }
+    }
+  }
+  button {
+    width: 25%;
+    height: 40px;
+  }
+  .warn-info {
+    color: red;
+    margin-top: 10px;
+  }
+}
+
+#bankManage {
+  background: #fff;
+  .exx-modal-header {
+    height: 60px;
+    background-color: #FFBE3F;
+
+    h3 {
+      font-size: 18px;
+      color: #fff;
+      text-align: left;
+    }
+  }
+  .exx-modal-body {
+    padding: 30px;
+    ul {
+      background: #f3f3f3;
+      padding: 10px 30px;
+      li {
+        height: 40px;
+        line-height: 40px;
+        .del {
+          float: right;
+          width: 26px;
+          margin: 7px 0;
+          cursor: pointer;
+        }
+        .eyes {
+          width: 26px;
+          margin-left: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+#viewBank {
+  background: #fff;
+  .exx-modal-header {
+    height: 60px;
+    background-color: #FFBE3F;
+
+    h3 {
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+  .form-control {
+    flex: 1;
+    input {
+      padding: 0 0 0 10px;
+      height: 40px;
+      border-radius: 4px;
+      border: solid 1px #cccccc;
+      color: #666;
+      position: relative;
+      z-index: 1;
+      font-size: 14px;
+      display: block;
+      width: 100%;
+      background: transparent;
+    }
+  }
+}
+
+/* 2018/12/26 c2c功能样式 end */

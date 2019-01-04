@@ -1,0 +1,106 @@
+<script type="text/x-template" id="bankManage">
+    <div class="exx-modal-container" id="bankManage">
+        <div class="exx-modal-header">
+            <h3><%= LANG('银行卡管理') %></h3>
+        </div>
+        <div class="exx-modal-body">
+            <ul>
+                <li>
+                    <span><%= LANG('{{newData.bankName}}') %></span>
+                    <img src="<%= IMG_STATIC %>/images/delete.png" alt="" class="del" @click="deleteBankDetail">
+                </li>
+                <li>
+                    <%= LANG('{{newData.userName}}') %>
+                </li>
+                <li>
+                    <%= LANG('{{newData.bankNo}}') %>
+                    <img src="<%= IMG_STATIC %>/images/closeEye.png" alt="" class="eyes" @click="viewBankDetail" v-if="newData.bankNo.indexOf('*') != -1">
+                    <img src="<%= IMG_STATIC %>/images/eye.png" alt="" class="eyes" @click="closeBankDetail" v-else>
+                </li>
+                <li>
+                    <%= LANG('充值币种：') %>
+                    <span>CNY</span>
+                </li>
+                <li>
+                    <label><%= LANG('支行：') %></label>
+                    <span><%= LANG('{{newData.bankAddress}}') %></span>
+                </li>
+            </ul>
+        </div>
+        <modal v-cloak :open="showModal == 'viewBank'" @close="showModal = false">
+            <view-bank :new-data="newData" @listen="listenChildData"/>
+        </modal>
+    </div>
+    
+</script>
+
+<%-include("modal.html")%>
+<%-include("viewBank.html")%>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('bankManage', {
+            template: "#bankManage",
+            props: {
+                bankMsg: {
+                    type: Object,
+                    default: {}
+                },
+            },
+            data () {
+                return {
+                    rsaKeyId: '',
+                    showModal: false,
+                    newData: {}
+                }
+            },
+            created() {
+                this.newData = this.bankMsg
+                console.log(this.newData)
+            },
+            methods: {
+                listenChildData(val) {
+                    this.newData = val
+                },
+                getPubKey: function () {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV + "/exchange/user/controller/website/BaseApiController/" + 'getPubKey',
+                        success: function (res) {
+                            this.rsaKeyId = res.datas.keyId;
+                        }.bind(this)
+                    });
+                },
+                deleteBankDetail() {
+                    var that = this
+                    JuaBox.confirm("<%=LANG('确认删除当前银行卡？删除前请确保所以的交易已完成，避免删除后无法到账！')%>", {
+                        buttons: {cancel: "<%=LANG('取消')%>", confirm: "<%=LANG('确定')%>"},
+                            callback: function () {
+                                var data = {
+                                    id: that.newData.id
+                                }
+                                Methods.ajax({
+                                    type: 'DELETE',
+                                    url: DOMAIN_DEV +
+                                        '/exchange/legalTradeController/deleteUserBankById',
+                                    data: JSON.stringify(data),
+                                    success: function (res) {
+                                        JuaBox.success(EXX.L(res.resMsg.code));
+                                        that.$parent.close();
+                                        that.$emit('fetch')
+                                    }.bind(this)
+                                })
+                            }
+                    })
+                    
+                },
+                viewBankDetail() {
+                    this.showModal = 'viewBank'
+                },
+                closeBankDetail() {
+                    this.newData = this.bankMsg
+                }
+            }
+        })
+    })
+</script>
