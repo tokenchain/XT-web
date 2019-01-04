@@ -386,7 +386,9 @@
                             url: DOMAIN_DEV +
                                 '/exchange/app/controller/website/AppVersionController/getVersion?client=1&version=103',
                             success: function (res) {
-                                _this.android = res.datas.url
+                                if (res.datas) {
+                                    _this.android = res.datas.url
+                                }
                             }
                         })
                     },
