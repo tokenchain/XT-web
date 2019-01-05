@@ -5561,9 +5561,14 @@ input::-webkit-inner-spin-button {
     width: 100px !important;
   }
 
+  .swal-title {
+    font-size: 16px;
+  }
+
   .swal-text {
-    color: rgba(117, 117, 117, 1);
-    font-size: 17px;
+    color: #898989;
+    font-size: 14px;
+    text-align: center;
     font-family: MicrosoftYaHei-Bold;
   }
 

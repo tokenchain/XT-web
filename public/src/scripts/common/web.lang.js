@@ -3088,6 +3088,12 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7107": {
+        "cn": "每日交易次数达到最大",
+        "en": "Maximum number of daily transactions",
+        "jp": "",
+        "kr": ""
+    },
     "7108": {
         "cn": "单笔交易小于/超过额度",
         "en": "Single transaction less than/exceeded",

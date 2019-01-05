@@ -212,11 +212,15 @@
             created: function () {
                 setInterval (this.showMarquee, 2000)
                 if (ISLOGIN) {
+                    this.loading = true
                     this.queryStatus()
                     this.getUserStatus()
                     this.getBankStatus()
                     this.getNewsList()
                     this.getUserOrdersList()
+                    this.getSelectConfigList()
+                }else {
+                    this.loading = false
                     this.getSelectConfigList()
                 }
             },
@@ -351,25 +355,32 @@
                             if(!this.payOutAccount) {
                                 JuaBox.wrong("<%=LANG('请输入卖出数量！')%>")
                                 return
+                            }else {
+                                var that = this
+                                JuaBox.confirm("<%=LANG('确认卖出')%> " + that.payOutAccount + ' SXC？', "<%=LANG('确认后你将获得')%> " + that.payOutAmount + " CNY", {
+                                    buttons: {cancel: "<%=LANG('取消')%>", confirm: "<%=LANG('确定')%>"},
+                                    callback: function () {
+                                        Methods.ajax({
+                                            type: 'POST',
+                                            url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
+                                            data: {
+                                                userId: that.loginUser.userId,
+                                                orderType: 1,
+                                                loginType: 3,
+                                                coinNum: that.payOutAccount,
+                                                amount: that.payOutAmount,
+                                                price: that.payOutPrice
+                                            },
+                                            success: function (res) {
+                                                JuaBox.success("<%=LANG('卖出成功')%>", "<%=LANG('商家会在24小时内完成汇款。如有疑问请联系在线客服或查看帮助中心！')%>");
+                                                that.getUserOrdersList()
+                                                that.getNewsList()
+                                                that.payOutAccount = ''
+                                            }.bind(that)
+                                        });
+                                    }
+                                })
                             }
-                    
-                            Methods.ajax({
-                                type: 'POST',
-                                url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
-                                data: {
-                                    userId: this.loginUser.userId,
-                                    orderType: 1,
-                                    loginType: 3,
-                                    coinNum: this.payOutAccount,
-                                    amount: this.payOutAmount,
-                                    price: this.payOutPrice
-                                },
-                                success: function (res) {
-                                    JuaBox.success(EXX.L(res.resMsg.code));
-                                    this.getUserOrdersList()
-                                    this.payOutAccount = ''
-                                }.bind(this)
-                            });
                         }.bind(this)
                     )
                 },
@@ -380,25 +391,33 @@
                             if(!this.buyInAccount) {
                                 JuaBox.wrong("<%=LANG('请输入购买数量！')%>")
                                 return
+                            }else {
+                                var that = this
+                                JuaBox.confirm("<%=LANG('确认买入')%> " + that.buyInAccount + ' SXC？', "<%=LANG('确认后你将需要支付')%> " + that.buyInAmount + " <%=LANG('CNY 给商家')%>" ,{
+                                buttons: {cancel: "<%=LANG('取消')%>", confirm: "确认"}, callback: function () {
+                                        Methods.ajax({
+                                            type: 'POST',
+                                            url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
+                                            data: {
+                                                userId: that.loginUser.userId,
+                                                orderType: 0,
+                                                loginType: 3,
+                                                coinNum: that.buyInAccount,
+                                                amount: that.buyInAmount,
+                                                price: that.buyInPrice
+                                            },
+                                            success: function (res) {
+                                                var data = res.datas
+                                                JuaBox.success("<%=LANG('买入成功')%>", "<%=LANG('请在30分钟内按照要求完成付款，禁止使用微信、支付宝、他人代付、ATM及柜台转账等第三方转账！')%>",function(){
+                                                    that.viewDetail(data)
+                                                })
+                                                that.getUserOrdersList()
+                                                that.buyInAccount = ''
+                                            }.bind(that)
+                                        });
+                                    }
+                                })
                             }
-                    
-                            Methods.ajax({
-                                type: 'POST',
-                                url: DOMAIN_DEV + "/exchange/legalTradeController/orders",
-                                data: {
-                                    userId: this.loginUser.userId,
-                                    orderType: 0,
-                                    loginType: 3,
-                                    coinNum: this.buyInAccount,
-                                    amount: this.buyInAmount,
-                                    price: this.buyInPrice
-                                },
-                                success: function (res) {
-                                    JuaBox.success(EXX.L(res.resMsg.code));
-                                    this.getUserOrdersList()
-                                    this.buyInAccount = ''
-                                }.bind(this)
-                            });
                         }.bind(this)
                     )
                     
