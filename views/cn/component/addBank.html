@@ -16,17 +16,19 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label"><%= LANG('开户银行：') %></label>
-                        <div class="form-control" @click="displayBankSelect = !displayBankSelect">
-                            <input type="text" readonly v-model="formData.bankName" placeholder="<%= LANG('请选择银行') %>"/>
-                            <transition name="fade">
-                                <div class="ex-select-dropdown" v-show="displayBankSelect">
-                                    <ul class="ex-select-dropdown-list">
-                                        <li v-for="bank in bankList" class="ex-select-item" @click="selectBankInfo(bank)" >
-                                            <img :src="bank.icon" alt="" class="ex-select-icon">{{bank.name}}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </transition>
+                        <div class="form-control">
+                            <div  @click="displayBankSelect = !displayBankSelect">
+                                <input type="text" readonly v-model="formData.bankName" placeholder="<%= LANG('请选择银行') %>"/>
+                                <transition name="fade">
+                                    <div class="ex-select-dropdown" v-show="displayBankSelect">
+                                        <ul class="ex-select-dropdown-list">
+                                            <li v-for="bank in bankList" class="ex-select-item" @click="selectBankInfo(bank)" >
+                                                <img :src="bank.icon" alt="" class="ex-select-icon">{{bank.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </transition>
+                            </div>
                             <p class="warn-info">提示：人民币提现仅支持列表中的银行</p>
                         </div>
                     </div>
@@ -87,6 +89,7 @@
                     formData: {
                         userName: '', // 开户名
                         bankName: "", // 开户银行 
+                        icon: '',
                         bankProvince: '',
                         bankCity: '',
                         bankAddress: '',  // 开户支行银行
@@ -142,7 +145,9 @@
                 },
                 // 选择开户行
                 selectBankInfo:function(bank){
+                    this.formData.icon = bank.icon
                     this.formData.bankName = bank.name;
+                    console.log(this.formData)
                 },
                 // 选择省
                 selectedProvince: function (province) {

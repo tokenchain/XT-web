@@ -284,7 +284,7 @@
                     // 判断登录状态
                     if (!ISLOGIN) {
                         JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
-                            buttons: {confirm: "去登陆"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去登陆"}, callback: function () {
                                 window.location.href = '/login'
                             }
                         })
@@ -293,7 +293,7 @@
                     // 判断是否实名认证
                     if (this.identifyStatus == 0) {
                         JuaBox.confirm("<%=LANG('您还未实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -302,7 +302,7 @@
                     // 判断是否高级实名认证
                     if (!this.reameNameStatus) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -312,7 +312,7 @@
                     if(this.bankMsg == null){
                         var that = this
                         JuaBox.confirm("<%=LANG('当前未添加银行卡，请添加银行卡后进行操作！')%>", {
-                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('去添加')%>"},
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "<%=LANG('去添加')%>"},
                             callback: function () {
                                 that.showModal = 'addBank'
                             }
