@@ -110,7 +110,7 @@
                             <td>{{item.price || '--'}}</td>
                             <td>{{item.amount}}</td>
                             <td>{{item.status == 1 ? '待处理': item.status == 2 ? '处理中' :  item.status == 3 ? '已取消' : item.status == 0 ? '已完成' : '已超时'}}</td>
-                            <td v-if="item.status == 2"><span class="red-color" style="cursor: pointer;" @click="viewDetail(item)">付款信息</span></td>
+                            <td v-if="item.status == 2"><span class="theme-color" style="cursor: pointer;" @click="viewDetail(item)">付款信息</span></td>
                             <td v-else>--</td>
                         </tr>
                         <tr class="no-data" v-if="loading">
@@ -140,11 +140,11 @@
             <div class="warn-info">
                 <h2><%= LANG('温馨提醒') %></h2>
                 <p><%= LANG('1. 买卖商户均为实名认证商户，可放心兑换；') %></p>
-                <p>2. <span class='red-color'><%= LANG('请务必使用') %></span><%= LANG('本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
-                <p>3. <span class='red-color'><%= LANG('禁止使用') %></span><%= LANG('微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成SXC无法到账；') %></p>
+                <p>2. <span class='theme-color'><%= LANG('请务必使用') %></span><%= LANG('本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
+                <p>3. <span class='theme-color'><%= LANG('禁止使用') %></span><%= LANG('微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成SXC无法到账；') %></p>
                 <p><%= LANG('4. 商家处理时间为9:00-21:00，非处理时间的订单则会在第二天9:00开始处理，一般接单后1小时内完成交易，具体以银行到账时间为准；') %></p>
                 <p><%= LANG('5. 请在下单后30分钟内用绑定的银行卡完成付款，否则会造成SXC无法到账；') %></p>
-                <p><%= LANG('6. 每日最多只能发起') %><span class='red-color'>{{sellMaxAmount}}</span><%= LANG('笔卖出订单和') %><span class='red-color'>{{buyMaxAmount}}</span><%= LANG('笔买入订单') %></p>
+                <p><%= LANG('6. 每日最多只能发起') %><span class='theme-color'>{{sellMaxAmount}}</span><%= LANG('笔卖出订单和') %><span class='theme-color'>{{buyMaxAmount}}</span><%= LANG('笔买入订单') %></p>
                 <p><%= LANG('7. 如果您的交易24小时内未处理，请联系在线客服，我们会有专人与您联系，请保持手机畅通。') %></p>
             </div>
         </div>

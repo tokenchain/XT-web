@@ -5910,6 +5910,7 @@ input::-webkit-inner-spin-button {
 }
 
 #bankManage, #viewUserOrders {
+  color: #898989;
   background: #fff;
   .exx-modal-header {
     height: 60px;
@@ -5947,6 +5948,7 @@ input::-webkit-inner-spin-button {
 
 #viewBank {
   background: #fff;
+  color: #898989;
   .exx-modal-header {
     height: 60px;
     background-color: #FFBE3F;
@@ -5975,6 +5977,7 @@ input::-webkit-inner-spin-button {
 }
 
 #viewUserOrders { 
+  color: #898989;
   .exx-modal-body {
     ul {
       border: 1px solid #dcdee2;
@@ -5986,11 +5989,12 @@ input::-webkit-inner-spin-button {
         width: 40%;
         height: 50px;
         line-height: 50px;
+        font-weight: bold;
         float: left;
         text-align: center;
         border-bottom: 1px solid #dcdee2;
         border-right: 1px solid #dcdee2;
-        background-color: #f8f8f9;
+        background-color: #FAFAFA;
         &:last-child {
           border-bottom: 0;
         }
@@ -6006,15 +6010,25 @@ input::-webkit-inner-spin-button {
     }
   }
   .warn-info {
+    background-color: #FAFAFA;
+    padding: 20px;
+    margin-top: 30px;
     h2 {
       margin: 10px 0;
     }
     p {
-      color: red;
       font-weight: normal;
       line-height: 20px;
       letter-spacing: normal;
     }
   }
+}
+.theme-color {
+  color: #FFBE3F;
+  font-weight: bold;
+}
+
+.exxbtn.btn-ok {
+  background: #FFBE3F !important;
 }
 /* 2018/12/26 c2c功能样式 end */
