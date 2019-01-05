@@ -406,7 +406,7 @@
                                     <%= LANG('充值') %></a>
                                 <a v-else-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 1" :href="'/u/payin/legaltender/' + item.name">
                                     <%= LANG('充值') %></a>
-                                <a v-else-if="item.name == 'sxc'" class="disabled-events" @click="toOtc">
+                                <a v-else-if="item.name == 'sxc'" @click="toOtc">
                                     <%= LANG('充值')
                                     %></a>
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
@@ -418,7 +418,7 @@
                                     LANG('提币') %></a>
                                 <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
                                     <%= LANG('提币') %></a>
-                                <a v-else-if="item.name == 'sxc'" class="disabled-events" @click="toOtc">
+                                <a v-else-if="item.name == 'sxc'" @click="toOtc">
                                     <%= LANG('提币')
                                     %></a>
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
@@ -713,7 +713,7 @@
             },
             methods: {
                 toOtc: function () {
-                    JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", {
+                    JuaBox.confirm("<%=LANG('SXC充提暂未开放，是否去OTC进行交易？')%>", {
                         buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
                         callback: function () {
                             window.location.href = '/otcTrade'
