@@ -88,7 +88,7 @@
                     <p><%= LANG('安全')%></p>
                 </a>
             </li>
-            <!--<li class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
+            <li class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" v-if="loginUser.userType == 1">
                 <i style="font-size: 24px;top: 19px;left:15px;"
                    class="<%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 ? 'icon iconfont icon-tuijianren active' : 'icon iconfont icon-tuijianren'%>"></i>
                 <a @click="slideDown"><%= LANG('合伙人')%></a>
@@ -98,7 +98,7 @@
                     <li><a class="<%= PATH.indexOf('/u/earnings') != -1 ? 'active' : ''%>" href="/u/earnings"><%= LANG('收益统计')%></a></li>
                     <li><a class="<%= PATH.indexOf('/u/userDetails') != -1 ? 'active' : ''%>" href="/u/userDetails"><%= LANG('用户统计')%></a></li>
                 </ul>
-            </li>-->
+            </li>
             <li class="<%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/advertisement') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/settingsPayType') != -1 || PATH.indexOf('/u/finance') != -1 ? 'active' : ''%>">
                 <i class="<%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDatail') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/finance') != -1 ? 'icon iconfont icon-API1 active' : 'icon iconfont icon-API1'%>"></i>
                 <a class="apiStyle" @click="openOtcChild"><%= LANG('OTC设置')%></a>
