@@ -240,8 +240,11 @@
             methods: {
                 coinClick: function(coin) {
                     if (coin == 'sxc') {
-                        JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", function () {
-                            window.location.href = '/otcTrade'
+                        JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", {
+                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
+                            callback: function () {
+                                window.location.href = '/otcTrade'
+                            }
                         })
                     }
                 },

@@ -6,6 +6,15 @@
     .sweet-alert .sa-icon.sa-custom {
         width: 180px !important;
     }
+    a.disabled-events{
+        /*pointer-events: none;*/
+        cursor: default;
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+    a.disabled-events:hover {
+        text-decoration: line-through!important;
+    }
 </style>
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
@@ -397,20 +406,25 @@
                                     <%= LANG('充值') %></a>
                                 <a v-else-if="item && item.rechargeFlag == 1 && item.isLegalCoin == 1" :href="'/u/payin/legaltender/' + item.name">
                                     <%= LANG('充值') %></a>
+                                <a v-else-if="item.name == 'sxc'" class="disabled-events" @click="toOtc">
+                                    <%= LANG('充值')
+                                    %></a>
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('充值')
                                     %></a>
+
                                 <a v-if="item.drawFlag == 1 && item.isLegalCoin == 0 && item.name != 'sxc'" :href="'/u/payout/' + item.name">
                                     <%=
                                     LANG('提币') %></a>
                                 <a v-else-if="item.drawFlag == 1 && item.isLegalCoin == 1" :href="'/u/payout/legaltender/' + item.name">
                                     <%= LANG('提币') %></a>
-                                
+                                <a v-else-if="item.name == 'sxc'" class="disabled-events" @click="toOtc">
+                                    <%= LANG('提币')
+                                    %></a>
                                 <a v-else onclick="JuaBox.info('Not open yet...')" class="disabled">
                                     <%= LANG('提币')
                                     %></a>
-                                
-                                <a @click='changeModel(item)' :class="item.name == 'sxc' ? 'disabled' : ''" v-if="item.name == 'sxc' || item.name == 'qc'">{{item.name == 'qc' ? '<%= LANG('兑换SXC') %>' : '<%= LANG('兑换QC') %>'}}</a>
+                                <a @click='changeModel(item)' v-if="item.name == 'qc'">{{item.name == 'qc' ? '<%= LANG('兑换SXC') %>' : '<%= LANG('兑换QC') %>'}}</a>
                             </template>
                             <a :href="'/u/bill/' + item.name">
                                 <%= LANG('账单') %></a>
@@ -557,7 +571,7 @@
     });
 
 
-    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
+    require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods) {
 
         //释放JuaBox到全局使用
         window.JuaBox = JuaBox;
@@ -698,6 +712,14 @@
                 }
             },
             methods: {
+                toOtc: function () {
+                    JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", {
+                        buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
+                        callback: function () {
+                            window.location.href = '/otcTrade'
+                        }
+                    })
+                },
                 changeModel: function (item) {
                     this.showModal = 'exchangeModal'
                     this.exchangParams =  item

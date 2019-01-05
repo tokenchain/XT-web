@@ -62,9 +62,14 @@
         <div v-else>
             <ul class="totalcoin" v-cloak>
                 <li v-for="(item,index) in filterCoin(coinConfig)" :class="{'active': item.name == currentCoin,'button-disabled': item.drawFlag != 1,'button-hover-active': item.drawFlag == 1}">
-                    <a :href="'/u/payout/' + item.name" v-if="item.drawFlag && item.isLegalCoin!=1">{{item.name.toUpperCase()}}</a>
-                    <a :href="'/u/payout/legaltender/' + item.name" v-if="item.drawFlag && item.isLegalCoin==1">{{item.name.toUpperCase()}}</a>
-                    <a role="button" v-if="!item.drawFlag">{{item.name.toUpperCase()}}</a>
+                    <template v-if="item.name == 'sxc'">
+                        <a @click="coinClick(item.name)">{{item.name.toUpperCase()}}</a>
+                    </template>
+                    <template v-else>
+                        <a :href="'/u/payout/' + item.name" v-if="item.drawFlag && item.isLegalCoin!=1">{{item.name.toUpperCase()}}</a>
+                        <a :href="'/u/payout/legaltender/' + item.name" v-if="item.drawFlag && item.isLegalCoin==1">{{item.name.toUpperCase()}}</a>
+                        <a role="button" v-if="!item.drawFlag">{{item.name.toUpperCase()}}</a>
+                    </template>
                 </li>
             </ul>
 
@@ -438,6 +443,16 @@
                 }
             },
             methods: {
+                coinClick: function(coin) {
+                    if (coin == 'sxc') {
+                        JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", {
+                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
+                            callback: function () {
+                                window.location.href = '/otcTrade'
+                            }
+                        })
+                    }
+                },
                 //获取公钥-ok
                 getPubKey: function () {
                     Methods.ajax({
