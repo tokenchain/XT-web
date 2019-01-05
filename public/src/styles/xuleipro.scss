@@ -3478,7 +3478,7 @@ button {
   @extend %display-flex;
   @extend %align-center;
   @extend %space-center;
-  margin-top: 30px;
+  // margin-top: 30px;
 
   a {
     padding: 9px 15px;
@@ -5603,13 +5603,15 @@ input::-webkit-inner-spin-button {
           font-size: 14px;
           font-family: MicrosoftYaHei-Bold;
           font-weight: bold;
+          text-align: center;
 
           &:first-of-type {
-            padding-left: 20px;
+            // padding-left: 20px;
           }
 
           &:last-of-type {
-            padding-right: 20px;
+            // padding-right: 20px;
+            text-align: center;
           }
         }
       }
@@ -5621,13 +5623,10 @@ input::-webkit-inner-spin-button {
         td {
           font-size: 14px;
           color: #666;
-
-          &:first-of-type {
-            padding-left: 20px;
-          }
+          text-align: center;
 
           &:last-of-type {
-            padding-right: 20px;
+            text-align: center;
           }
 
           span.btn {
@@ -5644,8 +5643,7 @@ input::-webkit-inner-spin-button {
           }
         }
 
-        &:nth-child(even),
-        &:hover {
+        &:nth-child(even) {
           background-color: #FFFBF2;
         }
       }
@@ -5911,7 +5909,7 @@ input::-webkit-inner-spin-button {
   }
 }
 
-#bankManage {
+#bankManage, #viewUserOrders {
   background: #fff;
   .exx-modal-header {
     height: 60px;
@@ -5976,4 +5974,47 @@ input::-webkit-inner-spin-button {
   }
 }
 
+#viewUserOrders { 
+  .exx-modal-body {
+    ul {
+      border: 1px solid #dcdee2;
+      overflow: hidden;
+      background: #fff;
+      padding: 0;
+      border-bottom: 0;
+      label {
+        width: 40%;
+        height: 50px;
+        line-height: 50px;
+        float: left;
+        text-align: center;
+        border-bottom: 1px solid #dcdee2;
+        border-right: 1px solid #dcdee2;
+        background-color: #f8f8f9;
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+      span {
+        width: 60%;
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        border-bottom: 1px solid #dcdee2;
+      }
+    }
+  }
+  .warn-info {
+    h2 {
+      margin: 10px 0;
+    }
+    p {
+      color: red;
+      font-weight: normal;
+      line-height: 20px;
+      letter-spacing: normal;
+    }
+  }
+}
 /* 2018/12/26 c2c功能样式 end */

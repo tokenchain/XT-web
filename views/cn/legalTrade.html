@@ -61,7 +61,7 @@
                         <input placeholder="<%= LANG('请输入卖出数量') %>" v-model="payOutAccount" type="number">
                         <span><%= LANG('卖出量（SXC）') %></span>
                     </div>
-                    <p><%= LANG('可得') %> <span class="red">{{payOutAmount}}</span> CNY</p>
+                    <p><span class="red"><%= LANG('可得') %> {{payOutAmount}} CNY</span></p>
                     <button class="payOut-btn" @click="payOut"><%= LANG('立即卖出') %></button>
                 </div>
                 <div class="buyInSxc">
@@ -78,7 +78,7 @@
                     <button class="buyIn-btn" @click="buyIn"><%= LANG('立即买入') %></button>
                 </div>
             </div>
-            <div class="marquee_box">
+            <div class="marquee_box" v-if="marqueeList.length != 0">
                 <img src="<%= IMG_STATIC %>/images/info-icon.png"/>
                 <ul class="marquee_list" :class="{marquee_top:animate}">
                     <li v-for="(item, index) in marqueeList">
@@ -102,25 +102,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2018-10-31 11:20:39</td>
-                            <td>20181031112039886</td>
-                            <td>卖出 SXC/CNY</td>
-                            <td>10000</td>
-                            <td>0.99</td>
-                            <td>9900</td>
-                            <td>处理中</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>2018-10-31 11:20:39</td>
-                            <td>20181031112039886</td>
-                            <td>卖出 SXC/CNY</td>
-                            <td>10000</td>
-                            <td>0.99</td>
-                            <td>9900</td>
-                            <td>已完成</td>
-                            <td>付款信息</td>
+                        <tr v-for="(item, index) in orderList" :key="index">
+                            <td>{{getData(item.time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</td>
+                            <td style="width: 10%;">{{item.orderNo}}</td>
+                            <td>{{item.displayType}} SXC/CNY</td>
+                            <td>{{item.coinNum}}</td>
+                            <td>{{item.price || '--'}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>{{item.status == 1 ? '待处理': item.status == 2 ? '处理中' :  item.status == 3 ? '已取消' : item.status == 0 ? '已完成' : '已超时'}}</td>
+                            <td v-if="item.status == 2"><span class="red-color" style="cursor: pointer;" @click="viewDetail(item)">付款信息</span></td>
+                            <td v-else>--</td>
                         </tr>
                         <tr class="no-data" v-if="loading">
                             <td colspan="10" style="text-align: center" >
@@ -139,18 +130,21 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr v-if="orderList.length == 0 && !loading" class="nodata">
+                            <td colspan="10" style="text-align: center"><%= LANG('暂无数据') %></td>
+                        </tr>
                     </tbody>
                 </table>
-                <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount"></page-lite>
+                <page-lite :page-index="pageIndex" :page-size="pageSize" :total-page="totalPage" :page-count="pageCount" @turn-page="getUserOrdersList" v-if="orderList.length > 0"></page-lite>
             </div>
             <div class="warn-info">
                 <h2><%= LANG('温馨提醒') %></h2>
-                <p><%= LANG('1. 买卖商户均为实名认证商户，并提供保证金，可放心兑换；') %></p>
-                <p><%= LANG('2. 请务必使用本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
-                <p><%= LANG('3. 禁止使用微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成QC无法到账；') %></p>
+                <p><%= LANG('1. 买卖商户均为实名认证商户，可放心兑换；') %></p>
+                <p>2. <span class='red-color'><%= LANG('请务必使用') %></span><%= LANG('本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
+                <p>3. <span class='red-color'><%= LANG('禁止使用') %></span><%= LANG('微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成SXC无法到账；') %></p>
                 <p><%= LANG('4. 商家处理时间为9:00-21:00，非处理时间的订单则会在第二天9:00开始处理，一般接单后1小时内完成交易，具体以银行到账时间为准；') %></p>
-                <p><%= LANG('5. 请在下单后30分钟内用绑定的银行卡完成付款，否则会造成QC无法到账；') %></p>
-                <p><%= LANG('6. 每日最多只能发起10笔卖出订单；') %></p>
+                <p><%= LANG('5. 请在下单后30分钟内用绑定的银行卡完成付款，否则会造成SXC无法到账；') %></p>
+                <p><%= LANG('6. 每日最多只能发起') %><span class='red-color'>{{sellMaxAmount}}</span><%= LANG('笔卖出订单和') %><span class='red-color'>{{buyMaxAmount}}</span><%= LANG('笔买入订单') %></p>
                 <p><%= LANG('7. 如果您的交易24小时内未处理，请联系在线客服，我们会有专人与您联系，请保持手机畅通。') %></p>
             </div>
         </div>
@@ -159,6 +153,9 @@
         </modal>
         <modal v-cloak :open="showModal == 'bankManage'" @close="showModal = false">
             <bank-manage :bank-Msg="bankMsg" @fetch="getBankStatus"/>
+        </modal>
+        <modal v-cloak :open="showModal == 'viewUserOrders'" @close="showModal = false">
+            <view-user-orders :view-data="viewData"/>
         </modal>
     </section>
     <%-include("./include/footer.html")%>
@@ -169,6 +166,7 @@
 <%-include("./component/modal.html")%>
 <%-include("./component/addBank.html")%>
 <%-include("./component/bankManage.html")%>
+<%-include("./component/viewUserOrders.html")%>
 
 
 <script>
@@ -179,21 +177,25 @@
                 return {
                     marqueeList: [],
                     animate: false, 
-                    loading: false,
+                    loading: true,
                     isLogin: ISLOGIN,
-                    pageSize: 10,
+                    pageSize: 5,
                     pageIndex: 1,
                     totalPage: 0,
                     pageCount: 0,
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'),
-                    payOutPrice: 0.99,
-                    payOutAccount: '',
-                    buyInPrice: 1.00,
-                    buyInAccount: '',
+                    payOutPrice: '', // 卖出价
+                    payOutAccount: '', // 卖出数量
+                    buyInPrice: '', // 买入价
+                    buyInAccount: '', // 购买数量
                     identifyStatus: '', // 实名认证状态
                     reameNameStatus: '', // 高级实名认证状态
                     showModal: false,
-                    bankMsg: '' // 如果为null，则没有添加过银行卡，否则接口返回相关信息
+                    bankMsg: '', // 如果为null，则没有添加过银行卡，否则接口返回相关信息
+                    orderList: [],
+                    buyMaxAmount: '', // 每日最多买入数量
+                    sellMaxAmount: '', // 每日最多卖出数量
+                    viewData: ''
                 }
             },
             computed: {
@@ -210,10 +212,16 @@
                     this.queryStatus()
                     this.getUserStatus()
                     this.getBankStatus()
-                    this.getOrdersList()
+                    this.getNewsList()
+                    this.getUserOrdersList()
+                    this.getSelectConfigList()
                 }
             },
             methods: {
+                // 时间戳转换
+                getData: function(time, format) {
+                    return Methods.getDateTime(time, format)
+                },
                 // 获取用户实名状态
                 getUserStatus: function () {
                     var that = this;
@@ -242,6 +250,20 @@
                         }.bind(this)
                     })
                 },
+                // 查询配置
+                getSelectConfigList() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/selectConfigList',
+                        success: function (res) {
+                            this.payOutPrice = res.datas.sellPrice
+                            this.buyInPrice = res.datas.buyPrice
+                            this.buyMaxAmount = res.datas.userOneDayBuyMaxTime
+                            this.sellMaxAmount = res.datas.userOneDaySellMaxTime
+                        }.bind(this)
+                    })
+                },
                 // 查询是否有添加银行卡
                 getBankStatus() {
                     Methods.ajax({
@@ -249,7 +271,6 @@
                         url: DOMAIN_DEV +
                             '/exchange/legalTradeController/selectUserBank',
                         success: function (res) {
-                            console.log(res.datas)
                             this.bankMsg = res.datas
                         }.bind(this)
                     })
@@ -336,9 +357,11 @@
                                     loginType: 3,
                                     coinNum: this.payOutAccount,
                                     amount: this.payOutAmount,
+                                    price: this.payOutPrice
                                 },
                                 success: function (res) {
                                     JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.getUserOrdersList()
                                     this.payOutAccount = ''
                                 }.bind(this)
                             });
@@ -363,9 +386,11 @@
                                     loginType: 3,
                                     coinNum: this.buyInAccount,
                                     amount: this.buyInAmount,
+                                    price: this.buyInPrice
                                 },
                                 success: function (res) {
                                     JuaBox.success(EXX.L(res.resMsg.code));
+                                    this.getUserOrdersList()
                                     this.buyInAccount = ''
                                 }.bind(this)
                             });
@@ -374,20 +399,21 @@
                     
                 },
                 // 获取订单滚动信息
-                getOrdersList() {
+                getNewsList() {
                     Methods.ajax({
                         type: 'GET',
                         url: DOMAIN_DEV +
-                            '/exchange/legalTradeController/orders',
+                            '/exchange/legalTradeController/userInfo',
+                        data: {
+                            userId: this.loginUser.userId,
+                        },
                         success: function (res) {
-                            var data = res.datas
+                            var data = res.datas.list
                             var name;
                             data.map(item => {
-                                name = '最新动态：商户 ' + item.name + '，成功' + item.displayType + item.amount  + ' SXC'
+                                name = '最新动态：商户 ' + item.name + '，成功' + item.displayType + ' ' + item.amount  + ' SXC'
                                 this.marqueeList.push({name})
                             })
-                            console.log(this.marqueeList)
-                            // this.marqueeList = res.datas
                         }.bind(this)
                     })
                 },
@@ -401,6 +427,32 @@
                         this.marqueeList.shift ();
                         this.animate = false;
                     }, 500);
+                },
+                // 获取用户订单列表
+                getUserOrdersList() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/orders',
+                        data: {
+                            page: this.pageIndex,
+                            size: this.pageSize
+                        },
+                        success: function (res) {
+                            this.orderList = res.datas.results
+                            this.pageCount = res.datas.totalRow
+                            this.pageSize = res.datas.pageSize
+                            this.pageIndex = res.datas.pageIndex
+                            this.totalPage = res.datas.totalPage
+                            this.loading = false
+                        }.bind(this)
+                    })
+                },
+                // 查看付款信息
+                viewDetail(item) {
+                    this.showModal = 'viewUserOrders'
+                    this.viewData = item
+                    console.log(this.viewData)
                 }
             }
         })

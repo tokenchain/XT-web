@@ -1,0 +1,90 @@
+<script type="text/x-template" id="viewUserOrders">
+    <div class="exx-modal-container" v-cloak id="viewUserOrders">
+        <div class="exx-modal-header">
+            <h3><%= LANG('汇款信息') %></h3>
+        </div>
+        <div class="exx-modal-body">
+            <div class="form-box">
+                <ul>
+                    <li>
+                        <label><%= LANG('收款方户名') %></label>
+                        <span>{{detailsList.userName}}</span>
+                    </li>
+                    <li>
+                        <label><%= LANG('收款方开户行') %></label>
+                        <span>{{detailsList.bankName}}</span>
+                    </li>
+                    <li>
+                        <label><%= LANG('收款方帐户号') %></label>
+                        <span>{{detailsList.bankNo}}</span>
+                    </li>
+                    <li>
+                        <label><%= LANG('转账金额') %></label>
+                        <span class="red-color">{{viewData.amount}}</span>
+                    </li>
+                    <li>
+                        <label><%= LANG('汇款备注') %></label>
+                        <span><i class="red-color">{{viewData.no}}</i><%= LANG('（转账时请务必填写）') %></span>
+                    </li>
+                    <li>
+                        <label><%= LANG('状态') %></label>
+                        <span><%= LANG('待支付') %></span>
+                    </li>
+                </ul>
+                <div class="warn-info">
+                    <h2><%= LANG('注意：') %></h2>
+                    <p><%= LANG('1. 汇款时请务必要填写备注；') %></p>
+                    <p><%= LANG('2. 卖家确认收到款后，自动充值SXC。如超过24小时未收到币，倾向客服反馈解决；') %></p>
+                    <p><%= LANG('3. 请务必使用本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
+                    <p><%= LANG('4. 禁止使用微信、支付宝、他人代付、ATM及柜台转账等第三方转账。') %></p>
+                    <p><%= LANG('5. 如有任何疑问请联系在线客服或查看帮助中心。') %></p>
+                </div>
+            </div>
+        </div>
+        <div class="exx-modal-button">
+            <button class="exxbtn btn-ok" @click="closeModal"><span><%= LANG('确定') %></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        return Vue.component('viewUserOrders', {
+            template: "#viewUserOrders",
+            props: {
+                viewData: {
+                    type: Object,
+                    default: {}
+                },
+            },
+            data: function () {
+                return {
+                    detailsList: {}
+                }
+            },
+            created: function () {
+                this.$nextTick(function () {
+                    this.getViewUserOrdersDetail()
+                })
+            },
+            methods: {
+                getViewUserOrdersDetail() {
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            '/exchange/legalTradeController/viewUserBankDetailOnOrders',
+                        data: {
+                            orderType: this.viewData.displayType == '买入' ? 0 : 1
+                        },    
+                        success: function (res) {
+                            this.detailsList = res.datas
+                        }.bind(this)
+                    })
+                },
+                closeModal() {
+                    this.$parent.close(); 
+                }
+            },
+        })
+    })
+</script>
