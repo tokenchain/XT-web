@@ -5719,7 +5719,7 @@ input::-webkit-inner-spin-button {
       margin-bottom: 30px;
 
       input {
-        width: 420px;
+        width: 100%;
         height: 45px;
         line-height: 45px;
         padding: 0 16px;
@@ -5748,14 +5748,13 @@ input::-webkit-inner-spin-button {
 
     .payOutSxc,
     .buyInSxc {
-      width: 420px;
+      width: 500px;
       color: #898989;
       float: left;
 
       .info {
         display: block;
         margin-bottom: 15px;
-        font-size: 12px;
       }
 
       p {
@@ -5764,7 +5763,7 @@ input::-webkit-inner-spin-button {
       }
 
       button {
-        width: 420px;
+        width: 100%;
         height: 40px;
         text-align: center;
         font-size: 14px;

@@ -58,7 +58,7 @@
                         <span><%= LANG('卖出价（¥）') %></span>
                     </div>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('请输入卖出数量') %>" v-model="payOutAccount" type="number">
+                        <input :placeholder="'<%= LANG('请输入卖出数量') %>' + ' (剩余 ' + balance + ' SXC)'" v-model="payOutAccount" type="number">
                         <span><%= LANG('卖出量（SXC）') %></span>
                     </div>
                     <p><span class="red"><%= LANG('可得') %> {{payOutAmount}} CNY</span></p>
@@ -197,7 +197,8 @@
                     sellMaxAmount: '', // 每日最多卖出数量
                     viewData: '',
                     queryBuy: '', // 根据配置项来决定是否显示sxc的买入，1代表显示，0代表隐藏
-                    querySell: '' // 根据配置项来决定是否显示sxc的卖出，1代表显示，0代表隐藏
+                    querySell: '', // 根据配置项来决定是否显示sxc的卖出，1代表显示，0代表隐藏
+                    balance: '' // 可用sxc
                 }
             },
             computed: {
@@ -412,6 +413,7 @@
                             userId: this.loginUser.userId,
                         },
                         success: function (res) {
+                            this.balance = res.datas.amount
                             var data = res.datas.list
                             var name;
                             data.map(item => {
