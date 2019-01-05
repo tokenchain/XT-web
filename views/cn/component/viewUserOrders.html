@@ -8,23 +8,23 @@
                 <ul>
                     <li>
                         <label><%= LANG('收款方户名') %></label>
-                        <span>{{detailsList.userName}}</span>
+                        <span>{{detailsList.userName || '无'}}</span>
                     </li>
                     <li>
                         <label><%= LANG('收款方开户行') %></label>
-                        <span>{{detailsList.bankName}}</span>
+                        <span>{{detailsList.bankName || '无'}}</span>
                     </li>
                     <li>
                         <label><%= LANG('收款方帐户号') %></label>
-                        <span>{{detailsList.bankNo}}</span>
+                        <span>{{detailsList.bankNo || '无'}}</span>
                     </li>
                     <li>
                         <label><%= LANG('转账金额') %></label>
-                        <span class="red-color">{{viewData.amount}}</span>
+                        <span class="theme-color">{{viewData.amount}}</span>
                     </li>
                     <li>
                         <label><%= LANG('汇款备注') %></label>
-                        <span><i class="red-color">{{viewData.no}}</i><%= LANG('（转账时请务必填写）') %></span>
+                        <span><i class="theme-color">{{viewData.no}}</i><%= LANG('（转账时请务必填写）') %></span>
                     </li>
                     <li>
                         <label><%= LANG('状态') %></label>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="exx-modal-button">
-            <button class="exxbtn btn-ok" @click="closeModal"><span><%= LANG('确定') %></span></button>
+            <button class="exxbtn btn-ok" @click="closeModal"><span><%= LANG('确认') %></span></button>
         </div>
     </div>
 </script>

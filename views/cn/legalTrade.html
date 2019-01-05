@@ -51,20 +51,20 @@
                 </ul>
             </div>
             <div class="sxcTrade clearfix">
-                <div class="payOutSxc">
+                <div class="payOutSxc" v-if="querySell == 1">
                     <span class="info"><%= LANG('卖出 SXC') %></span>
                     <div class="form-group">
                         <input readonly v-model="payOutPrice" type="number" class="readonly">
                         <span><%= LANG('卖出价（¥）') %></span>
                     </div>
                     <div class="form-group">
-                        <input placeholder="<%= LANG('请输入卖出数量') %>" v-model="payOutAccount" type="number">
+                        <input :placeholder="'<%= LANG('请输入卖出数量') %>' + ' (剩余 ' + balance + ' SXC)'" v-model="payOutAccount" type="number">
                         <span><%= LANG('卖出量（SXC）') %></span>
                     </div>
                     <p><span class="red"><%= LANG('可得') %> {{payOutAmount}} CNY</span></p>
                     <button class="payOut-btn" @click="payOut"><%= LANG('立即卖出') %></button>
                 </div>
-                <div class="buyInSxc">
+                <div class="buyInSxc" v-if="queryBuy == 1">
                     <span class="info"><%= LANG('买入 SXC (SXC买入功能暂不对外开放，开放时间另行公告通知，敬请关注！)') %></span>
                     <div class="form-group">
                         <input readonly v-model="buyInPrice" type="number" class="readonly">
@@ -110,7 +110,7 @@
                             <td>{{item.price || '--'}}</td>
                             <td>{{item.amount}}</td>
                             <td>{{item.status == 1 ? '待处理': item.status == 2 ? '处理中' :  item.status == 3 ? '已取消' : item.status == 0 ? '已完成' : '已超时'}}</td>
-                            <td v-if="item.status == 2"><span class="red-color" style="cursor: pointer;" @click="viewDetail(item)">付款信息</span></td>
+                            <td v-if="item.status == 2"><span class="theme-color" style="cursor: pointer;" @click="viewDetail(item)">付款信息</span></td>
                             <td v-else>--</td>
                         </tr>
                         <tr class="no-data" v-if="loading">
@@ -140,11 +140,11 @@
             <div class="warn-info">
                 <h2><%= LANG('温馨提醒') %></h2>
                 <p><%= LANG('1. 买卖商户均为实名认证商户，可放心兑换；') %></p>
-                <p>2. <span class='red-color'><%= LANG('请务必使用') %></span><%= LANG('本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
-                <p>3. <span class='red-color'><%= LANG('禁止使用') %></span><%= LANG('微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成SXC无法到账；') %></p>
+                <p>2. <span class='theme-color'><%= LANG('请务必使用') %></span><%= LANG('本人绑定的银行卡通过手机银行或网银进行汇款；') %></p>
+                <p>3. <span class='theme-color'><%= LANG('禁止使用') %></span><%= LANG('微信、支付宝、他人代付、ATM及柜台转账，如果使用可能造成SXC无法到账；') %></p>
                 <p><%= LANG('4. 商家处理时间为9:00-21:00，非处理时间的订单则会在第二天9:00开始处理，一般接单后1小时内完成交易，具体以银行到账时间为准；') %></p>
                 <p><%= LANG('5. 请在下单后30分钟内用绑定的银行卡完成付款，否则会造成SXC无法到账；') %></p>
-                <p><%= LANG('6. 每日最多只能发起') %><span class='red-color'>{{sellMaxAmount}}</span><%= LANG('笔卖出订单和') %><span class='red-color'>{{buyMaxAmount}}</span><%= LANG('笔买入订单') %></p>
+                <p><%= LANG('6. 每日最多只能发起') %><span class='theme-color'>{{sellMaxAmount}}</span><%= LANG('笔卖出订单和') %><span class='theme-color'>{{buyMaxAmount}}</span><%= LANG('笔买入订单') %></p>
                 <p><%= LANG('7. 如果您的交易24小时内未处理，请联系在线客服，我们会有专人与您联系，请保持手机畅通。') %></p>
             </div>
         </div>
@@ -195,7 +195,10 @@
                     orderList: [],
                     buyMaxAmount: '', // 每日最多买入数量
                     sellMaxAmount: '', // 每日最多卖出数量
-                    viewData: ''
+                    viewData: '',
+                    queryBuy: '', // 根据配置项来决定是否显示sxc的买入，1代表显示，0代表隐藏
+                    querySell: '', // 根据配置项来决定是否显示sxc的卖出，1代表显示，0代表隐藏
+                    balance: '' // 可用sxc
                 }
             },
             computed: {
@@ -261,6 +264,8 @@
                             this.buyInPrice = res.datas.buyPrice
                             this.buyMaxAmount = res.datas.userOneDayBuyMaxTime
                             this.sellMaxAmount = res.datas.userOneDaySellMaxTime
+                            this.queryBuy = res.datas.queryBuy
+                            this.querySell = res.datas.querySell
                         }.bind(this)
                     })
                 },
@@ -280,7 +285,7 @@
                     // 判断登录状态
                     if (!ISLOGIN) {
                         JuaBox.confirm("<%=LANG('您还未登陆！')%>", {
-                            buttons: {confirm: "去登陆"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去登陆"}, callback: function () {
                                 window.location.href = '/login'
                             }
                         })
@@ -289,7 +294,7 @@
                     // 判断是否实名认证
                     if (this.identifyStatus == 0) {
                         JuaBox.confirm("<%=LANG('您还未实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -298,7 +303,7 @@
                     // 判断是否高级实名认证
                     if (!this.reameNameStatus) {
                         JuaBox.confirm("<%=LANG('您还未高级实名认证！')%>", {
-                            buttons: {confirm: "去认证"}, callback: function () {
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "去认证"}, callback: function () {
                                 window.location.href = '/u/account'
                             }
                         })
@@ -308,7 +313,7 @@
                     if(this.bankMsg == null){
                         var that = this
                         JuaBox.confirm("<%=LANG('当前未添加银行卡，请添加银行卡后进行操作！')%>", {
-                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('去添加')%>"},
+                            buttons: {cancel: "<%=LANG('取消')%>", confirm: "<%=LANG('去添加')%>"},
                             callback: function () {
                                 that.showModal = 'addBank'
                             }
@@ -408,6 +413,7 @@
                             userId: this.loginUser.userId,
                         },
                         success: function (res) {
+                            this.balance = res.datas.amount
                             var data = res.datas.list
                             var name;
                             data.map(item => {

@@ -6,7 +6,7 @@
         <div class="exx-modal-body">
             <ul>
                 <li>
-                    <span><%= LANG('{{newData.bankName}}') %></span>
+                    <span><img :src=newData.icon alt="" class="icon-bank"><%= LANG('{{newData.bankName}}') %></span>
                     <img src="<%= IMG_STATIC %>/images/delete.png" alt="" class="del" @click="deleteBankDetail">
                 </li>
                 <li>
