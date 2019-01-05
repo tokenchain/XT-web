@@ -54,7 +54,7 @@
         <div v-show="loaded">
             <ul class="totalcoin" v-cloak>
                 <li role="button" v-for="(item,index) in filterCoin(coinConfig)"
-                    :class="{'active': item.name == currentCoin,'button-disabled': item.rechargeFlag != 1,'button-hover-active': item.rechargeFlag == 1}">
+                    :class="{'active': item.name == currentCoin,'button-disabled': item.rechargeFlag != 1 && item.name != 'sxc','button-hover-active': item.rechargeFlag == 1}">
                     <template v-if="item.rechargeFlag == 1">
                         <!--<img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'">-->
                         <!--<img :src="'/src/images/icon/market-icon/market-' + item.name + '.png?<%= VERSION%>'">-->
@@ -240,8 +240,11 @@
             methods: {
                 coinClick: function(coin) {
                     if (coin == 'sxc') {
-                        JuaBox.confirm("<%=LANG('是否去OTC交易？')%>", function () {
-                            window.location.href = '/otcTrade'
+                        JuaBox.confirm("<%=LANG('SXC充提暂未开放，是否去OTC进行交易？')%>", {
+                            buttons: {cancel: "<%=LANG('返回')%>", confirm: "<%=LANG('确定')%>"},
+                            callback: function () {
+                                window.location.href = '/otcTrade'
+                            }
                         })
                     }
                 },
