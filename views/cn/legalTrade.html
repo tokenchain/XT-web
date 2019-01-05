@@ -51,7 +51,7 @@
                 </ul>
             </div>
             <div class="sxcTrade clearfix">
-                <div class="payOutSxc">
+                <div class="payOutSxc" v-if="querySell == 1">
                     <span class="info"><%= LANG('卖出 SXC') %></span>
                     <div class="form-group">
                         <input readonly v-model="payOutPrice" type="number" class="readonly">
@@ -64,7 +64,7 @@
                     <p><span class="red"><%= LANG('可得') %> {{payOutAmount}} CNY</span></p>
                     <button class="payOut-btn" @click="payOut"><%= LANG('立即卖出') %></button>
                 </div>
-                <div class="buyInSxc">
+                <div class="buyInSxc" v-if="queryBuy == 1">
                     <span class="info"><%= LANG('买入 SXC (SXC买入功能暂不对外开放，开放时间另行公告通知，敬请关注！)') %></span>
                     <div class="form-group">
                         <input readonly v-model="buyInPrice" type="number" class="readonly">
@@ -195,7 +195,9 @@
                     orderList: [],
                     buyMaxAmount: '', // 每日最多买入数量
                     sellMaxAmount: '', // 每日最多卖出数量
-                    viewData: ''
+                    viewData: '',
+                    queryBuy: '', // 根据配置项来决定是否显示sxc的买入，1代表显示，0代表隐藏
+                    querySell: '' // 根据配置项来决定是否显示sxc的卖出，1代表显示，0代表隐藏
                 }
             },
             computed: {
@@ -261,6 +263,8 @@
                             this.buyInPrice = res.datas.buyPrice
                             this.buyMaxAmount = res.datas.userOneDayBuyMaxTime
                             this.sellMaxAmount = res.datas.userOneDaySellMaxTime
+                            this.queryBuy = res.datas.queryBuy
+                            this.querySell = res.datas.querySell
                         }.bind(this)
                     })
                 },
