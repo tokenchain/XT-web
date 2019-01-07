@@ -805,7 +805,7 @@ if(typeof swal != 'undefined'){
         });
     }
 
-    JuaBox.confirm = function (titleText, message, options) {
+    JuaBox.confirm = function (message, options) {
         var buttons = true ,
             callback;
         if(options && typeof options == 'object'){
@@ -816,13 +816,32 @@ if(typeof swal != 'undefined'){
             callback = options;
         }
         swal({
-            title: titleText,
             text: message,
             icon: '../../src/images/info.png',
             buttons: buttons,
         }).then(function(willDelete){
             willDelete && callback && callback()
         })
+    }
+
+    JuaBox.alert = function (titleText, message, options) {
+      var buttons = true ,
+          callback;
+      if(options && typeof options == 'object'){
+          buttons = options.buttons;
+          callback = options.callback;
+      }
+      if(options && typeof options == 'function'){
+          callback = options;
+      }
+      swal({
+          title: titleText,
+          text: message,
+          icon: '../../src/images/info.png',
+          buttons: buttons,
+      }).then(function(willDelete){
+          willDelete && callback && callback()
+      })
     }
 
     JuaBox.sure = JuaBox.info;

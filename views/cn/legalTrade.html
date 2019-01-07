@@ -357,7 +357,7 @@
                                 return
                             }else {
                                 var that = this
-                                JuaBox.confirm("<%=LANG('确认卖出')%> " + that.payOutAccount + ' SXC？', "<%=LANG('确认后你将获得')%> " + that.payOutAmount + " CNY", {
+                                JuaBox.alert("<%=LANG('确认卖出')%> " + that.payOutAccount + ' SXC？', "<%=LANG('确认后你将获得')%> " + that.payOutAmount + " CNY", {
                                     buttons: {cancel: "<%=LANG('取消')%>", confirm: "<%=LANG('确定')%>"},
                                     callback: function () {
                                         Methods.ajax({
@@ -393,7 +393,7 @@
                                 return
                             }else {
                                 var that = this
-                                JuaBox.confirm("<%=LANG('确认买入')%> " + that.buyInAccount + ' SXC？', "<%=LANG('确认后你将需要支付')%> " + that.buyInAmount + " <%=LANG('CNY 给商家')%>" ,{
+                                JuaBox.alert("<%=LANG('确认买入')%> " + that.buyInAccount + ' SXC？', "<%=LANG('确认后你将需要支付')%> " + that.buyInAmount + " <%=LANG('CNY 给商家')%>" ,{
                                 buttons: {cancel: "<%=LANG('取消')%>", confirm: "确认"}, callback: function () {
                                         Methods.ajax({
                                             type: 'POST',
