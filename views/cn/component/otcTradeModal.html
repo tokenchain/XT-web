@@ -15,7 +15,7 @@
                     </div>
                     <div class="trade-from">
                         <form id="otcModalId">
-                            <input type="text" disabled readonly="readonly" :placeholder="amount * listRecord.orderPrice + legalCurrencyName.toUpperCase()">
+                            <input type="text" disabled readonly="readonly" :placeholder="parseFloat((amount * listRecord.orderPrice).toFixed(8)) + legalCurrencyName.toUpperCase()">
                             <img src="<%= IMG_STATIC %>/images/otc_transfer.png" alt="">
                             <span>
                                 <input type="text" v-model="amount" name="amount" :placeholder="orderCoin" required

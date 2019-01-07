@@ -3071,7 +3071,7 @@ EXX.pack = {
         "kr": ""
     },
     "7011": {
-        "cn": "交易密码不同",
+        "cn": "交易密码错误",
         "en": "Different fund passwords",
         "jp": "",
         "kr": ""
