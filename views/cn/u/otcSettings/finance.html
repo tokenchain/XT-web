@@ -55,7 +55,7 @@
             <tr v-for="item in finList" v-cloak="">
                 <td>{{item.orderNo}}</td>
                 <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
-                <td>{{item.amount + item.currencyName}}</td>
+                <td>{{item.amount + item.currencyName.toUpperCase()}}</td>
                 <td>{{item.totalAmount}}</td>
                 <td>{{item.price}}</td>
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
