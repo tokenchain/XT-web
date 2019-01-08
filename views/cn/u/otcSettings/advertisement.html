@@ -35,7 +35,7 @@
                 <td><span class="a-btn" @click="rollsOff(item)">{{item.advStatus == 0 ? '<%=LANG('上架')%>' : '<%=LANG('下架')%>'}}</span></td>
                 <td><span class="a-btn" @click="lookDetail(item)"><%=LANG('查看')%></span></td>
             </tr>
-            <tr class="no-data" v-if="loading">
+            <tr class="no-data nodata" v-if="loading">
                 <td colspan="9" style="text-align: center" >
                     <div class="cd-loading">
                         <div class="vertical-bars">

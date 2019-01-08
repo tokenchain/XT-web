@@ -83,7 +83,7 @@
                     <td><img :src="'<%= IMG_STATIC %>/images/' + tode + '.png'" v-for="tode in getPayType(item.payId)" alt="" ></td>
                     <td><span class="btn" @click="buyOtc(item)">{{advType == 1 ? '<%=LANG('购买')%>' : '<%=LANG('出售')%>'}}{{orderCoin}}</span></td>
                 </tr>
-                <tr class="no-data" v-if="loading">
+                <tr class="no-data nodata" v-if="loading">
                     <td colspan="7" style="text-align: center" >
                         <div class="cd-loading">
                             <div class="vertical-bars">
@@ -100,7 +100,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr v-if="otcList.length == 0 || !otcList" class="nodata">
+                <tr v-if="otcList.length == 0 && !loading" class="nodata">
                     <td colspan="7" style="text-align: center"><%= LANG('暂无数据') %></td>
                 </tr>
                 </tbody>
@@ -278,12 +278,12 @@
                             '/exchange/XtOtcController/selectUsersOtcList',
                         data: data,
                         success: function (res) {
-                            this.loading = false
                             this.otcList = res.datas.results
                             this.pageCount = res.datas.totalRow
                             this.pageSize = res.datas.pageSize
                             this.pageIndex = res.datas.pageIndex
                             this.totalPage = res.datas.totalPage
+                            this.loading = false
                         }.bind(this)
                     })
                 },
