@@ -372,7 +372,7 @@
                                                 price: that.payOutPrice
                                             },
                                             success: function (res) {
-                                                JuaBox.success("<%=LANG('卖出成功')%>", "<%=LANG('商家会在24小时内完成汇款。如有疑问请联系在线客服或查看帮助中心！')%>");
+                                                JuaBox.success("<%=LANG('商家会在24小时内完成汇款。如有疑问请联系在线客服或查看帮助中心！')%>", null , "<%=LANG('卖出成功')%>");
                                                 that.getUserOrdersList()
                                                 that.getNewsList()
                                                 that.payOutAccount = ''
@@ -408,9 +408,9 @@
                                             },
                                             success: function (res) {
                                                 var data = res.datas
-                                                JuaBox.success("<%=LANG('买入成功')%>", "<%=LANG('请在30分钟内按照要求完成付款，禁止使用微信、支付宝、他人代付、ATM及柜台转账等第三方转账！')%>",function(){
+                                                JuaBox.success("<%=LANG('请在30分钟内按照要求完成付款，禁止使用微信、支付宝、他人代付、ATM及柜台转账等第三方转账！')%>",function(){
                                                     that.viewDetail(data)
-                                                })
+                                                },"<%=LANG('买入成功')%>")
                                                 that.getUserOrdersList()
                                                 that.buyInAccount = ''
                                             }.bind(that)
