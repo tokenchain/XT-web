@@ -846,7 +846,7 @@ if(typeof swal != 'undefined'){
 
     JuaBox.sure = JuaBox.info;
 
-    JuaBox.success = function (titleText, message,callback) {
+    JuaBox.success = function (message, callback, titleText) {
         swal({title: titleText, text: message, icon: '../../src/images/success.png'}).then(function(){
             callback && callback()
         });
