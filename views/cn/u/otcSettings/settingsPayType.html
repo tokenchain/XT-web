@@ -210,7 +210,7 @@
                                 选中{{imgList.length}}张文件，共{{bytesToSize(size) || 0}}
                             </div>
                             <div class="upload_warp_text">
-                                <%=LANG('提示：只能上传一张图片，大小不超过1MB')%>
+                                <%=LANG('提示：只能上传一张图片，大小不超过4MB')%>
                             </div>
                             <!--<div class="upload_warp_text">
                                 <%=LANG('当前大小：')%>
@@ -434,8 +434,8 @@
                         JuaBox.wrong("<%=LANG('只能上传图片！')%>");
                         return
                     }
-                    if (file.size > 1024 * 1024) {
-                        JuaBox.wrong("<%=LANG('上传图片不能大于1MB！')%>");
+                    if (file.size > 1024 * 1024 * 4) {
+                        JuaBox.wrong("<%=LANG('上传图片不能大于4MB！')%>");
                         return
                     }
                     this.fileList(el.target);
@@ -507,8 +507,13 @@
                     // formData.append('file', file);
                     // console.log(this.imgList)
                     xhr.onreadystatechange = function (e) {
+                        var result
                         if (xhr.readyState == 4) {
-                            var result = JSON.parse(xhr.responseText)
+                            try {
+                                result = JSON.parse(xhr.responseText)
+                            } catch (e) {
+                                JuaBox.wrong("<%=LANG('上传无响应，请重试！')%>");
+                            }
                             if (xhr.status == 200) {
                                 if (result.datas && result.resMsg.code == 1) {
                                     this.imgUrl = result.datas
