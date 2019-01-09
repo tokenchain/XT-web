@@ -257,8 +257,8 @@
                 canUseMoney: function () {
                     if (this.isLogin) {
                         // return this.showMoney(this.getUseable(this.money));
-                        console.log(this.money, 111)
-                        console.log(EXX.userNav.userCoinFunds)
+                        // console.log(this.money, 111)
+                        // console.log(EXX.userNav.userCoinFunds)
                         return Methods.fixDecimal(this.getUseable(this.money), 8);
                     } else {
                         return "0";
@@ -1831,14 +1831,14 @@
                 this.getChartSettings();
                 this.checkInputPriceMode();
                 this.selectCoin()
-                $('#market-scllor-box').hover(
+                /*$('#market-scllor-box').hover(
                     function () {
                         $('body').css('overflow', 'hidden');
                     },
                     function () {
                         $('body').css('overflow', 'auto');
                     }
-                )
+                )*/
             },
             filters: {
                 capitalizecny: function (value) {

@@ -5,6 +5,7 @@
     <%-include("include/headMeta.html")%>
 </head>
 <body class="trading-dark">
+<%-include("include/head.html")%>
     <% try{ %>
     <%-include(templateMain)%>
     <% }catch(err){ %>
@@ -12,5 +13,7 @@
     <% } %>
 <%-include("include/footInit.html")%>
 </body>
+<!--客服-->
+<script src="<%= STATIC %>/scripts/udeskInit.js"></script>
 </html>
 <!--全站通用-->
