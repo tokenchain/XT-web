@@ -72,7 +72,6 @@
                 // 切换证件类型
                 changeType(type) {
                     this.uploadType = type
-                    console.log(this.uploadType)
                     this.frontImg = ''
                     this.backImg = ''
                     this.handHeldImg = ''
@@ -85,8 +84,8 @@
                         JuaBox.info("<%=LANG('只能上传图片！')%>");
                         return
                     }
-                    if (file.size > 1024 * 1024) {
-                        JuaBox.info("<%=LANG('上传图片不能大于1MB！')%>");
+                    if (file.size > 1024 * 1024 * 4) {
+                        JuaBox.wrong("<%=LANG('上传图片不能大于4MB！')%>");
                         return
                     }
                     var param = new FormData();
