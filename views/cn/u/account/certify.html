@@ -8,19 +8,21 @@
         text-align: center;
     }
 
+    .step h2 {
+        margin-top: 60px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
     #certify h4 {
         font-size: 16px;
-        margin: 30px 0;
-        color: #666;
+        margin: 30px 0 20px 0;
+        font-weight: bold;
     }
 
     #certify p {
         line-height: 28px;
-    }
-
-    #certify p:last-of-type {
-        text-align: center;
-        margin-top: 40px;
+        font-size: 14px;
     }
 
     .textColor {
@@ -38,6 +40,7 @@
         line-height: 44px;
         padding: 0;
         border-radius: 30px;
+        font-weight: bold;
     }
 
     #certify .fail {
@@ -62,12 +65,15 @@
 
     .step-two {
         width: 44%;
-        margin: 0 auto;
-        padding-top: 10px;
+        margin-top: 22px;
+        margin: 22px auto 0;
     }
 
     .step-two span{
         width: 45%;
+        color: #FFBE3F;
+        font-weight: bold;
+        font-size: 14px;
     }
 
     .step-two span:first-child {
@@ -85,137 +91,44 @@
             <span><%= LANG('已完成') %></span>
             <span><%= LANG('高级实名认证') %></span>
         </div>
-    </div>
-    <div class="fail" v-show="warn">
-        <h4>
-            <%= LANG('审核未通过') %>
-        </h4>
-        <p>
-            <%= LANG('原因：{{remark}}') %>
-        </p>
+        <h2><%= LANG('高级实名认证流程') %></h2>
     </div>
     <h4>
-        <%= LANG('步骤一：准备资料') %>
+        <%= LANG('步骤一：上传资料') %>
     </h4>
     <p>
-        <%= LANG('1.请下载') %><a
-            href="http://oss-xt.oss-cn-hongkong.aliyuncs.com/images/%E9%AB%98%E7%BA%A7%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81%E7%94%B3%E8%AF%B7%E8%B5%84%E6%96%99%E6%A8%A1%E6%9D%BF%281%29.docx"
-            class="textColor">
-        <%= LANG('《高级实名认证申请资料模板》') %></a>，
-        <%= LANG('按照要求填写申请资料。') %>
-    </p>
-    <p>
-        <%= LANG('2.录制视频资料，要求如下：') %>
-    </p>
-    <p>
-        <%= LANG('手持本人身份证正面进行录制，保持录制过程中声音和影像都清晰。') %>
-    </p>
-    <p>
-        <%= LANG('录制时要求诵读：本人（姓名），身份证号（身份证号码），我充分了解数字货币及潜在风险，本人具有抗风险的能力并愿意承担一切风险，在此申请高级实名认证。') %>
+        <%= LANG('身份证正反面照片或护照封面、护照人像信息页照片，手持指定ID正脸照片。') %>
     </p>
     <h4>
-        <%= LANG('步骤二：发送申请邮件') %>
+        <%= LANG('步骤二：提交申请') %>
     </h4>
     <p>
-        <%= LANG('请将以上申请资料和视频资料发送邮件至support@xt.com，邮件主题为“申请高级实名认证”。') %>
+        <%= LANG('上传资料后，请在页面点击“提交”按钮提交申请。') %>
     </p>
     <h4>
-        <%= LANG('步骤三：提交申请') %>
+        <%= LANG('步骤三：资料审核') %>
     </h4>
     <p>
-        <%= LANG('发送邮件后，请在页面点击“确认申请”按钮提交申请。') %>
-    </p>
-    <h4>
-        <%= LANG('步骤四：资料审核') %>
-    </h4>
-    <p>
-        <%= LANG('我们将在3个工作日内对您的申请资料进行审核。我们会主动与您取得联系，请保持通讯畅通。') %>
-    </p>
-    <p>
-        <%= LANG('提交申请高级实名认证即代表已阅读并同意') %><a href="/help/OTCagreement" class="textColor">
-        <%= LANG('《OTC交易协议》') %></a>
+        <%= LANG('我们将在3个工作日内对您的申请资料进行审核。如在审核中有任何问题，我们会主动与您取得联系，请保持通讯畅通。') %>
     </p>
     <div class="form-button">
-        <button class="button" v-if="status != 4" :class="{'isdisabled' : disabled}" :disabled="disabled"
-                @click="submitIdentify"><span>{{status == 2 ? '<%= LANG('已提交申请') %>' : '<%= LANG('提交申请') %>'}}</span>
+        <button class="button">
+            <a href="/u/upload"><%= LANG('开始认证') %></a>
         </button>
     </div>
 </div>
 
 <script>
-    require(['vue', 'common/methods', 'common/juabox', 'clipboadrd', 'qrcode'], function (Vue, Methods, JuaBox,
-                                                                                          Clipboard, QRCode) {
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
         var recommend = new Vue({
             el: "#certify",
             data: function () {
                 return {
-                    warn: false,
-                    status: '',
-                    disabled: false,
-                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    remark: '' // 审核备注信息
                 }
             },
             created() {
-                // this.status = this.GetQueryString('status')
-                // if (this.status != null && this.status.toString().length > 1) {
-                //     this.status = this.GetQueryString('status')
-                // }
-                this.$nextTick(function () {
-                    this.getUserStatus();
-                })
             },
             methods: {
-                // 获取url携带参数方法
-                // GetQueryString: function (name) {
-                //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                //     var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
-                //     if (r != null) return unescape(r[2]);
-                //     return null;
-                // },
-                // 获取用户实名状态
-                getUserStatus: function () {
-                    var that = this
-                    Methods.ajax({
-                        type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" +
-                            'userIdentifyStatus',
-                        data: {
-                            Userid: that.loginUser.userId
-                        },
-                        success: function (res) {
-                            that.remark = res.datas.remark
-                            that.status = res.datas.status
-                            // status=1,已经普通实名认证；status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核，隐藏button
-                            if (that.status == 2) {
-                                that.disabled = true
-                            } else if (that.status == 3) {
-                                that.warn = true
-                            }
-                            console.log(res.datas, "status")
-                        }
-                    });
-                },
-                submitIdentify: function () {
-                    Methods.ajax({
-                        // type: 'GET',
-                        url: DOMAIN_DEV +
-                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/seniorIdentify",
-                        data: {
-                            Userid: this.loginUser.userId,
-                        },
-                        success: function (res) {
-                            // JuaBox.info('<%= LANG("申请成功，等待审核") %>');
-                            // window.location.href = '/u/account'
-                            if (res.resMsg.code == 1) {
-                                return JuaBox.info('<%= LANG("申请成功，等待审核") %>', function () {
-                                    window.location.href = '/u/account'
-                                })
-                            }
-                        }.bind(this)
-                    });
-                }
             }
         })
     });

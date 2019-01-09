@@ -1,0 +1,154 @@
+<style>
+    #examine {
+        padding: 70px 72px 38px 72px;
+        color: #898989;
+    }
+
+    .step {
+        text-align: center;
+    }
+
+    .step h2 {
+        margin-top: 120px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .step p {
+        color: #D78282;
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .step-two {
+        width: 44%;
+        margin: 18px auto 0;
+    }
+
+    
+    .step-two span {
+        width: 45%;
+        color: #FFBE3F;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .step-two .ongoing {
+        color: #CACACA;
+    }
+
+    .step-two .fail {
+        color: #D78282;
+    }
+
+    .step-two span:first-child {
+        float: left;
+    }
+
+    .step-two span:last-child {
+        float: right;
+    }
+
+    #examine h4 {
+        font-size: 16px;
+        margin: 30px 0 20px 0;
+        font-weight: bold;
+    }
+
+    #examine .form-button {
+        margin-top: 160px;
+    }
+
+    #examine .form-button button {
+        width: 160px;
+        height: 44px;
+        line-height: 44px;
+        padding: 0;
+        border-radius: 30px;
+        font-weight: bold;
+    }
+
+    #examine .form-button button a {
+        display: block;
+    }
+</style>
+<div class="user-container examine" id="examine" v-cloak>
+    <div v-if="!loading">
+        <div class="step">
+            <img src="<%= IMG_STATIC %>/images/upload/going.png" alt="" v-if="status == 2">
+            <img src="<%= IMG_STATIC %>/images/upload/fail.png" alt="" v-if="status == 3">
+            <div class="step-two clearfix">
+                <span><%= LANG('提交申请') %></span>
+                <span v-if="status == 2" class="ongoing"><%= LANG('审核中') %></span>
+                <span v-else class="fail"><%= LANG('审核不通过') %></span>
+            </div>
+            <h2>
+                {{status == 2 ? "<%= LANG('高级实名认证审核中，请您耐心等待，我们将会在3个工作日内给您反馈。') %>" : "<%= LANG('您的高级实名认证申请已被驳回，感谢您对XT.com的支持。') %>"}}
+            </h2>
+            <p v-if="status == 3"><%= LANG('原因：{{remark}} ！') %></p>
+        </div>
+        
+        <div class="form-button">
+            <button class="button">
+                <a href="/u/upload" v-if="status == 3"><%= LANG('重新提交申请') %></a>
+                <a href="/u/account" v-if="status == 2"><%= LANG('返回') %></a>
+            </button>
+        </div>
+    </div>
+    <div class="cd-loading" v-if="loading">
+        <div class="vertical-bars">
+            <p class="layer-1"></p>
+            <p class="layer-2"></p>
+            <p class="layer-3"></p>
+            <p class="layer-4"></p>
+            <p class="layer-5"></p>
+            <p class="layer-6"></p>
+            <p class="layer-7"></p>
+            <p class="layer-8"></p>
+            <p class="layer-9"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var examine = new Vue({
+            el: "#examine",
+            data: function () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    loading: true,
+                    status: '', 
+                    remark: '' 
+                }
+            },
+            created () {
+                this.$nextTick(function () {
+                    this.getUserStatus();
+                })
+            },
+            methods: {
+                // 获取用户实名状态
+                // status=1,已经普通实名认证；status=2,高级实名认证审核中，禁止点击按钮；status=3,高级实名认证审核未通过，显示未通过提醒；status=4,已经通过审核
+                getUserStatus: function () {
+                    var that = this
+                    Methods.ajax({
+                        type: 'GET',
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/" +
+                            'userIdentifyStatus',
+                        data: {
+                            Userid: that.loginUser.userId
+                        },
+                        success: function (res) {
+                            that.loading = false
+                            that.remark = res.datas.remark
+                            that.status = res.datas.status
+                        }
+                    });
+                },
+            }
+        })
+    })
+</script>

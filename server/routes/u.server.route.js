@@ -217,6 +217,18 @@ router.get('/certify', function (req, res, next) {
         column: 1
     });
 });
+router.get('/upload', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/account/upload.html',
+        column: 1
+    });
+});
+router.get('/examine', function (req, res, next) {
+    res.render(TEMP_MANAGE_NEW, {
+        templateMain: 'u/account/examine.html',
+        column: 1
+    });
+});
 
 /**
  *作者: GongQi

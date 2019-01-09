@@ -6153,4 +6153,92 @@ input::-webkit-inner-spin-button {
   background: #FFBE3F !important;
 }
 
+#upload {
+  color: #898989;
+  padding: 70px 200px;
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+  h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  .certificates {
+    margin: 50px 0;
+    ul li {
+      width: 96px;
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #E4E4E4;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      img {
+        vertical-align: text-bottom;
+      }
+      &:first-of-type {
+        float: left;
+      }
+      &:last-of-type {
+        float: right;
+      }
+    }
+    .isActive {
+      border-color: #FFBE3F;
+      color: #FFBE3F;
+    }
+  }
+  .uploadPhotos {
+    margin-bottom: 30px;
+    ul li {
+      width: 148px;
+      float: left;
+      div {
+        position: relative;
+        width: 100%;
+        height: 95px;
+        text-align: center;
+        line-height: 95px;
+        border: 1px dashed #9B9B9B;
+        .fliePhoto {
+          width: 100%;
+          height: 100%;
+          vertical-align: initial;
+        }
+        .choose{
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
+      &:nth-child(2) {
+        margin: 0 80px;
+      }
+      &:last-of-type {
+        float: right;
+      }
+      span {
+        margin-top: 20px;
+        display: block;
+        line-height: 1.4;
+        color: #9B9B9B;
+      }
+    }
+  }
+  .form-button {
+    width: 154px;
+    margin: 100px auto 0;
+    button {
+      border-radius: 20px;
+    }
+  }
+}
+
 /* 2018/12/26 c2c功能样式 end */
