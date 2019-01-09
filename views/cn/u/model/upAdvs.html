@@ -218,19 +218,19 @@
                     })
                 },
                 checkRule: function () {
-                    if (this.advType == 2 && (this.amount < this.formModel.orderAmount)) {
+                    if (this.advType == 2 && (Number(this.amount) < Number(this.formModel.orderAmount))) {
                         JuaBox.wrong("<%=LANG('交易数量超过可用数量！')%>")
                         return false
                     }
-                    if ((this.formModel.orderAmount * this.formModel.orderPrice) < this.formModel.orderLimitMax) {
+                    if (Number(this.formModel.orderAmount * this.formModel.orderPrice) < Number(this.formModel.orderLimitMax)) {
                         JuaBox.wrong("<%=LANG('单笔最大数量超过交易数量！')%>")
                         return false
                     }
-                    if ((this.formModel.orderAmount * this.formModel.orderPrice) < this.formModel.orderLimitMin) {
+                    if (Number(this.formModel.orderAmount * this.formModel.orderPrice) < Number(this.formModel.orderLimitMin)) {
                         JuaBox.wrong("<%=LANG('单笔最小数量超过交易数量！')%>")
                         return false
                     }
-                    if (this.formModel.orderLimitMax < this.formModel.orderLimitMin) {
+                    if (Number(this.formModel.orderLimitMax) < Number(this.formModel.orderLimitMin)) {
                         JuaBox.wrong("<%=LANG('单笔最小额度超过单笔最大额度！')%>")
                         return false
                     }
