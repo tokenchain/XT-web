@@ -88,8 +88,8 @@
                     <td>P{{item.vipLevel}}</td>
                     <td v-if="item.vipLevel == '6'"> {{item.usersCountMin + '+'}}</td>
                     <td v-else>{{item.usersCountMax ? item.usersCountMin + '-' + item.usersCountMax : 0}}</td>
-                    <td v-if="item.vipLevel == '6'"> {{item.tradingAmountMin + '+'}}</td>
-                    <td v-else>{{item.tradingAmountMin | numFilter}}-{{item.tradingAmountMax | numFilter}}</td>
+                    <td v-if="item.vipLevel == '6'"> {{item.tradingAmountMin}}</td>
+                    <td v-else>{{item.tradingAmountMin | numFilter}}</td>
                     <td>{{item.feeDiscount > 0 ? item.feeDiscount * 10 + '<%= LANG('折') %>' : '<%= LANG('免费') %>'}}</td>
                     <td>{{item.cashBack > 0 ? (item.cashBack * 100 + '%') : 0}}</td>
                 </tr>
