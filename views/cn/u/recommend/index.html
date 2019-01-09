@@ -86,7 +86,7 @@
             <tbody>
                 <tr v-for="(item, index) in earningsList" :key="index">
                     <td>P{{item.vipLevel}}</td>
-                    <td v-if="tem.vipLevel == '6'"> {{item.usersCountMin + '+'}}</td>
+                    <td v-if="item.vipLevel == '6'"> {{item.usersCountMin + '+'}}</td>
                     <td v-else>{{item.usersCountMax ? item.usersCountMin + '-' + item.usersCountMax : 0}}</td>
                     <td>{{item.tradingAmountMin | numFilter}}-{{item.tradingAmountMax | numFilter}}</td>
                     <td>{{item.feeDiscount > 0 ? item.feeDiscount * 10 + '<%= LANG('折') %>' : '<%= LANG('免费') %>'}}</td>
