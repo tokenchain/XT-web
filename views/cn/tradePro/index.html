@@ -492,8 +492,8 @@
                         </div>
                         <div class="login-trade" v-if="!isLogin" v-cloak="">
                             <p><%= LANG('登录后方可进行交易，现在去')%></p>
-                            <div class="btn"><a role="button" href="/login" class="buyBgColor disabled"><%= LANG('登录 XT')%></a></div>
-                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled"><%= LANG('注册 XT')%></a>
+                            <div class="btn"><a role="button" href="/login" class="buyBgColor disabled"><%= LANG('登录')%></a></div>
+                            <div class="btn"><a role="button" href="/register" class="sellBgColor disabled"><%= LANG('注册')%></a>
                             </div>
                         </div>
                         <trade-form v-if="isLogin" :trade-type="1" :current-user-asset="currentUserAsset"

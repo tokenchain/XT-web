@@ -2611,8 +2611,12 @@ button {
       tbody {
         tr {
 
+          &.nodata {
+            background: #fff !important;
+          }
+
           &:nth-child(even),
-          &:hover {
+          &:not(.nodata):hover {
             background-color: #FFFBF2;
           }
 
@@ -3068,7 +3072,12 @@ button {
         tr {
           transition: all 0.3s;
 
-          &:nth-child(even), &:hover {
+          &.nodata {
+            background: #fff !important;
+          }
+
+          &:nth-child(even),
+          &:not(.nodata):hover {
             background-color: #FFFBF2;
           }
 
@@ -5650,7 +5659,11 @@ input::-webkit-inner-spin-button {
           }
         }
 
-        &:nth-child(even), &:hover {
+        &.nodata {
+          background: #fff !important;
+        }
+
+        &:nth-child(even), &:not(.nodata):hover {
           background-color: #FFFBF2;
         }
       }

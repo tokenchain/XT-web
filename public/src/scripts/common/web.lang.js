@@ -1,3 +1,4 @@
+
 // EXX Language Pack
 //通配符 [$1],[$2],[$3]...
 //通配符用于语言中的变量，使用过程中替换，支持无限个变量
@@ -2212,7 +2213,7 @@ EXX.pack = {
     },
     "6000": {
         "cn": "参数缺失",
-        "en": "",
+        "en": "Param Missing",
         "jp": "",
         "kr": ""
     },
@@ -2914,6 +2915,14 @@ EXX.pack = {
         "cn": "发送验证码失败，请重新获取",
         "en": "Send verification code fails, please get it again"
     },
+    "6142": {
+        "cn": "已经设置过资金密码",
+        "en": "Already set security password"
+    },
+    "6143": {
+        "cn": "换码池已满或剩余数量不足",
+        "en": "The exchange pool is full or insufficient"
+    },
     '6150': {
         cn: '单次提现超出限额',
         en: 'Single withdrawal exceeds the limit',
@@ -2938,6 +2947,48 @@ EXX.pack = {
         jp: '',
         kr: ''
     },
+    "6154": {
+        "cn": "账户类型已经存在，请重新输入账户类型",
+        "en": "The account type exist",
+        "jp": "",
+        "kr": ""
+    },
+    "6155": {
+        "cn": "该用户已经绑定账户类型",
+        "en": "can't set user more than one account type",
+        "jp": "",
+        "kr": ""
+    },
+    "6200": {
+        "cn": "上传的文件名或文件内容为空！",
+        "en": "upload fileName or fileContent is null!",
+        "jp": "",
+        "kr": ""
+    },
+    "6201": {
+        "cn": "上传失败！",
+        "en": "upload fail!",
+        "jp": "",
+        "kr": ""
+    },
+    "6202": {
+        "cn": "删除图片失败！",
+        "en": "Failed to delete picture!",
+        "jp": "",
+        "kr": ""
+    },
+    "6203": {
+        "cn": "操作失败！",
+        "en": "Operation failed!",
+        "jp": "",
+        "kr": ""
+    },
+    "6204": {
+        "cn": "分类下有文章，不允许删除！",
+        "en": "There are articles under category, not allowed to delete!",
+        "jp": "",
+        "kr": ""
+    },
     "6205": {
         "cn": "返回的storeSeq不一致",
         "en": "inconsistent message id",
@@ -2947,6 +2998,30 @@ EXX.pack = {
     "6206": {
         "cn": "法币提现失败",
         "en": "Fiat money withdrawal failure",
+        "jp": "",
+        "kr": ""
+    },
+    "6213": {
+        "cn": "该委托单不存在！",
+        "en": "The entrust is not exists!",
+        "jp": "",
+        "kr": ""
+    },
+    "6214": {
+        "cn": "该委托单未交易完成！",
+        "en": "The entrust is not complete the transaction!",
+        "jp": "",
+        "kr": ""
+    },
+    "6215": {
+        "cn": "您的账户的手机号或邮箱已经绑定过，请直接登陆！",
+        "en": "Your account's mobile phone number or email has been bound, please login directly!",
+        "jp": "",
+        "kr": ""
+    },
+    "6216": {
+        "cn": "您的第三方账户已经被绑定过，请核对。",
+        "en": "Your third party account has been bound up. Please check it.",
         "jp": "",
         "kr": ""
     },
@@ -3040,6 +3115,114 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
+    "7010": {
+        "cn": "重新认证失败，请重试",
+        "en": "Reauthentication failed, please try again",
+        "jp": "",
+        "kr": ""
+    },
+    "7011": {
+        "cn": "交易密码错误",
+        "en": "Different fund passwords",
+        "jp": "",
+        "kr": ""
+    },
+    "7012": {
+        "cn": "交易密码为空",
+        "en": "security password is null",
+        "jp": "",
+        "kr": ""
+    },
+    "7013": {
+        "cn": "添加失败",
+        "en": "add failed",
+        "jp": "",
+        "kr": ""
+    },
+    "7014": {
+        "cn": "修改失败",
+        "en": "update failed",
+        "jp": "",
+        "kr": ""
+    },
+    "7015": {
+        "cn": "用户没有实名认证或者没有高级实名认证",
+        "en": "User does not have advanced certification",
+        "jp": "",
+        "kr": ""
+    },
+    "7016": {
+        "cn": "本次交易数量超出普通商家/高级商家单次最高交易限额！",
+        "en": "The number of transactions exceeded the single maximum trading quota of ordinary/senior merchants.",
+        "jp": "",
+        "kr": ""
+    },
+    "7017": {
+        "cn": "本日交易数量超出普通商家/高级商家单次最高交易限额！",
+        "en": "Today's trading volume exceeds the maximum single trading quota for ordinary/senior merchants",
+        "jp": "",
+        "kr": ""
+    },
+    "7018": {
+        "cn": "支付ID是空",
+        "en": "pid is null",
+        "jp": "",
+        "kr": ""
+    },
+    "7019": {
+        "cn": "修改/重置交易密码之后24内禁止提币及OTC相关交易",
+        "en": "It is forbidden to withdraw coins and OTC related transactions within 24 after modifying/resetting the transaction password.",
+        "jp": "",
+        "kr": ""
+    },
+    "7040": {
+        "cn": "交易密码不存在",
+        "en": "Security password not exists",
+        "jp": "",
+        "kr": ""
+    },
+    "7041": {
+        "cn": "输入的交易密码不一样",
+        "en": "Passwords are different",
+        "jp": "",
+        "kr": ""
+    },
+    "7042": {
+        "cn": "短信验证码10分钟内只能发送一次！",
+        "en": "Verification code sent once in ten minutes",
+        "jp": "",
+        "kr": ""
+    },
+    "7043": {
+        "cn": "交易密码已经存在",
+        "en": "Security password already exists",
+        "jp": "",
+        "kr": ""
+    },
+    "7044": {
+        "cn": "验证码错误",
+        "en": "Incorrect verification code",
+        "jp": "",
+        "kr": ""
+    },
+    "7045": {
+        "cn": "邮件发送失败",
+        "en": "email send failed",
+        "jp": "",
+        "kr": ""
+    },
+    "7046": {
+        "cn": "短信发送失败",
+        "en": "message send failed",
+        "jp": "",
+        "kr": ""
+    },
+    "7047": {
+        "cn": "添加失败",
+        "en": "add failed",
+        "jp": "",
+        "kr": ""
+    },
     "7050": {
         "cn": "该币种不存在",
         "en": "not exists",
@@ -3052,39 +3235,57 @@ EXX.pack = {
         "jp": "",
         "kr": ""
     },
-    "7015": {
-        "cn": "用户没有实名认证或者没有高级实名认证",
-        "en": "User does not have advanced certification",
+    "7052": {
+        "cn": "该币种禁止交易",
+        "en": "The currency is prohibited from trading",
         "jp": "",
         "kr": ""
     },
-    "7016": {
-        "cn": "交易数量大于单笔交易总量",
-        "en": "This transaction exceeds the single transaction amount",
+    "7053": {
+        "cn": "该数据已审核",
+        "en": "This data has been reviewed",
         "jp": "",
         "kr": ""
     },
-    "7017": {
-        "cn": "交易数量大于总交易量",
-        "en": "The total number of transactions is greater than the maximum",
+    "7054": {
+        "cn": "该币种已存在",
+        "en": "This currency already exists",
         "jp": "",
         "kr": ""
     },
-    "7011": {
-        "cn": "交易密码错误",
-        "en": "Different fund passwords",
+    "7101": {
+        "cn": "C2C订单创建失败",
+        "en": "create c2c order failed.",
         "jp": "",
         "kr": ""
     },
-    "7040": {
-        "cn": "交易密码不存在",
-        "en": "Security password not exists",
+    "7102": {
+        "cn": "更新订单状态失败",
+        "en": "update order status failed",
         "jp": "",
         "kr": ""
     },
-    "7044": {
-        "cn": "验证码错误",
-        "en": "Incorrect verification code",
+    "7103": {
+        "cn": "C2C订单不存在",
+        "en": "order not exists",
+        "jp": "",
+        "kr": ""
+    },
+    "7104": {
+        "cn": "当前已添加过银行卡",
+        "en": "Bank card has been added",
+        "jp": "",
+        "kr": ""
+    },
+    "7105": {
+        "cn": "该银行卡不存在",
+        "en": "The card does not exist",
+        "jp": "",
+        "kr": ""
+    },
+    "7106": {
+        "cn": "资金转移失败",
+        "en": "Fund transfer failed",
         "jp": "",
         "kr": ""
     },
@@ -3097,12 +3298,6 @@ EXX.pack = {
     "7108": {
         "cn": "单笔交易小于/超过额度",
         "en": "Single transaction less than/exceeded",
-        "jp": "",
-        "kr": ""
-    },
-    "7042": {
-        "cn": "短信验证码10分钟内只能发送一次！",
-        "en": "Verification code sent once in ten minutes",
         "jp": "",
         "kr": ""
     },

@@ -1,4 +1,4 @@
-<script src="/lib/others/jquery.peity.js" charset="utf-8"></script>
+<!--<script src="/lib/others/jquery.peity.js" charset="utf-8"></script>-->
 <div class="user-container" id="user-index">
     <div class="safe-panel">
         <!--<h2><%= LANG('基本信息') %></h2>-->
@@ -218,7 +218,7 @@
 <%-include("model/setSafePay.html")%>
 <%-include("model/safePwd.html")%>
 
-<script>
+<!--<script>
     $(function () {
         if ($('.mask span').text() <= 50) {
             $('.circle_right').css('transform', 'rotate(' + ($('.mask span').text() * 3.6) + 'deg)');
@@ -230,12 +230,12 @@
             $('.circle_left').css('transform', 'rotate(' + (($('.mask span').text() - 50) * 3.6) + 'deg)');
         }
     })
-</script>
+</script>-->
 
 <script>
     var easyLoginSetTimeout
     $(function () {
-        $.fn.peity.defaults.bar = {
+        /*$.fn.peity.defaults.bar = {
             delimiter: ",",
             fill: ["#414253"],
             height: 32,
@@ -244,7 +244,7 @@
             padding: 0.1,
             width: 60
         };
-        $(".linebar").peity("bar");
+        $(".linebar").peity("bar");*/
         require(['vue', 'common/methods', 'common/juabox', 'components/country_code/index'], function (Vue, Methods, JuaBox) {
             //释放JuaBox到全局使用
             window.JuaBox = JuaBox;
@@ -758,8 +758,6 @@
                             }
                         });
                     },
-
-
                     // 获取用户实名状态
                     getUserStatus: function () {
                         var that = this;
@@ -776,7 +774,6 @@
                             }
                         });
                     },
-
                     createGuid: function () {
                         var S4 = this.createS4
                         // return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());

@@ -19,8 +19,8 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <span><%=LANG('您向')%> {{orderDetail.sellerName}} <%=LANG('购买')%> {{orderDetail.amount + orderDetail.currencyName}}</span>
-                <span v-if="merchantStatus"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName}}</span><%=LANG('保证金')%><span></span>
+                <span><%=LANG('您向')%> {{orderDetail.sellerName}} <%=LANG('购买')%> {{orderDetail.amount + orderDetail.currencyName.toUpperCase()}}</span>
+                <span v-if="merchantStatus"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName.toUpperCase()}}</span><%=LANG('保证金')%><span></span>
             </div>
             <p class="price"><%=LANG('单价')%>：<span>{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
             <p><%=LANG('总价')%>：<span>{{parseFloat(orderDetail.totalAmount)}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>
@@ -93,8 +93,8 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <span><%=LANG('您向')%> {{orderDetail.buyerName}} <%=LANG('出售')%> {{orderDetail.amount + orderDetail.currencyName}}</span>
-                <span v-if="merchantStatus && orderDetail.status == 3"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName}}</span><%=LANG('保证金')%><span></span>
+                <span><%=LANG('您向')%> {{orderDetail.buyerName}} <%=LANG('出售')%> {{orderDetail.amount + orderDetail.currencyName.toUpperCase()}}</span>
+                <span v-if="merchantStatus && orderDetail.status == 3"><%=LANG('对方已缴纳')%><span>{{currencyAmount}} {{orderDetail.currencyName.toUpperCase()}}</span><%=LANG('保证金')%><span></span>
             </div>
             <p class="price"><%=LANG('单价')%>：<span>{{orderDetail.price}} {{legalCurrencyName.toUpperCase()}}</span></p>
             <p><%=LANG('总价')%>：<span>{{orderDetail.totalAmount}} {{legalCurrencyName && legalCurrencyName.toUpperCase()}}</span>

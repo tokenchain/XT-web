@@ -55,9 +55,9 @@
                     </div>-->
 
                     <div class="form-group">
-                        <label class="control-label"><%= LANG('时间范围') %>：</label>
+                        <!--<label class="control-label"><%= LANG('时间范围') %>：</label>-->
                         <div class="form-control">
-                            <div class="input-daterange input-group" id="datepicker">
+                            <!--<div class="input-daterange input-group" id="datepicker">
                                 <input disabled type="text" class="input-sm form-control" id="start" name="start"
                                        placeholder="开始时间"/>
                                 <i class="icon iconfont icon-shijian1 first"></i>
@@ -65,8 +65,8 @@
                                 <input disabled type="text" class="input-sm form-control" id="end" name="end"
                                        placeholder="结束时间"/>
                                 <i class="icon iconfont icon-shijian1 second"></i>
-                            </div>
-                            <div style="margin-top:20px;">目前系统只支持:默认导出最近3个月的数据</div>
+                            </div>-->
+                            <div style="margin:20px 0px;"><%= LANG('目前系统只支持导出最近3个月的数据') %></div>
                         </div>
                     </div>
 
@@ -110,9 +110,9 @@
             computed: {},
             methods: {
                 handleSubmit: function () {
-                    console.log($('#start').val(), $('#end').val())
+                    /*console.log($('#start').val(), $('#end').val())
                     var startTime = $('#start').val() + ' 00:00:00'
-                    var endTime = $('#end').val() + ' 00:00:00'
+                    var endTime = $('#end').val() + ' 00:00:00'*/
                     if (this.mode === 'income') {
                         window.location.href = DOMAIN_DEV + '/exchange/export/userReport?userId=' + this.loginUser.userId + '&reportType=101'
                     } else {

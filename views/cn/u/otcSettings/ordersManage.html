@@ -22,13 +22,13 @@
             <tr v-for="item in orderList" v-cloak="">
                 <td><a :href="'ordersDetail/'+item.orderNo">{{item.orderNo}}</a></td>
                 <td>{{['', '<%=LANG('购买')%>', '<%=LANG('出售')%>'][item.orderType]}}</td>
-                <td>{{item.amount + item.currencyName}}</td>
-                <td>{{item.totalAmount}}</td>
-                <td>{{item.price}}</td>
+                <td>{{item.amount + item.currencyName.toUpperCase()}}</td>
+                <td>{{item.totalAmount}}{{currencyUnit(item.legalCurrencyId)}}</td>
+                <td>{{item.price}}{{currencyUnit(item.legalCurrencyId)}}</td>
                 <td>{{getData(item.createTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                 <td><a :href="'ordersDetail/'+item.orderNo" class="status">{{getStatus(item.status)}}</a></td>
             </tr>
-            <tr class="no-data" v-if="loading">
+            <tr class="no-data nodata" v-if="loading">
                 <td colspan="7" style="text-align: center" >
                     <div class="cd-loading">
                         <div class="vertical-bars">
@@ -92,6 +92,11 @@
 
             },
             methods: {
+                currencyUnit: function (Id) {
+                    return this.currencyList.length > 0 && this.currencyList.find(function (item) {
+                        return  Id == item.id
+                    }).shortName || ''
+                },
                 queryStatus: function() {
                     Methods.ajax({
                         type: 'GET',
