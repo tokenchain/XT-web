@@ -1,0 +1,155 @@
+<div class="user-container" id="upload" v-cloak>
+    <h2>
+        <%= LANG('高级实名认证流程') %>
+    </h2>
+    <div class="certificates clearfix">
+        <h4><%= LANG('选择您的证件类型') %></h4>
+        <ul>
+            <li :class="{isActive: uploadType == 1}" @click="changeType(1)">
+                <img src="<%= IMG_STATIC %>/images/upload/IDcard.png" alt="">
+                <span><%= LANG('身份证') %></span>
+            </li>
+            <li :class="{isActive: uploadType == 2}" @click="changeType(2)">
+                <img src="<%= IMG_STATIC %>/images/upload/passport.png" alt="">
+                <span><%= LANG('护照') %></span>
+            </li>
+        </ul>
+    </div>
+    <div class="uploadPhotos clearfix">
+        <h4><%= LANG('请上传您的身份证照片') %></h4>
+        <ul>
+            <li>
+                <div>
+                    <img src="<%= IMG_STATIC %>/images/upload/photos01.png" alt="" v-show="!frontImg" v-if="uploadType == 1">
+                    <img src="<%= IMG_STATIC %>/images/upload/photos04.png" alt="" v-show="!frontImg" v-if="uploadType == 2">
+                    <img :src="frontImg" alt="" class="fliePhoto" v-show="frontImg">
+                    <input type="file" value="" class="choose" accept="image/gif,image/jpeg,image/jpg,image/png" @change="uploadPhotos($event,1)">
+                </div>
+                <span><%= LANG('上传份证人像面照片（一定要清晰，有头像的一面）。') %></span>
+            </li>
+            <li>
+                <div>
+                    <img src="<%= IMG_STATIC %>/images/upload/photos02.png" alt="" v-show="!backImg" v-if="uploadType == 1">
+                    <img src="<%= IMG_STATIC %>/images/upload/photos05.png" alt="" v-show="!backImg" v-if="uploadType == 2">
+                    <img :src="backImg" alt="" class="fliePhoto" v-show="backImg">
+                    <input type="file" value="" class="choose" accept="image/gif,image/jpeg,image/jpg,image/png" @change="uploadPhotos($event,2)">
+                </div>
+                <span><%= LANG('上传份证国徽面照片（一定要清晰，有国徽的一面）。') %></span>
+            </li>
+            <li>
+                <div>
+                    <img src="<%= IMG_STATIC %>/images/upload/photos03.png" alt="" v-show="!handHeldImg" v-if="uploadType == 1">
+                    <img src="<%= IMG_STATIC %>/images/upload/photos06.png" alt="" v-show="!handHeldImg" v-if="uploadType == 2">
+                    <img :src="handHeldImg" alt="" class="fliePhoto" v-show="handHeldImg">
+                    <input type="file" value="" class="choose" accept="image/gif,image/jpeg,image/jpg,image/png" @change="uploadPhotos($event,3)">
+                </div>
+                <span><%= LANG('上传一张肖像（要求：手持白纸备注XT.COM+验证日期）') %></span>
+            </li>
+        </ul>
+    </div>
+    <div class="form-button">
+        <button class="button" @click="submitUpload"><%= LANG('提交') %></button>
+    </div>
+</div>
+
+<script>
+    require(['vue', 'common/methods', 'common/juabox'], function (Vue, Methods, JuaBox) {
+        var upload = new Vue({
+            el: "#upload",
+            data () {
+                return {
+                    loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
+                    uploadType: 1,
+                    frontImg: '', // 正面照片
+                    backImg: '', // 反面照片
+                    handHeldImg: '', // 手持照片
+                    status: ''
+                }
+            },
+            created () {
+            },
+            methods: {
+                // 切换证件类型
+                changeType(type) {
+                    this.uploadType = type
+                    this.frontImg = ''
+                    this.backImg = ''
+                    this.handHeldImg = ''
+                },
+                
+                // 上传证件照
+                uploadPhotos: function (e,type) {
+                    var file = e.target.files[0]
+                    if (file.type.indexOf('image') == -1) {
+                        JuaBox.info("<%=LANG('只能上传图片！')%>");
+                        return
+                    }
+                    if (file.size > 1024 * 1024 * 4) {
+                        JuaBox.wrong("<%=LANG('上传图片不能大于4MB！')%>");
+                        return
+                    }
+                    var param = new FormData();
+                    param.append('file', file);
+                    if(type == 1) {
+                        this.uploadApi(param,type)
+                    }else if(type == 2) {
+                        this.uploadApi(param,type)
+                    }else {
+                        this.uploadApi(param,type)
+                    }
+                },
+
+                uploadApi(param,type) {
+                    var xhr = new XMLHttpRequest();
+                    var url = 'http://oss-xt.oss-cn-hongkong.aliyuncs.com/'
+                    xhr.onreadystatechange = function (e) {
+                        if (xhr.readyState == 4) {
+                            var result = JSON.parse(xhr.responseText)
+                            if (xhr.status == 200) {
+                                if (result.datas && result.resMsg.code == 1) {
+                                    if(type == 1) {
+                                        this.frontImg = url + result.datas
+                                    }else if(type == 2) {
+                                        this.backImg = url + result.datas
+                                    }else {
+                                        this.handHeldImg = url + result.datas
+                                    }
+                                    
+                                } else {
+                                    JuaBox.wrong(EXX.L(result.resMsg.message));
+                                }
+                            } else {
+                                JuaBox.wrong(EXX.L(result.resMsg.message));
+                            }
+                        }
+                    }.bind(this)
+                    var path = DOMAIN_DEV + '/exchange/upload/controller/website/FileController/uploadImg'
+                    xhr.open('POST', path, true);
+                    xhr.send(param);
+                },
+
+                // 提交高级认证
+                submitUpload: function () {
+                    if(this.frontImg == '' || this.backImg == '' || this.handHeldImg == '') {
+                        JuaBox.info("<%= LANG('请上传完整照片') %>");
+                        return
+                    }
+                    Methods.ajax({
+                        type: 'POST',
+                        url: DOMAIN_DEV +
+                            "/exchange/xt_extends/parter/controller/website/XtUserIdentifyController/seniorIdentify",
+                        data: {
+                            Userid: this.loginUser.userId,
+                            frontImg: this.frontImg, 
+                            backImg: this.backImg,
+                            handHeldImg: this.handHeldImg
+                        },
+                        success: function (res) {
+                            window.location.href = '/u/examine'
+                        }.bind(this)
+                    });
+                }
+            }
+        })
+    })
+</script>

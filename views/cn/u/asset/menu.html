@@ -9,7 +9,7 @@
                     loginUser: Methods.getLocalUserInfo(),
                     currentUserAsset: Methods.getLocalUserInfo(ENV + 'currentUserInfo') || {},
                     slideKey: <%= PATH.indexOf('/u/recommend') != -1 || PATH.indexOf('/u/earnings') != -1 || PATH.indexOf('/u/userDetails') != -1 %>,
-                    childNav: <%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 %>,
+                    childNav: <%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 || PATH.indexOf('/u/upload') != -1 || PATH.indexOf('/u/examine') != -1 %>,
                     otcChild: <%= PATH.indexOf('/u/ordersManage') != -1 || PATH.indexOf('/u/ordersDetail') != -1 || PATH.indexOf('/u/business') != -1 || PATH.indexOf('/u/advertisement') != -1 || PATH.indexOf('/u/publishAdv') != -1 || PATH.indexOf('/u/settingsPayType') != -1 || PATH.indexOf('/u/finance') != -1 || PATH.indexOf('/u/advDetail') != -1%>
                 }
             },
@@ -70,12 +70,12 @@
 
         <!--个人中心-->
         <ul class="<%= column == 0 || column == 2 ? 'hide' : 'account'%>">
-            <li class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'active' : ''%>">
-                <i class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'icon iconfont icon-zhanghu active' : 'icon iconfont icon-zhanghu'%>"></i>
+            <li class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 || PATH.indexOf('/u/upload') != -1 || PATH.indexOf('/u/examine') != -1 ? 'active' : ''%>">
+                <i class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 || PATH.indexOf('/u/upload') != -1 || PATH.indexOf('/u/examine') != -1 ? 'icon iconfont icon-zhanghu active' : 'icon iconfont icon-zhanghu'%>"></i>
                 <a @click="openChild"><%= LANG('个人中心')%></a>
-                <i class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
+                <i class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/invite') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 || PATH.indexOf('/u/upload') != -1 || PATH.indexOf('/u/examine') != -1 ? 'icon iconfont icon-arrow-down arrow-icon active' : 'icon iconfont icon-arrow-down arrow-icon'%>"></i>
                 <ul class="nav-children" v-if="childNav">
-                    <li><a class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 ? 'active' : ''%>" href="/u/account"><%= LANG('账号信息')%></a></li>
+                    <li><a class="<%= PATH.indexOf('/u/account') != -1 || PATH.indexOf('/u/realName') != -1 || PATH.indexOf('/u/certify') != -1 || PATH.indexOf('/u/upload') != -1 || PATH.indexOf('/u/examine') != -1 ? 'active' : ''%>" href="/u/account"><%= LANG('账号信息')%></a></li>
                     <li><a class="<%= PATH.indexOf('/u/invite') != -1 ? 'active' : ''%>" href="/u/invite"><%= LANG('邀请有礼')%></a></li>
                 </ul>
             </li>
