@@ -60,17 +60,17 @@
         margin-top: 160px;
     }
 
-    #examine .form-button button {
+    #examine .form-button a {
         width: 160px;
         height: 44px;
         line-height: 44px;
         padding: 0;
         border-radius: 30px;
         font-weight: bold;
-    }
-
-    #examine .form-button button a {
-        display: block;
+        font-size: 16px;
+        background-color: #FFBE3F;
+        text-align: center;
+        color: #fff;
     }
 </style>
 <div class="user-container examine" id="examine" v-cloak>
@@ -92,10 +92,8 @@
         </div>
         
         <div class="form-button">
-            <button class="button">
-                <a href="/u/upload" v-if="status == 3"><%= LANG('重新提交申请') %></a>
-                <a href="/u/account" v-if="status == 2 || status == 4"><%= LANG('返回') %></a>
-            </button>
+            <a href="/u/upload" v-if="status == 3"><%= LANG('重新提交申请') %></a>
+            <a href="/u/account" v-if="status == 2 || status == 4"><%= LANG('返回') %></a>
         </div>
     </div>
     <div class="cd-loading" v-if="loading">

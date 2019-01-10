@@ -50,17 +50,17 @@
         margin-top: 40px;
     }
 
-    #certify .form-button button {
+    #certify .form-button a {
         width: 160px;
         height: 44px;
         line-height: 44px;
         padding: 0;
         border-radius: 30px;
         font-weight: bold;
-    }
-    
-    #certify .form-button button a {
-        display: block;
+        font-size: 16px;
+        background-color: #FFBE3F;
+        text-align: center;
+        color: #fff;
     }
 </style>
 <div class="user-container certify" id="certify" v-cloak>
@@ -91,9 +91,7 @@
         <%= LANG('我们将在3个工作日内对您的申请资料进行审核。如在审核中有任何问题，我们会主动与您取得联系，请保持通讯畅通。') %>
     </p>
     <div class="form-button">
-        <button class="button">
-            <a href="/u/upload"><%= LANG('开始认证') %></a>
-        </button>
+        <a href="/u/upload"><%= LANG('开始认证') %></a>
     </div>
 </div>
 
