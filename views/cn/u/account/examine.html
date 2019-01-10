@@ -60,17 +60,17 @@
         margin-top: 160px;
     }
 
-    #examine .form-button button {
+    #examine .form-button a {
         width: 160px;
         height: 44px;
         line-height: 44px;
         padding: 0;
         border-radius: 30px;
         font-weight: bold;
-    }
-
-    #examine .form-button button a {
-        display: block;
+        font-size: 16px;
+        background-color: #FFBE3F;
+        text-align: center;
+        color: #fff;
     }
 </style>
 <div class="user-container examine" id="examine" v-cloak>
@@ -78,22 +78,22 @@
         <div class="step">
             <img src="<%= IMG_STATIC %>/images/upload/going.png" alt="" v-if="status == 2">
             <img src="<%= IMG_STATIC %>/images/upload/fail.png" alt="" v-if="status == 3">
+            <img src="<%= IMG_STATIC %>/images/upload/success.png" alt="" v-if="status == 4">
             <div class="step-two clearfix">
                 <span><%= LANG('提交申请') %></span>
                 <span v-if="status == 2" class="ongoing"><%= LANG('审核中') %></span>
-                <span v-else class="fail"><%= LANG('审核不通过') %></span>
+                <span v-else-if="status == 3" class="fail"><%= LANG('审核不通过') %></span>
+                <span v-else><%= LANG('审核通过') %></span>
             </div>
             <h2>
-                {{status == 2 ? "<%= LANG('高级实名认证审核中，请您耐心等待，我们将会在3个工作日内给您反馈。') %>" : "<%= LANG('您的高级实名认证申请已被驳回，感谢您对XT.com的支持。') %>"}}
+                {{status == 2 ? "<%= LANG('高级实名认证审核中，请您耐心等待，我们将会在3个工作日内给您反馈。') %>" : status == 3 ? "<%= LANG('您的高级实名认证申请已被驳回，感谢您对XT.com的支持。') %>" : "<%= LANG('恭喜您，您的高级实名认证申请成功，感谢您对XT.com的支持。') %>"}}
             </h2>
             <p v-if="status == 3"><%= LANG('原因：{{remark}} ！') %></p>
         </div>
         
         <div class="form-button">
-            <button class="button">
-                <a href="/u/upload" v-if="status == 3"><%= LANG('重新提交申请') %></a>
-                <a href="/u/account" v-if="status == 2"><%= LANG('返回') %></a>
-            </button>
+            <a href="/u/upload" v-if="status == 3"><%= LANG('重新提交申请') %></a>
+            <a href="/u/account" v-if="status == 2 || status == 4"><%= LANG('返回') %></a>
         </div>
     </div>
     <div class="cd-loading" v-if="loading">

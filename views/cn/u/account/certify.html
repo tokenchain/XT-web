@@ -14,55 +14,6 @@
         font-weight: bold;
     }
 
-    #certify h4 {
-        font-size: 14px;
-        margin: 30px 0 20px 0;
-        font-weight: bold;
-    }
-
-    #certify p {
-        line-height: 28px;
-        font-size: 14px;
-    }
-
-    .textColor {
-        color: #FFBE3F;
-        font-weight: 600;
-    }
-
-    #certify .form-button {
-        margin-top: 40px;
-    }
-
-    #certify .form-button button {
-        width: 160px;
-        height: 44px;
-        line-height: 44px;
-        padding: 0;
-        border-radius: 30px;
-        font-weight: bold;
-    }
-
-    #certify .fail {
-        margin-bottom: 50px;
-    }
-
-    #certify .fail h4 {
-        font-weight: 600;
-        color: red;
-    }
-
-    #certify .fail p {
-        text-align: left;
-        margin-top: 0;
-    }
-
-    .isdisabled {
-        background: #F5F5F5;
-        color: #898989;
-        cursor: initial;
-    }
-
     .step-two {
         width: 44%;
         margin-top: 22px;
@@ -82,6 +33,34 @@
 
     .step-two span:last-child {
         float: right;
+    }
+
+    #certify h4 {
+        font-size: 14px;
+        margin: 30px 0 20px 0;
+        font-weight: bold;
+    }
+
+    #certify p {
+        line-height: 28px;
+        font-size: 14px;
+    }
+
+    #certify .form-button {
+        margin-top: 40px;
+    }
+
+    #certify .form-button a {
+        width: 160px;
+        height: 44px;
+        line-height: 44px;
+        padding: 0;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: #FFBE3F;
+        text-align: center;
+        color: #fff;
     }
 </style>
 <div class="user-container certify" id="certify" v-cloak>
@@ -112,9 +91,7 @@
         <%= LANG('我们将在3个工作日内对您的申请资料进行审核。如在审核中有任何问题，我们会主动与您取得联系，请保持通讯畅通。') %>
     </p>
     <div class="form-button">
-        <button class="button">
-            <a href="/u/upload"><%= LANG('开始认证') %></a>
-        </button>
+        <a href="/u/upload"><%= LANG('开始认证') %></a>
     </div>
 </div>
 
