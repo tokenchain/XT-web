@@ -86,7 +86,7 @@ if (typeof localStorage === 'object') {
     }
 }
 
-define(['md5', 'others/jsencrypt.min', 'sha1/sha1.min', 'common/juabox', 'math'], function (MD5, JSEncrypt, SHA1, JuaBox, math) {
+define(['md5', 'jsencrypt', 'sha1', 'common/juabox', 'math'], function (MD5, JSEncrypt, SHA1, JuaBox, math) {
     var Methods = {
         math: math,
         isEmail: function (str) {

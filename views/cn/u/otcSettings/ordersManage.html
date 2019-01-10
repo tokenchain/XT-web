@@ -93,9 +93,10 @@
             },
             methods: {
                 currencyUnit: function (Id) {
-                    return this.currencyList.length > 0 && this.currencyList.find(function (item) {
+                    var obj = this.currencyList && this.currencyList.length > 0 && this.currencyList.find(function (item) {
                         return  Id == item.id
-                    }).shortName || ''
+                    })
+                    return obj && obj.shortName || ''
                 },
                 queryStatus: function() {
                     Methods.ajax({

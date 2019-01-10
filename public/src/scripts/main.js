@@ -12,11 +12,13 @@ require.config({
         'common': '../src/scripts/common',
         'components': '../src/scripts/components',
         // 2018年04月13日->二维码生成
-        'qrcode': ENV == 'w' ? 'qrcode/build/qrcode' : 'qrcode/build/qrcode',
+        'qrcode': ENV == 'w' ? 'qrcode/build/qrcode.min' : 'qrcode/build/qrcode.min',
         'datepicker': 'bootstrap-datepicker-master/js/bootstrap-datepicker',
         'bootstrap': 'bootstrap/dist/js/bootstrap',
         'validate': 'https://cdn.bootcss.com/jquery-validate/1.19.0/jquery.validate.min',
-        'math': 'https://cdn.bootcss.com/mathjs/4.1.2/math.min'
+        'math': 'https://cdn.bootcss.com/mathjs/4.1.2/math.min',
+        'jsencrypt': 'https://cdn.bootcss.com/jsencrypt/2.3.1/jsencrypt.min',
+        'sha1': 'https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min'
     },
     shim: {
         'others/cryptico.min': {},

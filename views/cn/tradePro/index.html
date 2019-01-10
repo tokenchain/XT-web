@@ -31,7 +31,7 @@
     }
 </style>
 <script src="/lib/others/jquery.range.js" type="application/javascript"></script>
-<%-include("../include/head.html")%>
+
 
 <script>
     require(['vue', 'common/methods'], function (Vue, Methods) {
@@ -110,8 +110,8 @@
                 userCoinFunds: function () {
                     var coins = this.coinConfig || [];
                     var userAssets = this.userAssets;
-                    console.log(this.userAssets, 222)
-                    console.log(coins, 22233)
+                    // console.log(this.userAssets, 222)
+                    // console.log(coins, 22233)
                     var coinAssets = [];
                     coins.forEach(function (coin, index, array) {
                         var coinItem = coin;
@@ -124,7 +124,7 @@
                         });
                         coinAssets.push(coinItem);
                     }.bind(this));
-                    console.log(coinAssets, 333)
+                    // console.log(coinAssets, 333)
                     return coinAssets;
                 }
             },
@@ -762,6 +762,3 @@
 <!--<%-include("../component/inline_chart.html")%>-->
 <!--引入交易app-->
 <%-include("app.html")%>
-<!--客服-->
-<script src="<%= STATIC %>/scripts/udeskInit.js"></script>
-
