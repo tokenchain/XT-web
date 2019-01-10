@@ -25,7 +25,7 @@
                     <img :src="frontImg" alt="" class="fliePhoto" v-show="frontImg">
                     <input type="file" value="" class="choose" accept="image/gif,image/jpeg,image/jpg,image/png" @change="uploadPhotos($event,1)">
                 </div>
-                <span><%= LANG('上传份证人像面照片（一定要清晰，有头像的一面）。') %></span>
+                <span>{{uploadType == 1 ? "<%= LANG('上传份证人像面照片（一定要清晰，有头像的一面）。') %>" : "<%= LANG('上传护照封面照片（一定要清晰）。') %>"}}</span>
             </li>
             <li>
                 <div>
@@ -34,7 +34,7 @@
                     <img :src="backImg" alt="" class="fliePhoto" v-show="backImg">
                     <input type="file" value="" class="choose" accept="image/gif,image/jpeg,image/jpg,image/png" @change="uploadPhotos($event,2)">
                 </div>
-                <span><%= LANG('上传份证国徽面照片（一定要清晰，有国徽的一面）。') %></span>
+                <span>{{uploadType == 1 ? "<%= LANG('上传份证国徽面照片（一定要清晰，有国徽的一面）。') %>" : "<%= LANG('上传护照人像信息页照片（一定要清晰，有人像信息的一页）。') %>"}}</span>
             </li>
             <li>
                 <div>
@@ -84,8 +84,8 @@
                         JuaBox.info("<%=LANG('只能上传图片！')%>");
                         return
                     }
-                    if (file.size > 1024 * 1024 * 4) {
-                        JuaBox.wrong("<%=LANG('上传图片不能大于4MB！')%>");
+                    if (file.size > 1024 * 1024 * 2) {
+                        JuaBox.wrong("<%=LANG('上传图片不能大于2MB！')%>");
                         return
                     }
                     var param = new FormData();
