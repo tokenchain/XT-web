@@ -168,7 +168,7 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" autocomplete="off"
+                    <input type="text" name="securityPassword" onfocus="this.type='password'" autocomplete = 'new-password'
                            v-model="formModel.securityPassword" required
                            maxlength="6">
                 </div>
@@ -190,8 +190,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_move.securityPassword" required
-                           maxlength="6">
+                    <input type="text" name="securityPassword" v-model="formModel_move.securityPassword" required
+                           maxlength="6" onfocus="this.type='password'" autocomplete = 'new-password'>
                 </div>
                 <div class="form-item img-box">
                     <label for="">{{payType == 3 ? '<%=LANG('支付宝收款码')%>' : '<%=LANG('微信收款码')%>'}}：</label>
@@ -263,8 +263,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_usd.securityPassword" required
-                           maxlength="6">
+                    <input type="text" name="securityPassword" v-model="formModel_usd.securityPassword" required
+                           maxlength="6" onfocus="this.type='password'" autocomplete = 'new-password'>
                 </div>
             </div>
 
@@ -280,8 +280,8 @@
                 </div>
                 <div class="form-item">
                     <label for=""><%=LANG('交易密码')%>：</label>
-                    <input type="password" name="securityPassword" v-model="formModel_payPal.securityPassword" required
-                           maxlength="6">
+                    <input type="text" name="securityPassword" v-model="formModel_payPal.securityPassword" required
+                           maxlength="6" onfocus="this.type='password'" autocomplete = 'new-password'>
                 </div>
             </div>
 
