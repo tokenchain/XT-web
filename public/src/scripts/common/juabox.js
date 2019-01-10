@@ -800,7 +800,7 @@ JuaBox.playAudio = function(file){
 //封装swealAret
 if(typeof swal != 'undefined'){
     JuaBox.info = function (message, callback) {
-        swal({title: "", text: message, icon: '../../src/images/info.png'}).then(function (willDelete) {
+        swal({title: "", text: message, buttons: {confirm: EXX.L("确定")}, icon: '../../src/images/info.png'}).then(function (willDelete) {
             callback && callback()
         });
     }

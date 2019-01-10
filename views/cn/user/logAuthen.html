@@ -213,7 +213,7 @@
                             error: function (res) {
                                 _this.requestLocked = false;
                                 var resMsg = res.resMsg;
-                                authErrorUi(EXX.L(resMsg.message));
+                                authErrorUi(EXX.L(resMsg.code));
                             }
                         });
                     }
