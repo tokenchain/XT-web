@@ -22,7 +22,9 @@
                                        :range="[min, max]" NumThanZero="0">
                             </span>
                             <span style="margin-left: 20px;" >
-                                <input v-if="advType !== 1" type="password" name="securityPassword" maxlength="6" v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>" required>
+                                <input v-if="advType !== 1" type="text" name="securityPassword" maxlength="6"
+                                       v-model="securityPassword" class="last-input" placeholder="<%=LANG('交易密码')%>"
+                                       required onfocus="this.type='password'" autocomplete = 'new-password'>
                             </span>
                         </form>
                     </div>

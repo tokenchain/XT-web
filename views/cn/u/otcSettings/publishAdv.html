@@ -59,8 +59,8 @@
             </div>
             <div class="form-item">
                 <label for=""><%=LANG('交易密码')%>：</label>
-                <input type="password" autocomplete="off" name="securityPassword" v-model="formModel.securityPassword"
-                       required maxlength="6">
+                <input type="text" name="securityPassword" v-model="formModel.securityPassword"
+                       required maxlength="6" onfocus="this.type='password'" autocomplete = 'new-password'>
             </div>
             <div class="bnt">
                 <button @click="publishAdvs" type="button"><%=LANG('发布')%></button>
