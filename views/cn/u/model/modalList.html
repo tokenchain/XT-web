@@ -33,9 +33,9 @@
                     </thead>
                     <tbody>
                     <tr v-cloak="" v-for="(item, index) in datas.results">
-                        <td>{{item.phone ? item.phone : item.email}}</td>
+                        <td>{{item.account}}</td>
                         <td>{{Methods.getDateTime(item.registerTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
-                        <td v-if="item.isEffective"><i style="color:#ffa200" class="icon iconfont icon-youxiao"></i></td>
+                        <td v-if="item.effective"><i style="color:#ffa200" class="icon iconfont icon-youxiao"></i></td>
                         <td v-else><%= LANG('否') %></td>
                     </tr>
                     </tbody>
