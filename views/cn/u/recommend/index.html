@@ -156,8 +156,8 @@
             },
             filters: {
               numFilter(value) {
-                var realVal = Number(value).toFixed(2)
-                return Number(realVal)
+                var realVal = parseFloat(Number(value).toFixed(6))
+                return realVal
               }
             },
             methods: {

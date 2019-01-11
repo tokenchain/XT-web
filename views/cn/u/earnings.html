@@ -22,13 +22,13 @@
                 <li>
                     <div class="content">
                         <p><%= LANG('我的总收益') %></p>
-                        <p v-cloak>{{earnData.allXt}}XT</p>
+                        <p v-cloak>{{earnData.allXt | numFilter}}XT</p>
                     </div>
                 </li>
                 <li>
                     <div class="content">
                         <p><%= LANG('本月收益') %></p>
-                        <p v-cloak>{{earnData.yesterdayXt}}XT</p>
+                        <p v-cloak>{{earnData.yesterdayXt | numFilter}}XT</p>
                     </div>
                 </li>
             </ul>
@@ -51,7 +51,7 @@
                 <tbody>
                 <tr v-cloak="" v-for="(item, index) in earnData.records">
                     <td>{{item.cashBackTime}}</td>
-                    <td>{{item.coinXtCount}}</td>
+                    <td>{{item.coinXtCount | numFilter}}</td>
                     <td>{{item.cnt}}</td>
                     <td><span class="btn" @click="lookDetails(item.cashBackTime)"><%= LANG('收益详情') %></span></td>
                 </tr>
@@ -87,6 +87,12 @@
                 }
             },
             computed: {},
+            filters: {
+                numFilter(value) {
+                    var realVal = parseFloat(Number(value).toFixed(6))
+                    return realVal
+                }
+            },
             methods: {
                 changeMonth: function (month) {
                     this.month = month
