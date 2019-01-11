@@ -16,9 +16,9 @@
                     </thead>
                     <tbody>
                     <tr v-cloak="" v-for="(item, index) in datas.results">
-                        <td>{{item.mobile}}</td>
+                        <td>{{item.mobile ? item.mobile : item.email}}</td>
                         <td>{{item.coinXtCount}}</td>
-                        <td>{{item.cashBackTime}}</td>
+                        <td>{{{{Methods.getDateTime(item.cashBackTime, 'YYYY-MM-DD HH:MM:SS')}}}}</td>
                         <td>{{item.isSendXt ? '<%= LANG('已返拥') %>' : '<%= LANG('待返拥') %>'}}</td>
                     </tr>
                     </tbody>
