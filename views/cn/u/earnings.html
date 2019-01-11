@@ -86,7 +86,6 @@
                     cashBackTime: ''
                 }
             },
-            computed: {},
             filters: {
                 numFilter(value) {
                     var realVal = parseFloat(Number(value).toFixed(6))
@@ -122,9 +121,6 @@
                     this.showModal = 'modalList'
                 }
             },
-            created: function () {
-
-            },
             mounted: function () {
                 this.getIncomeDetails(new Date())
 
@@ -143,9 +139,6 @@
                     this.month = $('#dataPicker').val()
                     this.getIncomeDetails(ev.date)
                 }.bind(this))
-            },
-            updated: function () {
-
             }
         });
     })
