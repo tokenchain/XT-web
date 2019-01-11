@@ -1913,6 +1913,12 @@ button {
               font-weight: 600;
               cursor: pointer;
             }
+            .vipLevel{
+              transition: all .3s;
+              font-size: 12px;
+              position: absolute;
+              right: 10px;
+            }
           }
 
           &:hover {
@@ -1927,6 +1933,9 @@ button {
               &:last-child {
                 -webkit-transform: translateX(15px);
                 transform: translateX(15px);
+              }
+              .vipLevel{
+                font-size: 14px;
               }
             }
           }

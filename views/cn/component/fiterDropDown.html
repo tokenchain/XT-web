@@ -296,6 +296,13 @@
                 close: function () {
                     this.$parent.fiterDropDown = false
                 }
+            },
+            mounted: function () {
+                $(document).click(function (e) {
+                    if (!this.$el.contains(e.target) && !$(e.target).is(('.search input'))) {
+                        this.$parent.fiterDropDown = false
+                    }
+                }.bind(this))
             }
         })
     })
