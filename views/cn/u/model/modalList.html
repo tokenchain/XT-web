@@ -17,8 +17,8 @@
                     <tbody>
                     <tr v-cloak="" v-for="(item, index) in datas.results">
                         <td>{{item.mobile ? item.mobile : item.email}}</td>
-                        <td>{{item.coinXtCount}}</td>
-                        <td>{{{{Methods.getDateTime(item.cashBackTime, 'YYYY-MM-DD HH:MM:SS')}}}}</td>
+                        <td>{{item.coinXtCount | numFilter}}</td>
+                        <td>{{Methods.getDateTime(item.cashBackTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                         <td>{{item.isSendXt ? '<%= LANG('已返拥') %>' : '<%= LANG('待返拥') %>'}}</td>
                     </tr>
                     </tbody>
@@ -72,7 +72,6 @@
                 }
             },
             data: function () {
-                console.log(this.cashBackTime)
                 return {
                     pageIndex: 1,
                     pageSize: 10,
@@ -82,7 +81,6 @@
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
                 }
             },
-            computed: {},
             methods: {
                 addZore: function (time) {
                     return time + ' 00:00:00'
@@ -113,11 +111,13 @@
                     });
                 }
             },
-            watch: {
-
+            filters: {
+                numFilter(value) {
+                    var realVal = parseFloat(Number(value).toFixed(6))
+                    return realVal
+                }
             },
             created: function () {
-                console.log(this.cashBackTime)
                 this.getSingleDayData()
             },
             mounted: function () {
