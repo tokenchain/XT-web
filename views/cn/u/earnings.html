@@ -131,11 +131,11 @@
                         cn: "zh-CN",
                     }[getCookie(ENV + 'lan')],
                     autoclose: true,
-                    format: 'yyyy-mm-dd',
+                    format: 'yyyy-mm',
                     // startView: 0,
-                    // minViewMode: 1,
+                    minViewMode: 1,
                 }).on('changeDate', function (ev) {
-                    // console.log(ev.timeStamp, $('#dataPicker').val())
+                    console.log(ev.timeStamp, $('#dataPicker').val())
                     this.month = $('#dataPicker').val()
                     this.getIncomeDetails(ev.date)
                 }.bind(this))

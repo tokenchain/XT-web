@@ -138,8 +138,8 @@
                         cn: "zh-CN",
                     }[getCookie(ENV + 'lan')],
                     autoclose: true,
-                    format: 'yyyy-mm-dd',
-                    // minViewMode: 1,   //月份视图
+                    format: 'yyyy-mm',
+                    minViewMode: 1,   //月份视图
                 }).on('changeDate', function (ev) {
                     // console.log($('#dataPicker').val())
                     this.month = $('#dataPicker').val()
