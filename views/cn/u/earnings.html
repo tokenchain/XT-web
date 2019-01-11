@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                 <tr v-cloak="" v-for="(item, index) in earnData.records">
-                    <td>{{item.cashBackTime}}</td>
+                    <td>{{Methods.getDateTime(item.cashBackTime, 'YYYY-MM-DD HH:MM:SS')}}</td>
                     <td>{{item.coinXtCount | numFilter}}</td>
                     <td>{{item.cnt}}</td>
                     <td><span class="btn" @click="lookDetails(item.cashBackTime)"><%= LANG('收益详情') %></span></td>
