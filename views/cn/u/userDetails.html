@@ -92,7 +92,7 @@
             data: function () {
                 return {
                     loginUser: Methods.getLocalUserInfo(ENV + 'userInfo'), //用户信息
-                    month: '',
+                    month: Methods.getDateTime(Methods.getTimeStamp(new Date()), 'YYYY-MM'),
                     showModal: false,
                     earnData: {list: []},
                     statisticsDate: ''

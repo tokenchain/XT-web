@@ -696,6 +696,9 @@ define(['md5', 'jsencrypt', 'sha1', 'common/juabox', 'math'], function (MD5, JSE
                 case 'YYYY-MM-DD':
                     return [year, month, day].join('-');
                     break;
+                case 'YYYY-MM':
+                    return [year, month].join('-');
+                    break;
                 case 'HH:MM:SS':
                     return [hour, minutes, second].join(':');
                     break;
